@@ -1,0 +1,123 @@
+#--  Synopsys, Inc.
+#--  Version I-2013.09L-SP1-1 
+#--  Project file E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\run_options.txt
+
+#project files
+add_file -vhdl -lib work "C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/ecp3.vhd"
+add_file -vhdl -lib work "C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/pmi_def.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/ext/FIFORecords.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/DFFSynchronizer.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/ResetSynchronizer.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/SimpleRegister.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/BufferClear.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/ContinuousCounter.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/ShiftRegisterModes.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/EdgeDetector.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/PulseGenerator.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/PulseDetector.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/private-source/Settings.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/MultiplexerConfigRecords.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/DVSAERConfigRecords.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/APSADCConfigRecords.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/IMUConfigRecords.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/EventCodes.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/ExtTriggerConfigRecords.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/ChipBiasConfigRecords.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/private-source/WSAER2CAVIAR2.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/private-source/CAVIAR2WSAER.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/private-source/latch3.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/MullerCelement.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/ObjectMotionCellConfigRecords.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/fx3/FX3ConfigRecords.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/ext/FIFODualClock.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/ext/FIFO.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/ext/PLL.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/ChangeDetector.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/ShiftRegister.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/private-source/LogicClockSynchronizer.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/fx3/FX3USBClockSynchronizer.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/fx3/FX3StateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/TimestampGenerator.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/MultiplexerStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/MultiplexerSPIConfig.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/DVSAERStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/DVSAERSPIConfig.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/APSADCStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/APSADCSPIConfig.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/IMUStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/IMUSPIConfig.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/ExtTriggerSPIConfig.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/ExtTriggerStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/SPIConfig.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/support/FifoMerger.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/ObjectMotionCell.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/ObjectMotionCellSPIConfig.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/fx3/FX3SPIConfig.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/private-source/MISCAERStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/private-source/TopLevel.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/ChipBiasStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/../common-source/ChipBiasSPIConfig.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/ObjectMotionCell_tb.vhd"
+
+
+
+#implementation: "SeeBetterLogic_FX3"
+impl -add SeeBetterLogic_FX3 -type fpga
+
+#
+#implementation attributes
+
+set_option -vlog_std v2001
+set_option -project_relative_includes 1
+
+#device options
+set_option -technology LATTICE-ECP3
+set_option -part LFE3_70E
+set_option -package FN484I
+set_option -speed_grade -7
+set_option -part_companion ""
+
+#compilation/mapping options
+set_option -top_module "TopLevel"
+
+# mapper_options
+set_option -frequency auto
+set_option -write_verilog 0
+set_option -write_vhdl 0
+set_option -srs_instrumentation 1
+
+# Lattice XP
+set_option -maxfan 1000
+set_option -disable_io_insertion 0
+set_option -retiming 0
+set_option -pipe 1
+set_option -forcegsr false
+set_option -fix_gated_and_generated_clocks 1
+set_option -RWCheckOnRam 1
+set_option -update_models_cp 0
+set_option -syn_edif_array_rename 1
+set_option -Write_declared_clocks_only 1
+
+# sequential_optimization_options
+set_option -symbolic_fsm_compiler 1
+
+# Compiler Options
+set_option -compiler_compatible 0
+set_option -resource_sharing 1
+set_option -multi_file_compilation_unit 1
+
+# Compiler Options
+set_option -auto_infer_blackbox 0
+
+# Compiler Options
+set_option -vhdl2008 1
+
+#automatic place and route (vendor) options
+set_option -write_apr_constraint 1
+
+#set result format/file last
+project -result_file "./SeeBetterLogic_FX3_SeeBetterLogic_FX3.edi"
+
+#set log file 
+set_option log_file "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/SeeBetterLogic_FX3/SeeBetterLogic_FX3_SeeBetterLogic_FX3.srf" 
+impl -active "SeeBetterLogic_FX3"

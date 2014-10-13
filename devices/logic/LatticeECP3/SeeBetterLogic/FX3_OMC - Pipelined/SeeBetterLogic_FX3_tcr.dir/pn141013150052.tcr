@@ -1,0 +1,8 @@
+#Start recording tcl command: 10/13/2014 14:53:07
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/SeeBetterLogic_FX3.ldf"
+prj_dev set -part LFE3-70E-7FN484I
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_project save
+prj_project close
+#Stop recording: 10/13/2014 15:00:52

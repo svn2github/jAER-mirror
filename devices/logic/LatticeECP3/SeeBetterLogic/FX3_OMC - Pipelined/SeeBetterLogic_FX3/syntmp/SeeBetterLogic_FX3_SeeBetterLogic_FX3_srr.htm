@@ -1,0 +1,766 @@
+<html><body><samp><pre>
+<!@TC:1413205017>
+#Build: Synplify Pro I-2013.09L-SP1-1 , Build 098R, Apr 15 2014
+#install: C:\lscc\diamond\3.2_x64\synpbase
+#OS: Windows 7 6.1
+#Hostname: LATTICEDVM
+
+#Implementation: SeeBetterLogic_FX3
+
+<a name=compilerReport1>$ Start of Compile</a>
+#Mon Oct 13 14:56:57 2014
+
+Synopsys VHDL Compiler, version comp201309rcp1, Build 147R, built Apr 16 2014
+@N: : <!@TM:1413205022> | Running in 64-bit mode 
+Copyright (C) 1994-2013 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+
+@N:<a href="@N:CD720:@XP_HELP">CD720</a> : <a href="C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std.vhd:146:18:146:22:@N:CD720:@XP_MSG">std.vhd(146)</a><!@TM:1413205022> | Setting time resolution to ns
+@N: : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:15:7:15:15:@N::@XP_MSG">TopLevel.vhd(15)</a><!@TM:1413205022> | Top entity is set to TopLevel.
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFORecords.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\DFFSynchronizer.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ResetSynchronizer.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\SimpleRegister.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\BufferClear.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegisterModes.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\EdgeDetector.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseGenerator.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseDetector.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\Settings.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerConfigRecords.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERConfigRecords.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCConfigRecords.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUConfigRecords.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\EventCodes.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerConfigRecords.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasConfigRecords.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\latch3.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCellConfigRecords.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3ConfigRecords.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFODualClock.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\PLL.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ChangeDetector.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegister.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\LogicClockSynchronizer.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3USBClockSynchronizer.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd changed - recompiling
+File C:\lscc\diamond\3.2_x64\synpbase\lib\vhd\math_real.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\TimestampGenerator.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\FifoMerger.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCellSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3SPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\MISCAERStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell_tb.vhd changed - recompiling
+VHDL syntax check successful!
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std1164.vhd:913:16:913:18:@N:CD231:@XP_MSG">std1164.vhd(913)</a><!@TM:1413205022> | Using onehot encoding for type mvl9plus ('U'="1000000000")
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:15:7:15:15:@N:CD630:@XP_MSG">TopLevel.vhd(15)</a><!@TM:1413205022> | Synthesizing work.toplevel.structural 
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:148:8:148:20:@W:CD638:@XP_MSG">TopLevel.vhd(148)</a><!@TM:1413205022> | Signal caviaro_data is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:148:22:148:35:@W:CD638:@XP_MSG">TopLevel.vhd(148)</a><!@TM:1413205022> | Signal tcaviaro_data is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:149:32:149:46:@W:CD638:@XP_MSG">TopLevel.vhd(149)</a><!@TM:1413205022> | Signal caviar_ack_aux is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:149:74:149:86:@W:CD638:@XP_MSG">TopLevel.vhd(149)</a><!@TM:1413205022> | Signal tcaviaro_req is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:149:88:149:100:@W:CD638:@XP_MSG">TopLevel.vhd(149)</a><!@TM:1413205022> | Signal tcaviaro_ack is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:149:148:149:150:@W:CD638:@XP_MSG">TopLevel.vhd(149)</a><!@TM:1413205022> | Signal kk is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:151:8:151:17:@W:CD638:@XP_MSG">TopLevel.vhd(151)</a><!@TM:1413205022> | Signal timertest is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:153:8:153:14:@W:CD638:@XP_MSG">TopLevel.vhd(153)</a><!@TM:1413205022> | Signal spi_wr is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:154:8:154:16:@W:CD638:@XP_MSG">TopLevel.vhd(154)</a><!@TM:1413205022> | Signal spi_data is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:155:8:155:19:@W:CD638:@XP_MSG">TopLevel.vhd(155)</a><!@TM:1413205022> | Signal spi_address is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:156:8:156:11:@W:CD638:@XP_MSG">TopLevel.vhd(156)</a><!@TM:1413205022> | Signal led is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:157:8:157:17:@W:CD638:@XP_MSG">TopLevel.vhd(157)</a><!@TM:1413205022> | Signal ot_active is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:158:8:158:20:@W:CD638:@XP_MSG">TopLevel.vhd(158)</a><!@TM:1413205022> | Signal ws2caviar_en is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:158:22:158:28:@W:CD638:@XP_MSG">TopLevel.vhd(158)</a><!@TM:1413205022> | Signal bgafen is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:158:67:158:75:@W:CD638:@XP_MSG">TopLevel.vhd(158)</a><!@TM:1413205022> | Signal davis_en is undriven </font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\SPIConfig.vhd:6:7:6:16:@N:CD630:@XP_MSG">SPIConfig.vhd(6)</a><!@TM:1413205022> | Synthesizing work.spiconfig.behavioral 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\SPIConfig.vhd:28:13:28:15:@N:CD231:@XP_MSG">SPIConfig.vhd(28)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stidle="1000")
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ShiftRegister.vhd:22:7:22:20:@N:CD630:@XP_MSG">ShiftRegister.vhd(22)</a><!@TM:1413205022> | Synthesizing work.shiftregister.behavioral 
+Post processing for work.shiftregister.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ShiftRegister.vhd:22:7:22:20:@N:CD630:@XP_MSG">ShiftRegister.vhd(22)</a><!@TM:1413205022> | Synthesizing work.shiftregister.behavioral 
+Post processing for work.shiftregister.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\EdgeDetector.vhd:8:7:8:19:@N:CD630:@XP_MSG">EdgeDetector.vhd(8)</a><!@TM:1413205022> | Synthesizing work.edgedetector.behavioral 
+Post processing for work.edgedetector.behavioral
+Post processing for work.spiconfig.behavioral
+<font color=#A52A2A>@W:<a href="@W:CL169:@XP_HELP">CL169</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\SPIConfig.vhd:227:2:227:4:@W:CL169:@XP_MSG">SPIConfig.vhd(227)</a><!@TM:1413205022> | Pruning register SPIMISO_DZO_cl_2  </font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:6:7:6:26:@N:CD630:@XP_MSG">ExtTriggerSPIConfig.vhd(6)</a><!@TM:1413205022> | Synthesizing work.exttriggerspiconfig.behavioral 
+Post processing for work.exttriggerspiconfig.behavioral
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:100:2:100:4:@W:CL111:@XP_MSG">ExtTriggerSPIConfig.vhd(100)</a><!@TM:1413205022> | All reachable assignments to ExtTriggerOutput_DP(24) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:100:2:100:4:@W:CL111:@XP_MSG">ExtTriggerSPIConfig.vhd(100)</a><!@TM:1413205022> | All reachable assignments to ExtTriggerOutput_DP(25) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:100:2:100:4:@W:CL111:@XP_MSG">ExtTriggerSPIConfig.vhd(100)</a><!@TM:1413205022> | All reachable assignments to ExtTriggerOutput_DP(26) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:100:2:100:4:@W:CL111:@XP_MSG">ExtTriggerSPIConfig.vhd(100)</a><!@TM:1413205022> | All reachable assignments to ExtTriggerOutput_DP(27) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:100:2:100:4:@W:CL111:@XP_MSG">ExtTriggerSPIConfig.vhd(100)</a><!@TM:1413205022> | All reachable assignments to ExtTriggerOutput_DP(28) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:100:2:100:4:@W:CL111:@XP_MSG">ExtTriggerSPIConfig.vhd(100)</a><!@TM:1413205022> | All reachable assignments to ExtTriggerOutput_DP(29) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:100:2:100:4:@W:CL111:@XP_MSG">ExtTriggerSPIConfig.vhd(100)</a><!@TM:1413205022> | All reachable assignments to ExtTriggerOutput_DP(30) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:100:2:100:4:@W:CL111:@XP_MSG">ExtTriggerSPIConfig.vhd(100)</a><!@TM:1413205022> | All reachable assignments to ExtTriggerOutput_DP(31) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL279:@XP_HELP">CL279</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:100:2:100:4:@W:CL279:@XP_MSG">ExtTriggerSPIConfig.vhd(100)</a><!@TM:1413205022> | Pruning register bits 31 to 24 of ExtTriggerInput_DP(31 downto 0)  </font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerStateMachine.vhd:11:7:11:29:@N:CD630:@XP_MSG">ExtTriggerStateMachine.vhd(11)</a><!@TM:1413205022> | Synthesizing work.exttriggerstatemachine.behavioral 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerStateMachine.vhd:37:13:37:15:@N:CD231:@XP_MSG">ExtTriggerStateMachine.vhd(37)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stidle="1000")
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\SimpleRegister.vhd:4:7:4:21:@N:CD630:@XP_MSG">SimpleRegister.vhd(4)</a><!@TM:1413205022> | Synthesizing work.simpleregister.behavioral 
+Post processing for work.simpleregister.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseGenerator.vhd:10:7:10:21:@N:CD630:@XP_MSG">PulseGenerator.vhd(10)</a><!@TM:1413205022> | Synthesizing work.pulsegenerator.behavioral 
+Post processing for work.pulsegenerator.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseDetector.vhd:10:7:10:20:@N:CD630:@XP_MSG">PulseDetector.vhd(10)</a><!@TM:1413205022> | Synthesizing work.pulsedetector.behavioral 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseDetector.vhd:26:13:26:15:@N:CD231:@XP_MSG">PulseDetector.vhd(26)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stwaitforpulse="100")
+Post processing for work.pulsedetector.behavioral
+Post processing for work.exttriggerstatemachine.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:6:7:6:11:@N:CD630:@XP_MSG">FIFO.vhd(6)</a><!@TM:1413205022> | Synthesizing work.fifo.structural 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:27:13:27:15:@N:CD231:@XP_MSG">FIFO.vhd(27)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stinit="100")
+<font color=#A52A2A>@W:<a href="@W:CD280:@XP_HELP">CD280</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:584:12:584:20:@W:CD280:@XP_MSG">pmi_def.vhd(584)</a><!@TM:1413205022> | Unbound component pmi_fifo mapped to black box</font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:584:12:584:20:@N:CD630:@XP_MSG">pmi_def.vhd(584)</a><!@TM:1413205022> | Synthesizing work.pmi_fifo_work_toplevel_structural_0.syn_black_box 
+Post processing for work.pmi_fifo_work_toplevel_structural_0.syn_black_box
+Post processing for work.fifo.structural
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:6:7:6:19:@N:CD630:@XP_MSG">IMUSPIConfig.vhd(6)</a><!@TM:1413205022> | Synthesizing work.imuspiconfig.behavioral 
+Post processing for work.imuspiconfig.behavioral
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(8) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(9) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(10) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(11) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(12) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(13) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(14) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(15) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(16) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(17) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(18) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(19) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(20) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(21) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(22) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(23) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(24) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(25) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(26) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(27) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(28) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(29) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(30) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL111:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | All reachable assignments to IMUOutput_DP(31) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL279:@XP_HELP">CL279</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:84:2:84:4:@W:CL279:@XP_MSG">IMUSPIConfig.vhd(84)</a><!@TM:1413205022> | Pruning register bits 31 to 8 of IMUInput_DP(31 downto 0)  </font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUStateMachine.vhd:12:7:12:22:@N:CD630:@XP_MSG">IMUStateMachine.vhd(12)</a><!@TM:1413205022> | Synthesizing work.imustatemachine.behavioral 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUStateMachine.vhd:33:13:33:15:@N:CD231:@XP_MSG">IMUStateMachine.vhd(33)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stidle="10000000000000000000000000000")
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUStateMachine.vhd:41:16:41:18:@N:CD231:@XP_MSG">IMUStateMachine.vhd(41)</a><!@TM:1413205022> | Using onehot encoding for type ti2cstate (sti2cidle="1000000000")
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ChangeDetector.vhd:9:7:9:21:@N:CD630:@XP_MSG">ChangeDetector.vhd(9)</a><!@TM:1413205022> | Synthesizing work.changedetector.behavioral 
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\BufferClear.vhd:13:7:13:18:@N:CD630:@XP_MSG">BufferClear.vhd(13)</a><!@TM:1413205022> | Synthesizing work.bufferclear.behavioral 
+Post processing for work.bufferclear.behavioral
+Post processing for work.changedetector.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ChangeDetector.vhd:9:7:9:21:@N:CD630:@XP_MSG">ChangeDetector.vhd(9)</a><!@TM:1413205022> | Synthesizing work.changedetector.behavioral 
+Post processing for work.changedetector.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ChangeDetector.vhd:9:7:9:21:@N:CD630:@XP_MSG">ChangeDetector.vhd(9)</a><!@TM:1413205022> | Synthesizing work.changedetector.behavioral 
+Post processing for work.changedetector.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ChangeDetector.vhd:9:7:9:21:@N:CD630:@XP_MSG">ChangeDetector.vhd(9)</a><!@TM:1413205022> | Synthesizing work.changedetector.behavioral 
+Post processing for work.changedetector.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseGenerator.vhd:10:7:10:21:@N:CD630:@XP_MSG">PulseGenerator.vhd(10)</a><!@TM:1413205022> | Synthesizing work.pulsegenerator.behavioral 
+Post processing for work.pulsegenerator.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ShiftRegister.vhd:22:7:22:20:@N:CD630:@XP_MSG">ShiftRegister.vhd(22)</a><!@TM:1413205022> | Synthesizing work.shiftregister.behavioral 
+Post processing for work.shiftregister.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ShiftRegister.vhd:22:7:22:20:@N:CD630:@XP_MSG">ShiftRegister.vhd(22)</a><!@TM:1413205022> | Synthesizing work.shiftregister.behavioral 
+Post processing for work.shiftregister.behavioral
+Post processing for work.imustatemachine.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:6:7:6:11:@N:CD630:@XP_MSG">FIFO.vhd(6)</a><!@TM:1413205022> | Synthesizing work.fifo.structural 
+<font color=#A52A2A>@W:<a href="@W:CD136:@XP_HELP">CD136</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:28:49:28:57:@W:CD136:@XP_MSG">FIFO.vhd(28)</a><!@TM:1413205022> | syn_encoding should immediately follow type declaration ... ignoring attribute.</font>
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:27:13:27:15:@N:CD231:@XP_MSG">FIFO.vhd(27)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stinit="100")
+<font color=#A52A2A>@W:<a href="@W:CD280:@XP_HELP">CD280</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:584:12:584:20:@W:CD280:@XP_MSG">pmi_def.vhd(584)</a><!@TM:1413205022> | Unbound component pmi_fifo mapped to black box</font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:584:12:584:20:@N:CD630:@XP_MSG">pmi_def.vhd(584)</a><!@TM:1413205022> | Synthesizing work.pmi_fifo_work_toplevel_structural_1.syn_black_box 
+Post processing for work.pmi_fifo_work_toplevel_structural_1.syn_black_box
+Post processing for work.fifo.structural
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:6:7:6:22:@N:CD630:@XP_MSG">APSADCSPIConfig.vhd(6)</a><!@TM:1413205022> | Synthesizing work.apsadcspiconfig.behavioral 
+Post processing for work.apsadcspiconfig.behavioral
+<font color=#A52A2A>@W:<a href="@W:CL271:@XP_HELP">CL271</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL271:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | Pruning bits 31 to 1 of APSADCInput_DP_3(31 downto 0) -- not in use ... </font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(1) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(2) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(3) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(4) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(5) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(6) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(7) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(8) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(9) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(10) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(11) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(12) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(13) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(14) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(15) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(16) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(17) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(18) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(19) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(20) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(21) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(22) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(23) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(24) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(25) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(26) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(27) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(28) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(29) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(30) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:48:2:48:4:@W:CL111:@XP_MSG">APSADCSPIConfig.vhd(48)</a><!@TM:1413205022> | All reachable assignments to APSADCOutput_DP(31) assign '0'; register removed by optimization</font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd:8:7:8:25:@N:CD630:@XP_MSG">APSADCStateMachine.vhd(8)</a><!@TM:1413205022> | Synthesizing work.apsadcstatemachine.behavioral 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd:40:13:40:15:@N:CD231:@XP_MSG">APSADCStateMachine.vhd(40)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stidle="10")
+Post processing for work.apsadcstatemachine.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:6:7:6:11:@N:CD630:@XP_MSG">FIFO.vhd(6)</a><!@TM:1413205022> | Synthesizing work.fifo.structural 
+<font color=#A52A2A>@W:<a href="@W:CD136:@XP_HELP">CD136</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:28:49:28:57:@W:CD136:@XP_MSG">FIFO.vhd(28)</a><!@TM:1413205022> | syn_encoding should immediately follow type declaration ... ignoring attribute.</font>
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:27:13:27:15:@N:CD231:@XP_MSG">FIFO.vhd(27)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stinit="100")
+<font color=#A52A2A>@W:<a href="@W:CD280:@XP_HELP">CD280</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:584:12:584:20:@W:CD280:@XP_MSG">pmi_def.vhd(584)</a><!@TM:1413205022> | Unbound component pmi_fifo mapped to black box</font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:584:12:584:20:@N:CD630:@XP_MSG">pmi_def.vhd(584)</a><!@TM:1413205022> | Synthesizing work.pmi_fifo_work_toplevel_structural_2.syn_black_box 
+Post processing for work.pmi_fifo_work_toplevel_structural_2.syn_black_box
+Post processing for work.fifo.structural
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:7:7:7:26:@N:CD630:@XP_MSG">MISCAERStateMachine.vhd(7)</a><!@TM:1413205022> | Synthesizing work.miscaerstatemachine.behavioral 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:28:12:28:14:@N:CD231:@XP_MSG">MISCAERStateMachine.vhd(28)</a><!@TM:1413205022> | Using onehot encoding for type state (stidle="10000000")
+<font color=#A52A2A>@W:<a href="@W:CD434:@XP_HELP">CD434</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:52:85:52:101:@W:CD434:@XP_MSG">MISCAERStateMachine.vhd(52)</a><!@TM:1413205022> | Signal ackdelaynotify_s in the sensitivity list is not used in the process</font>
+<font color=#A52A2A>@W:<a href="@W:CD434:@XP_HELP">CD434</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:52:103:52:123:@W:CD434:@XP_MSG">MISCAERStateMachine.vhd(52)</a><!@TM:1413205022> | Signal ackextensionnotify_s in the sensitivity list is not used in the process</font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:35:25:35:41:@W:CD638:@XP_MSG">MISCAERStateMachine.vhd(35)</a><!@TM:1413205022> | Signal ackdelaynotify_s is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:38:29:38:49:@W:CD638:@XP_MSG">MISCAERStateMachine.vhd(38)</a><!@TM:1413205022> | Signal ackextensionnotify_s is undriven </font>
+Post processing for work.miscaerstatemachine.behavioral
+<font color=#A52A2A>@W:<a href="@W:CL240:@XP_HELP">CL240</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:38:29:38:49:@W:CL240:@XP_MSG">MISCAERStateMachine.vhd(38)</a><!@TM:1413205022> | ackExtensionNotify_S is not assigned a value (floating) -- simulation mismatch possible. </font>
+<font color=#A52A2A>@W:<a href="@W:CL240:@XP_HELP">CL240</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:35:25:35:41:@W:CL240:@XP_MSG">MISCAERStateMachine.vhd(35)</a><!@TM:1413205022> | ackDelayNotify_S is not assigned a value (floating) -- simulation mismatch possible. </font>
+<font color=#A52A2A>@W:<a href="@W:CL190:@XP_HELP">CL190</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:172:2:172:4:@W:CL190:@XP_MSG">MISCAERStateMachine.vhd(172)</a><!@TM:1413205022> | Optimizing register bit OutFifoData_DO(8) to a constant 0</font>
+<font color=#A52A2A>@W:<a href="@W:CL190:@XP_HELP">CL190</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:172:2:172:4:@W:CL190:@XP_MSG">MISCAERStateMachine.vhd(172)</a><!@TM:1413205022> | Optimizing register bit OutFifoData_DO(9) to a constant 0</font>
+<font color=#A52A2A>@W:<a href="@W:CL190:@XP_HELP">CL190</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:172:2:172:4:@W:CL190:@XP_MSG">MISCAERStateMachine.vhd(172)</a><!@TM:1413205022> | Optimizing register bit OutFifoData_DO(10) to a constant 0</font>
+<font color=#A52A2A>@W:<a href="@W:CL279:@XP_HELP">CL279</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:172:2:172:4:@W:CL279:@XP_MSG">MISCAERStateMachine.vhd(172)</a><!@TM:1413205022> | Pruning register bits 10 to 8 of OutFifoData_DO(14 downto 0)  </font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:6:7:6:11:@N:CD630:@XP_MSG">FIFO.vhd(6)</a><!@TM:1413205022> | Synthesizing work.fifo.structural 
+<font color=#A52A2A>@W:<a href="@W:CD136:@XP_HELP">CD136</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:28:49:28:57:@W:CD136:@XP_MSG">FIFO.vhd(28)</a><!@TM:1413205022> | syn_encoding should immediately follow type declaration ... ignoring attribute.</font>
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:27:13:27:15:@N:CD231:@XP_MSG">FIFO.vhd(27)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stinit="100")
+<font color=#A52A2A>@W:<a href="@W:CD280:@XP_HELP">CD280</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:584:12:584:20:@W:CD280:@XP_MSG">pmi_def.vhd(584)</a><!@TM:1413205022> | Unbound component pmi_fifo mapped to black box</font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:584:12:584:20:@N:CD630:@XP_MSG">pmi_def.vhd(584)</a><!@TM:1413205022> | Synthesizing work.pmi_fifo_work_toplevel_structural_3.syn_black_box 
+Post processing for work.pmi_fifo_work_toplevel_structural_3.syn_black_box
+Post processing for work.fifo.structural
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:6:7:6:22:@N:CD630:@XP_MSG">DVSAERSPIConfig.vhd(6)</a><!@TM:1413205022> | Synthesizing work.dvsaerspiconfig.behavioral 
+Post processing for work.dvsaerspiconfig.behavioral
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(5) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(6) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(7) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(8) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(9) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(10) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(11) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(12) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(13) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(14) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(15) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(16) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(17) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(18) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(19) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(20) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(21) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(22) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(23) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(24) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(25) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(26) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(27) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(28) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(29) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(30) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to DVSAEROutput_DP(31) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL279:@XP_HELP">CL279</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:56:2:56:4:@W:CL279:@XP_MSG">DVSAERSPIConfig.vhd(56)</a><!@TM:1413205022> | Pruning register bits 31 to 5 of DVSAERInput_DP(31 downto 0)  </font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:8:7:8:25:@N:CD630:@XP_MSG">DVSAERStateMachine.vhd(8)</a><!@TM:1413205022> | Synthesizing work.dvsaerstatemachine.behavioral 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:32:13:32:15:@N:CD231:@XP_MSG">DVSAERStateMachine.vhd(32)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stidle="100000")
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+Post processing for work.dvsaerstatemachine.behavioral
+<font color=#A52A2A>@W:<a href="@W:CL190:@XP_HELP">CL190</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:172:2:172:4:@W:CL190:@XP_MSG">DVSAERStateMachine.vhd(172)</a><!@TM:1413205022> | Optimizing register bit OutFifoData_DO(8) to a constant 0</font>
+<font color=#A52A2A>@W:<a href="@W:CL190:@XP_HELP">CL190</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:172:2:172:4:@W:CL190:@XP_MSG">DVSAERStateMachine.vhd(172)</a><!@TM:1413205022> | Optimizing register bit OutFifoData_DO(9) to a constant 0</font>
+<font color=#A52A2A>@W:<a href="@W:CL190:@XP_HELP">CL190</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:172:2:172:4:@W:CL190:@XP_MSG">DVSAERStateMachine.vhd(172)</a><!@TM:1413205022> | Optimizing register bit OutFifoData_DO(10) to a constant 0</font>
+<font color=#A52A2A>@W:<a href="@W:CL190:@XP_HELP">CL190</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:172:2:172:4:@W:CL190:@XP_MSG">DVSAERStateMachine.vhd(172)</a><!@TM:1413205022> | Optimizing register bit OutFifoData_DO(11) to a constant 0</font>
+<font color=#A52A2A>@W:<a href="@W:CL190:@XP_HELP">CL190</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:172:2:172:4:@W:CL190:@XP_MSG">DVSAERStateMachine.vhd(172)</a><!@TM:1413205022> | Optimizing register bit OutFifoData_DO(14) to a constant 0</font>
+<font color=#A52A2A>@W:<a href="@W:CL260:@XP_HELP">CL260</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:172:2:172:4:@W:CL260:@XP_MSG">DVSAERStateMachine.vhd(172)</a><!@TM:1413205022> | Pruning register bit 14 of OutFifoData_DO(14 downto 0)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL279:@XP_HELP">CL279</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:172:2:172:4:@W:CL279:@XP_MSG">DVSAERStateMachine.vhd(172)</a><!@TM:1413205022> | Pruning register bits 11 to 8 of OutFifoData_DO(14 downto 0)  </font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\FifoMerger.vhd:9:7:9:17:@N:CD630:@XP_MSG">FifoMerger.vhd(9)</a><!@TM:1413205022> | Synthesizing work.fifomerger.behavioral 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\FifoMerger.vhd:32:13:32:15:@N:CD231:@XP_MSG">FifoMerger.vhd(32)</a><!@TM:1413205022> | Using onehot encoding for type tstate (idle="100")
+Post processing for work.fifomerger.behavioral
+@A:<a href="@A:CL282:@XP_HELP">CL282</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\FifoMerger.vhd:67:2:67:4:@A:CL282:@XP_MSG">FifoMerger.vhd(67)</a><!@TM:1413205022> | Feedback mux created for signal State_DP[0:2] -- possible set/reset assignment for signal missing. Specifying a reset value will improve timing and area.
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:6:7:6:27:@N:CD630:@XP_MSG">MultiplexerSPIConfig.vhd(6)</a><!@TM:1413205022> | Synthesizing work.multiplexerspiconfig.behavioral 
+Post processing for work.multiplexerspiconfig.behavioral
+<font color=#A52A2A>@W:<a href="@W:CL271:@XP_HELP">CL271</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL271:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | Pruning bits 31 to 1 of MultiplexerInput_DP_3(31 downto 0) -- not in use ... </font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(1) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(2) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(3) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(4) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(5) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(6) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(7) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(8) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(9) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(10) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(11) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(12) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(13) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(14) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(15) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(16) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(17) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(18) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(19) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(20) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(21) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(22) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(23) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(24) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(25) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(26) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(27) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(28) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(29) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(30) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:56:2:56:4:@W:CL111:@XP_MSG">MultiplexerSPIConfig.vhd(56)</a><!@TM:1413205022> | All reachable assignments to MultiplexerOutput_DP(31) assign '0'; register removed by optimization</font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:8:7:8:30:@N:CD630:@XP_MSG">MultiplexerStateMachine.vhd(8)</a><!@TM:1413205022> | Synthesizing work.multiplexerstatemachine.behavioral 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:45:13:45:15:@N:CD231:@XP_MSG">MultiplexerStateMachine.vhd(45)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stidle="1000000000000")
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ChangeDetector.vhd:9:7:9:21:@N:CD630:@XP_MSG">ChangeDetector.vhd(9)</a><!@TM:1413205022> | Synthesizing work.changedetector.behavioral 
+Post processing for work.changedetector.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseDetector.vhd:10:7:10:20:@N:CD630:@XP_MSG">PulseDetector.vhd(10)</a><!@TM:1413205022> | Synthesizing work.pulsedetector.behavioral 
+<font color=#A52A2A>@W:<a href="@W:CD136:@XP_HELP">CD136</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseDetector.vhd:27:49:27:57:@W:CD136:@XP_MSG">PulseDetector.vhd(27)</a><!@TM:1413205022> | syn_encoding should immediately follow type declaration ... ignoring attribute.</font>
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseDetector.vhd:26:13:26:15:@N:CD231:@XP_MSG">PulseDetector.vhd(26)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stwaitforpulse="100")
+Post processing for work.pulsedetector.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\TimestampGenerator.vhd:9:7:9:25:@N:CD630:@XP_MSG">TimestampGenerator.vhd(9)</a><!@TM:1413205022> | Synthesizing work.timestampgenerator.structural 
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+Post processing for work.timestampgenerator.structural
+Post processing for work.multiplexerstatemachine.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFODualClock.vhd:6:7:6:20:@N:CD630:@XP_MSG">FIFODualClock.vhd(6)</a><!@TM:1413205022> | Synthesizing work.fifodualclock.structural 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFODualClock.vhd:28:13:28:15:@N:CD231:@XP_MSG">FIFODualClock.vhd(28)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stinit="100")
+<font color=#A52A2A>@W:<a href="@W:CD280:@XP_HELP">CD280</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:551:12:551:23:@W:CD280:@XP_MSG">pmi_def.vhd(551)</a><!@TM:1413205022> | Unbound component pmi_fifo_dc mapped to black box</font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:551:12:551:23:@N:CD630:@XP_MSG">pmi_def.vhd(551)</a><!@TM:1413205022> | Synthesizing work.pmi_fifo_dc_work_toplevel_structural_0.syn_black_box 
+Post processing for work.pmi_fifo_dc_work_toplevel_structural_0.syn_black_box
+Post processing for work.fifodualclock.structural
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:6:7:6:19:@N:CD630:@XP_MSG">FX3SPIConfig.vhd(6)</a><!@TM:1413205022> | Synthesizing work.fx3spiconfig.behavioral 
+Post processing for work.fx3spiconfig.behavioral
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(10) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(11) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(12) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(13) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(14) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(15) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(16) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(17) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(18) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(19) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(20) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(21) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(22) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(23) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(24) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(25) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(26) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(27) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(28) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(29) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(30) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL111:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | All reachable assignments to FX3Output_DP(31) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL279:@XP_HELP">CL279</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:52:2:52:4:@W:CL279:@XP_MSG">FX3SPIConfig.vhd(52)</a><!@TM:1413205022> | Pruning register bits 31 to 10 of FX3Input_DP(31 downto 0)  </font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3StateMachine.vhd:11:7:11:22:@N:CD630:@XP_MSG">FX3StateMachine.vhd(11)</a><!@TM:1413205022> | Synthesizing work.fx3statemachine.behavioral 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3StateMachine.vhd:38:13:38:15:@N:CD231:@XP_MSG">FX3StateMachine.vhd(38)</a><!@TM:1413205022> | Using onehot encoding for type tstate (stidle0="100000000000000000")
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+Post processing for work.fx3statemachine.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\PLL.vhd:5:7:5:10:@N:CD630:@XP_MSG">PLL.vhd(5)</a><!@TM:1413205022> | Synthesizing work.pll.structural 
+<font color=#A52A2A>@W:<a href="@W:CD280:@XP_HELP">CD280</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:1143:12:1143:19:@W:CD280:@XP_MSG">pmi_def.vhd(1143)</a><!@TM:1413205022> | Unbound component pmi_pll mapped to black box</font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd:1143:12:1143:19:@N:CD630:@XP_MSG">pmi_def.vhd(1143)</a><!@TM:1413205022> | Synthesizing work.pmi_pll.syn_black_box 
+Post processing for work.pmi_pll.syn_black_box
+Post processing for work.pll.structural
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\LogicClockSynchronizer.vhd:4:7:4:29:@N:CD630:@XP_MSG">LogicClockSynchronizer.vhd(4)</a><!@TM:1413205022> | Synthesizing work.logicclocksynchronizer.structural 
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\DFFSynchronizer.vhd:6:7:6:22:@N:CD630:@XP_MSG">DFFSynchronizer.vhd(6)</a><!@TM:1413205022> | Synthesizing work.dffsynchronizer.behavioral 
+Post processing for work.dffsynchronizer.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\DFFSynchronizer.vhd:6:7:6:22:@N:CD630:@XP_MSG">DFFSynchronizer.vhd(6)</a><!@TM:1413205022> | Synthesizing work.dffsynchronizer.behavioral 
+Post processing for work.dffsynchronizer.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ResetSynchronizer.vhd:10:7:10:24:@N:CD630:@XP_MSG">ResetSynchronizer.vhd(10)</a><!@TM:1413205022> | Synthesizing work.resetsynchronizer.behavioral 
+Post processing for work.resetsynchronizer.behavioral
+Post processing for work.logicclocksynchronizer.structural
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3USBClockSynchronizer.vhd:4:7:4:30:@N:CD630:@XP_MSG">FX3USBClockSynchronizer.vhd(4)</a><!@TM:1413205022> | Synthesizing work.fx3usbclocksynchronizer.structural 
+Post processing for work.fx3usbclocksynchronizer.structural
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\CAVIAR2WSAER.vhd:24:7:24:19:@N:CD630:@XP_MSG">CAVIAR2WSAER.vhd(24)</a><!@TM:1413205022> | Synthesizing work.caviar2wsaer.structural 
+@N:<a href="@N:CD233:@XP_HELP">CD233</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\CAVIAR2WSAER.vhd:41:12:41:14:@N:CD233:@XP_MSG">CAVIAR2WSAER.vhd(41)</a><!@TM:1413205022> | Using sequential encoding for type tsm
+<font color=#A52A2A>@W:<a href="@W:CD604:@XP_HELP">CD604</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\CAVIAR2WSAER.vhd:103:1:103:15:@W:CD604:@XP_MSG">CAVIAR2WSAER.vhd(103)</a><!@TM:1413205022> | OTHERS clause is not synthesized </font>
+Post processing for work.caviar2wsaer.structural
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd:27:7:27:32:@N:CD630:@XP_MSG">ObjectMotionCellSPIConfig.vhd(27)</a><!@TM:1413205022> | Synthesizing work.objectmotioncellspiconfig.behavioural 
+Post processing for work.objectmotioncellspiconfig.behavioural
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd:88:2:88:4:@W:CL111:@XP_MSG">ObjectMotionCellSPIConfig.vhd(88)</a><!@TM:1413205022> | All reachable assignments to ObjectMotionCellOutput_DP(25) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd:88:2:88:4:@W:CL111:@XP_MSG">ObjectMotionCellSPIConfig.vhd(88)</a><!@TM:1413205022> | All reachable assignments to ObjectMotionCellOutput_DP(26) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd:88:2:88:4:@W:CL111:@XP_MSG">ObjectMotionCellSPIConfig.vhd(88)</a><!@TM:1413205022> | All reachable assignments to ObjectMotionCellOutput_DP(27) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd:88:2:88:4:@W:CL111:@XP_MSG">ObjectMotionCellSPIConfig.vhd(88)</a><!@TM:1413205022> | All reachable assignments to ObjectMotionCellOutput_DP(28) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd:88:2:88:4:@W:CL111:@XP_MSG">ObjectMotionCellSPIConfig.vhd(88)</a><!@TM:1413205022> | All reachable assignments to ObjectMotionCellOutput_DP(29) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd:88:2:88:4:@W:CL111:@XP_MSG">ObjectMotionCellSPIConfig.vhd(88)</a><!@TM:1413205022> | All reachable assignments to ObjectMotionCellOutput_DP(30) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL111:@XP_HELP">CL111</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd:88:2:88:4:@W:CL111:@XP_MSG">ObjectMotionCellSPIConfig.vhd(88)</a><!@TM:1413205022> | All reachable assignments to ObjectMotionCellOutput_DP(31) assign '0'; register removed by optimization</font>
+<font color=#A52A2A>@W:<a href="@W:CL279:@XP_HELP">CL279</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd:88:2:88:4:@W:CL279:@XP_MSG">ObjectMotionCellSPIConfig.vhd(88)</a><!@TM:1413205022> | Pruning register bits 31 to 25 of ObjectMotionCellInput_DP(31 downto 0)  </font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:27:7:27:23:@N:CD630:@XP_MSG">ObjectMotionCell.vhd(27)</a><!@TM:1413205022> | Synthesizing work.objectmotioncell.behavioural 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:56:13:56:15:@N:CD231:@XP_MSG">ObjectMotionCell.vhd(56)</a><!@TM:1413205022> | Using onehot encoding for type tst (idle="100000000000")
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\MullerCelement.vhd:26:7:26:21:@N:CD630:@XP_MSG">MullerCelement.vhd(26)</a><!@TM:1413205022> | Synthesizing work.mullercelement.behavioural 
+@N:<a href="@N:CD364:@XP_HELP">CD364</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\MullerCelement.vhd:46:16:46:21:@N:CD364:@XP_MSG">MullerCelement.vhd(46)</a><!@TM:1413205022> | Removed redundant assignment
+@N:<a href="@N:CD364:@XP_HELP">CD364</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\MullerCelement.vhd:47:16:47:21:@N:CD364:@XP_MSG">MullerCelement.vhd(47)</a><!@TM:1413205022> | Removed redundant assignment
+Post processing for work.mullercelement.behavioural
+<font color=#A52A2A>@W:<a href="@W:CL117:@XP_HELP">CL117</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\MullerCelement.vhd:44:1:44:5:@W:CL117:@XP_MSG">MullerCelement.vhd(44)</a><!@TM:1413205022> | Latch generated from process for signal state; possible missing assignment in an if or case statement.</font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd:20:7:20:24:@N:CD630:@XP_MSG">ContinuousCounter.vhd(20)</a><!@TM:1413205022> | Synthesizing work.continuouscounter.behavioral 
+Post processing for work.continuouscounter.behavioral
+Post processing for work.objectmotioncell.behavioural
+<font color=#A52A2A>@W:<a href="@W:CL169:@XP_HELP">CL169</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:140:1:140:3:@W:CL169:@XP_MSG">ObjectMotionCell.vhd(140)</a><!@TM:1413205022> | Pruning register TimerLimit_S_2(24 downto 0)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL169:@XP_HELP">CL169</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:140:1:140:3:@W:CL169:@XP_MSG">ObjectMotionCell.vhd(140)</a><!@TM:1413205022> | Pruning register CurrentTimeStamp_S_3(24 downto 0)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL169:@XP_HELP">CL169</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:140:1:140:3:@W:CL169:@XP_MSG">ObjectMotionCell.vhd(140)</a><!@TM:1413205022> | Pruning register SubtractionTimesDT_S_3(24 downto 0)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL169:@XP_HELP">CL169</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:140:1:140:3:@W:CL169:@XP_MSG">ObjectMotionCell.vhd(140)</a><!@TM:1413205022> | Pruning register MembranePotential_S_3(24 downto 0)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL169:@XP_HELP">CL169</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:140:1:140:3:@W:CL169:@XP_MSG">ObjectMotionCell.vhd(140)</a><!@TM:1413205022> | Pruning register TimeBetween2Events_S_3(24 downto 0)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL169:@XP_HELP">CL169</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:140:1:140:3:@W:CL169:@XP_MSG">ObjectMotionCell.vhd(140)</a><!@TM:1413205022> | Pruning register PreviousTimeStamp_S_4(24 downto 0)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL168:@XP_HELP">CL168</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:111:24:111:46:@W:CL168:@XP_MSG">ObjectMotionCell.vhd(111)</a><!@TM:1413205022> | Pruning instance TimeStampTimer -- not in use ... </font>
+@N:<a href="@N:CD630:@XP_HELP">CD630</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd:24:7:24:19:@N:CD630:@XP_MSG">WSAER2CAVIAR2.vhd(24)</a><!@TM:1413205022> | Synthesizing work.wsaer2caviar.structural 
+@N:<a href="@N:CD231:@XP_HELP">CD231</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd:45:12:45:14:@N:CD231:@XP_MSG">WSAER2CAVIAR2.vhd(45)</a><!@TM:1413205022> | Using onehot encoding for type tst (idle="10000000")
+<font color=#A52A2A>@W:<a href="@W:CD604:@XP_HELP">CD604</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd:115:3:115:17:@W:CD604:@XP_MSG">WSAER2CAVIAR2.vhd(115)</a><!@TM:1413205022> | OTHERS clause is not synthesized </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd:43:10:43:20:@W:CD638:@XP_MSG">WSAER2CAVIAR2.vhd(43)</a><!@TM:1413205022> | Signal dwsaer_req is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd:43:21:43:32:@W:CD638:@XP_MSG">WSAER2CAVIAR2.vhd(43)</a><!@TM:1413205022> | Signal d1wsaer_req is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd:43:33:43:44:@W:CD638:@XP_MSG">WSAER2CAVIAR2.vhd(43)</a><!@TM:1413205022> | Signal d2wsaer_req is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd:43:46:43:57:@W:CD638:@XP_MSG">WSAER2CAVIAR2.vhd(43)</a><!@TM:1413205022> | Signal wsaer_data9 is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd:43:59:43:64:@W:CD638:@XP_MSG">WSAER2CAVIAR2.vhd(43)</a><!@TM:1413205022> | Signal last9 is undriven </font>
+<font color=#A52A2A>@W:<a href="@W:CD638:@XP_HELP">CD638</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd:44:10:44:20:@W:CD638:@XP_MSG">WSAER2CAVIAR2.vhd(44)</a><!@TM:1413205022> | Signal latched_ev is undriven </font>
+Post processing for work.wsaer2caviar.structural
+Post processing for work.toplevel.structural
+<font color=#A52A2A>@W:<a href="@W:CL240:@XP_HELP">CL240</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:158:67:158:75:@W:CL240:@XP_MSG">TopLevel.vhd(158)</a><!@TM:1413205022> | DAVIS_en is not assigned a value (floating) -- simulation mismatch possible. </font>
+<font color=#A52A2A>@W:<a href="@W:CL240:@XP_HELP">CL240</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:158:8:158:20:@W:CL240:@XP_MSG">TopLevel.vhd(158)</a><!@TM:1413205022> | WS2CAVIAR_en is not assigned a value (floating) -- simulation mismatch possible. </font>
+<font color=#A52A2A>@W:<a href="@W:CL252:@XP_HELP">CL252</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:157:8:157:17:@W:CL252:@XP_MSG">TopLevel.vhd(157)</a><!@TM:1413205022> | Bit 0 of signal ot_active is floating -- simulation mismatch possible.</font>
+<font color=#A52A2A>@W:<a href="@W:CL252:@XP_HELP">CL252</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:157:8:157:17:@W:CL252:@XP_MSG">TopLevel.vhd(157)</a><!@TM:1413205022> | Bit 1 of signal ot_active is floating -- simulation mismatch possible.</font>
+<font color=#A52A2A>@W:<a href="@W:CL252:@XP_HELP">CL252</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:157:8:157:17:@W:CL252:@XP_MSG">TopLevel.vhd(157)</a><!@TM:1413205022> | Bit 2 of signal ot_active is floating -- simulation mismatch possible.</font>
+<font color=#A52A2A>@W:<a href="@W:CL252:@XP_HELP">CL252</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:157:8:157:17:@W:CL252:@XP_MSG">TopLevel.vhd(157)</a><!@TM:1413205022> | Bit 3 of signal ot_active is floating -- simulation mismatch possible.</font>
+<font color=#A52A2A>@W:<a href="@W:CL252:@XP_HELP">CL252</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:156:8:156:11:@W:CL252:@XP_MSG">TopLevel.vhd(156)</a><!@TM:1413205022> | Bit 0 of signal led is floating -- simulation mismatch possible.</font>
+<font color=#A52A2A>@W:<a href="@W:CL252:@XP_HELP">CL252</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:156:8:156:11:@W:CL252:@XP_MSG">TopLevel.vhd(156)</a><!@TM:1413205022> | Bit 1 of signal led is floating -- simulation mismatch possible.</font>
+<font color=#A52A2A>@W:<a href="@W:CL252:@XP_HELP">CL252</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:156:8:156:11:@W:CL252:@XP_MSG">TopLevel.vhd(156)</a><!@TM:1413205022> | Bit 2 of signal led is floating -- simulation mismatch possible.</font>
+<font color=#A52A2A>@W:<a href="@W:CL240:@XP_HELP">CL240</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:71:2:71:17:@W:CL240:@XP_MSG">TopLevel.vhd(71)</a><!@TM:1413205022> | SyncOutClock_CO is not assigned a value (floating) -- simulation mismatch possible. </font>
+<font color=#A52A2A>@W:<a href="@W:CL169:@XP_HELP">CL169</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:173:2:173:4:@W:CL169:@XP_MSG">TopLevel.vhd(173)</a><!@TM:1413205022> | Pruning register testcnt_3(7 downto 0)  </font>
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd:51:3:51:5:@N:CL201:@XP_MSG">WSAER2CAVIAR2.vhd(51)</a><!@TM:1413205022> | Trying to extract state machine for register cs
+Extracted state machine for register cs
+State machine has 8 reachable states with original encodings of:
+   00000001
+   00000010
+   00000100
+   00001000
+   00010000
+   00100000
+   01000000
+   10000000
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:140:1:140:3:@N:CL201:@XP_MSG">ObjectMotionCell.vhd(140)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 12 reachable states with original encodings of:
+   000000000001
+   000000000010
+   000000000100
+   000000001000
+   000000010000
+   000000100000
+   000001000000
+   000010000000
+   000100000000
+   001000000000
+   010000000000
+   100000000000
+<font color=#A52A2A>@W:<a href="@W:CL246:@XP_HELP">CL246</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:36:2:36:14:@W:CL246:@XP_MSG">ObjectMotionCell.vhd(36)</a><!@TM:1413205022> | Input port bits 12 to 9 of pdvsdata_adi(16 downto 0) are unused </font>
+<font color=#A52A2A>@W:<a href="@W:CL246:@XP_HELP">CL246</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:36:2:36:14:@W:CL246:@XP_MSG">ObjectMotionCell.vhd(36)</a><!@TM:1413205022> | Input port bits 4 to 0 of pdvsdata_adi(16 downto 0) are unused </font>
+<font color=#A52A2A>@W:<a href="@W:CL159:@XP_HELP">CL159</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd:46:2:46:15:@W:CL159:@XP_MSG">ObjectMotionCell.vhd(46)</a><!@TM:1413205022> | Input TimerLimit_SI is unused</font>
+<font color=#A52A2A>@W:<a href="@W:CL246:@XP_HELP">CL246</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd:39:2:39:21:@W:CL246:@XP_MSG">ObjectMotionCellSPIConfig.vhd(39)</a><!@TM:1413205022> | Input port bits 31 to 25 of configparaminput_di(31 downto 0) are unused </font>
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\CAVIAR2WSAER.vhd:48:3:48:5:@N:CL201:@XP_MSG">CAVIAR2WSAER.vhd(48)</a><!@TM:1413205022> | Trying to extract state machine for register cs
+Extracted state machine for register cs
+State machine has 4 reachable states with original encodings of:
+   00
+   01
+   10
+   11
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3StateMachine.vhd:294:2:294:4:@N:CL201:@XP_MSG">FX3StateMachine.vhd(294)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 18 reachable states with original encodings of:
+   000000000000000001
+   000000000000000010
+   000000000000000100
+   000000000000001000
+   000000000000010000
+   000000000000100000
+   000000000001000000
+   000000000010000000
+   000000000100000000
+   000000001000000000
+   000000010000000000
+   000000100000000000
+   000001000000000000
+   000010000000000000
+   000100000000000000
+   001000000000000000
+   010000000000000000
+   100000000000000000
+<font color=#A52A2A>@W:<a href="@W:CL246:@XP_HELP">CL246</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd:15:2:15:21:@W:CL246:@XP_MSG">FX3SPIConfig.vhd(15)</a><!@TM:1413205022> | Input port bits 31 to 10 of configparaminput_di(31 downto 0) are unused </font>
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFODualClock.vhd:131:2:131:4:@N:CL201:@XP_MSG">FIFODualClock.vhd(131)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 3 reachable states with original encodings of:
+   001
+   010
+   100
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseDetector.vhd:89:2:89:4:@N:CL201:@XP_MSG">PulseDetector.vhd(89)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 3 reachable states with original encodings of:
+   001
+   010
+   100
+<font color=#A52A2A>@W:<a href="@W:CL189:@XP_HELP">CL189</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL189:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Register bit StateTimestampNext_DP(stdropdata) is always 0, optimizing ...</font>
+<font color=#A52A2A>@W:<a href="@W:CL189:@XP_HELP">CL189</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL189:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Register bit StateTimestampNext_DP(stprepareexttrigger) is always 0, optimizing ...</font>
+<font color=#A52A2A>@W:<a href="@W:CL189:@XP_HELP">CL189</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL189:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Register bit StateTimestampNext_DP(stprepareimu) is always 0, optimizing ...</font>
+<font color=#A52A2A>@W:<a href="@W:CL189:@XP_HELP">CL189</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL189:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Register bit StateTimestampNext_DP(stprepareapsadc) is always 0, optimizing ...</font>
+<font color=#A52A2A>@W:<a href="@W:CL189:@XP_HELP">CL189</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL189:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Register bit StateTimestampNext_DP(stpreparedvsaer) is always 0, optimizing ...</font>
+<font color=#A52A2A>@W:<a href="@W:CL189:@XP_HELP">CL189</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL189:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Register bit StateTimestampNext_DP(sttimestampwrap) is always 0, optimizing ...</font>
+<font color=#A52A2A>@W:<a href="@W:CL189:@XP_HELP">CL189</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL189:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Register bit StateTimestampNext_DP(sttimestampreset) is always 0, optimizing ...</font>
+<font color=#A52A2A>@W:<a href="@W:CL189:@XP_HELP">CL189</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL189:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Register bit StateTimestampNext_DP(stidle) is always 0, optimizing ...</font>
+<font color=#A52A2A>@W:<a href="@W:CL260:@XP_HELP">CL260</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL260:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Pruning register bit 0 of StateTimestampNext_DP(0 to 12)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL260:@XP_HELP">CL260</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL260:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Pruning register bit 2 of StateTimestampNext_DP(0 to 12)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL260:@XP_HELP">CL260</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL260:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Pruning register bit 4 of StateTimestampNext_DP(0 to 12)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL260:@XP_HELP">CL260</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL260:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Pruning register bit 6 of StateTimestampNext_DP(0 to 12)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL260:@XP_HELP">CL260</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL260:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Pruning register bit 8 of StateTimestampNext_DP(0 to 12)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL279:@XP_HELP">CL279</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@W:CL279:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Pruning register bits 10 to 12 of StateTimestampNext_DP(0 to 12)  </font>
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd:369:2:369:4:@N:CL201:@XP_MSG">MultiplexerStateMachine.vhd(369)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 13 reachable states with original encodings of:
+   0000000000001
+   0000000000010
+   0000000000100
+   0000000001000
+   0000000010000
+   0000000100000
+   0000001000000
+   0000010000000
+   0000100000000
+   0001000000000
+   0010000000000
+   0100000000000
+   1000000000000
+<font color=#A52A2A>@W:<a href="@W:CL246:@XP_HELP">CL246</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd:15:2:15:21:@W:CL246:@XP_MSG">MultiplexerSPIConfig.vhd(15)</a><!@TM:1413205022> | Input port bits 31 to 1 of configparaminput_di(31 downto 0) are unused </font>
+<font color=#A52A2A>@W:<a href="@W:CL247:@XP_HELP">CL247</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\FifoMerger.vhd:16:2:16:19:@W:CL247:@XP_MSG">FifoMerger.vhd(16)</a><!@TM:1413205022> | Input port bit 1 of fifoin1control_si(1 downto 0) is unused </font>
+<font color=#A52A2A>@W:<a href="@W:CL247:@XP_HELP">CL247</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\FifoMerger.vhd:20:2:20:19:@W:CL247:@XP_MSG">FifoMerger.vhd(20)</a><!@TM:1413205022> | Input port bit 1 of fifoin2control_si(1 downto 0) is unused </font>
+<font color=#A52A2A>@W:<a href="@W:CL247:@XP_HELP">CL247</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\FifoMerger.vhd:24:2:24:19:@W:CL247:@XP_MSG">FifoMerger.vhd(24)</a><!@TM:1413205022> | Input port bit 1 of fifooutcontrol_si(1 downto 0) is unused </font>
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:172:2:172:4:@N:CL201:@XP_MSG">DVSAERStateMachine.vhd(172)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 6 reachable states with original encodings of:
+   000001
+   000010
+   000100
+   001000
+   010000
+   100000
+<font color=#A52A2A>@W:<a href="@W:CL247:@XP_HELP">CL247</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd:16:2:16:19:@W:CL247:@XP_MSG">DVSAERStateMachine.vhd(16)</a><!@TM:1413205022> | Input port bit 1 of outfifocontrol_si(1 downto 0) is unused </font>
+<font color=#A52A2A>@W:<a href="@W:CL246:@XP_HELP">CL246</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd:15:2:15:21:@W:CL246:@XP_MSG">DVSAERSPIConfig.vhd(15)</a><!@TM:1413205022> | Input port bits 31 to 5 of configparaminput_di(31 downto 0) are unused </font>
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:121:2:121:4:@N:CL201:@XP_MSG">FIFO.vhd(121)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 3 reachable states with original encodings of:
+   001
+   010
+   100
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:172:2:172:4:@N:CL201:@XP_MSG">MISCAERStateMachine.vhd(172)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 8 reachable states with original encodings of:
+   00000001
+   00000010
+   00000100
+   00001000
+   00010000
+   00100000
+   01000000
+   10000000
+<font color=#A52A2A>@W:<a href="@W:CL260:@XP_HELP">CL260</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:172:2:172:4:@W:CL260:@XP_MSG">MISCAERStateMachine.vhd(172)</a><!@TM:1413205022> | Pruning register bit 14 of OutFifoData_DO(14 downto 11)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL159:@XP_HELP">CL159</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd:15:2:15:19:@W:CL159:@XP_MSG">MISCAERStateMachine.vhd(15)</a><!@TM:1413205022> | Input OutFifoControl_SI is unused</font>
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:121:2:121:4:@N:CL201:@XP_MSG">FIFO.vhd(121)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 3 reachable states with original encodings of:
+   001
+   010
+   100
+<font color=#A52A2A>@W:<a href="@W:CL190:@XP_HELP">CL190</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd:86:2:86:4:@W:CL190:@XP_MSG">APSADCStateMachine.vhd(86)</a><!@TM:1413205022> | Optimizing register bit State_DP(stidle) to a constant 0</font>
+<font color=#A52A2A>@W:<a href="@W:CL169:@XP_HELP">CL169</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd:86:2:86:4:@W:CL169:@XP_MSG">APSADCStateMachine.vhd(86)</a><!@TM:1413205022> | Pruning register State_DP(stidle)  </font>
+<font color=#A52A2A>@W:<a href="@W:CL159:@XP_HELP">CL159</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd:12:2:12:10:@W:CL159:@XP_MSG">APSADCStateMachine.vhd(12)</a><!@TM:1413205022> | Input Clock_CI is unused</font>
+<font color=#A52A2A>@W:<a href="@W:CL159:@XP_HELP">CL159</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd:13:2:13:10:@W:CL159:@XP_MSG">APSADCStateMachine.vhd(13)</a><!@TM:1413205022> | Input Reset_RI is unused</font>
+<font color=#A52A2A>@W:<a href="@W:CL159:@XP_HELP">CL159</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd:16:2:16:19:@W:CL159:@XP_MSG">APSADCStateMachine.vhd(16)</a><!@TM:1413205022> | Input OutFifoControl_SI is unused</font>
+<font color=#A52A2A>@W:<a href="@W:CL159:@XP_HELP">CL159</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd:27:2:27:15:@W:CL159:@XP_MSG">APSADCStateMachine.vhd(27)</a><!@TM:1413205022> | Input APSADCData_DI is unused</font>
+<font color=#A52A2A>@W:<a href="@W:CL159:@XP_HELP">CL159</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd:28:2:28:19:@W:CL159:@XP_MSG">APSADCStateMachine.vhd(28)</a><!@TM:1413205022> | Input APSADCOverflow_SI is unused</font>
+<font color=#A52A2A>@W:<a href="@W:CL159:@XP_HELP">CL159</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd:34:2:34:17:@W:CL159:@XP_MSG">APSADCStateMachine.vhd(34)</a><!@TM:1413205022> | Input APSADCConfig_DI is unused</font>
+<font color=#A52A2A>@W:<a href="@W:CL246:@XP_HELP">CL246</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd:15:2:15:21:@W:CL246:@XP_MSG">APSADCSPIConfig.vhd(15)</a><!@TM:1413205022> | Input port bits 31 to 1 of configparaminput_di(31 downto 0) are unused </font>
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:121:2:121:4:@N:CL201:@XP_MSG">FIFO.vhd(121)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 3 reachable states with original encodings of:
+   001
+   010
+   100
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUStateMachine.vhd:805:2:805:4:@N:CL201:@XP_MSG">IMUStateMachine.vhd(805)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 29 reachable states with original encodings of:
+   00000000000000000000000000001
+   00000000000000000000000000010
+   00000000000000000000000000100
+   00000000000000000000000001000
+   00000000000000000000000010000
+   00000000000000000000000100000
+   00000000000000000000001000000
+   00000000000000000000010000000
+   00000000000000000000100000000
+   00000000000000000001000000000
+   00000000000000000010000000000
+   00000000000000000100000000000
+   00000000000000001000000000000
+   00000000000000010000000000000
+   00000000000000100000000000000
+   00000000000001000000000000000
+   00000000000010000000000000000
+   00000000000100000000000000000
+   00000000001000000000000000000
+   00000000010000000000000000000
+   00000000100000000000000000000
+   00000001000000000000000000000
+   00000010000000000000000000000
+   00000100000000000000000000000
+   00001000000000000000000000000
+   00010000000000000000000000000
+   00100000000000000000000000000
+   01000000000000000000000000000
+   10000000000000000000000000000
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUStateMachine.vhd:132:2:132:4:@N:CL201:@XP_MSG">IMUStateMachine.vhd(132)</a><!@TM:1413205022> | Trying to extract state machine for register I2CState_DP
+Extracted state machine for register I2CState_DP
+State machine has 10 reachable states with original encodings of:
+   0000000001
+   0000000010
+   0000000100
+   0000001000
+   0000010000
+   0000100000
+   0001000000
+   0010000000
+   0100000000
+   1000000000
+<font color=#A52A2A>@W:<a href="@W:CL247:@XP_HELP">CL247</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUStateMachine.vhd:18:2:18:19:@W:CL247:@XP_MSG">IMUStateMachine.vhd(18)</a><!@TM:1413205022> | Input port bit 1 of outfifocontrol_si(1 downto 0) is unused </font>
+<font color=#A52A2A>@W:<a href="@W:CL246:@XP_HELP">CL246</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd:15:2:15:21:@W:CL246:@XP_MSG">IMUSPIConfig.vhd(15)</a><!@TM:1413205022> | Input port bits 31 to 8 of configparaminput_di(31 downto 0) are unused </font>
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd:121:2:121:4:@N:CL201:@XP_MSG">FIFO.vhd(121)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 3 reachable states with original encodings of:
+   001
+   010
+   100
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseDetector.vhd:89:2:89:4:@N:CL201:@XP_MSG">PulseDetector.vhd(89)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 3 reachable states with original encodings of:
+   001
+   010
+   100
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerStateMachine.vhd:104:2:104:4:@N:CL201:@XP_MSG">ExtTriggerStateMachine.vhd(104)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 4 reachable states with original encodings of:
+   0001
+   0010
+   0100
+   1000
+<font color=#A52A2A>@W:<a href="@W:CL247:@XP_HELP">CL247</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerStateMachine.vhd:19:2:19:19:@W:CL247:@XP_MSG">ExtTriggerStateMachine.vhd(19)</a><!@TM:1413205022> | Input port bit 1 of outfifocontrol_si(1 downto 0) is unused </font>
+<font color=#A52A2A>@W:<a href="@W:CL246:@XP_HELP">CL246</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd:17:2:17:21:@W:CL246:@XP_MSG">ExtTriggerSPIConfig.vhd(17)</a><!@TM:1413205022> | Input port bits 31 to 24 of configparaminput_di(31 downto 0) are unused </font>
+@N:<a href="@N:CL201:@XP_HELP">CL201</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\SPIConfig.vhd:227:2:227:4:@N:CL201:@XP_MSG">SPIConfig.vhd(227)</a><!@TM:1413205022> | Trying to extract state machine for register State_DP
+Extracted state machine for register State_DP
+State machine has 4 reachable states with original encodings of:
+   0001
+   0010
+   0100
+   1000
+<font color=#A52A2A>@W:<a href="@W:CL159:@XP_HELP">CL159</a> : <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd:20:2:20:25:@W:CL159:@XP_MSG">TopLevel.vhd(20)</a><!@TM:1413205022> | Input SPIAlternativeSelect_SI is unused</font>
+@END
+
+At c_vhdl Exit (Real Time elapsed 0h:00m:05s; CPU Time elapsed 0h:00m:04s; Memory used current: 114MB peak: 136MB)
+
+Process took 0h:00m:05s realtime, 0h:00m:04s cputime
+# Mon Oct 13 14:57:03 2014
+
+###########################################################]
+Pre-mapping Report
+
+<a name=mapperReport2>Synopsys Lattice Technology Pre-mapping, Version maplat, Build 908R, Built Apr 16 2014 10:10:17</a>
+Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+Product Version I-2013.09L-SP1-1 
+
+Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 100MB)
+
+Linked File: <a href="E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC:@XP_FILE">FX3_OMC</a>
+Printing clock  summary report in "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\SeeBetterLogic_FX3_SeeBetterLogic_FX3_scck.rpt" file 
+@N:<a href="@N:MF248:@XP_HELP">MF248</a> : <!@TM:1413205028> | Running in 64-bit mode. 
+@N:<a href="@N:MF666:@XP_HELP">MF666</a> : <!@TM:1413205028> | Clock conversion enabled  
+
+Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 116MB peak: 118MB)
+
+
+Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 116MB peak: 118MB)
+
+
+Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 127MB peak: 127MB)
+
+
+Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 127MB peak: 129MB)
+
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\caviar2wsaer.vhd:48:3:48:5:@N:BN362:@XP_MSG">caviar2wsaer.vhd(48)</a><!@TM:1413205028> | Removing sequential instance alex[1:0] of view:PrimLib.dffr(prim) in hierarchy view:work.CAVIAR2WSAER(structural) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\caviar2wsaer.vhd:48:3:48:5:@N:BN362:@XP_MSG">caviar2wsaer.vhd(48)</a><!@TM:1413205028> | Removing sequential instance WSAER_data[17:0] of view:PrimLib.dffre(prim) in hierarchy view:work.CAVIAR2WSAER(structural) because there are no references to its outputs 
+@N:<a href="@N:BN115:@XP_HELP">BN115</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\logicclocksynchronizer.vhd:83:28:83:48:@N:BN115:@XP_MSG">logicclocksynchronizer.vhd(83)</a><!@TM:1413205028> | Removing instance syncSyncOutSwitch of view:work.DFFSynchronizerZ0_syncSyncOutSwitch(behavioral) because there are no references to its outputs 
+@N:<a href="@N:BN115:@XP_HELP">BN115</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\logicclocksynchronizer.vhd:90:26:90:46:@N:BN115:@XP_MSG">logicclocksynchronizer.vhd(90)</a><!@TM:1413205028> | Removing instance syncSyncInClock of view:work.DFFSynchronizerZ0_syncSyncInClock(behavioral) because there are no references to its outputs 
+@N:<a href="@N:BN115:@XP_HELP">BN115</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\logicclocksynchronizer.vhd:97:27:97:47:@N:BN115:@XP_MSG">logicclocksynchronizer.vhd(97)</a><!@TM:1413205028> | Removing instance syncSyncInSwitch of view:work.DFFSynchronizerZ0_syncSyncInSwitch(behavioral) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerstatemachine.vhd:172:2:172:4:@N:BN362:@XP_MSG">dvsaerstatemachine.vhd(172)</a><!@TM:1413205028> | Removing sequential instance DVSAERAck_SBO of view:PrimLib.dffs(prim) in hierarchy view:work.DVSAERStateMachine(behavioral) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\miscaerstatemachine.vhd:172:2:172:4:@N:BN362:@XP_MSG">miscaerstatemachine.vhd(172)</a><!@TM:1413205028> | Removing sequential instance MISCAERAck_SBO of view:PrimLib.dffs(prim) in hierarchy view:work.MISCAERStateMachine(behavioral) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\ext\fifo.vhd:121:2:121:4:@N:BN362:@XP_MSG">fifo.vhd(121)</a><!@TM:1413205028> | Removing sequential instance FifoControl_SO\.ReadSide\.AlmostEmpty_S of view:PrimLib.dffs(prim) in hierarchy view:work.FIFO_15_16_0_4_16_14_EBR_dvsAerFifo(structural) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\ext\fifo.vhd:121:2:121:4:@N:BN362:@XP_MSG">fifo.vhd(121)</a><!@TM:1413205028> | Removing sequential instance FifoControl_SO\.ReadSide\.AlmostEmpty_S of view:PrimLib.dffs(prim) in hierarchy view:work.FIFO_15_16_0_4_16_14_EBR_miscAerFifo(structural) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\dffsynchronizer.vhd:28:2:28:4:@N:BN362:@XP_MSG">dffsynchronizer.vhd(28)</a><!@TM:1413205028> | Removing sequential instance SyncSignalSyncFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncOutSwitch(behavioral) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\dffsynchronizer.vhd:28:2:28:4:@N:BN362:@XP_MSG">dffsynchronizer.vhd(28)</a><!@TM:1413205028> | Removing sequential instance SyncSignalSyncFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInClock(behavioral) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\dffsynchronizer.vhd:28:2:28:4:@N:BN362:@XP_MSG">dffsynchronizer.vhd(28)</a><!@TM:1413205028> | Removing sequential instance SyncSignalSyncFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInSwitch(behavioral) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\dffsynchronizer.vhd:28:2:28:4:@N:BN362:@XP_MSG">dffsynchronizer.vhd(28)</a><!@TM:1413205028> | Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncOutSwitch(behavioral) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\dffsynchronizer.vhd:28:2:28:4:@N:BN362:@XP_MSG">dffsynchronizer.vhd(28)</a><!@TM:1413205028> | Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInClock(behavioral) because there are no references to its outputs 
+@N:<a href="@N:BN362:@XP_HELP">BN362</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\dffsynchronizer.vhd:28:2:28:4:@N:BN362:@XP_MSG">dffsynchronizer.vhd(28)</a><!@TM:1413205028> | Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInSwitch(behavioral) because there are no references to its outputs 
+<font color=#A52A2A>@W:<a href="@W:MT462:@XP_HELP">MT462</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\mullercelement.vhd:44:1:44:5:@W:MT462:@XP_MSG">mullercelement.vhd(44)</a><!@TM:1413205028> | Net OMCellSM.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </font>
+syn_allowed_resources : blockrams=240  set on top level netlist TopLevel
+
+
+<a name=mapperReport3>Clock Summary</a>
+**************
+
+Start                              Requested      Requested     Clock        Clock                
+Clock                              Frequency      Period        Type         Group                
+--------------------------------------------------------------------------------------------------
+PLL|OutClock_CO_inferred_clock     59.2 MHz       16.893        inferred     Autoconstr_clkgroup_0
+System                             1251.7 MHz     0.799         system       system_clkgroup      
+TopLevel|USBClock_CI               243.6 MHz      4.104         inferred     Autoconstr_clkgroup_1
+==================================================================================================
+
+<font color=#A52A2A>@W:<a href="@W:MT531:@XP_HELP">MT531</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\mullercelement.vhd:44:1:44:5:@W:MT531:@XP_MSG">mullercelement.vhd(44)</a><!@TM:1413205028> | Found signal identified as System clock which controls 1 sequential elements including OMCellSM.AcknowledgeCElement.Cout.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. </font>
+<font color=#A52A2A>@W:<a href="@W:MT529:@XP_HELP">MT529</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd:51:3:51:5:@W:MT529:@XP_MSG">wsaer2caviar2.vhd(51)</a><!@TM:1413205028> | Found inferred clock PLL|OutClock_CO_inferred_clock which controls 5559 sequential elements including BWSAER2CAVIAR.CAVIAR_data[16:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. </font>
+<font color=#A52A2A>@W:<a href="@W:MT529:@XP_HELP">MT529</a> : <a href="e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\resetsynchronizer.vhd:26:2:26:4:@W:MT529:@XP_MSG">resetsynchronizer.vhd(26)</a><!@TM:1413205028> | Found inferred clock TopLevel|USBClock_CI which controls 107 sequential elements including syncInputsToUSBClock.syncReset.SyncSignalDemetFF_S. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. </font>
+
+Pre-mapping successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:03s; Memory used current: 107MB peak: 175MB)
+
+Process took 0h:00m:03s realtime, 0h:00m:03s cputime
+# Mon Oct 13 14:57:08 2014
+
+###########################################################]
+Map & Optimize Report
+
+
+</pre></samp></body></html>

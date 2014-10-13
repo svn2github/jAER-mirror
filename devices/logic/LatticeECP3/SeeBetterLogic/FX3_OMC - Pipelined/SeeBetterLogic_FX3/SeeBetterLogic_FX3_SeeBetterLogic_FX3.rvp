@@ -1,0 +1,81 @@
+#-- Lattice Semiconductor Corporation Ltd.
+#-- Bali Reveal project file
+
+#device options
+[Device]
+part = LFE3-17EA-7FTN256I
+family = LatticeECP3
+device = LFE3-17EA
+speed = 7
+package = FTBGA256
+operation = Industrial
+
+#design options
+[Design]
+title = SeeBetterLogic_FX3
+path = E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3
+core_generate = E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3
+search_path = E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC
+top = TopLevel
+lpf = E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.lpf
+synthesis = synplify
+
+#HDLs options
+[HDLs]
+C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/pmi_def.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ext/FIFORecords.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ext/FIFODualClock.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ext/FIFO.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ext/PLL.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/ChangeDetector.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/DFFSynchronizer.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/ResetSynchronizer.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/SimpleRegister.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/BufferClear.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/ContinuousCounter.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/ShiftRegister.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/ShiftRegisterModes.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/EdgeDetector.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/PulseGenerator.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/PulseDetector.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/TopLevel.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/Settings.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/LogicClockSynchronizer.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3USBClockSynchronizer.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3StateMachine.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/MultiplexerStateMachine.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/MultiplexerConfigRecords.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/MultiplexerSPIConfig.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/TimestampGenerator.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/DVSAERStateMachine.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/DVSAERConfigRecords.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/DVSAERSPIConfig.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/APSADCStateMachine.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/APSADCConfigRecords.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/APSADCSPIConfig.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/IMUStateMachine.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/IMUConfigRecords.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/IMUSPIConfig.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/EventCodes.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ExtTriggerSPIConfig.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ExtTriggerConfigRecords.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ExtTriggerStateMachine.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/SPIConfig.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ChipBiasConfigRecords.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ChipBiasStateMachine.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ChipBiasSPIConfig.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/WSAER2CAVIAR2.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/CAVIAR2WSAER.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/latch3.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/FifoMerger.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/MullerCelement.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCell.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCell_tb.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCellConfigRecords.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCellSPIConfig.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3ConfigRecords.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3SPIConfig.vhd = VHDL, work
+E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/MISCAERStateMachine.vhd = VHDL, work
+[HDL_Defines]
+SBP_SYNTHESIS=
+[HDL_Param]

@@ -1,0 +1,11 @@
+#--  Synopsys, Inc.
+#--  Version I-2013.09L-SP1-1 
+#--  Project file E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\SeeBetterLogic_FX3_syn.prd
+#
+### Watch Implementation type ###
+#
+watch_impl -all
+#
+### Watch Implementation properties ###
+#
+watch_prop -clear

@@ -1,0 +1,64 @@
+Synopsys Lattice Technology Pre-mapping, Version maplat, Build 908R, Built Apr 16 2014 10:10:17
+Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+Product Version I-2013.09L-SP1-1 
+
+Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 100MB)
+
+@L: E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\SeeBetterLogic_FX3_scck.rpt 
+Printing clock  summary report in "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\SeeBetterLogic_FX3_scck.rpt" file 
+@N: MF248 |Running in 64-bit mode.
+@N: MF666 |Clock conversion enabled 
+
+Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 113MB peak: 116MB)
+
+
+Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 113MB peak: 116MB)
+
+
+Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 125MB peak: 125MB)
+
+
+Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 125MB peak: 127MB)
+
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\caviar2wsaer.vhd":48:3:48:4|Removing sequential instance alex[1:0] of view:PrimLib.dffr(prim) in hierarchy view:work.CAVIAR2WSAER(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\caviar2wsaer.vhd":48:3:48:4|Removing sequential instance WSAER_data[17:0] of view:PrimLib.dffre(prim) in hierarchy view:work.CAVIAR2WSAER(structural) because there are no references to its outputs 
+@N: BN115 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\logicclocksynchronizer.vhd":83:28:83:47|Removing instance syncSyncOutSwitch of view:work.DFFSynchronizerZ0_syncSyncOutSwitch(behavioral) because there are no references to its outputs 
+@N: BN115 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\logicclocksynchronizer.vhd":90:26:90:45|Removing instance syncSyncInClock of view:work.DFFSynchronizerZ0_syncSyncInClock(behavioral) because there are no references to its outputs 
+@N: BN115 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\logicclocksynchronizer.vhd":97:27:97:46|Removing instance syncSyncInSwitch of view:work.DFFSynchronizerZ0_syncSyncInSwitch(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Removing sequential instance DVSAERAck_SBO of view:PrimLib.dffs(prim) in hierarchy view:work.DVSAERStateMachine(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\miscaerstatemachine.vhd":200:2:200:3|Removing sequential instance MISCAERAck_SBO of view:PrimLib.dffs(prim) in hierarchy view:work.MISCAERStateMachine(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\fifo.vhd":121:2:121:3|Removing sequential instance FifoControl_SO\.ReadSide\.AlmostEmpty_S of view:PrimLib.dffs(prim) in hierarchy view:work.FIFO_15_16_0_4_16_14_EBR_dvsAerFifo(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\fifo.vhd":121:2:121:3|Removing sequential instance FifoControl_SO\.ReadSide\.AlmostEmpty_S of view:PrimLib.dffs(prim) in hierarchy view:work.FIFO_15_16_0_4_16_14_EBR_miscAerFifo(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalSyncFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncOutSwitch(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalSyncFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInClock(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalSyncFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInSwitch(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncOutSwitch(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInClock(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInSwitch(behavioral) because there are no references to its outputs 
+@W: MT462 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\mullercelement.vhd":44:1:44:4|Net OMCellSM.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. 
+syn_allowed_resources : blockrams=38  set on top level netlist TopLevel
+
+
+Clock Summary
+**************
+
+Start                              Requested      Requested     Clock        Clock                
+Clock                              Frequency      Period        Type         Group                
+--------------------------------------------------------------------------------------------------
+PLL|OutClock_CO_inferred_clock     59.2 MHz       16.893        inferred     Autoconstr_clkgroup_0
+System                             1251.7 MHz     0.799         system       system_clkgroup      
+TopLevel|USBClock_CI               243.6 MHz      4.104         inferred     Autoconstr_clkgroup_1
+==================================================================================================
+
+@W: MT531 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\mullercelement.vhd":44:1:44:4|Found signal identified as System clock which controls 1 sequential elements including OMCellSM.AcknowledgeCElement.Cout.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. 
+@W: MT529 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Found inferred clock PLL|OutClock_CO_inferred_clock which controls 5609 sequential elements including BWSAER2CAVIAR.CAVIAR_data[16:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\resetsynchronizer.vhd":26:2:26:3|Found inferred clock TopLevel|USBClock_CI which controls 107 sequential elements including syncInputsToUSBClock.syncReset.SyncSignalDemetFF_S. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+
+Pre-mapping successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:03s; Memory used current: 99MB peak: 167MB)
+
+Process took 0h:00m:03s realtime, 0h:00m:03s cputime
+# Mon Oct 13 14:00:21 2014
+
+###########################################################]

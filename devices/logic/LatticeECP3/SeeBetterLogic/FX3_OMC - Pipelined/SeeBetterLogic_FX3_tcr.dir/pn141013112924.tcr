@@ -1,0 +1,4 @@
+#Start recording tcl command: 10/13/2014 11:26:06
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+#Stop recording: 10/13/2014 11:29:24

@@ -1,0 +1,7 @@
+#Start recording tcl command: 10/13/2014 11:49:17
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/Reveal_OMC.rvl"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/OMC/OMC.spf"
+#Stop recording: 10/13/2014 11:50:04

@@ -1,0 +1,5 @@
+@E: CD126 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\MISCAERStateMachine.vhd":27:2:27:2|Expecting identifier
+@E: CD255 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\MISCAERStateMachine.vhd":63:36:63:36|No identifier "dvsaerconfigreg_d" in scope
+@E: CD415 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\MISCAERStateMachine.vhd":67:34:67:34|Expecting keyword is
+@E|Parse errors encountered - exiting
+
