@@ -11,7 +11,7 @@ entity MISCAERStateMachine is
 	port(
 		Clock_CI          : in  std_logic;
 		Reset_RI          : in  std_logic;
-
+ 
 		-- Fifo output (to Multiplexer)
 		OutFifoControl_SI : in  tFromFifoWriteSide;
 		OutFifoControl_SO : out tToFifoWriteSide;
@@ -19,16 +19,17 @@ entity MISCAERStateMachine is
 
 		MISCAERData_DI     : in  std_logic_vector(MISC_OBT_AER_BUS_WIDTH - 1 downto 0);
 		MISCAERReq_SBI     : in  std_logic;
-		MISCAERAck_SBO     : out std_logic;
-		MISCAERReset_SBO   : out std_logic;
+		MISCAERAck_SBO     : out std_logic
+	--	MISCAERReset_SBO   : out std_logic
 
 		-- Configuration input
 		--DVSAERConfig_DI   : in  tDVSAERConfig
 		);
 end MISCAERStateMachine;
 
-architecture Behavioral of MISCAERStateMachine is
+architecture Behavioral of MISCAERStateMachine is 
 	attribute syn_enum_encoding : string;
+	
 	type state is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleMISC, stWaitMISC, stHandleX, stAckX);
 	attribute syn_enum_encoding of state : type is "onehot";
 
@@ -48,36 +49,36 @@ architecture Behavioral of MISCAERStateMachine is
 
 	-- Register outputs to DVS.
 	signal MISCAERAckReg_SB   : std_logic;
-	signal MISCAERResetReg_SB : std_logic;
+	--signal MISCAERResetReg_SB : std_logic;
 
 --	signal DVSAERConfigReg_D : tDVSAERConfig;
 begin
-	ackDelayCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => 5)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => ackDelayCount_S,
-			DataLimit_DI => DVSAERConfigReg_D.AckDelay_D,
-			Overflow_SO  => ackDelayNotify_S,
-			Data_DO      => open);
+	--ackDelayCounter : entity work.ContinuousCounter
+		--generic map(
+			--SIZE => 5)
+		--port map(
+			--Clock_CI     => Clock_CI,
+			--Reset_RI     => Reset_RI,
+			--Clear_SI     => '0',
+			--Enable_SI    => ackDelayCount_S,
+			--DataLimit_DI => DVSAERConfigReg_D.AckDelay_D,
+			--Overflow_SO  => ackDelayNotify_S,
+			--Data_DO      => open);
 
-	ackExtensionCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => 5)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => ackExtensionCount_S,
-			DataLimit_DI => DVSAERConfigReg_D.AckExtension_D,
-			Overflow_SO  => ackExtensionNotify_S,
-			Data_DO      => open);
+	--ackExtensionCounter : entity work.ContinuousCounter
+		--generic map(
+			--SIZE => 5)
+		--port map(
+			--Clock_CI     => Clock_CI,
+			--Reset_RI     => Reset_RI,
+			--Clear_SI     => '0',
+			--Enable_SI    => ackExtensionCount_S,
+			--DataLimit_DI => DVSAERConfigReg_D.AckExtension_D,
+			--Overflow_SO  => ackExtensionNotify_S,
+			--Data_DO      => open);
 
 	p_memoryless : process(State_DP, OutFifoControl_SI, MISCAERReq_SBI, MISCAERData_DI, ackDelayNotify_S, ackExtensionNotify_S)
-	begin
+	begin 
 		State_DN <= State_DP;           -- Keep current state by default.
 
 		OutFifoWriteReg_S      <= '0';
@@ -85,7 +86,7 @@ begin
 		OutFifoDataReg_D       <= (others => '0');
 
 		MISCAERAckReg_SB   <= '1';       -- No AER ACK by default.
-		MISCAERResetReg_SB <= '1';       
+		--MISCAERResetReg_SB <= '1';       
 
 		ackDelayCount_S     <= '0';
 		ackExtensionCount_S <= '0';
@@ -99,10 +100,10 @@ begin
 						-- If output fifo full, just wait for it to be empty.
 						State_DN <= stDifferentiateYX;
 					end if;
-				else
+				--else
 					-- Keep the DVS in reset if data producer turned off.
-					MISCAERResetReg_SB <= '0';
-				end if;
+				--	MISCAERResetReg_SB <= '0';
+				--end if;
 
 			when stDifferentiateYX =>
 				-- Get data and format it. AER(9) holds the axis.
@@ -147,7 +148,7 @@ begin
 			when stHandleMISC =>
 				-- We might need to delay the ACK.
 				--if ackDelayNotify_S = '1' then
-					OutFifoDataReg_D       <= EVENT_CODE_MISC_DATA8 & "1000" & MISCAERData_DI(17 downto 10);
+					OutFifoDataReg_D       <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_OMC & MISCAERData_DI(17 downto 10);
 					OutFifoDataRegEnable_S <= '1';
 					OutFifoWriteReg_S      <= '1';
 
@@ -203,7 +204,7 @@ begin
 			OutFifoData_DO            <= (others => '0');
 
 			MISCAERAck_SBO   <= '1';
-			MISCAERReset_SBO <= '0';
+	--		MISCAERReset_SBO <= '0';
 
 			--DVSAERConfigReg_D <= tDVSAERConfigDefault;
 		elsif rising_edge(Clock_CI) then
@@ -215,7 +216,7 @@ begin
 			end if;
 
 			MISCAERAck_SBO   <= MISCAERAckReg_SB;
-			MISCAERReset_SBO <= MISCAERResetReg_SB;
+	--		MISCAERReset_SBO <= MISCAERResetReg_SB;
 
 			--DVSAERConfigReg_D <= DVSAERConfig_DI;
 		end if;
