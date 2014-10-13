@@ -53,7 +53,7 @@ end ObjectMotionCell;
 --------------------------------------------------------------------------------
 architecture Behavioural of ObjectMotionCell is
 	-- States
-    type tst is (Idle, ReadAndUpdate, ExcitationCalculate, ExcitationNormalise, InhibitionCalculate1, InhibitionCalculate2, InhibitionSum, InhibitionNormalise, SubtractionCalculate, MultiplyDT, VmembraneCalculate, Fire, Acknowledge, Decay);
+    type tst is (Idle, ReadAndUpdate, ExcitationCalculate, ExcitationNormalise, InhibitionCalculate1, InhibitionCalculate2, InhibitionCalculate3, InhibitionCalculate4, InhibitionSum, InhibitionNormalise, SubtractionCalculate, MultiplyDT, VmembraneCalculate, Fire, Acknowledge, Decay);
 	signal State_DP, State_DN: tst; -- Current state and Next state
 
 	-- Signals
@@ -61,6 +61,8 @@ architecture Behavioural of ObjectMotionCell is
 	signal	Inhibition_S	: unsigned (24 downto 0); -- Inhibition	of periphery
 	signal	Inhibition1_S	: unsigned (24 downto 0); -- Inhibition	of periphery
 	signal	Inhibition2_S	: unsigned (24 downto 0); -- Inhibition	of periphery
+	signal	Inhibition3_S	: unsigned (24 downto 0); -- Inhibition	of periphery
+	signal	Inhibition4_S	: unsigned (24 downto 0); -- Inhibition	of periphery
 	signal	Subtraction_S	: unsigned (24 downto 0); -- Subtraction of inhibition from excitation
 	signal	SubtractionTimesDT_S : unsigned (24 downto 0); -- Multiply the DT times the previous subtraction
 	signal	MembranePotential_S  : unsigned (24 downto 0); -- Membrane potential 
@@ -138,6 +140,8 @@ variable TemporalVariable1 : unsigned(24 downto 0);
 variable TemporalVariable2 : unsigned(24 downto 0);
 variable TemporalVariable3 : unsigned(24 downto 0);
 variable TemporalVariable4 : unsigned(49 downto 0);
+variable TemporalVariable5 : unsigned(24 downto 0);
+variable TemporalVariable6 : unsigned(24 downto 0);
 begin
 	-- External reset	
 	if (Reset_RI = '1') then
@@ -149,6 +153,8 @@ begin
 		Inhibition_S <= (others => '0');
 		Inhibition1_S <= (others => '0');
 		Inhibition2_S <= (others => '0');
+		Inhibition3_S <= (others => '0');
+		Inhibition4_S <= (others => '0');
 		TimeBetween2Events_S <= (others => '0');
 		MembranePotential_S <= (others => '0');
 		Subtraction_S <= (others => '0');
@@ -204,7 +210,7 @@ begin
 
 			when InhibitionCalculate1 =>
 				TemporalVariable2 := (others => '0');
-				for i in 0 to 7 loop
+				for i in 4 to 7 loop
 					for j in 0 to 15 loop
 						if ((i >= 7) and (i <= 8) and (j >= 7) and (j <= 8)) then
 							null;
@@ -217,7 +223,7 @@ begin
 				
 			when InhibitionCalculate2 =>
 				TemporalVariable3 := (others => '0');
-				for i in 8 to 15 loop
+				for i in 8 to 11 loop
 					for j in 0 to 15 loop
 						if ((i >= 7) and (i <= 8) and (j >= 7) and (j <= 8)) then
 							null;
@@ -228,13 +234,41 @@ begin
 				end loop; -- i
 				Inhibition2_S <= (TemporalVariable3 + 2);
 				
+			when InhibitionCalculate3 =>
+				TemporalVariable5 := (others => '0');
+				for i in 12 to 15 loop
+					for j in 0 to 15 loop
+						if ((i >= 7) and (i <= 8) and (j >= 7) and (j <= 8)) then
+							null;
+						else
+							TemporalVariable5 := TemporalVariable5 + ("000000000" & arrayOfSubunits(i,j)); -- Find the right half of Inhibition
+						end if;
+					end loop; -- j
+				end loop; -- i
+				Inhibition3_S <= (TemporalVariable5);
+				
+			when InhibitionCalculate4 =>
+				TemporalVariable6 := (others => '0');
+				for i in 0 to 3 loop
+					for j in 0 to 15 loop
+						if ((i >= 7) and (i <= 8) and (j >= 7) and (j <= 8)) then
+							null;
+						else
+							TemporalVariable6 := TemporalVariable6 + ("000000000" & arrayOfSubunits(i,j)); -- Find the right half of Inhibition
+						end if;
+					end loop; -- j
+				end loop; -- i
+				Inhibition4_S <= (TemporalVariable6);
+				
 			when InhibitionSum =>
-				Inhibition_S <= Inhibition1_S + Inhibition2_S; -- Find the total Inhibition
+				Inhibition_S <= Inhibition1_S + Inhibition2_S + Inhibition3_S + Inhibition4_S; -- Find the total Inhibition
 
 			when InhibitionNormalise =>
 				Inhibition_S <= ("00000000" & Inhibition_S(24 downto 8)) - 1; -- Divide by 256 to normalise approximately (shift by 6 bits)
 				Inhibition1_S <= (others => '0');
 				Inhibition2_S <= (others => '0');
+				Inhibition3_S <= (others => '0');
+				Inhibition4_S <= (others => '0');
 
 			when SubtractionCalculate =>
 				if (Excitation_S >= Inhibition_S) then
@@ -307,6 +341,12 @@ begin
 			State_DN <= InhibitionCalculate2;
 			
 		when InhibitionCalculate2 =>
+			State_DN <= InhibitionCalculate3;
+			
+		when InhibitionCalculate3 =>
+			State_DN <= InhibitionCalculate4;
+			
+		when InhibitionCalculate4 =>
 			State_DN <= InhibitionSum;
 			
 		when InhibitionSum =>

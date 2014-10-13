@@ -14,13 +14,82 @@ prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/S
 
 
 
-<A name="pn141009154056"></A><B><U><big>pn141009154056</big></U></B>
-#Start recording tcl command: 10/9/2014 15:37:02
+<A name="pn141013112550"></A><B><U><big>pn141013112550</big></U></B>
+#Start recording tcl command: 10/13/2014 10:58:22
 #Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
 prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/Reveal_OMC.rvl"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+#Stop recording: 10/13/2014 11:25:50
+
+
+
+<A name="pn141013112924"></A><B><U><big>pn141013112924</big></U></B>
+#Start recording tcl command: 10/13/2014 11:26:06
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+#Stop recording: 10/13/2014 11:29:24
+
+
+
+<A name="pn141013114906"></A><B><U><big>pn141013114906</big></U></B>
+#Start recording tcl command: 10/13/2014 11:31:04
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_strgy set_value -strategy Strategy1 syn_vhdl2008=False
+prj_strgy set_value -strategy Strategy1 syn_vhdl2008=True
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/Reveal_OMC.rvl"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/OMC/OMC.spf"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+#Stop recording: 10/13/2014 11:49:06
+
+
+
+<A name="pn141013115004"></A><B><U><big>pn141013115004</big></U></B>
+#Start recording tcl command: 10/13/2014 11:49:17
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/Reveal_OMC.rvl"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/OMC/OMC.spf"
+#Stop recording: 10/13/2014 11:50:04
+
+
+
+<A name="pn141013135334"></A><B><U><big>pn141013135334</big></U></B>
+#Start recording tcl command: 10/13/2014 11:50:18
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+launch_synplify_prj SeeBetterLogic_FX3
+launch_synplify_prj SeeBetterLogic_FX3
+prj_strgy set_value -strategy Strategy1 syn_export_setting=Yes
+launch_synplify_prj SeeBetterLogic_FX3
+prj_run Map -impl SeeBetterLogic_FX3
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+#Stop recording: 10/13/2014 13:53:34
+
+
+
+<A name="pn141013140229"></A><B><U><big>pn141013140229</big></U></B>
+#Start recording tcl command: 10/13/2014 13:56:34
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+launch_synplify_prj SeeBetterLogic_FX3
+#Stop recording: 10/13/2014 14:02:29
+
+
+
+<A name="pn141013141350"></A><B><U><big>pn141013141350</big></U></B>
+#Start recording tcl command: 10/13/2014 14:05:41
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
 prj_project save
 prj_project close
-#Stop recording: 10/9/2014 15:40:56
+#Stop recording: 10/13/2014 14:13:50
 
 
 

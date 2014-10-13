@@ -242,34 +242,6 @@ begin
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
---	-- Top entity that gather a Background Activity Filter and x4 object Trackers. The output can be enabled or passthrogh for any component. 
---	-- It is not possible to join together both DVS traffic and this filters traffic.
---	BFilters : entity work.BGF_OBT_top
---		port map(
---			aer_in_data   => CAVIAR_data,
---			aer_in_req_l  => CAVIAR_req,
---			aer_in_ack_l  => CAVIAR_ack_aux,
---			aer_out_data  => tCAVIARo_data,
---			aer_out_req_l => tCAVIARo_req,
---			aer_out_ack_l => tCAVIARo_ack,
---			rst_l         => LogicReset_R,
---			clk50         => LogicClock_C,
---			CLK           => SPIClockSync_C,
---			DATA          => SPIMOSISync_D,
---			LATCH         => SPIAlternativeSelect_SI,
---			spi_data      => spi_data,
---			spi_address   => spi_address,
---			spi_wr        => spi_wr,
---			BGAF_en       => BGAFen,
---			WS2CAVIAR_en  => WS2CAVIAR_en,
---			DAVIS_en      => DAVIS_en,
---			OT_ACTIVE     => ot_active,
---			LED           => led);
---	CAVIARo_data <= tCAVIARo_data when (BGAFen = '1') else x"00" & CAVIAR_data;
---	CAVIARo_req  <= tCAVIARo_req when (BGAFen = '1') else CAVIAR_req;
---	tCAVIARo_ack <= CAVIARo_ack when (BGAFen = '1') else '1';
---	CAVIAR_ack   <= CAVIAR_ack_aux when (BGAFen = '1') else CAVIARo_ack;
-
 	-- PAER CAVIAR to WordSerial converter. If two consecutive PAER arrives with the same x address, only a y event is sent.
 	BCAVIAR2WSAER : entity work.CAVIAR2WSAER
 		port map(
@@ -577,11 +549,9 @@ begin
 			OutFifoControl_SI => MISCAERFifoControlOut_S.WriteSide,
 			OutFifoControl_SO => MISCAERFifoControlIn_S.WriteSide,
 			OutFifoData_DO    => MISCAERFifoDataIn_D,
-			MISCAERData_DI     => WSAER_data, --DVSAERData_AI, --
-			MISCAERReq_SBI     => WSAER_req, --DVSAERReqSync_SB, --
-			MISCAERAck_SBO     => WSAER_ack --DVSAERAck_SBO, --
-			--MISCAERReset_SBO   => MISCAERReset_SBO,
-			--MISCAERConfig_DI   => MISCAERConfig_D
+			MISCAERData_DI     => WSAER_data,
+			MISCAERReq_SBI     => WSAER_req,
+			MISCAERAck_SBO     => WSAER_ack
 			);
 
 	apsAdcFifo : entity work.FIFO

@@ -1,6 +1,5 @@
-@E: CD255 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":32:46:32:46|No identifier "tfx3config" in scope
-@E: CD255 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":54:95:54:95|No identifier "tfx3config" in scope
-@E: CD415 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":75:33:75:33|Expecting keyword is
-@E: CD632 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":89:33:89:33|duplicate entity name work
+@E: CD126 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\MISCAERStateMachine.vhd":27:2:27:2|Expecting identifier
+@E: CD255 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\MISCAERStateMachine.vhd":63:36:63:36|No identifier "dvsaerconfigreg_d" in scope
+@E: CD415 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\MISCAERStateMachine.vhd":67:34:67:34|Expecting keyword is
 @E|Parse errors encountered - exiting
 

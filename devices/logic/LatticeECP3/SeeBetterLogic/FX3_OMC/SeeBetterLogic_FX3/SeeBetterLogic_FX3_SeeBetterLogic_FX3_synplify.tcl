@@ -22,7 +22,7 @@ set_option -disable_io_insertion false
 set_option -retiming false; set_option -pipe true
 set_option -force_gsr false
 set_option -compiler_compatible 0
-set_option -dup 1
+set_option -dup false
 
 set_option -default_enum_encoding default
 
@@ -43,14 +43,61 @@ set_option -resolve_multiple_driver 0
 set_option -vhdl2008 1
 
 #-- add_file options
-set_option -include_path {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC}
-add_file -verilog {C:/lscc/diamond/3.2_x64/cae_library/synthesis/verilog/pmi_def.v}
-add_file -verilog {C:/lscc/diamond/3.2_x64/module/reveal/src/ertl/ertl.v}
-add_file -verilog {C:/lscc/diamond/3.2_x64/module/reveal/src/rvl_j2w_module/rvl_j2w_module.v}
-add_file -verilog {C:/lscc/diamond/3.2_x64/module/reveal/src/rvl_j2w_module/wb2sci.v}
-add_file -verilog {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3/reveal_workspace/tmpreveal/toplevel_la0_trig_gen.v}
-add_file -verilog {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3/reveal_workspace/tmpreveal/toplevel_la0_gen.v}
-add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3/reveal_workspace/tmpreveal/TopLevel_rvl_top.vhd}
+add_file -vhdl {C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/ecp3.vhd}
+add_file -vhdl -lib "work" {C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/pmi_def.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ext/FIFORecords.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ext/FIFODualClock.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ext/FIFO.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ext/PLL.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/ChangeDetector.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/DFFSynchronizer.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/ResetSynchronizer.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/SimpleRegister.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/BufferClear.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/ContinuousCounter.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/ShiftRegister.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/ShiftRegisterModes.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/EdgeDetector.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/PulseGenerator.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/PulseDetector.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/TopLevel.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/Settings.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/LogicClockSynchronizer.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3USBClockSynchronizer.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3StateMachine.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/MultiplexerStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/MultiplexerConfigRecords.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/MultiplexerSPIConfig.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/TimestampGenerator.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/DVSAERStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/DVSAERConfigRecords.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/DVSAERSPIConfig.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/APSADCStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/APSADCConfigRecords.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/APSADCSPIConfig.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/IMUStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/IMUConfigRecords.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/IMUSPIConfig.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/EventCodes.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ExtTriggerSPIConfig.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ExtTriggerConfigRecords.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ExtTriggerStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/SPIConfig.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ChipBiasConfigRecords.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ChipBiasStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ChipBiasSPIConfig.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/WSAER2CAVIAR2.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/CAVIAR2WSAER.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/latch3.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/FifoMerger.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/MullerCelement.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCell.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCell_tb.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCellConfigRecords.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCellSPIConfig.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3ConfigRecords.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3SPIConfig.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/MISCAERStateMachine.vhd}
 
 #-- top module name
 set_option -top_module TopLevel

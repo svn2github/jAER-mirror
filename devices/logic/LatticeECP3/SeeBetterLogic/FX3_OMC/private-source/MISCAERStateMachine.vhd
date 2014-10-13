@@ -3,7 +3,6 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.EventCodes.all;
 use work.FIFORecords.all;
---use work.DVSAERConfigRecords.all;
 
 entity MISCAERStateMachine is
 	generic(
@@ -20,10 +19,6 @@ entity MISCAERStateMachine is
 		MISCAERData_DI     : in  std_logic_vector(MISC_OBT_AER_BUS_WIDTH - 1 downto 0);
 		MISCAERReq_SBI     : in  std_logic;
 		MISCAERAck_SBO     : out std_logic
-	--	MISCAERReset_SBO   : out std_logic
-
-		-- Configuration input
-		--DVSAERConfig_DI   : in  tDVSAERConfig
 		);
 end MISCAERStateMachine;
 
@@ -53,29 +48,6 @@ architecture Behavioral of MISCAERStateMachine is
 
 --	signal DVSAERConfigReg_D : tDVSAERConfig;
 begin
-	--ackDelayCounter : entity work.ContinuousCounter
-		--generic map(
-			--SIZE => 5)
-		--port map(
-			--Clock_CI     => Clock_CI,
-			--Reset_RI     => Reset_RI,
-			--Clear_SI     => '0',
-			--Enable_SI    => ackDelayCount_S,
-			--DataLimit_DI => DVSAERConfigReg_D.AckDelay_D,
-			--Overflow_SO  => ackDelayNotify_S,
-			--Data_DO      => open);
-
-	--ackExtensionCounter : entity work.ContinuousCounter
-		--generic map(
-			--SIZE => 5)
-		--port map(
-			--Clock_CI     => Clock_CI,
-			--Reset_RI     => Reset_RI,
-			--Clear_SI     => '0',
-			--Enable_SI    => ackExtensionCount_S,
-			--DataLimit_DI => DVSAERConfigReg_D.AckExtension_D,
-			--Overflow_SO  => ackExtensionNotify_S,
-			--Data_DO      => open);
 
 	p_memoryless : process(State_DP, OutFifoControl_SI, MISCAERReq_SBI, MISCAERData_DI, ackDelayNotify_S, ackExtensionNotify_S)
 	begin 
