@@ -42,11 +42,11 @@ entity USBAER_top_level is
 		
 		-- ports to synchronize other USBAER boards
 		SyncInCLKxABI   : in  std_logic;    -- Pin T2. Input for 10kHz clock. Used when the DVS is slave
-		SyncInSIGxSBO   : in  std_logic;	-- Pin T4. Input 2. Used when the DVS is slave
+		SyncInSIGxABI   : in  std_logic;	-- Pin T4. Input 2. Used when the DVS is slave
 		SyncInSWxEI   	: in  std_logic;	-- Pin T3. Says to the host that a cable is attached, so the DVS is a slave.
 		SyncOutCLKxCBO 	: out std_logic;	-- Pin T13. Generates a 10kHz clock when the DVS is Master
-		SyncOutSIGxSBI 	: out std_logic;	-- Pin P12. 
-		SyncOutSWxEI 	: out std_logic;	-- Pin P11. Says to the Host a cable is attached, so the DVS is Master
+		SyncOutSIGxSBO 	: out std_logic;	-- Pin P12. 
+		SyncOutSWxEI 	: in std_logic;	-- Pin P11. Says to the Host a cable is attached, so the DVS is Master
 
 		-- communication with 8051   
 		PC0xSIO  : inout  std_logic;
@@ -966,7 +966,7 @@ ADCovrxS <= ADCovrxSI;
 	LED2xSO <= IncEventCounterxS; 
 	LED3xSO <= FX2FifoPktEndxSB; 
 		
-	
+	SyncOutSIGxSBO <= '0';
 end Structural;
 
 
