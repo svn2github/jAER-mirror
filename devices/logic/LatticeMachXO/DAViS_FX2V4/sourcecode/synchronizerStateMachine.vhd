@@ -11,10 +11,9 @@
 -- Description: to synchronize several USBAERmini2 boards
 --
 --------------------------------------------------------------------------------
-library IEEE;
-use IEEE.STD_LOGIC_1164.all;
-use IEEE.STD_LOGIC_ARITH.all;
-use IEEE.STD_LOGIC_UNSIGNED.all;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity synchronizerStateMachine is
 	port(
@@ -76,8 +75,8 @@ architecture Behavioral of synchronizerStateMachine is
 
 	-- used to produce different timestamp ticks and to remain in a certain state
 	-- for a certain amount of time
-	signal DividerxDN, DividerxDP                 : std_logic_vector(6 downto 0);
-	signal CounterxDN, CounterxDP                 : std_logic_vector(13 downto 0);
+	signal DividerxDN, DividerxDP                 : unsigned(6 downto 0);
+	signal CounterxDN, CounterxDP                 : unsigned(14 downto 0);
 	signal ResetTimestampxSBN, ResetTimestampxSBP : std_logic;
 begin                                   -- Behavioral
 
@@ -121,16 +120,16 @@ begin                                   -- Behavioral
 			when stResetSlaves =>       -- reset  slaves by generating 200us clock on output, which slaves should detect
 				Alex <= "001";
 
+				SyncOutCLKxCBO <= '1';
+
 				DividerxDN <= (others => '0');
+				CounterxDN <= CounterxDP + 1;
 
 				if CounterxDP > resetSlavesTime then -- stay 18000 (200us) cycles in this state
 					CounterxDN         <= (others => '0');
 					ResetTimestampxSBN <= '0';
 					StatexDN           <= stTriggerInHigh;
 				end if;
-
-				CounterxDN     <= CounterxDP + 1;
-				SyncOutCLKxCBO <= '1';
 
 			when stTriggerInHigh =>
 				Alex <= "100";
@@ -246,7 +245,7 @@ begin                                   -- Behavioral
 			ResetTimestampxSBP <= ResetTimestampxSBN;
 		end if;
 	end process p_mem;
-	
+
 	ResetTimestampxSBO <= ResetTimestampxSBP;
 
 	-- purpose: synchronize asynchronous inputs
