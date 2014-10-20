@@ -16,60 +16,63 @@ entity TimestampSynchronizer is
 end entity TimestampSynchronizer;
 
 architecture Behavioral of TimestampSynchronizer is
-	signal SyncClockRisingEdge_S, SyncClockFallingEdge_S : std_logic;
-
 	constant MASTER_TIMEOUT : integer := 500; -- in microseconds
+	constant SLAVE_TIMEOUT  : integer := 10; -- in microseconds
 
-	constant CLOCK_PULSE_TIME    : integer := 100; -- in microseconds
-	constant CLOCK_RISEFALL_TIME : integer := CLOCK_PULSE_TIME / 2;
+	constant CLOCK_PERIOD_TIME   : integer := 100; -- in microseconds
+	constant CLOCK_RISEFALL_TIME : integer := CLOCK_PERIOD_TIME / 2; -- in microseconds
 
-	constant RESET_PULSE_TIME        : integer := 200; -- in microseconds.
-	constant RESET_PULSE_CYCLES      : integer := RESET_PULSE_TIME * LOGIC_CLOCK_FREQ;
-	constant RESET_PULSE_CYCLES_SIZE : integer := integer(ceil(log2(real(RESET_PULSE_CYCLES + 1))));
+	signal TimestampTickReset_S, TimestampTickEnable_S : std_logic;
+	signal TimestampTick_S                             : std_logic;
 
-	signal SyncClockResetPulse_S : std_logic;
-	
-		-- http://stackoverflow.com/questions/15244992 explains a better way to slow down a process
-	-- using a clock enable instead of creating gated clocks with a clock divider, which avoids
-	-- any issues of clock domain crossing and resource utilization.
-	-- The ContinuousCounter already has an enable signal, which we can use in this fashion directly.
-	signal TimestampEnable1MHz_S : std_logic;
-
-	-- Wire the enable signal together with the TimestampRun signal, so that when we stop the logic,
-	-- the timestamp counter will not increase anymore.
-	signal TimestampEnable_S : std_logic;
+	signal TimestampSynchronizerReset_S, TimestampSynchronizerEnable_S : std_logic;
+	signal TimestampSynchronizer_D                                     : unsigned(7 downto 0);
 
 	constant LOGIC_CLOCK_FREQ_SIZE : integer := integer(ceil(log2(real(LOGIC_CLOCK_FREQ))));
+
+	signal MasterMode_SP, MasterMode_SN : std_logic;
 begin
-	timestampEnableGenerate : entity work.PulseGenerator
+	timestampTickCounter : entity work.ContinuousCounter
 		generic map(
 			SIZE => LOGIC_CLOCK_FREQ_SIZE)
 		port map(
-			Clock_CI         => Clock_CI,
-			Reset_RI         => Reset_RI,
-			PulsePolarity_SI => '1',
-			PulseInterval_DI => to_unsigned(LOGIC_CLOCK_FREQ - 1, LOGIC_CLOCK_FREQ_SIZE),
-			PulseLength_DI   => to_unsigned(1, LOGIC_CLOCK_FREQ_SIZE),
-			Zero_SI          => TimestampReset_SI,
-			PulseOut_SO      => TimestampEnable1MHz_S);
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => TimestampTickReset_S,
+			Enable_SI    => TimestampTickEnable_S,
+			DataLimit_DI => to_unsigned(LOGIC_CLOCK_FREQ - 1, LOGIC_CLOCK_FREQ_SIZE),
+			Overflow_SO  => TimestampTick_S,
+			Data_DO      => open);
 
-	clockEdgeDetector : entity work.EdgeDetector
-		port map(
-			Clock_CI               => Clock_CI,
-			Reset_RI               => Reset_RI,
-			InputSignal_SI         => SyncInClock_CI,
-			RisingEdgeDetected_SO  => SyncClockRisingEdge_S,
-			FallingEdgeDetected_SO => SyncClockFallingEdge_S);
-
-	clockResetPulseDetector : entity work.PulseDetector
+	timestampSynchronizerCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => RESET_PULSE_CYCLES_SIZE)
+			SIZE              => 8,
+			RESET_ON_OVERFLOW => false,
+			GENERATE_OVERFLOW => false)
 		port map(
-			Clock_CI         => Clock_CI,
-			Reset_RI         => Reset_RI,
-			PulsePolarity_SI => '1',
-			PulseLength_DI   => to_unsigned(RESET_PULSE_CYCLES, RESET_PULSE_CYCLES_SIZE),
-			InputSignal_SI   => SyncInClock_CI,
-			PulseDetected_SO => SyncClockResetPulse_S);
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => TimestampSynchronizerReset_S,
+			Enable_SI    => TimestampSynchronizerEnable_S,
+			DataLimit_DI => (others => '1'),
+			Overflow_SO  => open,
+			Data_DO      => TimestampSynchronizer_D);
 
+	masterMode : process(MasterMode_SP)
+	begin
+		MasterMode_SN <= MasterMode_SP;
+	end process masterMode;
+
+	timestampSynchronizer : process(MasterMode_SP)
+	begin
+	end process timestampSynchronizer;
+
+	registerUpdate : process(Clock_CI, Reset_RI) is
+	begin
+		if Reset_RI = '1' then
+			MasterMode_SP <= '1';
+		elsif rising_edge(Clock_CI) then
+			MasterMode_SP <= MasterMode_SN;
+		end if;
+	end process registerUpdate;
 end architecture Behavioral;
