@@ -39,6 +39,50 @@ begin
 				APSADCConfigReg_DN.Run_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)       <= APSADCConfigReg_DP.Run_S;
 
+			when APSADCCONFIG_PARAM_ADDRESSES.Snapshot_S =>
+				APSADCConfigReg_DN.Snapshot_S <= APSADCInput_DP(0);
+				APSADCOutput_DN(0)            <= APSADCConfigReg_DP.Snapshot_S;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
+				APSADCConfigReg_DN.GlobalShutter_S <= APSADCInput_DP(0);
+				APSADCOutput_DN(0)                 <= APSADCConfigReg_DP.GlobalShutter_S;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.StartColumn_D =>
+				APSADCConfigReg_DN.StartColumn_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartColumn_D'range));
+				APSADCOutput_DN(tAPSADCConfig.StartColumn_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartColumn_D);
+
+			when APSADCCONFIG_PARAM_ADDRESSES.StartRow_D =>
+				APSADCConfigReg_DN.StartRow_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartRow_D'range));
+				APSADCOutput_DN(tAPSADCConfig.StartRow_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartRow_D);
+
+			when APSADCCONFIG_PARAM_ADDRESSES.ReadColumns_D =>
+				APSADCConfigReg_DN.ReadColumns_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.ReadColumns_D'range));
+				APSADCOutput_DN(tAPSADCConfig.ReadColumns_D'range) <= std_logic_vector(APSADCConfigReg_DP.ReadColumns_D);
+
+			when APSADCCONFIG_PARAM_ADDRESSES.ReadRows_D =>
+				APSADCConfigReg_DN.ReadRows_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.ReadRows_D'range));
+				APSADCOutput_DN(tAPSADCConfig.ReadRows_D'range) <= std_logic_vector(APSADCConfigReg_DP.ReadRows_D);
+
+			when APSADCCONFIG_PARAM_ADDRESSES.Exposure_D =>
+				APSADCConfigReg_DN.Exposure_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.Exposure_D'range));
+				APSADCOutput_DN(tAPSADCConfig.Exposure_D'range) <= std_logic_vector(APSADCConfigReg_DP.Exposure_D);
+
+			when APSADCCONFIG_PARAM_ADDRESSES.FrameDelay_D =>
+				APSADCConfigReg_DN.FrameDelay_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.FrameDelay_D'range));
+				APSADCOutput_DN(tAPSADCConfig.FrameDelay_D'range) <= std_logic_vector(APSADCConfigReg_DP.FrameDelay_D);
+
+			when APSADCCONFIG_PARAM_ADDRESSES.ResetSettle_D =>
+				APSADCConfigReg_DN.ResetSettle_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.ResetSettle_D'range));
+				APSADCOutput_DN(tAPSADCConfig.ResetSettle_D'range) <= std_logic_vector(APSADCConfigReg_DP.ResetSettle_D);
+
+			when APSADCCONFIG_PARAM_ADDRESSES.ColumnSettle_D =>
+				APSADCConfigReg_DN.ColumnSettle_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.ColumnSettle_D'range));
+				APSADCOutput_DN(tAPSADCConfig.ColumnSettle_D'range) <= std_logic_vector(APSADCConfigReg_DP.ColumnSettle_D);
+
+			when APSADCCONFIG_PARAM_ADDRESSES.RowSettle_D =>
+				APSADCConfigReg_DN.RowSettle_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.RowSettle_D'range));
+				APSADCOutput_DN(tAPSADCConfig.RowSettle_D'range) <= std_logic_vector(APSADCConfigReg_DP.RowSettle_D);
+
 			when others => null;
 		end case;
 	end process apsadcIO;

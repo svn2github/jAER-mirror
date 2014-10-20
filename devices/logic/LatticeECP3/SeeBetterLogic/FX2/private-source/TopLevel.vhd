@@ -299,7 +299,8 @@ begin
 			ConfigLatchInput_SI        => ConfigLatchInput_S,
 			DVSAERConfigParamOutput_DO => DVSAERConfigParamOutput_D);
 
-	apsAdcFifo : entity work.FIFO
+	-- Dual-clock FIFO is needed to bridge from ADC clock (USBClock_CI in this case) to logic clock.
+	apsAdcFifo : entity work.FIFODualClock
 		generic map(
 			DATA_WIDTH        => EVENT_WIDTH,
 			DATA_DEPTH        => APSADC_FIFO_SIZE,
@@ -308,19 +309,21 @@ begin
 			FULL_FLAG         => APSADC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE)
 		port map(
-			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R,
+			Reset_RI       => USBReset_R,
+			WrClock_CI     => USBClock_CI,
+			RdClock_CI     => LogicClock_C,
 			FifoControl_SI => APSADCFifoControlIn_S,
 			FifoControl_SO => APSADCFifoControlOut_S,
 			FifoData_DI    => APSADCFifoDataIn_D,
 			FifoData_DO    => APSADCFifoDataOut_D);
 
+	-- We use the USB clock directly here, since it conveniently runs at 30MHz already.
 	apsAdcSM : entity work.APSADCStateMachine
 		generic map(
 			ADC_BUS_WIDTH => ADC_BUS_WIDTH)
 		port map(
-			Clock_CI               => LogicClock_C,
-			Reset_RI               => LogicReset_R,
+			Clock_CI               => USBClock_CI,
+			Reset_RI               => USBReset_R,
 			OutFifoControl_SI      => APSADCFifoControlOut_S.WriteSide,
 			OutFifoControl_SO      => APSADCFifoControlIn_S.WriteSide,
 			OutFifoData_DO         => APSADCFifoDataIn_D,
