@@ -4,12 +4,13 @@ use ieee.numeric_std.all;
 use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.APSADCConfigRecords.all;
-use work.Settings.CHIP_SIZE_COLUMNS;
-use work.Settings.CHIP_SIZE_ROWS;
 
 entity APSADCStateMachine is
 	generic(
-		ADC_BUS_WIDTH : integer);
+		ADC_CLOCK_FREQ    : integer;
+		ADC_BUS_WIDTH     : integer;
+		CHIP_SIZE_COLUMNS : integer;
+		CHIP_SIZE_ROWS    : integer);
 	port(
 		Clock_CI               : in  std_logic; -- This clock must be 30MHz, use PLL to generate.
 		Reset_RI               : in  std_logic; -- This reset must be synchronized to the above clock.
@@ -39,8 +40,17 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stIdle, stWriteEvent);
-	attribute syn_enum_encoding of tState : type is "onehot";
+	type tColumnState is (stIdle, stWriteEvent);
+	attribute syn_enum_encoding of tColumnState : type is "onehot";
+
+	-- present and next state
+	signal ColState_DP, ColState_DN : tColumnState;
+
+	type tRowState is (stIdle, stWriteEvent);
+	attribute syn_enum_encoding of tRowState : type is "onehot";
+
+	-- present and next state
+	signal RowState_DP, RowState_DN : tRowState;
 
 	constant CHIP_REG_SIZE_COLUMNS : integer := 1 + CHIP_SIZE_COLUMNS + 1; -- One bit more on each side, for three-bit code.
 	constant CHIP_REG_SIZE_ROWS    : integer := CHIP_SIZE_ROWS;
@@ -50,10 +60,12 @@ architecture Behavioral of APSADCStateMachine is
 	constant COLMODE_READB  : std_logic_vector(1 downto 0) := "10";
 	constant COLMODE_RESETA : std_logic_vector(1 downto 0) := "11";
 
-	-- present and next state
-	signal State_DP, State_DN : tState;
+	-- Register outputs to FIFO.
+	signal OutFifoWriteReg_S, OutFifoWriteRegCol_S, OutFifoWriteRegRow_S                : std_logic;
+	signal OutFifoDataRegEnable_S, OutFifoDataRegColEnable_S, OutFifoDataRegRowEnable_S : std_logic;
+	signal OutFifoDataReg_D, OutFifoDataRegCol_D, OutFifoDataRegRow_D                   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
-	-- Register all outputs for clean transitions.
+	-- Register all outputs to ADC and chip for clean transitions.
 	signal APSChipRowSRClockReg_S, APSChipRowSRInReg_S  : std_logic;
 	signal APSChipColSRClockReg_S, APSChipColSRInReg_S  : std_logic;
 	signal APSChipColModeReg_D                          : std_logic_vector(1 downto 0);
@@ -67,51 +79,68 @@ begin
 	-- Forward 30MHz clock directly to external ADC.
 	APSADCClock_CO <= Clock_CI;
 
-	columnMainStateMachine : process(State_DP, OutFifoControl_SI)
+	columnMainStateMachine : process(ColState_DP)
 	begin
-		State_DN <= State_DP;           -- Keep current state by default.
+		ColState_DN <= ColState_DP;     -- Keep current state by default.
+
+		OutFifoWriteRegCol_S      <= '0';
+		OutFifoDataRegColEnable_S <= '0';
+		OutFifoDataRegCol_D       <= (others => '0');
 
 		APSChipColSRClockReg_S <= '0';
 		APSChipColSRInReg_S    <= '0';
-		APSChipColModeReg_D    <= COLMODE_NULL;
-		APSChipTXGateReg_SB    <= '1';
+
+		APSChipColModeReg_D <= COLMODE_NULL;
+		APSChipTXGateReg_SB <= '1';
 
 		APSADCOutputEnableReg_SB <= '1';
 		APSADCStandbyReg_S       <= '1';
 
-		OutFifoControl_SO.Write_S <= '0';
-		OutFifoData_DO            <= (others => '0');
-
-		case State_DP is
+		case ColState_DP is
 			when stIdle =>
-			-- Only exit idle state if APS data producer is active.
-			--if APSRun_SI = '1' then
-			--if OutFifo_I.Full_S = '0' then
-			-- If output fifo full, just wait for it to be empty.
-			--State_DN <= stWriteEvent;
-			--end if;
-			--end if;
-
-			when stWriteEvent =>
-				OutFifoData_DO            <= (others => '0');
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stIdle;
-
 			when others => null;
 		end case;
 	end process columnMainStateMachine;
 
-	rowReadStateMachine : process is
+	rowReadStateMachine : process(RowState_DP)
 	begin
+		RowState_DN <= RowState_DP;
+
+		OutFifoWriteRegRow_S      <= '0';
+		OutFifoDataRegRowEnable_S <= '0';
+		OutFifoDataRegRow_D       <= (others => '0');
+
 		APSChipRowSRClockReg_S <= '0';
 		APSChipRowSRInReg_S    <= '0';
+
+		case RowState_DP is
+			when stIdle =>
+			when others => null;
+		end case;
 	end process rowReadStateMachine;
+
+	OutFifoWriteReg_S      <= OutFifoWriteRegCol_S or OutFifoWriteRegRow_S;
+	OutFifoDataRegEnable_S <= OutFifoDataRegColEnable_S or OutFifoDataRegRowEnable_S;
+	OutFifoDataReg_D       <= OutFifoDataRegCol_D or OutFifoDataRegRow_D;
+
+	outputDataRegister : entity work.SimpleRegister
+		generic map(
+			SIZE => EVENT_WIDTH)
+		port map(
+			Clock_CI  => Clock_CI,
+			Reset_RI  => Reset_RI,
+			Enable_SI => OutFifoDataRegEnable_S,
+			Input_SI  => OutFifoDataReg_D,
+			Output_SO => OutFifoData_DO);
 
 	-- Change state on clock edge (synchronous).
 	p_memoryzing : process(Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
-			State_DP <= stIdle;
+			ColState_DP <= stIdle;
+			RowState_DP <= stIdle;
+
+			OutFifoControl_SO.Write_S <= '0';
 
 			APSChipRowSRClock_SO <= '0';
 			APSChipRowSRIn_SO    <= '0';
@@ -127,7 +156,10 @@ begin
 			APSADCConfigReg_D     <= tAPSADCConfigDefault;
 			APSADCConfigSyncReg_D <= tAPSADCConfigDefault;
 		elsif rising_edge(Clock_CI) then
-			State_DP <= State_DN;
+			ColState_DP <= ColState_DN;
+			RowState_DP <= RowState_DN;
+
+			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
 
 			APSChipRowSRClock_SO <= APSChipRowSRClockReg_S;
 			APSChipRowSRIn_SO    <= APSChipRowSRInReg_S;

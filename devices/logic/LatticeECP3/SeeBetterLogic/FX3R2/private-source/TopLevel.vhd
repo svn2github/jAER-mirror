@@ -367,7 +367,10 @@ begin
 
 	apsAdcSM : entity work.APSADCStateMachine
 		generic map(
-			ADC_BUS_WIDTH => ADC_BUS_WIDTH)
+			ADC_CLOCK_FREQ    => ADC_CLOCK_FREQ,
+			ADC_BUS_WIDTH     => ADC_BUS_WIDTH,
+			CHIP_SIZE_COLUMNS => CHIP_SIZE_COLUMNS,
+			CHIP_SIZE_ROWS    => CHIP_SIZE_ROWS)
 		port map(
 			Clock_CI               => LogicClock_C,
 			Reset_RI               => LogicReset_R,

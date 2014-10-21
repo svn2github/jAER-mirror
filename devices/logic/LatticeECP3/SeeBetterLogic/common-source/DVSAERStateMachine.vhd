@@ -28,7 +28,7 @@ end DVSAERStateMachine;
 
 architecture Behavioral of DVSAERStateMachine is
 	attribute syn_enum_encoding : string;
-	
+
 	type tState is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleX, stAckX);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
@@ -166,6 +166,16 @@ begin
 		end case;
 	end process p_memoryless;
 
+	outputDataRegister : entity work.SimpleRegister
+		generic map(
+			SIZE => EVENT_WIDTH)
+		port map(
+			Clock_CI  => Clock_CI,
+			Reset_RI  => Reset_RI,
+			Enable_SI => OutFifoDataRegEnable_S,
+			Input_SI  => OutFifoDataReg_D,
+			Output_SO => OutFifoData_DO);
+
 	-- Change state on clock edge (synchronous).
 	p_memoryzing : process(Clock_CI, Reset_RI)
 	begin
@@ -173,7 +183,6 @@ begin
 			State_DP <= stIdle;
 
 			OutFifoControl_SO.Write_S <= '0';
-			OutFifoData_DO            <= (others => '0');
 
 			DVSAERAck_SBO   <= '1';
 			DVSAERReset_SBO <= '0';
@@ -183,9 +192,6 @@ begin
 			State_DP <= State_DN;
 
 			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
-			if OutFifoDataRegEnable_S = '1' then
-				OutFifoData_DO <= OutFifoDataReg_D;
-			end if;
 
 			DVSAERAck_SBO   <= DVSAERAckReg_SB;
 			DVSAERReset_SBO <= DVSAERResetReg_SB;
