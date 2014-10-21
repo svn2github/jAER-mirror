@@ -39,9 +39,9 @@ begin
 				APSADCConfigReg_DN.Run_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)       <= APSADCConfigReg_DP.Run_S;
 
-			when APSADCCONFIG_PARAM_ADDRESSES.Snapshot_S =>
-				APSADCConfigReg_DN.Snapshot_S <= APSADCInput_DP(0);
-				APSADCOutput_DN(0)            <= APSADCConfigReg_DP.Snapshot_S;
+			when APSADCCONFIG_PARAM_ADDRESSES.Mode_D =>
+				APSADCConfigReg_DN.Mode_D   <= APSADCInput_DP(1 downto 0);
+				APSADCOutput_DN(1 downto 0) <= APSADCConfigReg_DP.Mode_D;
 
 			when APSADCCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
 				APSADCConfigReg_DN.GlobalShutter_S <= APSADCInput_DP(0);

@@ -11,7 +11,7 @@ package APSADCConfigRecords is
 
 	type tAPSADCConfigParamAddresses is record
 		Run_S               : unsigned(7 downto 0);
-		Snapshot_S          : unsigned(7 downto 0);
+		Mode_D              : unsigned(7 downto 0);
 		GlobalShutter_S     : unsigned(7 downto 0);
 		StartColumn_D       : unsigned(7 downto 0);
 		StartRow_D          : unsigned(7 downto 0);
@@ -27,7 +27,7 @@ package APSADCConfigRecords is
 
 	constant APSADCCONFIG_PARAM_ADDRESSES : tAPSADCConfigParamAddresses := (
 		Run_S               => to_unsigned(0, 8),
-		Snapshot_S          => to_unsigned(1, 8),
+		Mode_D              => to_unsigned(1, 8),
 		GlobalShutter_S     => to_unsigned(2, 8),
 		StartColumn_D       => to_unsigned(3, 8),
 		StartRow_D          => to_unsigned(4, 8),
@@ -43,9 +43,13 @@ package APSADCConfigRecords is
 	constant CHIP_SIZE_COLUMNS_WIDTH : integer := integer(ceil(log2(real(CHIP_SIZE_COLUMNS + 1))));
 	constant CHIP_SIZE_ROWS_WIDTH    : integer := integer(ceil(log2(real(CHIP_SIZE_ROWS + 1))));
 
+	constant APSADC_MODE_VIDEO             : std_logic_vector(1 downto 0) := "00";
+	constant APSADC_MODE_CAMERA_POWERSAVE  : std_logic_vector(1 downto 0) := "01";
+	constant APSADC_MODE_CAMERA_LOWLATENCY : std_logic_vector(1 downto 0) := "10";
+
 	type tAPSADCConfig is record
 		Run_S               : std_logic;
-		Snapshot_S          : std_logic; -- read out one frame only (instead of running all the time)
+		Mode_D              : std_logic_vector(1 downto 0); -- switch between video and camera modes
 		GlobalShutter_S     : std_logic; -- enable global shutter instead of rolling shutter
 		StartColumn_D       : unsigned(CHIP_SIZE_COLUMNS_WIDTH - 1 downto 0);
 		StartRow_D          : unsigned(CHIP_SIZE_ROWS_WIDTH - 1 downto 0);
@@ -61,7 +65,7 @@ package APSADCConfigRecords is
 
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
 		Run_S               => '0',
-		Snapshot_S          => '0',
+		Mode_D              => APSADC_MODE_VIDEO,
 		GlobalShutter_S     => '0',
 		StartColumn_D       => to_unsigned(0, CHIP_SIZE_COLUMNS_WIDTH),
 		StartRow_D          => to_unsigned(0, CHIP_SIZE_ROWS_WIDTH),

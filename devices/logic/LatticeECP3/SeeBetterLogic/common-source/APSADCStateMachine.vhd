@@ -40,13 +40,13 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tColumnState is (stIdle, stWriteEvent);
+	type tColumnState is (stIdle, stWaitForADCStartup);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
 	signal ColState_DP, ColState_DN : tColumnState;
 
-	type tRowState is (stIdle, stWriteEvent);
+	type tRowState is (stIdle);
 	attribute syn_enum_encoding of tRowState : type is "onehot";
 
 	-- present and next state
@@ -59,6 +59,9 @@ architecture Behavioral of APSADCStateMachine is
 	constant COLMODE_READA  : std_logic_vector(1 downto 0) := "01";
 	constant COLMODE_READB  : std_logic_vector(1 downto 0) := "10";
 	constant COLMODE_RESETA : std_logic_vector(1 downto 0) := "11";
+
+	-- Take note if the ADC is running already or not. If not, it has to be started.
+	signal ADCRunning_SP, ADCRunning_SN : std_logic;
 
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S, OutFifoWriteRegCol_S, OutFifoWriteRegRow_S                : std_logic;
@@ -83,6 +86,8 @@ begin
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
+		ADCRunning_SN <= ADCRunning_SP;
+
 		OutFifoWriteRegCol_S      <= '0';
 		OutFifoDataRegColEnable_S <= '0';
 		OutFifoDataRegCol_D       <= (others => '0');
@@ -93,11 +98,31 @@ begin
 		APSChipColModeReg_D <= COLMODE_NULL;
 		APSChipTXGateReg_SB <= '1';
 
-		APSADCOutputEnableReg_SB <= '1';
-		APSADCStandbyReg_S       <= '1';
+		-- Keep ADC powered and OE by default, the Idle (start) state will
+		-- then negotiate the necessary settings, and when we're out of Idle,
+		-- they are always on anyway.
+		APSADCOutputEnableReg_SB <= '0';
+		APSADCStandbyReg_S       <= '0';
 
 		case ColState_DP is
 			when stIdle =>
+				-- In Idle state, turn ADC off by default.
+				APSADCOutputEnableReg_SB <= '1';
+				APSADCStandbyReg_S       <= '1';
+
+				if APSADCConfigReg_D.Mode_D = APSADC_MODE_VIDEO then
+				end if;
+
+				if APSADCConfigReg_D.Mode_D = APSADC_MODE_VIDEO then
+				end if;
+
+				if APSADCConfigReg_D.Mode_D = APSADC_MODE_VIDEO then
+				end if;
+
+			when stWaitForADCStartup =>
+			-- Wait 1.5 microseconds for ADC to start up and be ready for precise conversions.
+			-- TODO: counter that jumps out, sets ADCRunning to true.
+
 			when others => null;
 		end case;
 	end process columnMainStateMachine;
@@ -119,6 +144,8 @@ begin
 		end case;
 	end process rowReadStateMachine;
 
+	-- FIFO output can be driven by both the column or the row state machines.
+	-- Care must be taken to never have both at the same time output meaningful data.
 	OutFifoWriteReg_S      <= OutFifoWriteRegCol_S or OutFifoWriteRegRow_S;
 	OutFifoDataRegEnable_S <= OutFifoDataRegColEnable_S or OutFifoDataRegRowEnable_S;
 	OutFifoDataReg_D       <= OutFifoDataRegCol_D or OutFifoDataRegRow_D;
@@ -140,6 +167,8 @@ begin
 			ColState_DP <= stIdle;
 			RowState_DP <= stIdle;
 
+			ADCRunning_SP <= '0';
+
 			OutFifoControl_SO.Write_S <= '0';
 
 			APSChipRowSRClock_SO <= '0';
@@ -158,6 +187,8 @@ begin
 		elsif rising_edge(Clock_CI) then
 			ColState_DP <= ColState_DN;
 			RowState_DP <= RowState_DN;
+
+			ADCRunning_SP <= ADCRunning_SN;
 
 			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
 
