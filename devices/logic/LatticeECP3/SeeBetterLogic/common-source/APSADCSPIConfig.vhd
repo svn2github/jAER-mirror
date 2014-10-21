@@ -83,6 +83,10 @@ begin
 				APSADCConfigReg_DN.RowSettle_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.RowSettle_D'range));
 				APSADCOutput_DN(tAPSADCConfig.RowSettle_D'range) <= std_logic_vector(APSADCConfigReg_DP.RowSettle_D);
 
+			when APSADCCONFIG_PARAM_ADDRESSES.GSTXGateOpenReset_S =>
+				APSADCConfigReg_DN.GSTXGateOpenReset_S <= APSADCInput_DP(0);
+				APSADCOutput_DN(0)                     <= APSADCConfigReg_DP.GSTXGateOpenReset_S;
+
 			when others => null;
 		end case;
 	end process apsadcIO;

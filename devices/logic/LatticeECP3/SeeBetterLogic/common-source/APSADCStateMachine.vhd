@@ -58,13 +58,15 @@ architecture Behavioral of APSADCStateMachine is
 	signal APSChipColSRClockReg_S, APSChipColSRInReg_S  : std_logic;
 	signal APSChipColModeReg_D                          : std_logic_vector(1 downto 0);
 	signal APSChipTXGateReg_SB                          : std_logic;
-	signal APSADCClockReg_C                             : std_logic;
 	signal APSADCOutputEnableReg_SB, APSADCStandbyReg_S : std_logic;
 
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
 	signal APSADCConfigSyncReg_D, APSADCConfigReg_D : tAPSADCConfig;
 begin
+	-- Forward 30MHz clock directly to external ADC.
+	APSADCClock_CO <= Clock_CI;
+
 	columnMainStateMachine : process(State_DP, OutFifoControl_SI)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
@@ -103,8 +105,6 @@ begin
 	begin
 		APSChipRowSRClockReg_S <= '0';
 		APSChipRowSRInReg_S    <= '0';
-
-		APSADCClockReg_C <= '0';
 	end process rowReadStateMachine;
 
 	-- Change state on clock edge (synchronous).
@@ -120,7 +120,6 @@ begin
 			APSChipColMode_DO    <= COLMODE_NULL;
 			APSChipTXGate_SBO    <= '1';
 
-			APSADCClock_CO         <= '0';
 			APSADCOutputEnable_SBO <= '1';
 			APSADCStandby_SO       <= '1';
 
@@ -137,7 +136,6 @@ begin
 			APSChipColMode_DO    <= APSChipColModeReg_D;
 			APSChipTXGate_SBO    <= APSChipTXGateReg_SB;
 
-			APSADCClock_CO         <= APSADCClockReg_C;
 			APSADCOutputEnable_SBO <= APSADCOutputEnableReg_SB;
 			APSADCStandby_SO       <= APSADCStandbyReg_S;
 
