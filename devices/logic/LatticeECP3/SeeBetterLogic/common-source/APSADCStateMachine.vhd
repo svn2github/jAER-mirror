@@ -1,6 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.ceil;
+use ieee.math_real.log2;
 use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.APSADCConfigRecords.all;
@@ -40,7 +42,7 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tColumnState is (stIdle, stWaitForADCStartup);
+	type tColumnState is (stIdle, stWaitForADCStartup, stStartFrame);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -55,6 +57,9 @@ architecture Behavioral of APSADCStateMachine is
 	constant CHIP_REG_SIZE_COLUMNS : integer := 1 + CHIP_SIZE_COLUMNS + 1; -- One bit more on each side, for three-bit code.
 	constant CHIP_REG_SIZE_ROWS    : integer := CHIP_SIZE_ROWS;
 
+	constant ADC_STARTUP_CYCLES      : integer := 45; -- At 30MHz, wait 1.5 microseconds.
+	constant ADC_STARTUP_CYCLES_SIZE : integer := integer(ceil(log2(real(ADC_STARTUP_CYCLES))));
+
 	constant COLMODE_NULL   : std_logic_vector(1 downto 0) := "00";
 	constant COLMODE_READA  : std_logic_vector(1 downto 0) := "01";
 	constant COLMODE_READB  : std_logic_vector(1 downto 0) := "10";
@@ -62,6 +67,8 @@ architecture Behavioral of APSADCStateMachine is
 
 	-- Take note if the ADC is running already or not. If not, it has to be started.
 	signal ADCRunning_SP, ADCRunning_SN : std_logic;
+
+	signal ADCStartupCount_S, ADCStartupDone_S : std_logic;
 
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S, OutFifoWriteRegCol_S, OutFifoWriteRegRow_S                : std_logic;
@@ -82,21 +89,28 @@ begin
 	-- Forward 30MHz clock directly to external ADC.
 	APSADCClock_CO <= Clock_CI;
 
-	columnMainStateMachine : process(ColState_DP)
+	adcStartupCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => ADC_STARTUP_CYCLES_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => ADCStartupCount_S,
+			DataLimit_DI => to_unsigned(ADC_STARTUP_CYCLES - 1, ADC_STARTUP_CYCLES_SIZE),
+			Overflow_SO  => ADCStartupDone_S,
+			Data_DO      => open);
+
+	columnMainStateMachine : process(ColState_DP, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
-
-		ADCRunning_SN <= ADCRunning_SP;
 
 		OutFifoWriteRegCol_S      <= '0';
 		OutFifoDataRegColEnable_S <= '0';
 		OutFifoDataRegCol_D       <= (others => '0');
 
-		APSChipColSRClockReg_S <= '0';
-		APSChipColSRInReg_S    <= '0';
-
-		APSChipColModeReg_D <= COLMODE_NULL;
-		APSChipTXGateReg_SB <= '1';
+		ADCRunning_SN     <= ADCRunning_SP;
+		ADCStartupCount_S <= '0';
 
 		-- Keep ADC powered and OE by default, the Idle (start) state will
 		-- then negotiate the necessary settings, and when we're out of Idle,
@@ -104,26 +118,41 @@ begin
 		APSADCOutputEnableReg_SB <= '0';
 		APSADCStandbyReg_S       <= '0';
 
+		APSChipColSRClockReg_S <= '0';
+		APSChipColSRInReg_S    <= '0';
+
+		APSChipColModeReg_D <= COLMODE_NULL;
+		APSChipTXGateReg_SB <= '1';
+
 		case ColState_DP is
 			when stIdle =>
-				-- In Idle state, turn ADC off by default.
-				APSADCOutputEnableReg_SB <= '1';
-				APSADCStandbyReg_S       <= '1';
-
-				if APSADCConfigReg_D.Mode_D = APSADC_MODE_VIDEO then
-				end if;
-
-				if APSADCConfigReg_D.Mode_D = APSADC_MODE_VIDEO then
-				end if;
-
-				if APSADCConfigReg_D.Mode_D = APSADC_MODE_VIDEO then
+				if APSADCConfigReg_D.Run_S = '1' then
+					-- We want to take samples (picture or video), so the ADC has to be running.
+					if ADCRunning_SP = '0' then
+						ColState_DN <= stWaitForADCStartup;
+					else
+						ColState_DN <= stStartFrame;
+					end if;
+				else
+					-- Turn ADC off when not running, unless low-latency camera mode is selected.
+					if APSADCConfigReg_D.Mode_D /= APSADC_MODE_CAMERA_LOWLATENCY then
+						APSADCOutputEnableReg_SB <= '1';
+						APSADCStandbyReg_S       <= '1';
+						ADCRunning_SN            <= '0';
+					end if;
 				end if;
 
 			when stWaitForADCStartup =>
-			-- Wait 1.5 microseconds for ADC to start up and be ready for precise conversions.
-			-- TODO: counter that jumps out, sets ADCRunning to true.
+				-- Wait 1.5 microseconds for ADC to start up and be ready for precise conversions.
+				if ADCStartupDone_S = '1' then
+					ColState_DN   <= stStartFrame;
+					ADCRunning_SN <= '1';
+				end if;
 
-			when others => null;
+				ADCStartupCount_S <= '1';
+
+			when stStartFrame =>
+			when others       => null;
 		end case;
 	end process columnMainStateMachine;
 
