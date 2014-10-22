@@ -17,6 +17,11 @@ use ieee.numeric_std.all;
 -- It is further possible to specify that the overflow flag should not be
 -- asserted when the limit value is reached, but instead when the counter
 -- goes back to zero, thanks to the OVERFLOW_AT_ZERO flag.
+-- Please be caerful about the counter size and its limit value.
+-- If you need to count N times, you will need a counter of size
+-- ceil(log2(N)) and a limit of N-1, since zero also counts!
+-- If you need to count up to N, you will instead need a counter of
+-- size ceil(log2(N+1)) and the limit will have to be N.
 entity ContinuousCounter is
 	generic(
 		SIZE              : integer;

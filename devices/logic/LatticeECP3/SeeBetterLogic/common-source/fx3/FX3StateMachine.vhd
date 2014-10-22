@@ -49,13 +49,13 @@ architecture Behavioral of FX3Statemachine is
 	--constant USB_THREAD3 : std_logic_vector := "11";
 
 	-- calculated constants
-	constant USB_EARLY_PACKET_CYCLES       : integer := USB_CLOCK_FREQ * 1_000;
+	constant USB_EARLY_PACKET_CYCLES       : integer := USB_CLOCK_FREQ * 125; -- 125 microsecond steps, as per USB specification.
 	constant USB_EARLY_PACKET_CYCLES_WIDTH : integer := integer(ceil(log2(real(USB_EARLY_PACKET_CYCLES + 1))));
 	constant USB_EARLY_PACKET_WIDTH        : integer := USB_EARLY_PACKET_CYCLES_WIDTH + tFX3Config.EarlyPacketDelay_D'length;
 
-	-- number of intermediate writes to perform (including zero, so a value of 5 means 6 write cycles)
-	constant USB_BURST_WRITE_CYCLES : integer := USB_BURST_WRITE_LENGTH - 3;
-	constant USB_BURST_WRITE_WIDTH  : integer := integer(ceil(log2(real(USB_BURST_WRITE_CYCLES + 1))));
+	-- number of intermediate writes to perform
+	constant USB_BURST_WRITE_CYCLES : integer := USB_BURST_WRITE_LENGTH - 2;
+	constant USB_BURST_WRITE_WIDTH  : integer := integer(ceil(log2(real(USB_BURST_WRITE_CYCLES))));
 
 	-- write burst counter
 	signal CyclesCount_S, CyclesNotify_S : std_logic;
@@ -80,7 +80,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => CyclesCount_S,
-			DataLimit_DI => to_unsigned(USB_BURST_WRITE_CYCLES, USB_BURST_WRITE_WIDTH),
+			DataLimit_DI => to_unsigned(USB_BURST_WRITE_CYCLES - 1, USB_BURST_WRITE_WIDTH),
 			Overflow_SO  => CyclesNotify_S,
 			Data_DO      => open);
 

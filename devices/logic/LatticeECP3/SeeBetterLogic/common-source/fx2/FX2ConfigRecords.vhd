@@ -16,10 +16,10 @@ package FX2ConfigRecords is
 
 	type tFX2Config is record
 		Run_S              : std_logic;
-		EarlyPacketDelay_D : unsigned(9 downto 0);
+		EarlyPacketDelay_D : unsigned(12 downto 0);
 	end record tFX2Config;
 
 	constant tFX2ConfigDefault : tFX2Config := (
 		Run_S              => '1',
-		EarlyPacketDelay_D => to_unsigned(1, 10));
+		EarlyPacketDelay_D => to_unsigned(8, 13));
 end package FX2ConfigRecords;
