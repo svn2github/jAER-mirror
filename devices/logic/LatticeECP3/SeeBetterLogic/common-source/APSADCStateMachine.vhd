@@ -65,10 +65,21 @@ architecture Behavioral of APSADCStateMachine is
 	constant COLMODE_READB  : std_logic_vector(1 downto 0) := "10";
 	constant COLMODE_RESETA : std_logic_vector(1 downto 0) := "11";
 
+	constant ADC_CLOCK_FREQ_SIZE     : integer := integer(ceil(log2(real(ADC_CLOCK_FREQ + 1))));
+	constant EXPOSUREDELAY_TIME_SIZE : integer := ADC_CLOCK_FREQ_SIZE + tAPSADCConfig.Exposure_D'length;
+
 	-- Take note if the ADC is running already or not. If not, it has to be started.
 	signal ADCRunning_SP, ADCRunning_SN : std_logic;
 
 	signal ADCStartupCount_S, ADCStartupDone_S : std_logic;
+
+	-- Inputs are in microseconds, so we need to transform them with the clock frequency to get cycles.
+	signal ExposureTimeCycles_D   : unsigned(EXPOSUREDELAY_TIME_SIZE - 1 downto 0);
+	signal FrameDelayTimeCycles_D : unsigned(EXPOSUREDELAY_TIME_SIZE - 1 downto 0);
+
+	-- Use one counter for both times, they cannot appear at the same time.
+	signal ExposureDelayClear_S, ExposureDelayCount_S, ExposureDelayDone_S : std_logic;
+	signal ExposureDelayLimit_D                                            : unsigned(EXPOSUREDELAY_TIME_SIZE - 1 downto 0);
 
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S, OutFifoWriteRegCol_S, OutFifoWriteRegRow_S                : std_logic;
@@ -101,6 +112,23 @@ begin
 			Overflow_SO  => ADCStartupDone_S,
 			Data_DO      => open);
 
+	-- Multiply to get cycles from microseconds.
+	ExposureTimeCycles_D   <= APSADCConfigReg_D.Exposure_D * to_unsigned(ADC_CLOCK_FREQ, ADC_CLOCK_FREQ_SIZE);
+	FrameDelayTimeCycles_D <= APSADCConfigReg_D.FrameDelay_D * to_unsigned(ADC_CLOCK_FREQ, ADC_CLOCK_FREQ_SIZE);
+
+	exposureDelayCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE              => EXPOSUREDELAY_TIME_SIZE,
+			RESET_ON_OVERFLOW => false)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => ExposureDelayClear_S,
+			Enable_SI    => ExposureDelayCount_S,
+			DataLimit_DI => ExposureDelayLimit_D,
+			Overflow_SO  => ExposureDelayDone_S,
+			Data_DO      => open);
+
 	columnMainStateMachine : process(ColState_DP, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
@@ -111,6 +139,13 @@ begin
 
 		ADCRunning_SN     <= ADCRunning_SP;
 		ADCStartupCount_S <= '0';
+
+		-- By default keep exposure/frame delay counter cleared and inactive.
+		-- Also use the exposure time as limit, as that happens in more states, while
+		-- the frame delay time is only ever used in the frame wait state.
+		ExposureDelayClear_S <= '1';
+		ExposureDelayCount_S <= '0';
+		ExposureDelayLimit_D <= ExposureTimeCycles_D;
 
 		-- Keep ADC powered and OE by default, the Idle (start) state will
 		-- then negotiate the necessary settings, and when we're out of Idle,

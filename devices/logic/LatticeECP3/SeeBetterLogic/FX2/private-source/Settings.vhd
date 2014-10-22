@@ -10,7 +10,7 @@ package Settings is
 
 	constant LOGIC_CLOCK_FREQ : integer := 90; -- PLL can generate between 5 and 500 MHz here.
 
-	constant ADC_CLOCK_FREQ : integer := 30;
+	constant ADC_CLOCK_FREQ : integer := USB_CLOCK_FREQ;
 
 	constant AER_BUS_WIDTH : integer := 10;
 	constant ADC_BUS_WIDTH : integer := 10;
