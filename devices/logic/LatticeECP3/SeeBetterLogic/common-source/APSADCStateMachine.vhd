@@ -79,7 +79,7 @@ architecture Behavioral of APSADCStateMachine is
 	signal APSChipRowSRClockReg_S, APSChipRowSRInReg_S  : std_logic;
 	signal APSChipColSRClockReg_S, APSChipColSRInReg_S  : std_logic;
 	signal APSChipColModeReg_D                          : std_logic_vector(1 downto 0);
-	signal APSChipTXGateReg_SB                          : std_logic;
+	signal APSChipTXGateReg_S                           : std_logic;
 	signal APSADCOutputEnableReg_SB, APSADCStandbyReg_S : std_logic;
 
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
@@ -122,7 +122,7 @@ begin
 		APSChipColSRInReg_S    <= '0';
 
 		APSChipColModeReg_D <= COLMODE_NULL;
-		APSChipTXGateReg_SB <= '1';
+		APSChipTXGateReg_S  <= '0';
 
 		case ColState_DP is
 			when stIdle =>
@@ -226,7 +226,7 @@ begin
 			APSChipColSRClock_SO <= APSChipColSRClockReg_S;
 			APSChipColSRIn_SO    <= APSChipColSRInReg_S;
 			APSChipColMode_DO    <= APSChipColModeReg_D;
-			APSChipTXGate_SBO    <= APSChipTXGateReg_SB;
+			APSChipTXGate_SBO    <= not APSChipTXGateReg_S;
 
 			APSADCOutputEnable_SBO <= APSADCOutputEnableReg_SB;
 			APSADCStandby_SO       <= APSADCStandbyReg_S;
