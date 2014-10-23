@@ -29,7 +29,7 @@
 		<link>
 			<name>pmi_def.vhd</name>
 			<type>1</type>
-			<location>C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/pmi_def.vhd</location>
+			<location>C:/lscc/diamond/3.3_x64/cae_library/synthesis/vhdl/pmi_def.vhd</location>
 		</link>
 		<link>
 			<name>Common Libraries/IEEE</name>
