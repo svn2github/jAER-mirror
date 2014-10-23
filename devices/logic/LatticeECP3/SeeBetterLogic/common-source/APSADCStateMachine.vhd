@@ -42,7 +42,7 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tColumnState is (stIdle, stWaitForADCStartup, stStartFrame);
+	type tColumnState is (stIdle, stWaitForADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -78,8 +78,8 @@ architecture Behavioral of APSADCStateMachine is
 	signal FrameDelayTimeCycles_D : unsigned(EXPOSUREDELAY_TIME_SIZE - 1 downto 0);
 
 	-- Use one counter for both times, they cannot appear at the same time.
-	signal ExposureDelayClear_S, ExposureDelayCount_S, ExposureDelayDone_S : std_logic;
-	signal ExposureDelayLimit_D                                            : unsigned(EXPOSUREDELAY_TIME_SIZE - 1 downto 0);
+	signal ExposureDelayClear_S, ExposureDelayDone_S : std_logic;
+	signal ExposureDelayLimit_D                      : unsigned(EXPOSUREDELAY_TIME_SIZE - 1 downto 0);
 
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S, OutFifoWriteRegCol_S, OutFifoWriteRegRow_S                : std_logic;
@@ -124,7 +124,7 @@ begin
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => ExposureDelayClear_S,
-			Enable_SI    => ExposureDelayCount_S,
+			Enable_SI    => '1',
 			DataLimit_DI => ExposureDelayLimit_D,
 			Overflow_SO  => ExposureDelayDone_S,
 			Data_DO      => open);
@@ -143,8 +143,7 @@ begin
 		-- By default keep exposure/frame delay counter cleared and inactive.
 		-- Also use the exposure time as limit, as that happens in more states, while
 		-- the frame delay time is only ever used in the frame wait state.
-		ExposureDelayClear_S <= '1';
-		ExposureDelayCount_S <= '0';
+		ExposureDelayClear_S <= '0';
 		ExposureDelayLimit_D <= ExposureTimeCycles_D;
 
 		-- Keep ADC powered and OE by default, the Idle (start) state will
@@ -187,7 +186,23 @@ begin
 				ADCStartupCount_S <= '1';
 
 			when stStartFrame =>
-			when others       => null;
+				
+			when stEndFrame   =>
+				-- Setup exposureDelay counter to count frame delay instead of exposure.
+				ExposureDelayLimit_D <= FrameDelayTimeCycles_D;
+				ExposureDelayClear_S <= '1';
+
+				ColState_DN <= stWaitFrameDelay;
+
+			when stWaitFrameDelay =>
+				-- Wait until enough time has passed between frames.
+				ExposureDelayLimit_D <= FrameDelayTimeCycles_D;
+
+				if ExposureDelayDone_S = '1' then
+					ColState_DN <= stIdle;
+				end if;
+
+			when others => null;
 		end case;
 	end process columnMainStateMachine;
 
