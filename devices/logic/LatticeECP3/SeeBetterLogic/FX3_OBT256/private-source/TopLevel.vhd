@@ -9,6 +9,7 @@ use work.DVSAERConfigRecords.all;
 use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
 use work.ExtTriggerConfigRecords.all;
+use work.FX3ConfigRecords.all;
 
 entity TopLevel is
 	port(
@@ -54,7 +55,7 @@ entity TopLevel is
 		APSChipColSRClock_SO    : out   std_logic;
 		APSChipColSRIn_SO       : out   std_logic;
 		APSChipColMode_DO       : out   std_logic_vector(1 downto 0);
-		APSChipTXGate_SO        : out   std_logic;
+		APSChipTXGate_SBO       : out   std_logic;
 
 		APSADCData_DI           : in    std_logic_vector(ADC_BUS_WIDTH - 1 downto 0);
 		APSADCOverflow_SI       : in    std_logic;
@@ -78,6 +79,8 @@ architecture Structural of TopLevel is
 	signal USBReset_R   : std_logic;
 	signal LogicClock_C : std_logic;
 	signal LogicReset_R : std_logic;
+	signal ADCClock_C   : std_logic;
+	signal ADCReset_R   : std_logic;
 
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S : std_logic;
 	signal DVSAERReqSync_SB, IMUInterruptSync_S                                                                   : std_logic;
@@ -316,6 +319,23 @@ begin
 			Reset_RI    => USBReset_R,
 			OutClock_CO => LogicClock_C);
 
+	-- Generate ADC clock using a PLL. Must be 30MHz.
+	adcClockPLL : entity work.PLL
+		generic map(
+			CLOCK_FREQ     => USB_CLOCK_FREQ,
+			OUT_CLOCK_FREQ => ADC_CLOCK_FREQ)
+		port map(
+			Clock_CI    => USBClock_CI,
+			Reset_RI    => USBReset_R,
+			OutClock_CO => ADCClock_C);
+
+	-- Also create synchronized reset signal for ADC.
+	adcResetSync : entity work.ResetSynchronizer
+		port map(
+			ExtClock_CI  => ADCClock_C,
+			ExtReset_RI  => Reset_RI,
+			SyncReset_RO => ADCReset_R);
+
 	usbFX3SM : entity work.FX3Statemachine
 		port map(
 			Clock_CI                    => USBClock_CI,
@@ -328,7 +348,8 @@ begin
 			USBFifoPktEnd_SBO           => USBFifoPktEnd_SBO,
 			USBFifoAddress_DO           => USBFifoAddress_DO,
 			InFifoControl_SI            => LogicUSBFifoControlOut_S.ReadSide,
-			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide);
+			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide,
+			FX3Config_DI                => tFX3ConfigDefault);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
 	logicUSBFifo : entity work.FIFODualClock
@@ -422,7 +443,8 @@ begin
 			ConfigLatchInput_SI        => ConfigLatchInput_S,
 			DVSAERConfigParamOutput_DO => DVSAERConfigParamOutput_D);
 
-	apsAdcFifo : entity work.FIFO
+	-- Dual-clock FIFO is needed to bridge from ADC clock (ADCClock_C in this case) to logic clock.
+	apsAdcFifo : entity work.FIFODualClock
 		generic map(
 			DATA_WIDTH        => EVENT_WIDTH,
 			DATA_DEPTH        => APSADC_FIFO_SIZE,
@@ -431,8 +453,9 @@ begin
 			FULL_FLAG         => APSADC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE)
 		port map(
-			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R,
+			Reset_RI       => ADCReset_R,
+			WrClock_CI     => ADCClock_C,
+			RdClock_CI     => LogicClock_C,
 			FifoControl_SI => APSADCFifoControlIn_S,
 			FifoControl_SO => APSADCFifoControlOut_S,
 			FifoData_DI    => APSADCFifoDataIn_D,
@@ -440,10 +463,13 @@ begin
 
 	apsAdcSM : entity work.APSADCStateMachine
 		generic map(
-			ADC_BUS_WIDTH => ADC_BUS_WIDTH)
+			ADC_CLOCK_FREQ    => ADC_CLOCK_FREQ,
+			ADC_BUS_WIDTH     => ADC_BUS_WIDTH,
+			CHIP_SIZE_COLUMNS => CHIP_SIZE_COLUMNS,
+			CHIP_SIZE_ROWS    => CHIP_SIZE_ROWS)
 		port map(
-			Clock_CI               => LogicClock_C,
-			Reset_RI               => LogicReset_R,
+			Clock_CI               => ADCClock_C,
+			Reset_RI               => ADCReset_R,
 			OutFifoControl_SI      => APSADCFifoControlOut_S.WriteSide,
 			OutFifoControl_SO      => APSADCFifoControlIn_S.WriteSide,
 			OutFifoData_DO         => APSADCFifoDataIn_D,
@@ -452,7 +478,7 @@ begin
 			APSChipColSRClock_SO   => APSChipColSRClock_SO,
 			APSChipColSRIn_SO      => APSChipColSRIn_SO,
 			APSChipColMode_DO      => APSChipColMode_DO,
-			APSChipTXGate_SO       => APSChipTXGate_SO,
+			APSChipTXGate_SBO      => APSChipTXGate_SBO,
 			APSADCData_DI          => APSADCData_DI,
 			APSADCOverflow_SI      => APSADCOverflow_SI,
 			APSADCClock_CO         => APSADCClock_CO,
