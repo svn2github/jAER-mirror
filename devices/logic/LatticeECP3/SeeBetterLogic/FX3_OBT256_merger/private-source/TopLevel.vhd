@@ -9,6 +9,7 @@ use work.DVSAERConfigRecords.all;
 use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
 use work.ExtTriggerConfigRecords.all;
+use work.ChipBiasConfigRecords.all;
 use work.FX3ConfigRecords.all;
 
 entity TopLevel is
@@ -21,7 +22,6 @@ entity TopLevel is
 		SPIClock_AI             : in    std_logic;
 		SPIMOSI_AI              : in    std_logic;
 		SPIMISO_ZO              : out   std_logic;
-		BiasDiagSelect_SI       : in    std_logic;
 
 		USBFifoData_DO          : out   std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
 		USBFifoChipSelect_SBO   : out   std_logic;
@@ -43,6 +43,11 @@ entity TopLevel is
 
 		ChipBiasEnable_SO       : out   std_logic;
 		ChipBiasDiagSelect_SO   : out   std_logic;
+		ChipBiasAddrSelect_SBO  : out   std_logic;
+		ChipBiasClock_CBO       : out   std_logic;
+		ChipBiasBitIn_DO        : out   std_logic;
+		ChipBiasLatch_SBO       : out   std_logic;
+
 		--ChipBiasBitOut_DI : in std_logic;
 
 		DVSAERData_AI           : in    std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
@@ -131,6 +136,8 @@ architecture Structural of TopLevel is
 	signal APSADCConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
 	signal ExtTriggerConfigParamOutput_D  : std_logic_vector(31 downto 0);
+	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
+	signal ChipConfigParamOutput_D        : std_logic_vector(31 downto 0);
 	signal FX3ConfigParamOutput_D         : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
@@ -138,6 +145,8 @@ architecture Structural of TopLevel is
 	signal APSADCConfig_D      : tAPSADCConfig;
 	signal IMUConfig_D         : tIMUConfig;
 	signal ExtTriggerConfig_D  : tExtTriggerConfig;
+	signal BiasConfig_D        : tBiasConfig;
+	signal ChipConfig_D        : tChipConfig;
 	signal FX3Config_D         : tFX3Config;
 	
 	-- Alejandro testing WSAER2CAVIAR and CAVIAR2WSAER
@@ -282,7 +291,6 @@ begin
 	USBFifoChipSelect_SBO <= '0';       -- Always keep USB chip selected (active-low).
 	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
-	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI; -- Direct bypass.
 	-- Always enable chip if it is needed (for DVS or APS).
 	chipBiasEnableBuffer : entity work.SimpleRegister
 		port map(
@@ -542,7 +550,10 @@ begin
 
 	apsAdcSM : entity work.APSADCStateMachine
 		generic map(
-			ADC_BUS_WIDTH => ADC_BUS_WIDTH)
+			ADC_CLOCK_FREQ    => ADC_CLOCK_FREQ,
+			ADC_BUS_WIDTH     => ADC_BUS_WIDTH,
+			CHIP_SIZE_COLUMNS => CHIP_SIZE_COLUMNS,
+			CHIP_SIZE_ROWS    => CHIP_SIZE_ROWS)
 		port map(
 			Clock_CI               => LogicClock_C,
 			Reset_RI               => LogicReset_R,
@@ -691,4 +702,30 @@ begin
 			when others => null;
 		end case;
 	end process spiConfigurationOutputSelect;
+	
+	chipBiasSM : entity work.ChipBiasStateMachine
+		port map(
+			Clock_CI               => LogicClock_C,
+			Reset_RI               => LogicReset_R,
+			ChipBiasDiagSelect_SO  => ChipBiasDiagSelect_SO,
+			ChipBiasAddrSelect_SBO => ChipBiasAddrSelect_SBO,
+			ChipBiasClock_CBO      => ChipBiasClock_CBO,
+			ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
+			ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
+			BiasConfig_DI          => BiasConfig_D,
+			ChipConfig_DI          => ChipConfig_D);
+
+	chipBiasSPIConfig : entity work.ChipBiasSPIConfig
+		port map(
+			Clock_CI                 => LogicClock_C,
+			Reset_RI                 => LogicReset_R,
+			BiasConfig_DO            => BiasConfig_D,
+			ChipConfig_DO            => ChipConfig_D,
+			ConfigModuleAddress_DI   => ConfigModuleAddress_D,
+			ConfigParamAddress_DI    => ConfigParamAddress_D,
+			ConfigParamInput_DI      => ConfigParamInput_D,
+			ConfigLatchInput_SI      => ConfigLatchInput_S,
+			BiasConfigParamOutput_DO => BiasConfigParamOutput_D,
+			ChipConfigParamOutput_DO => ChipConfigParamOutput_D);
+
 end Structural;
