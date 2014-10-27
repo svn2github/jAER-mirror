@@ -48,7 +48,7 @@ architecture Behavioral of APSADCStateMachine is
 	-- present and next state
 	signal ColState_DP, ColState_DN : tColumnState;
 
-	type tRowState is (stIdle, stRowDone, stRowSRInit, stRowSRInitTick, stRowSRFeedTick, stColSettleWait, stRowSettleWait, stRowWriteEvent, stRowSRFeed);
+	type tRowState is (stIdle, stRowDone, stRowSRInit, stRowSRInitTick, stRowSRFeedTick, stColSettleWait, stRowSettleWait, stRowWriteEvent, stRowFastJump);
 	attribute syn_enum_encoding of tRowState : type is "onehot";
 
 	-- present and next state
@@ -215,7 +215,7 @@ begin
 			Overflow_SO  => SettleTimesDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D)
+	columnMainStateMachine : process(ColState_DP, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, ExposureTimeCycles_D, FrameDelayTimeCycles_D, RowReadDone_SP)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -239,8 +239,6 @@ begin
 		APSChipTXGateReg_S   <= '0';
 
 		-- By default keep exposure/frame delay counter cleared and inactive.
-		-- Also use the exposure time as limit, as that happens in more states, while
-		-- the frame delay time is only ever used in the frame wait state.
 		ExposureDelayClear_S <= '0';
 		ExposureDelayLimit_D <= ExposureTimeCycles_D;
 
@@ -319,7 +317,7 @@ begin
 	CurrentRowValid_S     <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow_D) else '0';
 	CurrentReadValid_S    <= CurrentColumnValid_S and CurrentRowValid_S;
 
-	rowReadStateMachine : process(RowState_DP)
+	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, APSChipColModeReg_DP, CurrentReadValid_S, OutFifoControl_SI.Full_S, RowReadStart_SP, SettleTimesDone_S)
 	begin
 		RowState_DN <= RowState_DP;
 
@@ -335,7 +333,7 @@ begin
 		RowReadPositionInc_S  <= '0';
 
 		-- Settle times counter.
-		SettleTimesLimit_D <= APSADCConfigReg_D.RowSettle_D;
+		SettleTimesLimit_D <= (others => '0');
 		SettleTimesCount_S <= '0';
 
 		-- Column SM communication.
@@ -361,6 +359,9 @@ begin
 				SettleTimesLimit_D <= APSADCConfigReg_D.ColumnSettle_D;
 
 			when stRowSRInit =>
+				APSChipRowSRClockReg_S <= '0';
+				APSChipRowSRInReg_S    <= '1';
+
 				-- Write event only if FIFO has place, else wait.
 				if OutFifoControl_SI.Full_S = '0' then
 					if APSChipColModeReg_DP = COLMODE_READA then
@@ -374,9 +375,6 @@ begin
 					RowReadPositionInc_S <= '1';
 				end if;
 
-				APSChipRowSRClockReg_S <= '0';
-				APSChipRowSRInReg_S    <= '1';
-
 			when stRowSRInitTick =>
 				APSChipRowSRClockReg_S <= '1';
 				APSChipRowSRInReg_S    <= '1';
@@ -384,14 +382,8 @@ begin
 				if CurrentReadValid_S = '1' then
 					RowState_DN <= stRowSettleWait;
 				else
-					RowState_DN <= stRowSRFeed;
+					RowState_DN <= stRowFastJump;
 				end if;
-
-			when stRowSRFeed =>
-				APSChipRowSRClockReg_S <= '0';
-				APSChipRowSRInReg_S    <= '0';
-				RowState_DN            <= stRowSRFeedTick;
-				RowReadPositionInc_S   <= '1';
 
 			when stRowSRFeedTick =>
 				APSChipRowSRClockReg_S <= '1';
@@ -400,7 +392,7 @@ begin
 				if CurrentReadValid_S = '1' then
 					RowState_DN <= stRowSettleWait;
 				else
-					RowState_DN <= stRowSRFeed;
+					RowState_DN <= stRowFastJump;
 				end if;
 
 			when stRowSettleWait =>
@@ -411,12 +403,32 @@ begin
 
 				SettleTimesCount_S <= '1';
 
+				-- Select proper source for row settle time.
+				SettleTimesLimit_D <= APSADCConfigReg_D.RowSettle_D;
+
 			when stRowWriteEvent =>
 				-- Write event only if FIFO has place, else wait.
 				if OutFifoControl_SI.Full_S = '0' then
+					-- This is only a 10-bit ADC, so we pad with two zeros.
 					OutFifoDataRegRow_D       <= EVENT_CODE_ADC_SAMPLE & "00" & APSADCData_DI;
 					OutFifoDataRegRowEnable_S <= '1';
 
+					RowState_DN          <= stRowSRFeedTick;
+					RowReadPositionInc_S <= '1';
+				end if;
+
+			when stRowFastJump =>
+				if APSADCConfigReg_D.ROIZeroPad = '1' then
+					-- Write event only if FIFO has place, else wait.
+					if OutFifoControl_SI.Full_S = '0' then
+						-- Send fake ADC value of all zeros.
+						OutFifoDataRegRow_D       <= EVENT_CODE_ADC_SAMPLE & "000000000000";
+						OutFifoDataRegRowEnable_S <= '1';
+
+						RowState_DN          <= stRowSRFeedTick;
+						RowReadPositionInc_S <= '1';
+					end if;
+				else
 					RowState_DN          <= stRowSRFeedTick;
 					RowReadPositionInc_S <= '1';
 				end if;
