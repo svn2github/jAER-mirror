@@ -47,6 +47,10 @@ begin
 				DVSAERConfigReg_DN.AckExtension_D                                 <= unsigned(DVSAERInput_DP(tDVSAERConfig.AckExtension_D'length - 1 downto 0));
 				DVSAEROutput_DN(tDVSAERConfig.AckExtension_D'length - 1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckExtension_D);
 
+			when DVSAERCONFIG_PARAM_ADDRESSES.WaitOnTransferStall_S =>
+				DVSAERConfigReg_DN.WaitOnTransferStall_S <= DVSAERInput_DP(0);
+				DVSAEROutput_DN(0)                       <= DVSAERConfigReg_DP.WaitOnTransferStall_S;
+
 			when others => null;
 		end case;
 	end process dvsaerIO;

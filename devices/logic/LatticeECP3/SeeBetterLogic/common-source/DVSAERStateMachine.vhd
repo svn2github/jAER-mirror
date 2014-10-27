@@ -29,7 +29,7 @@ end DVSAERStateMachine;
 architecture Behavioral of DVSAERStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleX, stAckX);
+	type tState is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleX, stAckX, stFIFOFull);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
@@ -94,14 +94,31 @@ begin
 			when stIdle =>
 				-- Only exit idle state if DVS data producer is active.
 				if DVSAERConfigReg_D.Run_S = '1' then
-					if DVSAERReq_SBI = '0' and OutFifoControl_SI.Full_S = '0' then
-						-- Got a request on the AER bus, let's get the data.
-						-- If output fifo full, just wait for it to be empty.
-						State_DN <= stDifferentiateYX;
+					if DVSAERReq_SBI = '0' then
+						if OutFifoControl_SI.Full_S = '0' then
+							-- Got a request on the AER bus, let's get the data.
+							-- We do have space in the output FIFO for it.
+							State_DN <= stDifferentiateYX;
+						elsif DVSAERConfigReg_D.WaitOnTransferStall_S = '0' then
+							-- FIFO full, keep ACKing.
+							State_DN <= stFIFOFull;
+						end if;
 					end if;
 				else
 					-- Keep the DVS in reset if data producer turned off.
 					DVSAERResetReg_SB <= '0';
+				end if;
+
+			when stFIFOFull =>
+				-- Output FIFO is full, just ACK the data, so that, when
+				-- we'll have space in the FIFO again, the newest piece of
+				-- data is the next to be inserted, and not stale old data.
+				DVSAERAckReg_SB <= DVSAERReq_SBI;
+
+				-- Only go back to idle when FIFO has space again, and when
+				-- the sender is not requesting (to avoid AER races).
+				if OutFifoControl_SI.Full_S = '0' and DVSAERReq_SBI = '1' then
+					State_DN <= stIdle;
 				end if;
 
 			when stDifferentiateYX =>
