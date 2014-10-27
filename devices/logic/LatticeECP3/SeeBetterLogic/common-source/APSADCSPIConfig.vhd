@@ -87,9 +87,13 @@ begin
 				APSADCConfigReg_DN.GSTXGateOpenReset_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)                     <= APSADCConfigReg_DP.GSTXGateOpenReset_S;
 
-			when APSADCCONFIG_PARAM_ADDRESSES.ROIZeroPad =>
-				APSADCConfigReg_DN.ROIZeroPad <= APSADCInput_DP(0);
-				APSADCOutput_DN(0)            <= APSADCConfigReg_DP.ROIZeroPad;
+			when APSADCCONFIG_PARAM_ADDRESSES.ROIZeroPad_S =>
+				APSADCConfigReg_DN.ROIZeroPad_S <= APSADCInput_DP(0);
+				APSADCOutput_DN(0)              <= APSADCConfigReg_DP.ROIZeroPad_S;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.WaitOnTransferStall_S =>
+				APSADCConfigReg_DN.WaitOnTransferStall_S <= APSADCInput_DP(0);
+				APSADCOutput_DN(0)                       <= APSADCConfigReg_DP.WaitOnTransferStall_S;
 
 			when others => null;
 		end case;

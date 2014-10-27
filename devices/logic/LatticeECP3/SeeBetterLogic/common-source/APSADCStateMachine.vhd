@@ -370,6 +370,7 @@ begin
 						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL;
 					end if;
 					OutFifoDataRegRowEnable_S <= '1';
+					OutFifoWriteRegRow_S      <= '1';
 
 					RowState_DN          <= stRowSRInitTick;
 					RowReadPositionInc_S <= '1';
@@ -412,18 +413,20 @@ begin
 					-- This is only a 10-bit ADC, so we pad with two zeros.
 					OutFifoDataRegRow_D       <= EVENT_CODE_ADC_SAMPLE & "00" & APSADCData_DI;
 					OutFifoDataRegRowEnable_S <= '1';
+					OutFifoWriteRegRow_S      <= '1';
 
 					RowState_DN          <= stRowSRFeedTick;
 					RowReadPositionInc_S <= '1';
 				end if;
 
 			when stRowFastJump =>
-				if APSADCConfigReg_D.ROIZeroPad = '1' then
+				if APSADCConfigReg_D.ROIZeroPad_S = '1' then
 					-- Write event only if FIFO has place, else wait.
 					if OutFifoControl_SI.Full_S = '0' then
 						-- Send fake ADC value of all zeros.
 						OutFifoDataRegRow_D       <= EVENT_CODE_ADC_SAMPLE & "000000000000";
 						OutFifoDataRegRowEnable_S <= '1';
+						OutFifoWriteRegRow_S      <= '1';
 
 						RowState_DN          <= stRowSRFeedTick;
 						RowReadPositionInc_S <= '1';
@@ -438,6 +441,7 @@ begin
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
 					OutFifoDataRegRowEnable_S <= '1';
+					OutFifoWriteRegRow_S      <= '1';
 
 					RowReadDone_SN <= '1';
 					RowState_DN    <= stIdle;
