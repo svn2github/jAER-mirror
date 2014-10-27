@@ -487,7 +487,7 @@ begin
 					State_DN <= stAckAndLoadLPCycleTempStandby;
 				else
 					if RunDelayed_S = '1' then
-						if IMUInterrupt_SI = '1' then
+						if IMUInterrupt_SI = '1' and OutFifoControl_SI.AlmostFull_S = '0' then
 							State_DN <= stPrepareReadDataRegister;
 						end if;
 
@@ -647,146 +647,98 @@ begin
 				end if;
 
 			when stWriteEventStart =>
-				OutFifoData_DO <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_IMU_START6;
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent0;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_IMU_START6;
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent0;
 
 			when stWriteEvent0 =>
 				-- Upper 8 bits of Accel X.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(111 downto 104);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent1;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(111 downto 104);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent1;
 
 			when stWriteEvent1 =>
 				-- Lower 8 bits of Accel X.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(103 downto 96);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent2;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(103 downto 96);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent2;
 
 			when stWriteEvent2 =>
 				-- Upper 8 bits of Accel Y.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(95 downto 88);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent3;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(95 downto 88);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent3;
 
 			when stWriteEvent3 =>
 				-- Lower 8 bits of Accel Y.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(87 downto 80);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent4;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(87 downto 80);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent4;
 
 			when stWriteEvent4 =>
 				--- Upper 8 bits of Accel Z.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(79 downto 72);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent5;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(79 downto 72);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent5;
 
 			when stWriteEvent5 =>
 				-- Lower 8 bits of Accel Z.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(71 downto 64);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent6;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(71 downto 64);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent6;
 
 			when stWriteEvent6 =>
 				-- Upper 8 bits of Temperature.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(63 downto 56);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent7;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(63 downto 56);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent7;
 
 			when stWriteEvent7 =>
 				-- Lower 8 bits of Temperature.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(55 downto 48);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent8;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(55 downto 48);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent8;
 
 			when stWriteEvent8 =>
 				--- Upper 8 bits of Gyro X.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(47 downto 40);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent9;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(47 downto 40);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent9;
 
 			when stWriteEvent9 =>
 				-- Lower 8 bits of Gyro X.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(39 downto 32);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent10;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(39 downto 32);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent10;
 
 			when stWriteEvent10 =>
 				--- Upper 8 bits of Gyro Y.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(31 downto 24);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent11;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(31 downto 24);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent11;
 
 			when stWriteEvent11 =>
 				-- Lower 8 bits of Gyro Y.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(23 downto 16);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent12;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(23 downto 16);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent12;
 
 			when stWriteEvent12 =>
 				-- Upper 8 bits of Gyro Y.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(15 downto 8);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEvent13;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(15 downto 8);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEvent13;
 
 			when stWriteEvent13 =>
 				-- Lower 8 bits of Gyro Y.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(7 downto 0);
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stWriteEventEnd;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(7 downto 0);
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stWriteEventEnd;
 
 			when stWriteEventEnd =>
-				OutFifoData_DO <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_IMU_END;
-
-				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stDoneAcknowledge;
-				end if;
+				OutFifoData_DO            <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_IMU_END;
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stDoneAcknowledge;
 
 			when stDoneAcknowledge =>
 				-- Deassert transaction, and wait for I2C Done to also go back low, which
@@ -816,27 +768,30 @@ begin
 	-- Delay the Run_S signal by one clock cycle to be in sync with the RunChanged_S signal.
 	-- This avoids taking the wrong branch too early in stIdle.
 	delayRun : entity work.SimpleRegister
-		port map(Clock_CI     => Clock_CI,
-			     Reset_RI     => Reset_RI,
-			     Enable_SI    => '1',
-			     Input_SI(0)  => IMUConfigReg_D.Run_S,
-			     Output_SO(0) => RunDelayed_S);
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Enable_SI    => '1',
+			Input_SI(0)  => IMUConfigReg_D.Run_S,
+			Output_SO(0) => RunDelayed_S);
 
 	-- Use BufferClears to be able to check and send the Interrupt Config and Enable registers
 	-- exactly the same as the other ones, and tie them to run changing.
 	fakeInterruptConfigChange : entity work.BufferClear
-		port map(Clock_CI        => Clock_CI,
-			     Reset_RI        => Reset_RI,
-			     Clear_SI        => InterruptConfigSent_S,
-			     InputSignal_SI  => RunChanged_S,
-			     OutputSignal_SO => InterruptConfigChanged_S);
+		port map(
+			Clock_CI        => Clock_CI,
+			Reset_RI        => Reset_RI,
+			Clear_SI        => InterruptConfigSent_S,
+			InputSignal_SI  => RunChanged_S,
+			OutputSignal_SO => InterruptConfigChanged_S);
 
 	fakeInterruptEnableChange : entity work.BufferClear
-		port map(Clock_CI        => Clock_CI,
-			     Reset_RI        => Reset_RI,
-			     Clear_SI        => InterruptEnableSent_S,
-			     InputSignal_SI  => RunChanged_S,
-			     OutputSignal_SO => InterruptEnableChanged_S);
+		port map(
+			Clock_CI        => Clock_CI,
+			Reset_RI        => Reset_RI,
+			Clear_SI        => InterruptEnableSent_S,
+			InputSignal_SI  => RunChanged_S,
+			OutputSignal_SO => InterruptEnableChanged_S);
 
 	detectRunChange : entity work.ChangeDetector
 		generic map(
