@@ -3,11 +3,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 package EventCodes is
-	constant FULL_EVENT_WIDTH       : integer := 16;
-	constant TIMESTAMP_WIDTH        : integer := 15;
-	constant EVENT_WIDTH            : integer := 15;
-	constant EVENT_DATA_WIDTH_MAX   : integer := 12;
-	constant OVERFLOW_WIDTH         : integer := EVENT_DATA_WIDTH_MAX;
+	constant FULL_EVENT_WIDTH     : integer := 16;
+	constant TIMESTAMP_WIDTH      : integer := 15;
+	constant EVENT_WIDTH          : integer := 15;
+	constant EVENT_DATA_WIDTH_MAX : integer := 12;
+	constant OVERFLOW_WIDTH       : integer := EVENT_DATA_WIDTH_MAX;
 
 	-- event codes
 	constant EVENT_CODE_TIMESTAMP                   : std_logic                                           := '1';
@@ -20,16 +20,15 @@ package EventCodes is
 	constant EVENT_CODE_SPECIAL_IMU_START6          : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(5, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_SPECIAL_IMU_START9          : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(6, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_SPECIAL_IMU_END             : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(7, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_SOE             : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(8, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_EOE             : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(9, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_SORR            : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(10, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_EORR            : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(11, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_SOSR            : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(12, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_EOSR            : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(13, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_SOCOL           : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(14, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_EOCOL           : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(15, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_SOROW           : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(16, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_EOROW           : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(17, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_STARTEXPOSURE   : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(8, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_ENDEXPOSURE     : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(9, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_STARTRESETREAD  : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(10, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_ENDRESETREAD    : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(11, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_STARTSIGNALREAD : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(12, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_ENDSIGNALREAD   : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(13, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_STARTRESETCOL   : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(14, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL  : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(15, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_ENDCOL          : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(16, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_Y_ADDR                      : std_logic_vector(2 downto 0)                        := "001";
 	-- The fourth bit of an X address is the polarity. It usually gets encoded directly from the AER bus input.
 	constant EVENT_CODE_X_ADDR                      : std_logic_vector(1 downto 0)                        := "01";

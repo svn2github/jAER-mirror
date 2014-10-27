@@ -55,13 +55,13 @@ begin
 				APSADCConfigReg_DN.StartRow_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartRow_D'range));
 				APSADCOutput_DN(tAPSADCConfig.StartRow_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartRow_D);
 
-			when APSADCCONFIG_PARAM_ADDRESSES.ReadColumns_D =>
-				APSADCConfigReg_DN.ReadColumns_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.ReadColumns_D'range));
-				APSADCOutput_DN(tAPSADCConfig.ReadColumns_D'range) <= std_logic_vector(APSADCConfigReg_DP.ReadColumns_D);
+			when APSADCCONFIG_PARAM_ADDRESSES.EndColumn_D =>
+				APSADCConfigReg_DN.EndColumn_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndColumn_D'range));
+				APSADCOutput_DN(tAPSADCConfig.EndColumn_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndColumn_D);
 
-			when APSADCCONFIG_PARAM_ADDRESSES.ReadRows_D =>
-				APSADCConfigReg_DN.ReadRows_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.ReadRows_D'range));
-				APSADCOutput_DN(tAPSADCConfig.ReadRows_D'range) <= std_logic_vector(APSADCConfigReg_DP.ReadRows_D);
+			when APSADCCONFIG_PARAM_ADDRESSES.EndRow_D =>
+				APSADCConfigReg_DN.EndRow_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndRow_D'range));
+				APSADCOutput_DN(tAPSADCConfig.EndRow_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndRow_D);
 
 			when APSADCCONFIG_PARAM_ADDRESSES.Exposure_D =>
 				APSADCConfigReg_DN.Exposure_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.Exposure_D'range));
@@ -86,6 +86,10 @@ begin
 			when APSADCCONFIG_PARAM_ADDRESSES.GSTXGateOpenReset_S =>
 				APSADCConfigReg_DN.GSTXGateOpenReset_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)                     <= APSADCConfigReg_DP.GSTXGateOpenReset_S;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.ROIZeroPad =>
+				APSADCConfigReg_DN.ROIZeroPad <= APSADCInput_DP(0);
+				APSADCOutput_DN(0)            <= APSADCConfigReg_DP.ROIZeroPad;
 
 			when others => null;
 		end case;

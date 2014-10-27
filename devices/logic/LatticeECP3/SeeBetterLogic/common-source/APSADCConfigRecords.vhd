@@ -15,14 +15,15 @@ package APSADCConfigRecords is
 		GlobalShutter_S     : unsigned(7 downto 0);
 		StartColumn_D       : unsigned(7 downto 0);
 		StartRow_D          : unsigned(7 downto 0);
-		ReadColumns_D       : unsigned(7 downto 0);
-		ReadRows_D          : unsigned(7 downto 0);
+		EndColumn_D         : unsigned(7 downto 0);
+		EndRow_D            : unsigned(7 downto 0);
 		Exposure_D          : unsigned(7 downto 0);
 		FrameDelay_D        : unsigned(7 downto 0);
 		ResetSettle_D       : unsigned(7 downto 0);
 		ColumnSettle_D      : unsigned(7 downto 0);
 		RowSettle_D         : unsigned(7 downto 0);
 		GSTXGateOpenReset_S : unsigned(7 downto 0);
+		ROIZeroPad          : unsigned(7 downto 0);
 	end record tAPSADCConfigParamAddresses;
 
 	constant APSADCCONFIG_PARAM_ADDRESSES : tAPSADCConfigParamAddresses := (
@@ -31,17 +32,22 @@ package APSADCConfigRecords is
 		GlobalShutter_S     => to_unsigned(2, 8),
 		StartColumn_D       => to_unsigned(3, 8),
 		StartRow_D          => to_unsigned(4, 8),
-		ReadColumns_D       => to_unsigned(5, 8),
-		ReadRows_D          => to_unsigned(6, 8),
+		EndColumn_D         => to_unsigned(5, 8),
+		EndRow_D            => to_unsigned(6, 8),
 		Exposure_D          => to_unsigned(7, 8),
 		FrameDelay_D        => to_unsigned(8, 8),
 		ResetSettle_D       => to_unsigned(9, 8),
 		ColumnSettle_D      => to_unsigned(10, 8),
 		RowSettle_D         => to_unsigned(11, 8),
-		GSTXGateOpenReset_S => to_unsigned(12, 8));
+		GSTXGateOpenReset_S => to_unsigned(12, 8),
+		ROIZeroPad          => to_unsigned(13, 8));
 
 	constant CHIP_SIZE_COLUMNS_WIDTH : integer := integer(ceil(log2(real(CHIP_SIZE_COLUMNS + 1))));
 	constant CHIP_SIZE_ROWS_WIDTH    : integer := integer(ceil(log2(real(CHIP_SIZE_ROWS + 1))));
+
+	constant EXPOSUREDELAY_SIZE : integer := 20;
+	constant RESETTIME_SIZE     : integer := 8;
+	constant SETTLETIMES_SIZE   : integer := 6;
 
 	constant APSADC_MODE_VIDEO             : std_logic_vector(1 downto 0) := "00";
 	constant APSADC_MODE_CAMERA_POWERSAVE  : std_logic_vector(1 downto 0) := "01";
@@ -53,28 +59,30 @@ package APSADCConfigRecords is
 		GlobalShutter_S     : std_logic; -- enable global shutter instead of rolling shutter
 		StartColumn_D       : unsigned(CHIP_SIZE_COLUMNS_WIDTH - 1 downto 0);
 		StartRow_D          : unsigned(CHIP_SIZE_ROWS_WIDTH - 1 downto 0);
-		ReadColumns_D       : unsigned(CHIP_SIZE_COLUMNS_WIDTH - 1 downto 0);
-		ReadRows_D          : unsigned(CHIP_SIZE_ROWS_WIDTH - 1 downto 0);
-		Exposure_D          : unsigned(19 downto 0); -- in microseconds, up to 1 second
-		FrameDelay_D        : unsigned(19 downto 0); -- in microseconds, up to 1 second
-		ResetSettle_D       : unsigned(7 downto 0); -- in cycles at 30MHz, up to 255 cycles
-		ColumnSettle_D      : unsigned(7 downto 0); -- in cycles at 30MHz, up to 255 cycles
-		RowSettle_D         : unsigned(7 downto 0); -- in cycles at 30MHz, up to 255 cycles
+		EndColumn_D         : unsigned(CHIP_SIZE_COLUMNS_WIDTH - 1 downto 0);
+		EndRow_D            : unsigned(CHIP_SIZE_ROWS_WIDTH - 1 downto 0);
+		Exposure_D          : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in microseconds, up to 1 second
+		FrameDelay_D        : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in microseconds, up to 1 second
+		ResetSettle_D       : unsigned(RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 255 cycles
+		ColumnSettle_D      : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 63 cycles
+		RowSettle_D         : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 63 cycles
 		GSTXGateOpenReset_S : std_logic; -- GS: is the TXGate open during reset too?
+		ROIZeroPad          : std_logic; -- Write out all pixels when doing ROI, outside pixels are black (all zeros).
 	end record tAPSADCConfig;
 
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
 		Run_S               => '0',
 		Mode_D              => APSADC_MODE_VIDEO,
 		GlobalShutter_S     => '0',
-		StartColumn_D       => to_unsigned(0, CHIP_SIZE_COLUMNS_WIDTH),
-		StartRow_D          => to_unsigned(0, CHIP_SIZE_ROWS_WIDTH),
-		ReadColumns_D       => to_unsigned(CHIP_SIZE_COLUMNS, CHIP_SIZE_COLUMNS_WIDTH),
-		ReadRows_D          => to_unsigned(CHIP_SIZE_ROWS, CHIP_SIZE_ROWS_WIDTH),
-		Exposure_D          => to_unsigned(100, 20),
-		FrameDelay_D        => to_unsigned(100, 20),
-		ResetSettle_D       => to_unsigned(10, 8),
-		ColumnSettle_D      => to_unsigned(10, 8),
-		RowSettle_D         => to_unsigned(10, 8),
-		GSTXGateOpenReset_S => '0');
+		StartColumn_D       => to_unsigned(1, CHIP_SIZE_COLUMNS_WIDTH),
+		StartRow_D          => to_unsigned(1, CHIP_SIZE_ROWS_WIDTH),
+		EndColumn_D         => to_unsigned(CHIP_SIZE_COLUMNS, CHIP_SIZE_COLUMNS_WIDTH),
+		EndRow_D            => to_unsigned(CHIP_SIZE_ROWS, CHIP_SIZE_ROWS_WIDTH),
+		Exposure_D          => to_unsigned(100, EXPOSUREDELAY_SIZE),
+		FrameDelay_D        => to_unsigned(100, EXPOSUREDELAY_SIZE),
+		ResetSettle_D       => to_unsigned(10, RESETTIME_SIZE),
+		ColumnSettle_D      => to_unsigned(10, SETTLETIMES_SIZE),
+		RowSettle_D         => to_unsigned(10, SETTLETIMES_SIZE),
+		GSTXGateOpenReset_S => '0',
+		ROIZeroPad          => '0');
 end package APSADCConfigRecords;
