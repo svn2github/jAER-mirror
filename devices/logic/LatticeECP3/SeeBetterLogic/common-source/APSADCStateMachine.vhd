@@ -215,7 +215,7 @@ begin
 			Overflow_SO  => SettleTimesDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, ExposureTimeCycles_D, FrameDelayTimeCycles_D, RowReadDone_SP)
+	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, ExposureTimeCycles_D, FrameDelayTimeCycles_D, RowReadDone_SP)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -300,7 +300,6 @@ begin
 			when stRowReadWait =>
 				-- Wait for the Row SM to complete its readout.
 				if RowReadDone_SP = '1' then
-					
 				end if;
 
 			when stEndFrame =>
