@@ -281,13 +281,26 @@ begin
 
 				ADCStartupCount_S <= '1';
 
-			when stStartFrame   =>
+			when stStartFrame =>
+				-- Write out start of frame marker. This and the end of frame marker are the only
+				-- two events from this SM that always have to be committed and are never dropped.
+				if OutFifoControl_SI.Full_S = '0' then
+					OutFifoDataRegCol_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME;
+					OutFifoDataRegColEnable_S <= '1';
+					OutFifoWriteRegCol_S      <= '1';
+
+					ColState_DN <= stRowReadStart;
+				end if;
+
 			when stRowReadStart =>
+				-- Start off the Row SM.
 				RowReadStart_SN <= '1';
 				ColState_DN     <= stRowReadWait;
 
 			when stRowReadWait =>
+				-- Wait for the Row SM to complete its readout.
 				if RowReadDone_SP = '1' then
+					
 				end if;
 
 			when stEndFrame =>
@@ -295,7 +308,15 @@ begin
 				ExposureDelayLimit_D <= FrameDelayTimeCycles_D;
 				ExposureDelayClear_S <= '1';
 
-				ColState_DN <= stWaitFrameDelay;
+				-- Write out end of frame marker. This and the start of frame marker are the only
+				-- two events from this SM that always have to be committed and are never dropped.
+				if OutFifoControl_SI.Full_S = '0' then
+					OutFifoDataRegCol_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDFRAME;
+					OutFifoDataRegColEnable_S <= '1';
+					OutFifoWriteRegCol_S      <= '1';
+
+					ColState_DN <= stWaitFrameDelay;
+				end if;
 
 			when stWaitFrameDelay =>
 				-- Wait until enough time has passed between frames.
