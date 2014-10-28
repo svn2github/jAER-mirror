@@ -317,7 +317,7 @@ begin
 	CurrentRowValid_S     <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow_D) else '0';
 	CurrentReadValid_S    <= CurrentColumnValid_S and CurrentRowValid_S;
 
-	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, APSChipColModeReg_DP, CurrentReadValid_S, OutFifoControl_SI.Full_S, RowReadStart_SP, SettleTimesDone_S)
+	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, APSADCOverflow_SI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentReadValid_S, RowReadStart_SP, SettleTimesDone_S, RowReadPosition_D)
 	begin
 		RowState_DN <= RowState_DP;
 
@@ -371,9 +371,10 @@ begin
 					end if;
 					OutFifoDataRegRowEnable_S <= '1';
 					OutFifoWriteRegRow_S      <= '1';
+				end if;
 
-					RowState_DN          <= stRowSRInitTick;
-					RowReadPositionInc_S <= '1';
+				if OutFifoControl_SI.Full_S = '0' or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+					RowState_DN <= stRowSRInitTick;
 				end if;
 
 			when stRowSRInitTick =>
@@ -396,6 +397,14 @@ begin
 					RowState_DN <= stRowFastJump;
 				end if;
 
+				-- Check if we're done. This means that we just clock the 1 in the RowSR out,
+				-- leaving it clean at only zeros. Further, the row read position is at the
+				-- maximum, so we can detect that, zero it and exit.
+				if RowReadPosition_D = CHIP_SIZE_ROWS then
+					RowState_DN           <= stRowDone;
+					RowReadPositionZero_S <= '1';
+				end if;
+
 			when stRowSettleWait =>
 				-- Wait for the row selection to be valid.
 				if SettleTimesDone_S = '1' then
@@ -410,11 +419,19 @@ begin
 			when stRowWriteEvent =>
 				-- Write event only if FIFO has place, else wait.
 				if OutFifoControl_SI.Full_S = '0' then
-					-- This is only a 10-bit ADC, so we pad with two zeros.
-					OutFifoDataRegRow_D       <= EVENT_CODE_ADC_SAMPLE & "00" & APSADCData_DI;
+					-- Detect ADC overflow.
+					if APSADCOverflow_SI = '1' then
+						-- Overflow detected, let's try to signal this.
+						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ADCOVERFLOW;
+					else
+						-- This is only a 10-bit ADC, so we pad with two zeros.
+						OutFifoDataRegRow_D <= EVENT_CODE_ADC_SAMPLE & "00" & APSADCData_DI;
+					end if;
 					OutFifoDataRegRowEnable_S <= '1';
 					OutFifoWriteRegRow_S      <= '1';
+				end if;
 
+				if OutFifoControl_SI.Full_S = '0' or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					RowState_DN          <= stRowSRFeedTick;
 					RowReadPositionInc_S <= '1';
 				end if;
@@ -427,7 +444,9 @@ begin
 						OutFifoDataRegRow_D       <= EVENT_CODE_ADC_SAMPLE & "000000000000";
 						OutFifoDataRegRowEnable_S <= '1';
 						OutFifoWriteRegRow_S      <= '1';
+					end if;
 
+					if OutFifoControl_SI.Full_S = '0' or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 						RowState_DN          <= stRowSRFeedTick;
 						RowReadPositionInc_S <= '1';
 					end if;
@@ -442,9 +461,11 @@ begin
 					OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
 					OutFifoDataRegRowEnable_S <= '1';
 					OutFifoWriteRegRow_S      <= '1';
+				end if;
 
-					RowReadDone_SN <= '1';
+				if OutFifoControl_SI.Full_S = '0' or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					RowState_DN    <= stIdle;
+					RowReadDone_SN <= '1';
 				end if;
 
 			when others => null;

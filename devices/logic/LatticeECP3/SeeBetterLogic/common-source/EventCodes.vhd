@@ -29,6 +29,9 @@ package EventCodes is
 	constant EVENT_CODE_SPECIAL_APS_STARTRESETCOL   : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(14, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL  : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(15, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_SPECIAL_APS_ENDCOL          : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(16, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_STARTFRAME      : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(17, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_ENDFRAME        : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(18, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_ADCOVERFLOW     : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(19, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_Y_ADDR                      : std_logic_vector(2 downto 0)                        := "001";
 	-- The fourth bit of an X address is the polarity. It usually gets encoded directly from the AER bus input.
 	constant EVENT_CODE_X_ADDR                      : std_logic_vector(1 downto 0)                        := "01";
