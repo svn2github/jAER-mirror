@@ -42,7 +42,7 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tColumnState is (stIdle, stWaitForADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stRowReadStart, stRowReadWait);
+	type tColumnState is (stIdle, stWaitForADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stReset, stColReadAStart, stColReadAEnd, stColReadBStart, stColReadBEnd, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stColSRFeedTick);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -215,7 +215,7 @@ begin
 			Overflow_SO  => SettleTimesDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, ExposureTimeCycles_D, FrameDelayTimeCycles_D, RowReadDone_SP)
+	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, ExposureTimeCycles_D, FrameDelayTimeCycles_D, RowReadDone_SP, ResetTimeDone_S)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -289,15 +289,73 @@ begin
 					OutFifoDataRegColEnable_S <= '1';
 					OutFifoWriteRegCol_S      <= '1';
 
-					ColState_DN <= stRowReadStart;
+					ColState_DN <= stColSRFeedA;
 				end if;
 
-			when stRowReadStart =>
+			when stColSRFeedA =>
+				APSChipColSRClockReg_S <= '0';
+				APSChipColSRInReg_S    <= '1';
+
+				ColState_DN <= stColSRFeedATick;
+
+			when stColSRFeedATick =>
+				APSChipColSRClockReg_S <= '1';
+				APSChipColSRInReg_S    <= '1';
+
+				ColState_DN <= stColSRFeedB;
+
+			when stColSRFeedB =>
+				APSChipColSRClockReg_S <= '0';
+				APSChipColSRInReg_S    <= '1';
+
+				ColState_DN <= stColSRFeedBTick;
+
+			when stColSRFeedBTick =>
+				APSChipColSRClockReg_S <= '1';
+				APSChipColSRInReg_S    <= '1';
+
+				ColState_DN <= stReset;
+
+			when stColSRFeedTick =>
+				APSChipColSRClockReg_S <= '1';
+				APSChipColSRInReg_S    <= '0';
+
+				ColState_DN <= stReset;
+
+			when stReset =>
+				-- Do reset.
+				APSChipColModeReg_DN <= COLMODE_RESETA;
+
+				if ResetTimeDone_S = '1' then
+					ColState_DN <= stColReadAStart;
+				end if;
+
+				ResetTimeCount_S <= '1';
+
+			when stColReadAStart =>
+				APSChipColModeReg_DN <= COLMODE_READA;
+
 				-- Start off the Row SM.
 				RowReadStart_SN <= '1';
-				ColState_DN     <= stRowReadWait;
+				ColState_DN     <= stColReadAEnd;
 
-			when stRowReadWait =>
+			when stColReadAEnd =>
+				APSChipColModeReg_DN <= COLMODE_READA;
+
+				-- Wait for the Row SM to complete its readout.
+				if RowReadDone_SP = '1' then
+				end if;
+
+			when stColReadBStart =>
+				APSChipColModeReg_DN <= COLMODE_READB;
+
+				-- Start off the Row SM.
+				RowReadStart_SN <= '1';
+				ColState_DN     <= stColReadBEnd;
+
+			when stColReadBEnd =>
+				APSChipColModeReg_DN <= COLMODE_READB;
+
 				-- Wait for the Row SM to complete its readout.
 				if RowReadDone_SP = '1' then
 				end if;
