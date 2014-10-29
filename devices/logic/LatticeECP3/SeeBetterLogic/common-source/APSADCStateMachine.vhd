@@ -7,6 +7,33 @@ use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.APSADCConfigRecords.all;
 
+-- Rolling shutter considerations: since the exposure is given by the
+-- difference in time between the reset/reset read and the signal read (integration happens
+-- while they are carried out), each pass of Reset->ResetRead->SignalRead must have exactly
+-- the same timing characteristics, across all columns. This implies that the SignalRead must
+-- always happen, so that there is no sudden offset introduced later when the SignalRead is
+-- actually sampling values. A 'fake' SignalRead needs thus to be done to provide correct 'time
+-- spacing', even when it has not yet been clocked into the column shift register itself.
+
+-- Region Of Interest (ROI) support: both global and rolling shutter modes support specifying
+-- a region of the full image to be scanned, instead of the full image. This enables skipping
+-- certain sources of delay for pixels outside this given region, which makes for faster scan
+-- times, and thus smaller delays and higher frame-rates.
+-- In global shutter mode, since the reads are separated from each-other, from reset and from
+-- integration, all pixels that are outside an interest region can be easily skipped. The
+-- overall timing of the reset and signal reads will be the same.
+-- In rolling shutter mode, things get more complex, given the precise 'time spacing' that must
+-- be ovserved between the ResetRead and the SignalRead (see 'Rolling shutter considerations'
+-- above). To guarantee this, all columns must take the same amount of time to be processed,
+-- because if columns that are completely outside of the region of interest would take less time
+-- (by just skipping them for example), then you have regions of the image that are traversed at
+-- different speeds by the ResetReads and the successive SignalReads, since the SignalReads may
+-- overlap with the ResetReads, and then could not just quickly advance the column shift register
+-- like the ResetReads did, resulting in timing differences. An easy way to overcome this is by
+-- just having all columns go through the same readout process, like if the region of interest
+-- were always expanded to fit across all columns equally. This slightly mitigates the
+-- advantages of ROI stated above, but is unavoidable with the current scheme.
+
 entity APSADCStateMachine is
 	generic(
 		ADC_CLOCK_FREQ    : integer;
@@ -100,6 +127,9 @@ architecture Behavioral of APSADCStateMachine is
 	signal RowReadStart_SP, RowReadStart_SN : std_logic;
 	signal RowReadDone_SP, RowReadDone_SN   : std_logic;
 
+	-- Check row validity. Used for faster ROI.
+	signal CurrentRowValid_S : std_logic;
+
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S, OutFifoWriteRegCol_S, OutFifoWriteRegRow_S                : std_logic;
 	signal OutFifoDataRegEnable_S, OutFifoDataRegColEnable_S, OutFifoDataRegRowEnable_S : std_logic;
@@ -114,11 +144,7 @@ architecture Behavioral of APSADCStateMachine is
 
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
-	signal APSADCConfigSyncReg_D, APSADCConfigReg_D     : tAPSADCConfig;
-	signal CurrentColumnAValid_S, CurrentColumnBValid_S : std_logic;
-	signal CurrentColumnValid_S                         : std_logic;
-	signal CurrentRowValid_S                            : std_logic;
-	signal CurrentReadValid_S                           : std_logic;
+	signal APSADCConfigSyncReg_D, APSADCConfigReg_D : tAPSADCConfig;
 begin
 	-- Forward 30MHz clock directly to external ADC.
 	APSADCClock_CO <= Clock_CI;
@@ -387,15 +413,11 @@ begin
 		end case;
 	end process columnMainStateMachine;
 
-	-- Concurrently calculate if the current pixel has to be read out or not.
-	-- If not (like with ROI), we can just fast jump that row.
-	CurrentColumnAValid_S <= '1' when (ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn_D) else '0';
-	CurrentColumnBValid_S <= '1' when (ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn_D) else '0';
-	CurrentColumnValid_S  <= '1' when ((APSChipColModeReg_DP = COLMODE_READA and CurrentColumnAValid_S = '1') or (APSChipColModeReg_DP = COLMODE_READB and CurrentColumnBValid_S = '1')) else '0';
-	CurrentRowValid_S     <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow_D) else '0';
-	CurrentReadValid_S    <= CurrentColumnValid_S and CurrentRowValid_S;
+	-- Concurrently calculate if the current row has to be read out or not.
+	-- If not (like with ROI), we can just fast jump parts of that row.
+	CurrentRowValid_S <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow_D) else '0';
 
-	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, APSADCOverflow_SI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentReadValid_S, RowReadStart_SP, SettleTimesDone_S, RowReadPosition_D)
+	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, APSADCOverflow_SI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, SettleTimesDone_S, RowReadPosition_D)
 	begin
 		RowState_DN <= RowState_DP;
 
@@ -459,7 +481,7 @@ begin
 				APSChipRowSRClockReg_S <= '1';
 				APSChipRowSRInReg_S    <= '1';
 
-				if CurrentReadValid_S = '1' then
+				if CurrentRowValid_S = '1' then
 					RowState_DN <= stRowSettleWait;
 				else
 					RowState_DN <= stRowFastJump;
@@ -469,7 +491,7 @@ begin
 				APSChipRowSRClockReg_S <= '1';
 				APSChipRowSRInReg_S    <= '0';
 
-				if CurrentReadValid_S = '1' then
+				if CurrentRowValid_S = '1' then
 					RowState_DN <= stRowSettleWait;
 				else
 					RowState_DN <= stRowFastJump;
