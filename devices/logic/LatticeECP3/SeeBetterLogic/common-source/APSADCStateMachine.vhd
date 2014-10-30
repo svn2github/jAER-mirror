@@ -69,7 +69,7 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tColumnState is (stIdle, stWaitForADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stReset, stColReadAStart, stColReadAEnd, stColReadBStart, stColReadBEnd, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stColSRFeedTick);
+	type tColumnState is (stIdle, stWaitForADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stReset, stColReadAStart, stColReadAEnd, stColReadBStart, stColReadBEnd, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stColSRFeedTick, stIdleRegUpdate);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -145,6 +145,7 @@ architecture Behavioral of APSADCStateMachine is
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
 	signal APSADCConfigSyncReg_D, APSADCConfigReg_D : tAPSADCConfig;
+	signal APSADCConfigRegEnable_S                  : std_logic;
 begin
 	-- Forward 30MHz clock directly to external ADC.
 	APSADCClock_CO <= Clock_CI;
@@ -280,7 +281,15 @@ begin
 		-- Row SM communication.
 		RowReadStart_SN <= '0';
 
+		-- Only update configuration when in Idle state. Doing so while the frame is being read out
+		-- would cause different timing, exposure and read out types, resulting in corrupted frames.
+		APSADCConfigRegEnable_S <= '0';
+
 		case ColState_DP is
+			when stIdleRegUpdate =>
+				APSADCConfigRegEnable_S <= '1';
+				ColState_DN             <= stIdle;
+
 			when stIdle =>
 				if APSADCConfigReg_D.Run_S = '1' then
 					-- We want to take samples (picture or video), so the ADC has to be running.
@@ -296,6 +305,8 @@ begin
 						APSADCStandbyReg_S       <= '1';
 						ADCRunning_SN            <= '0';
 					end if;
+
+					ColState_DN <= stIdleRegUpdate;
 				end if;
 
 			when stWaitForADCStartup =>
@@ -406,7 +417,7 @@ begin
 				ExposureDelayLimit_D <= FrameDelayTimeCycles_D;
 
 				if ExposureDelayDone_S = '1' then
-					ColState_DN <= stIdle;
+					ColState_DN <= stIdleRegUpdate;
 				end if;
 
 			when others => null;
@@ -637,7 +648,9 @@ begin
 			APSADCStandby_SO       <= APSADCStandbyReg_S;
 
 			-- APS ADC config from another clock domain.
-			APSADCConfigReg_D     <= APSADCConfigSyncReg_D;
+			if APSADCConfigRegEnable_S = '1' then
+				APSADCConfigReg_D <= APSADCConfigSyncReg_D;
+			end if;
 			APSADCConfigSyncReg_D <= APSADCConfig_DI;
 		end if;
 	end process p_memoryzing;
