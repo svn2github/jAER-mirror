@@ -4,7 +4,7 @@
 #Hostname: LATTICEDVM
 
 $ Start of Compile
-#Thu Oct 30 14:07:21 2014
+#Fri Oct 31 11:42:56 2014
 
 Synopsys VHDL Compiler, version comp201309rcp1, Build 147R, built Apr 16 2014
 @N|Running in 64-bit mode
@@ -12,22 +12,10 @@ Copyright (C) 1994-2013 Synopsys, Inc. This software and the associated document
 
 @N: CD720 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std.vhd":146:18:146:21|Setting time resolution to ns
 @N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":15:7:15:14|Top entity is set to TopLevel.
-@E: CD255 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionMotherCell.vhd":138:36:138:36|No identifier "psmmotheromcack_abi" in scope
-@E: CD415 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionMotherCell.vhd":149:18:149:18|Expecting keyword is
-@E: CD632 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionMotherCell.vhd":170:18:170:18|duplicate entity name work
-@E: CD632 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionMotherCell.vhd":191:18:191:18|duplicate entity name work
-@E: CD632 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionMotherCell.vhd":212:18:212:18|duplicate entity name work
-5 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionMotherCell.vhd
-@END
-@E: CD252 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/private-source/TopLevel.vhd":251:33:251:33|Expecting =>
-@E: CD632 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/private-source/TopLevel.vhd":275:35:275:35|duplicate entity name work
-@E: CD632 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/private-source/TopLevel.vhd":290:37:290:37|duplicate entity name work
-@E: CD632 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/private-source/TopLevel.vhd":320:35:320:35|duplicate entity name work
-@E: CD632 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/private-source/TopLevel.vhd":366:28:366:28|duplicate entity name work
-@E: CD632 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/private-source/TopLevel.vhd":375:23:375:23|duplicate entity name work
-@E: CD632 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/private-source/TopLevel.vhd":375:23:375:23|Too many errors - aborting.
-@END
+
+At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 79MB peak: 80MB)
+
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Thu Oct 30 14:07:22 2014
+# Fri Oct 31 11:42:57 2014
 
 ###########################################################]
