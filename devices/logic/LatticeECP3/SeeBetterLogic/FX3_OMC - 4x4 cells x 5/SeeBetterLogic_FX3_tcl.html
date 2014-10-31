@@ -6,21 +6,7 @@
 -->
 </STYLE>
 </HEAD>
-<PRE><A name="pn141013114906"></A><B><U><big>pn141013114906</big></U></B>
-#Start recording tcl command: 10/13/2014 11:31:04
-#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
-prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
-prj_strgy set_value -strategy Strategy1 syn_vhdl2008=False
-prj_strgy set_value -strategy Strategy1 syn_vhdl2008=True
-prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/Reveal_OMC.rvl"
-prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/OMC/OMC.spf"
-prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
-prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
-#Stop recording: 10/13/2014 11:49:06
-
-
-
-<A name="pn141013115004"></A><B><U><big>pn141013115004</big></U></B>
+<PRE><A name="pn141013115004"></A><B><U><big>pn141013115004</big></U></B>
 #Start recording tcl command: 10/13/2014 11:49:17
 #Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
 prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
@@ -124,6 +110,18 @@ prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4
 prj_src add "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionMotherCell_tb.vhd"
 prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
 #Stop recording: 10/30/2014 16:42:01
+
+
+
+<A name="pn141031122118"></A><B><U><big>pn141031122118</big></U></B>
+#Start recording tcl command: 10/31/2014 11:30:40
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/SeeBetterLogic_FX3.ldf"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_dev set -part LFE3-17EA-7FTN256I
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+#Stop recording: 10/31/2014 12:21:18
 
 
 

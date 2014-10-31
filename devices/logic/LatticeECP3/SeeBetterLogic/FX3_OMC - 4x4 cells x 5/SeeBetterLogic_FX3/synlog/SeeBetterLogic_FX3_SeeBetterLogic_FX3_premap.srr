@@ -45,6 +45,6 @@ Connection 10: Direction is (Output ) pin:PSMreq_ABO inst:OMC5 of work.ObjectMot
 Connection 11: Direction is (Output ) pin:O[0] inst:true of PrimLib.true(prim)
  2 Errors occurred during mapping - no output produced
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Fri Oct 31 12:19:16 2014
+# Fri Oct 31 12:26:53 2014
 
 ###########################################################]

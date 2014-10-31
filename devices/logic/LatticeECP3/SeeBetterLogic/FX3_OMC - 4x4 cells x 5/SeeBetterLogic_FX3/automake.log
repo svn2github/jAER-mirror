@@ -12,7 +12,7 @@ Lattice Diamond Version 3.2.0.134
 #Implementation: SeeBetterLogic_FX3
 
 $ Start of Compile
-#Fri Oct 31 12:19:10 2014
+#Fri Oct 31 12:26:51 2014
 
 Synopsys VHDL Compiler, version comp201309rcp1, Build 147R, built Apr 16 2014
 @N|Running in 64-bit mode
@@ -45,7 +45,9 @@ File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 
 File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\ChipBiasSPIConfig.vhd changed - recompiling
 File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell_tb.vhd changed - recompiling
 VHDL syntax check successful!
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd changed - recompiling
+
+Compiler output is up to date.  No re-compile necessary
+
 @N: CD231 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std1164.vhd":913:16:913:17|Using onehot encoding for type mvl9plus ('U'="1000000000")
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":15:7:15:14|Synthesizing work.toplevel.structural 
 @W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":148:8:148:19|Signal caviaro_data is undriven 
@@ -742,10 +744,10 @@ State machine has 4 reachable states with original encodings of:
 @W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":20:2:20:24|Input SPIAlternativeSelect_SI is unused
 @END
 
-At c_vhdl Exit (Real Time elapsed 0h:00m:04s; CPU Time elapsed 0h:00m:03s; Memory used current: 109MB peak: 118MB)
+At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 79MB peak: 80MB)
 
-Process took 0h:00m:04s realtime, 0h:00m:03s cputime
-# Fri Oct 31 12:19:15 2014
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Oct 31 12:26:52 2014
 
 ###########################################################]
 Pre-mapping Report
@@ -797,7 +799,7 @@ Connection 10: Direction is (Output ) pin:PSMreq_ABO inst:OMC5 of work.ObjectMot
 Connection 11: Direction is (Output ) pin:O[0] inst:true of PrimLib.true(prim)
  2 Errors occurred during mapping - no output produced
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Fri Oct 31 12:19:16 2014
+# Fri Oct 31 12:26:53 2014
 
 ###########################################################]
 
