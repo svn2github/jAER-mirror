@@ -6,15 +6,7 @@
 -->
 </STYLE>
 </HEAD>
-<PRE><A name="pn141013112924"></A><B><U><big>pn141013112924</big></U></B>
-#Start recording tcl command: 10/13/2014 11:26:06
-#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
-prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
-#Stop recording: 10/13/2014 11:29:24
-
-
-
-<A name="pn141013114906"></A><B><U><big>pn141013114906</big></U></B>
+<PRE><A name="pn141013114906"></A><B><U><big>pn141013114906</big></U></B>
 #Start recording tcl command: 10/13/2014 11:31:04
 #Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
 prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
@@ -121,6 +113,17 @@ prj_project close
 prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/SeeBetterLogic_FX3.ldf"
 prj_src add "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionMotherCell.vhd"
 #Stop recording: 10/28/2014 14:58:48
+
+
+
+<A name="pn141030164201"></A><B><U><big>pn141030164201</big></U></B>
+#Start recording tcl command: 10/28/2014 14:58:59
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/SeeBetterLogic_FX3.ldf"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionCell_tb.vhd"
+prj_src add "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionMotherCell_tb.vhd"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+#Stop recording: 10/30/2014 16:42:01
 
 
 

@@ -1,0 +1,2 @@
+@E: BN314 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotionmothercell.vhd":128:14:128:34|Net GND in work.ObjectMotionMotherCell(behavioural) has multiple drivers. 
+@E: BN314 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotionmothercell.vhd":128:14:128:34|Net VCC in work.ObjectMotionMotherCell(behavioural) has multiple drivers. 

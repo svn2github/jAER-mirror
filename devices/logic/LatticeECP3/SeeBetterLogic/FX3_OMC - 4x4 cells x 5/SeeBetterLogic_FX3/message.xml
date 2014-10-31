@@ -8589,30 +8589,6 @@
             <Navigation>Input port bits 5 to 0 of pdvsdata_adi(16 downto 0) are unused </Navigation>
         </Message>
         <Message>
-            <ID>2019990</ID>
-            <Severity>Error</Severity>
-            <Dynamic>CL219 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:89:9:89:20|Multiple non-tristate drivers for net AllowReset_S in ObjectMotionMotherCell</Dynamic>
-            <Navigation>CL219</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>89</Navigation>
-            <Navigation>9</Navigation>
-            <Navigation>89</Navigation>
-            <Navigation>20</Navigation>
-            <Navigation>Multiple non-tristate drivers for net AllowReset_S in ObjectMotionMotherCell</Navigation>
-        </Message>
-        <Message>
-            <ID>2019990</ID>
-            <Severity>Error</Severity>
-            <Dynamic>CL219 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:39:2:39:20|Multiple non-tristate drivers for net PSMMotherOMCreq_ABO in ObjectMotionMotherCell</Dynamic>
-            <Navigation>CL219</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>39</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>39</Navigation>
-            <Navigation>20</Navigation>
-            <Navigation>Multiple non-tristate drivers for net PSMMotherOMCreq_ABO in ObjectMotionMotherCell</Navigation>
-        </Message>
-        <Message>
             <ID>2019991</ID>
             <Severity>Warning</Severity>
             <Dynamic>CL246 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCellSPIConfig.vhd&quot;:39:2:39:20|Input port bits 31 to 25 of configparaminput_di(31 downto 0) are unused</Dynamic>
@@ -9119,26 +9095,26 @@
         <Message>
             <ID>2019990</ID>
             <Severity>Error</Severity>
-            <Dynamic>CL229 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:39:2:39:20|Unresolved tristate drivers for net PSMMotherOMCreq_ABO in ObjectMotionMotherCell</Dynamic>
-            <Navigation>CL229</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>39</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>39</Navigation>
-            <Navigation>20</Navigation>
-            <Navigation>Unresolved tristate drivers for net PSMMotherOMCreq_ABO in ObjectMotionMotherCell</Navigation>
+            <Dynamic>BN314 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotionmothercell.vhd&quot;:128:14:128:34|Net GND in work.ObjectMotionMotherCell(behavioural) has multiple drivers.</Dynamic>
+            <Navigation>BN314</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotionmothercell.vhd</Navigation>
+            <Navigation>128</Navigation>
+            <Navigation>14</Navigation>
+            <Navigation>128</Navigation>
+            <Navigation>34</Navigation>
+            <Navigation>Net GND in work.ObjectMotionMotherCell(behavioural) has multiple drivers. </Navigation>
         </Message>
         <Message>
             <ID>2019990</ID>
             <Severity>Error</Severity>
-            <Dynamic>CL229 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:89:9:89:20|Unresolved tristate drivers for net AllowReset_S in ObjectMotionMotherCell</Dynamic>
-            <Navigation>CL229</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>89</Navigation>
-            <Navigation>9</Navigation>
-            <Navigation>89</Navigation>
-            <Navigation>20</Navigation>
-            <Navigation>Unresolved tristate drivers for net AllowReset_S in ObjectMotionMotherCell</Navigation>
+            <Dynamic>BN314 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotionmothercell.vhd&quot;:128:14:128:34|Net VCC in work.ObjectMotionMotherCell(behavioural) has multiple drivers.</Dynamic>
+            <Navigation>BN314</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotionmothercell.vhd</Navigation>
+            <Navigation>128</Navigation>
+            <Navigation>14</Navigation>
+            <Navigation>128</Navigation>
+            <Navigation>34</Navigation>
+            <Navigation>Net VCC in work.ObjectMotionMotherCell(behavioural) has multiple drivers. </Navigation>
         </Message>
     </Task>
 </BaliMessageLog>

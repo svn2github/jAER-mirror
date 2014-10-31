@@ -264,6 +264,8 @@ begin
 		PDVSackOMC5_S	<= '1';
 		PSMreqOMC5_S	<= '1';
 		OMCfireOMC5_S	<= '0';
+		
+		AllowReset_S <= '0';
 	
 		-- Reset values before SPIConfig assignment
 		Threshold_S  <= (others => '0'); 
@@ -344,6 +346,7 @@ begin
 				AllowReset_S <= '1'; -- Allow Daughter OMC to go back to Idle state
 				
 			when ReadAndUpdate =>	 
+				AllowReset_S <= '0';
 				if (arrayOfSubunits(to_integer(PDVSdata_ADI(16 downto 14)),to_integer(PDVSdata_ADI(8 downto 6))) =  "1000000000000000") then
 					null; 
 				else
@@ -393,12 +396,10 @@ begin
 	end if;
 end process Sequential;
 --------------------------------------------------------------------------------
-Combinational : process (State_DP, PDVSMotherOMCreq_ABI, arrayOfSubunits, CounterOVF_S, PDVSdata_ADI, PDVSackOMC1_S, PDVSackOMC2_S, PDVSackOMC3_S, PDVSackOMC4_S, PDVSackOMC5_S, AllowReset_S) -- Combinational Process
+Combinational : process (State_DP, PDVSMotherOMCreq_ABI, arrayOfSubunits, CounterOVF_S, PDVSdata_ADI, PDVSackOMC1_S, PDVSackOMC2_S, PDVSackOMC3_S, PDVSackOMC4_S, PDVSackOMC5_S) -- Combinational Process
 begin
 	-- Default
-	PSMMotherOMCreq_ABO <= '1';
 	State_DN <= State_DP; -- Keep the same state
-	AllowReset_S <= '0';
 
 	case State_DP is
 

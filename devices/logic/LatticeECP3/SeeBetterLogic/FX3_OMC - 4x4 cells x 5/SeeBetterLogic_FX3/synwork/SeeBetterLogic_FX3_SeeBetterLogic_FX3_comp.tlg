@@ -367,7 +367,6 @@ Post processing for work.objectmotioncell.behavioural
 Post processing for work.objectmotionmothercell.behavioural
 @W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Pruning register TimerLimit_S_2(24 downto 0)  
 @W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Pruning register Threshold_S_3(24 downto 0)  
-@A: CL282 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Feedback mux created for signal AllowReset_S -- possible set/reset assignment for signal missing. Specifying a reset value will improve timing and area.
 @N: CL177 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Sharing sequential element arrayOfSubunitsOMC4_2_2.
 @N: CL177 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Sharing sequential element arrayOfSubunitsOMC4_2_1.
 @N: CL177 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Sharing sequential element arrayOfSubunitsOMC4_2_0.
@@ -469,8 +468,6 @@ State machine has 4 reachable states with original encodings of:
    11
 @W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":36:2:36:13|Input port bits 13 to 9 of pdvsdata_adi(16 downto 0) are unused 
 @W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":36:2:36:13|Input port bits 5 to 0 of pdvsdata_adi(16 downto 0) are unused 
-@E: CL219 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":89:9:89:20|Multiple non-tristate drivers for net AllowReset_S in ObjectMotionMotherCell
-@E: CL219 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":39:2:39:20|Multiple non-tristate drivers for net PSMMotherOMCreq_ABO in ObjectMotionMotherCell
 @W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCellSPIConfig.vhd":39:2:39:20|Input port bits 31 to 25 of configparaminput_di(31 downto 0) are unused 
 @N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\CAVIAR2WSAER.vhd":48:3:48:4|Trying to extract state machine for register cs
 Extracted state machine for register cs
@@ -695,5 +692,3 @@ State machine has 4 reachable states with original encodings of:
    0100
    1000
 @W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":20:2:20:24|Input SPIAlternativeSelect_SI is unused
-@E: CL229 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":39:2:39:20|Unresolved tristate drivers for net PSMMotherOMCreq_ABO in ObjectMotionMotherCell
-@E: CL229 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":89:9:89:20|Unresolved tristate drivers for net AllowReset_S in ObjectMotionMotherCell

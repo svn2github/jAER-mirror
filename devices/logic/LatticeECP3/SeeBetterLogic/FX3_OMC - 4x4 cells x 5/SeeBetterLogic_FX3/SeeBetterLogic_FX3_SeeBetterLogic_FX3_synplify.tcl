@@ -3,8 +3,8 @@
 
 #device options
 set_option -technology LATTICE-ECP3
-set_option -part LFE3_70E
-set_option -package FN484I
+set_option -part LFE3_17EA
+set_option -package FTN256I
 set_option -speed_grade -7
 
 #compilation/mapping options

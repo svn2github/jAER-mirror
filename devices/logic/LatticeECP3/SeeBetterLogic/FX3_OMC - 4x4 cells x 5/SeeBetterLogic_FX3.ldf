@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.2" title="SeeBetterLogic_FX3" device="LFE3-70E-7FN484I" default_implementation="SeeBetterLogic_FX3">
+<BaliProject version="3.2" title="SeeBetterLogic_FX3" device="LFE3-17EA-7FTN256I" default_implementation="SeeBetterLogic_FX3">
     <Options/>
     <Implementation title="SeeBetterLogic_FX3" dir="SeeBetterLogic_FX3" description="SeeBetterLogic_FX3" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="ObjectMotionMotherCell_tb" top="TopLevel"/>

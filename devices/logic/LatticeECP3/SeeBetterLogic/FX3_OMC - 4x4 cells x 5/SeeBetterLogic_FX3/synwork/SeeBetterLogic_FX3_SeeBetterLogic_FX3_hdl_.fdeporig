@@ -64,7 +64,7 @@
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\fx3\\FX3ConfigRecords.vhd":1413979794
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\fx3\\FX3SPIConfig.vhd":1412600751
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\private-source\\MISCAERStateMachine.vhd":1414503104
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\ObjectMotionMotherCell.vhd":1414679006
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\ObjectMotionMotherCell.vhd":1414753710
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\ObjectMotionMotherCell_tb.vhd":1414682423
 0 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
 1 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd" vhdl
