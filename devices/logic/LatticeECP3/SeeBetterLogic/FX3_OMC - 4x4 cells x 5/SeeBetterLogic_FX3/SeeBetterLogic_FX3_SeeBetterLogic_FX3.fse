@@ -1,0 +1,366 @@
+
+fsm_encoding {28513511} onehot
+
+fsm_state_encoding {28513511} idle {00000001}
+
+fsm_state_encoding {28513511} req {00000010}
+
+fsm_state_encoding {28513511} row {00000100}
+
+fsm_state_encoding {28513511} row_ack {00001000}
+
+fsm_state_encoding {28513511} col {00010000}
+
+fsm_state_encoding {28513511} col_ack {00100000}
+
+fsm_state_encoding {28513511} send {01000000}
+
+fsm_state_encoding {28513511} send_ack {10000000}
+
+fsm_registers {28513511} {cs[0]}  {cs[1]}  {cs[2]}  {cs[3]}  {cs[4]}  {cs[5]}  {cs[6]}  {cs[7]} 
+
+fsm_encoding {5614011402} onehot
+
+fsm_state_encoding {5614011402} idle {000000000001}
+
+fsm_state_encoding {5614011402} readandupdate {000000000010}
+
+fsm_state_encoding {5614011402} excitationcalculate {000000000100}
+
+fsm_state_encoding {5614011402} excitationnormalise {000000001000}
+
+fsm_state_encoding {5614011402} inhibitioncalculate {000000010000}
+
+fsm_state_encoding {5614011402} inhibitionnormalise {000000100000}
+
+fsm_state_encoding {5614011402} subtractioncalculate {000001000000}
+
+fsm_state_encoding {5614011402} multiplydt {000010000000}
+
+fsm_state_encoding {5614011402} vmembranecalculate {000100000000}
+
+fsm_state_encoding {5614011402} fire {001000000000}
+
+fsm_state_encoding {5614011402} acknowledge {010000000000}
+
+fsm_state_encoding {5614011402} decay {100000000000}
+
+fsm_registers {5614011402} {State_DP[0]}  {State_DP[1]}  {State_DP[2]}  {State_DP[3]}  {State_DP[4]}  {State_DP[5]}  {State_DP[6]}  {State_DP[7]}  {State_DP[8]}  {State_DP[9]}  {State_DP[10]}  {State_DP[11]} 
+
+fsm_encoding {29483483} sequential
+
+fsm_state_encoding {29483483} idle {00}
+
+fsm_state_encoding {29483483} waitack_col {01}
+
+fsm_state_encoding {29483483} waitack_row {10}
+
+fsm_state_encoding {29483483} waitnack_row {11}
+
+fsm_registers {29483483} {cs[1]}  {cs[0]} 
+
+fsm_encoding {4129422944} onehot
+
+fsm_state_encoding {4129422944} stidle0 {000000000000000001}
+
+fsm_state_encoding {4129422944} stprepareearlypacket0 {000000000000000010}
+
+fsm_state_encoding {4129422944} stearlypacket0 {000000000000000100}
+
+fsm_state_encoding {4129422944} stpreparewrite0 {000000000000001000}
+
+fsm_state_encoding {4129422944} stwritefirst0 {000000000000010000}
+
+fsm_state_encoding {4129422944} stwritemiddle0 {000000000000100000}
+
+fsm_state_encoding {4129422944} stwritelast0 {000000000001000000}
+
+fsm_state_encoding {4129422944} stprepareswitch0 {000000000010000000}
+
+fsm_state_encoding {4129422944} stswitch0 {000000000100000000}
+
+fsm_state_encoding {4129422944} stidle1 {000000001000000000}
+
+fsm_state_encoding {4129422944} stprepareearlypacket1 {000000010000000000}
+
+fsm_state_encoding {4129422944} stearlypacket1 {000000100000000000}
+
+fsm_state_encoding {4129422944} stpreparewrite1 {000001000000000000}
+
+fsm_state_encoding {4129422944} stwritefirst1 {000010000000000000}
+
+fsm_state_encoding {4129422944} stwritemiddle1 {000100000000000000}
+
+fsm_state_encoding {4129422944} stwritelast1 {001000000000000000}
+
+fsm_state_encoding {4129422944} stprepareswitch1 {010000000000000000}
+
+fsm_state_encoding {4129422944} stswitch1 {100000000000000000}
+
+fsm_registers {4129422944} {State_DP[0]}  {State_DP[1]}  {State_DP[2]}  {State_DP[3]}  {State_DP[4]}  {State_DP[5]}  {State_DP[6]}  {State_DP[7]}  {State_DP[8]}  {State_DP[9]}  {State_DP[10]}  {State_DP[11]}  {State_DP[12]}  {State_DP[13]}  {State_DP[14]}  {State_DP[15]}  {State_DP[16]}  {State_DP[17]} 
+
+fsm_encoding {3413121315} sequential
+
+fsm_state_encoding {3413121315} stinit {00}
+
+fsm_state_encoding {3413121315} stgetdata {01}
+
+fsm_state_encoding {3413121315} stwaitread {10}
+
+fsm_registers {3413121315} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {4436923697} onehot
+
+fsm_state_encoding {4436923697} stidle {0000000000001}
+
+fsm_state_encoding {4436923697} sttimestampreset {0000000000010}
+
+fsm_state_encoding {4436923697} sttimestampwrap {0000000000100}
+
+fsm_state_encoding {4436923697} sttimestamp {0000000001000}
+
+fsm_state_encoding {4436923697} stpreparedvsaer {0000000010000}
+
+fsm_state_encoding {4436923697} stdvsaer {0000000100000}
+
+fsm_state_encoding {4436923697} stprepareapsadc {0000001000000}
+
+fsm_state_encoding {4436923697} stapsadc {0000010000000}
+
+fsm_state_encoding {4436923697} stprepareimu {0000100000000}
+
+fsm_state_encoding {4436923697} stimu {0001000000000}
+
+fsm_state_encoding {4436923697} stprepareexttrigger {0010000000000}
+
+fsm_state_encoding {4436923697} stexttrigger {0100000000000}
+
+fsm_state_encoding {4436923697} stdropdata {1000000000000}
+
+fsm_registers {4436923697} {State_DP[0]}  {State_DP[1]}  {State_DP[2]}  {State_DP[3]}  {State_DP[4]}  {State_DP[5]}  {State_DP[6]}  {State_DP[7]}  {State_DP[8]}  {State_DP[9]}  {State_DP[10]}  {State_DP[11]}  {State_DP[12]} 
+
+fsm_encoding {19892896} sequential
+
+fsm_state_encoding {19892896} stwaitforpulse {00}
+
+fsm_state_encoding {19892896} stpulsedetected {01}
+
+fsm_state_encoding {19892896} stpulseoverflowwait {10}
+
+fsm_registers {19892896} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {3512121219} sequential
+
+fsm_state_encoding {3512121219} stinit {00}
+
+fsm_state_encoding {3512121219} stgetdata {01}
+
+fsm_state_encoding {3512121219} stwaitread {10}
+
+fsm_registers {3512121219} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {3512121219} sequential
+
+fsm_state_encoding {3512121219} stinit {00}
+
+fsm_state_encoding {3512121219} stgetdata {01}
+
+fsm_state_encoding {3512121219} stwaitread {10}
+
+fsm_registers {3512121219} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {4617221728} onehot
+
+fsm_state_encoding {4617221728} stidle {000001}
+
+fsm_state_encoding {4617221728} stdifferentiateyx {000010}
+
+fsm_state_encoding {4617221728} sthandley {000100}
+
+fsm_state_encoding {4617221728} stacky {001000}
+
+fsm_state_encoding {4617221728} sthandlex {010000}
+
+fsm_state_encoding {4617221728} stackx {100000}
+
+fsm_registers {4617221728} {State_DP[0]}  {State_DP[1]}  {State_DP[2]}  {State_DP[3]}  {State_DP[4]}  {State_DP[5]} 
+
+fsm_encoding {3512121219} sequential
+
+fsm_state_encoding {3512121219} stinit {00}
+
+fsm_state_encoding {3512121219} stgetdata {01}
+
+fsm_state_encoding {3512121219} stwaitread {10}
+
+fsm_registers {3512121219} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {59172217210} onehot
+
+fsm_state_encoding {59172217210} stidle {00000001}
+
+fsm_state_encoding {59172217210} stdifferentiateyx {00000010}
+
+fsm_state_encoding {59172217210} sthandley {00000100}
+
+fsm_state_encoding {59172217210} stacky {00001000}
+
+fsm_state_encoding {59172217210} sthandlemisc {00010000}
+
+fsm_state_encoding {59172217210} stwaitmisc {00100000}
+
+fsm_state_encoding {59172217210} sthandlex {01000000}
+
+fsm_state_encoding {59172217210} stackx {10000000}
+
+fsm_registers {59172217210} {State_DP[0]}  {State_DP[1]}  {State_DP[2]}  {State_DP[3]}  {State_DP[4]}  {State_DP[5]}  {State_DP[6]}  {State_DP[7]} 
+
+fsm_encoding {35121212111} sequential
+
+fsm_state_encoding {35121212111} stinit {00}
+
+fsm_state_encoding {35121212111} stgetdata {01}
+
+fsm_state_encoding {35121212111} stwaitread {10}
+
+fsm_registers {35121212111} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {35121212112} sequential
+
+fsm_state_encoding {35121212112} stinit {00}
+
+fsm_state_encoding {35121212112} stgetdata {01}
+
+fsm_state_encoding {35121212112} stwaitread {10}
+
+fsm_registers {35121212112} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {35121212115} sequential
+
+fsm_state_encoding {35121212115} stinit {00}
+
+fsm_state_encoding {35121212115} stgetdata {01}
+
+fsm_state_encoding {35121212115} stwaitread {10}
+
+fsm_registers {35121212115} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {53104210417} sequential
+
+fsm_state_encoding {53104210417} stidle {00}
+
+fsm_state_encoding {53104210417} stwriterisingedgeevent {01}
+
+fsm_state_encoding {53104210417} stwritefallingedgeevent {10}
+
+fsm_state_encoding {53104210417} stwritepulseevent {11}
+
+fsm_registers {53104210417} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {198928916} sequential
+
+fsm_state_encoding {198928916} stwaitforpulse {00}
+
+fsm_state_encoding {198928916} stpulsedetected {01}
+
+fsm_state_encoding {198928916} stpulseoverflowwait {10}
+
+fsm_registers {198928916} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {54227222718} sequential
+
+fsm_state_encoding {54227222718} stidle {00}
+
+fsm_state_encoding {54227222718} stinput {01}
+
+fsm_state_encoding {54227222718} stinputlatch {10}
+
+fsm_state_encoding {54227222718} stoutput {11}
+
+fsm_registers {54227222718} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {50805280513} onehot
+
+fsm_state_encoding {50805280513} stidle {00000000000000000000000000001}
+
+fsm_state_encoding {50805280513} stackandloadsampleratedivider {00000000000000000000000000010}
+
+fsm_state_encoding {50805280513} stackandloaddigitallowpassfilter {00000000000000000000000000100}
+
+fsm_state_encoding {50805280513} stackandloadaccelfullscale {00000000000000000000000001000}
+
+fsm_state_encoding {50805280513} stackandloadgyrofullscale {00000000000000000000000010000}
+
+fsm_state_encoding {50805280513} stwriteconfigregister {00000000000000000000000100000}
+
+fsm_state_encoding {50805280513} stpreparereaddataregister {00000000000000000000001000000}
+
+fsm_state_encoding {50805280513} streaddataregister {00000000000000000000010000000}
+
+fsm_state_encoding {50805280513} stwriteeventstart {00000000000000000000100000000}
+
+fsm_state_encoding {50805280513} stwriteevent0 {00000000000000000001000000000}
+
+fsm_state_encoding {50805280513} stwriteevent1 {00000000000000000010000000000}
+
+fsm_state_encoding {50805280513} stwriteevent2 {00000000000000000100000000000}
+
+fsm_state_encoding {50805280513} stwriteevent3 {00000000000000001000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent4 {00000000000000010000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent5 {00000000000000100000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent6 {00000000000001000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent7 {00000000000010000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent8 {00000000000100000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent9 {00000000001000000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent10 {00000000010000000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent11 {00000000100000000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent12 {00000001000000000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent13 {00000010000000000000000000000}
+
+fsm_state_encoding {50805280513} stwriteeventend {00000100000000000000000000000}
+
+fsm_state_encoding {50805280513} stackandloadlpcycletempstandby {00001000000000000000000000000}
+
+fsm_state_encoding {50805280513} stackandloadlpwakeupaccelstandbygyrostandby {00010000000000000000000000000}
+
+fsm_state_encoding {50805280513} stackandloadinterruptconfig {00100000000000000000000000000}
+
+fsm_state_encoding {50805280513} stackandloadinterruptenable {01000000000000000000000000000}
+
+fsm_state_encoding {50805280513} stdoneacknowledge {10000000000000000000000000000}
+
+fsm_registers {50805280513} {State_DP[0]}  {State_DP[1]}  {State_DP[2]}  {State_DP[3]}  {State_DP[4]}  {State_DP[5]}  {State_DP[6]}  {State_DP[7]}  {State_DP[8]}  {State_DP[9]}  {State_DP[10]}  {State_DP[11]}  {State_DP[12]}  {State_DP[13]}  {State_DP[14]}  {State_DP[15]}  {State_DP[16]}  {State_DP[17]}  {State_DP[18]}  {State_DP[19]}  {State_DP[20]}  {State_DP[21]}  {State_DP[22]}  {State_DP[23]}  {State_DP[24]}  {State_DP[25]}  {State_DP[26]}  {State_DP[27]}  {State_DP[28]} 
+
+fsm_encoding {50132213214} onehot
+
+fsm_state_encoding {50132213214} sti2cidle {0000000001}
+
+fsm_state_encoding {50132213214} sti2chandletransaction {0000000010}
+
+fsm_state_encoding {50132213214} sti2cdone {0000000100}
+
+fsm_state_encoding {50132213214} sti2cstart {0000001000}
+
+fsm_state_encoding {50132213214} sti2cstop {0000010000}
+
+fsm_state_encoding {50132213214} sti2cwritebyte {0000100000}
+
+fsm_state_encoding {50132213214} sti2cwriteack {0001000000}
+
+fsm_state_encoding {50132213214} sti2creadbyte {0010000000}
+
+fsm_state_encoding {50132213214} sti2creadack {0100000000}
+
+fsm_state_encoding {50132213214} sti2creadnotack {1000000000}
+
+fsm_registers {50132213214} {I2CState_DP[0]}  {I2CState_DP[1]}  {I2CState_DP[2]}  {I2CState_DP[3]}  {I2CState_DP[4]}  {I2CState_DP[5]}  {I2CState_DP[6]}  {I2CState_DP[7]}  {I2CState_DP[8]}  {I2CState_DP[9]} 
