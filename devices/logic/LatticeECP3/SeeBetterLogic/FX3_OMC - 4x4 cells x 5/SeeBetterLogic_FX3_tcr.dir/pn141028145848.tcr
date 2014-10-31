@@ -1,0 +1,5 @@
+#Start recording tcl command: 10/28/2014 14:41:11
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/SeeBetterLogic_FX3.ldf"
+prj_src add "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/ObjectMotionMotherCell.vhd"
+#Stop recording: 10/28/2014 14:58:48

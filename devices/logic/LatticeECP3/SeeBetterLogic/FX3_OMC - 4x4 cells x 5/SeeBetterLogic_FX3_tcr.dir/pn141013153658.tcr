@@ -1,0 +1,15 @@
+#Start recording tcl command: 10/13/2014 15:15:38
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - Pipelined/SeeBetterLogic_FX3.ldf"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Map -impl SeeBetterLogic_FX3 -task MapTrace
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis -forceOne
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run PAR -impl SeeBetterLogic_FX3
+#Stop recording: 10/13/2014 15:36:58
