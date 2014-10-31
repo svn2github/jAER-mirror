@@ -69,7 +69,8 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tColumnState is (stIdle, stWaitADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stRSFeedTick, stRSReset, stRSSwitchToReadA, stRSReadA, stRSSwitchToReadB, stRSReadB);
+	type tColumnState is (stIdle, stWaitADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stRSFeedTick, stRSReset, stRSSwitchToReadA, stRSReadA, stRSSwitchToReadB, stRSReadB, stGSReset, stGSReadA, stGSReadB, stGSSwitchToReadA,
+		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -363,10 +364,15 @@ begin
 				APSChipColSRClockReg_S <= '1';
 				APSChipColSRInReg_S    <= '1';
 
-				ColState_DN <= stRSReset;
+				if APSADCConfigReg_D.GlobalShutter_S = '1' then
+					ColState_DN <= stGSReset;
+				else
+					ColState_DN <= stRSReset;
 
-				-- Open APS TXGate before first reset.
-				APSChipTXGateReg_SN <= '1';
+					-- RS: open APS TXGate before first reset.
+					-- Opening it "again" when feeding in B has no impact.
+					APSChipTXGateReg_SN <= '1';
+				end if;
 
 			when stRSFeedTick =>
 				APSChipColSRClockReg_S <= '1';
@@ -478,6 +484,42 @@ begin
 						ColState_DN <= stRSFeedTick;
 					end if;
 				end if;
+
+			when stGSReset =>
+				-- Do reset.
+				APSChipColModeReg_DN <= COLMODE_RESETA;
+
+				-- Open TXGate if requested during reset.
+				if APSADCConfigReg_D.GSTXGateOpenReset_S = '1' then
+					APSChipTXGateReg_SN <= '1';
+				end if;
+
+				if ResetTimeDone_S = '1' then
+					ColState_DN <= stGSSwitchToReadA;
+				end if;
+
+				ResetTimeCount_S <= '1';
+
+			when stGSSwitchToReadA =>
+				APSChipColModeReg_DN <= COLMODE_NULL;
+
+				-- Close TXGate again after reset.
+				APSChipTXGateReg_SN <= '0';
+
+			when stGSReadA =>
+				APSChipColModeReg_DN <= COLMODE_READA;
+
+			when stGSStartExposure =>
+				APSChipColModeReg_DN <= COLMODE_NULL;
+
+			when stGSEndExposure =>
+				APSChipColModeReg_DN <= COLMODE_NULL;
+
+			when stGSSwitchToReadB =>
+				APSChipColModeReg_DN <= COLMODE_NULL;
+
+			when stGSReadB =>
+				APSChipColModeReg_DN <= COLMODE_READB;
 
 			when stEndFrame =>
 				-- Setup exposureDelay counter to count frame delay instead of exposure.
