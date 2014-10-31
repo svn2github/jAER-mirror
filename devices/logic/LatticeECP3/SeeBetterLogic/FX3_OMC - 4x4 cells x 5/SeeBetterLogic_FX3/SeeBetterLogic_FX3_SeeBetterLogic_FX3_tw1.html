@@ -1,0 +1,2818 @@
+<HTML>
+<HEAD><TITLE>Lattice Map TRACE Report</TITLE>
+<STYLE TYPE="text/css">
+<!--
+ body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
+-->
+</STYLE>
+</HEAD>
+<PRE><A name="Map_Twr"></A><B><U><big>Map TRACE Report</big></U></B>
+
+Loading design for application trce from file seebetterlogic_fx3_seebetterlogic_fx3_map.ncd.
+Design name: TopLevel
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LFE3-70E
+Package:     FPBGA484
+Performance: 7
+Loading device for application trce from file 'ep5c97x146.nph' in environment: C:/lscc/diamond/3.2_x64/ispfpga.
+Package Status:                     Final          Version 1.65
+Performance Hardware Data Status:   Final          Version 35.22
+Setup and Hold Report
+
+--------------------------------------------------------------------------------
+<A name="Map_Twr_setup"></A><B><U><big>Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.2.0.134</big></U></B>
+Mon Oct 13 15:33:29 2014
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2014 Lattice Semiconductor Corporation,  All rights reserved.
+
+<A name="mtw1_set_ri"></A><B><U><big>Report Information</big></U></B>
+------------------
+Command line:    trce -v 1 -gt -mapchkpnt 0 -sethld -o SeeBetterLogic_FX3_SeeBetterLogic_FX3.tw1 -gui SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf 
+Design file:     seebetterlogic_fx3_seebetterlogic_fx3_map.ncd
+Preference file: seebetterlogic_fx3_seebetterlogic_fx3.prf
+Device,speed:    LFE3-70E,7
+Report level:    verbose report, limited to 1 item per preference
+--------------------------------------------------------------------------------
+
+<A name="mtw1_set_ps"></A><B><U><big>Preference Summary</big></U></B>
+
+<LI><A href='#map_twr_pref_0_0' Target='right'>FREQUENCY PORT "USBClock_CI" 80.000000 MHz (0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+Report:  325.309MHz is the maximum frequency for this preference.
+
+<LI><A href='#map_twr_pref_0_1' Target='right'>FREQUENCY NET "USBClock_CI_c" 80.000000 MHz (0 errors)</A></LI>            4096 items scored, 0 timing errors detected.
+Report:  138.160MHz is the maximum frequency for this preference.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_0_2' Target='right'><FONT COLOR=red>FREQUENCY NET "LogicClock_C" 60.000000 MHz (4096 errors)</FONT></A></LI>
+</FONT>            4096 items scored, 4096 timing errors detected.
+Warning:  44.928MHz is the maximum frequency for this preference.
+
+<LI><A href='#map_twr_pref_0_3' Target='right'>INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.(0 errors)</A></LI>            2 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_4' Target='right'>INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_5' Target='right'>CLOCK_TO_OUT GROUP "USBFifoData_DO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.(0 errors)</A></LI>            16 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_6' Target='right'>CLOCK_TO_OUT GROUP "USBFifoAddress_DO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.(0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_7' Target='right'>CLOCK_TO_OUT PORT "USBFifoChipSelect_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.(0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_8' Target='right'>CLOCK_TO_OUT PORT "USBFifoWrite_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.(0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_9' Target='right'>CLOCK_TO_OUT PORT "USBFifoRead_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.(0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_10' Target='right'>CLOCK_TO_OUT PORT "USBFifoPktEnd_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.(0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_11' Target='right'>INPUT_SETUP PORT "USBFifoThr0Ready_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_12' Target='right'>INPUT_SETUP PORT "USBFifoThr0Watermark_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_13' Target='right'>INPUT_SETUP PORT "USBFifoThr1Ready_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_14' Target='right'>INPUT_SETUP PORT "USBFifoThr1Watermark_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_15' Target='right'>CLOCK_TO_OUT PORT "SPIMISO_ZO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            2 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_16' Target='right'>INPUT_SETUP PORT "SPISlaveSelect_ABI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_17' Target='right'>INPUT_SETUP PORT "SPIClock_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_18' Target='right'>INPUT_SETUP PORT "SPIMOSI_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_19' Target='right'>CLOCK_TO_OUT PORT "LED1_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_20' Target='right'>CLOCK_TO_OUT PORT "LED2_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.(0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_21' Target='right'>CLOCK_TO_OUT PORT "LED3_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_22' Target='right'>CLOCK_TO_OUT PORT "LED4_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_23' Target='right'>CLOCK_TO_OUT PORT "DVSAERAck_SBO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_24' Target='right'>CLOCK_TO_OUT PORT "DVSAERReset_SBO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_25' Target='right'>INPUT_SETUP GROUP "DVSAERData_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            54 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_26' Target='right'>INPUT_SETUP PORT "DVSAERReq_ABI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_27' Target='right'>CLOCK_TO_OUT PORT "ChipBiasEnable_SO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.(0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_28' Target='right'>MAXDELAY FROM PORT "BiasDiagSelect_SI" TO PORT "ChipBiasDiagSelect_SO" 10.000000 ns (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+1 potential circuit loop found in timing analysis.
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+BLOCK JTAG PATHS
+--------------------------------------------------------------------------------
+
+
+
+================================================================================
+<A name="map_twr_pref_0_0"></A>Preference: FREQUENCY PORT "USBClock_CI" 80.000000 MHz ;
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 9.426ns
+         The internal maximum frequency of the following component is 325.309 MHz
+
+ Logical Details:  Cell type  Pin name       Component name
+
+   Destination:    DP16KC     CLKA           logicUSBFifo/fifoDualClock/pdp_ram_0_0_0
+
+   Delay:               3.074ns -- based on Minimum Pulse Width
+
+Report:  325.309MHz is the maximum frequency for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_1"></A>Preference: FREQUENCY NET "USBClock_CI_c" 80.000000 MHz ;
+            4096 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 5.262ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              usbFX3SM/FX3ConfigReg_D.EarlyPacketDelay_D[0]  (from USBClock_CI_c +)
+   Destination:    FF         Data in        usbFX3SM/earlyPacketCounter/Count_DP[26]  (to USBClock_CI_c +)
+
+   Delay:               7.171ns  (72.1% logic, 27.9% route), 14 logic levels.
+
+ Constraint Details:
+
+      7.171ns physical path delay usbFX3SM/SLICE_6791 to usbFX3SM/SLICE_6820 meets
+     12.500ns delay constraint less
+      0.067ns DIN_SET requirement (totaling 12.433ns) by 5.262ns
+
+ Physical Path Details:
+
+      Data path usbFX3SM/SLICE_6791 to usbFX3SM/SLICE_6820:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.272 *LICE_6791.CLK to *SLICE_6791.Q0 usbFX3SM/SLICE_6791 (from USBClock_CI_c)
+ROUTE         1   e 0.663 *SLICE_6791.Q0 to *it_D[26:7].A0 usbFX3SM/EarlyPacketDelay_D_1[0]
+PD_DEL      ---     3.667 *it_D[26:7].A0 to *it_D[26:7].P0 usbFX3SM/EarlyPacketCyclesLimit_D[26:7]
+ROUTE         3   e 0.663 *it_D[26:7].P0 to */SLICE_422.A1 usbFX3SM/EarlyPacketCyclesLimit_D[7]
+C1TOFCO_DE  ---     0.306 */SLICE_422.A1 to *SLICE_422.FCO usbFX3SM/earlyPacketCounter/SLICE_422
+ROUTE         1   e 0.001 *SLICE_422.FCO to *SLICE_423.FCI usbFX3SM/earlyPacketCounter/un165_clear_si_cry_7
+FCITOFCO_D  ---     0.063 *SLICE_423.FCI to *SLICE_423.FCO usbFX3SM/earlyPacketCounter/SLICE_423
+ROUTE         1   e 0.001 *SLICE_423.FCO to *SLICE_424.FCI usbFX3SM/earlyPacketCounter/un165_clear_si_cry_9
+FCITOFCO_D  ---     0.063 *SLICE_424.FCI to *SLICE_424.FCO usbFX3SM/earlyPacketCounter/SLICE_424
+ROUTE         1   e 0.001 *SLICE_424.FCO to *SLICE_425.FCI usbFX3SM/earlyPacketCounter/un165_clear_si_cry_11
+FCITOFCO_D  ---     0.063 *SLICE_425.FCI to *SLICE_425.FCO usbFX3SM/earlyPacketCounter/SLICE_425
+ROUTE         1   e 0.001 *SLICE_425.FCO to *SLICE_426.FCI usbFX3SM/earlyPacketCounter/un165_clear_si_cry_13
+FCITOFCO_D  ---     0.063 *SLICE_426.FCI to *SLICE_426.FCO usbFX3SM/earlyPacketCounter/SLICE_426
+ROUTE         1   e 0.001 *SLICE_426.FCO to *SLICE_427.FCI usbFX3SM/earlyPacketCounter/un165_clear_si_cry_15
+FCITOFCO_D  ---     0.063 *SLICE_427.FCI to *SLICE_427.FCO usbFX3SM/earlyPacketCounter/SLICE_427
+ROUTE         1   e 0.001 *SLICE_427.FCO to *SLICE_428.FCI usbFX3SM/earlyPacketCounter/un165_clear_si_cry_17
+FCITOFCO_D  ---     0.063 *SLICE_428.FCI to *SLICE_428.FCO usbFX3SM/earlyPacketCounter/SLICE_428
+ROUTE         1   e 0.001 *SLICE_428.FCO to *SLICE_429.FCI usbFX3SM/earlyPacketCounter/un165_clear_si_cry_19
+FCITOFCO_D  ---     0.063 *SLICE_429.FCI to *SLICE_429.FCO usbFX3SM/earlyPacketCounter/SLICE_429
+ROUTE         1   e 0.001 *SLICE_429.FCO to *SLICE_430.FCI usbFX3SM/earlyPacketCounter/un165_clear_si_cry_21
+FCITOFCO_D  ---     0.063 *SLICE_430.FCI to *SLICE_430.FCO usbFX3SM/earlyPacketCounter/SLICE_430
+ROUTE         1   e 0.001 *SLICE_430.FCO to *SLICE_431.FCI usbFX3SM/earlyPacketCounter/un165_clear_si_cry_23
+FCITOFCO_D  ---     0.063 *SLICE_431.FCI to *SLICE_431.FCO usbFX3SM/earlyPacketCounter/SLICE_431
+ROUTE         1   e 0.001 *SLICE_431.FCO to *SLICE_432.FCI usbFX3SM/earlyPacketCounter/un165_clear_si_cry_25
+FCITOF1_DE  ---     0.197 *SLICE_432.FCI to */SLICE_432.F1 usbFX3SM/earlyPacketCounter/SLICE_432
+ROUTE        28   e 0.663 */SLICE_432.F1 to *SLICE_6820.D0 usbFX3SM/earlyPacketCounter/un165_clear_si
+CTOF_DEL    ---     0.162 *SLICE_6820.D0 to *SLICE_6820.F0 usbFX3SM/SLICE_6820
+ROUTE         1   e 0.001 *SLICE_6820.F0 to *LICE_6820.DI0 usbFX3SM/earlyPacketCounter/Count_DP_lm[26] (to USBClock_CI_c)
+                  --------
+                    7.171   (72.1% logic, 27.9% route), 14 logic levels.
+
+Report:  138.160MHz is the maximum frequency for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_2"></A>Preference: FREQUENCY NET "LogicClock_C" 60.000000 MHz ;
+            4096 items scored, 4096 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Error: The following path exceeds requirements by 5.592ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              OMCellSM/Inhibition_S_pipe_2715  (from LogicClock_C +)
+   Destination:    FF         Data in        OMCellSM/Subtraction_S[23]  (to LogicClock_C +)
+
+   Delay:              22.191ns  (27.3% logic, 72.7% route), 33 logic levels.
+
+ Constraint Details:
+
+     22.191ns physical path delay OMCellSM/SLICE_2993 to OMCellSM/SLICE_3917 exceeds
+     16.666ns delay constraint less
+      0.067ns DIN_SET requirement (totaling 16.599ns) by 5.592ns
+
+ Physical Path Details:
+
+      Data path OMCellSM/SLICE_2993 to OMCellSM/SLICE_3917:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.272 *LICE_2993.CLK to *SLICE_2993.Q0 OMCellSM/SLICE_2993 (from LogicClock_C)
+ROUTE         3   e 0.663 *SLICE_2993.Q0 to *LICE_12735.B0 OMCellSM/Inhibition_S_pipe_2715
+CTOF_DEL    ---     0.162 *LICE_12735.B0 to *LICE_12735.F0 OMCellSM/SLICE_12735
+ROUTE         1   e 0.663 *LICE_12735.F0 to *SLICE_1643.A0 OMCellSM/un1_Inhibition_S_1_0_0_0_104_0
+CTOF_DEL    ---     0.162 *SLICE_1643.A0 to *SLICE_1643.F0 OMCellSM/SLICE_1643
+ROUTE         3   e 0.663 *SLICE_1643.F0 to *LICE_12875.A0 OMCellSM/un1_Inhibition_S_1_0_0_0_104[1]
+CTOF_DEL    ---     0.162 *LICE_12875.A0 to *LICE_12875.F0 OMCellSM/SLICE_12875
+ROUTE         1   e 0.663 *LICE_12875.F0 to *SLICE_1526.A0 OMCellSM/un1_Inhibition_S_1_0_0_0_36_0
+CTOF_DEL    ---     0.162 *SLICE_1526.A0 to *SLICE_1526.F0 OMCellSM/SLICE_1526
+ROUTE         2   e 0.663 *SLICE_1526.F0 to *LICE_12926.A0 OMCellSM/un1_Inhibition_S_1_0_0_0_36[1]
+CTOF_DEL    ---     0.162 *LICE_12926.A0 to *LICE_12926.F0 OMCellSM/SLICE_12926
+ROUTE         1   e 0.663 *LICE_12926.F0 to *SLICE_1514.B0 OMCellSM/un1_Inhibition_S_1_0_0_0_14_0
+CTOF1_DEL   ---     0.335 *SLICE_1514.B0 to *SLICE_1514.F1 OMCellSM/SLICE_1514
+ROUTE         2   e 0.663 *SLICE_1514.F1 to *SLICE_7917.B1 OMCellSM/un1_Inhibition_S_1_0_0_0_14[2]
+CTOF_DEL    ---     0.162 *SLICE_7917.B1 to *SLICE_7917.F1 OMCellSM/SLICE_7917
+ROUTE         2   e 0.245 *SLICE_7917.F1 to *SLICE_7917.A0 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1_0_RNI81M61
+CTOF_DEL    ---     0.162 *SLICE_7917.A0 to *SLICE_7917.F0 OMCellSM/SLICE_7917
+ROUTE         2   e 0.663 *SLICE_7917.F0 to *SLICE_7901.A1 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_3_0_RNI0C9S1
+CTOF_DEL    ---     0.162 *SLICE_7901.A1 to *SLICE_7901.F1 OMCellSM/SLICE_7901
+ROUTE         2   e 0.245 *SLICE_7901.F1 to *SLICE_7901.A0 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_3_0_RNIOMSH2
+CTOF_DEL    ---     0.162 *SLICE_7901.A0 to *SLICE_7901.F0 OMCellSM/SLICE_7901
+ROUTE         2   e 0.663 *SLICE_7901.F0 to *SLICE_7895.A1 OMCellSM/un1_Inhibition_S_1_0_0_1_cry_5_11_RNIKBOP2
+CTOF_DEL    ---     0.162 *SLICE_7895.A1 to *SLICE_7895.F1 OMCellSM/SLICE_7895
+ROUTE         2   e 0.245 *SLICE_7895.F1 to *SLICE_7895.A0 OMCellSM/un1_Inhibition_S_1_0_0_1_cry_5_11_RNIG0K13
+CTOF_DEL    ---     0.162 *SLICE_7895.A0 to *SLICE_7895.F0 OMCellSM/SLICE_7895
+ROUTE         2   e 0.663 *SLICE_7895.F0 to *SLICE_7865.A1 OMCellSM/un1_Inhibition_S_1_0_0_1_cry_7_11_RNIGVNB3
+CTOF_DEL    ---     0.162 *SLICE_7865.A1 to *SLICE_7865.F1 OMCellSM/SLICE_7865
+ROUTE         2   e 0.245 *SLICE_7865.F1 to *SLICE_7865.A0 OMCellSM/un1_Inhibition_S_1_0_0_1_cry_7_11_RNIGURL3
+CTOF_DEL    ---     0.162 *SLICE_7865.A0 to *SLICE_7865.F0 OMCellSM/SLICE_7865
+ROUTE         2   e 0.663 *SLICE_7865.F0 to *SLICE_7839.A1 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_9_0_RNIK7824
+CTOF_DEL    ---     0.162 *SLICE_7839.A1 to *SLICE_7839.F1 OMCellSM/SLICE_7839
+ROUTE         2   e 0.245 *SLICE_7839.F1 to *SLICE_7839.A0 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_9_0_RNIOGKE4
+CTOF_DEL    ---     0.162 *SLICE_7839.A0 to *SLICE_7839.F0 OMCellSM/SLICE_7839
+ROUTE         2   e 0.663 *SLICE_7839.F0 to *SLICE_7835.A1 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_11_0_RNIEDJQ4
+CTOF_DEL    ---     0.162 *SLICE_7835.A1 to *SLICE_7835.F1 OMCellSM/SLICE_7835
+ROUTE         2   e 0.245 *SLICE_7835.F1 to *SLICE_7835.A0 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_11_0_RNI4AI65
+CTOF_DEL    ---     0.162 *SLICE_7835.A0 to *SLICE_7835.F0 OMCellSM/SLICE_7835
+ROUTE         2   e 0.663 *SLICE_7835.F0 to *SLICE_7830.A1 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_13_0_RNIUGPK5
+CTOF_DEL    ---     0.162 *SLICE_7830.A1 to *SLICE_7830.F1 OMCellSM/SLICE_7830
+ROUTE         2   e 0.245 *SLICE_7830.F1 to *SLICE_7830.A0 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_13_0_RNION036
+CTOF_DEL    ---     0.162 *SLICE_7830.A0 to *SLICE_7830.F0 OMCellSM/SLICE_7830
+ROUTE         2   e 0.663 *SLICE_7830.F0 to *SLICE_7826.A1 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_15_0_RNIM8GJ6
+CTOF_DEL    ---     0.162 *SLICE_7826.A1 to *SLICE_7826.F1 OMCellSM/SLICE_7826
+ROUTE         2   e 0.245 *SLICE_7826.F1 to *SLICE_7826.A0 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_15_0_RNIKPV37
+CTOF_DEL    ---     0.162 *SLICE_7826.A0 to *SLICE_7826.F0 OMCellSM/SLICE_7826
+ROUTE         2   e 0.663 *SLICE_7826.F0 to *SLICE_7823.A1 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_17_0_RNI7LAM7
+CTOF_DEL    ---     0.162 *SLICE_7823.A1 to *SLICE_7823.F1 OMCellSM/SLICE_7823
+ROUTE         2   e 0.245 *SLICE_7823.F1 to *SLICE_7823.A0 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_17_0_RNIQGL88
+CTOF_DEL    ---     0.162 *SLICE_7823.A0 to *SLICE_7823.F0 OMCellSM/SLICE_7823
+ROUTE         2   e 0.663 *SLICE_7823.F0 to *SLICE_7822.A1 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_19_0_RNIFK4R8
+CTOF_DEL    ---     0.162 *SLICE_7822.A1 to *SLICE_7822.F1 OMCellSM/SLICE_7822
+ROUTE         3   e 0.663 *SLICE_7822.F1 to *SLICE_7821.A1 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_19_0_RNI4OJD9
+CTOF_DEL    ---     0.162 *SLICE_7821.A1 to *SLICE_7821.F1 OMCellSM/SLICE_7821
+ROUTE         2   e 0.663 *SLICE_7821.F1 to *SLICE_1331.B1 OMCellSM/un1_Inhibition_S_1_0_0_16_cry_21_0_RNI9VM1A
+C1TOFCO_DE  ---     0.306 *SLICE_1331.B1 to *LICE_1331.FCO OMCellSM/SLICE_1331
+ROUTE         1   e 0.001 *LICE_1331.FCO to *LICE_1332.FCI OMCellSM/un1_Inhibition_S_1_0_0_6_1_cry_22
+FCITOF0_DE  ---     0.147 *LICE_1332.FCI to *SLICE_1332.F0 OMCellSM/SLICE_1332
+ROUTE         1   e 0.663 *SLICE_1332.F0 to */SLICE_597.A0 OMCellSM/un1_Inhibition_S_1_0_0_0_6[23]
+CTOF1_DEL   ---     0.335 */SLICE_597.A0 to */SLICE_597.F1 OMCellSM/SLICE_597
+ROUTE         4   e 0.663 */SLICE_597.F1 to *SLICE_1950.A1 OMCellSM/Inhibition_S[24]
+C1TOFCO_DE  ---     0.306 *SLICE_1950.A1 to *LICE_1950.FCO OMCellSM/SLICE_1950
+ROUTE         1   e 0.001 *LICE_1950.FCO to *LICE_1951.FCI OMCellSM/un1_Excitation_S_cry_24_cry
+FCITOF0_DE  ---     0.147 *LICE_1951.FCI to *SLICE_1951.F0 OMCellSM/SLICE_1951
+ROUTE        25   e 0.663 *SLICE_1951.F0 to *SLICE_3917.B1 OMCellSM/un1_Excitation_S_i
+CTOF_DEL    ---     0.162 *SLICE_3917.B1 to *SLICE_3917.F1 OMCellSM/SLICE_3917
+ROUTE         1   e 0.001 *SLICE_3917.F1 to *LICE_3917.DI1 OMCellSM/Subtraction_S_2[23] (to LogicClock_C)
+                  --------
+                   22.191   (27.3% logic, 72.7% route), 33 logic levels.
+
+Warning:  44.928MHz is the maximum frequency for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_3"></A>Preference: INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.
+            2 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 10.578ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            Reset_RI
+   Destination:    FF         Data in        syncInputsToUSBClock/syncReset/SyncSignalSyncFF_S  (to USBClock_CI_c +)
+                   FF                        syncInputsToUSBClock/syncReset/SyncSignalDemetFF_S
+
+   Max Data Path Delay:     1.175ns  (43.6% logic, 56.4% route), 1 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+
+      1.175ns delay Reset_RI to syncInputsToUSBClock/syncReset/SLICE_6784 less
+     11.500ns offset Reset_RI to USBClock_CI (totaling -10.325ns) meets
+      0.663ns delay USBClock_CI to syncInputsToUSBClock/syncReset/SLICE_6784 less
+      0.410ns LSR_SET requirement (totaling 0.253ns) by 10.578ns
+
+ Physical Path Details:
+
+      Data path Reset_RI to syncInputsToUSBClock/syncReset/SLICE_6784:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512        C13.PAD to      C13.PADDI Reset_RI
+ROUTE         2   e 0.663      C13.PADDI to *LICE_6784.LSR Reset_RI_c (to USBClock_CI_c)
+                  --------
+                    1.175   (43.6% logic, 56.4% route), 1 logic levels.
+
+      Clock path USBClock_CI to syncInputsToUSBClock/syncReset/SLICE_6784:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.663       K3.PADDI to *LICE_6784.CLK USBClock_CI_c
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   11.578ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_4"></A>Preference: INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 14.744ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            Reset_RI
+   Destination:    FF         Data in        syncInputsToLogicClock/syncReset/SyncSignalSyncFF_S  (to LogicClock_C +)
+                   FF                        syncInputsToLogicClock/syncReset/SyncSignalDemetFF_S
+
+   Max Data Path Delay:     1.175ns  (43.6% logic, 56.4% route), 1 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+
+      1.175ns delay Reset_RI to syncInputsToLogicClock/syncReset/SLICE_6783 less
+     15.666ns offset Reset_RI to logicClockPLL/pll/PLLInst_0 (totaling -14.491ns) meets
+      0.663ns delay logicClockPLL/pll/PLLInst_0 to syncInputsToLogicClock/syncReset/SLICE_6783 less
+      0.410ns LSR_SET requirement (totaling 0.253ns) by 14.744ns
+
+ Physical Path Details:
+
+      Data path Reset_RI to syncInputsToLogicClock/syncReset/SLICE_6783:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512        C13.PAD to      C13.PADDI Reset_RI
+ROUTE         2   e 0.663      C13.PADDI to *LICE_6783.LSR Reset_RI_c (to LogicClock_C)
+                  --------
+                    1.175   (43.6% logic, 56.4% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to syncInputsToLogicClock/syncReset/SLICE_6783:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.663 *LInst_0.CLKOP to *LICE_6783.CLK LogicClock_C
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   15.744ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_5"></A>Preference: CLOCK_TO_OUT GROUP "USBFifoData_DO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.
+            16 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 5.458ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              logicUSBFifo_FifoData_DOio[0]  (from USBClock_CI_c +)
+   Destination:    Port       Pad            USBFifoData_DO[0]
+
+   Data Path Delay:     4.379ns  (84.9% logic, 15.1% route), 2 logic levels.
+
+   Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.663ns delay USBClock_CI to USBFifoData_DO[0]_MGIOL and
+      4.379ns delay USBFifoData_DO[0]_MGIOL to USBFifoData_DO[0] (totaling 5.042ns) meets
+     10.500ns offset USBClock_CI to USBFifoData_DO[0] by 5.458ns
+
+ Physical Path Details:
+
+      Clock path USBClock_CI to USBFifoData_DO[0]_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.663       K3.PADDI to *[0]_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path USBFifoData_DO[0]_MGIOL to USBFifoData_DO[0]:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.560 *[0]_MGIOL.CLK to *]_MGIOL.IOLDO USBFifoData_DO[0]_MGIOL (from USBClock_CI_c)
+ROUTE         1   e 0.663 *]_MGIOL.IOLDO to       T2.IOLDO USBFifoData_DO_c[0]
+DOPAD_DEL   ---     2.156       T2.IOLDO to         T2.PAD USBFifoData_DO[0]
+                  --------
+                    4.379   (84.9% logic, 15.1% route), 2 logic levels.
+
+Report:    7.458ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_6"></A>Preference: CLOCK_TO_OUT GROUP "USBFifoAddress_DO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 5.458ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              usbFX3SM_USBFifoAddress_DOio[0]  (from USBClock_CI_c +)
+   Destination:    Port       Pad            USBFifoAddress_DO[0]
+
+   Data Path Delay:     4.379ns  (84.9% logic, 15.1% route), 2 logic levels.
+
+   Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.663ns delay USBClock_CI to USBFifoAddress_DO[0]_MGIOL and
+      4.379ns delay USBFifoAddress_DO[0]_MGIOL to USBFifoAddress_DO[0] (totaling 5.042ns) meets
+     10.500ns offset USBClock_CI to USBFifoAddress_DO[0] by 5.458ns
+
+ Physical Path Details:
+
+      Clock path USBClock_CI to USBFifoAddress_DO[0]_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.663       K3.PADDI to *[0]_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path USBFifoAddress_DO[0]_MGIOL to USBFifoAddress_DO[0]:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.560 *[0]_MGIOL.CLK to *]_MGIOL.IOLDO USBFifoAddress_DO[0]_MGIOL (from USBClock_CI_c)
+ROUTE         1   e 0.663 *]_MGIOL.IOLDO to      F14.IOLDO USBFifoAddress_DO_c[0]
+DOPAD_DEL   ---     2.156      F14.IOLDO to        F14.PAD USBFifoAddress_DO[0]
+                  --------
+                    4.379   (84.9% logic, 15.1% route), 2 logic levels.
+
+Report:    7.458ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_7"></A>Preference: CLOCK_TO_OUT PORT "USBFifoChipSelect_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_0_8"></A>Preference: CLOCK_TO_OUT PORT "USBFifoWrite_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 5.458ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              usbFX3SM_USBFifoWrite_SBOio  (from USBClock_CI_c +)
+   Destination:    Port       Pad            USBFifoWrite_SBO
+
+   Data Path Delay:     4.379ns  (84.9% logic, 15.1% route), 2 logic levels.
+
+   Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.663ns delay USBClock_CI to USBFifoWrite_SBO_MGIOL and
+      4.379ns delay USBFifoWrite_SBO_MGIOL to USBFifoWrite_SBO (totaling 5.042ns) meets
+     10.500ns offset USBClock_CI to USBFifoWrite_SBO by 5.458ns
+
+ Physical Path Details:
+
+      Clock path USBClock_CI to USBFifoWrite_SBO_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.663       K3.PADDI to *SBO_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path USBFifoWrite_SBO_MGIOL to USBFifoWrite_SBO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.560 *SBO_MGIOL.CLK to *O_MGIOL.IOLDO USBFifoWrite_SBO_MGIOL (from USBClock_CI_c)
+ROUTE         1   e 0.663 *O_MGIOL.IOLDO to *ite_SBO.IOLDO USBFifoWrite_SBO_c
+DOPAD_DEL   ---     2.156 *ite_SBO.IOLDO to *Write_SBO.PAD USBFifoWrite_SBO
+                  --------
+                    4.379   (84.9% logic, 15.1% route), 2 logic levels.
+
+Report:    7.458ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_9"></A>Preference: CLOCK_TO_OUT PORT "USBFifoRead_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_0_10"></A>Preference: CLOCK_TO_OUT PORT "USBFifoPktEnd_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 5.458ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              usbFX3SM_USBFifoPktEnd_SBOio  (from USBClock_CI_c +)
+   Destination:    Port       Pad            USBFifoPktEnd_SBO
+
+   Data Path Delay:     4.379ns  (84.9% logic, 15.1% route), 2 logic levels.
+
+   Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.663ns delay USBClock_CI to USBFifoPktEnd_SBO_MGIOL and
+      4.379ns delay USBFifoPktEnd_SBO_MGIOL to USBFifoPktEnd_SBO (totaling 5.042ns) meets
+     10.500ns offset USBClock_CI to USBFifoPktEnd_SBO by 5.458ns
+
+ Physical Path Details:
+
+      Clock path USBClock_CI to USBFifoPktEnd_SBO_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.663       K3.PADDI to *SBO_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path USBFifoPktEnd_SBO_MGIOL to USBFifoPktEnd_SBO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.560 *SBO_MGIOL.CLK to *O_MGIOL.IOLDO USBFifoPktEnd_SBO_MGIOL (from USBClock_CI_c)
+ROUTE         1   e 0.663 *O_MGIOL.IOLDO to *End_SBO.IOLDO USBFifoPktEnd_SBO_c
+DOPAD_DEL   ---     2.156 *End_SBO.IOLDO to *ktEnd_SBO.PAD USBFifoPktEnd_SBO
+                  --------
+                    4.379   (84.9% logic, 15.1% route), 2 logic levels.
+
+Report:    7.458ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_11"></A>Preference: INPUT_SETUP PORT "USBFifoThr0Ready_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 2.867ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            USBFifoThr0Ready_SI
+   Destination:    FF         Data in        syncInputsToUSBClock_syncUSBFifoThr0Ready_SyncSignalDemetFF_Sio[0]  (to USBClock_CI_c +)
+
+   Max Data Path Delay:     1.175ns  (43.6% logic, 56.4% route), 1 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+USBFifoThr0Ready_SI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      1.175ns delay USBFifoThr0Ready_SI to USBFifoThr0Ready_SI_MGIOL less
+      4.500ns offset USBFifoThr0Ready_SI to USBClock_CI (totaling -3.325ns) meets
+      0.663ns delay USBClock_CI to USBFifoThr0Ready_SI_MGIOL less
+      1.121ns DI_SET requirement (totaling -0.458ns) by 2.867ns
+
+ Physical Path Details:
+
+      Data path USBFifoThr0Ready_SI to USBFifoThr0Ready_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512 *0Ready_SI.PAD to *eady_SI.PADDI USBFifoThr0Ready_SI
+ROUTE         1   e 0.663 *eady_SI.PADDI to *y_SI_MGIOL.DI USBFifoThr0Ready_SI_c (to USBClock_CI_c)
+                  --------
+                    1.175   (43.6% logic, 56.4% route), 1 logic levels.
+
+      Clock path USBClock_CI to USBFifoThr0Ready_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.663       K3.PADDI to *_SI_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   10.867ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_12"></A>Preference: INPUT_SETUP PORT "USBFifoThr0Watermark_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 2.867ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            USBFifoThr0Watermark_SI
+   Destination:    FF         Data in        syncInputsToUSBClock_syncUSBFifoThr0Watermark_SyncSignalDemetFF_Sio[0]  (to USBClock_CI_c +)
+
+   Max Data Path Delay:     1.175ns  (43.6% logic, 56.4% route), 1 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+USBFifoThr0Watermark_SI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      1.175ns delay USBFifoThr0Watermark_SI to USBFifoThr0Watermark_SI_MGIOL less
+      4.500ns offset USBFifoThr0Watermark_SI to USBClock_CI (totaling -3.325ns) meets
+      0.663ns delay USBClock_CI to USBFifoThr0Watermark_SI_MGIOL less
+      1.121ns DI_SET requirement (totaling -0.458ns) by 2.867ns
+
+ Physical Path Details:
+
+      Data path USBFifoThr0Watermark_SI to USBFifoThr0Watermark_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512         L3.PAD to       L3.PADDI USBFifoThr0Watermark_SI
+ROUTE         1   e 0.663       L3.PADDI to *k_SI_MGIOL.DI USBFifoThr0Watermark_SI_c (to USBClock_CI_c)
+                  --------
+                    1.175   (43.6% logic, 56.4% route), 1 logic levels.
+
+      Clock path USBClock_CI to USBFifoThr0Watermark_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.663       K3.PADDI to *_SI_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   10.867ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_13"></A>Preference: INPUT_SETUP PORT "USBFifoThr1Ready_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 2.867ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            USBFifoThr1Ready_SI
+   Destination:    FF         Data in        syncInputsToUSBClock_syncUSBFifoThr1Ready_SyncSignalDemetFF_Sio[0]  (to USBClock_CI_c +)
+
+   Max Data Path Delay:     1.175ns  (43.6% logic, 56.4% route), 1 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+USBFifoThr1Ready_SI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      1.175ns delay USBFifoThr1Ready_SI to USBFifoThr1Ready_SI_MGIOL less
+      4.500ns offset USBFifoThr1Ready_SI to USBClock_CI (totaling -3.325ns) meets
+      0.663ns delay USBClock_CI to USBFifoThr1Ready_SI_MGIOL less
+      1.121ns DI_SET requirement (totaling -0.458ns) by 2.867ns
+
+ Physical Path Details:
+
+      Data path USBFifoThr1Ready_SI to USBFifoThr1Ready_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512 *1Ready_SI.PAD to *eady_SI.PADDI USBFifoThr1Ready_SI
+ROUTE         1   e 0.663 *eady_SI.PADDI to *y_SI_MGIOL.DI USBFifoThr1Ready_SI_c (to USBClock_CI_c)
+                  --------
+                    1.175   (43.6% logic, 56.4% route), 1 logic levels.
+
+      Clock path USBClock_CI to USBFifoThr1Ready_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.663       K3.PADDI to *_SI_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   10.867ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_14"></A>Preference: INPUT_SETUP PORT "USBFifoThr1Watermark_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 2.867ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            USBFifoThr1Watermark_SI
+   Destination:    FF         Data in        syncInputsToUSBClock_syncUSBFifoThr1Watermark_SyncSignalDemetFF_Sio[0]  (to USBClock_CI_c +)
+
+   Max Data Path Delay:     1.175ns  (43.6% logic, 56.4% route), 1 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+USBFifoThr1Watermark_SI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      1.175ns delay USBFifoThr1Watermark_SI to USBFifoThr1Watermark_SI_MGIOL less
+      4.500ns offset USBFifoThr1Watermark_SI to USBClock_CI (totaling -3.325ns) meets
+      0.663ns delay USBClock_CI to USBFifoThr1Watermark_SI_MGIOL less
+      1.121ns DI_SET requirement (totaling -0.458ns) by 2.867ns
+
+ Physical Path Details:
+
+      Data path USBFifoThr1Watermark_SI to USBFifoThr1Watermark_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512         K4.PAD to       K4.PADDI USBFifoThr1Watermark_SI
+ROUTE         1   e 0.663       K4.PADDI to *k_SI_MGIOL.DI USBFifoThr1Watermark_SI_c (to USBClock_CI_c)
+                  --------
+                    1.175   (43.6% logic, 56.4% route), 1 logic levels.
+
+      Clock path USBClock_CI to USBFifoThr1Watermark_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.663       K3.PADDI to *_SI_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   10.867ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_15"></A>Preference: CLOCK_TO_OUT PORT "SPIMISO_ZO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            2 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 10.765ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              spiConfiguration_SPIMISO_DZO_1io  (from LogicClock_C +)
+   Destination:    Port       Pad            SPIMISO_ZO
+
+   Data Path Delay:     4.238ns  (84.4% logic, 15.6% route), 2 logic levels.
+
+   Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.663ns delay logicClockPLL/pll/PLLInst_0 to SPIMISO_ZO_MGIOL and
+      4.238ns delay SPIMISO_ZO_MGIOL to SPIMISO_ZO (totaling 4.901ns) meets
+     15.666ns offset logicClockPLL/pll/PLLInst_0 to SPIMISO_ZO by 10.765ns
+
+ Physical Path Details:
+
+      Clock path logicClockPLL/pll/PLLInst_0 to SPIMISO_ZO_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.663 *LInst_0.CLKOP to *_ZO_MGIOL.CLK LogicClock_C
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path SPIMISO_ZO_MGIOL to SPIMISO_ZO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.419 *_ZO_MGIOL.CLK to *O_MGIOL.IOLDO SPIMISO_ZO_MGIOL (from LogicClock_C)
+ROUTE         1   e 0.663 *O_MGIOL.IOLDO to      R16.IOLDO SPIMISO_DZO_1
+DOPAD_DEL   ---     2.156      R16.IOLDO to        R16.PAD SPIMISO_ZO
+                  --------
+                    4.238   (84.4% logic, 15.6% route), 2 logic levels.
+
+Report:   11.765ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_16"></A>Preference: INPUT_SETUP PORT "SPISlaveSelect_ABI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 14.530ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            SPISlaveSelect_ABI
+   Destination:    FF         Data in        syncInputsToLogicClock_syncSPISlaveSelect_SyncSignalDemetFF_Sio[0]  (to LogicClock_C +)
+
+   Max Data Path Delay:     1.175ns  (43.6% logic, 56.4% route), 1 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+SPISlaveSelect_ABI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      1.175ns delay SPISlaveSelect_ABI to SPISlaveSelect_ABI_MGIOL less
+     15.666ns offset SPISlaveSelect_ABI to logicClockPLL/pll/PLLInst_0 (totaling -14.491ns) meets
+      0.663ns delay logicClockPLL/pll/PLLInst_0 to SPISlaveSelect_ABI_MGIOL less
+      0.624ns DI_SET requirement (totaling 0.039ns) by 14.530ns
+
+ Physical Path Details:
+
+      Data path SPISlaveSelect_ABI to SPISlaveSelect_ABI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512 *elect_ABI.PAD to *ect_ABI.PADDI SPISlaveSelect_ABI
+ROUTE         1   e 0.663 *ect_ABI.PADDI to *_ABI_MGIOL.DI SPISlaveSelect_ABI_c (to LogicClock_C)
+                  --------
+                    1.175   (43.6% logic, 56.4% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to SPISlaveSelect_ABI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.663 *LInst_0.CLKOP to *ABI_MGIOL.CLK LogicClock_C
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   15.530ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_17"></A>Preference: INPUT_SETUP PORT "SPIClock_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 14.530ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            SPIClock_AI
+   Destination:    FF         Data in        syncInputsToLogicClock_syncSPIClock_SyncSignalDemetFF_Sio[0]  (to LogicClock_C +)
+
+   Max Data Path Delay:     1.175ns  (43.6% logic, 56.4% route), 1 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+SPIClock_AI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      1.175ns delay SPIClock_AI to SPIClock_AI_MGIOL less
+     15.666ns offset SPIClock_AI to logicClockPLL/pll/PLLInst_0 (totaling -14.491ns) meets
+      0.663ns delay logicClockPLL/pll/PLLInst_0 to SPIClock_AI_MGIOL less
+      0.624ns DI_SET requirement (totaling 0.039ns) by 14.530ns
+
+ Physical Path Details:
+
+      Data path SPIClock_AI to SPIClock_AI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512 *IClock_AI.PAD to *lock_AI.PADDI SPIClock_AI
+ROUTE         1   e 0.663 *lock_AI.PADDI to *k_AI_MGIOL.DI SPIClock_AI_c (to LogicClock_C)
+                  --------
+                    1.175   (43.6% logic, 56.4% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to SPIClock_AI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.663 *LInst_0.CLKOP to *_AI_MGIOL.CLK LogicClock_C
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   15.530ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_18"></A>Preference: INPUT_SETUP PORT "SPIMOSI_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 14.530ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            SPIMOSI_AI
+   Destination:    FF         Data in        syncInputsToLogicClock_syncSPIMOSI_SyncSignalDemetFF_Sio[0]  (to LogicClock_C +)
+
+   Max Data Path Delay:     1.175ns  (43.6% logic, 56.4% route), 1 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+SPIMOSI_AI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      1.175ns delay SPIMOSI_AI to SPIMOSI_AI_MGIOL less
+     15.666ns offset SPIMOSI_AI to logicClockPLL/pll/PLLInst_0 (totaling -14.491ns) meets
+      0.663ns delay logicClockPLL/pll/PLLInst_0 to SPIMOSI_AI_MGIOL less
+      0.624ns DI_SET requirement (totaling 0.039ns) by 14.530ns
+
+ Physical Path Details:
+
+      Data path SPIMOSI_AI to SPIMOSI_AI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512 SPIMOSI_AI.PAD to *MOSI_AI.PADDI SPIMOSI_AI
+ROUTE         1   e 0.663 *MOSI_AI.PADDI to *I_AI_MGIOL.DI SPIMOSI_AI_c (to LogicClock_C)
+                  --------
+                    1.175   (43.6% logic, 56.4% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to SPIMOSI_AI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.663 *LInst_0.CLKOP to *_AI_MGIOL.CLK LogicClock_C
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   15.530ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_19"></A>Preference: CLOCK_TO_OUT PORT "LED1_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_0_20"></A>Preference: CLOCK_TO_OUT PORT "LED2_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "USBClock_CI_c" ; Setup Analysis.
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_0_21"></A>Preference: CLOCK_TO_OUT PORT "LED3_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_0_22"></A>Preference: CLOCK_TO_OUT PORT "LED4_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_0_23"></A>Preference: CLOCK_TO_OUT PORT "DVSAERAck_SBO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_0_24"></A>Preference: CLOCK_TO_OUT PORT "DVSAERReset_SBO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 10.765ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dvsAerSM_DVSAERReset_SBOio  (from LogicClock_C +)
+   Destination:    Port       Pad            DVSAERReset_SBO
+
+   Data Path Delay:     4.238ns  (84.4% logic, 15.6% route), 2 logic levels.
+
+   Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.663ns delay logicClockPLL/pll/PLLInst_0 to DVSAERReset_SBO_MGIOL and
+      4.238ns delay DVSAERReset_SBO_MGIOL to DVSAERReset_SBO (totaling 4.901ns) meets
+     15.666ns offset logicClockPLL/pll/PLLInst_0 to DVSAERReset_SBO by 10.765ns
+
+ Physical Path Details:
+
+      Clock path logicClockPLL/pll/PLLInst_0 to DVSAERReset_SBO_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.663 *LInst_0.CLKOP to *SBO_MGIOL.CLK LogicClock_C
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path DVSAERReset_SBO_MGIOL to DVSAERReset_SBO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.419 *SBO_MGIOL.CLK to *O_MGIOL.IOLDO DVSAERReset_SBO_MGIOL (from LogicClock_C)
+ROUTE         1   e 0.663 *O_MGIOL.IOLDO to      E11.IOLDO DVSAERReset_SBO_c
+DOPAD_DEL   ---     2.156      E11.IOLDO to        E11.PAD DVSAERReset_SBO
+                  --------
+                    4.238   (84.4% logic, 15.6% route), 2 logic levels.
+
+Report:   11.765ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_25"></A>Preference: INPUT_SETUP GROUP "DVSAERData_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            54 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 14.035ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            DVSAERData_AI[9]
+   Destination:    FF         Data in        dvsAerSM/ackDelayCounter/Count_DP[0]  (to LogicClock_C +)
+
+   Max Data Path Delay:     2.000ns  (33.7% logic, 66.3% route), 2 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+
+      2.000ns delay DVSAERData_AI[9] to dvsAerSM/ackDelayCounter/SLICE_286 less
+     15.666ns offset DVSAERData_AI[9] to logicClockPLL/pll/PLLInst_0 (totaling -13.666ns) meets
+      0.663ns delay logicClockPLL/pll/PLLInst_0 to dvsAerSM/ackDelayCounter/SLICE_286 less
+      0.294ns CE_SET requirement (totaling 0.369ns) by 14.035ns
+
+ Physical Path Details:
+
+      Data path DVSAERData_AI[9] to dvsAerSM/ackDelayCounter/SLICE_286:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512         H3.PAD to       H3.PADDI DVSAERData_AI[9]
+ROUTE         7   e 0.663       H3.PADDI to *SLICE_9547.A1 DVSAERData_AI_c[9]
+CTOF_DEL    ---     0.162 *SLICE_9547.A1 to *SLICE_9547.F1 dvsAerSM/SLICE_9547
+ROUTE         4   e 0.663 *SLICE_9547.F1 to */SLICE_286.CE dvsAerSM/Count_DPe_0 (to LogicClock_C)
+                  --------
+                    2.000   (33.7% logic, 66.3% route), 2 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to dvsAerSM/ackDelayCounter/SLICE_286:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.663 *LInst_0.CLKOP to *SLICE_286.CLK LogicClock_C
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   15.035ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_26"></A>Preference: INPUT_SETUP PORT "DVSAERReq_ABI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 14.530ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            DVSAERReq_ABI
+   Destination:    FF         Data in        syncInputsToLogicClock_syncDVSAERReq_SyncSignalDemetFF_Sio[0]  (to LogicClock_C +)
+
+   Max Data Path Delay:     1.175ns  (43.6% logic, 56.4% route), 1 logic levels.
+
+   Min Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+DVSAERReq_ABI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      1.175ns delay DVSAERReq_ABI to DVSAERReq_ABI_MGIOL less
+     15.666ns offset DVSAERReq_ABI to logicClockPLL/pll/PLLInst_0 (totaling -14.491ns) meets
+      0.663ns delay logicClockPLL/pll/PLLInst_0 to DVSAERReq_ABI_MGIOL less
+      0.624ns DI_SET requirement (totaling 0.039ns) by 14.530ns
+
+ Physical Path Details:
+
+      Data path DVSAERReq_ABI to DVSAERReq_ABI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512 *ERReq_ABI.PAD to *Req_ABI.PADDI DVSAERReq_ABI
+ROUTE         1   e 0.663 *Req_ABI.PADDI to *_ABI_MGIOL.DI DVSAERReq_ABI_c (to LogicClock_C)
+                  --------
+                    1.175   (43.6% logic, 56.4% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to DVSAERReq_ABI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.663 *LInst_0.CLKOP to *ABI_MGIOL.CLK LogicClock_C
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:   15.530ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_27"></A>Preference: CLOCK_TO_OUT PORT "ChipBiasEnable_SO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ; Setup Analysis.
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 10.765ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              chipBiasEnableBuffer_Output_SOio[0]  (from LogicClock_C +)
+   Destination:    Port       Pad            ChipBiasEnable_SO
+
+   Data Path Delay:     4.238ns  (84.4% logic, 15.6% route), 2 logic levels.
+
+   Clock Path Delay:    0.663ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.663ns delay logicClockPLL/pll/PLLInst_0 to ChipBiasEnable_SO_MGIOL and
+      4.238ns delay ChipBiasEnable_SO_MGIOL to ChipBiasEnable_SO (totaling 4.901ns) meets
+     15.666ns offset logicClockPLL/pll/PLLInst_0 to ChipBiasEnable_SO by 10.765ns
+
+ Physical Path Details:
+
+      Clock path logicClockPLL/pll/PLLInst_0 to ChipBiasEnable_SO_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.663 *LInst_0.CLKOP to *_SO_MGIOL.CLK LogicClock_C
+                  --------
+                    0.663   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path ChipBiasEnable_SO_MGIOL to ChipBiasEnable_SO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.419 *_SO_MGIOL.CLK to *O_MGIOL.IOLDO ChipBiasEnable_SO_MGIOL (from LogicClock_C)
+ROUTE         1   e 0.663 *O_MGIOL.IOLDO to       D8.IOLDO ChipBiasEnable_SO_c
+DOPAD_DEL   ---     2.156       D8.IOLDO to         D8.PAD ChipBiasEnable_SO
+                  --------
+                    4.238   (84.4% logic, 15.6% route), 2 logic levels.
+
+Report:   11.765ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_28"></A>Preference: MAXDELAY FROM PORT "BiasDiagSelect_SI" TO PORT "ChipBiasDiagSelect_SO" 10.000000 ns ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 6.440ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            BiasDiagSelect_SI
+   Destination:    Port       Pad            ChipBiasDiagSelect_SO
+
+   Delay:               3.560ns  (81.4% logic, 18.6% route), 2 logic levels.
+
+ Constraint Details:
+
+      3.560ns physical path delay BiasDiagSelect_SI to ChipBiasDiagSelect_SO meets
+     10.000ns delay constraint by 6.440ns
+
+ Physical Path Details:
+
+      Data path BiasDiagSelect_SI to ChipBiasDiagSelect_SO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.512 *Select_SI.PAD to *lect_SI.PADDI BiasDiagSelect_SI
+ROUTE         1   e 0.663 *lect_SI.PADDI to       D7.PADDO BiasDiagSelect_SI_c
+DOPAD_DEL   ---     2.385       D7.PADDO to         D7.PAD ChipBiasDiagSelect_SO
+                  --------
+                    3.560   (81.4% logic, 18.6% route), 2 logic levels.
+
+Report:    3.560ns is the maximum delay for this preference.
+
+<A name="mtw1_set_rs"></A><B><U><big>Report Summary</big></U></B>
+--------------
+----------------------------------------------------------------------------
+Preference                              |   Constraint|       Actual|Levels
+----------------------------------------------------------------------------
+                                        |             |             |
+FREQUENCY PORT "USBClock_CI" 80.000000  |             |             |
+MHz ;                                   |   80.000 MHz|  325.309 MHz|   0  
+                                        |             |             |
+FREQUENCY NET "USBClock_CI_c" 80.000000 |             |             |
+MHz ;                                   |   80.000 MHz|  138.160 MHz|  14  
+                                        |             |             |
+FREQUENCY NET "LogicClock_C" 60.000000  |             |             |
+MHz ;                                   |   60.000 MHz|   44.928 MHz|  33 *
+                                        |             |             |
+INPUT_SETUP PORT "Reset_RI" INPUT_DELAY |             |             |
+1.000000 ns HOLD 1.000000 ns CLKNET     |             |             |
+"USBClock_CI_c" ; Setup Analysis.       |     1.000 ns|    11.578 ns|   1  
+                                        |             |             |
+INPUT_SETUP PORT "Reset_RI" INPUT_DELAY |             |             |
+1.000000 ns HOLD 1.000000 ns CLKNET     |             |             |
+"LogicClock_C" ; Setup Analysis.        |     1.000 ns|    15.744 ns|   1  
+                                        |             |             |
+CLOCK_TO_OUT GROUP "USBFifoData_DO"     |             |             |
+OUTPUT_DELAY 2.000000 ns MIN 0.500000   |             |             |
+ns CLKNET "USBClock_CI_c" ; Setup       |             |             |
+Analysis.                               |     2.000 ns|     7.458 ns|   2  
+                                        |             |             |
+CLOCK_TO_OUT GROUP "USBFifoAddress_DO"  |             |             |
+OUTPUT_DELAY 2.000000 ns MIN 0.500000   |             |             |
+ns CLKNET "USBClock_CI_c" ; Setup       |             |             |
+Analysis.                               |     2.000 ns|     7.458 ns|   2  
+                                        |             |             |
+CLOCK_TO_OUT PORT                       |             |             |
+"USBFifoChipSelect_SBO" OUTPUT_DELAY    |             |             |
+2.000000 ns MIN 0.500000 ns CLKNET      |             |             |
+"USBClock_CI_c" ; Setup Analysis.       |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "USBFifoWrite_SBO"    |             |             |
+OUTPUT_DELAY 2.000000 ns MIN 0.500000   |             |             |
+ns CLKNET "USBClock_CI_c" ; Setup       |             |             |
+Analysis.                               |     2.000 ns|     7.458 ns|   2  
+                                        |             |             |
+CLOCK_TO_OUT PORT "USBFifoRead_SBO"     |             |             |
+OUTPUT_DELAY 2.000000 ns MIN 0.500000   |             |             |
+ns CLKNET "USBClock_CI_c" ; Setup       |             |             |
+Analysis.                               |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "USBFifoPktEnd_SBO"   |             |             |
+OUTPUT_DELAY 2.000000 ns MIN 0.500000   |             |             |
+ns CLKNET "USBClock_CI_c" ; Setup       |             |             |
+Analysis.                               |     2.000 ns|     7.458 ns|   2  
+                                        |             |             |
+INPUT_SETUP PORT "USBFifoThr0Ready_SI"  |             |             |
+INPUT_DELAY 8.000000 ns HOLD 0.000000   |             |             |
+ns CLKNET "USBClock_CI_c" ;             |     8.000 ns|    10.867 ns|   1  
+                                        |             |             |
+INPUT_SETUP PORT                        |             |             |
+"USBFifoThr0Watermark_SI" INPUT_DELAY   |             |             |
+8.000000 ns HOLD 0.000000 ns CLKNET     |             |             |
+"USBClock_CI_c" ;                       |     8.000 ns|    10.867 ns|   1  
+                                        |             |             |
+INPUT_SETUP PORT "USBFifoThr1Ready_SI"  |             |             |
+INPUT_DELAY 8.000000 ns HOLD 0.000000   |             |             |
+ns CLKNET "USBClock_CI_c" ;             |     8.000 ns|    10.867 ns|   1  
+                                        |             |             |
+INPUT_SETUP PORT                        |             |             |
+"USBFifoThr1Watermark_SI" INPUT_DELAY   |             |             |
+8.000000 ns HOLD 0.000000 ns CLKNET     |             |             |
+"USBClock_CI_c" ;                       |     8.000 ns|    10.867 ns|   1  
+                                        |             |             |
+CLOCK_TO_OUT PORT "SPIMISO_ZO"          |             |             |
+OUTPUT_DELAY 1.000000 ns MIN 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |     1.000 ns|    11.765 ns|   2  
+                                        |             |             |
+INPUT_SETUP PORT "SPISlaveSelect_ABI"   |             |             |
+INPUT_DELAY 1.000000 ns HOLD 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |     1.000 ns|    15.530 ns|   1  
+                                        |             |             |
+INPUT_SETUP PORT "SPIClock_AI"          |             |             |
+INPUT_DELAY 1.000000 ns HOLD 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |     1.000 ns|    15.530 ns|   1  
+                                        |             |             |
+INPUT_SETUP PORT "SPIMOSI_AI"           |             |             |
+INPUT_DELAY 1.000000 ns HOLD 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |     1.000 ns|    15.530 ns|   1  
+                                        |             |             |
+CLOCK_TO_OUT PORT "LED1_SO"             |             |             |
+OUTPUT_DELAY 0.100000 ns MIN 0.100000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "LED2_SO"             |             |             |
+OUTPUT_DELAY 0.100000 ns MIN 0.100000   |             |             |
+ns CLKNET "USBClock_CI_c" ; Setup       |             |             |
+Analysis.                               |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "LED3_SO"             |             |             |
+OUTPUT_DELAY 0.100000 ns MIN 0.100000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "LED4_SO"             |             |             |
+OUTPUT_DELAY 0.100000 ns MIN 0.100000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "DVSAERAck_SBO"       |             |             |
+OUTPUT_DELAY 1.000000 ns MIN 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "DVSAERReset_SBO"     |             |             |
+OUTPUT_DELAY 1.000000 ns MIN 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |     1.000 ns|    11.765 ns|   2  
+                                        |             |             |
+INPUT_SETUP GROUP "DVSAERData_AI"       |             |             |
+INPUT_DELAY 1.000000 ns HOLD 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |     1.000 ns|    15.035 ns|   2  
+                                        |             |             |
+INPUT_SETUP PORT "DVSAERReq_ABI"        |             |             |
+INPUT_DELAY 1.000000 ns HOLD 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |     1.000 ns|    15.530 ns|   1  
+                                        |             |             |
+CLOCK_TO_OUT PORT "ChipBiasEnable_SO"   |             |             |
+OUTPUT_DELAY 1.000000 ns MIN 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ; Setup        |             |             |
+Analysis.                               |     1.000 ns|    11.765 ns|   2  
+                                        |             |             |
+MAXDELAY FROM PORT "BiasDiagSelect_SI"  |             |             |
+TO PORT "ChipBiasDiagSelect_SO"         |             |             |
+10.000000 ns ;                          |    10.000 ns|     3.560 ns|   2  
+                                        |             |             |
+----------------------------------------------------------------------------
+
+
+1 preference(marked by "*" above) not met.
+
+----------------------------------------------------------------------------
+Critical Nets                           |   Loads|  Errors| % of total
+----------------------------------------------------------------------------
+OMCellSM/un1_Excitation_S_cry_24_cry    |       1|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Excitation_S_i             |      25|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_3|        |        |
+_0_RNI0C9S1                             |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_3|        |        |
+_0_RNIOMSH2                             |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_1_cry_5_|        |        |
+11_RNIKBOP2                             |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_1_cry_5_|        |        |
+11_RNIG0K13                             |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_1_cry_7_|        |        |
+11_RNIGVNB3                             |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_1_cry_7_|        |        |
+11_RNIGURL3                             |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_9|        |        |
+_0_RNIK7824                             |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_9|        |        |
+_0_RNIOGKE4                             |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+1_0_RNIEDJQ4                            |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+1_0_RNI4AI65                            |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+3_0_RNIUGPK5                            |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+3_0_RNION036                            |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+5_0_RNIM8GJ6                            |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+5_0_RNIKPV37                            |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+7_0_RNI7LAM7                            |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+7_0_RNIQGL88                            |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+9_0_RNIFK4R8                            |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+9_0_RNI4OJD9                            |       3|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_2|        |        |
+1_0_RNI9VM1A                            |       2|    4096|    100.00%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_14[2] |       2|    3496|     85.35%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_16_cry_1|        |        |
+_0_RNI81M61                             |       2|    3496|     85.35%
+                                        |        |        |
+OMCellSM/Inhibition_S[24]               |       4|    2896|     70.70%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_14_98_0 |       1|    2800|     68.36%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_6_1_cry_|        |        |
+22                                      |       1|    2400|     58.59%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_6[23] |       1|    1800|     43.95%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_40[2] |       2|    1400|     34.18%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_36[2] |       2|    1400|     34.18%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_40_0  |       1|    1292|     31.54%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_36_0  |       1|    1204|     29.39%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_6[24] |       1|    1200|     29.30%
+                                        |        |        |
+OMCellSM/Inhibition_S[23]               |       4|    1200|     29.30%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_cry_22|       1|    1096|     26.76%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_6[22] |       1|    1096|     26.76%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_14_0  |       1|    1096|     26.76%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_116_0 |       1|    1050|     25.63%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_118_0 |       1|    1042|     25.44%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_104_0 |       1|    1002|     24.46%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_106_0 |       1|    1002|     24.46%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_40_88_0 |       1|     800|     19.53%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_36_88_0 |       1|     800|     19.53%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_116[1]|       3|     650|     15.87%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_118[1]|       2|     642|     15.67%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_106[1]|       2|     602|     14.70%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_104[1]|       3|     602|     14.70%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_14[3] |       2|     600|     14.65%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_cry_23_0|        |        |
+_RNO_0                                  |       1|     600|     14.65%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_40[1] |       2|     592|     14.45%
+                                        |        |        |
+OMCellSM/Inhibition_S_pipe_1975         |       3|     525|     12.82%
+                                        |        |        |
+OMCellSM/Inhibition_S_pipe_2031         |       2|     525|     12.82%
+                                        |        |        |
+OMCellSM/un1_arrayOfSubunits_8_9_1f[14] |       3|     525|     12.82%
+                                        |        |        |
+OMCellSM/Inhibition_S_pipe_1983         |       2|     517|     12.62%
+                                        |        |        |
+OMCellSM/un1_Inhibition_S_1_0_0_0_36[1] |       2|     504|     12.30%
+                                        |        |        |
+OMCellSM/Inhibition_S_pipe_2594         |       3|     501|     12.23%
+                                        |        |        |
+OMCellSM/Inhibition_S_pipe_2605         |       2|     501|     12.23%
+                                        |        |        |
+OMCellSM/Inhibition_S_pipe_2650         |       2|     501|     12.23%
+                                        |        |        |
+OMCellSM/Inhibition_S_pipe_2715         |       3|     501|     12.23%
+                                        |        |        |
+----------------------------------------------------------------------------
+
+
+<A name="mtw1_set_clkda"></A><B><U><big>Clock Domains Analysis</big></U></B>
+------------------------
+
+Found 2 clocks:
+
+Clock Domain: USBClock_CI_c   Source: USBClock_CI.PAD   Loads: 93
+   Covered under: FREQUENCY NET "USBClock_CI_c" 80.000000 MHz ;
+
+   Data transfers from:
+   Clock Domain: LogicClock_C   Source: logicClockPLL/pll/PLLInst_0.CLKOP
+      Covered under: FREQUENCY NET "USBClock_CI_c" 80.000000 MHz ;   Transfers: 18
+
+Clock Domain: LogicClock_C   Source: logicClockPLL/pll/PLLInst_0.CLKOP   Loads: 5043
+   Covered under: FREQUENCY NET "LogicClock_C" 60.000000 MHz ;
+
+   Data transfers from:
+   Clock Domain: USBClock_CI_c   Source: USBClock_CI.PAD
+      Covered under: FREQUENCY NET "LogicClock_C" 60.000000 MHz ;   Transfers: 6
+
+
+<A name="mtw1_set_ts"></A><B><U><big>Timing summary (Setup):</big></U></B>
+---------------
+
+Timing errors: 4096  Score: 22530624
+Cumulative negative slack: 22530624
+
+Constraints cover 2147483647 paths, 2 nets, and 84453 connections (100.0% coverage)
+
+--------------------------------------------------------------------------------
+<A name="Map_Twr_hold"></A><B><U><big>Lattice TRACE Report - Hold, Version Diamond (64-bit) 3.2.0.134</big></U></B>
+Mon Oct 13 15:33:33 2014
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2014 Lattice Semiconductor Corporation,  All rights reserved.
+
+<A name="mtw1_hold_ri"></A><B><U><big>Report Information</big></U></B>
+------------------
+Command line:    trce -v 1 -gt -mapchkpnt 0 -sethld -o SeeBetterLogic_FX3_SeeBetterLogic_FX3.tw1 -gui SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf 
+Design file:     seebetterlogic_fx3_seebetterlogic_fx3_map.ncd
+Preference file: seebetterlogic_fx3_seebetterlogic_fx3.prf
+Device,speed:    LFE3-70E,M
+Report level:    verbose report, limited to 1 item per preference
+--------------------------------------------------------------------------------
+
+<A name="mtw1_hold_ps"></A><B><U><big>Preference Summary</big></U></B>
+
+<LI><A href='#map_twr_pref_1_0' Target='right'>FREQUENCY PORT "USBClock_CI" 80.000000 MHz (0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_1' Target='right'>FREQUENCY NET "USBClock_CI_c" 80.000000 MHz (0 errors)</A></LI>            4096 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_2' Target='right'>FREQUENCY NET "LogicClock_C" 60.000000 MHz (0 errors)</A></LI>            4096 items scored, 0 timing errors detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_3' Target='right'><FONT COLOR=red>INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "USBClock_CI_c" (2 errors)</FONT></A></LI>
+</FONT>            2 items scored, 2 timing errors detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_4' Target='right'><FONT COLOR=red>INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" (1 errors)</FONT></A></LI>
+</FONT>            1 item scored, 1 timing error detected.
+
+<LI><A href='#map_twr_pref_1_5' Target='right'>CLOCK_TO_OUT GROUP "USBFifoData_DO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            16 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_6' Target='right'>CLOCK_TO_OUT GROUP "USBFifoAddress_DO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_7' Target='right'>CLOCK_TO_OUT PORT "USBFifoChipSelect_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_8' Target='right'>CLOCK_TO_OUT PORT "USBFifoWrite_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_9' Target='right'>CLOCK_TO_OUT PORT "USBFifoRead_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_10' Target='right'>CLOCK_TO_OUT PORT "USBFifoPktEnd_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_11' Target='right'><FONT COLOR=red>INPUT_SETUP PORT "USBFifoThr0Ready_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" (1 errors)</FONT></A></LI>
+</FONT>            1 item scored, 1 timing error detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_12' Target='right'><FONT COLOR=red>INPUT_SETUP PORT "USBFifoThr0Watermark_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" (1 errors)</FONT></A></LI>
+</FONT>            1 item scored, 1 timing error detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_13' Target='right'><FONT COLOR=red>INPUT_SETUP PORT "USBFifoThr1Ready_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" (1 errors)</FONT></A></LI>
+</FONT>            1 item scored, 1 timing error detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_14' Target='right'><FONT COLOR=red>INPUT_SETUP PORT "USBFifoThr1Watermark_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" (1 errors)</FONT></A></LI>
+</FONT>            1 item scored, 1 timing error detected.
+
+<LI><A href='#map_twr_pref_1_15' Target='right'>CLOCK_TO_OUT PORT "SPIMISO_ZO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" (0 errors)</A></LI>            2 items scored, 0 timing errors detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_16' Target='right'><FONT COLOR=red>INPUT_SETUP PORT "SPISlaveSelect_ABI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" (1 errors)</FONT></A></LI>
+</FONT>            1 item scored, 1 timing error detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_17' Target='right'><FONT COLOR=red>INPUT_SETUP PORT "SPIClock_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" (1 errors)</FONT></A></LI>
+</FONT>            1 item scored, 1 timing error detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_18' Target='right'><FONT COLOR=red>INPUT_SETUP PORT "SPIMOSI_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" (1 errors)</FONT></A></LI>
+</FONT>            1 item scored, 1 timing error detected.
+
+<LI><A href='#map_twr_pref_1_19' Target='right'>CLOCK_TO_OUT PORT "LED1_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" (0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_20' Target='right'>CLOCK_TO_OUT PORT "LED2_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "USBClock_CI_c" (0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_21' Target='right'>CLOCK_TO_OUT PORT "LED3_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" (0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_22' Target='right'>CLOCK_TO_OUT PORT "LED4_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" (0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_23' Target='right'>CLOCK_TO_OUT PORT "DVSAERAck_SBO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" (0 errors)</A></LI>            0 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_24' Target='right'>CLOCK_TO_OUT PORT "DVSAERReset_SBO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_25' Target='right'><FONT COLOR=red>INPUT_SETUP GROUP "DVSAERData_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" (54 errors)</FONT></A></LI>
+</FONT>            54 items scored, 54 timing errors detected.
+
+<FONT COLOR=red><LI><A href='#map_twr_pref_1_26' Target='right'><FONT COLOR=red>INPUT_SETUP PORT "DVSAERReq_ABI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" (1 errors)</FONT></A></LI>
+</FONT>            1 item scored, 1 timing error detected.
+
+<LI><A href='#map_twr_pref_1_27' Target='right'>CLOCK_TO_OUT PORT "ChipBiasEnable_SO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_28' Target='right'>MAXDELAY FROM PORT "BiasDiagSelect_SI" TO PORT "ChipBiasDiagSelect_SO" 10.000000 ns (0 errors)</A></LI>            1 item scored, 0 timing errors detected.
+
+1 potential circuit loop found in timing analysis.
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+BLOCK JTAG PATHS
+--------------------------------------------------------------------------------
+
+
+
+================================================================================
+<A name="map_twr_pref_1_0"></A>Preference: FREQUENCY PORT "USBClock_CI" 80.000000 MHz ;
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_1_1"></A>Preference: FREQUENCY NET "USBClock_CI_c" 80.000000 MHz ;
+            4096 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 0.219ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              syncInputsToUSBClock/syncReset/SyncSignalDemetFF_S  (from USBClock_CI_c +)
+   Destination:    FF         Data in        syncInputsToUSBClock/syncReset/SyncSignalSyncFF_S  (to USBClock_CI_c +)
+
+   Delay:               0.171ns  (54.4% logic, 45.6% route), 1 logic levels.
+
+ Constraint Details:
+
+      0.171ns physical path delay syncInputsToUSBClock/syncReset/SLICE_6784 to syncInputsToUSBClock/syncReset/SLICE_6784 meets
+     -0.048ns M_HLD and
+      0.000ns delay constraint requirement (totaling -0.048ns) by 0.219ns
+
+ Physical Path Details:
+
+      Data path syncInputsToUSBClock/syncReset/SLICE_6784 to syncInputsToUSBClock/syncReset/SLICE_6784:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.093 *LICE_6784.CLK to *SLICE_6784.Q0 syncInputsToUSBClock/syncReset/SLICE_6784 (from USBClock_CI_c)
+ROUTE         1   e 0.078 *SLICE_6784.Q0 to *SLICE_6784.M1 syncInputsToUSBClock/syncReset/SyncSignalDemetFF_S (to USBClock_CI_c)
+                  --------
+                    0.171   (54.4% logic, 45.6% route), 1 logic levels.
+
+
+================================================================================
+<A name="map_twr_pref_1_2"></A>Preference: FREQUENCY NET "LogicClock_C" 60.000000 MHz ;
+            4096 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 0.219ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              syncInputsToLogicClock/syncSPIClock/SyncSignalSyncFF_S[0]  (from LogicClock_C +)
+   Destination:    FF         Data in        spiConfiguration/spiClockDetector/InputSignalReg1_S  (to LogicClock_C +)
+
+   Delay:               0.171ns  (54.4% logic, 45.6% route), 1 logic levels.
+
+ Constraint Details:
+
+      0.171ns physical path delay SLICE_6764 to SLICE_6764 meets
+     -0.048ns M_HLD and
+      0.000ns delay constraint requirement (totaling -0.048ns) by 0.219ns
+
+ Physical Path Details:
+
+      Data path SLICE_6764 to SLICE_6764:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.093 SLICE_6764.CLK to  SLICE_6764.Q1 SLICE_6764 (from LogicClock_C)
+ROUTE         1   e 0.078  SLICE_6764.Q1 to  SLICE_6764.M0 SPIClockSync_C (to LogicClock_C)
+                  --------
+                    0.171   (54.4% logic, 45.6% route), 1 logic levels.
+
+
+================================================================================
+<A name="map_twr_pref_1_3"></A>Preference: INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "USBClock_CI_c" ;
+            2 items scored, 2 timing errors detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 0.857ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            Reset_RI
+   Destination:    FF         Data in        syncInputsToLogicClock/syncReset/SyncSignalSyncFF_S  (to LogicClock_C +)
+                   FF                        syncInputsToLogicClock/syncReset/SyncSignalDemetFF_S
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.536ns  (0.0% logic, 100.0% route), 1 logic levels.
+
+ Constraint Details:
+
+      0.500ns delay Reset_RI to syncInputsToLogicClock/syncReset/SLICE_6783 plus
+     -1.000ns hold offset Reset_RI to USBClock_CI (totaling -0.500ns) violates
+      0.536ns delay USBClock_CI to syncInputsToLogicClock/syncReset/SLICE_6783 less
+      0.078ns feedback compensation plus
+     -0.101ns LSR_HLD requirement (totaling 0.357ns) by 0.857ns
+
+ Physical Path Details:
+
+      Data path Reset_RI to syncInputsToLogicClock/syncReset/SLICE_6783:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232        C13.PAD to      C13.PADDI Reset_RI
+ROUTE         2   e 0.268      C13.PADDI to *LICE_6783.LSR Reset_RI_c (to LogicClock_C)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path USBClock_CI to syncInputsToLogicClock/syncReset/SLICE_6783:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.268       K3.PADDI to *LLInst_0.CLKI USBClock_CI_c
+CLKI2OP_DE  ---     0.000 *LLInst_0.CLKI to *LInst_0.CLKOP logicClockPLL/pll/PLLInst_0
+ROUTE       999   e 0.268 *LInst_0.CLKOP to *LICE_6783.CLK LogicClock_C
+                  --------
+                    0.536   (0.0% logic, 100.0% route), 1 logic levels.
+
+logicClockPLL/pll/PLLInst_0.CLKOP attributes: 
+
+      Feedback path:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+CLKFB2OP_D  ---     0.000 *LInst_0.CLKFB to *LInst_0.CLKOP logicClockPLL/pll/PLLInst_0
+ROUTE       999   e 0.078 *LInst_0.CLKOP to *LInst_0.CLKFB LogicClock_C
+                  --------
+                    0.078   (0.0% logic, 100.0% route), 1 logic levels.
+
+logicClockPLL/pll/PLLInst_0.CLKOP attributes: 
+
+Report: There is no minimum offset greater than zero for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_4"></A>Preference: INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ;
+            1 item scored, 1 timing error detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 0.667ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            Reset_RI
+   Destination:    FF         Data in        syncInputsToLogicClock/syncReset/SyncSignalSyncFF_S  (to LogicClock_C +)
+                   FF                        syncInputsToLogicClock/syncReset/SyncSignalDemetFF_S
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+
+      0.500ns delay Reset_RI to syncInputsToLogicClock/syncReset/SLICE_6783 plus
+     -1.000ns hold offset Reset_RI to logicClockPLL/pll/PLLInst_0 (totaling -0.500ns) violates
+      0.268ns delay logicClockPLL/pll/PLLInst_0 to syncInputsToLogicClock/syncReset/SLICE_6783 plus
+     -0.101ns LSR_HLD requirement (totaling 0.167ns) by 0.667ns
+
+ Physical Path Details:
+
+      Data path Reset_RI to syncInputsToLogicClock/syncReset/SLICE_6783:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232        C13.PAD to      C13.PADDI Reset_RI
+ROUTE         2   e 0.268      C13.PADDI to *LICE_6783.LSR Reset_RI_c (to LogicClock_C)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to syncInputsToLogicClock/syncReset/SLICE_6783:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.268 *LInst_0.CLKOP to *LICE_6783.CLK LogicClock_C
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report: There is no minimum offset greater than zero for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_5"></A>Preference: CLOCK_TO_OUT GROUP "USBFifoData_DO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ;
+            16 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+NOTE: Assuming preference to be OFFSET OUT ... AFTER for HOLD analysis 
+
+
+Passed:  The following path meets requirements by 3.302ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              logicUSBFifo_FifoData_DOio[0]  (from USBClock_CI_c +)
+   Destination:    Port       Pad            USBFifoData_DO[0]
+
+   Data Path Delay:     3.534ns  (92.4% logic, 7.6% route), 2 logic levels.
+
+   Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.268ns delay USBClock_CI to USBFifoData_DO[0]_MGIOL and
+      3.534ns delay USBFifoData_DO[0]_MGIOL to USBFifoData_DO[0] (totaling 3.802ns) meets
+      0.500ns hold offset USBClock_CI to USBFifoData_DO[0] by 3.302ns
+
+ Physical Path Details:
+
+      Clock path USBClock_CI to USBFifoData_DO[0]_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.268       K3.PADDI to *[0]_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path USBFifoData_DO[0]_MGIOL to USBFifoData_DO[0]:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.860 *[0]_MGIOL.CLK to *]_MGIOL.IOLDO USBFifoData_DO[0]_MGIOL (from USBClock_CI_c)
+ROUTE         1   e 0.268 *]_MGIOL.IOLDO to       T2.IOLDO USBFifoData_DO_c[0]
+DOPAD_DEL   ---     1.406       T2.IOLDO to         T2.PAD USBFifoData_DO[0]
+                  --------
+                    3.534   (92.4% logic, 7.6% route), 2 logic levels.
+
+Report:    3.802ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_6"></A>Preference: CLOCK_TO_OUT GROUP "USBFifoAddress_DO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+NOTE: Assuming preference to be OFFSET OUT ... AFTER for HOLD analysis 
+
+
+Passed:  The following path meets requirements by 3.302ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              usbFX3SM_USBFifoAddress_DOio[0]  (from USBClock_CI_c +)
+   Destination:    Port       Pad            USBFifoAddress_DO[0]
+
+   Data Path Delay:     3.534ns  (92.4% logic, 7.6% route), 2 logic levels.
+
+   Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.268ns delay USBClock_CI to USBFifoAddress_DO[0]_MGIOL and
+      3.534ns delay USBFifoAddress_DO[0]_MGIOL to USBFifoAddress_DO[0] (totaling 3.802ns) meets
+      0.500ns hold offset USBClock_CI to USBFifoAddress_DO[0] by 3.302ns
+
+ Physical Path Details:
+
+      Clock path USBClock_CI to USBFifoAddress_DO[0]_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.268       K3.PADDI to *[0]_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path USBFifoAddress_DO[0]_MGIOL to USBFifoAddress_DO[0]:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.860 *[0]_MGIOL.CLK to *]_MGIOL.IOLDO USBFifoAddress_DO[0]_MGIOL (from USBClock_CI_c)
+ROUTE         1   e 0.268 *]_MGIOL.IOLDO to      F14.IOLDO USBFifoAddress_DO_c[0]
+DOPAD_DEL   ---     1.406      F14.IOLDO to        F14.PAD USBFifoAddress_DO[0]
+                  --------
+                    3.534   (92.4% logic, 7.6% route), 2 logic levels.
+
+Report:    3.802ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_7"></A>Preference: CLOCK_TO_OUT PORT "USBFifoChipSelect_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ;
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_1_8"></A>Preference: CLOCK_TO_OUT PORT "USBFifoWrite_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+NOTE: Assuming preference to be OFFSET OUT ... AFTER for HOLD analysis 
+
+
+Passed:  The following path meets requirements by 3.302ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              usbFX3SM_USBFifoWrite_SBOio  (from USBClock_CI_c +)
+   Destination:    Port       Pad            USBFifoWrite_SBO
+
+   Data Path Delay:     3.534ns  (92.4% logic, 7.6% route), 2 logic levels.
+
+   Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.268ns delay USBClock_CI to USBFifoWrite_SBO_MGIOL and
+      3.534ns delay USBFifoWrite_SBO_MGIOL to USBFifoWrite_SBO (totaling 3.802ns) meets
+      0.500ns hold offset USBClock_CI to USBFifoWrite_SBO by 3.302ns
+
+ Physical Path Details:
+
+      Clock path USBClock_CI to USBFifoWrite_SBO_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.268       K3.PADDI to *SBO_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path USBFifoWrite_SBO_MGIOL to USBFifoWrite_SBO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.860 *SBO_MGIOL.CLK to *O_MGIOL.IOLDO USBFifoWrite_SBO_MGIOL (from USBClock_CI_c)
+ROUTE         1   e 0.268 *O_MGIOL.IOLDO to *ite_SBO.IOLDO USBFifoWrite_SBO_c
+DOPAD_DEL   ---     1.406 *ite_SBO.IOLDO to *Write_SBO.PAD USBFifoWrite_SBO
+                  --------
+                    3.534   (92.4% logic, 7.6% route), 2 logic levels.
+
+Report:    3.802ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_9"></A>Preference: CLOCK_TO_OUT PORT "USBFifoRead_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ;
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_1_10"></A>Preference: CLOCK_TO_OUT PORT "USBFifoPktEnd_SBO" OUTPUT_DELAY 2.000000 ns MIN 0.500000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+NOTE: Assuming preference to be OFFSET OUT ... AFTER for HOLD analysis 
+
+
+Passed:  The following path meets requirements by 3.302ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              usbFX3SM_USBFifoPktEnd_SBOio  (from USBClock_CI_c +)
+   Destination:    Port       Pad            USBFifoPktEnd_SBO
+
+   Data Path Delay:     3.534ns  (92.4% logic, 7.6% route), 2 logic levels.
+
+   Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.268ns delay USBClock_CI to USBFifoPktEnd_SBO_MGIOL and
+      3.534ns delay USBFifoPktEnd_SBO_MGIOL to USBFifoPktEnd_SBO (totaling 3.802ns) meets
+      0.500ns hold offset USBClock_CI to USBFifoPktEnd_SBO by 3.302ns
+
+ Physical Path Details:
+
+      Clock path USBClock_CI to USBFifoPktEnd_SBO_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.268       K3.PADDI to *SBO_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path USBFifoPktEnd_SBO_MGIOL to USBFifoPktEnd_SBO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.860 *SBO_MGIOL.CLK to *O_MGIOL.IOLDO USBFifoPktEnd_SBO_MGIOL (from USBClock_CI_c)
+ROUTE         1   e 0.268 *O_MGIOL.IOLDO to *End_SBO.IOLDO USBFifoPktEnd_SBO_c
+DOPAD_DEL   ---     1.406 *End_SBO.IOLDO to *ktEnd_SBO.PAD USBFifoPktEnd_SBO
+                  --------
+                    3.534   (92.4% logic, 7.6% route), 2 logic levels.
+
+Report:    3.802ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_11"></A>Preference: INPUT_SETUP PORT "USBFifoThr0Ready_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 1 timing error detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 0.522ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            USBFifoThr0Ready_SI
+   Destination:    FF         Data in        syncInputsToUSBClock_syncUSBFifoThr0Ready_SyncSignalDemetFF_Sio[0]  (to USBClock_CI_c +)
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+USBFifoThr0Ready_SI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      0.500ns delay USBFifoThr0Ready_SI to USBFifoThr0Ready_SI_MGIOL plus
+      0.000ns hold offset USBFifoThr0Ready_SI to USBClock_CI (totaling 0.500ns) violates
+      0.268ns delay USBClock_CI to USBFifoThr0Ready_SI_MGIOL plus
+      0.754ns DI_HLD requirement (totaling 1.022ns) by 0.522ns
+
+ Physical Path Details:
+
+      Data path USBFifoThr0Ready_SI to USBFifoThr0Ready_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232 *0Ready_SI.PAD to *eady_SI.PADDI USBFifoThr0Ready_SI
+ROUTE         1   e 0.268 *eady_SI.PADDI to *y_SI_MGIOL.DI USBFifoThr0Ready_SI_c (to USBClock_CI_c)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path USBClock_CI to USBFifoThr0Ready_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.268       K3.PADDI to *_SI_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+Warning:   0.522ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_12"></A>Preference: INPUT_SETUP PORT "USBFifoThr0Watermark_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 1 timing error detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 0.522ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            USBFifoThr0Watermark_SI
+   Destination:    FF         Data in        syncInputsToUSBClock_syncUSBFifoThr0Watermark_SyncSignalDemetFF_Sio[0]  (to USBClock_CI_c +)
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+USBFifoThr0Watermark_SI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      0.500ns delay USBFifoThr0Watermark_SI to USBFifoThr0Watermark_SI_MGIOL plus
+      0.000ns hold offset USBFifoThr0Watermark_SI to USBClock_CI (totaling 0.500ns) violates
+      0.268ns delay USBClock_CI to USBFifoThr0Watermark_SI_MGIOL plus
+      0.754ns DI_HLD requirement (totaling 1.022ns) by 0.522ns
+
+ Physical Path Details:
+
+      Data path USBFifoThr0Watermark_SI to USBFifoThr0Watermark_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232         L3.PAD to       L3.PADDI USBFifoThr0Watermark_SI
+ROUTE         1   e 0.268       L3.PADDI to *k_SI_MGIOL.DI USBFifoThr0Watermark_SI_c (to USBClock_CI_c)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path USBClock_CI to USBFifoThr0Watermark_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.268       K3.PADDI to *_SI_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+Warning:   0.522ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_13"></A>Preference: INPUT_SETUP PORT "USBFifoThr1Ready_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 1 timing error detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 0.522ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            USBFifoThr1Ready_SI
+   Destination:    FF         Data in        syncInputsToUSBClock_syncUSBFifoThr1Ready_SyncSignalDemetFF_Sio[0]  (to USBClock_CI_c +)
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+USBFifoThr1Ready_SI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      0.500ns delay USBFifoThr1Ready_SI to USBFifoThr1Ready_SI_MGIOL plus
+      0.000ns hold offset USBFifoThr1Ready_SI to USBClock_CI (totaling 0.500ns) violates
+      0.268ns delay USBClock_CI to USBFifoThr1Ready_SI_MGIOL plus
+      0.754ns DI_HLD requirement (totaling 1.022ns) by 0.522ns
+
+ Physical Path Details:
+
+      Data path USBFifoThr1Ready_SI to USBFifoThr1Ready_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232 *1Ready_SI.PAD to *eady_SI.PADDI USBFifoThr1Ready_SI
+ROUTE         1   e 0.268 *eady_SI.PADDI to *y_SI_MGIOL.DI USBFifoThr1Ready_SI_c (to USBClock_CI_c)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path USBClock_CI to USBFifoThr1Ready_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.268       K3.PADDI to *_SI_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+Warning:   0.522ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_14"></A>Preference: INPUT_SETUP PORT "USBFifoThr1Watermark_SI" INPUT_DELAY 8.000000 ns HOLD 0.000000 ns CLKNET "USBClock_CI_c" ;
+            1 item scored, 1 timing error detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 0.522ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            USBFifoThr1Watermark_SI
+   Destination:    FF         Data in        syncInputsToUSBClock_syncUSBFifoThr1Watermark_SyncSignalDemetFF_Sio[0]  (to USBClock_CI_c +)
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+USBFifoThr1Watermark_SI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      0.500ns delay USBFifoThr1Watermark_SI to USBFifoThr1Watermark_SI_MGIOL plus
+      0.000ns hold offset USBFifoThr1Watermark_SI to USBClock_CI (totaling 0.500ns) violates
+      0.268ns delay USBClock_CI to USBFifoThr1Watermark_SI_MGIOL plus
+      0.754ns DI_HLD requirement (totaling 1.022ns) by 0.522ns
+
+ Physical Path Details:
+
+      Data path USBFifoThr1Watermark_SI to USBFifoThr1Watermark_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232         K4.PAD to       K4.PADDI USBFifoThr1Watermark_SI
+ROUTE         1   e 0.268       K4.PADDI to *k_SI_MGIOL.DI USBFifoThr1Watermark_SI_c (to USBClock_CI_c)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path USBClock_CI to USBFifoThr1Watermark_SI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        93   e 0.268       K3.PADDI to *_SI_MGIOL.CLK USBClock_CI_c
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+Warning:   0.522ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_15"></A>Preference: CLOCK_TO_OUT PORT "SPIMISO_ZO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ;
+            2 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+NOTE: Assuming preference to be OFFSET OUT ... AFTER for HOLD analysis 
+
+
+Passed:  The following path meets requirements by 1.772ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              spiConfiguration_SPIMISO_DZO_e_iio  (from LogicClock_C +)
+   Destination:    Port       Pad            SPIMISO_ZO
+
+   Data Path Delay:     2.504ns  (89.3% logic, 10.7% route), 2 logic levels.
+
+   Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.268ns delay logicClockPLL/pll/PLLInst_0 to SPIMISO_ZO_MGIOL and
+      2.504ns delay SPIMISO_ZO_MGIOL to SPIMISO_ZO (totaling 2.772ns) meets
+      1.000ns hold offset logicClockPLL/pll/PLLInst_0 to SPIMISO_ZO by 1.772ns
+
+ Physical Path Details:
+
+      Clock path logicClockPLL/pll/PLLInst_0 to SPIMISO_ZO_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.268 *LInst_0.CLKOP to *_ZO_MGIOL.CLK LogicClock_C
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path SPIMISO_ZO_MGIOL to SPIMISO_ZO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.124 *_ZO_MGIOL.CLK to *O_MGIOL.IOLTO SPIMISO_ZO_MGIOL (from LogicClock_C)
+ROUTE         1   e 0.268 *O_MGIOL.IOLTO to      R16.IOLTO spiConfiguration.SPIMISO_DZO_e_i
+DTPAD_DEL   ---     1.112      R16.IOLTO to        R16.PAD SPIMISO_ZO
+                  --------
+                    2.504   (89.3% logic, 10.7% route), 2 logic levels.
+
+Report:    2.772ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_16"></A>Preference: INPUT_SETUP PORT "SPISlaveSelect_ABI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ;
+            1 item scored, 1 timing error detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 1.561ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            SPISlaveSelect_ABI
+   Destination:    FF         Data in        syncInputsToLogicClock_syncSPISlaveSelect_SyncSignalDemetFF_Sio[0]  (to LogicClock_C +)
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+SPISlaveSelect_ABI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      0.500ns delay SPISlaveSelect_ABI to SPISlaveSelect_ABI_MGIOL plus
+     -1.000ns hold offset SPISlaveSelect_ABI to logicClockPLL/pll/PLLInst_0 (totaling -0.500ns) violates
+      0.268ns delay logicClockPLL/pll/PLLInst_0 to SPISlaveSelect_ABI_MGIOL plus
+      0.793ns DI_HLD requirement (totaling 1.061ns) by 1.561ns
+
+ Physical Path Details:
+
+      Data path SPISlaveSelect_ABI to SPISlaveSelect_ABI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232 *elect_ABI.PAD to *ect_ABI.PADDI SPISlaveSelect_ABI
+ROUTE         1   e 0.268 *ect_ABI.PADDI to *_ABI_MGIOL.DI SPISlaveSelect_ABI_c (to LogicClock_C)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to SPISlaveSelect_ABI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.268 *LInst_0.CLKOP to *ABI_MGIOL.CLK LogicClock_C
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+Warning:   0.561ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_17"></A>Preference: INPUT_SETUP PORT "SPIClock_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ;
+            1 item scored, 1 timing error detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 1.561ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            SPIClock_AI
+   Destination:    FF         Data in        syncInputsToLogicClock_syncSPIClock_SyncSignalDemetFF_Sio[0]  (to LogicClock_C +)
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+SPIClock_AI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      0.500ns delay SPIClock_AI to SPIClock_AI_MGIOL plus
+     -1.000ns hold offset SPIClock_AI to logicClockPLL/pll/PLLInst_0 (totaling -0.500ns) violates
+      0.268ns delay logicClockPLL/pll/PLLInst_0 to SPIClock_AI_MGIOL plus
+      0.793ns DI_HLD requirement (totaling 1.061ns) by 1.561ns
+
+ Physical Path Details:
+
+      Data path SPIClock_AI to SPIClock_AI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232 *IClock_AI.PAD to *lock_AI.PADDI SPIClock_AI
+ROUTE         1   e 0.268 *lock_AI.PADDI to *k_AI_MGIOL.DI SPIClock_AI_c (to LogicClock_C)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to SPIClock_AI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.268 *LInst_0.CLKOP to *_AI_MGIOL.CLK LogicClock_C
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+Warning:   0.561ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_18"></A>Preference: INPUT_SETUP PORT "SPIMOSI_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ;
+            1 item scored, 1 timing error detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 1.561ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            SPIMOSI_AI
+   Destination:    FF         Data in        syncInputsToLogicClock_syncSPIMOSI_SyncSignalDemetFF_Sio[0]  (to LogicClock_C +)
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+SPIMOSI_AI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      0.500ns delay SPIMOSI_AI to SPIMOSI_AI_MGIOL plus
+     -1.000ns hold offset SPIMOSI_AI to logicClockPLL/pll/PLLInst_0 (totaling -0.500ns) violates
+      0.268ns delay logicClockPLL/pll/PLLInst_0 to SPIMOSI_AI_MGIOL plus
+      0.793ns DI_HLD requirement (totaling 1.061ns) by 1.561ns
+
+ Physical Path Details:
+
+      Data path SPIMOSI_AI to SPIMOSI_AI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232 SPIMOSI_AI.PAD to *MOSI_AI.PADDI SPIMOSI_AI
+ROUTE         1   e 0.268 *MOSI_AI.PADDI to *I_AI_MGIOL.DI SPIMOSI_AI_c (to LogicClock_C)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to SPIMOSI_AI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.268 *LInst_0.CLKOP to *_AI_MGIOL.CLK LogicClock_C
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+Warning:   0.561ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_19"></A>Preference: CLOCK_TO_OUT PORT "LED1_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" ;
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_1_20"></A>Preference: CLOCK_TO_OUT PORT "LED2_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "USBClock_CI_c" ;
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_1_21"></A>Preference: CLOCK_TO_OUT PORT "LED3_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" ;
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_1_22"></A>Preference: CLOCK_TO_OUT PORT "LED4_SO" OUTPUT_DELAY 0.100000 ns MIN 0.100000 ns CLKNET "LogicClock_C" ;
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_1_23"></A>Preference: CLOCK_TO_OUT PORT "DVSAERAck_SBO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ;
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+<A name="map_twr_pref_1_24"></A>Preference: CLOCK_TO_OUT PORT "DVSAERReset_SBO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+NOTE: Assuming preference to be OFFSET OUT ... AFTER for HOLD analysis 
+
+
+Passed:  The following path meets requirements by 2.067ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dvsAerSM_DVSAERReset_SBOio  (from LogicClock_C +)
+   Destination:    Port       Pad            DVSAERReset_SBO
+
+   Data Path Delay:     2.799ns  (90.4% logic, 9.6% route), 2 logic levels.
+
+   Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.268ns delay logicClockPLL/pll/PLLInst_0 to DVSAERReset_SBO_MGIOL and
+      2.799ns delay DVSAERReset_SBO_MGIOL to DVSAERReset_SBO (totaling 3.067ns) meets
+      1.000ns hold offset logicClockPLL/pll/PLLInst_0 to DVSAERReset_SBO by 2.067ns
+
+ Physical Path Details:
+
+      Clock path logicClockPLL/pll/PLLInst_0 to DVSAERReset_SBO_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.268 *LInst_0.CLKOP to *SBO_MGIOL.CLK LogicClock_C
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path DVSAERReset_SBO_MGIOL to DVSAERReset_SBO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.125 *SBO_MGIOL.CLK to *O_MGIOL.IOLDO DVSAERReset_SBO_MGIOL (from LogicClock_C)
+ROUTE         1   e 0.268 *O_MGIOL.IOLDO to      E11.IOLDO DVSAERReset_SBO_c
+DOPAD_DEL   ---     1.406      E11.IOLDO to        E11.PAD DVSAERReset_SBO
+                  --------
+                    2.799   (90.4% logic, 9.6% route), 2 logic levels.
+
+Report:    3.067ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_25"></A>Preference: INPUT_SETUP GROUP "DVSAERData_AI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ;
+            54 items scored, 54 timing errors detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 1.561ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            DVSAERData_AI[4]
+   Destination:    FF         Data in        BWSAER2CAVIAR_CAVIAR_dataio[13]  (to LogicClock_C +)
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+DVSAERData_AI[4]_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      0.500ns delay DVSAERData_AI[4] to DVSAERData_AI[4]_MGIOL plus
+     -1.000ns hold offset DVSAERData_AI[4] to logicClockPLL/pll/PLLInst_0 (totaling -0.500ns) violates
+      0.268ns delay logicClockPLL/pll/PLLInst_0 to DVSAERData_AI[4]_MGIOL plus
+      0.793ns DI_HLD requirement (totaling 1.061ns) by 1.561ns
+
+ Physical Path Details:
+
+      Data path DVSAERData_AI[4] to DVSAERData_AI[4]_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232         F1.PAD to       F1.PADDI DVSAERData_AI[4]
+ROUTE         5   e 0.268       F1.PADDI to *I[4]_MGIOL.DI DVSAERData_AI_c[4] (to LogicClock_C)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to DVSAERData_AI[4]_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.268 *LInst_0.CLKOP to *[4]_MGIOL.CLK LogicClock_C
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+Warning:   0.561ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_26"></A>Preference: INPUT_SETUP PORT "DVSAERReq_ABI" INPUT_DELAY 1.000000 ns HOLD 1.000000 ns CLKNET "LogicClock_C" ;
+            1 item scored, 1 timing error detected.
+--------------------------------------------------------------------------------
+
+NOTE:  Assuming preference to be OFFSET IN ... BEFORE for hold analysis 
+
+
+Error:  The following path exceeds requirements by 1.561ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            DVSAERReq_ABI
+   Destination:    FF         Data in        syncInputsToLogicClock_syncDVSAERReq_SyncSignalDemetFF_Sio[0]  (to LogicClock_C +)
+
+   Min Data Path Delay:     0.500ns  (46.4% logic, 53.6% route), 1 logic levels.
+
+   Max Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+DVSAERReq_ABI_MGIOL attributes: FINE=FDEL0
+
+ Constraint Details:
+
+      0.500ns delay DVSAERReq_ABI to DVSAERReq_ABI_MGIOL plus
+     -1.000ns hold offset DVSAERReq_ABI to logicClockPLL/pll/PLLInst_0 (totaling -0.500ns) violates
+      0.268ns delay logicClockPLL/pll/PLLInst_0 to DVSAERReq_ABI_MGIOL plus
+      0.793ns DI_HLD requirement (totaling 1.061ns) by 1.561ns
+
+ Physical Path Details:
+
+      Data path DVSAERReq_ABI to DVSAERReq_ABI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232 *ERReq_ABI.PAD to *Req_ABI.PADDI DVSAERReq_ABI
+ROUTE         1   e 0.268 *Req_ABI.PADDI to *_ABI_MGIOL.DI DVSAERReq_ABI_c (to LogicClock_C)
+                  --------
+                    0.500   (46.4% logic, 53.6% route), 1 logic levels.
+
+      Clock path logicClockPLL/pll/PLLInst_0 to DVSAERReq_ABI_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.268 *LInst_0.CLKOP to *ABI_MGIOL.CLK LogicClock_C
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+Warning:   0.561ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_27"></A>Preference: CLOCK_TO_OUT PORT "ChipBiasEnable_SO" OUTPUT_DELAY 1.000000 ns MIN 1.000000 ns CLKNET "LogicClock_C" ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+NOTE: Assuming preference to be OFFSET OUT ... AFTER for HOLD analysis 
+
+
+Passed:  The following path meets requirements by 2.067ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              chipBiasEnableBuffer_Output_SOio[0]  (from LogicClock_C +)
+   Destination:    Port       Pad            ChipBiasEnable_SO
+
+   Data Path Delay:     2.799ns  (90.4% logic, 9.6% route), 2 logic levels.
+
+   Clock Path Delay:    0.268ns  (0.0% logic, 100.0% route), 0 logic levels.
+
+ Constraint Details:
+      0.268ns delay logicClockPLL/pll/PLLInst_0 to ChipBiasEnable_SO_MGIOL and
+      2.799ns delay ChipBiasEnable_SO_MGIOL to ChipBiasEnable_SO (totaling 3.067ns) meets
+      1.000ns hold offset logicClockPLL/pll/PLLInst_0 to ChipBiasEnable_SO by 2.067ns
+
+ Physical Path Details:
+
+      Clock path logicClockPLL/pll/PLLInst_0 to ChipBiasEnable_SO_MGIOL:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE       999   e 0.268 *LInst_0.CLKOP to *_SO_MGIOL.CLK LogicClock_C
+                  --------
+                    0.268   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Data path ChipBiasEnable_SO_MGIOL to ChipBiasEnable_SO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2OUT_DEL   ---     1.125 *_SO_MGIOL.CLK to *O_MGIOL.IOLDO ChipBiasEnable_SO_MGIOL (from LogicClock_C)
+ROUTE         1   e 0.268 *O_MGIOL.IOLDO to       D8.IOLDO ChipBiasEnable_SO_c
+DOPAD_DEL   ---     1.406       D8.IOLDO to         D8.PAD ChipBiasEnable_SO
+                  --------
+                    2.799   (90.4% logic, 9.6% route), 2 logic levels.
+
+Report:    3.067ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_28"></A>Preference: MAXDELAY FROM PORT "BiasDiagSelect_SI" TO PORT "ChipBiasDiagSelect_SO" 10.000000 ns ;
+            1 item scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 2.073ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            BiasDiagSelect_SI
+   Destination:    Port       Pad            ChipBiasDiagSelect_SO
+
+   Delay:               2.073ns  (87.1% logic, 12.9% route), 2 logic levels.
+
+ Constraint Details:
+
+      2.073ns physical path delay BiasDiagSelect_SI to ChipBiasDiagSelect_SO meets
+      0.000ns delay constraint by 2.073ns
+
+ Physical Path Details:
+
+      Data path BiasDiagSelect_SI to ChipBiasDiagSelect_SO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.232 *Select_SI.PAD to *lect_SI.PADDI BiasDiagSelect_SI
+ROUTE         1   e 0.268 *lect_SI.PADDI to       D7.PADDO BiasDiagSelect_SI_c
+DOPAD_DEL   ---     1.573       D7.PADDO to         D7.PAD ChipBiasDiagSelect_SO
+                  --------
+                    2.073   (87.1% logic, 12.9% route), 2 logic levels.
+
+Report:    2.073ns is the minimum delay for this preference.
+
+<A name="mtw1_hold_rs"></A><B><U><big>Report Summary</big></U></B>
+--------------
+----------------------------------------------------------------------------
+Preference(MIN Delays)                  |   Constraint|       Actual|Levels
+----------------------------------------------------------------------------
+                                        |             |             |
+FREQUENCY PORT "USBClock_CI" 80.000000  |             |             |
+MHz ;                                   |            -|            -|   0  
+                                        |             |             |
+FREQUENCY NET "USBClock_CI_c" 80.000000 |             |             |
+MHz ;                                   |     0.000 ns|     0.219 ns|   1  
+                                        |             |             |
+FREQUENCY NET "LogicClock_C" 60.000000  |             |             |
+MHz ;                                   |     0.000 ns|     0.219 ns|   1  
+                                        |             |             |
+INPUT_SETUP PORT "Reset_RI" INPUT_DELAY |             |             |
+1.000000 ns HOLD 1.000000 ns CLKNET     |             |             |
+"USBClock_CI_c" ;                       |    -1.000 ns|    -0.143 ns|   1 *
+                                        |             |             |
+INPUT_SETUP PORT "Reset_RI" INPUT_DELAY |             |             |
+1.000000 ns HOLD 1.000000 ns CLKNET     |             |             |
+"LogicClock_C" ;                        |    -1.000 ns|    -0.333 ns|   1 *
+                                        |             |             |
+CLOCK_TO_OUT GROUP "USBFifoData_DO"     |             |             |
+OUTPUT_DELAY 2.000000 ns MIN 0.500000   |             |             |
+ns CLKNET "USBClock_CI_c" ;             |     0.500 ns|     3.802 ns|   2  
+                                        |             |             |
+CLOCK_TO_OUT GROUP "USBFifoAddress_DO"  |             |             |
+OUTPUT_DELAY 2.000000 ns MIN 0.500000   |             |             |
+ns CLKNET "USBClock_CI_c" ;             |     0.500 ns|     3.802 ns|   2  
+                                        |             |             |
+CLOCK_TO_OUT PORT                       |             |             |
+"USBFifoChipSelect_SBO" OUTPUT_DELAY    |             |             |
+2.000000 ns MIN 0.500000 ns CLKNET      |             |             |
+"USBClock_CI_c" ;                       |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "USBFifoWrite_SBO"    |             |             |
+OUTPUT_DELAY 2.000000 ns MIN 0.500000   |             |             |
+ns CLKNET "USBClock_CI_c" ;             |     0.500 ns|     3.802 ns|   2  
+                                        |             |             |
+CLOCK_TO_OUT PORT "USBFifoRead_SBO"     |             |             |
+OUTPUT_DELAY 2.000000 ns MIN 0.500000   |             |             |
+ns CLKNET "USBClock_CI_c" ;             |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "USBFifoPktEnd_SBO"   |             |             |
+OUTPUT_DELAY 2.000000 ns MIN 0.500000   |             |             |
+ns CLKNET "USBClock_CI_c" ;             |     0.500 ns|     3.802 ns|   2  
+                                        |             |             |
+INPUT_SETUP PORT "USBFifoThr0Ready_SI"  |             |             |
+INPUT_DELAY 8.000000 ns HOLD 0.000000   |             |             |
+ns CLKNET "USBClock_CI_c" ;             |     0.000 ns|     0.522 ns|   1 *
+                                        |             |             |
+INPUT_SETUP PORT                        |             |             |
+"USBFifoThr0Watermark_SI" INPUT_DELAY   |             |             |
+8.000000 ns HOLD 0.000000 ns CLKNET     |             |             |
+"USBClock_CI_c" ;                       |     0.000 ns|     0.522 ns|   1 *
+                                        |             |             |
+INPUT_SETUP PORT "USBFifoThr1Ready_SI"  |             |             |
+INPUT_DELAY 8.000000 ns HOLD 0.000000   |             |             |
+ns CLKNET "USBClock_CI_c" ;             |     0.000 ns|     0.522 ns|   1 *
+                                        |             |             |
+INPUT_SETUP PORT                        |             |             |
+"USBFifoThr1Watermark_SI" INPUT_DELAY   |             |             |
+8.000000 ns HOLD 0.000000 ns CLKNET     |             |             |
+"USBClock_CI_c" ;                       |     0.000 ns|     0.522 ns|   1 *
+                                        |             |             |
+CLOCK_TO_OUT PORT "SPIMISO_ZO"          |             |             |
+OUTPUT_DELAY 1.000000 ns MIN 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ;              |     1.000 ns|     2.772 ns|   2  
+                                        |             |             |
+INPUT_SETUP PORT "SPISlaveSelect_ABI"   |             |             |
+INPUT_DELAY 1.000000 ns HOLD 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ;              |    -1.000 ns|     0.561 ns|   1 *
+                                        |             |             |
+INPUT_SETUP PORT "SPIClock_AI"          |             |             |
+INPUT_DELAY 1.000000 ns HOLD 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ;              |    -1.000 ns|     0.561 ns|   1 *
+                                        |             |             |
+INPUT_SETUP PORT "SPIMOSI_AI"           |             |             |
+INPUT_DELAY 1.000000 ns HOLD 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ;              |    -1.000 ns|     0.561 ns|   1 *
+                                        |             |             |
+CLOCK_TO_OUT PORT "LED1_SO"             |             |             |
+OUTPUT_DELAY 0.100000 ns MIN 0.100000   |             |             |
+ns CLKNET "LogicClock_C" ;              |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "LED2_SO"             |             |             |
+OUTPUT_DELAY 0.100000 ns MIN 0.100000   |             |             |
+ns CLKNET "USBClock_CI_c" ;             |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "LED3_SO"             |             |             |
+OUTPUT_DELAY 0.100000 ns MIN 0.100000   |             |             |
+ns CLKNET "LogicClock_C" ;              |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "LED4_SO"             |             |             |
+OUTPUT_DELAY 0.100000 ns MIN 0.100000   |             |             |
+ns CLKNET "LogicClock_C" ;              |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "DVSAERAck_SBO"       |             |             |
+OUTPUT_DELAY 1.000000 ns MIN 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ;              |            -|            -|   0  
+                                        |             |             |
+CLOCK_TO_OUT PORT "DVSAERReset_SBO"     |             |             |
+OUTPUT_DELAY 1.000000 ns MIN 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ;              |     1.000 ns|     3.067 ns|   2  
+                                        |             |             |
+INPUT_SETUP GROUP "DVSAERData_AI"       |             |             |
+INPUT_DELAY 1.000000 ns HOLD 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ;              |    -1.000 ns|     0.561 ns|   1 *
+                                        |             |             |
+INPUT_SETUP PORT "DVSAERReq_ABI"        |             |             |
+INPUT_DELAY 1.000000 ns HOLD 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ;              |    -1.000 ns|     0.561 ns|   1 *
+                                        |             |             |
+CLOCK_TO_OUT PORT "ChipBiasEnable_SO"   |             |             |
+OUTPUT_DELAY 1.000000 ns MIN 1.000000   |             |             |
+ns CLKNET "LogicClock_C" ;              |     1.000 ns|     3.067 ns|   2  
+                                        |             |             |
+MAXDELAY FROM PORT "BiasDiagSelect_SI"  |             |             |
+TO PORT "ChipBiasDiagSelect_SO"         |             |             |
+10.000000 ns ;                          |     0.000 ns|     2.073 ns|   2  
+                                        |             |             |
+----------------------------------------------------------------------------
+
+
+11 preferences(marked by "*" above) not met.
+
+----------------------------------------------------------------------------
+Critical Nets                           |   Loads|  Errors| % of total
+----------------------------------------------------------------------------
+DVSAERData_AI_c[9]                      |       7|      10|     15.38%
+                                        |        |        |
+DVSAERData_AI_c[7]                      |       7|       7|     10.77%
+                                        |        |        |
+----------------------------------------------------------------------------
+
+
+<A name="mtw1_hold_clkda"></A><B><U><big>Clock Domains Analysis</big></U></B>
+------------------------
+
+Found 2 clocks:
+
+Clock Domain: USBClock_CI_c   Source: USBClock_CI.PAD   Loads: 93
+   Covered under: FREQUENCY NET "USBClock_CI_c" 80.000000 MHz ;
+
+   Data transfers from:
+   Clock Domain: LogicClock_C   Source: logicClockPLL/pll/PLLInst_0.CLKOP
+      Covered under: FREQUENCY NET "USBClock_CI_c" 80.000000 MHz ;   Transfers: 18
+
+Clock Domain: LogicClock_C   Source: logicClockPLL/pll/PLLInst_0.CLKOP   Loads: 5043
+   Covered under: FREQUENCY NET "LogicClock_C" 60.000000 MHz ;
+
+   Data transfers from:
+   Clock Domain: USBClock_CI_c   Source: USBClock_CI.PAD
+      Covered under: FREQUENCY NET "LogicClock_C" 60.000000 MHz ;   Transfers: 6
+
+
+<A name="mtw1_hold_ts"></A><B><U><big>Timing summary (Hold):</big></U></B>
+---------------
+
+Timing errors: 65  Score: 51435
+Cumulative negative slack: 51435
+
+Constraints cover 2147483647 paths, 2 nets, and 84453 connections (100.0% coverage)
+
+
+
+<A name="mtw1_ts"></A><B><U><big>Timing summary (Setup and Hold):</big></U></B>
+---------------
+
+Timing errors: 4096 (setup), 65 (hold)
+Score: 22530624 (setup), 51435 (hold)
+Cumulative negative slack: 22582059 (22530624+51435)
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+
+
+
+
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</PRE></FONT>
+</BODY>
+</HTML>

@@ -1,0 +1,1 @@
+run_tcl -fg SeeBetterLogic_FX3_SeeBetterLogic_FX3_synplify.tcl
