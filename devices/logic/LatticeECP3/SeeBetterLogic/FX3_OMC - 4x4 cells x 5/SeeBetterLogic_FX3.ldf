@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="SeeBetterLogic_FX3" device="LFE3-70E-7FN484I" default_implementation="SeeBetterLogic_FX3">
+    <Options/>
+    <Implementation title="SeeBetterLogic_FX3" dir="SeeBetterLogic_FX3" description="SeeBetterLogic_FX3" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="ObjectMotionMotherCell_tb" top="TopLevel"/>
+        <Source name="C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ext/FIFORecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ext/FIFODualClock.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ext/FIFO.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ext/PLL.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/ChangeDetector.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/DFFSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/ResetSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/SimpleRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/BufferClear.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/ContinuousCounter.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/ShiftRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/ShiftRegisterModes.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/EdgeDetector.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/PulseGenerator.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/PulseDetector.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/TopLevel.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="TopLevel"/>
+        </Source>
+        <Source name="private-source/Settings.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/fx3/FX3USBClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/fx3/FX3StateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/MultiplexerStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/MultiplexerConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/MultiplexerSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/TimestampGenerator.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/DVSAERStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/DVSAERConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/DVSAERSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/APSADCStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/APSADCConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/APSADCSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/IMUStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/IMUConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/IMUSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/EventCodes.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ExtTriggerSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ExtTriggerConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ExtTriggerStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ChipBiasConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ChipBiasStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ChipBiasSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/WSAER2CAVIAR2.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/CAVIAR2WSAER.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/latch3.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/FifoMerger.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="MullerCelement.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="ObjectMotionCell.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="ObjectMotionCellConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="ObjectMotionCellSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/fx3/FX3ConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/fx3/FX3SPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/MISCAERStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="ObjectMotionMotherCell.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="ObjectMotionMotherCell_tb.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="SeeBetterLogic_FX3.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="SeeBetterLogic_FX3.sty"/>
+</BaliProject>
