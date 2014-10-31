@@ -69,7 +69,7 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tColumnState is (stIdle, stWaitForADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stColSRFeedTick, stReset, stSwitchToReadA, stReadA, stSwitchToReadB, stReadB);
+	type tColumnState is (stIdle, stWaitADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stRSFeedTick, stRSReset, stRSSwitchToReadA, stRSReadA, stRSSwitchToReadB, stRSReadB);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -308,7 +308,7 @@ begin
 				if APSADCConfigReg_D.Run_S = '1' then
 					-- We want to take samples (picture or video), so the ADC has to be running.
 					if ADCRunning_SP = '0' then
-						ColState_DN <= stWaitForADCStartup;
+						ColState_DN <= stWaitADCStartup;
 					else
 						ColState_DN <= stStartFrame;
 					end if;
@@ -321,7 +321,7 @@ begin
 					end if;
 				end if;
 
-			when stWaitForADCStartup =>
+			when stWaitADCStartup =>
 				-- Wait 1.5 microseconds for ADC to start up and be ready for precise conversions.
 				if ADCStartupDone_S = '1' then
 					ColState_DN   <= stStartFrame;
@@ -363,12 +363,12 @@ begin
 				APSChipColSRClockReg_S <= '1';
 				APSChipColSRInReg_S    <= '1';
 
-				ColState_DN <= stReset;
+				ColState_DN <= stRSReset;
 
 				-- Open APS TXGate before first reset.
 				APSChipTXGateReg_SN <= '1';
 
-			when stColSRFeedTick =>
+			when stRSFeedTick =>
 				APSChipColSRClockReg_S <= '1';
 				APSChipColSRInReg_S    <= '0';
 
@@ -384,10 +384,10 @@ begin
 					-- Close APS TXGate after last read.
 					APSChipTXGateReg_SN <= '0';
 				else
-					ColState_DN <= stReset;
+					ColState_DN <= stRSReset;
 				end if;
 
-			when stReset =>
+			when stRSReset =>
 				if ColumnReadAPosition_D = CHIP_SIZE_COLUMNS then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 				else
@@ -399,9 +399,9 @@ begin
 					-- Support not doing the reset read. Halves the traffic and time
 					-- requirements, at the expense of image quality.
 					if APSADCConfigReg_D.ResetRead_S = '1' then
-						ColState_DN <= stSwitchToReadA;
+						ColState_DN <= stRSSwitchToReadA;
 					else
-						ColState_DN <= stSwitchToReadB;
+						ColState_DN <= stRSSwitchToReadB;
 
 						-- In this case, we must do the things the read A state would
 						-- normally do: increase read A position (used for resets).
@@ -417,14 +417,14 @@ begin
 
 				ResetTimeCount_S <= '1';
 
-			when stSwitchToReadA =>
+			when stRSSwitchToReadA =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
 				-- Start off the Row SM.
 				RowReadStart_SN <= '1';
-				ColState_DN     <= stReadA;
+				ColState_DN     <= stRSReadA;
 
-			when stReadA =>
+			when stRSReadA =>
 				if ColumnReadAPosition_D = CHIP_SIZE_COLUMNS then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 				else
@@ -434,18 +434,18 @@ begin
 
 				-- Wait for the Row SM to complete its readout.
 				if RowReadDone_SP = '1' then
-					ColState_DN              <= stSwitchToReadB;
+					ColState_DN              <= stRSSwitchToReadB;
 					ColumnReadAPositionInc_S <= '1';
 				end if;
 
-			when stSwitchToReadB =>
+			when stRSSwitchToReadB =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
 				-- Start off the Row SM.
 				RowReadStart_SN <= '1';
-				ColState_DN     <= stReadB;
+				ColState_DN     <= stRSReadB;
 
-			when stReadB =>
+			when stRSReadB =>
 				if ReadBSRStatus_DP /= RBSTAT_NORMAL then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 				else
@@ -466,16 +466,16 @@ begin
 						elsif ReadBSRStatus_DP = RBSTAT_NEED_ZERO_TWO then
 							-- Shift in the second 0 (the one after the 1) that is needed
 							-- for a B read of the very first column to work.
-							ColState_DN      <= stColSRFeedTick;
+							ColState_DN      <= stRSFeedTick;
 							ReadBSRStatus_DN <= RBSTAT_NORMAL;
 						else
 							-- Finally, B reads are happening, their position is increasing.
-							ColState_DN              <= stColSRFeedTick;
+							ColState_DN              <= stRSFeedTick;
 							ColumnReadBPositionInc_S <= '1';
 						end if;
 					else
 						-- Just shift in a zero.
-						ColState_DN <= stColSRFeedTick;
+						ColState_DN <= stRSFeedTick;
 					end if;
 				end if;
 
