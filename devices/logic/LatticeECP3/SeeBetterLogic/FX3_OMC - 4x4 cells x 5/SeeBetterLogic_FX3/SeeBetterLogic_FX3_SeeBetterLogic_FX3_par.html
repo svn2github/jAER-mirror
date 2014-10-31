@@ -1,0 +1,159 @@
+<HTML>
+<HEAD><TITLE>Place & Route Report</TITLE>
+<STYLE TYPE="text/css">
+<!--
+ body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
+-->
+</STYLE>
+</HEAD>
+<PRE><A name="Par"></A>PAR: Place And Route Diamond (64-bit) 3.2.0.134.
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&amp;T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2014 Lattice Semiconductor Corporation,  All rights reserved.
+Mon Oct 13 15:36:12 2014
+
+C:/lscc/diamond/3.2_x64/ispfpga\bin\nt64\par -f
+SeeBetterLogic_FX3_SeeBetterLogic_FX3.p2t
+SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd
+SeeBetterLogic_FX3_SeeBetterLogic_FX3.dir
+SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf -gui
+
+
+Preference file: SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf.
+
+<A name="par_cts"></A><B><U><big>Cost Table Summary</big></U></B>
+Level/      Number      Worst       Timing      Worst       Timing      Run         NCD
+Cost [ncd]  Unrouted    Slack       Score       Slack(hold) Score(hold) Time        Status
+----------  --------    -----       ------      ----------- ----------- -----       ------
+5_1         -           -           -           -           -           06          Skip            
+
+
+* : Design saved.
+
+Total (real) run time for 1-seed: 6 secs 
+
+par failed!
+
+Lattice Place and Route Report for Design &quot;SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd&quot;
+Mon Oct 13 15:36:12 2014
+
+
+<A name="par_best"></A><B><U><big>Best Par Run</big></U></B>
+PAR: Place And Route Diamond (64-bit) 3.2.0.134.
+Command Line: par -w -l 5 -i 6 -t 1 -c 0 -e 0 -gui -exp parUseNBR=1:parCDP=auto:parCDR=1:parPathBased=OFF SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd SeeBetterLogic_FX3_SeeBetterLogic_FX3.dir/5_1.ncd SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf
+Preference file: SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd.
+Design name: TopLevel
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LFE3-70E
+Package:     FPBGA484
+Performance: 7
+Loading device for application par from file &apos;ep5c97x146.nph&apos; in environment: C:/lscc/diamond/3.2_x64/ispfpga.
+Package Status:                     Final          Version 1.65
+Performance Hardware Data Status:   Final          Version 35.22
+License checked out.
+
+
+Ignore Preference Error(s):  True
+
+<A name="par_dus"></A><B><U><big>Device utilization summary:</big></U></B>
+
+   PIO (prelim)      77/524          14% used
+                     77/295          26% bonded
+   IOLOGIC           41/520           7% used
+
+   SLICE          13868/33264        41% used
+
+   GSR                1/1           100% used
+   EBR                7/240           2% used
+   PLL                1/10           10% used
+   MULT18             1/128          &lt;1% used
+
+
+ERROR - par: chipcheck: output PIO comp USBFifoData_DO[0] is placed on an input only site T2.
+ERROR - par: chipcheck: output PIO comp USBFifoData_DO[14] is placed on an input only site L5.
+ERROR - par: chipcheck: output PIO comp USBFifoData_DO[9] is placed on an input only site K1.
+ERROR - par: chipcheck: output PIO comp USBFifoData_DO[1] is placed on an input only site T3.
+PAR will exit now due to DRC error(s) detected.
+
+
+PAR_SUMMARY::Run status = skipped
+PAR_SUMMARY::Number of unrouted conns = &lt;n/a&gt;
+PAR_SUMMARY::Worst  slack&lt;setup/&lt;ns&gt;&gt; = &lt;n/a&gt;
+PAR_SUMMARY::Timing score&lt;setup/&lt;ns&gt;&gt; = &lt;n/a&gt;
+PAR_SUMMARY::Worst  slack&lt;hold /&lt;ns&gt;&gt; = &lt;n/a&gt;
+PAR_SUMMARY::Timing score&lt;hold /&lt;ns&gt;&gt; = &lt;n/a&gt;
+PAR_SUMMARY::Number of errors = 4
+
+Total CPU  time to completion: 4 secs 
+Total REAL time to completion: 6 secs 
+
+par done!
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&amp;T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2014 Lattice Semiconductor Corporation,  All rights reserved.
+
+
+
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</PRE></FONT>
+</BODY>
+</HTML>

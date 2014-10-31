@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "SeeBetterLogic_FX3_SeeBetterLogic_FX3.log"
+-o "SeeBetterLogic_FX3_SeeBetterLogic_FX3.csv"
+-pr "SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf"
