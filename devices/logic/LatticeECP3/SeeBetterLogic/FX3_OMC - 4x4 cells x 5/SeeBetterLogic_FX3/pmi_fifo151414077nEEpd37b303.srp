@@ -1,0 +1,40 @@
+SCUBA, Version Diamond (64-bit) 3.2.0.134
+Mon Oct 13 15:32:59 2014
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2014 Lattice Semiconductor Corporation,  All rights reserved.
+
+    Issued command   : C:/lscc/diamond/3.2_x64/ispfpga/bin/nt64/scuba -w -bus_exp 7 -bb -arch ep5c00 -type ebfifo -sync_mode -depth 14 -width 15 -pf 7 -pe 7 -n pmi_fifo151414077nEEpd37b303 -pmi 
+    Circuit name     : pmi_fifo151414077nEEpd37b303
+    Module type      : fifoblk
+    Module Version   : 5.0
+    Ports            : 
+	Inputs       : Data[14:0], Clock, WrEn, RdEn, Reset
+	Outputs      : Q[14:0], Empty, Full, AlmostEmpty, AlmostFull
+    I/O buffer       : not inserted
+    EDIF output      : pmi_fifo151414077nEEpd37b303.edn
+    Bus notation     : big endian
+    Report output    : pmi_fifo151414077nEEpd37b303.srp
+    Element Usage    :
+          AGEB2 : 6
+          ALEB2 : 6
+           AND2 : 4
+            CU2 : 6
+            CB2 : 3
+         FADD2B : 11
+        FD1P3DX : 5
+        FD1P3IX : 10
+        FD1S3BX : 2
+        FD1S3DX : 2
+            INV : 13
+            OR2 : 2
+       ROM16X1A : 6
+           XOR2 : 1
+         DP16KC : 1
+    Estimated Resource Usage:
+            LUT : 77
+            EBR : 1
+            Reg : 19

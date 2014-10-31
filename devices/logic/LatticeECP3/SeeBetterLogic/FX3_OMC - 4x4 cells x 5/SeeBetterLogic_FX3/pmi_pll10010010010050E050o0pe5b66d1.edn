@@ -1,0 +1,201 @@
+(edif pmi_pll10010010010050E050o0pe5b66d1
+  (edifVersion 2 0 0)
+  (edifLevel 0)
+  (keywordMap (keywordLevel 0))
+  (status
+    (written
+      (timestamp 2014 10 13 15 33 0)
+      (program "SCUBA" (version "Diamond (64-bit) 3.2.0.134"))))
+      (comment "C:/lscc/diamond/3.2_x64/ispfpga/bin/nt64/scuba -w -arch ep5c00 -n pmi_pll10010010010050E050o0pe5b66d1 -bb -bus_exp 7 -type pll -fin 80 -fclkop 60 -fclkok 60 -fb_mode CLKOP -phaseadj 0 -duty 8.00000 -pmi ")
+  (library ORCLIB
+    (edifLevel 0)
+    (technology
+      (numberDefinition))
+    (cell EHXPLLF
+      (cellType GENERIC)
+      (view view1
+        (viewType NETLIST)
+        (interface
+          (port CLKI
+            (direction INPUT))
+          (port CLKFB
+            (direction INPUT))
+          (port RST
+            (direction INPUT))
+          (port RSTK
+            (direction INPUT))
+          (port WRDEL
+            (direction INPUT))
+          (port DRPAI3
+            (direction INPUT))
+          (port DRPAI2
+            (direction INPUT))
+          (port DRPAI1
+            (direction INPUT))
+          (port DRPAI0
+            (direction INPUT))
+          (port DFPAI3
+            (direction INPUT))
+          (port DFPAI2
+            (direction INPUT))
+          (port DFPAI1
+            (direction INPUT))
+          (port DFPAI0
+            (direction INPUT))
+          (port FDA3
+            (direction INPUT))
+          (port FDA2
+            (direction INPUT))
+          (port FDA1
+            (direction INPUT))
+          (port FDA0
+            (direction INPUT))
+          (port CLKOP
+            (direction OUTPUT))
+          (port CLKOS
+            (direction OUTPUT))
+          (port CLKOK
+            (direction OUTPUT))
+          (port CLKOK2
+            (direction OUTPUT))
+          (port LOCK
+            (direction OUTPUT))
+          (port CLKINTFB
+            (direction OUTPUT)))))
+    (cell VLO
+      (cellType GENERIC)
+      (view view1
+        (viewType NETLIST)
+        (interface
+          (port Z
+            (direction OUTPUT)))))
+    (cell pmi_pll10010010010050E050o0pe5b66d1
+      (cellType GENERIC)
+      (view view1
+        (viewType NETLIST)
+        (interface
+          (port CLKI
+            (direction INPUT))
+          (port RESET
+            (direction INPUT))
+          (port CLKFB
+            (direction INPUT))
+          (port CLKOP
+            (direction OUTPUT))
+          (port CLKOS
+            (direction OUTPUT))
+          (port CLKOK
+            (direction OUTPUT))
+          (port CLKOK2
+            (direction OUTPUT))
+          (port LOCK
+            (direction OUTPUT)))
+        (property NGD_DRC_MASK (integer 1))
+        (contents
+          (instance scuba_vlo_inst
+            (viewRef view1 
+              (cellRef VLO)))
+          (instance PLLInst_0
+            (viewRef view1 
+              (cellRef EHXPLLF))
+            (property FEEDBK_PATH
+              (string "CLKOP"))
+            (property CLKOK_BYPASS
+              (string "DISABLED"))
+            (property CLKOS_BYPASS
+              (string "DISABLED"))
+            (property FREQUENCY_PIN_CLKOK2
+              (string "20.000000"))
+            (property FREQUENCY_PIN_CLKOP
+              (string "60.000000"))
+            (property CLKOP_BYPASS
+              (string "DISABLED"))
+            (property CLKOK_INPUT
+              (string "CLKOP"))
+            (property DELAY_PWD
+              (string "DISABLED"))
+            (property DELAY_VAL
+              (string "0"))
+            (property CLKOS_TRIM_DELAY
+              (string "0"))
+            (property CLKOS_TRIM_POL
+              (string "RISING"))
+            (property CLKOP_TRIM_DELAY
+              (string "0"))
+            (property CLKOP_TRIM_POL
+              (string "RISING"))
+            (property PHASE_DELAY_CNTL
+              (string "STATIC"))
+            (property DUTY
+              (string "8"))
+            (property PHASEADJ
+              (string "0.0"))
+            (property FREQUENCY_PIN_CLKOS
+              (string "60.000000"))
+            (property FREQUENCY_PIN_CLKI
+              (string "80.000000"))
+            (property FREQUENCY_PIN_CLKOK
+              (string "30.000000"))
+            (property CLKOK_DIV
+              (string "2"))
+            (property CLKOP_DIV
+              (string "16"))
+            (property CLKFB_DIV
+              (string "3"))
+            (property CLKI_DIV
+              (string "4"))
+            (property FIN
+              (string "80.000000")))
+          (net scuba_vlo
+            (joined
+              (portRef Z (instanceRef scuba_vlo_inst))
+              (portRef FDA3 (instanceRef PLLInst_0))
+              (portRef FDA2 (instanceRef PLLInst_0))
+              (portRef FDA1 (instanceRef PLLInst_0))
+              (portRef FDA0 (instanceRef PLLInst_0))
+              (portRef WRDEL (instanceRef PLLInst_0))
+              (portRef DFPAI3 (instanceRef PLLInst_0))
+              (portRef DFPAI2 (instanceRef PLLInst_0))
+              (portRef DFPAI1 (instanceRef PLLInst_0))
+              (portRef DFPAI0 (instanceRef PLLInst_0))
+              (portRef DRPAI3 (instanceRef PLLInst_0))
+              (portRef DRPAI2 (instanceRef PLLInst_0))
+              (portRef DRPAI1 (instanceRef PLLInst_0))
+              (portRef DRPAI0 (instanceRef PLLInst_0))
+              (portRef RSTK (instanceRef PLLInst_0))))
+          (net LOCK
+            (joined
+              (portRef LOCK)
+              (portRef LOCK (instanceRef PLLInst_0))))
+          (net CLKOK2
+            (joined
+              (portRef CLKOK2)
+              (portRef CLKOK2 (instanceRef PLLInst_0))))
+          (net CLKOK
+            (joined
+              (portRef CLKOK)
+              (portRef CLKOK (instanceRef PLLInst_0))))
+          (net CLKOS
+            (joined
+              (portRef CLKOS)
+              (portRef CLKOS (instanceRef PLLInst_0))))
+          (net CLKOP
+            (joined
+              (portRef CLKOP)
+              (portRef CLKFB (instanceRef PLLInst_0))
+              (portRef CLKOP (instanceRef PLLInst_0))))
+          (net CLKFB
+            (joined
+              (portRef CLKFB)))
+          (net RESET
+            (joined
+              (portRef RESET)
+              (portRef RST (instanceRef PLLInst_0))))
+          (net CLKI
+            (joined
+              (portRef CLKI)
+              (portRef CLKI (instanceRef PLLInst_0))))))))
+  (design pmi_pll10010010010050E050o0pe5b66d1
+    (cellRef pmi_pll10010010010050E050o0pe5b66d1
+      (libraryRef ORCLIB)))
+)
