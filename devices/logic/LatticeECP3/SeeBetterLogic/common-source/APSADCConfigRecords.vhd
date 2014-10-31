@@ -23,9 +23,8 @@ package APSADCConfigRecords is
 		ColumnSettle_D        : unsigned(7 downto 0);
 		RowSettle_D           : unsigned(7 downto 0);
 		GSTXGateOpenReset_S   : unsigned(7 downto 0);
-		ROIZeroPad_S          : unsigned(7 downto 0);
-		WaitOnTransferStall_S : unsigned(7 downto 0);
 		ResetRead_S           : unsigned(7 downto 0);
+		WaitOnTransferStall_S : unsigned(7 downto 0);
 	end record tAPSADCConfigParamAddresses;
 
 	constant APSADCCONFIG_PARAM_ADDRESSES : tAPSADCConfigParamAddresses := (
@@ -42,9 +41,8 @@ package APSADCConfigRecords is
 		ColumnSettle_D        => to_unsigned(10, 8),
 		RowSettle_D           => to_unsigned(11, 8),
 		GSTXGateOpenReset_S   => to_unsigned(12, 8),
-		ROIZeroPad_S          => to_unsigned(13, 8),
-		WaitOnTransferStall_S => to_unsigned(14, 8),
-		ResetRead_S           => to_unsigned(15, 8));
+		ResetRead_S           => to_unsigned(13, 8),
+		WaitOnTransferStall_S => to_unsigned(14, 8));
 
 	constant CHIP_SIZE_COLUMNS_WIDTH : integer := integer(ceil(log2(real(CHIP_SIZE_COLUMNS + 1))));
 	constant CHIP_SIZE_ROWS_WIDTH    : integer := integer(ceil(log2(real(CHIP_SIZE_ROWS + 1))));
@@ -71,9 +69,8 @@ package APSADCConfigRecords is
 		ColumnSettle_D        : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 63 cycles
 		RowSettle_D           : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 63 cycles
 		GSTXGateOpenReset_S   : std_logic; -- GS: is the TXGate open during reset too?
-		ROIZeroPad_S          : std_logic; -- Write out all pixels when doing ROI, outside pixels are black (all zeros).
-		WaitOnTransferStall_S : std_logic; -- Wether to wait when the FIFOs are full or not.
 		ResetRead_S           : std_logic; -- Wether to do the reset read or not.
+		WaitOnTransferStall_S : std_logic; -- Wether to wait when the FIFOs are full or not.
 	end record tAPSADCConfig;
 
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
@@ -90,7 +87,6 @@ package APSADCConfigRecords is
 		ColumnSettle_D        => to_unsigned(10, SETTLETIMES_SIZE),
 		RowSettle_D           => to_unsigned(10, SETTLETIMES_SIZE),
 		GSTXGateOpenReset_S   => '1',
-		ROIZeroPad_S          => '0',
-		WaitOnTransferStall_S => '0',
-		ResetRead_S           => '1');
+		ResetRead_S           => '1',
+		WaitOnTransferStall_S => '0');
 end package APSADCConfigRecords;

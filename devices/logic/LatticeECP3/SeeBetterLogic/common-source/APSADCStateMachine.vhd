@@ -69,7 +69,7 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tColumnState is (stIdle, stWaitForADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stReset, stColReadAStart, stColReadAEnd, stColReadBStart, stColReadBEnd, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stColSRFeedTick, stIdleRegUpdate);
+	type tColumnState is (stIdle, stWaitForADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stColSRFeedTick, stReset, stSwitchToReadA, stReadA, stSwitchToReadB, stReadB);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -80,9 +80,6 @@ architecture Behavioral of APSADCStateMachine is
 
 	-- present and next state
 	signal RowState_DP, RowState_DN : tRowState;
-
-	constant CHIP_REG_SIZE_COLUMNS : integer := 1 + CHIP_SIZE_COLUMNS + 1; -- One bit more on each side, for three-bit code.
-	constant CHIP_REG_SIZE_ROWS    : integer := CHIP_SIZE_ROWS;
 
 	constant ADC_STARTUP_CYCLES      : integer := 45; -- At 30MHz, wait 1.5 microseconds.
 	constant ADC_STARTUP_CYCLES_SIZE : integer := integer(ceil(log2(real(ADC_STARTUP_CYCLES))));
@@ -127,6 +124,19 @@ architecture Behavioral of APSADCStateMachine is
 	signal RowReadStart_SP, RowReadStart_SN : std_logic;
 	signal RowReadDone_SP, RowReadDone_SN   : std_logic;
 
+	-- RS: the B read has several very special considerations that must be taken into account.
+	-- First, it has to be done only after exposure time expires, before that, it must be faked
+	-- to not throw off timing. Secondly, the B read binary pattern is a 1 with a 0 on either
+	-- side, which means that it cannot come right after the A pattern; at least one 0 must be
+	-- first shifted in. Also, it needs a further 0 to be shifted in after the 1, before B
+	-- reads can really begin. We use the following two registers to control this.
+	signal ReadBSRStatus_DP, ReadBSRStatus_DN : std_logic_vector(1 downto 0);
+
+	constant RBSTAT_NEED_ZERO_ONE : std_logic_vector(1 downto 0) := "00";
+	constant RBSTAT_NEED_ONE      : std_logic_vector(1 downto 0) := "01";
+	constant RBSTAT_NEED_ZERO_TWO : std_logic_vector(1 downto 0) := "10";
+	constant RBSTAT_NORMAL        : std_logic_vector(1 downto 0) := "11";
+
 	-- Check row validity. Used for faster ROI.
 	signal CurrentRowValid_S : std_logic;
 
@@ -139,7 +149,7 @@ architecture Behavioral of APSADCStateMachine is
 	signal APSChipRowSRClockReg_S, APSChipRowSRInReg_S  : std_logic;
 	signal APSChipColSRClockReg_S, APSChipColSRInReg_S  : std_logic;
 	signal APSChipColModeReg_DP, APSChipColModeReg_DN   : std_logic_vector(1 downto 0);
-	signal APSChipTXGateReg_S                           : std_logic;
+	signal APSChipTXGateReg_SP, APSChipTXGateReg_SN     : std_logic;
 	signal APSADCOutputEnableReg_SB, APSADCStandbyReg_S : std_logic;
 
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
@@ -182,6 +192,7 @@ begin
 	colReadAPosition : entity work.ContinuousCounter
 		generic map(
 			SIZE              => CHIP_SIZE_COLUMNS_WIDTH,
+			RESET_ON_OVERFLOW => false,
 			GENERATE_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
@@ -195,6 +206,7 @@ begin
 	colReadBPosition : entity work.ContinuousCounter
 		generic map(
 			SIZE              => CHIP_SIZE_COLUMNS_WIDTH,
+			RESET_ON_OVERFLOW => false,
 			GENERATE_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
@@ -208,6 +220,7 @@ begin
 	rowReadPosition : entity work.ContinuousCounter
 		generic map(
 			SIZE              => CHIP_SIZE_ROWS_WIDTH,
+			RESET_ON_OVERFLOW => false,
 			GENERATE_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
@@ -242,7 +255,7 @@ begin
 			Overflow_SO  => SettleTimesDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, ExposureTimeCycles_D, FrameDelayTimeCycles_D, RowReadDone_SP, ResetTimeDone_S)
+	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, ExposureTimeCycles_D, FrameDelayTimeCycles_D, RowReadDone_SP, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -263,7 +276,7 @@ begin
 		APSChipColSRInReg_S    <= '0';
 
 		APSChipColModeReg_DN <= COLMODE_NULL;
-		APSChipTXGateReg_S   <= '0';
+		APSChipTXGateReg_SN  <= APSChipTXGateReg_SP;
 
 		-- By default keep exposure/frame delay counter cleared and inactive.
 		ExposureDelayClear_S <= '0';
@@ -281,16 +294,17 @@ begin
 		-- Row SM communication.
 		RowReadStart_SN <= '0';
 
+		-- Keep value by default.
+		ReadBSRStatus_DN <= ReadBSRStatus_DP;
+
 		-- Only update configuration when in Idle state. Doing so while the frame is being read out
 		-- would cause different timing, exposure and read out types, resulting in corrupted frames.
 		APSADCConfigRegEnable_S <= '0';
 
 		case ColState_DP is
-			when stIdleRegUpdate =>
-				APSADCConfigRegEnable_S <= '1';
-				ColState_DN             <= stIdle;
-
 			when stIdle =>
+				APSADCConfigRegEnable_S <= '1';
+
 				if APSADCConfigReg_D.Run_S = '1' then
 					-- We want to take samples (picture or video), so the ADC has to be running.
 					if ADCRunning_SP = '0' then
@@ -305,8 +319,6 @@ begin
 						APSADCStandbyReg_S       <= '1';
 						ADCRunning_SN            <= '0';
 					end if;
-
-					ColState_DN <= stIdleRegUpdate;
 				end if;
 
 			when stWaitForADCStartup =>
@@ -353,54 +365,128 @@ begin
 
 				ColState_DN <= stReset;
 
+				-- Open APS TXGate before first reset.
+				APSChipTXGateReg_SN <= '1';
+
 			when stColSRFeedTick =>
 				APSChipColSRClockReg_S <= '1';
 				APSChipColSRInReg_S    <= '0';
 
-				ColState_DN <= stReset;
+				-- A first zero has just been shifted in.
+				if ReadBSRStatus_DP = RBSTAT_NEED_ZERO_ONE then
+					ReadBSRStatus_DN <= RBSTAT_NEED_ONE;
+				end if;
+
+				-- Check if we're done (read B ended).
+				if ColumnReadBPosition_D = CHIP_SIZE_COLUMNS then
+					ColState_DN <= stEndFrame;
+
+					-- Close APS TXGate after last read.
+					APSChipTXGateReg_SN <= '0';
+				else
+					ColState_DN <= stReset;
+				end if;
 
 			when stReset =>
-				-- Do reset.
-				APSChipColModeReg_DN <= COLMODE_RESETA;
+				if ColumnReadAPosition_D = CHIP_SIZE_COLUMNS then
+					APSChipColModeReg_DN <= COLMODE_NULL;
+				else
+					-- Do reset.
+					APSChipColModeReg_DN <= COLMODE_RESETA;
+				end if;
 
 				if ResetTimeDone_S = '1' then
-					ColState_DN <= stColReadAStart;
+					-- Support not doing the reset read. Halves the traffic and time
+					-- requirements, at the expense of image quality.
+					if APSADCConfigReg_D.ResetRead_S = '1' then
+						ColState_DN <= stSwitchToReadA;
+					else
+						ColState_DN <= stSwitchToReadB;
+
+						-- In this case, we must do the things the read A state would
+						-- normally do: increase read A position (used for resets).
+						ColumnReadAPositionInc_S <= '1';
+					end if;
+
+					-- If this is the first A reset, we start exposure.
+					-- Exposure starts right as reset is released.
+					if ColumnReadAPosition_D = 0 then
+						ExposureDelayClear_S <= '1';
+					end if;
 				end if;
 
 				ResetTimeCount_S <= '1';
 
-			when stColReadAStart =>
-				APSChipColModeReg_DN <= COLMODE_READA;
+			when stSwitchToReadA =>
+				APSChipColModeReg_DN <= COLMODE_NULL;
 
 				-- Start off the Row SM.
 				RowReadStart_SN <= '1';
-				ColState_DN     <= stColReadAEnd;
+				ColState_DN     <= stReadA;
 
-			when stColReadAEnd =>
-				APSChipColModeReg_DN <= COLMODE_READA;
-
-				-- Wait for the Row SM to complete its readout.
-				if RowReadDone_SP = '1' then
+			when stReadA =>
+				if ColumnReadAPosition_D = CHIP_SIZE_COLUMNS then
+					APSChipColModeReg_DN <= COLMODE_NULL;
+				else
+					-- Do column read A.
+					APSChipColModeReg_DN <= COLMODE_READA;
 				end if;
 
-			when stColReadBStart =>
-				APSChipColModeReg_DN <= COLMODE_READB;
+				-- Wait for the Row SM to complete its readout.
+				if RowReadDone_SP = '1' then
+					ColState_DN              <= stSwitchToReadB;
+					ColumnReadAPositionInc_S <= '1';
+				end if;
+
+			when stSwitchToReadB =>
+				APSChipColModeReg_DN <= COLMODE_NULL;
 
 				-- Start off the Row SM.
 				RowReadStart_SN <= '1';
-				ColState_DN     <= stColReadBEnd;
+				ColState_DN     <= stReadB;
 
-			when stColReadBEnd =>
-				APSChipColModeReg_DN <= COLMODE_READB;
+			when stReadB =>
+				if ReadBSRStatus_DP /= RBSTAT_NORMAL then
+					APSChipColModeReg_DN <= COLMODE_NULL;
+				else
+					-- Do column read B.
+					APSChipColModeReg_DN <= COLMODE_READB;
+				end if;
 
 				-- Wait for the Row SM to complete its readout.
 				if RowReadDone_SP = '1' then
+					-- If exposure time hasn't expired or we haven't yet even shifted in one
+					-- 0 into the column SR, we first do that.
+					if ExposureDelayDone_S = '1' and ReadBSRStatus_DP /= RBSTAT_NEED_ZERO_ONE then
+						if ReadBSRStatus_DP = RBSTAT_NEED_ONE then
+							-- If the 1 that represents the B read hasn't yet been shifted
+							-- in, do so now.
+							ColState_DN      <= stColSRFeedB;
+							ReadBSRStatus_DN <= RBSTAT_NEED_ZERO_TWO;
+						elsif ReadBSRStatus_DP = RBSTAT_NEED_ZERO_TWO then
+							-- Shift in the second 0 (the one after the 1) that is needed
+							-- for a B read of the very first column to work.
+							ColState_DN      <= stColSRFeedTick;
+							ReadBSRStatus_DN <= RBSTAT_NORMAL;
+						else
+							-- Finally, B reads are happening, their position is increasing.
+							ColState_DN              <= stColSRFeedTick;
+							ColumnReadBPositionInc_S <= '1';
+						end if;
+					else
+						-- Just shift in a zero.
+						ColState_DN <= stColSRFeedTick;
+					end if;
 				end if;
 
 			when stEndFrame =>
 				-- Setup exposureDelay counter to count frame delay instead of exposure.
 				ExposureDelayLimit_D <= FrameDelayTimeCycles_D;
 				ExposureDelayClear_S <= '1';
+
+				-- Zero column counters too.
+				ColumnReadAPositionZero_S <= '1';
+				ColumnReadBPositionZero_S <= '1';
 
 				-- Write out end of frame marker. This and the start of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
@@ -417,7 +503,10 @@ begin
 				ExposureDelayLimit_D <= FrameDelayTimeCycles_D;
 
 				if ExposureDelayDone_S = '1' then
-					ColState_DN <= stIdleRegUpdate;
+					ColState_DN <= stIdle;
+
+					-- Ensure config reg is up-to-date when entering Idle state.
+					APSADCConfigRegEnable_S <= '1';
 				end if;
 
 			when others => null;
@@ -474,7 +563,8 @@ begin
 				APSChipRowSRInReg_S    <= '1';
 
 				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' then
+				-- If fake read (COLMODE_NULL), don't write anything.
+				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 					if APSChipColModeReg_DP = COLMODE_READA then
 						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
 					else
@@ -484,7 +574,7 @@ begin
 					OutFifoWriteRegRow_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					RowState_DN <= stRowSRInitTick;
 				end if;
 
@@ -529,7 +619,7 @@ begin
 
 			when stRowWriteEvent =>
 				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 					-- Detect ADC overflow.
 					if APSADCOverflow_SI = '1' then
 						-- Overflow detected, let's try to signal this.
@@ -542,39 +632,24 @@ begin
 					OutFifoWriteRegRow_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					RowState_DN          <= stRowSRFeedTick;
 					RowReadPositionInc_S <= '1';
 				end if;
 
 			when stRowFastJump =>
-				if APSADCConfigReg_D.ROIZeroPad_S = '1' then
-					-- Write event only if FIFO has place, else wait.
-					if OutFifoControl_SI.Full_S = '0' then
-						-- Send fake ADC value of all zeros.
-						OutFifoDataRegRow_D       <= EVENT_CODE_ADC_SAMPLE & "000000000000";
-						OutFifoDataRegRowEnable_S <= '1';
-						OutFifoWriteRegRow_S      <= '1';
-					end if;
-
-					if OutFifoControl_SI.Full_S = '0' or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						RowState_DN          <= stRowSRFeedTick;
-						RowReadPositionInc_S <= '1';
-					end if;
-				else
-					RowState_DN          <= stRowSRFeedTick;
-					RowReadPositionInc_S <= '1';
-				end if;
+				RowState_DN          <= stRowSRFeedTick;
+				RowReadPositionInc_S <= '1';
 
 			when stRowDone =>
 				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 					OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
 					OutFifoDataRegRowEnable_S <= '1';
 					OutFifoWriteRegRow_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					RowState_DN    <= stIdle;
 					RowReadDone_SN <= '1';
 				end if;
@@ -611,6 +686,8 @@ begin
 			RowReadStart_SP <= '0';
 			RowReadDone_SP  <= '0';
 
+			ReadBSRStatus_DP <= RBSTAT_NEED_ZERO_ONE;
+
 			OutFifoControl_SO.Write_S <= '0';
 
 			APSChipRowSRClock_SO <= '0';
@@ -618,7 +695,7 @@ begin
 			APSChipColSRClock_SO <= '0';
 			APSChipColSRIn_SO    <= '0';
 			APSChipColModeReg_DP <= COLMODE_NULL;
-			APSChipTXGate_SBO    <= '1';
+			APSChipTXGateReg_SP  <= '0';
 
 			APSADCOutputEnable_SBO <= '1';
 			APSADCStandby_SO       <= '1';
@@ -635,6 +712,8 @@ begin
 			RowReadStart_SP <= RowReadStart_SN;
 			RowReadDone_SP  <= RowReadDone_SN;
 
+			ReadBSRStatus_DP <= ReadBSRStatus_DN;
+
 			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
 
 			APSChipRowSRClock_SO <= APSChipRowSRClockReg_S;
@@ -642,7 +721,7 @@ begin
 			APSChipColSRClock_SO <= APSChipColSRClockReg_S;
 			APSChipColSRIn_SO    <= APSChipColSRInReg_S;
 			APSChipColModeReg_DP <= APSChipColModeReg_DN;
-			APSChipTXGate_SBO    <= not APSChipTXGateReg_S;
+			APSChipTXGateReg_SP  <= APSChipTXGateReg_SN;
 
 			APSADCOutputEnable_SBO <= APSADCOutputEnableReg_SB;
 			APSADCStandby_SO       <= APSADCStandbyReg_S;
@@ -658,4 +737,5 @@ begin
 	-- The output of this register goes to an intermediate signal, since we need to access it
 	-- inside this module. That's not possible with 'out' signal directly.
 	APSChipColMode_DO <= APSChipColModeReg_DP;
+	APSChipTXGate_SBO <= not APSChipTXGateReg_SP;
 end architecture Behavioral;
