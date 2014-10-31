@@ -1,0 +1,8 @@
+#Start recording tcl command: 10/31/2014 11:30:40
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC - 4x4 cells x 5/SeeBetterLogic_FX3.ldf"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_dev set -part LFE3-17EA-7FTN256I
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+#Stop recording: 10/31/2014 12:21:18
