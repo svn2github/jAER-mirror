@@ -5,11 +5,11 @@ The file contains the area information from mapper to be displayed as part of th
 *******************************************************************************************-->
 <report_table display_priority="1" name="Area Summary">
 <report_link name="Detailed report">
-<data>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\synlog\report\SeeBetterLogic_FX3_SeeBetterLogic_FX3_fpga_mapper_resourceusage.rpt</data>
+<data>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\synlog\report\SeeBetterLogic_FX3_SeeBetterLogic_FX3_fpga_mapper_resourceusage.rpt</data>
 <title>Resource Usage</title>
 </report_link>
 <parameter tooltip="Total Register bits used" name="Register bits">
-<data>9703</data>
+<data>2579</data>
 </parameter>
 <parameter tooltip="Total I/O cells used" name="I/O cells">
 <data>77</data>
@@ -21,6 +21,6 @@ The file contains the area information from mapper to be displayed as part of th
 <data>1</data>
 </parameter>
 <parameter tcl_name="total_luts" tooltip="Total ORCA LUTs used" name="ORCA LUTs">
-<data>18445</data>
+<data>3792</data>
 </parameter>
 </report_table>

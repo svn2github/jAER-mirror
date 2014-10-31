@@ -1,54 +1,54 @@
 Selecting top level module MULT18X18C
-@N: CG364 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11677:7:11677:16|Synthesizing module MULT18X18C
+@N: CG364 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11677:7:11677:16|Synthesizing module MULT18X18C
 
-@W: CG532 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11787:4:11787:10|Initial statement will only initialize memories through the usage of $readmemh and $readmemb. Everything else is ignored
-@W: CG133 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11764:8:11764:22|No assignment to input_a_clk_sig
-@W: CG133 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11765:8:11765:22|No assignment to input_b_clk_sig
-@W: CG133 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11766:8:11766:23|No assignment to pipeline_clk_sig
-@W: CG133 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11767:8:11767:21|No assignment to output_clk_sig
-@W: CG360 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11778:9:11778:15|No assignment to wire PUR_sig
+@W: CG532 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11787:4:11787:10|Initial statement will only initialize memories through the usage of $readmemh and $readmemb. Everything else is ignored
+@W: CG133 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11764:8:11764:22|No assignment to input_a_clk_sig
+@W: CG133 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11765:8:11765:22|No assignment to input_b_clk_sig
+@W: CG133 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11766:8:11766:23|No assignment to pipeline_clk_sig
+@W: CG133 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11767:8:11767:21|No assignment to output_clk_sig
+@W: CG360 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11778:9:11778:15|No assignment to wire PUR_sig
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12498:4:12498:9|Pruning register p_sig_o1_sync[35:0] 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12498:4:12498:9|Pruning register p_sig_o1_sync[35:0] 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12490:4:12490:9|Pruning register p_sig_o1_async[35:0] 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12490:4:12490:9|Pruning register p_sig_o1_async[35:0] 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12462:4:12462:9|Pruning register p_sig_o_sync[35:0] 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12462:4:12462:9|Pruning register p_sig_o_sync[35:0] 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12462:4:12462:9|Pruning register signedab_sig_sync 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12462:4:12462:9|Pruning register signedab_sig_sync 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12448:4:12448:9|Pruning register p_sig_o_async[35:0] 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12448:4:12448:9|Pruning register p_sig_o_async[35:0] 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12448:4:12448:9|Pruning register signedab_sig_async 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12448:4:12448:9|Pruning register signedab_sig_async 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12223:4:12223:9|Pruning register b_sig_reg_sync[17:0] 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12223:4:12223:9|Pruning register b_sig_reg_sync[17:0] 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12223:4:12223:9|Pruning register signedb_reg1_sync 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12223:4:12223:9|Pruning register signedb_reg1_sync 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12209:4:12209:9|Pruning register b_sig_reg_async[17:0] 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12209:4:12209:9|Pruning register b_sig_reg_async[17:0] 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12209:4:12209:9|Pruning register signedb_reg1_async 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12209:4:12209:9|Pruning register signedb_reg1_async 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12193:4:12193:9|Pruning register a_sig_reg_sync[17:0] 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12193:4:12193:9|Pruning register a_sig_reg_sync[17:0] 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12193:4:12193:9|Pruning register a_sig_gen1_sync[17:0] 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12193:4:12193:9|Pruning register a_sig_gen1_sync[17:0] 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12193:4:12193:9|Pruning register signeda_reg1_sync 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12193:4:12193:9|Pruning register signeda_reg1_sync 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12177:4:12177:9|Pruning register a_sig_reg_async[17:0] 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12177:4:12177:9|Pruning register a_sig_reg_async[17:0] 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12177:4:12177:9|Pruning register a_sig_gen1_async[17:0] 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12177:4:12177:9|Pruning register a_sig_gen1_async[17:0] 
 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12177:4:12177:9|Pruning register signeda_reg1_async 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":12177:4:12177:9|Pruning register signeda_reg1_async 
 
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:6:11698:8|Input CE0 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:10:11698:12|Input CE1 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:14:11698:16|Input CE2 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:18:11698:20|Input CE3 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:22:11698:25|Input CLK0 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:27:11698:30|Input CLK1 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:32:11698:35|Input CLK2 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:37:11698:40|Input CLK3 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:42:11698:45|Input RST0 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:47:11698:50|Input RST1 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:52:11698:55|Input RST2 is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:57:11698:60|Input RST3 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:6:11698:8|Input CE0 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:10:11698:12|Input CE1 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:14:11698:16|Input CE2 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:18:11698:20|Input CE3 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:22:11698:25|Input CLK0 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:27:11698:30|Input CLK1 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:32:11698:35|Input CLK2 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:37:11698:40|Input CLK3 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:42:11698:45|Input RST0 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:47:11698:50|Input RST1 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:52:11698:55|Input RST2 is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\syntmp\MULT18X18C.v":11698:57:11698:60|Input RST3 is unused

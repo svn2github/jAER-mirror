@@ -1,34 +1,34 @@
 ----------------------------------------------------------------------
 Report for cell TopLevel.structural
 
-Register bits: 9703 of 62640 (15%)
+Register bits: 2579 of 17280 (15%)
 PIC Latch:       0
 I/O cells:       77
                                           Cell usage:
                                cell       count    Res Usage(%)
                                  BB        1       100.0
-                              CCU2C     1795       100.0
-                            FD1P3AX        3       100.0
-                            FD1P3BX      340       100.0
-                            FD1P3DX     4451       100.0
-                            FD1S3BX     1215       100.0
-                            FD1S3DX     3652       100.0
+                              CCU2C      329       100.0
+                            FD1P3AX        8       100.0
+                            FD1P3BX      175       100.0
+                            FD1P3DX     1030       100.0
+                            FD1S3BX       80       100.0
+                            FD1S3DX     1242       100.0
                                 GSR        1       100.0
                                  IB       23       100.0
                            IFS1P3BX        2       100.0
-                           IFS1P3DX       13       100.0
-                                INV       14       100.0
-                            L6MUX21      433       100.0
+                           IFS1P3DX       12       100.0
+                                INV       16       100.0
+                            L6MUX21      178       100.0
                          MULT18X18C        1       100.0
                                  OB       50       100.0
                                 OBZ        3       100.0
-                           OFS1P3BX        6       100.0
-                           OFS1P3DX       21       100.0
-                           ORCALUT4    18445       100.0
-                              PFUMX      887       100.0
+                           OFS1P3BX        8       100.0
+                           OFS1P3DX       22       100.0
+                           ORCALUT4     3792       100.0
+                              PFUMX      293       100.0
                                 PUR        1       100.0
-                                VHI       79       100.0
-                                VLO       62       100.0
+                                VHI       89       100.0
+                                VLO       69       100.0
           pmi_fifo_dc_work_toplevel_structural_0        1       100.0
           pmi_fifo_work_toplevel_structural_0        1       100.0
           pmi_fifo_work_toplevel_structural_1        1       100.0
@@ -37,6 +37,7 @@ I/O cells:       77
                             pmi_pll        1       100.0
 SUB MODULES 
                     APSADCSPIConfig        1       100.0
+                 APSADCStateMachine        1       100.0
                         BufferClear        1       100.0
                       BufferClear_0        1       100.0
                       BufferClear_1        1       100.0
@@ -68,6 +69,8 @@ SUB MODULES
           ContinuousCounter_5_true_true_false_false_ackDelayCounter        1       100.0
           ContinuousCounter_5_true_true_false_false_ackDelayCounter_0        1       100.0
           ContinuousCounter_6_true_false_false_false        1       100.0
+          ContinuousCounter_6_true_true_false_false        1       100.0
+          ContinuousCounter_8_true_false_false_false        1       100.0
                   DFFSynchronizerZ0        1       100.0
                 DFFSynchronizerZ0_0        1       100.0
               DFFSynchronizerZ0_0_0        1       100.0
@@ -103,6 +106,11 @@ SUB MODULES
             MultiplexerStateMachine        1       100.0
                    ObjectMotionCell        1       100.0
           ObjectMotionCellSPIConfig        1       100.0
+                 ObjectMotionCell_0        1       100.0
+                 ObjectMotionCell_1        1       100.0
+                 ObjectMotionCell_2        1       100.0
+                 ObjectMotionCell_3        1       100.0
+             ObjectMotionMotherCell        1       100.0
                                 PLL        1       100.0
                     PulseDetector_2        1       100.0
                    PulseDetector_27        1       100.0
@@ -116,24 +124,26 @@ SUB MODULES
                    ShiftRegister_24        1       100.0
                    ShiftRegister_32        1       100.0
                     ShiftRegister_8        1       100.0
-                   SimpleRegister_1        1       100.0
+            SimpleRegister_15_false        1       100.0
+          SimpleRegister_15_false_0        1       100.0
+           SimpleRegister_1_false_1        1       100.0
                  TimestampGenerator        1       100.0
                        WSAER2CAVIAR        1       100.0
                             
-                         TOTAL         31589           
+                         TOTAL          7526           
 ----------------------------------------------------------------------
 Report for cell IMUStateMachine.netlist
      Instance path:  imuSM
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C       13         0.7
-                            FD1P3DX      166         3.7
-                            FD1S3BX        6         0.5
-                            FD1S3DX       84         2.3
-                                INV        5        35.7
-                           ORCALUT4      232         1.3
-                                VHI       23        29.1
-                                VLO       17        27.4
+                              CCU2C       13         4.0
+                            FD1P3DX      151        14.7
+                            FD1S3BX        6         7.5
+                            FD1S3DX       99         8.0
+                                INV        5        31.3
+                           ORCALUT4      232         6.1
+                                VHI       23        25.8
+                                VLO       16        23.2
 SUB MODULES 
                       BufferClear_1        1       100.0
                       BufferClear_2        1       100.0
@@ -157,20 +167,20 @@ SUB MODULES
                  PulseGeneratorZ0_0        1       100.0
                   ShiftRegister_112        1       100.0
                    ShiftRegister_24        1       100.0
-                   SimpleRegister_1        1       100.0
+           SimpleRegister_1_false_1        1       100.0
                             
-                         TOTAL           569           
+                         TOTAL           568           
 ----------------------------------------------------------------------
 Report for cell ChangeDetector_2_1.netlist
   Original Cell name ChangeDetector_2
      Instance path:  imuSM.detectGyroFullScaleChange
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
-                            FD1S3DX        2         0.1
-                           ORCALUT4        2         0.0
-                                VHI        2         2.5
-                                VLO        1         1.6
+                            FD1P3DX        1         0.1
+                            FD1S3DX        2         0.2
+                           ORCALUT4        2         0.1
+                                VHI        2         2.2
+                                VLO        1         1.4
 SUB MODULES 
                       BufferClear_9        1       100.0
                             
@@ -181,10 +191,10 @@ Report for cell BufferClear_9.netlist
      Instance path:  imuSM.detectGyroFullScaleChange.bufferChangeDetectedSignal
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
+                            FD1P3DX        1         0.1
                            ORCALUT4        1         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             4           
 ----------------------------------------------------------------------
@@ -193,11 +203,11 @@ Report for cell ChangeDetector_2_0.netlist
      Instance path:  imuSM.detectAccelFullScaleChange
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
-                            FD1S3DX        2         0.1
-                           ORCALUT4        2         0.0
-                                VHI        2         2.5
-                                VLO        1         1.6
+                            FD1P3DX        1         0.1
+                            FD1S3DX        2         0.2
+                           ORCALUT4        2         0.1
+                                VHI        2         2.2
+                                VLO        1         1.4
 SUB MODULES 
                       BufferClear_8        1       100.0
                             
@@ -208,10 +218,10 @@ Report for cell BufferClear_8.netlist
      Instance path:  imuSM.detectAccelFullScaleChange.bufferChangeDetectedSignal
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
+                            FD1P3DX        1         0.1
                            ORCALUT4        1         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             4           
 ----------------------------------------------------------------------
@@ -219,11 +229,11 @@ Report for cell ChangeDetector_3.netlist
      Instance path:  imuSM.detectDigitalLowPassFilterChange
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
-                            FD1S3DX        3         0.1
-                           ORCALUT4        3         0.0
-                                VHI        2         2.5
-                                VLO        1         1.6
+                            FD1P3DX        1         0.1
+                            FD1S3DX        3         0.2
+                           ORCALUT4        3         0.1
+                                VHI        2         2.2
+                                VLO        1         1.4
 SUB MODULES 
                       BufferClear_7        1       100.0
                             
@@ -234,9 +244,9 @@ Report for cell BufferClear_7.netlist
      Instance path:  imuSM.detectDigitalLowPassFilterChange.bufferChangeDetectedSignal
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
+                            FD1P3DX        1         0.1
                            ORCALUT4        1         0.0
-                                VHI        1         1.3
+                                VHI        1         1.1
                             
                          TOTAL             3           
 ----------------------------------------------------------------------
@@ -245,13 +255,13 @@ Report for cell ChangeDetector_8_0.netlist
      Instance path:  imuSM.detectSampleRateDividerChange
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        3         0.2
-                            FD1P3DX        1         0.0
-                            FD1S3DX        8         0.2
-                                INV        1         7.1
+                              CCU2C        3         0.9
+                            FD1P3DX        1         0.1
+                            FD1S3DX        8         0.6
+                                INV        1         6.3
                            ORCALUT4        1         0.0
-                                VHI        2         2.5
-                                VLO        2         3.2
+                                VHI        2         2.2
+                                VLO        2         2.9
 SUB MODULES 
                       BufferClear_6        1       100.0
                             
@@ -262,11 +272,11 @@ Report for cell BufferClear_6.netlist
      Instance path:  imuSM.detectSampleRateDividerChange.bufferChangeDetectedSignal
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
-                                INV        1         7.1
+                            FD1P3DX        1         0.1
+                                INV        1         6.3
                            ORCALUT4        1         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             5           
 ----------------------------------------------------------------------
@@ -275,13 +285,13 @@ Report for cell ChangeDetector_8.netlist
      Instance path:  imuSM.detectLPWakeupAccelGyroStandbyChange
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        3         0.2
-                            FD1P3DX        1         0.0
-                            FD1S3DX        8         0.2
-                                INV        1         7.1
+                              CCU2C        3         0.9
+                            FD1P3DX        1         0.1
+                            FD1S3DX        8         0.6
+                                INV        1         6.3
                            ORCALUT4        1         0.0
-                                VHI        2         2.5
-                                VLO        2         3.2
+                                VHI        2         2.2
+                                VLO        2         2.9
 SUB MODULES 
                       BufferClear_5        1       100.0
                             
@@ -292,11 +302,11 @@ Report for cell BufferClear_5.netlist
      Instance path:  imuSM.detectLPWakeupAccelGyroStandbyChange.bufferChangeDetectedSignal
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
-                                INV        1         7.1
+                            FD1P3DX        1         0.1
+                                INV        1         6.3
                            ORCALUT4        1         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             5           
 ----------------------------------------------------------------------
@@ -305,11 +315,11 @@ Report for cell ChangeDetector_2.netlist
      Instance path:  imuSM.detectLPCycleTempStandbyChange
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
-                            FD1S3DX        2         0.1
-                           ORCALUT4        2         0.0
-                                VHI        2         2.5
-                                VLO        1         1.6
+                            FD1P3DX        1         0.1
+                            FD1S3DX        2         0.2
+                           ORCALUT4        2         0.1
+                                VHI        2         2.2
+                                VLO        1         1.4
 SUB MODULES 
                       BufferClear_4        1       100.0
                             
@@ -320,10 +330,10 @@ Report for cell BufferClear_4.netlist
      Instance path:  imuSM.detectLPCycleTempStandbyChange.bufferChangeDetectedSignal
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
+                            FD1P3DX        1         0.1
                            ORCALUT4        1         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             4           
 ----------------------------------------------------------------------
@@ -331,10 +341,10 @@ Report for cell ChangeDetector_1.netlist
      Instance path:  imuSM.detectRunChange
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
-                           ORCALUT4        2         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX        1         0.1
+                           ORCALUT4        2         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
 SUB MODULES 
                       BufferClear_3        1       100.0
                             
@@ -345,9 +355,9 @@ Report for cell BufferClear_3.netlist
      Instance path:  imuSM.detectRunChange.bufferChangeDetectedSignal
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
+                            FD1P3DX        1         0.1
                            ORCALUT4        1         0.0
-                                VHI        1         1.3
+                                VHI        1         1.1
                             
                          TOTAL             3           
 ----------------------------------------------------------------------
@@ -356,10 +366,10 @@ Report for cell BufferClear_2.netlist
      Instance path:  imuSM.fakeInterruptEnableChange
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
+                            FD1P3DX        1         0.1
                            ORCALUT4        1         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             4           
 ----------------------------------------------------------------------
@@ -368,20 +378,20 @@ Report for cell BufferClear_1.netlist
      Instance path:  imuSM.fakeInterruptConfigChange
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
+                            FD1P3DX        1         0.1
                            ORCALUT4        1         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             4           
 ----------------------------------------------------------------------
-Report for cell SimpleRegister_1.netlist
-  Original Cell name SimpleRegister
+Report for cell SimpleRegister_1_false_1.netlist
+  Original Cell name SimpleRegister_1_false
      Instance path:  imuSM.delayRun
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        1         0.0
-                                VHI        1         1.3
+                            FD1S3DX        1         0.1
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -389,47 +399,46 @@ Report for cell ContinuousCounter_5_true_false_false_false.netlist
      Instance path:  imuSM.i2cByteCounter
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        3         0.2
-                            FD1P3DX        5         0.1
-                           ORCALUT4        6         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C        3         0.9
+                            FD1P3DX        5         0.5
+                           ORCALUT4        5         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL            16           
+                         TOTAL            15           
 ----------------------------------------------------------------------
 Report for cell ContinuousCounter_3_true_false_false_false.netlist
      Instance path:  imuSM.i2cBitCounter
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        3         0.1
-                           ORCALUT4       10         0.1
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1S3DX        3         0.2
+                           ORCALUT4        6         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL            15           
+                         TOTAL            11           
 ----------------------------------------------------------------------
 Report for cell ContinuousCounter_2_true_false_false_false.netlist
      Instance path:  imuSM.i2cPulseCounter
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        2         0.1
-                                INV        1         7.1
-                           ORCALUT4        3         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1S3DX        2         0.2
+                                INV        1         6.3
+                           ORCALUT4        2         0.1
+                                VHI        1         1.1
                             
-                         TOTAL             8           
+                         TOTAL             6           
 ----------------------------------------------------------------------
 Report for cell PulseGeneratorZ0_0.netlist
   Original Cell name PulseGeneratorZ0
      Instance path:  imuSM.i2cPulseGenerator
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        4         0.2
-                            FD1S3DX        7         0.2
-                           ORCALUT4        3         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C        4         1.2
+                            FD1S3DX        7         0.6
+                           ORCALUT4        3         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            16           
 ----------------------------------------------------------------------
@@ -437,8 +446,8 @@ Report for cell ShiftRegister_112.netlist
      Instance path:  imuSM.i2cReadShiftRegister
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX      112         2.5
-                                VHI        1         1.3
+                            FD1P3DX      112        10.9
+                                VHI        1         1.1
                             
                          TOTAL           113           
 ----------------------------------------------------------------------
@@ -446,10 +455,10 @@ Report for cell ShiftRegister_24.netlist
      Instance path:  imuSM.i2cWriteShiftRegister
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       24         0.5
-                           ORCALUT4       27         0.1
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX       24         2.3
+                           ORCALUT4       27         0.7
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            53           
 ----------------------------------------------------------------------
@@ -457,31 +466,31 @@ Report for cell SPIConfig.netlist
      Instance path:  spiConfiguration
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        4         0.2
-                            FD1P3BX       15         4.4
-                            FD1P3DX       72         1.6
-                            FD1S3DX       32         0.9
-                                INV        1         7.1
-                           ORCALUT4       97         0.5
-                                VHI        5         6.3
-                                VLO        5         8.1
+                              CCU2C        4         1.2
+                            FD1P3BX       15         8.6
+                            FD1P3DX       72         7.0
+                            FD1S3DX       32         2.6
+                                INV        1         6.3
+                           ORCALUT4       71         1.9
+                                VHI        5         5.6
+                                VLO        5         7.2
 SUB MODULES 
           ContinuousCounter_6_true_false_false_false        1       100.0
                      EdgeDetector_0        1       100.0
                    ShiftRegister_32        1       100.0
                     ShiftRegister_8        1       100.0
                             
-                         TOTAL           235           
+                         TOTAL           209           
 ----------------------------------------------------------------------
 Report for cell ContinuousCounter_6_true_false_false_false.netlist
      Instance path:  spiConfiguration.spiBitCounter
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        4         0.2
-                            FD1P3DX        6         0.1
-                           ORCALUT4        6         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C        4         1.2
+                            FD1P3DX        6         0.6
+                           ORCALUT4        6         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            18           
 ----------------------------------------------------------------------
@@ -489,21 +498,21 @@ Report for cell ShiftRegister_32.netlist
      Instance path:  spiConfiguration.spiOutputShiftRegister
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       32         0.7
-                           ORCALUT4       58         0.3
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX       32         3.1
+                           ORCALUT4       36         0.9
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL            92           
+                         TOTAL            70           
 ----------------------------------------------------------------------
 Report for cell ShiftRegister_8.netlist
      Instance path:  spiConfiguration.spiInputShiftRegister
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        8         0.2
-                           ORCALUT4        9         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX        8         0.8
+                           ORCALUT4        9         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            19           
 ----------------------------------------------------------------------
@@ -512,10 +521,10 @@ Report for cell EdgeDetector_0.netlist
      Instance path:  spiConfiguration.spiClockDetector
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        4         0.1
-                           ORCALUT4        2         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1S3DX        4         0.3
+                           ORCALUT4        2         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             8           
 ----------------------------------------------------------------------
@@ -523,53 +532,53 @@ Report for cell ExtTriggerSPIConfig.netlist
      Instance path:  extTriggerSPIConfig
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3BX        9         2.6
-                            FD1P3DX       71         1.6
-                            FD1S3DX       38         1.0
-                           ORCALUT4       73         0.4
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3BX        9         5.1
+                            FD1P3DX       71         6.9
+                            FD1S3DX       28         2.3
+                           ORCALUT4       67         1.8
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL           193           
+                         TOTAL           177           
 ----------------------------------------------------------------------
 Report for cell ExtTriggerStateMachine.netlist
      Instance path:  extTriggerSM
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C      165         9.2
-                            FD1S3BX       15         1.2
-                            FD1S3DX      162         4.4
-                           ORCALUT4       34         0.2
-                                VHI        4         5.1
-                                VLO        4         6.5
+                              CCU2C      165        50.2
+                            FD1S3BX       15        18.8
+                            FD1S3DX      162        13.0
+                           ORCALUT4       85         2.2
+                                VHI        4         4.5
+                                VLO        4         5.8
 SUB MODULES 
                        EdgeDetector        1       100.0
                    PulseDetector_27        1       100.0
                    PulseGeneratorZ1        1       100.0
                             
-                         TOTAL           387           
+                         TOTAL           438           
 ----------------------------------------------------------------------
 Report for cell PulseGeneratorZ1.netlist
      Instance path:  extTriggerSM.generator.extTriggerPulseGenerator
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C       71         4.0
-                            FD1S3DX       55         1.5
-                           ORCALUT4       13         0.1
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C       71        21.6
+                            FD1S3DX       55         4.4
+                           ORCALUT4       64         1.7
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL           141           
+                         TOTAL           192           
 ----------------------------------------------------------------------
 Report for cell PulseDetector_27.netlist
      Instance path:  extTriggerSM.extTriggerPulseDetector
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C       28         1.6
-                            FD1S3DX       30         0.8
-                           ORCALUT4        5         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C       28         8.5
+                            FD1S3DX       30         2.4
+                           ORCALUT4        5         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            65           
 ----------------------------------------------------------------------
@@ -578,10 +587,10 @@ Report for cell EdgeDetector.netlist
      Instance path:  extTriggerSM.extTriggerEdgeDetector
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        4         0.1
-                           ORCALUT4        2         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1S3DX        4         0.3
+                           ORCALUT4        2         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             8           
 ----------------------------------------------------------------------
@@ -589,12 +598,12 @@ Report for cell FIFO_15_4_0_1_4_3_EBR.netlist
      Instance path:  extTriggerFifo
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       15         0.3
-                            FD1S3BX        2         0.2
-                            FD1S3DX        2         0.1
-                           ORCALUT4        6         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX       15         1.5
+                            FD1S3BX        2         2.5
+                            FD1S3DX        2         0.2
+                           ORCALUT4        6         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
           pmi_fifo_work_toplevel_structural_0        1       100.0
                             
                          TOTAL            28           
@@ -603,67 +612,123 @@ Report for cell IMUSPIConfig.netlist
      Instance path:  imuSPIConfig
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3BX        4         1.2
-                            FD1P3DX       22         0.5
-                            FD1S3DX        8         0.2
-                           ORCALUT4       36         0.2
-                              PFUMX        3         0.3
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3BX        4         2.3
+                            FD1P3DX       22         2.1
+                            FD1S3DX        8         0.6
+                           ORCALUT4       34         0.9
+                              PFUMX        6         2.0
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL            75           
+                         TOTAL            76           
 ----------------------------------------------------------------------
 Report for cell FIFO_15_14_0_7_14_7_EBR.netlist
      Instance path:  imuFifo
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       15         0.3
-                            FD1S3BX        2         0.2
-                            FD1S3DX        2         0.1
-                                INV        1         7.1
-                           ORCALUT4        5         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX       15         1.5
+                            FD1S3BX        2         2.5
+                            FD1S3DX        2         0.2
+                           ORCALUT4        4         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
           pmi_fifo_work_toplevel_structural_1        1       100.0
                             
-                         TOTAL            28           
+                         TOTAL            26           
 ----------------------------------------------------------------------
 Report for cell APSADCSPIConfig.netlist
      Instance path:  apsadcSPIConfig
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
-                            FD1S3DX        2         0.1
-                           ORCALUT4        3         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3BX       22        12.6
+                            FD1P3DX       77         7.5
+                            FD1S3DX       32         2.6
+                           ORCALUT4      103         2.7
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL             8           
+                         TOTAL           236           
+----------------------------------------------------------------------
+Report for cell APSADCStateMachine.netlist
+     Instance path:  apsAdcSM
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                              CCU2C        9         2.7
+                            FD1P3DX       17         1.7
+                            FD1S3BX        1         1.3
+                            FD1S3DX       17         1.4
+                           ORCALUT4       25         0.7
+                              PFUMX        1         0.3
+                                VHI        4         4.5
+                                VLO        3         4.3
+SUB MODULES 
+          ContinuousCounter_6_true_true_false_false        1       100.0
+          ContinuousCounter_8_true_false_false_false        1       100.0
+          SimpleRegister_15_false_0        1       100.0
+                            
+                         TOTAL            80           
+----------------------------------------------------------------------
+Report for cell SimpleRegister_15_false_0.netlist
+  Original Cell name SimpleRegister_15_false
+     Instance path:  apsAdcSM.outputDataRegister
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                            FD1P3DX        2         0.2
+                                VHI        1         1.1
+                            
+                         TOTAL             3           
+----------------------------------------------------------------------
+Report for cell ContinuousCounter_8_true_false_false_false.netlist
+     Instance path:  apsAdcSM.rowReadPosition
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                              CCU2C        5         1.5
+                            FD1P3DX        8         0.8
+                           ORCALUT4        4         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
+                            
+                         TOTAL            19           
+----------------------------------------------------------------------
+Report for cell ContinuousCounter_6_true_true_false_false.netlist
+  Original Cell name ContinuousCounter_6_true_true_false_false
+     Instance path:  apsAdcSM.adcStartupCounter
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                              CCU2C        4         1.2
+                            FD1P3DX        6         0.6
+                            FD1S3DX        1         0.1
+                           ORCALUT4        4         0.1
+                              PFUMX        1         0.3
+                                VHI        1         1.1
+                                VLO        1         1.4
+                            
+                         TOTAL            18           
 ----------------------------------------------------------------------
 Report for cell FIFO_15_128_0_8_128_120_EBR.netlist
      Instance path:  apsAdcFifo
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       15         0.3
-                            FD1S3BX        2         0.2
-                            FD1S3DX        2         0.1
-                           ORCALUT4        5         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX       15         1.5
+                            FD1S3BX        2         2.5
+                            FD1S3DX        2         0.2
+                           ORCALUT4        4         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
           pmi_fifo_work_toplevel_structural_2        1       100.0
                             
-                         TOTAL            27           
+                         TOTAL            26           
 ----------------------------------------------------------------------
 Report for cell MISCAERStateMachine.netlist
      Instance path:  miscAerSM
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       11         0.2
-                            FD1S3BX        1         0.1
-                            FD1S3DX        6         0.2
-                           ORCALUT4       15         0.1
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX       11         1.1
+                            FD1S3BX        1         1.3
+                            FD1S3DX        6         0.5
+                           ORCALUT4       15         0.4
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            35           
 ----------------------------------------------------------------------
@@ -672,12 +737,12 @@ Report for cell FIFO_15_16_0_4_16_14_EBR_miscAerFifo.netlist
      Instance path:  miscAerFifo
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       15         0.3
-                            FD1S3BX        1         0.1
-                            FD1S3DX        2         0.1
-                           ORCALUT4        3         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX       15         1.5
+                            FD1S3BX        1         1.3
+                            FD1S3DX        2         0.2
+                           ORCALUT4        3         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
           pmi_fifo_work_toplevel_structural_3        1        33.3
                             
                          TOTAL            24           
@@ -686,74 +751,82 @@ Report for cell DVSAERSPIConfig.netlist
      Instance path:  dvsaerSPIConfig
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3BX        2         0.6
-                            FD1P3DX        9         0.2
-                            FD1S3DX        9         0.2
-                                INV        2        14.3
-                           ORCALUT4       11         0.1
-                              PFUMX        1         0.1
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3BX        2         1.1
+                            FD1P3DX       10         1.0
+                            FD1S3DX        5         0.4
+                           ORCALUT4       11         0.3
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL            36           
+                         TOTAL            30           
 ----------------------------------------------------------------------
 Report for cell DVSAERStateMachine.netlist
      Instance path:  dvsAerSM
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C       14         0.8
-                            FD1P3DX       20         0.4
-                            FD1S3BX        4         0.3
-                            FD1S3DX       26         0.7
-                           ORCALUT4       40         0.2
-                                VHI        3         3.8
-                                VLO        3         4.8
+                              CCU2C       14         4.3
+                            FD1P3DX       20         1.9
+                            FD1S3BX        3         3.8
+                            FD1S3DX       19         1.5
+                           ORCALUT4       39         1.0
+                                VHI        4         4.5
+                                VLO        3         4.3
 SUB MODULES 
           ContinuousCounter_5_true_true_false_false_ackDelayCounter        1       100.0
           ContinuousCounter_5_true_true_false_false_ackDelayCounter_0        1       100.0
+            SimpleRegister_15_false        1       100.0
                             
-                         TOTAL           112           
+                         TOTAL           105           
+----------------------------------------------------------------------
+Report for cell SimpleRegister_15_false.netlist
+  Original Cell name SimpleRegister_15_false
+     Instance path:  dvsAerSM.outputDataRegister
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                            FD1P3DX       10         1.0
+                                VHI        1         1.1
+                            
+                         TOTAL            11           
 ----------------------------------------------------------------------
 Report for cell ContinuousCounter_5_true_true_false_false_ackDelayCounter_0.netlist
   Original Cell name ContinuousCounter_5_true_true_false_false_ackDelayCounter
      Instance path:  dvsAerSM.ackExtensionCounter
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        7         0.4
-                            FD1P3DX        5         0.1
-                            FD1S3DX        6         0.2
-                           ORCALUT4        9         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C        7         2.1
+                            FD1P3DX        5         0.5
+                            FD1S3DX        1         0.1
+                           ORCALUT4        7         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL            29           
+                         TOTAL            22           
 ----------------------------------------------------------------------
 Report for cell ContinuousCounter_5_true_true_false_false_ackDelayCounter.netlist
   Original Cell name ContinuousCounter_5_true_true_false_false
      Instance path:  dvsAerSM.ackDelayCounter
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        7         0.4
-                            FD1P3DX        5         0.1
-                            FD1S3BX        1         0.1
-                            FD1S3DX        5         0.1
-                           ORCALUT4        9         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C        7         2.1
+                            FD1P3DX        5         0.5
+                            FD1S3DX        1         0.1
+                           ORCALUT4        7         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL            29           
+                         TOTAL            22           
 ----------------------------------------------------------------------
 Report for cell FIFO_15_16_0_4_16_14_EBR_dvsAerFifo.netlist
   Original Cell name FIFO_15_16_0_4_16_14_EBR
      Instance path:  dvsAerFifo
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       15         0.3
-                            FD1S3BX        1         0.1
-                            FD1S3DX        2         0.1
-                           ORCALUT4        3         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX       15         1.5
+                            FD1S3BX        1         1.3
+                            FD1S3DX        2         0.2
+                           ORCALUT4        3         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
           pmi_fifo_work_toplevel_structural_3        1        33.3
                             
                          TOTAL            24           
@@ -762,14 +835,14 @@ Report for cell FifoMerger.netlist
      Instance path:  MergerFifos
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3AX        3       100.0
-                            FD1P3BX        1         0.3
-                            FD1P3DX       16         0.4
-                            FD1S3DX        3         0.1
-                                INV        1         7.1
-                           ORCALUT4       19         0.1
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3AX        3        37.5
+                            FD1P3BX        1         0.6
+                            FD1P3DX       16         1.6
+                            FD1S3DX        3         0.2
+                                INV        1         6.3
+                           ORCALUT4       19         0.5
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            45           
 ----------------------------------------------------------------------
@@ -778,12 +851,12 @@ Report for cell FIFO_15_16_0_4_16_14_EBR_MergerAerFifo.netlist
      Instance path:  MergerAerFifo
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       15         0.3
-                            FD1S3BX        2         0.2
-                            FD1S3DX        2         0.1
-                           ORCALUT4        5         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX       15         1.5
+                            FD1S3BX        2         2.5
+                            FD1S3DX        2         0.2
+                           ORCALUT4        5         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
           pmi_fifo_work_toplevel_structural_3        1        33.3
                             
                          TOTAL            27           
@@ -792,12 +865,12 @@ Report for cell MultiplexerSPIConfig.netlist
      Instance path:  multiplexerSPIConfig
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        3         0.1
-                            FD1S3DX        1         0.0
-                           ORCALUT4        6         0.0
-                              PFUMX        1         0.1
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX        3         0.3
+                            FD1S3DX        1         0.1
+                           ORCALUT4        6         0.2
+                              PFUMX        1         0.3
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            13           
 ----------------------------------------------------------------------
@@ -805,14 +878,15 @@ Report for cell MultiplexerStateMachine.netlist
      Instance path:  multiplexerSM
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C       24         1.3
-                            FD1P3DX       30         0.7
-                            FD1S3BX        2         0.2
-                            FD1S3DX       48         1.3
-                                INV        1         7.1
-                           ORCALUT4      169         0.9
-                                VHI        8        10.1
-                                VLO        8        12.9
+                              CCU2C       24         7.3
+                            FD1P3DX       30         2.9
+                            FD1S3BX        2         2.5
+                            FD1S3DX       48         3.9
+                                INV        1         6.3
+                           ORCALUT4      168         4.4
+                              PFUMX        1         0.3
+                                VHI        8         9.0
+                                VLO        8        11.6
 SUB MODULES 
                         BufferClear        1       100.0
                       BufferClear_0        1       100.0
@@ -829,40 +903,40 @@ Report for cell ChangeDetector_15.netlist
      Instance path:  multiplexerSM.timestampChangeDetector
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        5         0.3
-                            FD1P3DX        1         0.0
-                                INV        1         7.1
-                           ORCALUT4        2         0.0
-                                VHI        2         2.5
-                                VLO        2         3.2
+                              CCU2C        5         1.5
+                            FD1P3DX        1         0.1
+                                INV        1         6.3
+                           ORCALUT4        1         0.0
+                                VHI        2         2.2
+                                VLO        2         2.9
 SUB MODULES 
                       BufferClear_0        1       100.0
                             
-                         TOTAL            14           
+                         TOTAL            13           
 ----------------------------------------------------------------------
 Report for cell BufferClear_0.netlist
   Original Cell name BufferClear
      Instance path:  multiplexerSM.timestampChangeDetector.bufferChangeDetectedSignal
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
-                                INV        1         7.1
-                           ORCALUT4        2         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3DX        1         0.1
+                                INV        1         6.3
+                           ORCALUT4        1         0.0
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL             6           
+                         TOTAL             5           
 ----------------------------------------------------------------------
 Report for cell ContinuousCounter_12_true_true_true_true.netlist
      Instance path:  multiplexerSM.tsOverflowBuffer
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        7         0.4
-                            FD1P3DX       12         0.3
-                            FD1S3DX        1         0.0
-                           ORCALUT4        8         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C        7         2.1
+                            FD1P3DX       12         1.2
+                            FD1S3DX        1         0.1
+                           ORCALUT4        8         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            30           
 ----------------------------------------------------------------------
@@ -871,10 +945,10 @@ Report for cell BufferClear.netlist
      Instance path:  multiplexerSM.tsResetBuffer
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX        1         0.0
+                            FD1P3DX        1         0.1
                            ORCALUT4        1         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             4           
 ----------------------------------------------------------------------
@@ -882,10 +956,10 @@ Report for cell PulseDetector_2.netlist
      Instance path:  multiplexerSM.tsResetExternalDetector
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        5         0.1
-                           ORCALUT4        5         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1S3DX        5         0.4
+                           ORCALUT4        5         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            12           
 ----------------------------------------------------------------------
@@ -893,12 +967,12 @@ Report for cell TimestampGenerator.netlist
      Instance path:  multiplexerSM.tsGenerator
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C       12         0.7
-                            FD1P3DX       15         0.3
-                            FD1S3DX        8         0.2
-                           ORCALUT4       13         0.1
-                                VHI        2         2.5
-                                VLO        2         3.2
+                              CCU2C       12         3.6
+                            FD1P3DX       15         1.5
+                            FD1S3DX        8         0.6
+                           ORCALUT4       13         0.3
+                                VHI        2         2.2
+                                VLO        2         2.9
 SUB MODULES 
           ContinuousCounter_15_true_true_true_true        1       100.0
                    PulseGeneratorZ0        1       100.0
@@ -909,12 +983,12 @@ Report for cell ContinuousCounter_15_true_true_true_true.netlist
      Instance path:  multiplexerSM.tsGenerator.timestampGenerator
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        8         0.4
-                            FD1P3DX       15         0.3
-                            FD1S3DX        1         0.0
-                           ORCALUT4        9         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C        8         2.4
+                            FD1P3DX       15         1.5
+                            FD1S3DX        1         0.1
+                           ORCALUT4        9         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            35           
 ----------------------------------------------------------------------
@@ -923,11 +997,11 @@ Report for cell PulseGeneratorZ0.netlist
      Instance path:  multiplexerSM.tsGenerator.timestampEnableGenerate
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        4         0.2
-                            FD1S3DX        7         0.2
-                           ORCALUT4        4         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C        4         1.2
+                            FD1S3DX        7         0.6
+                           ORCALUT4        4         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            17           
 ----------------------------------------------------------------------
@@ -935,11 +1009,11 @@ Report for cell FIFODualClock.netlist
      Instance path:  logicUSBFifo
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3BX        2         0.2
-                            FD1S3DX        2         0.1
-                           ORCALUT4        4         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1S3BX        2         2.5
+                            FD1S3DX        2         0.2
+                           ORCALUT4        4         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
           pmi_fifo_dc_work_toplevel_structural_0        1       100.0
                             
                          TOTAL            11           
@@ -948,51 +1022,51 @@ Report for cell FX3SPIConfig.netlist
      Instance path:  fx3SPIConfig
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3BX        2         0.6
-                            FD1P3DX        9         0.2
-                            FD1S3DX       15         0.4
-                           ORCALUT4       12         0.1
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3BX        2         1.1
+                            FD1P3DX       12         1.2
+                            FD1S3DX       21         1.7
+                           ORCALUT4       20         0.5
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL            40           
+                         TOTAL            57           
 ----------------------------------------------------------------------
 Report for cell FX3Statemachine.netlist
      Instance path:  usbFX3SM
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C       47         2.6
-                            FD1S3BX        5         0.4
-                            FD1S3DX       67         1.8
+                              CCU2C       49        14.9
+                            FD1S3BX        5         6.3
+                            FD1S3DX       73         5.9
                          MULT18X18C        1       100.0
-                           ORCALUT4       73         0.4
-                                VHI        3         3.8
-                                VLO        2         3.2
+                           ORCALUT4       72         1.9
+                                VHI        3         3.4
+                                VLO        2         2.9
 SUB MODULES 
           ContinuousCounter_27_false_true_false_false        1       100.0
           ContinuousCounter_3_true_true_false_false        1       100.0
                             
-                         TOTAL           200           
+                         TOTAL           207           
 ----------------------------------------------------------------------
 Report for cell ContinuousCounter_27_false_true_false_false.netlist
      Instance path:  usbFX3SM.earlyPacketCounter
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C       47         2.6
-                            FD1S3DX       28         0.8
-                           ORCALUT4       28         0.2
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C       49        14.9
+                            FD1S3DX       28         2.3
+                           ORCALUT4       28         0.7
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL           105           
+                         TOTAL           107           
 ----------------------------------------------------------------------
 Report for cell ContinuousCounter_3_true_true_false_false.netlist
      Instance path:  usbFX3SM.writeCyclesCounter
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        4         0.1
-                           ORCALUT4        4         0.0
-                                VHI        1         1.3
+                            FD1S3DX        4         0.3
+                           ORCALUT4        4         0.1
+                                VHI        1         1.1
                             
                          TOTAL             9           
 ----------------------------------------------------------------------
@@ -1008,11 +1082,11 @@ Report for cell LogicClockSynchronizer.netlist
      Instance path:  syncInputsToLogicClock
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3BX        4         0.3
-                            FD1S3DX        4         0.1
-                                INV        1         7.1
-                                VHI        7         8.9
-                                VLO        1         1.6
+                            FD1S3BX        4         5.0
+                            FD1S3DX        4         0.3
+                                INV        1         6.3
+                                VHI        7         7.9
+                                VLO        1         1.4
 SUB MODULES 
                   DFFSynchronizerZ0        1       100.0
                 DFFSynchronizerZ0_1        1       100.0
@@ -1029,8 +1103,8 @@ Report for cell DFFSynchronizerZ0_3.netlist
      Instance path:  syncInputsToLogicClock.syncSyncInSignal
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        1         0.0
-                                VHI        1         1.3
+                            FD1S3DX        1         0.1
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -1039,8 +1113,8 @@ Report for cell DFFSynchronizerZ0_2.netlist
      Instance path:  syncInputsToLogicClock.syncIMUInterrupt
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        1         0.0
-                                VHI        1         1.3
+                            FD1S3DX        1         0.1
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -1049,8 +1123,8 @@ Report for cell DFFSynchronizer_1_true_0.netlist
      Instance path:  syncInputsToLogicClock.syncDVSAERReq
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3BX        1         0.1
-                                VHI        1         1.3
+                            FD1S3BX        1         1.3
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -1059,8 +1133,8 @@ Report for cell DFFSynchronizerZ0_1.netlist
      Instance path:  syncInputsToLogicClock.syncSPIMOSI
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        1         0.0
-                                VHI        1         1.3
+                            FD1S3DX        1         0.1
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -1069,8 +1143,8 @@ Report for cell DFFSynchronizerZ0.netlist
      Instance path:  syncInputsToLogicClock.syncSPIClock
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        1         0.0
-                                VHI        1         1.3
+                            FD1S3DX        1         0.1
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -1079,8 +1153,8 @@ Report for cell DFFSynchronizer_1_true.netlist
      Instance path:  syncInputsToLogicClock.syncSPISlaveSelect
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3BX        1         0.1
-                                VHI        1         1.3
+                            FD1S3BX        1         1.3
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -1089,10 +1163,10 @@ Report for cell ResetSynchronizer_syncReset_0.netlist
      Instance path:  syncInputsToLogicClock.syncReset
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3BX        2         0.2
-                                INV        1         7.1
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1S3BX        2         2.5
+                                INV        1         6.3
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             5           
 ----------------------------------------------------------------------
@@ -1100,10 +1174,10 @@ Report for cell FX3USBClockSynchronizer.netlist
      Instance path:  syncInputsToUSBClock
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3BX        2         0.2
-                            FD1S3DX        4         0.1
-                                VHI        5         6.3
-                                VLO        1         1.6
+                            FD1S3BX        2         2.5
+                            FD1S3DX        4         0.3
+                                VHI        5         5.6
+                                VLO        1         1.4
 SUB MODULES 
                 DFFSynchronizerZ0_0        1       100.0
               DFFSynchronizerZ0_0_0        1       100.0
@@ -1118,8 +1192,8 @@ Report for cell DFFSynchronizerZ0_0_2.netlist
      Instance path:  syncInputsToUSBClock.syncUSBFifoThr1Watermark
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        1         0.0
-                                VHI        1         1.3
+                            FD1S3DX        1         0.1
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -1128,8 +1202,8 @@ Report for cell DFFSynchronizerZ0_0_1.netlist
      Instance path:  syncInputsToUSBClock.syncUSBFifoThr1Ready
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        1         0.0
-                                VHI        1         1.3
+                            FD1S3DX        1         0.1
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -1138,8 +1212,8 @@ Report for cell DFFSynchronizerZ0_0_0.netlist
      Instance path:  syncInputsToUSBClock.syncUSBFifoThr0Watermark
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        1         0.0
-                                VHI        1         1.3
+                            FD1S3DX        1         0.1
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -1148,8 +1222,8 @@ Report for cell DFFSynchronizerZ0_0.netlist
      Instance path:  syncInputsToUSBClock.syncUSBFifoThr0Ready
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        1         0.0
-                                VHI        1         1.3
+                            FD1S3DX        1         0.1
+                                VHI        1         1.1
                             
                          TOTAL             2           
 ----------------------------------------------------------------------
@@ -1158,9 +1232,9 @@ Report for cell ResetSynchronizer_syncReset.netlist
      Instance path:  syncInputsToUSBClock.syncReset
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3BX        2         0.2
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1S3BX        2         2.5
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL             4           
 ----------------------------------------------------------------------
@@ -1168,11 +1242,11 @@ Report for cell CAVIAR2WSAER.netlist
      Instance path:  BCAVIAR2WSAER
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3BX        3         0.2
-                            FD1S3DX        2         0.1
-                           ORCALUT4        5         0.0
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1S3BX        3         3.8
+                            FD1S3DX        2         0.2
+                           ORCALUT4        5         0.1
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
                          TOTAL            12           
 ----------------------------------------------------------------------
@@ -1180,59 +1254,140 @@ Report for cell ObjectMotionCellSPIConfig.netlist
      Instance path:  OMCellSPIConfig
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3BX       50        14.7
-                            FD1P3DX       25         0.6
-                            FD1S3DX       26         0.7
-                           ORCALUT4      111         0.6
-                              PFUMX       25         2.8
-                                VHI        1         1.3
-                                VLO        1         1.6
+                            FD1P3BX       50        28.6
+                            FD1P3DX       25         2.4
+                            FD1S3DX       26         2.1
+                           ORCALUT4       69         1.8
+                              PFUMX       25         8.5
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL           239           
+                         TOTAL           197           
 ----------------------------------------------------------------------
-Report for cell ObjectMotionCell.netlist
+Report for cell ObjectMotionMotherCell.netlist
      Instance path:  OMCellSM
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C     1525        85.0
-                            FD1P3BX      257        75.6
-                            FD1P3DX     3896        87.5
-                            FD1S3BX     1160        95.5
-                            FD1S3DX     3094        84.7
-                                INV        1         7.1
-                            L6MUX21      433       100.0
-                           ORCALUT4    17461        94.7
-                              PFUMX      856        96.5
-                                VHI        2         2.5
-                                VLO        2         3.2
+                              CCU2C       48        14.6
+                            FD1P3AX        5        62.5
+                            FD1P3BX       70        40.0
+                            FD1P3DX      390        37.9
+                            FD1S3BX       25        31.3
+                            FD1S3DX      631        50.8
+                                INV        7        43.8
+                            L6MUX21      178       100.0
+                           ORCALUT4     2630        69.4
+                              PFUMX      254        86.7
+                                VHI        7         7.9
+                                VLO        7        10.1
 SUB MODULES 
           ContinuousCounter_25_false_true_false_false        1       100.0
+                   ObjectMotionCell        1       100.0
+                 ObjectMotionCell_0        1       100.0
+                 ObjectMotionCell_1        1       100.0
+                 ObjectMotionCell_2        1       100.0
+                 ObjectMotionCell_3        1       100.0
                             
-                         TOTAL         28688           
+                         TOTAL          4258           
+----------------------------------------------------------------------
+Report for cell ObjectMotionCell_3.netlist
+  Original Cell name ObjectMotionCell
+     Instance path:  OMCellSM.OMC5
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                            FD1P3BX        1         0.6
+                            FD1P3DX        1         0.1
+                            FD1S3DX        4         0.3
+                                INV        1         6.3
+                           ORCALUT4      101         2.7
+                                VHI        1         1.1
+                                VLO        1         1.4
+                            
+                         TOTAL           110           
+----------------------------------------------------------------------
+Report for cell ObjectMotionCell_2.netlist
+  Original Cell name ObjectMotionCell
+     Instance path:  OMCellSM.OMC4
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                            FD1P3BX        1         0.6
+                            FD1P3DX        1         0.1
+                            FD1S3DX        4         0.3
+                                INV        1         6.3
+                           ORCALUT4       10         0.3
+                                VHI        1         1.1
+                                VLO        1         1.4
+                            
+                         TOTAL            19           
+----------------------------------------------------------------------
+Report for cell ObjectMotionCell_1.netlist
+  Original Cell name ObjectMotionCell
+     Instance path:  OMCellSM.OMC3
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                            FD1P3BX        1         0.6
+                            FD1P3DX        1         0.1
+                            FD1S3DX        4         0.3
+                                INV        1         6.3
+                           ORCALUT4        9         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
+                            
+                         TOTAL            18           
+----------------------------------------------------------------------
+Report for cell ObjectMotionCell_0.netlist
+  Original Cell name ObjectMotionCell
+     Instance path:  OMCellSM.OMC2
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                            FD1P3BX        1         0.6
+                            FD1P3DX        1         0.1
+                            FD1S3DX        4         0.3
+                                INV        1         6.3
+                           ORCALUT4        9         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
+                            
+                         TOTAL            18           
+----------------------------------------------------------------------
+Report for cell ObjectMotionCell.netlist
+  Original Cell name ObjectMotionCell
+     Instance path:  OMCellSM.OMC1
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                            FD1P3BX        1         0.6
+                            FD1P3DX        1         0.1
+                            FD1S3DX        4         0.3
+                                INV        1         6.3
+                           ORCALUT4        9         0.2
+                                VHI        1         1.1
+                                VLO        1         1.4
+                            
+                         TOTAL            18           
 ----------------------------------------------------------------------
 Report for cell ContinuousCounter_25_false_true_false_false.netlist
+  Original Cell name ContinuousCounter_25_false_true_false_false
      Instance path:  OMCellSM.DecayCounter
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C       48         2.7
-                            FD1S3DX       26         0.7
-                           ORCALUT4       35         0.2
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C       48        14.6
+                            FD1S3DX       26         2.1
+                           ORCALUT4       34         0.9
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL           111           
+                         TOTAL           110           
 ----------------------------------------------------------------------
 Report for cell WSAER2CAVIAR.netlist
      Instance path:  BWSAER2CAVIAR
                                           Cell usage:
                                cell       count    Res Usage(%)
-                              CCU2C        3         0.2
-                            FD1P3DX       10         0.2
-                            FD1S3BX        1         0.1
-                            FD1S3DX        7         0.2
-                                INV        1         7.1
-                           ORCALUT4       15         0.1
-                                VHI        1         1.3
-                                VLO        1         1.6
+                              CCU2C        3         0.9
+                            FD1P3DX       13         1.3
+                            FD1S3BX        1         1.3
+                            FD1S3DX        7         0.6
+                           ORCALUT4       16         0.4
+                                VHI        1         1.1
+                                VLO        1         1.4
                             
-                         TOTAL            39           
+                         TOTAL            42           

@@ -240,30 +240,30 @@ begin
 		OMCfireMotherOMC_DO  <= (others => '0');
 
 			-- Signals of OMCs
-		PDVSreqOMC1_S	<= '1';
-		PDVSackOMC1_S	<= '1';
-		PSMreqOMC1_S	<= '1';
-		OMCfireOMC1_S	<= '0';
+--		PDVSreqOMC1_S	<= '1';
+--		PDVSackOMC1_S	<= '1';
+--		PSMreqOMC1_S	<= '1';
+--		OMCfireOMC1_S	<= '0';
 
-		PDVSreqOMC2_S	<= '1';
-		PDVSackOMC2_S	<= '1';
-		PSMreqOMC2_S	<= '1';
-		OMCfireOMC2_S	<= '0';
+--		PDVSreqOMC2_S	<= '1';
+--		PDVSackOMC2_S	<= '1';
+--		PSMreqOMC2_S	<= '1';
+--		OMCfireOMC2_S	<= '0';
 	
-		PDVSreqOMC3_S	<= '1';
-		PDVSackOMC3_S	<= '1';
-		PSMreqOMC3_S	<= '1';
-		OMCfireOMC3_S	<= '0';
+--		PDVSreqOMC3_S	<= '1';
+--		PDVSackOMC3_S	<= '1';
+--		PSMreqOMC3_S	<= '1';
+--		OMCfireOMC3_S	<= '0';
 	
-		PDVSreqOMC4_S	<= '1';
-		PDVSackOMC4_S	<= '1';
-		PSMreqOMC4_S	<= '1';
-		OMCfireOMC4_S	<= '0';
+--		PDVSreqOMC4_S	<= '1';
+--		PDVSackOMC4_S	<= '1';
+--		PSMreqOMC4_S	<= '1';
+--		OMCfireOMC4_S	<= '0';
 	
-		PDVSreqOMC5_S	<= '1';
-		PDVSackOMC5_S	<= '1';
-		PSMreqOMC5_S	<= '1';
-		OMCfireOMC5_S	<= '0';
+--		PDVSreqOMC5_S	<= '1';
+--		PDVSackOMC5_S	<= '1';
+--		PSMreqOMC5_S	<= '1';
+--		OMCfireOMC5_S	<= '0';
 		
 		AllowReset_S <= '0';
 	

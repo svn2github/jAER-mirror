@@ -4,7 +4,7 @@
 
 # Period Constraints 
 #FREQUENCY PORT "USBClock_CI" 216.8 MHz;
-#FREQUENCY NET "logicClockPLL/LogicClock_C" 11.2 MHz;
+#FREQUENCY NET "logicClockPLL/LogicClock_C" 42.4 MHz;
 
 
 # Output Constraints 

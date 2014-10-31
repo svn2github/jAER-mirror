@@ -124,6 +124,7 @@ begin
 		SubtractionTimesDT_S <= (others => '0');
 		CurrentTimeStamp_S <= (others => '0');
 		OMCFire_DO <= '0';
+		PSMreq_ABO <= '1';
 		
 		-- Reset values before SPIConfig assignment
 		Threshold_S <= (others => '0');
@@ -142,6 +143,7 @@ begin
 			when Idle =>
 				POMCack_S <= '1'; -- Don't acknowledge the DVS state machine
 				OMCFire_DO <= '0';
+				PSMreq_ABO <= '1';
 
 			when ExcitationCalculate =>
 				CurrentTimeStamp_S <= TimeStamp_S; -- Assign current timestamp
@@ -195,6 +197,7 @@ begin
 			
 			when Acknowledge =>
 				POMCack_S <= '0';
+				PSMreq_ABO <= '0'; -- Request everytime (even for no fire), change later on if only for fire event
 				
 			when others => null;
 
@@ -204,8 +207,6 @@ end process Sequential;
 --------------------------------------------------------------------------------
 Combinational : process (State_DP, PDVSreq_ABI, ReceptiveField_ADI, Subtraction_S, Threshold_S, AllowReset_AI) -- Combinational Process
 begin
-	-- Default
-	PSMreq_ABO <= '1';
 	State_DN <= State_DP; -- Keep the same state
 
 	case State_DP is
@@ -240,7 +241,6 @@ begin
 			State_DN <= Acknowledge;
 		
 		when Acknowledge =>
-			PSMreq_ABO <= '0'; -- Request everytime (even for no fire), change later on if only for fire event
 			if ((PDVSreq_ABI = '1') and (AllowReset_AI = '1')) then
 				State_DN <= Idle;
 			else

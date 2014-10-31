@@ -8111,24 +8111,24 @@
         <Message>
             <ID>2019991</ID>
             <Severity>Warning</Severity>
-            <Dynamic>CD434 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd&quot;:205:68:205:80|Signal subtraction_s in the sensitivity list is not used in the process</Dynamic>
+            <Dynamic>CD434 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd&quot;:208:68:208:80|Signal subtraction_s in the sensitivity list is not used in the process</Dynamic>
             <Navigation>CD434</Navigation>
             <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd</Navigation>
-            <Navigation>205</Navigation>
+            <Navigation>208</Navigation>
             <Navigation>68</Navigation>
-            <Navigation>205</Navigation>
+            <Navigation>208</Navigation>
             <Navigation>80</Navigation>
             <Navigation>Signal subtraction_s in the sensitivity list is not used in the process</Navigation>
         </Message>
         <Message>
             <ID>2019991</ID>
             <Severity>Warning</Severity>
-            <Dynamic>CD434 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd&quot;:205:83:205:93|Signal threshold_s in the sensitivity list is not used in the process</Dynamic>
+            <Dynamic>CD434 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd&quot;:208:83:208:93|Signal threshold_s in the sensitivity list is not used in the process</Dynamic>
             <Navigation>CD434</Navigation>
             <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd</Navigation>
-            <Navigation>205</Navigation>
+            <Navigation>208</Navigation>
             <Navigation>83</Navigation>
-            <Navigation>205</Navigation>
+            <Navigation>208</Navigation>
             <Navigation>93</Navigation>
             <Navigation>Signal threshold_s in the sensitivity list is not used in the process</Navigation>
         </Message>
@@ -8167,186 +8167,6 @@
             <Navigation>235</Navigation>
             <Navigation>2</Navigation>
             <Navigation>Pruning register Threshold_S_3(24 downto 0)  </Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to PSMreqOMC5_S assign '1'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to PSMreqOMC5_S assign '1'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to PSMreqOMC4_S assign '1'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to PSMreqOMC4_S assign '1'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to PSMreqOMC3_S assign '1'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to PSMreqOMC3_S assign '1'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to PSMreqOMC2_S assign '1'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to PSMreqOMC2_S assign '1'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to PSMreqOMC1_S assign '1'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to PSMreqOMC1_S assign '1'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to PDVSackOMC5_S assign '1'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to PDVSackOMC5_S assign '1'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to PDVSackOMC4_S assign '1'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to PDVSackOMC4_S assign '1'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to PDVSackOMC3_S assign '1'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to PDVSackOMC3_S assign '1'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to PDVSackOMC2_S assign '1'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to PDVSackOMC2_S assign '1'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to PDVSackOMC1_S assign '1'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to PDVSackOMC1_S assign '1'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to OMCfireOMC5_S assign '0'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to OMCfireOMC5_S assign '0'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to OMCfireOMC4_S assign '0'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to OMCfireOMC4_S assign '0'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to OMCfireOMC3_S assign '0'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to OMCfireOMC3_S assign '0'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to OMCfireOMC2_S assign '0'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to OMCfireOMC2_S assign '0'; register removed by optimization</Navigation>
-        </Message>
-        <Message>
-            <ID>2019991</ID>
-            <Severity>Warning</Severity>
-            <Dynamic>CL111 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd&quot;:235:1:235:2|All reachable assignments to OMCfireOMC1_S assign '0'; register removed by optimization</Dynamic>
-            <Navigation>CL111</Navigation>
-            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>1</Navigation>
-            <Navigation>235</Navigation>
-            <Navigation>2</Navigation>
-            <Navigation>All reachable assignments to OMCfireOMC1_S assign '0'; register removed by optimization</Navigation>
         </Message>
         <Message>
             <ID>2019991</ID>
@@ -9093,28 +8913,1652 @@
             <Navigation>Input SPIAlternativeSelect_SI is unused</Navigation>
         </Message>
         <Message>
-            <ID>2019990</ID>
-            <Severity>Error</Severity>
-            <Dynamic>BN314 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotionmothercell.vhd&quot;:128:14:128:34|Net GND in work.ObjectMotionMotherCell(behavioural) has multiple drivers.</Dynamic>
-            <Navigation>BN314</Navigation>
-            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotionmothercell.vhd</Navigation>
-            <Navigation>128</Navigation>
-            <Navigation>14</Navigation>
-            <Navigation>128</Navigation>
-            <Navigation>34</Navigation>
-            <Navigation>Net GND in work.ObjectMotionMotherCell(behavioural) has multiple drivers. </Navigation>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT462 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Net OMCellSM.OMC5.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency.</Dynamic>
+            <Navigation>MT462</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Net OMCellSM.OMC5.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </Navigation>
         </Message>
         <Message>
-            <ID>2019990</ID>
-            <Severity>Error</Severity>
-            <Dynamic>BN314 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotionmothercell.vhd&quot;:128:14:128:34|Net VCC in work.ObjectMotionMotherCell(behavioural) has multiple drivers.</Dynamic>
-            <Navigation>BN314</Navigation>
-            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotionmothercell.vhd</Navigation>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT462 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Net OMCellSM.OMC4.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency.</Dynamic>
+            <Navigation>MT462</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Net OMCellSM.OMC4.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT462 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Net OMCellSM.OMC3.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency.</Dynamic>
+            <Navigation>MT462</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Net OMCellSM.OMC3.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT462 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Net OMCellSM.OMC2.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency.</Dynamic>
+            <Navigation>MT462</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Net OMCellSM.OMC2.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT462 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Net OMCellSM.OMC1.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency.</Dynamic>
+            <Navigation>MT462</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Net OMCellSM.OMC1.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT531 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Found signal identified as System clock which controls 5 sequential elements including OMCellSM.OMC1.AcknowledgeCElement.Cout.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance.</Dynamic>
+            <Navigation>MT531</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Found signal identified as System clock which controls 5 sequential elements including OMCellSM.OMC1.AcknowledgeCElement.Cout.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT529 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\private-source\wsaer2caviar2.vhd&quot;:51:3:51:4|Found inferred clock PLL|OutClock_CO_inferred_clock which controls 3523 sequential elements including BWSAER2CAVIAR.CAVIAR_data[16:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance.</Dynamic>
+            <Navigation>MT529</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\private-source\wsaer2caviar2.vhd</Navigation>
+            <Navigation>51</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>51</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Found inferred clock PLL|OutClock_CO_inferred_clock which controls 3523 sequential elements including BWSAER2CAVIAR.CAVIAR_data[16:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT529 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\resetsynchronizer.vhd&quot;:26:2:26:3|Found inferred clock TopLevel|USBClock_CI which controls 113 sequential elements including syncInputsToUSBClock.syncReset.SyncSignalDemetFF_S. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance.</Dynamic>
+            <Navigation>MT529</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\resetsynchronizer.vhd</Navigation>
+            <Navigation>26</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>26</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Found inferred clock TopLevel|USBClock_CI which controls 113 sequential elements including syncInputsToUSBClock.syncReset.SyncSignalDemetFF_S. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO111 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\private-source\toplevel.vhd&quot;:263:126:263:128|Tristate driver DVSAERAck_SBO_1 on net DVSAERAck_SBO_1 has its enable tied to GND (module TopLevel)</Dynamic>
+            <Navigation>MO111</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\private-source\toplevel.vhd</Navigation>
+            <Navigation>263</Navigation>
+            <Navigation>126</Navigation>
+            <Navigation>263</Navigation>
             <Navigation>128</Navigation>
+            <Navigation>Tristate driver DVSAERAck_SBO_1 on net DVSAERAck_SBO_1 has its enable tied to GND (module TopLevel) </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT462 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Net OMCellSM.OMC5.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency.</Dynamic>
+            <Navigation>MT462</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Net OMCellSM.OMC5.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT462 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Net OMCellSM.OMC4.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency.</Dynamic>
+            <Navigation>MT462</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Net OMCellSM.OMC4.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT462 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Net OMCellSM.OMC3.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency.</Dynamic>
+            <Navigation>MT462</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Net OMCellSM.OMC3.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT462 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Net OMCellSM.OMC2.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency.</Dynamic>
+            <Navigation>MT462</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Net OMCellSM.OMC2.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT462 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd&quot;:44:1:44:4|Net OMCellSM.OMC1.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency.</Dynamic>
+            <Navigation>MT462</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\mullercelement.vhd</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>1</Navigation>
+            <Navigation>44</Navigation>
+            <Navigation>4</Navigation>
+            <Navigation>Net OMCellSM.OMC1.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\multiplexerspiconfig.vhd&quot;:56:2:56:3|Removing instance multiplexerSPIConfig.MultiplexerInput_DP[0],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[0]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\multiplexerspiconfig.vhd</Navigation>
+            <Navigation>56</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>56</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSPIConfig.MultiplexerInput_DP[0],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[0]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3spiconfig.vhd&quot;:52:2:52:3|Removing instance fx3SPIConfig.FX3Input_DP[0],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[0]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3spiconfig.vhd</Navigation>
+            <Navigation>52</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>52</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance fx3SPIConfig.FX3Input_DP[0],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[0]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3spiconfig.vhd&quot;:52:2:52:3|Removing instance fx3SPIConfig.FX3Input_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3spiconfig.vhd</Navigation>
+            <Navigation>52</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>52</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance fx3SPIConfig.FX3Input_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3spiconfig.vhd&quot;:52:2:52:3|Removing instance fx3SPIConfig.FX3Input_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3spiconfig.vhd</Navigation>
+            <Navigation>52</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>52</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance fx3SPIConfig.FX3Input_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3spiconfig.vhd&quot;:52:2:52:3|Removing instance fx3SPIConfig.FX3Input_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3spiconfig.vhd</Navigation>
+            <Navigation>52</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>52</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance fx3SPIConfig.FX3Input_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3spiconfig.vhd&quot;:52:2:52:3|Removing instance fx3SPIConfig.FX3Input_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3spiconfig.vhd</Navigation>
+            <Navigation>52</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>52</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance fx3SPIConfig.FX3Input_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO129 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3statemachine.vhd&quot;:294:2:294:3|Sequential instance usbFX3SM.USBFifoAddress_DO[1] reduced to a combinational gate by constant propagation</Dynamic>
+            <Navigation>MO129</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\fx3\fx3statemachine.vhd</Navigation>
+            <Navigation>294</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>294</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Sequential instance usbFX3SM.USBFifoAddress_DO[1] reduced to a combinational gate by constant propagation</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance dvsAerSM.outputDataRegister.Output_SO[14],  because it is equivalent to instance dvsAerSM.outputDataRegister.Output_SO[11]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance dvsAerSM.outputDataRegister.Output_SO[14],  because it is equivalent to instance dvsAerSM.outputDataRegister.Output_SO[11]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance dvsAerSM.outputDataRegister.Output_SO[11],  because it is equivalent to instance dvsAerSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance dvsAerSM.outputDataRegister.Output_SO[11],  because it is equivalent to instance dvsAerSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance dvsAerSM.outputDataRegister.Output_SO[9],  because it is equivalent to instance dvsAerSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance dvsAerSM.outputDataRegister.Output_SO[9],  because it is equivalent to instance dvsAerSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance dvsAerSM.outputDataRegister.Output_SO[8],  because it is equivalent to instance dvsAerSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance dvsAerSM.outputDataRegister.Output_SO[8],  because it is equivalent to instance dvsAerSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO160 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcstatemachine.vhd&quot;:494:2:494:3|Register bit RowState_DP[1] is always 0, optimizing ...</Dynamic>
+            <Navigation>MO160</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcstatemachine.vhd</Navigation>
+            <Navigation>494</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>494</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Register bit RowState_DP[1] is always 0, optimizing ...</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO160 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcstatemachine.vhd&quot;:494:2:494:3|Register bit RowState_DP[4] is always 0, optimizing ...</Dynamic>
+            <Navigation>MO160</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcstatemachine.vhd</Navigation>
+            <Navigation>494</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>494</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Register bit RowState_DP[4] is always 0, optimizing ...</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO197 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcstatemachine.vhd&quot;:494:2:494:3|FSM register RowState_DP[3] removed due to constant propagation</Dynamic>
+            <Navigation>MO197</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcstatemachine.vhd</Navigation>
+            <Navigation>494</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>494</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>FSM register RowState_DP[3] removed due to constant propagation</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[13],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[12]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[13],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[12]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[12],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[11]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[12],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[11]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[11],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[11],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[9],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[9],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[8],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[8],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[7],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[7],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[6],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[6],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[5],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[5],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[3],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[3],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[2],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[2],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[1],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[1],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd&quot;:20:2:20:3|Removing instance apsAdcSM.outputDataRegister.Output_SO[10],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[0]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\simpleregister.vhd</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>20</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsAdcSM.outputDataRegister.Output_SO[10],  because it is equivalent to instance apsAdcSM.outputDataRegister.Output_SO[0]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO129 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd&quot;:227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[25] reduced to a combinational gate by constant propagation</Dynamic>
+            <Navigation>MO129</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Sequential instance spiConfiguration.ParamOutput_DP[25] reduced to a combinational gate by constant propagation</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO129 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd&quot;:227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[26] reduced to a combinational gate by constant propagation</Dynamic>
+            <Navigation>MO129</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Sequential instance spiConfiguration.ParamOutput_DP[26] reduced to a combinational gate by constant propagation</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO129 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd&quot;:227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[27] reduced to a combinational gate by constant propagation</Dynamic>
+            <Navigation>MO129</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Sequential instance spiConfiguration.ParamOutput_DP[27] reduced to a combinational gate by constant propagation</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO129 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd&quot;:227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[28] reduced to a combinational gate by constant propagation</Dynamic>
+            <Navigation>MO129</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Sequential instance spiConfiguration.ParamOutput_DP[28] reduced to a combinational gate by constant propagation</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO129 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd&quot;:227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[29] reduced to a combinational gate by constant propagation</Dynamic>
+            <Navigation>MO129</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Sequential instance spiConfiguration.ParamOutput_DP[29] reduced to a combinational gate by constant propagation</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO129 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd&quot;:227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[30] reduced to a combinational gate by constant propagation</Dynamic>
+            <Navigation>MO129</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Sequential instance spiConfiguration.ParamOutput_DP[30] reduced to a combinational gate by constant propagation</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO129 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd&quot;:227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[31] reduced to a combinational gate by constant propagation</Dynamic>
+            <Navigation>MO129</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\spiconfig.vhd</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>227</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Sequential instance spiConfiguration.ParamOutput_DP[31] reduced to a combinational gate by constant propagation</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance imuSM.detectRunChange.PreviousData_DP[0],  because it is equivalent to instance imuSM.delayRun.Output_SO[0]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance imuSM.detectRunChange.PreviousData_DP[0],  because it is equivalent to instance imuSM.delayRun.Output_SO[0]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[0],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[0]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[0],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[0]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd&quot;:84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[0],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[0]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance imuSPIConfig.IMUInput_DP[0],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[0]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\dvsaerspiconfig.vhd&quot;:60:2:60:3|Removing instance dvsaerSPIConfig.DVSAERInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\dvsaerspiconfig.vhd</Navigation>
+            <Navigation>60</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>60</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance dvsaerSPIConfig.DVSAERInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd&quot;:84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance imuSPIConfig.IMUInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\dvsaerspiconfig.vhd&quot;:60:2:60:3|Removing instance dvsaerSPIConfig.DVSAERInput_DP[1],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[1]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\dvsaerspiconfig.vhd</Navigation>
+            <Navigation>60</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>60</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance dvsaerSPIConfig.DVSAERInput_DP[1],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[1]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[1],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[1]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[1],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[1]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd&quot;:84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance imuSPIConfig.IMUInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\dvsaerspiconfig.vhd&quot;:60:2:60:3|Removing instance dvsaerSPIConfig.DVSAERInput_DP[2],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[2]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\dvsaerspiconfig.vhd</Navigation>
+            <Navigation>60</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>60</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance dvsaerSPIConfig.DVSAERInput_DP[2],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[2]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[2],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[2]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[2],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[2]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd&quot;:84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance imuSPIConfig.IMUInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\dvsaerspiconfig.vhd&quot;:60:2:60:3|Removing instance dvsaerSPIConfig.DVSAERInput_DP[3],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[3]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\dvsaerspiconfig.vhd</Navigation>
+            <Navigation>60</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>60</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance dvsaerSPIConfig.DVSAERInput_DP[3],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[3]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[3],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[3]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[3],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[3]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd&quot;:84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance imuSPIConfig.IMUInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\dvsaerspiconfig.vhd&quot;:60:2:60:3|Removing instance dvsaerSPIConfig.DVSAERInput_DP[4],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[4]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\dvsaerspiconfig.vhd</Navigation>
+            <Navigation>60</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>60</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance dvsaerSPIConfig.DVSAERInput_DP[4],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[4]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[4],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[4]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[4],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[4]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd&quot;:84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance imuSPIConfig.IMUInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd&quot;:104:2:104:3|Removing instance apsadcSPIConfig.APSADCInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsadcSPIConfig.APSADCInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd&quot;:84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance imuSPIConfig.IMUInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd&quot;:104:2:104:3|Removing instance apsadcSPIConfig.APSADCInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsadcSPIConfig.APSADCInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd&quot;:84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\imuspiconfig.vhd</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>84</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance imuSPIConfig.IMUInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd&quot;:104:2:104:3|Removing instance apsadcSPIConfig.APSADCInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsadcSPIConfig.APSADCInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[8],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[8]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[8],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[8]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd&quot;:104:2:104:3|Removing instance apsadcSPIConfig.APSADCInput_DP[8],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[8]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsadcSPIConfig.APSADCInput_DP[8],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[8]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[8],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[8]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[8],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[8]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[9],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[9]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[9],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[9]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd&quot;:104:2:104:3|Removing instance apsadcSPIConfig.APSADCInput_DP[9],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[9]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsadcSPIConfig.APSADCInput_DP[9],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[9]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[9],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[9]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[9],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[9]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[10],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[10],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd&quot;:104:2:104:3|Removing instance apsadcSPIConfig.APSADCInput_DP[10],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsadcSPIConfig.APSADCInput_DP[10],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[10],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[10],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[11],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[11]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[11],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[11]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd&quot;:104:2:104:3|Removing instance apsadcSPIConfig.APSADCInput_DP[11],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[11]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsadcSPIConfig.APSADCInput_DP[11],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[11]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[11],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[11]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[11],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[11]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[12],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[12]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[12],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[12]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd&quot;:104:2:104:3|Removing instance apsadcSPIConfig.APSADCInput_DP[12],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[12]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\apsadcspiconfig.vhd</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>104</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance apsadcSPIConfig.APSADCInput_DP[12],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[12]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[12],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[12]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[12],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[12]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[13],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[13]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[13],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[13]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[13],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[13]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[13],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[13]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[14],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[14]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[14],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[14]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[14],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[14]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[14],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[14]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[15],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[15]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[15],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[15]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[15],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[15]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[15],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[15]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[16],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[16]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[16],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[16]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[16],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[16]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[16],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[16]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[17],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[17]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[17],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[17]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[17],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[17]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[17],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[17]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[18],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[18]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[18],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[18]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[18],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[18]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[18],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[18]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd&quot;:100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[19],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[19]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\exttriggerspiconfig.vhd</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>100</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[19],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[19]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[19],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[19]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[19],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[19]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[20],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[20]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[20],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[20]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[21],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[21]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[21],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[21]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[22],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[22]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[22],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[22]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd&quot;:88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[23],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[23]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\objectmotioncellspiconfig.vhd</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>88</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[23],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[23]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[0],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[0]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[0],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[0]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[1],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[1]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[1],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[1]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[2],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[2]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[2],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[2]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[3],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[3]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[3],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[3]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[4],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[4]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[4],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[4]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[5],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[5]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[5],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[5]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[6],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[6]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[6],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[6]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[7],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[7]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[7],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[7]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[8],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[8]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[8],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[8]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[9],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[9]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[9],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[9]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[10],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[10]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[10],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[10]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[11],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[11]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[11],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[11]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[12],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[12]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[12],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[12]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[13],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[13]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[13],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[13]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BN132 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd&quot;:49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[14],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[14]</Dynamic>
+            <Navigation>BN132</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\support\changedetector.vhd</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>49</Navigation>
+            <Navigation>3</Navigation>
+            <Navigation>Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[14],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[14]</Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MO111 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\private-source\toplevel.vhd&quot;:51:2:51:14|Tristate driver DVSAERAck_SBO_obuft.un1[0] on net DVSAERAck_SBO has its enable tied to GND (module TopLevel)</Dynamic>
+            <Navigation>MO111</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\private-source\toplevel.vhd</Navigation>
+            <Navigation>51</Navigation>
+            <Navigation>2</Navigation>
+            <Navigation>51</Navigation>
             <Navigation>14</Navigation>
-            <Navigation>128</Navigation>
-            <Navigation>34</Navigation>
-            <Navigation>Net VCC in work.ObjectMotionMotherCell(behavioural) has multiple drivers. </Navigation>
+            <Navigation>Tristate driver DVSAERAck_SBO_obuft.un1[0] on net DVSAERAck_SBO has its enable tied to GND (module TopLevel) </Navigation>
+        </Message>
+        <Message>
+            <ID>2019993</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BW261 |Block-path constraint from CLKNET &quot;PLL|OutClock_CO_inferred_clock&quot; to PORT &quot;TopLevel|USBClock_CI&quot; not forward annotated in -lpf file.</Dynamic>
+            <Navigation>BW261</Navigation>
+            <Navigation>Block-path constraint from CLKNET &quot;PLL|OutClock_CO_inferred_clock&quot; to PORT &quot;TopLevel|USBClock_CI&quot; not forward annotated in -lpf file. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019993</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>BW261 |Block-path constraint from PORT &quot;TopLevel|USBClock_CI&quot; to CLKNET &quot;PLL|OutClock_CO_inferred_clock&quot; not forward annotated in -lpf file.</Dynamic>
+            <Navigation>BW261</Navigation>
+            <Navigation>Block-path constraint from PORT &quot;TopLevel|USBClock_CI&quot; to CLKNET &quot;PLL|OutClock_CO_inferred_clock&quot; not forward annotated in -lpf file. </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT246 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\fifo.vhd&quot;:41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results)</Dynamic>
+            <Navigation>MT246</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\fifo.vhd</Navigation>
+            <Navigation>41</Navigation>
+            <Navigation>22</Navigation>
+            <Navigation>41</Navigation>
+            <Navigation>45</Navigation>
+            <Navigation>Blackbox pmi_fifo_work_toplevel_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT246 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\fifo.vhd&quot;:41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_1 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results)</Dynamic>
+            <Navigation>MT246</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\fifo.vhd</Navigation>
+            <Navigation>41</Navigation>
+            <Navigation>22</Navigation>
+            <Navigation>41</Navigation>
+            <Navigation>45</Navigation>
+            <Navigation>Blackbox pmi_fifo_work_toplevel_structural_1 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT246 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\fifo.vhd&quot;:41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_2 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results)</Dynamic>
+            <Navigation>MT246</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\fifo.vhd</Navigation>
+            <Navigation>41</Navigation>
+            <Navigation>22</Navigation>
+            <Navigation>41</Navigation>
+            <Navigation>45</Navigation>
+            <Navigation>Blackbox pmi_fifo_work_toplevel_structural_2 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT246 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\fifo.vhd&quot;:41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_3 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results)</Dynamic>
+            <Navigation>MT246</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\fifo.vhd</Navigation>
+            <Navigation>41</Navigation>
+            <Navigation>22</Navigation>
+            <Navigation>41</Navigation>
+            <Navigation>45</Navigation>
+            <Navigation>Blackbox pmi_fifo_work_toplevel_structural_3 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT246 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\fifodualclock.vhd&quot;:46:31:46:57|Blackbox pmi_fifo_dc_work_toplevel_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results)</Dynamic>
+            <Navigation>MT246</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\fifodualclock.vhd</Navigation>
+            <Navigation>46</Navigation>
+            <Navigation>31</Navigation>
+            <Navigation>46</Navigation>
+            <Navigation>57</Navigation>
+            <Navigation>Blackbox pmi_fifo_dc_work_toplevel_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) </Navigation>
+        </Message>
+        <Message>
+            <ID>2019991</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT246 :&quot;e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\pll.vhd&quot;:18:21:18:43|Blackbox pmi_pll is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results)</Dynamic>
+            <Navigation>MT246</Navigation>
+            <Navigation>e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - 4x4 cells x 5\..\common-source\ext\pll.vhd</Navigation>
+            <Navigation>18</Navigation>
+            <Navigation>21</Navigation>
+            <Navigation>18</Navigation>
+            <Navigation>43</Navigation>
+            <Navigation>Blackbox pmi_pll is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) </Navigation>
+        </Message>
+        <Message>
+            <ID>2019993</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT420 |Found inferred clock TopLevel|USBClock_CI with period 4.61ns. Please declare a user-defined clock on object &quot;p:USBClock_CI&quot;</Dynamic>
+            <Navigation>MT420</Navigation>
+            <Navigation>Found inferred clock TopLevel|USBClock_CI with period 4.61ns. Please declare a user-defined clock on object &quot;p:USBClock_CI&quot;</Navigation>
+        </Message>
+        <Message>
+            <ID>2019993</ID>
+            <Severity>Warning</Severity>
+            <Dynamic>MT420 |Found inferred clock PLL|OutClock_CO_inferred_clock with period 23.57ns. Please declare a user-defined clock on object &quot;n:logicClockPLL.OutClock_CO&quot;</Dynamic>
+            <Navigation>MT420</Navigation>
+            <Navigation>Found inferred clock PLL|OutClock_CO_inferred_clock with period 23.57ns. Please declare a user-defined clock on object &quot;n:logicClockPLL.OutClock_CO&quot;</Navigation>
         </Message>
     </Task>
 </BaliMessageLog>

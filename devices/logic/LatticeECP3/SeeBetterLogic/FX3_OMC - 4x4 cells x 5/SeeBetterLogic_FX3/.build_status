@@ -19,15 +19,15 @@
             <Task name="PARTrace" build_result="0" update_result="3" update_time="0"/>
             <Task name="IOTiming" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="1" build_time="1414754815">
-            <Task name="Synplify_Synthesis" build_result="1" update_result="2" update_time="1414754815"/>
+        <Milestone name="Synthesis" build_result="2" build_time="1414759825">
+            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1414759825"/>
         </Milestone>
         <Milestone name="TOOL_Report" build_result="0" build_time="0">
-            <Task name="HDLE" build_result="2" update_result="0" update_time="1414754334"/>
+            <Task name="HDLE" build_result="2" update_result="0" update_time="1414759767"/>
         </Milestone>
         <Milestone name="Translate" build_result="0" build_time="0">
             <Task name="Translate" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.edi" last_build_time="1413203129" last_build_size="19941509"/>
+        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.edi" last_build_time="1414759817" last_build_size="5251450"/>
     </Strategy>
 </BuildStatus>

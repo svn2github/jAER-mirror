@@ -354,8 +354,8 @@ Post processing for work.objectmotioncellspiconfig.behavioural
 @N: CD233 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":56:13:56:14|Using sequential encoding for type tst
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd":27:7:27:22|Synthesizing work.objectmotioncell.behavioural 
 @N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd":58:13:58:14|Using onehot encoding for type tst (idle="1000000000")
-@W: CD434 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd":205:68:205:80|Signal subtraction_s in the sensitivity list is not used in the process
-@W: CD434 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd":205:83:205:93|Signal threshold_s in the sensitivity list is not used in the process
+@W: CD434 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd":208:68:208:80|Signal subtraction_s in the sensitivity list is not used in the process
+@W: CD434 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCell.vhd":208:83:208:93|Signal threshold_s in the sensitivity list is not used in the process
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\MullerCelement.vhd":26:7:26:20|Synthesizing work.mullercelement.behavioural 
 @N: CD364 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\MullerCelement.vhd":46:16:46:20|Removed redundant assignment
 @N: CD364 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\MullerCelement.vhd":47:16:47:20|Removed redundant assignment
@@ -367,6 +367,11 @@ Post processing for work.objectmotioncell.behavioural
 Post processing for work.objectmotionmothercell.behavioural
 @W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Pruning register TimerLimit_S_2(24 downto 0)  
 @W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Pruning register Threshold_S_3(24 downto 0)  
+@A: CL282 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Feedback mux created for signal PDVSreqOMC5_S -- possible set/reset assignment for signal missing. Specifying a reset value will improve timing and area.
+@A: CL282 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Feedback mux created for signal PDVSreqOMC3_S -- possible set/reset assignment for signal missing. Specifying a reset value will improve timing and area.
+@A: CL282 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Feedback mux created for signal PDVSreqOMC2_S -- possible set/reset assignment for signal missing. Specifying a reset value will improve timing and area.
+@A: CL282 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Feedback mux created for signal PDVSreqOMC1_S -- possible set/reset assignment for signal missing. Specifying a reset value will improve timing and area.
+@A: CL282 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Feedback mux created for signal PDVSreqOMC4_S -- possible set/reset assignment for signal missing. Specifying a reset value will improve timing and area.
 @N: CL177 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Sharing sequential element arrayOfSubunitsOMC4_2_2.
 @N: CL177 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Sharing sequential element arrayOfSubunitsOMC4_2_1.
 @N: CL177 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Sharing sequential element arrayOfSubunitsOMC4_2_0.
@@ -398,21 +403,6 @@ Post processing for work.objectmotionmothercell.behavioural
 @N: CL177 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Sharing sequential element arrayOfSubunitsOMC1_2_2.
 @N: CL177 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Sharing sequential element arrayOfSubunitsOMC1_1_3.
 @N: CL177 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|Sharing sequential element arrayOfSubunitsOMC1_0_3.
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to PSMreqOMC5_S assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to PSMreqOMC4_S assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to PSMreqOMC3_S assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to PSMreqOMC2_S assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to PSMreqOMC1_S assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to PDVSackOMC5_S assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to PDVSackOMC4_S assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to PDVSackOMC3_S assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to PDVSackOMC2_S assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to PDVSackOMC1_S assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to OMCfireOMC5_S assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to OMCfireOMC4_S assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to OMCfireOMC3_S assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to OMCfireOMC2_S assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":235:1:235:2|All reachable assignments to OMCfireOMC1_S assign '0'; register removed by optimization
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\WSAER2CAVIAR2.vhd":24:7:24:18|Synthesizing work.wsaer2caviar.structural 
 @N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\WSAER2CAVIAR2.vhd":45:12:45:13|Using onehot encoding for type tst (idle="10000000")
 @W: CD604 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\WSAER2CAVIAR2.vhd":115:3:115:16|OTHERS clause is not synthesized 

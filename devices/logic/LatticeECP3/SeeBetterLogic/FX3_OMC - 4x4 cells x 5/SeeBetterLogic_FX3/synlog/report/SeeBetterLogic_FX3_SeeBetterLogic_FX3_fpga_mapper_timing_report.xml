@@ -5,7 +5,7 @@ Max Top 5 critical clocks will be reported. For rest user needs to refer to Deta
 *******************************************************************************************-->
 <report_table display_priority="2" name="Timing Summary">
 <report_link name="Detailed report">
-<data>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\synlog\SeeBetterLogic_FX3_SeeBetterLogic_FX3_fpga_mapper.srr</data>
+<data>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\synlog\SeeBetterLogic_FX3_SeeBetterLogic_FX3_fpga_mapper.srr</data>
 <title>START OF TIMING REPORT</title>
 </report_link>
 <row>
@@ -16,9 +16,9 @@ Max Top 5 critical clocks will be reported. For rest user needs to refer to Deta
 </row>
 <row>
 <data>PLL|OutClock_CO_inferred_clock</data>
-<data>11.2 MHz</data>
-<data>9.5 MHz</data>
-<data>-15.719</data>
+<data>42.4 MHz</data>
+<data>36.1 MHz</data>
+<data>-4.160</data>
 </row>
 <row>
 <data>TopLevel|USBClock_CI</data>

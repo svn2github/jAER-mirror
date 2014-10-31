@@ -1,6 +1,6 @@
 
 #Begin clock constraint
-define_clock -name {PLL|OutClock_CO_inferred_clock} {n:PLL|OutClock_CO_inferred_clock} -period 89.072 -clockgroup Autoconstr_clkgroup_0 -rise 0.000 -fall 44.536 -route 0.000 
+define_clock -name {PLL|OutClock_CO_inferred_clock} {n:PLL|OutClock_CO_inferred_clock} -period 23.573 -clockgroup Autoconstr_clkgroup_0 -rise 0.000 -fall 11.786 -route 0.000 
 #End clock constraint
 
 #Begin clock constraint
