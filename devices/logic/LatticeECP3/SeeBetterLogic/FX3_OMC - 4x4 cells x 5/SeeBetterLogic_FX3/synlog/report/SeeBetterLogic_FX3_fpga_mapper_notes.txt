@@ -1,0 +1,109 @@
+@N: MF248 |Running in 64-bit mode.
+@N: MF666 |Clock conversion enabled 
+@N: MT206 |Auto Constrain mode is enabled
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Removing sequential instance LengthCount_DP[5:0] of view:PrimLib.dffr(prim) in hierarchy view:work.PulseGeneratorZ0_timestampEnableGenerate(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Removing sequential instance LengthCount_DP[5:0] of view:PrimLib.dffr(prim) in hierarchy view:work.PulseGeneratorZ0(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[12] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[11] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[10] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[9] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[4] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[3] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[2] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[1] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[0] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@N: MF179 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":61:7:61:21|Found 5 bit by 5 bit '==' comparator, 'un6_cnt'
+@N: MF179 :|Found 25 bit by 25 bit '==' comparator, 'overflowLogicProcesses\.overflowLogic\.un135_overflow_at_zero'
+@N: MF179 :|Found 27 bit by 27 bit '==' comparator, 'overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero'
+@N: MF179 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":40:5:40:34|Found 15 bit by 15 bit '==' comparator, 'detectChange\.un4_inputdata_di'
+@N: MF179 :|Found 5 bit by 5 bit '==' comparator, 'overflowLogicProcesses\.overflowLogic\.un5_overflow_at_zero'
+@N: MF179 :|Found 5 bit by 5 bit '==' comparator, 'overflowLogicProcesses\.overflowLogic\.un5_overflow_at_zero'
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\miscaerstatemachine.vhd":200:2:200:3|Removing sequential instance State_DP[0] of view:PrimLib.dffr(prim) in hierarchy view:work.MISCAERStateMachine(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\miscaerstatemachine.vhd":200:2:200:3|Removing sequential instance State_DP[4] of view:PrimLib.dffr(prim) in hierarchy view:work.MISCAERStateMachine(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[31] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[30] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[29] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[28] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[27] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[26] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[25] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":132:2:132:3|Removing sequential instance I2CState_DP[0] of view:PrimLib.dffr(prim) in hierarchy view:work.IMUStateMachine(behavioral) because there are no references to its outputs 
+@N: MF179 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":40:5:40:34|Found 8 bit by 8 bit '==' comparator, 'detectChange\.un2_inputdata_di'
+@N: FA113 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":150:29:150:83|Pipelining module GeneratePulseLength_D[26:1]
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[GeneratePulseLength_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[GeneratePulseLength_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\apsadcspiconfig.vhd":48:2:48:3|Register APSADCInput_DP[0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERInput_DP[4:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\fx3\fx3spiconfig.vhd":52:2:52:3|Register FX3Input_DP[9:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerInput_DP[23:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellConfigReg_DP\[TimerLimit_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellConfigReg_DP\[DecayTime_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellConfigReg_DP\[Threshold_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[SampleRateDivider_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[GyroStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[AccelStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[TempStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[LPCycle_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[GeneratePulsePolarity_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectPulses_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectPulsePolarity_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[RunGenerator_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[RunDetector_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[GenerateUseCustomSignal_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectRisingEdges_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectFallingEdges_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\apsadcspiconfig.vhd":48:2:48:3|Register APSADCConfigReg_DP\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERConfigReg_DP\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerConfigReg_DP\[TimestampRun_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerConfigReg_DP\[TimestampReset_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerConfigReg_DP\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERConfigReg_DP\[AckExtension_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERConfigReg_DP\[AckDelay_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[GeneratePulseInterval_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectPulseLength_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[DigitalLowPassFilter_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[LPWakeup_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[GyroFullScale_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[AccelFullScale_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Register ParamInput_DP[31:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":143:1:143:2|Register DecayTime_S[24:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":143:1:143:2|Register Threshold_S[24:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[SampleRateDivider_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[GyroStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[AccelStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[TempStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[LPCycle_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[GeneratePulsePolarity_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectPulses_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectPulsePolarity_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[RunGenerator_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[RunDetector_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[GenerateUseCustomSignal_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectRisingEdges_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectFallingEdges_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerstatemachine.vhd":369:2:369:3|Register MultiplexerConfigReg_D\[TimestampRun_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerstatemachine.vhd":369:2:369:3|Register MultiplexerConfigReg_D\[TimestampReset_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerstatemachine.vhd":369:2:369:3|Register MultiplexerConfigReg_D\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[AckExtension_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[AckDelay_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[GeneratePulseInterval_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectPulseLength_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[DigitalLowPassFilter_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[LPWakeup_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[GyroFullScale_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[AccelFullScale_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\shiftregister.vhd":75:2:75:3|Register ShiftReg_DP[7:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Register ParamAddressReg_DP[7:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":49:2:49:3|Register PreviousData_DP[7:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":49:2:49:3|Register PreviousData_DP[1:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\simpleregister.vhd":20:2:20:3|Register Output_SO[0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":49:2:49:3|Register PreviousData_DP[2:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Register ModuleAddressReg_DP[6:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Register ReadOperationReg_SP pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellOutput_DP[24:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerOutput_DP[0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAEROutput_DP[4:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellInput_DP[24:0] pushed in.

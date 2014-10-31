@@ -1,0 +1,1496 @@
+Synopsys Lattice Technology Mapper, Version maplat, Build 908R, Built Apr 16 2014 10:10:17
+Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+Product Version I-2013.09L-SP1-1 
+
+Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 100MB)
+
+@N: MF248 |Running in 64-bit mode.
+@N: MF666 |Clock conversion enabled 
+
+Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 101MB)
+
+
+Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 101MB)
+
+
+Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 111MB peak: 112MB)
+
+
+Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 112MB peak: 114MB)
+
+
+
+Starting Optimization and Mapping (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 157MB peak: 160MB)
+
+@W: MO111 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\toplevel.vhd":262:126:262:128|Tristate driver DVSAERAck_SBO_1 on net DVSAERAck_SBO_1 has its enable tied to GND (module TopLevel) 
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Removing sequential instance multiplexerSPIConfig.MultiplexerInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
+
+Available hyper_sources - for debug and ip models
+	None Found
+
+@W: MT462 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\mullercelement.vhd":44:1:44:4|Net OMCellSM.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. 
+@N: MT206 |Auto Constrain mode is enabled
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Removing sequential instance LengthCount_DP[5:0] of view:PrimLib.dffr(prim) in hierarchy view:work.PulseGeneratorZ0_timestampEnableGenerate(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Removing sequential instance LengthCount_DP[5:0] of view:PrimLib.dffr(prim) in hierarchy view:work.PulseGeneratorZ0(behavioral) because there are no references to its outputs 
+
+Finished RTL optimizations (Real Time elapsed 0h:00m:33s; CPU Time elapsed 0h:00m:33s; Memory used current: 220MB peak: 416MB)
+
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Removing instance dvsaerSPIConfig.DVSAERInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3spiconfig.vhd":52:2:52:3|Removing instance fx3SPIConfig.FX3Input_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3spiconfig.vhd":52:2:52:3|Removing instance fx3SPIConfig.FX3Input_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3spiconfig.vhd":52:2:52:3|Removing instance fx3SPIConfig.FX3Input_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3spiconfig.vhd":52:2:52:3|Removing instance fx3SPIConfig.FX3Input_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3spiconfig.vhd":52:2:52:3|Removing instance fx3SPIConfig.FX3Input_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]
+Encoding state machine cs[0:7] (view:work.WSAER2CAVIAR(structural))
+original code -> new code
+   00000001 -> 00000001
+   00000010 -> 00000010
+   00000100 -> 00000100
+   00001000 -> 00001000
+   00010000 -> 00010000
+   00100000 -> 00100000
+   01000000 -> 01000000
+   10000000 -> 10000000
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Found counter in view:work.WSAER2CAVIAR(structural) inst cnt[4:0]
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[12] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@A: BN291 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Boundary register CAVIAR_data[12] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[11] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@A: BN291 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Boundary register CAVIAR_data[11] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[10] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@A: BN291 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Boundary register CAVIAR_data[10] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[9] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@A: BN291 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Boundary register CAVIAR_data[9] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[4] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@A: BN291 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Boundary register CAVIAR_data[4] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[3] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@A: BN291 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Boundary register CAVIAR_data[3] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[2] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@A: BN291 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Boundary register CAVIAR_data[2] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[1] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@A: BN291 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Boundary register CAVIAR_data[1] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Removing sequential instance CAVIAR_data[0] in hierarchy view:work.WSAER2CAVIAR(structural) because there are no references to its outputs 
+@A: BN291 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Boundary register CAVIAR_data[0] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
+@N: MF179 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":61:7:61:21|Found 5 bit by 5 bit '==' comparator, 'un6_cnt'
+Encoding state machine State_DP[0:11] (view:work.ObjectMotionCell(behavioural))
+original code -> new code
+   000000000001 -> 000000000001
+   000000000010 -> 000000000010
+   000000000100 -> 000000000100
+   000000001000 -> 000000001000
+   000000010000 -> 000000010000
+   000000100000 -> 000000100000
+   000001000000 -> 000001000000
+   000010000000 -> 000010000000
+   000100000000 -> 000100000000
+   001000000000 -> 001000000000
+   010000000000 -> 010000000000
+   100000000000 -> 100000000000
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\continuouscounter.vhd":68:2:68:3|Found counter in view:work.ContinuousCounter_25_false_true_false_false(behavioral) inst Count_DP[24:0]
+@N: MF179 :|Found 25 bit by 25 bit '==' comparator, 'overflowLogicProcesses\.overflowLogic\.un135_overflow_at_zero'
+Encoding state machine cs[0:3] (view:work.CAVIAR2WSAER(structural))
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+   11 -> 11
+Encoding state machine State_DP[0:17] (view:work.FX3Statemachine(behavioral))
+original code -> new code
+   000000000000000001 -> 000000000000000001
+   000000000000000010 -> 000000000000000010
+   000000000000000100 -> 000000000000000100
+   000000000000001000 -> 000000000000001000
+   000000000000010000 -> 000000000000010000
+   000000000000100000 -> 000000000000100000
+   000000000001000000 -> 000000000001000000
+   000000000010000000 -> 000000000010000000
+   000000000100000000 -> 000000000100000000
+   000000001000000000 -> 000000001000000000
+   000000010000000000 -> 000000010000000000
+   000000100000000000 -> 000000100000000000
+   000001000000000000 -> 000001000000000000
+   000010000000000000 -> 000010000000000000
+   000100000000000000 -> 000100000000000000
+   001000000000000000 -> 001000000000000000
+   010000000000000000 -> 010000000000000000
+   100000000000000000 -> 100000000000000000
+@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3statemachine.vhd":294:2:294:3|Sequential instance usbFX3SM.USBFifoAddress_DO[1] reduced to a combinational gate by constant propagation
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\continuouscounter.vhd":68:2:68:3|Found counter in view:work.ContinuousCounter_27_false_true_false_false(behavioral) inst Count_DP[26:0]
+@N: MF179 :|Found 27 bit by 27 bit '==' comparator, 'overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero'
+Encoding state machine State_DP[0:2] (view:work.FIFODualClock(structural))
+original code -> new code
+   001 -> 00
+   010 -> 01
+   100 -> 10
+Encoding state machine State_DP[0:12] (view:work.MultiplexerStateMachine(behavioral))
+original code -> new code
+   0000000000001 -> 0000000000001
+   0000000000010 -> 0000000000010
+   0000000000100 -> 0000000000100
+   0000000001000 -> 0000000001000
+   0000000010000 -> 0000000010000
+   0000000100000 -> 0000000100000
+   0000001000000 -> 0000001000000
+   0000010000000 -> 0000010000000
+   0000100000000 -> 0000100000000
+   0001000000000 -> 0001000000000
+   0010000000000 -> 0010000000000
+   0100000000000 -> 0100000000000
+   1000000000000 -> 1000000000000
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Found counter in view:work.PulseGeneratorZ0_timestampEnableGenerate(behavioral) inst IntervalCount_DP[5:0]
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\continuouscounter.vhd":68:2:68:3|Found counter in view:work.ContinuousCounter_15_true_true_true_true(behavioral) inst Count_DP[14:0]
+Encoding state machine State_DP[0:2] (view:work.PulseDetector_2(behavioral))
+original code -> new code
+   001 -> 00
+   010 -> 01
+   100 -> 10
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\continuouscounter.vhd":68:2:68:3|Found counter in view:work.ContinuousCounter_12_true_true_true_true(behavioral) inst Count_DP[11:0]
+@N: MF179 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":40:5:40:34|Found 15 bit by 15 bit '==' comparator, 'detectChange\.un4_inputdata_di'
+Encoding state machine State_DP[0:2] (view:work.FIFO_15_16_0_4_16_14_EBR_MergerAerFifo(structural))
+original code -> new code
+   001 -> 00
+   010 -> 01
+   100 -> 10
+Encoding state machine State_DP[0:2] (view:work.FIFO_15_16_0_4_16_14_EBR_dvsAerFifo(structural))
+original code -> new code
+   001 -> 00
+   010 -> 01
+   100 -> 10
+Encoding state machine State_DP[0:5] (view:work.DVSAERStateMachine(behavioral))
+original code -> new code
+   000001 -> 000001
+   000010 -> 000010
+   000100 -> 000100
+   001000 -> 001000
+   010000 -> 010000
+   100000 -> 100000
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\continuouscounter.vhd":68:2:68:3|Found counter in view:work.ContinuousCounter_5_true_true_false_false_ackDelayCounter(behavioral) inst Count_DP[4:0]
+@N: MF179 :|Found 5 bit by 5 bit '==' comparator, 'overflowLogicProcesses\.overflowLogic\.un5_overflow_at_zero'
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\continuouscounter.vhd":68:2:68:3|Found counter in view:work.ContinuousCounter_5_true_true_false_false_ackExtensionCounter(behavioral) inst Count_DP[4:0]
+@N: MF179 :|Found 5 bit by 5 bit '==' comparator, 'overflowLogicProcesses\.overflowLogic\.un5_overflow_at_zero'
+Encoding state machine State_DP[0:2] (view:work.FIFO_15_16_0_4_16_14_EBR_miscAerFifo(structural))
+original code -> new code
+   001 -> 00
+   010 -> 01
+   100 -> 10
+Encoding state machine State_DP[0:7] (view:work.MISCAERStateMachine(behavioral))
+original code -> new code
+   00000001 -> 00000001
+   00000010 -> 00000010
+   00000100 -> 00000100
+   00001000 -> 00001000
+   00010000 -> 00010000
+   00100000 -> 00100000
+   01000000 -> 01000000
+   10000000 -> 10000000
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\miscaerstatemachine.vhd":172:2:172:3|Removing sequential instance State_DP[0] of view:PrimLib.dffr(prim) in hierarchy view:work.MISCAERStateMachine(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\miscaerstatemachine.vhd":172:2:172:3|Removing sequential instance State_DP[4] of view:PrimLib.dffr(prim) in hierarchy view:work.MISCAERStateMachine(behavioral) because there are no references to its outputs 
+Encoding state machine State_DP[0:2] (view:work.FIFO_15_128_0_8_128_120_EBR(structural))
+original code -> new code
+   001 -> 00
+   010 -> 01
+   100 -> 10
+Encoding state machine State_DP[0:2] (view:work.FIFO_15_14_0_7_14_7_EBR(structural))
+original code -> new code
+   001 -> 00
+   010 -> 01
+   100 -> 10
+Encoding state machine State_DP[0:2] (view:work.FIFO_15_4_0_1_4_3_EBR(structural))
+original code -> new code
+   001 -> 00
+   010 -> 01
+   100 -> 10
+Encoding state machine State_DP[0:3] (view:work.ExtTriggerStateMachine(behavioral))
+original code -> new code
+   0001 -> 00
+   0010 -> 01
+   0100 -> 10
+   1000 -> 11
+Encoding state machine State_DP[0:2] (view:work.PulseDetector_27(behavioral))
+original code -> new code
+   001 -> 00
+   010 -> 01
+   100 -> 10
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\pulsedetector.vhd":89:2:89:3|Found counter in view:work.PulseDetector_27(behavioral) inst Count_DP[26:0]
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Found counter in view:work.PulseGeneratorZ1(behavioral) inst LengthCount_DP[26:0]
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Found counter in view:work.PulseGeneratorZ1(behavioral) inst IntervalCount_DP[26:0]
+Encoding state machine State_DP[0:3] (view:work.SPIConfig(behavioral))
+original code -> new code
+   0001 -> 00
+   0010 -> 01
+   0100 -> 10
+   1000 -> 11
+@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[25] reduced to a combinational gate by constant propagation
+@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[26] reduced to a combinational gate by constant propagation
+@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[27] reduced to a combinational gate by constant propagation
+@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[28] reduced to a combinational gate by constant propagation
+@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[29] reduced to a combinational gate by constant propagation
+@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[30] reduced to a combinational gate by constant propagation
+@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[31] reduced to a combinational gate by constant propagation
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[31] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[30] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[29] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[28] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[27] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[26] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[25] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\continuouscounter.vhd":68:2:68:3|Found counter in view:work.ContinuousCounter_6_true_false_false_false(behavioral) inst Count_DP[5:0]
+Encoding state machine State_DP[0:28] (view:work.IMUStateMachine(behavioral))
+original code -> new code
+   00000000000000000000000000001 -> 00000000000000000000000000001
+   00000000000000000000000000010 -> 00000000000000000000000000010
+   00000000000000000000000000100 -> 00000000000000000000000000100
+   00000000000000000000000001000 -> 00000000000000000000000001000
+   00000000000000000000000010000 -> 00000000000000000000000010000
+   00000000000000000000000100000 -> 00000000000000000000000100000
+   00000000000000000000001000000 -> 00000000000000000000001000000
+   00000000000000000000010000000 -> 00000000000000000000010000000
+   00000000000000000000100000000 -> 00000000000000000000100000000
+   00000000000000000001000000000 -> 00000000000000000001000000000
+   00000000000000000010000000000 -> 00000000000000000010000000000
+   00000000000000000100000000000 -> 00000000000000000100000000000
+   00000000000000001000000000000 -> 00000000000000001000000000000
+   00000000000000010000000000000 -> 00000000000000010000000000000
+   00000000000000100000000000000 -> 00000000000000100000000000000
+   00000000000001000000000000000 -> 00000000000001000000000000000
+   00000000000010000000000000000 -> 00000000000010000000000000000
+   00000000000100000000000000000 -> 00000000000100000000000000000
+   00000000001000000000000000000 -> 00000000001000000000000000000
+   00000000010000000000000000000 -> 00000000010000000000000000000
+   00000000100000000000000000000 -> 00000000100000000000000000000
+   00000001000000000000000000000 -> 00000001000000000000000000000
+   00000010000000000000000000000 -> 00000010000000000000000000000
+   00000100000000000000000000000 -> 00000100000000000000000000000
+   00001000000000000000000000000 -> 00001000000000000000000000000
+   00010000000000000000000000000 -> 00010000000000000000000000000
+   00100000000000000000000000000 -> 00100000000000000000000000000
+   01000000000000000000000000000 -> 01000000000000000000000000000
+   10000000000000000000000000000 -> 10000000000000000000000000000
+Encoding state machine I2CState_DP[0:9] (view:work.IMUStateMachine(behavioral))
+original code -> new code
+   0000000001 -> 0000000001
+   0000000010 -> 0000000010
+   0000000100 -> 0000000100
+   0000001000 -> 0000001000
+   0000010000 -> 0000010000
+   0000100000 -> 0000100000
+   0001000000 -> 0001000000
+   0010000000 -> 0010000000
+   0100000000 -> 0100000000
+   1000000000 -> 1000000000
+@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":132:2:132:3|Removing sequential instance I2CState_DP[0] of view:PrimLib.dffr(prim) in hierarchy view:work.IMUStateMachine(behavioral) because there are no references to its outputs 
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance imuSM.detectRunChange.PreviousData_DP[0],  because it is equivalent to instance imuSM.delayRun.Output_SO[0]
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Found counter in view:work.PulseGeneratorZ0(behavioral) inst IntervalCount_DP[5:0]
+@N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\continuouscounter.vhd":68:2:68:3|Found counter in view:work.ContinuousCounter_5_true_false_false_false(behavioral) inst Count_DP[4:0]
+@N: MF179 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":40:5:40:34|Found 8 bit by 8 bit '==' comparator, 'detectChange\.un2_inputdata_di'
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[5],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[5]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[6],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[6]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[7],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[7]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[8],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[8]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[8],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[8]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[9],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[9]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[9],  because it is equivalent to instance fx3SPIConfig.FX3Input_DP[9]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[10],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[10]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[11],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[11]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[12],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[12]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[13],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[13]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[14],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[14]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[15],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[15]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[16],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[16]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[17],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[17]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[18],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[18]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[19],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[19]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[20],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[20]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[21],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[21]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[22],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[22]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[23],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[23]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[0],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[0]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[1],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[1]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[2],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[2]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[3],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[3]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[4],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[4]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[5],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[5]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[6],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[6]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[7],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[7]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[8],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[8]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[9],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[9]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[10],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[10]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[11],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[11]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[12],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[12]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[13],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[13]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[14],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[14]
+
+Finished factoring (Real Time elapsed 0h:00m:49s; CPU Time elapsed 0h:00m:48s; Memory used current: 299MB peak: 416MB)
+
+
+Finished gated-clock and generated-clock conversion (Real Time elapsed 0h:00m:51s; CPU Time elapsed 0h:00m:50s; Memory used current: 282MB peak: 416MB)
+
+
+Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:00m:58s; CPU Time elapsed 0h:00m:57s; Memory used current: 294MB peak: 416MB)
+
+@N: FA113 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":150:29:150:83|Pipelining module GeneratePulseLength_D[26:1]
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[GeneratePulseLength_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[GeneratePulseLength_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\apsadcspiconfig.vhd":48:2:48:3|Register APSADCInput_DP[0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERInput_DP[4:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3spiconfig.vhd":52:2:52:3|Register FX3Input_DP[9:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerInput_DP[23:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellConfigReg_DP\[TimerLimit_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellConfigReg_DP\[DecayTime_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellConfigReg_DP\[Threshold_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[SampleRateDivider_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[GyroStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[AccelStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[TempStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[LPCycle_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[GeneratePulsePolarity_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectPulses_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectPulsePolarity_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[RunGenerator_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[RunDetector_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[GenerateUseCustomSignal_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectRisingEdges_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectFallingEdges_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\apsadcspiconfig.vhd":48:2:48:3|Register APSADCConfigReg_DP\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERConfigReg_DP\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerConfigReg_DP\[TimestampRun_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerConfigReg_DP\[TimestampReset_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerConfigReg_DP\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERConfigReg_DP\[AckExtension_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERConfigReg_DP\[AckDelay_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[GeneratePulseInterval_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectPulseLength_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[DigitalLowPassFilter_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[LPWakeup_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[GyroFullScale_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[AccelFullScale_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Register ParamInput_DP[31:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Register DecayTime_S[24:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Register Threshold_S[24:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[SampleRateDivider_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[GyroStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[AccelStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[TempStandby_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[LPCycle_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[GeneratePulsePolarity_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectPulses_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectPulsePolarity_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[RunGenerator_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[RunDetector_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[GenerateUseCustomSignal_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectRisingEdges_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectFallingEdges_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\multiplexerstatemachine.vhd":369:2:369:3|Register MultiplexerConfigReg_D\[TimestampRun_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\multiplexerstatemachine.vhd":369:2:369:3|Register MultiplexerConfigReg_D\[TimestampReset_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\multiplexerstatemachine.vhd":369:2:369:3|Register MultiplexerConfigReg_D\[Run_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[AckExtension_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[AckDelay_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[GeneratePulseInterval_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectPulseLength_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[DigitalLowPassFilter_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[LPWakeup_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[GyroFullScale_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[AccelFullScale_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\shiftregister.vhd":75:2:75:3|Register ShiftReg_DP[7:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Register ParamAddressReg_DP[7:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Register PreviousData_DP[7:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Register PreviousData_DP[1:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\simpleregister.vhd":20:2:20:3|Register Output_SO[0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\changedetector.vhd":49:2:49:3|Register PreviousData_DP[2:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Register ModuleAddressReg_DP[6:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\spiconfig.vhd":227:2:227:3|Register ReadOperationReg_SP pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellOutput_DP[24:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerOutput_DP[0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAEROutput_DP[4:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellInput_DP[24:0] pushed in.
+@N: FA113 :|Pipelining module NoName
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Register Inhibition_S[24:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Register State_DP[0:11] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Register arrayOfSubunits\[9\]\[9\] pushed in.
+@N: FA113 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\continuouscounter.vhd":90:7:90:34|Pipelining module overflowLogicProcesses\.overflowLogic\.un5_overflow_at_zero
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[AckExtension_D\] pushed in.
+@N: FA113 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\support\continuouscounter.vhd":90:7:90:34|Pipelining module overflowLogicProcesses\.overflowLogic\.un5_overflow_at_zero
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[AckDelay_D\] pushed in.
+@N: FA113 :|Pipelining module NoName
+@N: MF169 :|Register NoName pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Register State_DP[0:11] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Register Excitation_S[24:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Register arrayOfSubunits\[9\]\[9\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Register arrayOfSubunits\[8\]\[8\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Register arrayOfSubunits\[9\]\[1\] pushed in.
+
+Starting Early Timing Optimization (Real Time elapsed 0h:06m:23s; CPU Time elapsed 0h:06m:21s; Memory used current: 1636MB peak: 1637MB)
+
+
+Finished Early Timing Optimization (Real Time elapsed 0h:06m:49s; CPU Time elapsed 0h:06m:47s; Memory used current: 610MB peak: 1641MB)
+
+
+Finished generic timing optimizations - Pass 2 (Real Time elapsed 0h:06m:50s; CPU Time elapsed 0h:06m:49s; Memory used current: 603MB peak: 1641MB)
+
+
+Finished preparing to map (Real Time elapsed 0h:07m:01s; CPU Time elapsed 0h:06m:59s; Memory used current: 601MB peak: 1641MB)
+
+
+Finished technology mapping (Real Time elapsed 0h:07m:10s; CPU Time elapsed 0h:07m:08s; Memory used current: 617MB peak: 1641MB)
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:07m:16s		   -18.26ns		18456 /      9692
+------------------------------------------------------------
+
+@N: FX1019 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3statemachine.vhd":294:2:294:3|Adding ASYNC_REG property on synchronizing instance "usbFX3SM.FX3ConfigSyncReg_D\.Run_S" 
+@N: FX1019 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3statemachine.vhd":294:2:294:3|Adding ASYNC_REG property on synchronizing instance "usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[3]" 
+@N: FX1019 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3statemachine.vhd":294:2:294:3|Adding ASYNC_REG property on synchronizing instance "usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[1]" 
+@N: FX1019 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3statemachine.vhd":294:2:294:3|Adding ASYNC_REG property on synchronizing instance "usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[9]" 
+@N: FX1019 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3statemachine.vhd":294:2:294:3|Adding ASYNC_REG property on synchronizing instance "usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[7]" 
+@N: FX1019 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\fx3\fx3statemachine.vhd":294:2:294:3|Adding ASYNC_REG property on synchronizing instance "usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[5]" 
+
+
+@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Instance "OMCellSM.State_DP[7]" with 4052 loads replicated 3 times to improve timing 
+Added 3 Registers via timing driven replication
+Added 0 LUTs via timing driven replication
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:07m:37s		   -12.43ns		18456 /      9695
+------------------------------------------------------------
+
+@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Instance "OMCellSM.State_DP[10]" with 3948 loads replicated 3 times to improve timing 
+Added 3 Registers via timing driven replication
+Added 3 LUTs via timing driven replication
+
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:07m:39s		    -1.77ns		18459 /      9698
+------------------------------------------------------------
+
+@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Instance "BWSAER2CAVIAR.CAVIAR_data[7]" with "1560" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
+@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\wsaer2caviar2.vhd":51:3:51:4|Instance "BWSAER2CAVIAR.CAVIAR_data[8]" with "1558" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
+@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Instance "OMCellSM.State_DP_7_rep1" with "1037" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
+@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Instance "OMCellSM.State_DP[7]" with "1036" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
+@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\objectmotioncell.vhd":140:1:140:2|Instance "OMCellSM.State_DP_7_rep2" with "1036" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
+Net buffering Report for view:work.TopLevel(structural):
+Added 0 Buffers
+Added 5 Registers via replication
+Added 0 LUTs via replication
+
+
+Finished technology timing optimizations and critical path resynthesis (Real Time elapsed 0h:07m:42s; CPU Time elapsed 0h:07m:41s; Memory used current: 607MB peak: 1641MB)
+
+@N: FX164 |The option to pack flops in the IOB has not been specified 
+@W: MO111 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\private-source\toplevel.vhd":51:2:51:14|Tristate driver DVSAERAck_SBO_obuft.un1[0] on net DVSAERAck_SBO has its enable tied to GND (module TopLevel) 
+Warning: Found 1 combinational loops!
+@W: BN137 :|Found combinational loop during mapping at net CAVIAR_ack
+1) instance I_5024.lat_r (view:work.TopLevel(structural)), output net "CAVIAR_ack" in work.TopLevel(structural)
+    net        CAVIAR_ack
+    input  pin I_5024.lat/I[0]
+    instance   I_5024.lat (cell or)
+    output pin I_5024.lat/OUT
+    net        I_5024.t1
+    input  pin I_5024.lat_r/I[1]
+    instance   I_5024.lat_r (cell and)
+    output pin I_5024.lat_r/OUT
+    net        CAVIAR_ack
+End of loops
+
+Finished restoring hierarchy (Real Time elapsed 0h:08m:07s; CPU Time elapsed 0h:08m:06s; Memory used current: 613MB peak: 1641MB)
+
+
+
+#### START OF CLOCK OPTIMIZATION REPORT #####[
+
+1 non-gated/non-generated clock tree(s) driving 105 clock pin(s) of sequential element(s)
+1 gated/generated clock tree(s) driving 9598 clock pin(s) of sequential element(s)
+0 instances converted, 9598 sequential instances remain driven by gated/generated clocks
+
+================================== Non-Gated/Non-Generated Clocks ===================================
+Clock Tree ID     Driving Element     Drive Element Type     Fanout     Sample Instance              
+-----------------------------------------------------------------------------------------------------
+@K:CKID0002       USBClock_CI         port                   105        logicUSBFifo_FifoData_DOio[0]
+=====================================================================================================
+======================================================================================================= Gated/Generated Clocks =======================================================================================================
+Clock Tree ID     Driving Element       Drive Element Type     Fanout     Sample Instance               Explanation                                                                                                                   
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@K:CKID0001       logicClockPLL.pll     pmi_pll                9598       BCAVIAR2WSAER_WSAER_reqio     Gating structure creates improper gating logic. See the Gated Clocks description in the user guide for conversion requirements
+======================================================================================================================================================================================================================================
+
+
+##### END OF CLOCK OPTIMIZATION REPORT ######]
+
+Writing Analyst data base E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\SeeBetterLogic_FX3_SeeBetterLogic_FX3.srm
+
+Finished Writing Netlist Databases (Real Time elapsed 0h:08m:14s; CPU Time elapsed 0h:08m:12s; Memory used current: 560MB peak: 1641MB)
+
+Writing EDIF Netlist and constraint files
+I-2013.09L-SP1-1 
+@N: BW106 |Synplicity Constraint File capacitance units using default value of 1pF 
+@W: BW261 |Block-path constraint from CLKNET "PLL|OutClock_CO_inferred_clock" to PORT "TopLevel|USBClock_CI" not forward annotated in -lpf file. 
+@W: BW261 |Block-path constraint from PORT "TopLevel|USBClock_CI" to CLKNET "PLL|OutClock_CO_inferred_clock" not forward annotated in -lpf file. 
+
+Finished Writing EDIF Netlist and constraint files (Real Time elapsed 0h:08m:18s; CPU Time elapsed 0h:08m:15s; Memory used current: 571MB peak: 1641MB)
+
+Warning: Found 1 combinational loops!
+@W: BN137 :|Found combinational loop during mapping at net G_5036
+1) instance I_5024.lat_r (view:work.TopLevel(structural)), output net "G_5036" in work.TopLevel(structural)
+    net        G_5036
+    input  pin I_5024.lat_r/C0
+    instance   I_5024.lat_r (cell PFUMX)
+    output pin I_5024.lat_r/Z
+    net        BWSAER2CAVIAR.G_5036
+End of loops
+@W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\ext\fifo.vhd":41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\ext\fifo.vhd":41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_1 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\ext\fifo.vhd":41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_2 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\ext\fifo.vhd":41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_3 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\ext\fifodualclock.vhd":46:31:46:57|Blackbox pmi_fifo_dc_work_toplevel_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc - pipelined\..\common-source\ext\pll.vhd":18:21:18:43|Blackbox pmi_pll is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT420 |Found inferred clock TopLevel|USBClock_CI with period 4.61ns. Please declare a user-defined clock on object "p:USBClock_CI"
+
+@W: MT420 |Found inferred clock PLL|OutClock_CO_inferred_clock with period 89.07ns. Please declare a user-defined clock on object "n:logicClockPLL.OutClock_CO"
+
+
+
+##### START OF TIMING REPORT #####[
+# Timing Report written on Mon Oct 13 15:25:30 2014
+#
+
+
+Top view:               TopLevel
+Requested Frequency:    11.2 MHz
+Wire load mode:         top
+Paths requested:        5
+Constraint File(s):    
+@N: MT320 |Timing report estimates place and route data. Please look at the place and route timing report for final timing.
+
+@N: MT322 |Clock constraints cover only FF-to-FF paths associated with the clock.
+
+
+
+Performance Summary 
+*******************
+
+
+Worst slack in design: -15.719
+
+                                   Requested      Estimated      Requested     Estimated                 Clock        Clock                
+Starting Clock                     Frequency      Frequency      Period        Period        Slack       Type         Group                
+-------------------------------------------------------------------------------------------------------------------------------------------
+PLL|OutClock_CO_inferred_clock     11.2 MHz       9.5 MHz        89.072        104.791       -15.719     inferred     Autoconstr_clkgroup_0
+TopLevel|USBClock_CI               216.8 MHz      184.3 MHz      4.613         5.427         -0.814      inferred     Autoconstr_clkgroup_1
+System                             1670.6 MHz     1420.1 MHz     0.599         0.704         -0.106      system       system_clkgroup      
+===========================================================================================================================================
+
+
+
+
+
+Clock Relationships
+*******************
+
+Clocks                                                          |    rise  to  rise     |    fall  to  fall   |    rise  to  fall   |    fall  to  rise 
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+Starting                        Ending                          |  constraint  slack    |  constraint  slack  |  constraint  slack  |  constraint  slack
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+System                          System                          |  0.599       -0.106   |  No paths    -      |  No paths    -      |  No paths    -    
+System                          PLL|OutClock_CO_inferred_clock  |  89.072      87.168   |  No paths    -      |  No paths    -      |  No paths    -    
+System                          TopLevel|USBClock_CI            |  4.613       1.697    |  No paths    -      |  No paths    -      |  No paths    -    
+PLL|OutClock_CO_inferred_clock  System                          |  89.072      -15.294  |  No paths    -      |  No paths    -      |  No paths    -    
+PLL|OutClock_CO_inferred_clock  PLL|OutClock_CO_inferred_clock  |  89.072      -15.719  |  No paths    -      |  No paths    -      |  No paths    -    
+PLL|OutClock_CO_inferred_clock  TopLevel|USBClock_CI            |  Diff grp    -        |  No paths    -      |  No paths    -      |  No paths    -    
+TopLevel|USBClock_CI            System                          |  4.613       1.361    |  No paths    -      |  No paths    -      |  No paths    -    
+TopLevel|USBClock_CI            TopLevel|USBClock_CI            |  4.613       -0.814   |  No paths    -      |  No paths    -      |  No paths    -    
+========================================================================================================================================================
+ Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
+       'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
+
+
+
+Interface Information 
+*********************
+
+No IO constraint found
+
+
+
+====================================
+Detailed Report for Clock: PLL|OutClock_CO_inferred_clock
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                                                        Starting                                                                                    Arrival            
+Instance                                                Reference                          Type        Pin     Net                                  Time        Slack  
+                                                        Clock                                                                                                          
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S     PLL|OutClock_CO_inferred_clock     FD1S3BX     Q       LogicReset_R                         104.366     -15.719
+OMCellSM.Inhibition_S_pipe_332                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_11_12_1f[15]     0.721       62.293 
+OMCellSM.Inhibition_S_pipe_430                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_5_13_1f[15]      0.721       62.293 
+OMCellSM.Inhibition_S_pipe_831                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_12_15_1f[15]     0.721       62.293 
+OMCellSM.Inhibition_S_pipe_948                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_7_12_1f[15]      0.721       62.293 
+OMCellSM.Inhibition_S_pipe_1162                         PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_Inhibition_S_1_0_0_0_121         0.721       62.293 
+OMCellSM.Inhibition_S_pipe_1210                         PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_12_13_1f[15]     0.721       62.293 
+OMCellSM.Inhibition_S_pipe_1273                         PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_Inhibition_S_1_0_0_0_122         0.721       62.293 
+OMCellSM.Inhibition_S_pipe_1289                         PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_2_13_1f[15]      0.721       62.293 
+OMCellSM.Inhibition_S_pipe_1495                         PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_Inhibition_S_1_0_0_0_124         0.721       62.293 
+=======================================================================================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                               Starting                                                                                                     Required            
+Instance                       Reference                          Type                                       Pin         Net                Time         Slack  
+                               Clock                                                                                                                            
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+MergerFifos.State_DP[0]        PLL|OutClock_CO_inferred_clock     FD1P3AX                                    SP          LogicReset_R_i     88.648       -15.719
+MergerFifos.State_DP[1]        PLL|OutClock_CO_inferred_clock     FD1P3AX                                    SP          LogicReset_R_i     88.648       -15.719
+MergerFifos.State_DP[2]        PLL|OutClock_CO_inferred_clock     FD1P3AX                                    SP          LogicReset_R_i     88.648       -15.719
+extTriggerFifo.fifo            PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_0        Reset       LogicReset_R       89.072       -15.294
+apsAdcFifo.fifo                PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_2        Reset       LogicReset_R       89.072       -15.294
+miscAerFifo.fifo               PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_3        Reset       LogicReset_R       89.072       -15.294
+imuFifo.fifo                   PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_1        Reset       LogicReset_R       89.072       -15.294
+dvsAerFifo.fifo                PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_3        Reset       LogicReset_R       89.072       -15.294
+MergerAerFifo.fifo             PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_3        Reset       LogicReset_R       89.072       -15.294
+logicUSBFifo.fifoDualClock     PLL|OutClock_CO_inferred_clock     pmi_fifo_dc_work_toplevel_structural_0     RPReset     LogicReset_R       89.072       -15.294
+================================================================================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+      Requested Period:                      89.072
+    - Setup time:                            0.424
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         88.648
+
+    - Propagation time:                      104.366
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -15.719
+
+    Number of logic level(s):                1
+    Starting point:                          syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S / Q
+    Ending point:                            MergerFifos.State_DP[0] / SP
+    The start point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+
+Instance / Net                                                              Pin      Pin                 Arrival     No. of    
+Name                                                            Type        Name     Dir     Delay       Time        Fan Out(s)
+-------------------------------------------------------------------------------------------------------------------------------
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S             FD1S3BX     Q        Out     104.366     104.366     -         
+LogicReset_R                                                    Net         -        -       -           -           9622      
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         A        In      0.000       104.366     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         Z        Out     0.000       104.366     -         
+LogicReset_R_i                                                  Net         -        -       -           -           3         
+MergerFifos.State_DP[0]                                         FD1P3AX     SP       In      0.000       104.366     -         
+===============================================================================================================================
+
+
+Path information for path number 2: 
+      Requested Period:                      89.072
+    - Setup time:                            0.424
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         88.648
+
+    - Propagation time:                      104.366
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -15.719
+
+    Number of logic level(s):                1
+    Starting point:                          syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S / Q
+    Ending point:                            MergerFifos.State_DP[2] / SP
+    The start point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+
+Instance / Net                                                              Pin      Pin                 Arrival     No. of    
+Name                                                            Type        Name     Dir     Delay       Time        Fan Out(s)
+-------------------------------------------------------------------------------------------------------------------------------
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S             FD1S3BX     Q        Out     104.366     104.366     -         
+LogicReset_R                                                    Net         -        -       -           -           9622      
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         A        In      0.000       104.366     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         Z        Out     0.000       104.366     -         
+LogicReset_R_i                                                  Net         -        -       -           -           3         
+MergerFifos.State_DP[2]                                         FD1P3AX     SP       In      0.000       104.366     -         
+===============================================================================================================================
+
+
+Path information for path number 3: 
+      Requested Period:                      89.072
+    - Setup time:                            0.424
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         88.648
+
+    - Propagation time:                      104.366
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -15.719
+
+    Number of logic level(s):                1
+    Starting point:                          syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S / Q
+    Ending point:                            MergerFifos.State_DP[1] / SP
+    The start point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+
+Instance / Net                                                              Pin      Pin                 Arrival     No. of    
+Name                                                            Type        Name     Dir     Delay       Time        Fan Out(s)
+-------------------------------------------------------------------------------------------------------------------------------
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S             FD1S3BX     Q        Out     104.366     104.366     -         
+LogicReset_R                                                    Net         -        -       -           -           9622      
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         A        In      0.000       104.366     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         Z        Out     0.000       104.366     -         
+LogicReset_R_i                                                  Net         -        -       -           -           3         
+MergerFifos.State_DP[1]                                         FD1P3AX     SP       In      0.000       104.366     -         
+===============================================================================================================================
+
+
+Path information for path number 4: 
+      Requested Period:                      89.072
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         89.072
+
+    - Propagation time:                      104.366
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -15.294
+
+    Number of logic level(s):                0
+    Starting point:                          syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S / Q
+    Ending point:                            extTriggerFifo.fifo / Reset
+    The start point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                                                                  Pin       Pin                 Arrival     No. of    
+Name                                                    Type                                    Name      Dir     Delay       Time        Fan Out(s)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S     FD1S3BX                                 Q         Out     104.366     104.366     -         
+LogicReset_R                                            Net                                     -         -       -           -           9622      
+extTriggerFifo.fifo                                     pmi_fifo_work_toplevel_structural_0     Reset     In      0.000       104.366     -         
+====================================================================================================================================================
+
+
+Path information for path number 5: 
+      Requested Period:                      89.072
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         89.072
+
+    - Propagation time:                      104.366
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -15.294
+
+    Number of logic level(s):                0
+    Starting point:                          syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S / Q
+    Ending point:                            imuFifo.fifo / Reset
+    The start point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                                                                  Pin       Pin                 Arrival     No. of    
+Name                                                    Type                                    Name      Dir     Delay       Time        Fan Out(s)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S     FD1S3BX                                 Q         Out     104.366     104.366     -         
+LogicReset_R                                            Net                                     -         -       -           -           9622      
+imuFifo.fifo                                            pmi_fifo_work_toplevel_structural_1     Reset     In      0.000       104.366     -         
+====================================================================================================================================================
+
+
+
+
+====================================
+Detailed Report for Clock: TopLevel|USBClock_CI
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                                            Starting                                                     Arrival           
+Instance                                    Reference                Type        Pin     Net             Time        Slack 
+                                            Clock                                                                          
+---------------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[0]     TopLevel|USBClock_CI     FD1S3DX     Q       Count_DP[0]     0.813       -0.814
+usbFX3SM.earlyPacketCounter.Count_DP[1]     TopLevel|USBClock_CI     FD1S3DX     Q       Count_DP[1]     0.770       -0.715
+usbFX3SM.earlyPacketCounter.Count_DP[2]     TopLevel|USBClock_CI     FD1S3DX     Q       Count_DP[2]     0.770       -0.715
+usbFX3SM.earlyPacketCounter.Count_DP[3]     TopLevel|USBClock_CI     FD1S3DX     Q       Count_DP[3]     0.770       -0.658
+usbFX3SM.earlyPacketCounter.Count_DP[4]     TopLevel|USBClock_CI     FD1S3DX     Q       Count_DP[4]     0.770       -0.658
+usbFX3SM.earlyPacketCounter.Count_DP[5]     TopLevel|USBClock_CI     FD1S3DX     Q       Count_DP[5]     0.770       -0.602
+usbFX3SM.earlyPacketCounter.Count_DP[6]     TopLevel|USBClock_CI     FD1S3DX     Q       Count_DP[6]     0.770       -0.602
+usbFX3SM.earlyPacketCounter.Count_DP[7]     TopLevel|USBClock_CI     FD1S3DX     Q       Count_DP[7]     0.813       -0.589
+usbFX3SM.earlyPacketCounter.Count_DP[8]     TopLevel|USBClock_CI     FD1S3DX     Q       Count_DP[8]     0.813       -0.589
+usbFX3SM.earlyPacketCounter.Count_DP[9]     TopLevel|USBClock_CI     FD1S3DX     Q       Count_DP[9]     0.813       -0.533
+===========================================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                                                                         Starting                                                        Required           
+Instance                                                                 Reference                Type        Pin     Net                Time         Slack 
+                                                                         Clock                                                                              
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S     TopLevel|USBClock_CI     FD1S3DX     D       N_54_i             4.561        -0.814
+usbFX3SM.earlyPacketCounter.Count_DP[0]                                  TopLevel|USBClock_CI     FD1S3DX     D       Count_DP_lm[0]     4.561        0.884 
+usbFX3SM.earlyPacketCounter.Count_DP[1]                                  TopLevel|USBClock_CI     FD1S3DX     D       Count_DP_lm[1]     4.561        0.884 
+usbFX3SM.earlyPacketCounter.Count_DP[2]                                  TopLevel|USBClock_CI     FD1S3DX     D       Count_DP_lm[2]     4.561        0.884 
+usbFX3SM.earlyPacketCounter.Count_DP[3]                                  TopLevel|USBClock_CI     FD1S3DX     D       Count_DP_lm[3]     4.561        0.884 
+usbFX3SM.earlyPacketCounter.Count_DP[4]                                  TopLevel|USBClock_CI     FD1S3DX     D       Count_DP_lm[4]     4.561        0.884 
+usbFX3SM.earlyPacketCounter.Count_DP[5]                                  TopLevel|USBClock_CI     FD1S3DX     D       Count_DP_lm[5]     4.561        0.884 
+usbFX3SM.earlyPacketCounter.Count_DP[6]                                  TopLevel|USBClock_CI     FD1S3DX     D       Count_DP_lm[6]     4.561        0.884 
+usbFX3SM.earlyPacketCounter.Count_DP[7]                                  TopLevel|USBClock_CI     FD1S3DX     D       Count_DP_lm[7]     4.561        0.884 
+usbFX3SM.earlyPacketCounter.Count_DP[8]                                  TopLevel|USBClock_CI     FD1S3DX     D       Count_DP_lm[8]     4.561        0.884 
+============================================================================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+      Requested Period:                      4.613
+    - Setup time:                            0.052
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         4.561
+
+    - Propagation time:                      5.375
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -0.814
+
+    Number of logic level(s):                17
+    Starting point:                          usbFX3SM.earlyPacketCounter.Count_DP[0] / Q
+    Ending point:                            usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S / D
+    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+    The end   point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+
+Instance / Net                                                                                                         Pin      Pin               Arrival     No. of    
+Name                                                                                                      Type         Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[0]                                                                   FD1S3DX      Q        Out     0.813     0.813       -         
+Count_DP[0]                                                                                               Net          -        -       -         -           3         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_0_0      CCU2C        A1       In      0.000     0.813       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_0_0      CCU2C        COUT     Out     0.945     1.758       -         
+un49_overflow_at_zero_a_4_cry_0                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_1_0      CCU2C        CIN      In      0.000     1.758       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_1_0      CCU2C        COUT     Out     0.056     1.814       -         
+un49_overflow_at_zero_a_4_cry_2                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_3_0      CCU2C        CIN      In      0.000     1.814       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_3_0      CCU2C        COUT     Out     0.056     1.870       -         
+un49_overflow_at_zero_a_4_cry_4                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_5_0      CCU2C        CIN      In      0.000     1.870       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_5_0      CCU2C        COUT     Out     0.056     1.926       -         
+un49_overflow_at_zero_a_4_cry_6                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_7_0      CCU2C        CIN      In      0.000     1.926       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_7_0      CCU2C        COUT     Out     0.056     1.982       -         
+un49_overflow_at_zero_a_4_cry_8                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_9_0      CCU2C        CIN      In      0.000     1.982       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_9_0      CCU2C        COUT     Out     0.056     2.039       -         
+un49_overflow_at_zero_a_4_cry_10                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_11_0     CCU2C        CIN      In      0.000     2.039       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_11_0     CCU2C        COUT     Out     0.056     2.095       -         
+un49_overflow_at_zero_a_4_cry_12                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_13_0     CCU2C        CIN      In      0.000     2.095       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_13_0     CCU2C        COUT     Out     0.056     2.151       -         
+un49_overflow_at_zero_a_4_cry_14                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_15_0     CCU2C        CIN      In      0.000     2.151       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_15_0     CCU2C        COUT     Out     0.056     2.207       -         
+un49_overflow_at_zero_a_4_cry_16                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_17_0     CCU2C        CIN      In      0.000     2.207       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_17_0     CCU2C        COUT     Out     0.056     2.264       -         
+un49_overflow_at_zero_a_4_cry_18                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_19_0     CCU2C        CIN      In      0.000     2.264       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_19_0     CCU2C        COUT     Out     0.056     2.320       -         
+un49_overflow_at_zero_a_4_cry_20                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_21_0     CCU2C        CIN      In      0.000     2.320       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_21_0     CCU2C        COUT     Out     0.056     2.376       -         
+un49_overflow_at_zero_a_4_cry_22                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_23_0     CCU2C        CIN      In      0.000     2.376       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_23_0     CCU2C        COUT     Out     0.056     2.432       -         
+un49_overflow_at_zero_a_4_cry_24                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_25_0     CCU2C        CIN      In      0.000     2.432       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_25_0     CCU2C        S0       Out     0.812     3.244       -         
+un49_overflow_at_zero_a_4[25]                                                                             Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_27_0         CCU2C        D1       In      0.000     3.244       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_27_0         CCU2C        COUT     Out     0.945     4.189       -         
+un49_overflow_at_zero_0_data_tmp[12]                                                                      Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_81_0         CCU2C        CIN      In      0.000     4.189       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_81_0         CCU2C        S1       Out     0.812     5.001       -         
+un49_overflow_at_zero_i                                                                                   Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S_RNO                                  ORCALUT4     C        In      0.000     5.001       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S_RNO                                  ORCALUT4     Z        Out     0.374     5.375       -         
+N_54_i                                                                                                    Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S                                      FD1S3DX      D        In      0.000     5.375       -         
+========================================================================================================================================================================
+
+
+Path information for path number 2: 
+      Requested Period:                      4.613
+    - Setup time:                            0.052
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         4.561
+
+    - Propagation time:                      5.319
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -0.758
+
+    Number of logic level(s):                16
+    Starting point:                          usbFX3SM.earlyPacketCounter.Count_DP[0] / Q
+    Ending point:                            usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S / D
+    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+    The end   point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+
+Instance / Net                                                                                                         Pin      Pin               Arrival     No. of    
+Name                                                                                                      Type         Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[0]                                                                   FD1S3DX      Q        Out     0.813     0.813       -         
+Count_DP[0]                                                                                               Net          -        -       -         -           3         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_0_0      CCU2C        A1       In      0.000     0.813       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_0_0      CCU2C        COUT     Out     0.945     1.758       -         
+un49_overflow_at_zero_a_4_cry_0                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_1_0      CCU2C        CIN      In      0.000     1.758       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_1_0      CCU2C        COUT     Out     0.056     1.814       -         
+un49_overflow_at_zero_a_4_cry_2                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_3_0      CCU2C        CIN      In      0.000     1.814       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_3_0      CCU2C        COUT     Out     0.056     1.870       -         
+un49_overflow_at_zero_a_4_cry_4                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_5_0      CCU2C        CIN      In      0.000     1.870       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_5_0      CCU2C        COUT     Out     0.056     1.926       -         
+un49_overflow_at_zero_a_4_cry_6                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_7_0      CCU2C        CIN      In      0.000     1.926       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_7_0      CCU2C        COUT     Out     0.056     1.982       -         
+un49_overflow_at_zero_a_4_cry_8                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_9_0      CCU2C        CIN      In      0.000     1.982       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_9_0      CCU2C        COUT     Out     0.056     2.039       -         
+un49_overflow_at_zero_a_4_cry_10                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_11_0     CCU2C        CIN      In      0.000     2.039       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_11_0     CCU2C        COUT     Out     0.056     2.095       -         
+un49_overflow_at_zero_a_4_cry_12                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_13_0     CCU2C        CIN      In      0.000     2.095       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_13_0     CCU2C        COUT     Out     0.056     2.151       -         
+un49_overflow_at_zero_a_4_cry_14                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_15_0     CCU2C        CIN      In      0.000     2.151       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_15_0     CCU2C        COUT     Out     0.056     2.207       -         
+un49_overflow_at_zero_a_4_cry_16                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_17_0     CCU2C        CIN      In      0.000     2.207       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_17_0     CCU2C        COUT     Out     0.056     2.264       -         
+un49_overflow_at_zero_a_4_cry_18                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_19_0     CCU2C        CIN      In      0.000     2.264       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_19_0     CCU2C        COUT     Out     0.056     2.320       -         
+un49_overflow_at_zero_a_4_cry_20                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_21_0     CCU2C        CIN      In      0.000     2.320       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_21_0     CCU2C        S0       Out     0.812     3.132       -         
+un49_overflow_at_zero_a_4[21]                                                                             Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_15_0         CCU2C        D1       In      0.000     3.132       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_15_0         CCU2C        COUT     Out     0.945     4.076       -         
+un49_overflow_at_zero_0_data_tmp[10]                                                                      Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_27_0         CCU2C        CIN      In      0.000     4.076       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_27_0         CCU2C        COUT     Out     0.056     4.133       -         
+un49_overflow_at_zero_0_data_tmp[12]                                                                      Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_81_0         CCU2C        CIN      In      0.000     4.133       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_81_0         CCU2C        S1       Out     0.812     4.945       -         
+un49_overflow_at_zero_i                                                                                   Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S_RNO                                  ORCALUT4     C        In      0.000     4.945       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S_RNO                                  ORCALUT4     Z        Out     0.374     5.319       -         
+N_54_i                                                                                                    Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S                                      FD1S3DX      D        In      0.000     5.319       -         
+========================================================================================================================================================================
+
+
+Path information for path number 3: 
+      Requested Period:                      4.613
+    - Setup time:                            0.052
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         4.561
+
+    - Propagation time:                      5.319
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -0.758
+
+    Number of logic level(s):                16
+    Starting point:                          usbFX3SM.earlyPacketCounter.Count_DP[0] / Q
+    Ending point:                            usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S / D
+    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+    The end   point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+
+Instance / Net                                                                                                         Pin      Pin               Arrival     No. of    
+Name                                                                                                      Type         Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[0]                                                                   FD1S3DX      Q        Out     0.813     0.813       -         
+Count_DP[0]                                                                                               Net          -        -       -         -           3         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_0_0      CCU2C        A1       In      0.000     0.813       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_0_0      CCU2C        COUT     Out     0.945     1.758       -         
+un49_overflow_at_zero_a_4_cry_0                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_1_0      CCU2C        CIN      In      0.000     1.758       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_1_0      CCU2C        COUT     Out     0.056     1.814       -         
+un49_overflow_at_zero_a_4_cry_2                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_3_0      CCU2C        CIN      In      0.000     1.814       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_3_0      CCU2C        COUT     Out     0.056     1.870       -         
+un49_overflow_at_zero_a_4_cry_4                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_5_0      CCU2C        CIN      In      0.000     1.870       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_5_0      CCU2C        COUT     Out     0.056     1.926       -         
+un49_overflow_at_zero_a_4_cry_6                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_7_0      CCU2C        CIN      In      0.000     1.926       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_7_0      CCU2C        COUT     Out     0.056     1.982       -         
+un49_overflow_at_zero_a_4_cry_8                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_9_0      CCU2C        CIN      In      0.000     1.982       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_9_0      CCU2C        COUT     Out     0.056     2.039       -         
+un49_overflow_at_zero_a_4_cry_10                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_11_0     CCU2C        CIN      In      0.000     2.039       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_11_0     CCU2C        COUT     Out     0.056     2.095       -         
+un49_overflow_at_zero_a_4_cry_12                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_13_0     CCU2C        CIN      In      0.000     2.095       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_13_0     CCU2C        COUT     Out     0.056     2.151       -         
+un49_overflow_at_zero_a_4_cry_14                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_15_0     CCU2C        CIN      In      0.000     2.151       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_15_0     CCU2C        COUT     Out     0.056     2.207       -         
+un49_overflow_at_zero_a_4_cry_16                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_17_0     CCU2C        CIN      In      0.000     2.207       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_17_0     CCU2C        COUT     Out     0.056     2.264       -         
+un49_overflow_at_zero_a_4_cry_18                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_19_0     CCU2C        CIN      In      0.000     2.264       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_19_0     CCU2C        COUT     Out     0.056     2.320       -         
+un49_overflow_at_zero_a_4_cry_20                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_21_0     CCU2C        CIN      In      0.000     2.320       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_21_0     CCU2C        COUT     Out     0.056     2.376       -         
+un49_overflow_at_zero_a_4_cry_22                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_23_0     CCU2C        CIN      In      0.000     2.376       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_23_0     CCU2C        S0       Out     0.812     3.188       -         
+un49_overflow_at_zero_a_4[23]                                                                             Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_27_0         CCU2C        D0       In      0.000     3.188       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_27_0         CCU2C        COUT     Out     0.945     4.133       -         
+un49_overflow_at_zero_0_data_tmp[12]                                                                      Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_81_0         CCU2C        CIN      In      0.000     4.133       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_81_0         CCU2C        S1       Out     0.812     4.945       -         
+un49_overflow_at_zero_i                                                                                   Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S_RNO                                  ORCALUT4     C        In      0.000     4.945       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S_RNO                                  ORCALUT4     Z        Out     0.374     5.319       -         
+N_54_i                                                                                                    Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S                                      FD1S3DX      D        In      0.000     5.319       -         
+========================================================================================================================================================================
+
+
+Path information for path number 4: 
+      Requested Period:                      4.613
+    - Setup time:                            0.052
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         4.561
+
+    - Propagation time:                      5.319
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -0.758
+
+    Number of logic level(s):                16
+    Starting point:                          usbFX3SM.earlyPacketCounter.Count_DP[0] / Q
+    Ending point:                            usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S / D
+    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+    The end   point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+
+Instance / Net                                                                                                         Pin      Pin               Arrival     No. of    
+Name                                                                                                      Type         Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[0]                                                                   FD1S3DX      Q        Out     0.813     0.813       -         
+Count_DP[0]                                                                                               Net          -        -       -         -           3         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_0_0      CCU2C        A1       In      0.000     0.813       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_0_0      CCU2C        COUT     Out     0.945     1.758       -         
+un49_overflow_at_zero_a_4_cry_0                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_1_0      CCU2C        CIN      In      0.000     1.758       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_1_0      CCU2C        COUT     Out     0.056     1.814       -         
+un49_overflow_at_zero_a_4_cry_2                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_3_0      CCU2C        CIN      In      0.000     1.814       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_3_0      CCU2C        COUT     Out     0.056     1.870       -         
+un49_overflow_at_zero_a_4_cry_4                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_5_0      CCU2C        CIN      In      0.000     1.870       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_5_0      CCU2C        COUT     Out     0.056     1.926       -         
+un49_overflow_at_zero_a_4_cry_6                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_7_0      CCU2C        CIN      In      0.000     1.926       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_7_0      CCU2C        COUT     Out     0.056     1.982       -         
+un49_overflow_at_zero_a_4_cry_8                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_9_0      CCU2C        CIN      In      0.000     1.982       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_9_0      CCU2C        COUT     Out     0.056     2.039       -         
+un49_overflow_at_zero_a_4_cry_10                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_11_0     CCU2C        CIN      In      0.000     2.039       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_11_0     CCU2C        COUT     Out     0.056     2.095       -         
+un49_overflow_at_zero_a_4_cry_12                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_13_0     CCU2C        CIN      In      0.000     2.095       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_13_0     CCU2C        COUT     Out     0.056     2.151       -         
+un49_overflow_at_zero_a_4_cry_14                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_15_0     CCU2C        CIN      In      0.000     2.151       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_15_0     CCU2C        COUT     Out     0.056     2.207       -         
+un49_overflow_at_zero_a_4_cry_16                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_17_0     CCU2C        CIN      In      0.000     2.207       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_17_0     CCU2C        COUT     Out     0.056     2.264       -         
+un49_overflow_at_zero_a_4_cry_18                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_19_0     CCU2C        CIN      In      0.000     2.264       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_19_0     CCU2C        COUT     Out     0.056     2.320       -         
+un49_overflow_at_zero_a_4_cry_20                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_21_0     CCU2C        CIN      In      0.000     2.320       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_21_0     CCU2C        COUT     Out     0.056     2.376       -         
+un49_overflow_at_zero_a_4_cry_22                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_23_0     CCU2C        CIN      In      0.000     2.376       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_23_0     CCU2C        S1       Out     0.812     3.188       -         
+un49_overflow_at_zero_a_4[24]                                                                             Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_27_0         CCU2C        C1       In      0.000     3.188       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_27_0         CCU2C        COUT     Out     0.945     4.133       -         
+un49_overflow_at_zero_0_data_tmp[12]                                                                      Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_81_0         CCU2C        CIN      In      0.000     4.133       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_81_0         CCU2C        S1       Out     0.812     4.945       -         
+un49_overflow_at_zero_i                                                                                   Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S_RNO                                  ORCALUT4     C        In      0.000     4.945       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S_RNO                                  ORCALUT4     Z        Out     0.374     5.319       -         
+N_54_i                                                                                                    Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S                                      FD1S3DX      D        In      0.000     5.319       -         
+========================================================================================================================================================================
+
+
+Path information for path number 5: 
+      Requested Period:                      4.613
+    - Setup time:                            0.052
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         4.561
+
+    - Propagation time:                      5.276
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -0.715
+
+    Number of logic level(s):                16
+    Starting point:                          usbFX3SM.earlyPacketCounter.Count_DP[1] / Q
+    Ending point:                            usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S / D
+    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+    The end   point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+
+Instance / Net                                                                                                         Pin      Pin               Arrival     No. of    
+Name                                                                                                      Type         Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[1]                                                                   FD1S3DX      Q        Out     0.770     0.770       -         
+Count_DP[1]                                                                                               Net          -        -       -         -           2         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_1_0      CCU2C        A0       In      0.000     0.770       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_1_0      CCU2C        COUT     Out     0.945     1.714       -         
+un49_overflow_at_zero_a_4_cry_2                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_3_0      CCU2C        CIN      In      0.000     1.714       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_3_0      CCU2C        COUT     Out     0.056     1.771       -         
+un49_overflow_at_zero_a_4_cry_4                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_5_0      CCU2C        CIN      In      0.000     1.771       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_5_0      CCU2C        COUT     Out     0.056     1.827       -         
+un49_overflow_at_zero_a_4_cry_6                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_7_0      CCU2C        CIN      In      0.000     1.827       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_7_0      CCU2C        COUT     Out     0.056     1.883       -         
+un49_overflow_at_zero_a_4_cry_8                                                                           Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_9_0      CCU2C        CIN      In      0.000     1.883       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_9_0      CCU2C        COUT     Out     0.056     1.939       -         
+un49_overflow_at_zero_a_4_cry_10                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_11_0     CCU2C        CIN      In      0.000     1.939       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_11_0     CCU2C        COUT     Out     0.056     1.996       -         
+un49_overflow_at_zero_a_4_cry_12                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_13_0     CCU2C        CIN      In      0.000     1.996       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_13_0     CCU2C        COUT     Out     0.056     2.052       -         
+un49_overflow_at_zero_a_4_cry_14                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_15_0     CCU2C        CIN      In      0.000     2.052       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_15_0     CCU2C        COUT     Out     0.056     2.108       -         
+un49_overflow_at_zero_a_4_cry_16                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_17_0     CCU2C        CIN      In      0.000     2.108       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_17_0     CCU2C        COUT     Out     0.056     2.164       -         
+un49_overflow_at_zero_a_4_cry_18                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_19_0     CCU2C        CIN      In      0.000     2.164       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_19_0     CCU2C        COUT     Out     0.056     2.220       -         
+un49_overflow_at_zero_a_4_cry_20                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_21_0     CCU2C        CIN      In      0.000     2.220       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_21_0     CCU2C        COUT     Out     0.056     2.277       -         
+un49_overflow_at_zero_a_4_cry_22                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_23_0     CCU2C        CIN      In      0.000     2.277       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_23_0     CCU2C        COUT     Out     0.056     2.333       -         
+un49_overflow_at_zero_a_4_cry_24                                                                          Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_25_0     CCU2C        CIN      In      0.000     2.333       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_a_4_cry_25_0     CCU2C        S0       Out     0.812     3.145       -         
+un49_overflow_at_zero_a_4[25]                                                                             Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_27_0         CCU2C        D1       In      0.000     3.145       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_27_0         CCU2C        COUT     Out     0.945     4.089       -         
+un49_overflow_at_zero_0_data_tmp[12]                                                                      Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_81_0         CCU2C        CIN      In      0.000     4.089       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.overflowLogic\.un49_overflow_at_zero_0_I_81_0         CCU2C        S1       Out     0.812     4.901       -         
+un49_overflow_at_zero_i                                                                                   Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S_RNO                                  ORCALUT4     C        In      0.000     4.901       -         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S_RNO                                  ORCALUT4     Z        Out     0.374     5.276       -         
+N_54_i                                                                                                    Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.overflowLogicProcesses\.OverflowBuffer_S                                      FD1S3DX      D        In      0.000     5.276       -         
+========================================================================================================================================================================
+
+
+
+
+====================================
+Detailed Report for Clock: System
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                                            Starting                                                                                           Arrival           
+Instance                                    Reference     Type                                       Pin       Net                             Time        Slack 
+                                            Clock                                                                                                                
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+dvsAerFifo.fifo                             System        pmi_fifo_work_toplevel_structural_3        Empty     FIFOEmpty_S                     0.000       -0.106
+extTriggerFifo.fifo                         System        pmi_fifo_work_toplevel_structural_0        Empty     FIFOEmpty_S                     0.000       -0.106
+imuFifo.fifo                                System        pmi_fifo_work_toplevel_structural_1        Empty     FIFOEmpty_S                     0.000       -0.106
+MergerAerFifo.fifo                          System        pmi_fifo_work_toplevel_structural_3        Empty     FIFOEmpty_S                     0.000       -0.106
+apsAdcFifo.fifo                             System        pmi_fifo_work_toplevel_structural_2        Empty     FIFOEmpty_S                     0.000       -0.106
+miscAerFifo.fifo                            System        pmi_fifo_work_toplevel_structural_3        Empty     FIFOEmpty_S                     0.000       -0.106
+logicUSBFifo.fifoDualClock                  System        pmi_fifo_dc_work_toplevel_structural_0     Empty     FIFOEmpty_S                     0.000       -0.106
+imuFifo.fifo                                System        pmi_fifo_work_toplevel_structural_1        Full      Full_0                          0.000       0.326 
+usbFX3SM.EarlyPacketCyclesLimit_D[26:7]     System        MULT18X18C                                 P0        EarlyPacketCyclesLimit_D[7]     0.000       1.697 
+usbFX3SM.EarlyPacketCyclesLimit_D[26:7]     System        MULT18X18C                                 P1        EarlyPacketCyclesLimit_D[8]     0.000       1.753 
+=================================================================================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                                            Starting                                                                             Required           
+Instance                                    Reference     Type                                       Pin      Net                Time         Slack 
+                                            Clock                                                                                                   
+----------------------------------------------------------------------------------------------------------------------------------------------------
+extTriggerFifo.fifo                         System        pmi_fifo_work_toplevel_structural_0        RdEn     State_DP_ns[0]     0.599        -0.106
+dvsAerFifo.fifo                             System        pmi_fifo_work_toplevel_structural_3        RdEn     State_DN[1]        0.599        -0.106
+imuFifo.fifo                                System        pmi_fifo_work_toplevel_structural_1        RdEn     State_DP_ns[0]     0.599        -0.106
+apsAdcFifo.fifo                             System        pmi_fifo_work_toplevel_structural_2        RdEn     State_DN[1]        0.599        -0.106
+miscAerFifo.fifo                            System        pmi_fifo_work_toplevel_structural_3        RdEn     State_DN[1]        0.599        -0.106
+MergerAerFifo.fifo                          System        pmi_fifo_work_toplevel_structural_3        RdEn     State_DN[1]        0.599        -0.106
+logicUSBFifo.fifoDualClock                  System        pmi_fifo_dc_work_toplevel_structural_0     RdEn     State_DP_ns[0]     0.599        -0.106
+imuFifo.fifo                                System        pmi_fifo_work_toplevel_structural_1        WrEn     Write_S            0.599        0.326 
+usbFX3SM.earlyPacketCounter.Count_DP[0]     System        FD1S3DX                                    D        Count_DP_lm[0]     4.561        1.697 
+usbFX3SM.earlyPacketCounter.Count_DP[1]     System        FD1S3DX                                    D        Count_DP_lm[1]     4.561        1.697 
+====================================================================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+      Requested Period:                      0.599
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         0.599
+
+    - Propagation time:                      0.704
+    - Clock delay at starting point:         0.000 (ideal)
+    - Estimated clock delay at start point:  -0.000
+    = Slack (non-critical) :                 -0.106
+
+    Number of logic level(s):                1
+    Starting point:                          dvsAerFifo.fifo / Empty
+    Ending point:                            dvsAerFifo.fifo / RdEn
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                                             Pin       Pin               Arrival     No. of    
+Name                               Type                                    Name      Dir     Delay     Time        Fan Out(s)
+-----------------------------------------------------------------------------------------------------------------------------
+dvsAerFifo.fifo                    pmi_fifo_work_toplevel_structural_3     Empty     Out     0.000     0.000       -         
+FIFOEmpty_S                        Net                                     -         -       -         -           2         
+dvsAerFifo.State_DP_ns_0_a2[0]     ORCALUT4                                B         In      0.000     0.000       -         
+dvsAerFifo.State_DP_ns_0_a2[0]     ORCALUT4                                Z         Out     0.704     0.704       -         
+State_DN[1]                        Net                                     -         -       -         -           2         
+dvsAerFifo.fifo                    pmi_fifo_work_toplevel_structural_3     RdEn      In      0.000     0.704       -         
+=============================================================================================================================
+
+
+Path information for path number 2: 
+      Requested Period:                      0.599
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         0.599
+
+    - Propagation time:                      0.704
+    - Clock delay at starting point:         0.000 (ideal)
+    - Estimated clock delay at start point:  -0.000
+    = Slack (non-critical) :                 -0.106
+
+    Number of logic level(s):                1
+    Starting point:                          extTriggerFifo.fifo / Empty
+    Ending point:                            extTriggerFifo.fifo / RdEn
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                                                 Pin       Pin               Arrival     No. of    
+Name                                   Type                                    Name      Dir     Delay     Time        Fan Out(s)
+---------------------------------------------------------------------------------------------------------------------------------
+extTriggerFifo.fifo                    pmi_fifo_work_toplevel_structural_0     Empty     Out     0.000     0.000       -         
+FIFOEmpty_S                            Net                                     -         -       -         -           3         
+extTriggerFifo.State_DP_ns_0_a2[0]     ORCALUT4                                A         In      0.000     0.000       -         
+extTriggerFifo.State_DP_ns_0_a2[0]     ORCALUT4                                Z         Out     0.704     0.704       -         
+State_DP_ns[0]                         Net                                     -         -       -         -           2         
+extTriggerFifo.fifo                    pmi_fifo_work_toplevel_structural_0     RdEn      In      0.000     0.704       -         
+=================================================================================================================================
+
+
+Path information for path number 3: 
+      Requested Period:                      0.599
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         0.599
+
+    - Propagation time:                      0.704
+    - Clock delay at starting point:         0.000 (ideal)
+    - Estimated clock delay at start point:  -0.000
+    = Slack (non-critical) :                 -0.106
+
+    Number of logic level(s):                1
+    Starting point:                          imuFifo.fifo / Empty
+    Ending point:                            imuFifo.fifo / RdEn
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                                          Pin       Pin               Arrival     No. of    
+Name                            Type                                    Name      Dir     Delay     Time        Fan Out(s)
+--------------------------------------------------------------------------------------------------------------------------
+imuFifo.fifo                    pmi_fifo_work_toplevel_structural_1     Empty     Out     0.000     0.000       -         
+FIFOEmpty_S                     Net                                     -         -       -         -           3         
+imuFifo.State_DP_ns_0_a2[0]     ORCALUT4                                A         In      0.000     0.000       -         
+imuFifo.State_DP_ns_0_a2[0]     ORCALUT4                                Z         Out     0.704     0.704       -         
+State_DP_ns[0]                  Net                                     -         -       -         -           2         
+imuFifo.fifo                    pmi_fifo_work_toplevel_structural_1     RdEn      In      0.000     0.704       -         
+==========================================================================================================================
+
+
+Path information for path number 4: 
+      Requested Period:                      0.599
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         0.599
+
+    - Propagation time:                      0.704
+    - Clock delay at starting point:         0.000 (ideal)
+    - Estimated clock delay at start point:  -0.000
+    = Slack (non-critical) :                 -0.106
+
+    Number of logic level(s):                1
+    Starting point:                          MergerAerFifo.fifo / Empty
+    Ending point:                            MergerAerFifo.fifo / RdEn
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                                                Pin       Pin               Arrival     No. of    
+Name                                  Type                                    Name      Dir     Delay     Time        Fan Out(s)
+--------------------------------------------------------------------------------------------------------------------------------
+MergerAerFifo.fifo                    pmi_fifo_work_toplevel_structural_3     Empty     Out     0.000     0.000       -         
+FIFOEmpty_S                           Net                                     -         -       -         -           3         
+MergerAerFifo.State_DP_ns_0_a2[0]     ORCALUT4                                A         In      0.000     0.000       -         
+MergerAerFifo.State_DP_ns_0_a2[0]     ORCALUT4                                Z         Out     0.704     0.704       -         
+State_DN[1]                           Net                                     -         -       -         -           2         
+MergerAerFifo.fifo                    pmi_fifo_work_toplevel_structural_3     RdEn      In      0.000     0.704       -         
+================================================================================================================================
+
+
+Path information for path number 5: 
+      Requested Period:                      0.599
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         0.599
+
+    - Propagation time:                      0.704
+    - Clock delay at starting point:         0.000 (ideal)
+    - Estimated clock delay at start point:  -0.000
+    = Slack (non-critical) :                 -0.106
+
+    Number of logic level(s):                1
+    Starting point:                          apsAdcFifo.fifo / Empty
+    Ending point:                            apsAdcFifo.fifo / RdEn
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                                             Pin       Pin               Arrival     No. of    
+Name                               Type                                    Name      Dir     Delay     Time        Fan Out(s)
+-----------------------------------------------------------------------------------------------------------------------------
+apsAdcFifo.fifo                    pmi_fifo_work_toplevel_structural_2     Empty     Out     0.000     0.000       -         
+FIFOEmpty_S                        Net                                     -         -       -         -           3         
+apsAdcFifo.State_DP_ns_0_a2[0]     ORCALUT4                                A         In      0.000     0.000       -         
+apsAdcFifo.State_DP_ns_0_a2[0]     ORCALUT4                                Z         Out     0.704     0.704       -         
+State_DN[1]                        Net                                     -         -       -         -           2         
+apsAdcFifo.fifo                    pmi_fifo_work_toplevel_structural_2     RdEn      In      0.000     0.704       -         
+=============================================================================================================================
+
+
+
+##### END OF TIMING REPORT #####]
+
+---------------------------------------
+Resource Usage Report
+Part: lfe3_70e-7
+
+Register bits: 9703 of 62640 (15%)
+PIC Latch:       0
+I/O cells:       77
+
+DSP primitives:       1 of 192 (0%)
+
+Details:
+BB:             1
+CCU2C:          1795
+FD1P3AX:        3
+FD1P3BX:        340
+FD1P3DX:        4451
+FD1S3BX:        1215
+FD1S3DX:        3652
+GSR:            1
+IB:             23
+IFS1P3BX:       2
+IFS1P3DX:       13
+INV:            14
+L6MUX21:        433
+MULT18X18C:     1
+OB:             50
+OBZ:            3
+OFS1P3BX:       6
+OFS1P3DX:       21
+ORCALUT4:       18445
+PFUMX:          887
+PUR:            1
+VHI:            79
+VLO:            62
+Mapper successful!
+
+At Mapper Exit (Real Time elapsed 0h:08m:22s; CPU Time elapsed 0h:08m:19s; Memory used current: 118MB peak: 1641MB)
+
+Process took 0h:08m:22s realtime, 0h:08m:19s cputime
+# Mon Oct 13 15:25:32 2014
+
+###########################################################]

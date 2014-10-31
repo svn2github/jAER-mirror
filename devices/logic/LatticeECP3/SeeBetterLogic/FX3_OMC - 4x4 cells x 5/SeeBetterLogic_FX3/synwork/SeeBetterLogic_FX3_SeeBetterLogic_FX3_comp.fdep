@@ -1,0 +1,323 @@
+#defaultlanguage:vhdl
+#OPTIONS:"|-top|TopLevel|-prodtype|synplify_pro|-dspmac|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-vhdl2008|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work"
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\bin64\\c_vhdl.exe":1397599346
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\location.map":1397728050
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\std.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\std1164.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\std_textio.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\numeric.vhd":1397599230
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1397599228
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\arith.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\unsigned.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\cae_library\\synthesis\\vhdl\\ecp3.vhd":1376992926
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\cae_library\\synthesis\\vhdl\\pmi_def.vhd":1400335816
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\ext\\FIFORecords.vhd":1406109071
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\DFFSynchronizer.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\ResetSynchronizer.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\SimpleRegister.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\BufferClear.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\ContinuousCounter.vhd":1412604352
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\ShiftRegisterModes.vhd":1406109072
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\EdgeDetector.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\PulseGenerator.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\PulseDetector.vhd":1411651135
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\private-source\\Settings.vhd":1413190609
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\MultiplexerConfigRecords.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\DVSAERConfigRecords.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\APSADCConfigRecords.vhd":1408697495
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\IMUConfigRecords.vhd":1408697495
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\EventCodes.vhd":1412849435
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\ExtTriggerConfigRecords.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\ChipBiasConfigRecords.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\private-source\\WSAER2CAVIAR2.vhd":1413190609
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\private-source\\CAVIAR2WSAER.vhd":1413190609
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\private-source\\latch3.vhd":1413190609
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\MullerCelement.vhd":1413190608
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\ObjectMotionCellConfigRecords.vhd":1413190609
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\fx3\\FX3ConfigRecords.vhd":1412604351
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\ext\\FIFODualClock.vhd":1411651135
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\ext\\FIFO.vhd":1411651135
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\ext\\PLL.vhd":1408697495
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\ChangeDetector.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\ShiftRegister.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\private-source\\LogicClockSynchronizer.vhd":1413190609
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\fx3\\FX3USBClockSynchronizer.vhd":1408697495
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\fx3\\FX3StateMachine.vhd":1412604351
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\math_real.vhd":1397599228
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\TimestampGenerator.vhd":1408697495
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\MultiplexerStateMachine.vhd":1411651135
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\MultiplexerSPIConfig.vhd":1408697495
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\DVSAERStateMachine.vhd":1411651135
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\DVSAERSPIConfig.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\APSADCStateMachine.vhd":1412856892
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\APSADCSPIConfig.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\IMUStateMachine.vhd":1411651135
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\IMUSPIConfig.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\ExtTriggerSPIConfig.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\ExtTriggerStateMachine.vhd":1411651135
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\SPIConfig.vhd":1411651135
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\support\\FifoMerger.vhd":1411652953
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\ObjectMotionCell.vhd":1413204948
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\ObjectMotionCellSPIConfig.vhd":1413195371
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\fx3\\FX3SPIConfig.vhd":1412604351
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\private-source\\MISCAERStateMachine.vhd":1413202280
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\private-source\\TopLevel.vhd":1413202031
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\ChipBiasStateMachine.vhd":1411651135
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\..\\common-source\\ChipBiasSPIConfig.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - Pipelined\\ObjectMotionCell_tb.vhd":1413190608
+0 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
+1 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd" vhdl
+2 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFORecords.vhd" vhdl
+3 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\DFFSynchronizer.vhd" vhdl
+4 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ResetSynchronizer.vhd" vhdl
+5 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\SimpleRegister.vhd" vhdl
+6 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\BufferClear.vhd" vhdl
+7 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ContinuousCounter.vhd" vhdl
+8 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ShiftRegisterModes.vhd" vhdl
+9 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\EdgeDetector.vhd" vhdl
+10 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseGenerator.vhd" vhdl
+11 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\PulseDetector.vhd" vhdl
+12 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\Settings.vhd" vhdl
+13 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerConfigRecords.vhd" vhdl
+14 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERConfigRecords.vhd" vhdl
+15 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCConfigRecords.vhd" vhdl
+16 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUConfigRecords.vhd" vhdl
+17 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\EventCodes.vhd" vhdl
+18 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerConfigRecords.vhd" vhdl
+19 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ChipBiasConfigRecords.vhd" vhdl
+20 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\WSAER2CAVIAR2.vhd" vhdl
+21 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\CAVIAR2WSAER.vhd" vhdl
+22 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\latch3.vhd" vhdl
+23 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\MullerCelement.vhd" vhdl
+24 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellConfigRecords.vhd" vhdl
+25 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3ConfigRecords.vhd" vhdl
+26 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFODualClock.vhd" vhdl
+27 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\FIFO.vhd" vhdl
+28 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ext\PLL.vhd" vhdl
+29 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ChangeDetector.vhd" vhdl
+30 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\ShiftRegister.vhd" vhdl
+31 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\LogicClockSynchronizer.vhd" vhdl
+32 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3USBClockSynchronizer.vhd" vhdl
+33 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3StateMachine.vhd" vhdl
+34 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\TimestampGenerator.vhd" vhdl
+35 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd" vhdl
+36 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd" vhdl
+37 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd" vhdl
+38 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd" vhdl
+39 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd" vhdl
+40 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd" vhdl
+41 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUStateMachine.vhd" vhdl
+42 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd" vhdl
+43 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd" vhdl
+44 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerStateMachine.vhd" vhdl
+45 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\SPIConfig.vhd" vhdl
+46 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\FifoMerger.vhd" vhdl
+47 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd" vhdl
+48 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd" vhdl
+49 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd" vhdl
+50 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd" vhdl
+51 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd" vhdl
+52 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ChipBiasStateMachine.vhd" vhdl
+53 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ChipBiasSPIConfig.vhd" vhdl
+54 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell_tb.vhd" vhdl
+
+# Dependency Lists (Uses list)
+0 -1
+1 -1
+2 -1
+3 -1
+4 -1
+5 -1
+6 -1
+7 -1
+8 -1
+9 -1
+10 -1
+11 -1
+12 -1
+13 -1
+14 -1
+15 -1
+16 -1
+17 -1
+18 -1
+19 -1
+20 -1
+21 -1
+22 -1
+23 -1
+24 -1
+25 -1
+26 12 2 1 
+27 12 2 1 
+28 12 1 
+29 6 
+30 8 
+31 4 3 
+32 4 3 
+33 7 12 2 25 
+34 10 7 17 12 
+35 34 11 6 7 29 17 2 13 
+36 13 
+37 7 17 2 14 
+38 14 
+39 17 2 15 
+40 15 
+41 30 10 7 5 6 29 17 12 2 8 16 
+42 16 
+43 18 
+44 9 11 10 5 17 2 18 12 
+45 9 30 7 8 
+46 2 
+47 7 23 24 
+48 24 
+49 25 
+50 17 2 
+51 20 47 48 21 32 31 5 28 33 49 26 35 36 27 46 37 38 50 39 40 41 42 44 43 45 17 12 2 13 24 14 15 16 18 25 
+52 7 30 29 8 19 12 
+53 19 
+54 47 
+
+# Dependency Lists (Users Of)
+0 -1
+1 28 27 26 
+2 51 50 46 44 41 39 37 35 33 27 26 
+3 31 32 
+4 31 32 
+5 51 44 41 
+6 41 29 35 
+7 45 41 37 35 34 33 47 52 
+8 52 45 41 30 
+9 45 44 
+10 44 41 34 
+11 44 35 
+12 52 51 44 41 34 33 28 27 26 
+13 51 36 35 
+14 51 38 37 
+15 51 40 39 
+16 51 42 41 
+17 51 50 44 41 39 37 35 34 
+18 51 44 43 
+19 53 52 
+20 51 
+21 51 
+22 -1
+23 47 
+24 51 48 47 
+25 51 49 33 
+26 51 
+27 51 
+28 51 
+29 41 35 52 
+30 45 41 52 
+31 51 
+32 51 
+33 51 
+34 35 
+35 51 
+36 51 
+37 51 
+38 51 
+39 51 
+40 51 
+41 51 
+42 51 
+43 51 
+44 51 
+45 51 
+46 51 
+47 51 54 
+48 51 
+49 51 
+50 51 
+51 -1
+52 -1
+53 -1
+54 -1
+
+# Design Unit to File Association
+arch work dffsynchronizer behavioral 3
+module work dffsynchronizer 3
+arch work resetsynchronizer behavioral 4
+module work resetsynchronizer 4
+arch work simpleregister behavioral 5
+module work simpleregister 5
+arch work bufferclear behavioral 6
+module work bufferclear 6
+arch work continuouscounter behavioral 7
+module work continuouscounter 7
+arch work edgedetector behavioral 9
+module work edgedetector 9
+arch work pulsegenerator behavioral 10
+module work pulsegenerator 10
+arch work pulsedetector behavioral 11
+module work pulsedetector 11
+arch work wsaer2caviar structural 20
+module work wsaer2caviar 20
+arch work caviar2wsaer structural 21
+module work caviar2wsaer 21
+arch work latch3 behavioral 22
+module work latch3 22
+arch work mullercelement behavioural 23
+module work mullercelement 23
+arch work fifodualclock structural 26
+module work fifodualclock 26
+arch work fifo structural 27
+module work fifo 27
+arch work pll structural 28
+module work pll 28
+arch work changedetector behavioral 29
+module work changedetector 29
+arch work shiftregister behavioral 30
+module work shiftregister 30
+arch work logicclocksynchronizer structural 31
+module work logicclocksynchronizer 31
+arch work fx3usbclocksynchronizer structural 32
+module work fx3usbclocksynchronizer 32
+arch work fx3statemachine behavioral 33
+module work fx3statemachine 33
+arch work timestampgenerator structural 34
+module work timestampgenerator 34
+arch work multiplexerstatemachine behavioral 35
+module work multiplexerstatemachine 35
+arch work multiplexerspiconfig behavioral 36
+module work multiplexerspiconfig 36
+arch work dvsaerstatemachine behavioral 37
+module work dvsaerstatemachine 37
+arch work dvsaerspiconfig behavioral 38
+module work dvsaerspiconfig 38
+arch work apsadcstatemachine behavioral 39
+module work apsadcstatemachine 39
+arch work apsadcspiconfig behavioral 40
+module work apsadcspiconfig 40
+arch work imustatemachine behavioral 41
+module work imustatemachine 41
+arch work imuspiconfig behavioral 42
+module work imuspiconfig 42
+arch work exttriggerspiconfig behavioral 43
+module work exttriggerspiconfig 43
+arch work exttriggerstatemachine behavioral 44
+module work exttriggerstatemachine 44
+arch work spiconfig behavioral 45
+module work spiconfig 45
+arch work fifomerger behavioral 46
+module work fifomerger 46
+arch work objectmotioncell behavioural 47
+module work objectmotioncell 47
+arch work objectmotioncellspiconfig behavioural 48
+module work objectmotioncellspiconfig 48
+arch work fx3spiconfig behavioral 49
+module work fx3spiconfig 49
+arch work miscaerstatemachine behavioral 50
+module work miscaerstatemachine 50
+arch work toplevel structural 51
+module work toplevel 51
+arch work chipbiasstatemachine behavioral 52
+module work chipbiasstatemachine 52
+arch work chipbiasspiconfig behavioral 53
+module work chipbiasspiconfig 53
+arch work objectmotioncell_tb testbench 54
+
+
+# Configuration files used

@@ -1,0 +1,28 @@
+PAR: Place And Route Diamond (64-bit) 3.2.0.134.
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2014 Lattice Semiconductor Corporation,  All rights reserved.
+Mon Oct 13 15:36:12 2014
+
+C:/lscc/diamond/3.2_x64/ispfpga\bin\nt64\par -f
+SeeBetterLogic_FX3_SeeBetterLogic_FX3.p2t
+SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd
+SeeBetterLogic_FX3_SeeBetterLogic_FX3.dir
+SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf -gui
+
+
+Preference file: SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf.
+
+Level/      Number      Worst       Timing      Worst       Timing      Run         NCD
+Cost [ncd]  Unrouted    Slack       Score       Slack(hold) Score(hold) Time        Status
+----------  --------    -----       ------      ----------- ----------- -----       ------
+5_1         -           -           -           -           -           06          Skip            
+
+
+* : Design saved.
+
+Total (real) run time for 1-seed: 6 secs 
+
+par failed!

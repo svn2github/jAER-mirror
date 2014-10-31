@@ -1,0 +1,4 @@
+@N|Running in 64-bit mode
+@N: CD720 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std.vhd":146:18:146:21|Setting time resolution to ns
+@N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":15:7:15:14|Top entity is set to TopLevel.
+

@@ -1,0 +1,406 @@
+
+
+##### START OF TIMING REPORT #####[
+# Timing Report written on Mon Oct 13 15:25:31 2014
+#
+
+
+Top view:               TopLevel
+Requested Frequency:    11.2 MHz
+Wire load mode:         top
+Paths requested:        5
+Constraint File(s):    
+@N: MT320 |Timing report estimates place and route data. Please look at the place and route timing report for final timing.
+
+@N: MT322 |Clock constraints cover only FF-to-FF paths associated with the clock.
+
+
+
+Performance Summary 
+*******************
+
+
+Worst slack in design: -0.297
+
+                                   Requested      Estimated      Requested     Estimated                 Clock        Clock                
+Starting Clock                     Frequency      Frequency      Period        Period        Slack       Type         Group                
+-------------------------------------------------------------------------------------------------------------------------------------------
+PLL|OutClock_CO_inferred_clock     11.2 MHz       9.5 MHz        89.072        104.791       -15.719     inferred     Autoconstr_clkgroup_0
+TopLevel|USBClock_CI               216.8 MHz      184.3 MHz      4.613         5.427         -0.814      inferred     Autoconstr_clkgroup_1
+System                             1670.6 MHz     1420.1 MHz     0.599         0.704         -0.106      system       system_clkgroup      
+===========================================================================================================================================
+
+
+
+Clock Relationships
+*******************
+
+Clocks                                                          |    rise  to  rise    |    fall  to  fall   |    rise  to  fall   |    fall  to  rise 
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Starting                        Ending                          |  constraint  slack   |  constraint  slack  |  constraint  slack  |  constraint  slack
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+System                          System                          |  0.000       0.191   |  No paths    -      |  No paths    -      |  No paths    -    
+System                          PLL|OutClock_CO_inferred_clock  |  0.000       -0.297  |  No paths    -      |  No paths    -      |  No paths    -    
+System                          TopLevel|USBClock_CI            |  0.000       -0.067  |  No paths    -      |  No paths    -      |  No paths    -    
+PLL|OutClock_CO_inferred_clock  System                          |  0.000       0.505   |  No paths    -      |  No paths    -      |  No paths    -    
+PLL|OutClock_CO_inferred_clock  PLL|OutClock_CO_inferred_clock  |  0.000       0.325   |  No paths    -      |  No paths    -      |  No paths    -    
+PLL|OutClock_CO_inferred_clock  TopLevel|USBClock_CI            |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -    
+TopLevel|USBClock_CI            System                          |  0.000       0.505   |  No paths    -      |  No paths    -      |  No paths    -    
+TopLevel|USBClock_CI            TopLevel|USBClock_CI            |  0.000       0.351   |  No paths    -      |  No paths    -      |  No paths    -    
+=======================================================================================================================================================
+ Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
+       'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
+
+
+
+Interface Information 
+*********************
+
+No IO constraint found
+
+
+
+====================================
+Detailed Report for Clock: PLL|OutClock_CO_inferred_clock
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                                      Starting                                                                         Arrival          
+Instance                              Reference                          Type        Pin     Net                       Time        Slack
+                                      Clock                                                                                             
+----------------------------------------------------------------------------------------------------------------------------------------
+imuSM.I2CState_DP[8]                  PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       I2CState_DP[8]            0.622       0.325
+imuSM.I2CState_DP[7]                  PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       I2CState_DP[7]            0.628       0.331
+MergerAerFifo.State_DP[0]             PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]               0.645       0.348
+extTriggerFifo.State_DP[0]            PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP_0[0]             0.645       0.348
+apsAdcFifo.State_DP[0]                PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]               0.645       0.348
+imuFifo.State_DP[0]                   PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]               0.645       0.348
+miscAerFifo.State_DP[0]               PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]               0.647       0.349
+dvsAerFifo.State_DP[0]                PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]               0.647       0.349
+OMCellSM.State_DP[5]                  PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[5]               0.682       0.385
+spiConfiguration.ParamInput_DP[0]     PLL|OutClock_CO_inferred_clock     FD1P3DX     Q       ConfigParamInput_D[0]     0.505       0.439
+========================================================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                                  Starting                                                                           Required          
+Instance                          Reference                          Type         Pin     Net                        Time         Slack
+                                  Clock                                                                                                
+---------------------------------------------------------------------------------------------------------------------------------------
+imuSM_IMUDataInt_SPio             PLL|OutClock_CO_inferred_clock     OFS1P3BX     SP      imuSM.I2CState_DP_i[8]     0.297        0.325
+imuSM.I2CError_SP                 PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      I2CState_DP_i[7]           0.297        0.331
+extTriggerFifo.FifoData_DO[0]     PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP_0[0]              0.297        0.348
+apsAdcFifo.FifoData_DO[0]         PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
+MergerAerFifo.FifoData_DO[0]      PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
+imuFifo.FifoData_DO[0]            PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
+imuFifo.FifoData_DO[1]            PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
+apsAdcFifo.FifoData_DO[1]         PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
+extTriggerFifo.FifoData_DO[1]     PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP_0[0]              0.297        0.348
+MergerAerFifo.FifoData_DO[1]      PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
+=======================================================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+    Propagation time:                        0.622
+    + Clock delay at starting point:         0.000 (ideal)
+    - Requested Period:                      0.000
+    - Hold time:                             0.297
+    - Clock delay at ending point:           0.000 (ideal)
+    = Slack (non-critical) :                 0.325
+
+    Number of logic level(s):                1
+    Starting point:                          imuSM.I2CState_DP[8] / Q
+    Ending point:                            imuSM_IMUDataInt_SPio / SP
+    The start point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin SCLK
+
+Instance / Net                                Pin      Pin               Arrival     No. of    
+Name                             Type         Name     Dir     Delay     Time        Fan Out(s)
+-----------------------------------------------------------------------------------------------
+imuSM.I2CState_DP[8]             FD1S3DX      Q        Out     0.622     0.622       -         
+I2CState_DP[8]                   Net          -        -       -         -           8         
+imuSM.I2CState_DP_RNIR132[8]     INV          A        In      0.000     0.622       -         
+imuSM.I2CState_DP_RNIR132[8]     INV          Z        Out     0.000     0.622       -         
+I2CState_DP_i[8]                 Net          -        -       -         -           1         
+imuSM_IMUDataInt_SPio            OFS1P3BX     SP       In      0.000     0.622       -         
+===============================================================================================
+
+
+
+
+====================================
+Detailed Report for Clock: TopLevel|USBClock_CI
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                                                       Starting                                                                 Arrival          
+Instance                                               Reference                Type        Pin     Net                         Time        Slack
+                                                       Clock                                                                                     
+-------------------------------------------------------------------------------------------------------------------------------------------------
+logicUSBFifo.State_DP[0]                               TopLevel|USBClock_CI     FD1S3DX     Q       State_DP[0]                 0.649       0.351
+usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[0]     TopLevel|USBClock_CI     FD1S3BX     Q       EarlyPacketDelay_D_0[0]     0.505       0.439
+usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[1]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[1]     0.505       0.439
+usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[2]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[2]     0.505       0.439
+usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[3]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[3]     0.505       0.439
+usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[4]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[4]     0.505       0.439
+usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[5]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[5]     0.505       0.439
+usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[6]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[6]     0.505       0.439
+usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[7]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[7]     0.505       0.439
+usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[8]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[8]     0.505       0.439
+=================================================================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                                  Starting                                                                   Required          
+Instance                          Reference                Type         Pin     Net                          Time         Slack
+                                  Clock                                                                                        
+-------------------------------------------------------------------------------------------------------------------------------
+logicUSBFifo_FifoData_DOio[0]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+logicUSBFifo_FifoData_DOio[1]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+logicUSBFifo_FifoData_DOio[2]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+logicUSBFifo_FifoData_DOio[3]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+logicUSBFifo_FifoData_DOio[4]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+logicUSBFifo_FifoData_DOio[5]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+logicUSBFifo_FifoData_DOio[6]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+logicUSBFifo_FifoData_DOio[7]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+logicUSBFifo_FifoData_DOio[8]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+logicUSBFifo_FifoData_DOio[9]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+===============================================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+    Propagation time:                        0.649
+    + Clock delay at starting point:         0.000 (ideal)
+    - Requested Period:                      0.000
+    - Hold time:                             0.297
+    - Clock delay at ending point:           0.000 (ideal)
+    = Slack (non-critical) :                 0.351
+
+    Number of logic level(s):                0
+    Starting point:                          logicUSBFifo.State_DP[0] / Q
+    Ending point:                            logicUSBFifo_FifoData_DOio[0] / SP
+    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+    The end   point is clocked by            TopLevel|USBClock_CI [rising] on pin SCLK
+
+Instance / Net                                 Pin      Pin               Arrival     No. of    
+Name                              Type         Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------
+logicUSBFifo.State_DP[0]          FD1S3DX      Q        Out     0.649     0.649       -         
+State_DP[0]                       Net          -        -       -         -           19        
+logicUSBFifo_FifoData_DOio[0]     OFS1P3DX     SP       In      0.000     0.649       -         
+================================================================================================
+
+
+
+
+====================================
+Detailed Report for Clock: System
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                        Starting                                                                          Arrival           
+Instance                Reference     Type                                    Pin      Net                Time        Slack 
+                        Clock                                                                                               
+----------------------------------------------------------------------------------------------------------------------------
+imuFifo.fifo            System        pmi_fifo_work_toplevel_structural_1     Full     Full_0             0.000       -0.297
+imuFifo.fifo            System        pmi_fifo_work_toplevel_structural_1     Q[0]     DataInReg_D[0]     0.000       -0.067
+MergerAerFifo.fifo      System        pmi_fifo_work_toplevel_structural_3     Q[0]     DataInReg_D[0]     0.000       -0.067
+dvsAerFifo.fifo         System        pmi_fifo_work_toplevel_structural_3     Q[0]     DataInReg_D[0]     0.000       -0.067
+extTriggerFifo.fifo     System        pmi_fifo_work_toplevel_structural_0     Q[0]     DataInReg_D[0]     0.000       -0.067
+miscAerFifo.fifo        System        pmi_fifo_work_toplevel_structural_3     Q[0]     DataInReg_D[0]     0.000       -0.067
+apsAdcFifo.fifo         System        pmi_fifo_work_toplevel_structural_2     Q[0]     DataInReg_D[0]     0.000       -0.067
+MergerAerFifo.fifo      System        pmi_fifo_work_toplevel_structural_3     Q[1]     DataInReg_D[1]     0.000       -0.067
+dvsAerFifo.fifo         System        pmi_fifo_work_toplevel_structural_3     Q[1]     DataInReg_D[1]     0.000       -0.067
+extTriggerFifo.fifo     System        pmi_fifo_work_toplevel_structural_0     Q[1]     DataInReg_D[1]     0.000       -0.067
+============================================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                       Starting                                               Required           
+Instance               Reference     Type        Pin     Net                  Time         Slack 
+                       Clock                                                                     
+-------------------------------------------------------------------------------------------------
+imuSM.State_DP[5]      System        FD1P3DX     SP      un1_imuFifo_i[2]     0.297        -0.297
+imuSM.State_DP[6]      System        FD1P3DX     SP      un1_imuFifo_i[2]     0.297        -0.297
+imuSM.State_DP[7]      System        FD1P3DX     SP      un1_imuFifo_i[2]     0.297        -0.297
+imuSM.State_DP[8]      System        FD1P3DX     SP      un1_imuFifo_i[2]     0.297        -0.297
+imuSM.State_DP[9]      System        FD1P3DX     SP      un1_imuFifo_i[2]     0.297        -0.297
+imuSM.State_DP[10]     System        FD1P3DX     SP      un1_imuFifo_i[2]     0.297        -0.297
+imuSM.State_DP[11]     System        FD1P3DX     SP      un1_imuFifo_i[2]     0.297        -0.297
+imuSM.State_DP[12]     System        FD1P3DX     SP      un1_imuFifo_i[2]     0.297        -0.297
+imuSM.State_DP[13]     System        FD1P3DX     SP      un1_imuFifo_i[2]     0.297        -0.297
+imuSM.State_DP[14]     System        FD1P3DX     SP      un1_imuFifo_i[2]     0.297        -0.297
+=================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+    Propagation time:                        0.000
+    + Clock delay at starting point:         0.000 (ideal)
+-0.000
+    - Requested Period:                      0.000
+    - Hold time:                             0.297
+    - Clock delay at ending point:           0.000 (ideal)
+    = Slack (critical) :                     -0.297
+
+    Number of logic level(s):                1
+    Starting point:                          imuFifo.fifo / Full
+    Ending point:                            imuSM.State_DP[5] / SP
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+
+Instance / Net                                                   Pin      Pin               Arrival     No. of    
+Name                     Type                                    Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------
+imuFifo.fifo             pmi_fifo_work_toplevel_structural_1     Full     Out     0.000     0.000       -         
+Full_0                   Net                                     -        -       -         -           4         
+imuFifo.fifo_RNI17U1     INV                                     A        In      0.000     0.000       -         
+imuFifo.fifo_RNI17U1     INV                                     Z        Out     0.000     0.000       -         
+un1_imuFifo_i[2]         Net                                     -        -       -         -           15        
+imuSM.State_DP[5]        FD1P3DX                                 SP       In      0.000     0.000       -         
+==================================================================================================================
+
+
+Path information for path number 2: 
+    Propagation time:                        0.000
+    + Clock delay at starting point:         0.000 (ideal)
+-0.000
+    - Requested Period:                      0.000
+    - Hold time:                             0.297
+    - Clock delay at ending point:           0.000 (ideal)
+    = Slack (critical) :                     -0.297
+
+    Number of logic level(s):                1
+    Starting point:                          imuFifo.fifo / Full
+    Ending point:                            imuSM.State_DP[19] / SP
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+
+Instance / Net                                                   Pin      Pin               Arrival     No. of    
+Name                     Type                                    Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------
+imuFifo.fifo             pmi_fifo_work_toplevel_structural_1     Full     Out     0.000     0.000       -         
+Full_0                   Net                                     -        -       -         -           4         
+imuFifo.fifo_RNI17U1     INV                                     A        In      0.000     0.000       -         
+imuFifo.fifo_RNI17U1     INV                                     Z        Out     0.000     0.000       -         
+un1_imuFifo_i[2]         Net                                     -        -       -         -           15        
+imuSM.State_DP[19]       FD1P3DX                                 SP       In      0.000     0.000       -         
+==================================================================================================================
+
+
+Path information for path number 3: 
+    Propagation time:                        0.000
+    + Clock delay at starting point:         0.000 (ideal)
+-0.000
+    - Requested Period:                      0.000
+    - Hold time:                             0.297
+    - Clock delay at ending point:           0.000 (ideal)
+    = Slack (critical) :                     -0.297
+
+    Number of logic level(s):                1
+    Starting point:                          imuFifo.fifo / Full
+    Ending point:                            imuSM.State_DP[18] / SP
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+
+Instance / Net                                                   Pin      Pin               Arrival     No. of    
+Name                     Type                                    Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------
+imuFifo.fifo             pmi_fifo_work_toplevel_structural_1     Full     Out     0.000     0.000       -         
+Full_0                   Net                                     -        -       -         -           4         
+imuFifo.fifo_RNI17U1     INV                                     A        In      0.000     0.000       -         
+imuFifo.fifo_RNI17U1     INV                                     Z        Out     0.000     0.000       -         
+un1_imuFifo_i[2]         Net                                     -        -       -         -           15        
+imuSM.State_DP[18]       FD1P3DX                                 SP       In      0.000     0.000       -         
+==================================================================================================================
+
+
+Path information for path number 4: 
+    Propagation time:                        0.000
+    + Clock delay at starting point:         0.000 (ideal)
+-0.000
+    - Requested Period:                      0.000
+    - Hold time:                             0.297
+    - Clock delay at ending point:           0.000 (ideal)
+    = Slack (critical) :                     -0.297
+
+    Number of logic level(s):                1
+    Starting point:                          imuFifo.fifo / Full
+    Ending point:                            imuSM.State_DP[17] / SP
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+
+Instance / Net                                                   Pin      Pin               Arrival     No. of    
+Name                     Type                                    Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------
+imuFifo.fifo             pmi_fifo_work_toplevel_structural_1     Full     Out     0.000     0.000       -         
+Full_0                   Net                                     -        -       -         -           4         
+imuFifo.fifo_RNI17U1     INV                                     A        In      0.000     0.000       -         
+imuFifo.fifo_RNI17U1     INV                                     Z        Out     0.000     0.000       -         
+un1_imuFifo_i[2]         Net                                     -        -       -         -           15        
+imuSM.State_DP[17]       FD1P3DX                                 SP       In      0.000     0.000       -         
+==================================================================================================================
+
+
+Path information for path number 5: 
+    Propagation time:                        0.000
+    + Clock delay at starting point:         0.000 (ideal)
+-0.000
+    - Requested Period:                      0.000
+    - Hold time:                             0.297
+    - Clock delay at ending point:           0.000 (ideal)
+    = Slack (critical) :                     -0.297
+
+    Number of logic level(s):                1
+    Starting point:                          imuFifo.fifo / Full
+    Ending point:                            imuSM.State_DP[16] / SP
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+
+Instance / Net                                                   Pin      Pin               Arrival     No. of    
+Name                     Type                                    Name     Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------
+imuFifo.fifo             pmi_fifo_work_toplevel_structural_1     Full     Out     0.000     0.000       -         
+Full_0                   Net                                     -        -       -         -           4         
+imuFifo.fifo_RNI17U1     INV                                     A        In      0.000     0.000       -         
+imuFifo.fifo_RNI17U1     INV                                     Z        Out     0.000     0.000       -         
+un1_imuFifo_i[2]         Net                                     -        -       -         -           15        
+imuSM.State_DP[16]       FD1P3DX                                 SP       In      0.000     0.000       -         
+==================================================================================================================
+
+
+
+##### END OF TIMING REPORT #####]
+
