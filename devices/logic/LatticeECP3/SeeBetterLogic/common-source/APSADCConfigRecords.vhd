@@ -47,7 +47,7 @@ package APSADCConfigRecords is
 	constant CHIP_SIZE_COLUMNS_WIDTH : integer := integer(ceil(log2(real(CHIP_SIZE_COLUMNS + 1))));
 	constant CHIP_SIZE_ROWS_WIDTH    : integer := integer(ceil(log2(real(CHIP_SIZE_ROWS + 1))));
 
-	constant EXPOSUREDELAY_SIZE : integer := 20;
+	constant EXPOSUREDELAY_SIZE : integer := 26;
 	constant RESETTIME_SIZE     : integer := 8;
 	constant SETTLETIMES_SIZE   : integer := 6;
 
@@ -81,8 +81,8 @@ package APSADCConfigRecords is
 		StartRow_D            => to_unsigned(0, CHIP_SIZE_ROWS_WIDTH),
 		EndColumn_D           => to_unsigned(CHIP_SIZE_COLUMNS - 1, CHIP_SIZE_COLUMNS_WIDTH),
 		EndRow_D              => to_unsigned(CHIP_SIZE_ROWS - 1, CHIP_SIZE_ROWS_WIDTH),
-		Exposure_D            => to_unsigned(2000, EXPOSUREDELAY_SIZE),
-		FrameDelay_D          => to_unsigned(200, EXPOSUREDELAY_SIZE),
+		Exposure_D            => to_unsigned(60000, EXPOSUREDELAY_SIZE),
+		FrameDelay_D          => to_unsigned(6000, EXPOSUREDELAY_SIZE),
 		ResetSettle_D         => to_unsigned(10, RESETTIME_SIZE),
 		ColumnSettle_D        => to_unsigned(10, SETTLETIMES_SIZE),
 		RowSettle_D           => to_unsigned(10, SETTLETIMES_SIZE),

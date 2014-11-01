@@ -36,7 +36,6 @@ use work.APSADCConfigRecords.all;
 
 entity APSADCStateMachine is
 	generic(
-		ADC_CLOCK_FREQ    : integer;
 		ADC_BUS_WIDTH     : integer;
 		CHIP_SIZE_COLUMNS : integer;
 		CHIP_SIZE_ROWS    : integer);
@@ -70,7 +69,7 @@ architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
 	type tColumnState is (stIdle, stWaitADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stRSFeedTick, stRSReset, stRSSwitchToReadA, stRSReadA, stRSSwitchToReadB, stRSReadB, stGSReset, stGSReadA, stGSReadB, stGSSwitchToReadA,
-		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure);
+		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSFeedTick);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -90,21 +89,14 @@ architecture Behavioral of APSADCStateMachine is
 	constant COLMODE_READB  : std_logic_vector(1 downto 0) := "10";
 	constant COLMODE_RESETA : std_logic_vector(1 downto 0) := "11";
 
-	constant ADC_CLOCK_FREQ_SIZE     : integer := integer(ceil(log2(real(ADC_CLOCK_FREQ + 1))));
-	constant EXPOSUREDELAY_TIME_SIZE : integer := ADC_CLOCK_FREQ_SIZE + EXPOSUREDELAY_SIZE;
-
 	-- Take note if the ADC is running already or not. If not, it has to be started.
 	signal ADCRunning_SP, ADCRunning_SN : std_logic;
 
 	signal ADCStartupCount_S, ADCStartupDone_S : std_logic;
 
-	-- Inputs are in microseconds, so we need to transform them with the clock frequency to get cycles.
-	signal ExposureTimeCycles_D   : unsigned(EXPOSUREDELAY_TIME_SIZE - 1 downto 0);
-	signal FrameDelayTimeCycles_D : unsigned(EXPOSUREDELAY_TIME_SIZE - 1 downto 0);
-
 	-- Use one counter for both exposure and frame delay times, they cannot happen at the same time.
 	signal ExposureDelayClear_S, ExposureDelayDone_S : std_logic;
-	signal ExposureDelayLimit_D                      : unsigned(EXPOSUREDELAY_TIME_SIZE - 1 downto 0);
+	signal ExposureDelayLimit_D                      : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0);
 
 	-- Reset time counter (bigger to allow for long resets if needed).
 	signal ResetTimeCount_S, ResetTimeDone_S : std_logic;
@@ -173,13 +165,9 @@ begin
 			Overflow_SO  => ADCStartupDone_S,
 			Data_DO      => open);
 
-	-- Multiply to get cycles from microseconds.
-	ExposureTimeCycles_D   <= APSADCConfigReg_D.Exposure_D * to_unsigned(ADC_CLOCK_FREQ, ADC_CLOCK_FREQ_SIZE);
-	FrameDelayTimeCycles_D <= APSADCConfigReg_D.FrameDelay_D * to_unsigned(ADC_CLOCK_FREQ, ADC_CLOCK_FREQ_SIZE);
-
 	exposureDelayCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE              => EXPOSUREDELAY_TIME_SIZE,
+			SIZE              => EXPOSUREDELAY_SIZE,
 			RESET_ON_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
@@ -256,7 +244,7 @@ begin
 			Overflow_SO  => SettleTimesDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, ExposureTimeCycles_D, FrameDelayTimeCycles_D, RowReadDone_SP, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP)
+	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, RowReadDone_SP, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -281,7 +269,7 @@ begin
 
 		-- By default keep exposure/frame delay counter cleared and inactive.
 		ExposureDelayClear_S <= '0';
-		ExposureDelayLimit_D <= ExposureTimeCycles_D;
+		ExposureDelayLimit_D <= APSADCConfigReg_D.Exposure_D;
 
 		-- Colum counters.
 		ColumnReadAPositionZero_S <= '0';
@@ -485,6 +473,10 @@ begin
 					end if;
 				end if;
 
+			when stGSFeedTick =>
+				APSChipColSRClockReg_S <= '1';
+				APSChipColSRInReg_S    <= '0';
+
 			when stGSReset =>
 				-- Do reset.
 				APSChipColModeReg_DN <= COLMODE_RESETA;
@@ -523,7 +515,7 @@ begin
 
 			when stEndFrame =>
 				-- Setup exposureDelay counter to count frame delay instead of exposure.
-				ExposureDelayLimit_D <= FrameDelayTimeCycles_D;
+				ExposureDelayLimit_D <= APSADCConfigReg_D.FrameDelay_D;
 				ExposureDelayClear_S <= '1';
 
 				-- Zero column counters too.
@@ -542,7 +534,7 @@ begin
 
 			when stWaitFrameDelay =>
 				-- Wait until enough time has passed between frames.
-				ExposureDelayLimit_D <= FrameDelayTimeCycles_D;
+				ExposureDelayLimit_D <= APSADCConfigReg_D.FrameDelay_D;
 
 				if ExposureDelayDone_S = '1' then
 					ColState_DN <= stIdle;

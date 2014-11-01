@@ -320,7 +320,6 @@ begin
 	-- We use the USB clock directly here, since it conveniently runs at 30MHz already.
 	apsAdcSM : entity work.APSADCStateMachine
 		generic map(
-			ADC_CLOCK_FREQ    => ADC_CLOCK_FREQ,
 			ADC_BUS_WIDTH     => ADC_BUS_WIDTH,
 			CHIP_SIZE_COLUMNS => CHIP_SIZE_COLUMNS,
 			CHIP_SIZE_ROWS    => CHIP_SIZE_ROWS)
