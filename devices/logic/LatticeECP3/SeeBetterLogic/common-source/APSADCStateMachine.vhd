@@ -69,7 +69,7 @@ architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
 	type tColumnState is (stIdle, stWaitADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stRSFeedTick, stRSReset, stRSSwitchToReadA, stRSReadA, stRSSwitchToReadB, stRSReadB, stGSReset, stGSReadA, stGSReadB, stGSSwitchToReadA,
-		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSFeedTick);
+		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSReadAFeedTick, stGSReadBFeedTick, stGSColSRFeedB1, stGSColSRFeedB1Tick, stGSColSRFeedB0, stGSColSRFeedB0Tick);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -130,8 +130,9 @@ architecture Behavioral of APSADCStateMachine is
 	constant RBSTAT_NEED_ZERO_TWO : std_logic_vector(1 downto 0) := "10";
 	constant RBSTAT_NORMAL        : std_logic_vector(1 downto 0) := "11";
 
-	-- Check row validity. Used for faster ROI.
-	signal CurrentRowValid_S : std_logic;
+	-- Check column and row validity. Used for faster ROI.
+	signal CurrentColumnAValid_S, CurrentColumnBValid_S : std_logic;
+	signal CurrentRowValid_S                            : std_logic;
 
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S, OutFifoWriteRegCol_S, OutFifoWriteRegRow_S                : std_logic;
@@ -244,7 +245,7 @@ begin
 			Overflow_SO  => SettleTimesDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, RowReadDone_SP, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP)
+	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, RowReadDone_SP, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -473,10 +474,6 @@ begin
 					end if;
 				end if;
 
-			when stGSFeedTick =>
-				APSChipColSRClockReg_S <= '1';
-				APSChipColSRInReg_S    <= '0';
-
 			when stGSReset =>
 				-- Do reset.
 				APSChipColModeReg_DN <= COLMODE_RESETA;
@@ -487,7 +484,11 @@ begin
 				end if;
 
 				if ResetTimeDone_S = '1' then
-					ColState_DN <= stGSSwitchToReadA;
+					if APSADCConfigReg_D.ResetRead_S = '1' then
+						ColState_DN <= stGSSwitchToReadA;
+					else
+						ColState_DN <= stGSStartExposure;
+					end if;
 				end if;
 
 				ResetTimeCount_S <= '1';
@@ -498,20 +499,107 @@ begin
 				-- Close TXGate again after reset.
 				APSChipTXGateReg_SN <= '0';
 
+				if CurrentColumnAValid_S = '1' then
+					-- Start off the Row SM.
+					RowReadStart_SN <= '1';
+					ColState_DN     <= stGSReadA;
+				else
+					ColState_DN              <= stGSReadAFeedTick;
+					ColumnReadAPositionInc_S <= '1';
+				end if;
+
 			when stGSReadA =>
 				APSChipColModeReg_DN <= COLMODE_READA;
+
+				if RowReadDone_SP = '1' then
+					ColState_DN              <= stGSReadAFeedTick;
+					ColumnReadAPositionInc_S <= '1';
+				end if;
+
+			when stGSReadAFeedTick =>
+				APSChipColSRClockReg_S <= '1';
+				APSChipColSRInReg_S    <= '0';
+
+				if ColumnReadAPosition_D = CHIP_SIZE_COLUMNS then
+					-- Done with reset read.
+					ColState_DN <= stGSStartExposure;
+				else
+					ColState_DN <= stGSSwitchToReadA;
+				end if;
 
 			when stGSStartExposure =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
+				-- TXGate must be open during exposure.
+				APSChipTXGateReg_SN <= '1';
+
+				-- Start exposure.
+				ExposureDelayClear_S <= '1';
+				ColState_DN          <= stGSEndExposure;
+
 			when stGSEndExposure =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
+
+				if ExposureDelayDone_S = '1' then
+					-- Exposure completed, close TXGate and shift in read pattern.
+					APSChipTXGateReg_SN <= '0';
+					ColState_DN         <= stGSColSRFeedB1;
+				end if;
+
+			when stGSColSRFeedB1 =>
+				APSChipColSRClockReg_S <= '0';
+				APSChipColSRInReg_S    <= '1';
+
+				ColState_DN <= stGSColSRFeedB1Tick;
+
+			when stGSColSRFeedB1Tick =>
+				APSChipColSRClockReg_S <= '1';
+				APSChipColSRInReg_S    <= '1';
+
+				ColState_DN <= stGSColSRFeedB0;
+
+			when stGSColSRFeedB0 =>
+				APSChipColSRClockReg_S <= '0';
+				APSChipColSRInReg_S    <= '0';
+
+				ColState_DN <= stGSColSRFeedB0Tick;
+
+			when stGSColSRFeedB0Tick =>
+				APSChipColSRClockReg_S <= '1';
+				APSChipColSRInReg_S    <= '0';
+
+				ColState_DN <= stGSSwitchToReadB;
 
 			when stGSSwitchToReadB =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
+				if CurrentColumnBValid_S = '1' then
+					-- Start off the Row SM.
+					RowReadStart_SN <= '1';
+					ColState_DN     <= stGSReadB;
+				else
+					ColState_DN              <= stGSReadBFeedTick;
+					ColumnReadBPositionInc_S <= '1';
+				end if;
+
 			when stGSReadB =>
 				APSChipColModeReg_DN <= COLMODE_READB;
+
+				if RowReadDone_SP = '1' then
+					ColState_DN              <= stGSReadBFeedTick;
+					ColumnReadBPositionInc_S <= '1';
+				end if;
+
+			when stGSReadBFeedTick =>
+				APSChipColSRClockReg_S <= '1';
+				APSChipColSRInReg_S    <= '0';
+
+				if ColumnReadBPosition_D = CHIP_SIZE_COLUMNS then
+					-- Done with signal read.
+					ColState_DN <= stEndFrame;
+				else
+					ColState_DN <= stGSSwitchToReadB;
+				end if;
 
 			when stEndFrame =>
 				-- Setup exposureDelay counter to count frame delay instead of exposure.
@@ -549,6 +637,9 @@ begin
 
 	-- Concurrently calculate if the current row has to be read out or not.
 	-- If not (like with ROI), we can just fast jump parts of that row.
+	CurrentColumnAValid_S <= '1' when (ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn_D) else '0';
+	CurrentColumnBValid_S <= '1' when (ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn_D) else '0';
+
 	CurrentRowValid_S <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow_D) else '0';
 
 	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, APSADCOverflow_SI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, SettleTimesDone_S, RowReadPosition_D)
