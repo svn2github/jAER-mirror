@@ -87,6 +87,10 @@ begin
 				APSADCConfigReg_DN.GSTXGateOpenReset_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)                     <= APSADCConfigReg_DP.GSTXGateOpenReset_S;
 
+			when APSADCCONFIG_PARAM_ADDRESSES.ResetRead_S =>
+				APSADCConfigReg_DN.ResetRead_S <= APSADCInput_DP(0);
+				APSADCOutput_DN(0)             <= APSADCConfigReg_DP.ResetRead_S;
+
 			when APSADCCONFIG_PARAM_ADDRESSES.WaitOnTransferStall_S =>
 				APSADCConfigReg_DN.WaitOnTransferStall_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)                       <= APSADCConfigReg_DP.WaitOnTransferStall_S;

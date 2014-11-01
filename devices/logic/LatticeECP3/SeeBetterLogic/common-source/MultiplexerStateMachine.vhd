@@ -288,7 +288,7 @@ begin
 				-- The next event on the APS ADC fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
-				-- if it's one of the special events (SOE, EOE, SOSRR, ...).
+				-- if it's one of the special events.
 				if APSADCFifoData_DI(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_SPECIAL then
 					State_DN              <= stTimestamp;
 					StateTimestampNext_DN <= stAPSADC;
