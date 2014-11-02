@@ -347,9 +347,9 @@ begin
 				if DVSAERFifoControl_SI.Empty_S = '0' then
 					DVSAERFifoControl_SO.Read_S <= '1';
 				end if;
-				if APSADCFifoControl_SI.Empty_S = '0' then
-					APSADCFifoControl_SO.Read_S <= '1';
-				end if;
+				--if APSADCFifoControl_SI.Empty_S = '0' then
+				--	APSADCFifoControl_SO.Read_S <= '1';
+				--end if;
 				if IMUFifoControl_SI.Empty_S = '0' then
 					IMUFifoControl_SO.Read_S <= '1';
 				end if;

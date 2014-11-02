@@ -717,18 +717,18 @@ begin
 				APSChipRowSRClockReg_S <= '1';
 				APSChipRowSRInReg_S    <= '0';
 
-				if CurrentRowValid_S = '1' then
-					RowState_DN <= stRowSettleWait;
-				else
-					RowState_DN <= stRowFastJump;
-				end if;
-
 				-- Check if we're done. This means that we just clock the 1 in the RowSR out,
 				-- leaving it clean at only zeros. Further, the row read position is at the
 				-- maximum, so we can detect that, zero it and exit.
 				if RowReadPosition_D = CHIP_SIZE_ROWS then
 					RowState_DN           <= stRowDone;
 					RowReadPositionZero_S <= '1';
+				else
+					if CurrentRowValid_S = '1' then
+						RowState_DN <= stRowSettleWait;
+					else
+						RowState_DN <= stRowFastJump;
+					end if;
 				end if;
 
 			when stRowSettleWait =>

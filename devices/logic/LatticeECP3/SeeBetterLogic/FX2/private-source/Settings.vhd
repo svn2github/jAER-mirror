@@ -18,13 +18,13 @@ package Settings is
 	constant CHIP_SIZE_COLUMNS : integer := 240;
 	constant CHIP_SIZE_ROWS    : integer := 180;
 
-	constant USBLOGIC_FIFO_SIZE                 : integer := 32;
+	constant USBLOGIC_FIFO_SIZE                 : integer := 512;
 	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE    : integer := USB_BURST_WRITE_LENGTH;
 	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE     : integer := 2;
-	constant DVSAER_FIFO_SIZE                   : integer := 16;
+	constant DVSAER_FIFO_SIZE                   : integer := 256;
 	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE      : integer := 4;
 	constant DVSAER_FIFO_ALMOST_FULL_SIZE       : integer := 2;
-	constant APSADC_FIFO_SIZE                   : integer := 64;
+	constant APSADC_FIFO_SIZE                   : integer := 512;
 	constant APSADC_FIFO_ALMOST_EMPTY_SIZE      : integer := 8;
 	constant APSADC_FIFO_ALMOST_FULL_SIZE       : integer := 8;
 	constant IMU_FIFO_SIZE                      : integer := 32; -- two samples (2x16)
