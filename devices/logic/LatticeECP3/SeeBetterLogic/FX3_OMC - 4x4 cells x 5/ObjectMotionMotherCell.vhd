@@ -327,7 +327,7 @@ begin
     	end loop; -- i
 		
 		-- Next stage request managed by OMCs
-		PSMMotherOMCreq_ABO <= not((PSMreqOMC1_S) and (PSMreqOMC2_S) and (PSMreqOMC3_S) and (PSMreqOMC4_S) and (PSMreqOMC5_S));
+		PSMMotherOMCreq_ABO <= ((PSMreqOMC1_S) and (PSMreqOMC2_S) and (PSMreqOMC3_S) and (PSMreqOMC4_S) and (PSMreqOMC5_S));
 
 		case State_DP is
 
@@ -374,7 +374,7 @@ begin
 				end if;
 
 			when CheckIfDone =>
-				if (not((PDVSackOMC5_S) and (PDVSackOMC5_S) and (PDVSackOMC5_S) and (PDVSackOMC5_S) and (PDVSackOMC5_S)) = '0') then
+				if (((PDVSackOMC5_S) and (PDVSackOMC5_S) and (PDVSackOMC5_S) and (PDVSackOMC5_S) and (PDVSackOMC5_S)) = '0') then
 					OMCFireMotherOMC_DO <= (0 => OMCfireOMC1_S, 1 => OMCfireOMC2_S, 2 => OMCfireOMC3_S, 3 => OMCfireOMC4_S, 4 => OMCfireOMC5_S);
 				end if;
 
@@ -418,7 +418,7 @@ begin
 			end if;
 
 		when CheckIfDone =>
-			if (not((PDVSackOMC1_S) and (PDVSackOMC2_S) and (PDVSackOMC3_S) and (PDVSackOMC4_S) and (PDVSackOMC5_S)) = '0') then
+			if (((PDVSackOMC1_S) and (PDVSackOMC2_S) and (PDVSackOMC3_S) and (PDVSackOMC4_S) and (PDVSackOMC5_S)) = '0') then
 				State_DN <= Idle;
 			end if;
 

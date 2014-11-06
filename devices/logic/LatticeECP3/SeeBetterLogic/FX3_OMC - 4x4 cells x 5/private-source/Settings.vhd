@@ -16,8 +16,8 @@ package Settings is
 	constant AER_BUS_WIDTH          : integer := 10;
 	constant ADC_BUS_WIDTH          : integer := 10;
 	
-	constant CHIP_SIZE_COLUMNS 		: integer := 240;
-	constant CHIP_SIZE_ROWS   		: integer := 180;
+	constant CHIP_SIZE_COLUMNS : integer := 240;
+	constant CHIP_SIZE_ROWS    : integer := 180;
 		
 	constant MISC_OBT_AER_BUS_WIDTH : integer := 18;
 
