@@ -238,32 +238,6 @@ begin
 		PDVSMotherOMCack_ABO <= '0';
 		PSMMotherOMCreq_ABO  <= '1';
 		OMCfireMotherOMC_DO  <= (others => '0');
-
-			-- Signals of OMCs
---		PDVSreqOMC1_S	<= '1';
---		PDVSackOMC1_S	<= '1';
---		PSMreqOMC1_S	<= '1';
---		OMCfireOMC1_S	<= '0';
-
---		PDVSreqOMC2_S	<= '1';
---		PDVSackOMC2_S	<= '1';
---		PSMreqOMC2_S	<= '1';
---		OMCfireOMC2_S	<= '0';
-	
---		PDVSreqOMC3_S	<= '1';
---		PDVSackOMC3_S	<= '1';
---		PSMreqOMC3_S	<= '1';
---		OMCfireOMC3_S	<= '0';
-	
---		PDVSreqOMC4_S	<= '1';
---		PDVSackOMC4_S	<= '1';
---		PSMreqOMC4_S	<= '1';
---		OMCfireOMC4_S	<= '0';
-	
---		PDVSreqOMC5_S	<= '1';
---		PDVSackOMC5_S	<= '1';
---		PSMreqOMC5_S	<= '1';
---		OMCfireOMC5_S	<= '0';
 		
 		AllowReset_S <= '0';
 	
@@ -275,27 +249,27 @@ begin
 		-- Reset Receptive Fields
 		for i in 0 to 3 loop
       		for j in 0 to 3 loop
-        		arrayOfSubunitsOMC1(i,j) <= (others => '0');
+        		arrayOfSubunitsOMC1(i,j) <= (0 => '1', others => '0');
       		end loop; -- j
     	end loop; -- i
 		for i in 0 to 3 loop
       		for j in 0 to 3 loop
-        		arrayOfSubunitsOMC2(i,j) <= (others => '0');
+        		arrayOfSubunitsOMC2(i,j) <= (0 => '1', others => '0');
       		end loop; -- j
     	end loop; -- i
 		for i in 0 to 3 loop
       		for j in 0 to 3 loop
-        		arrayOfSubunitsOMC3(i,j) <= (others => '0');
+        		arrayOfSubunitsOMC3(i,j) <= (0 => '1', others => '0');
       		end loop; -- j
     	end loop; -- i
 		for i in 0 to 3 loop
       		for j in 0 to 3 loop
-        		arrayOfSubunitsOMC4(i,j) <= (others => '0');
+        		arrayOfSubunitsOMC4(i,j) <= (0 => '1', others => '0');
       		end loop; -- j
     	end loop; -- i
 		for i in 0 to 3 loop
       		for j in 0 to 3 loop
-        		arrayOfSubunitsOMC5(i,j) <= (others => '0');
+        		arrayOfSubunitsOMC5(i,j) <= (0 => '1', others => '0');
       		end loop; -- j
     	end loop; -- i
 	
@@ -328,11 +302,11 @@ begin
 		
 		-- Next stage request managed by OMCs
 		PSMMotherOMCreq_ABO <= ((PSMreqOMC1_S) and (PSMreqOMC2_S) and (PSMreqOMC3_S) and (PSMreqOMC4_S) and (PSMreqOMC5_S));
+		PDVSMotherOMCack_ABO <= ((PDVSackOMC1_S) and (PDVSackOMC2_S) and (PDVSackOMC3_S) and (PDVSackOMC4_S) and (PDVSackOMC5_S));
 
 		case State_DP is
 
 			when Idle =>
-				PDVSMotherOMCack_ABO <= '1'; -- Don't acknowledge the DVS state machine
 				
 				-- Don't request to daughters
 				PDVSreqOMC1_S <= '1';

@@ -108,8 +108,11 @@ begin
 	if (PSMMotherOMCreq_AB = '1') then
 		wait until PSMMotherOMCreq_AB = '0';
 	end if;
+	report  "here";
 	PSMMotherOMCack_AB 		<=	'0'; -- Acknowledge from next block received
-	wait until PDVSMotherOMCack_AB = '0';							   
+	if (PDVSMotherOMCack_AB = '1') then
+		wait until PDVSMotherOMCack_AB = '0';
+	end if;	
 	wait for 2 ns;
 	PDVSMotherOMCreq_AB 		<=	'1'; -- No more request
 	wait for 2 ns;
