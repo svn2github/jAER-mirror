@@ -34,7 +34,7 @@ end ObjectMotionMotherCell_tb;
 architecture TestBench of ObjectMotionMotherCell_tb is
 	-- Component generics
 	constant Threshold_K     : unsigned (24 downto 0) := (5 => '1', others => '0');
-	constant DecayTime_K     : unsigned (24 downto 0) := (10 => '1', others => '0');
+	constant DecayTime_K     : unsigned (24 downto 0) := (5 => '1', others => '0');
 	constant TimerLimit_K    : unsigned (24 downto 0) := (24 => '1', others => '0');
 	
 	-- Component ports
@@ -80,6 +80,9 @@ begin
 WaveGen_Proc : process -- Generate Waweforms
 variable cnt1 : integer :=0;
 variable cnt2 : integer :=0;
+variable cnt3 : integer :=0;
+variable cnt4 : integer :=0;
+variable cnt5 : integer :=0;
 begin
 	-- Initial conditions	
 	Reset_R			<=	'0'; -- No reset
@@ -149,7 +152,7 @@ begin
 	-- Try to loop 20 times with center subunits active
 	while (cnt2 <= 19) loop
 		-- Case 6: request of DVS arrives (event 3)
-		PDVSMotherOMCdata_AD		<=	(16 => '1', 8 => '1', others => '0'); -- New data
+		PDVSMotherOMCdata_AD		<=	(14 => '1', 15 => '1', 6 => '1', 7 => '1', others => '0'); -- New data
 		wait for 2 ns;
 		PDVSMotherOMCreq_AB 		<=	'0'; -- DVS request active
 		wait for 2 ns;
@@ -169,8 +172,83 @@ begin
 		PSMMotherOMCack_AB 		<=	'1'; -- No more acknowledge from next State Machine
 		report  "Case 7: Acknowledge from next State Machine received, DVS request removed and SM acknowledge removed";
 		cnt2 := cnt2 + 1;
-	end loop;
+		end loop;
 --------------------------------------------------------------------------------	
+	-- Try to loop 20 times with center subunits active
+	while (cnt3 <= 19) loop
+		-- Case 8: request of DVS arrives (event 3)
+		PDVSMotherOMCdata_AD		<=	(16 => '1', 15 => '1', 8 => '1', 7 => '1', others => '0'); -- New data
+		wait for 2 ns;
+		PDVSMotherOMCreq_AB 		<=	'0'; -- DVS request active
+		wait for 2 ns;
+		report  "Case 8: Request received, check if in Acknowledge state";
+
+		-- Case 9: acknowledge received to go back to Idle state (event 3)
+		if (PSMMotherOMCreq_AB = '1') then
+			wait until PSMMotherOMCreq_AB = '0';
+		end if;
+		PSMMotherOMCack_AB 		<=	'0'; -- Acknowledge from next block received
+		if (PDVSMotherOMCack_AB = '1') then
+			wait until PDVSMotherOMCack_AB = '0';
+		end if;
+		wait for 2 ns;
+		PDVSMotherOMCreq_AB 		<=	'1'; -- No more request
+		wait for 2 ns;
+		PSMMotherOMCack_AB 		<=	'1'; -- No more acknowledge from next State Machine
+		report  "Case 9: Acknowledge from next State Machine received, DVS request removed and SM acknowledge removed";
+		cnt3 := cnt3 + 1;
+	end loop; 
+--------------------------------------------------------------------------------	
+	-- Try to loop 20 times with center subunits active
+	while (cnt4 <= 19) loop
+		-- Case 10: request of DVS arrives (event 3)
+		PDVSMotherOMCdata_AD		<=	(16 => '1', 8 => '1', 7 => '1', others => '0'); -- New data
+		wait for 2 ns;
+		PDVSMotherOMCreq_AB 		<=	'0'; -- DVS request active
+		wait for 2 ns;
+		report  "Case 10: Request received, check if in Acknowledge state";
+
+		-- Case 11: acknowledge received to go back to Idle state (event 3)
+		if (PSMMotherOMCreq_AB = '1') then
+			wait until PSMMotherOMCreq_AB = '0';
+		end if;
+		PSMMotherOMCack_AB 		<=	'0'; -- Acknowledge from next block received
+		if (PDVSMotherOMCack_AB = '1') then
+			wait until PDVSMotherOMCack_AB = '0';
+		end if;
+		wait for 2 ns;
+		PDVSMotherOMCreq_AB 		<=	'1'; -- No more request
+		wait for 2 ns;
+		PSMMotherOMCack_AB 		<=	'1'; -- No more acknowledge from next State Machine
+		report  "Case 11: Acknowledge from next State Machine received, DVS request removed and SM acknowledge removed";
+		cnt4 := cnt4 + 1;
+	end loop;
+--------------------------------------------------------------------------------	   
+	-- Try to loop 20 times with center subunits active
+	while (cnt5 <= 19) loop
+		-- Case 12: request of DVS arrives (event 3)
+		PDVSMotherOMCdata_AD		<=	(16 => '1', 15 => '1', 6 => '1', others => '0'); -- New data
+		wait for 2 ns;
+		PDVSMotherOMCreq_AB 		<=	'0'; -- DVS request active
+		wait for 2 ns;
+		report  "Case 12: Request received, check if in Acknowledge state";
+
+		-- Case 13: acknowledge received to go back to Idle state (event 3)
+		if (PSMMotherOMCreq_AB = '1') then
+			wait until PSMMotherOMCreq_AB = '0';
+		end if;
+		PSMMotherOMCack_AB 		<=	'0'; -- Acknowledge from next block received
+		if (PDVSMotherOMCack_AB = '1') then
+			wait until PDVSMotherOMCack_AB = '0';
+		end if;
+		wait for 2 ns;
+		PDVSMotherOMCreq_AB 		<=	'1'; -- No more request
+		wait for 2 ns;
+		PSMMotherOMCack_AB 		<=	'1'; -- No more acknowledge from next State Machine
+		report  "Case 13: Acknowledge from next State Machine received, DVS request removed and SM acknowledge removed";
+		cnt5 := cnt5 + 1;
+	end loop;
+--------------------------------------------------------------------------------
 	wait; -- Wait forever
 end process WaveGen_Proc;
 --------------------------------------------------------------------------------

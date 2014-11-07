@@ -172,7 +172,7 @@ begin
 				Inhibition_S <= (TemporalVariable2 + 4);
 
 			when InhibitionNormalise =>
-				Inhibition_S <= ("00000000" & Inhibition_S(24 downto 8)) - 1; -- Divide by 256 to normalise approximately (shift by 6 bits)
+				Inhibition_S <= ("0000" & Inhibition_S(24 downto 4)) - 1; -- Divide by 16 to normalise approximately (shift by 4 bits)
 
 			when SubtractionCalculate =>
 				if (Excitation_S >= Inhibition_S) then

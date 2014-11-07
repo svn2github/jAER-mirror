@@ -293,9 +293,9 @@ begin
 		for i in 0 to 3 loop
       		for j in 0 to 3 loop
         		arrayOfSubunitsOMC1(i,j) <= arrayOfSubunits(i,j);
-        		arrayOfSubunitsOMC2(i,j) <= arrayOfSubunits(i+3,j);
-        		arrayOfSubunitsOMC3(i,j) <= arrayOfSubunits(i,j+3);
-        		arrayOfSubunitsOMC4(i,j) <= arrayOfSubunits(i+3,j+3);
+        		arrayOfSubunitsOMC2(i,j) <= arrayOfSubunits(i+4,j);
+        		arrayOfSubunitsOMC3(i,j) <= arrayOfSubunits(i,j+4);
+        		arrayOfSubunitsOMC4(i,j) <= arrayOfSubunits(i+4,j+4);
         		arrayOfSubunitsOMC5(i,j) <= arrayOfSubunits(i+2,j+2);
       		end loop; -- j
     	end loop; -- i
