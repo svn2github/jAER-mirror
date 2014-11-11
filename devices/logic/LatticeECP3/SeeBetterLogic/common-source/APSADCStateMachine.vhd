@@ -81,7 +81,7 @@ architecture Behavioral of APSADCStateMachine is
 	-- present and next state
 	signal RowState_DP, RowState_DN : tRowState;
 
-	constant ADC_STARTUP_CYCLES      : integer := 45; -- At 30MHz, wait 1.5 microseconds.
+	constant ADC_STARTUP_CYCLES      : integer := 30 * 10; -- At 30MHz, wait 10 microseconds.
 	constant ADC_STARTUP_CYCLES_SIZE : integer := integer(ceil(log2(real(ADC_STARTUP_CYCLES))));
 
 	constant COLMODE_NULL   : std_logic_vector(1 downto 0) := "00";
