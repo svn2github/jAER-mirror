@@ -657,8 +657,8 @@ begin
 		RowReadPositionZero_S <= '0';
 		RowReadPositionInc_S  <= '0';
 
-		-- Settle times counter.
-		SettleTimesLimit_D <= (others => '0');
+		-- Settle times counter. By default count row settle time.
+		SettleTimesLimit_D <= APSADCConfigReg_D.RowSettle_D;
 		SettleTimesCount_S <= '0';
 
 		-- Column SM communication.
@@ -671,6 +671,9 @@ begin
 					RowState_DN <= stColSettleWait;
 				end if;
 
+				-- Setup proper source for column settle time (used in next state).
+				SettleTimesLimit_D <= APSADCConfigReg_D.ColumnSettle_D;
+
 			when stColSettleWait =>
 				-- Wait for the column selection to be valid. We do this here so we don't have to duplicate
 				-- this code in every column state inside the main column state machine.
@@ -680,7 +683,7 @@ begin
 
 				SettleTimesCount_S <= '1';
 
-				-- Select proper source for column settle time.
+				-- Keep proper source for column settle time selected while counting it.
 				SettleTimesLimit_D <= APSADCConfigReg_D.ColumnSettle_D;
 
 			when stRowSRInit =>
@@ -738,9 +741,6 @@ begin
 				end if;
 
 				SettleTimesCount_S <= '1';
-
-				-- Select proper source for row settle time.
-				SettleTimesLimit_D <= APSADCConfigReg_D.RowSettle_D;
 
 			when stRowWriteEvent =>
 				-- Write event only if FIFO has place, else wait.
