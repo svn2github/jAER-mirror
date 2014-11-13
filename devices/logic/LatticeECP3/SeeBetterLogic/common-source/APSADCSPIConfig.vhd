@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.APSADCConfigRecords.all;
+use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 
 entity APSADCSPIConfig is
 	port(
@@ -44,7 +45,10 @@ begin
 				APSADCOutput_DN(1 downto 0) <= APSADCConfigReg_DP.Mode_D;
 
 			when APSADCCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
-				APSADCConfigReg_DN.GlobalShutter_S <= APSADCInput_DP(0);
+				-- Allow changing global shutter parameter only on chips which support it.
+				if CHIP_HAS_GLOBAL_SHUTTER = '1' then
+					APSADCConfigReg_DN.GlobalShutter_S <= APSADCInput_DP(0);
+				end if;
 				APSADCOutput_DN(0)                 <= APSADCConfigReg_DP.GlobalShutter_S;
 
 			when APSADCCONFIG_PARAM_ADDRESSES.StartColumn_D =>

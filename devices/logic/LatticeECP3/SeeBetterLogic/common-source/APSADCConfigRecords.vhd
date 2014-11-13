@@ -5,6 +5,7 @@ use ieee.math_real.ceil;
 use ieee.math_real.log2;
 use work.Settings.CHIP_SIZE_COLUMNS;
 use work.Settings.CHIP_SIZE_ROWS;
+use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 
 package APSADCConfigRecords is
 	constant APSADCCONFIG_MODULE_ADDRESS : unsigned(6 downto 0) := to_unsigned(2, 7);
@@ -44,9 +45,6 @@ package APSADCConfigRecords is
 		ResetRead_S           => to_unsigned(13, 8),
 		WaitOnTransferStall_S => to_unsigned(14, 8));
 
-	constant CHIP_SIZE_COLUMNS_WIDTH : integer := integer(ceil(log2(real(CHIP_SIZE_COLUMNS + 1))));
-	constant CHIP_SIZE_ROWS_WIDTH    : integer := integer(ceil(log2(real(CHIP_SIZE_ROWS + 1))));
-
 	constant EXPOSUREDELAY_SIZE : integer := 26;
 	constant RESETTIME_SIZE     : integer := 8;
 	constant SETTLETIMES_SIZE   : integer := 6;
@@ -59,10 +57,10 @@ package APSADCConfigRecords is
 		Run_S                 : std_logic;
 		Mode_D                : std_logic_vector(1 downto 0); -- switch between video and camera modes
 		GlobalShutter_S       : std_logic; -- enable global shutter instead of rolling shutter
-		StartColumn_D         : unsigned(CHIP_SIZE_COLUMNS_WIDTH - 1 downto 0);
-		StartRow_D            : unsigned(CHIP_SIZE_ROWS_WIDTH - 1 downto 0);
-		EndColumn_D           : unsigned(CHIP_SIZE_COLUMNS_WIDTH - 1 downto 0);
-		EndRow_D              : unsigned(CHIP_SIZE_ROWS_WIDTH - 1 downto 0);
+		StartColumn_D         : unsigned(CHIP_SIZE_COLUMNS'range);
+		StartRow_D            : unsigned(CHIP_SIZE_ROWS'range);
+		EndColumn_D           : unsigned(CHIP_SIZE_COLUMNS'range);
+		EndRow_D              : unsigned(CHIP_SIZE_ROWS'range);
 		Exposure_D            : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in microseconds, up to 1 second
 		FrameDelay_D          : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in microseconds, up to 1 second
 		ResetSettle_D         : unsigned(RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 255 cycles
@@ -76,11 +74,11 @@ package APSADCConfigRecords is
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
 		Run_S                 => '0',
 		Mode_D                => APSADC_MODE_VIDEO,
-		GlobalShutter_S       => '0',
-		StartColumn_D         => to_unsigned(0, CHIP_SIZE_COLUMNS_WIDTH),
-		StartRow_D            => to_unsigned(0, CHIP_SIZE_ROWS_WIDTH),
-		EndColumn_D           => to_unsigned(CHIP_SIZE_COLUMNS - 1, CHIP_SIZE_COLUMNS_WIDTH),
-		EndRow_D              => to_unsigned(CHIP_SIZE_ROWS - 1, CHIP_SIZE_ROWS_WIDTH),
+		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,
+		StartColumn_D         => to_unsigned(0, CHIP_SIZE_COLUMNS'length),
+		StartRow_D            => to_unsigned(0, CHIP_SIZE_ROWS'length),
+		EndColumn_D           => CHIP_SIZE_COLUMNS,
+		EndRow_D              => CHIP_SIZE_ROWS,
 		Exposure_D            => to_unsigned(60000, EXPOSUREDELAY_SIZE),
 		FrameDelay_D          => to_unsigned(6000, EXPOSUREDELAY_SIZE),
 		ResetSettle_D         => to_unsigned(10, RESETTIME_SIZE),

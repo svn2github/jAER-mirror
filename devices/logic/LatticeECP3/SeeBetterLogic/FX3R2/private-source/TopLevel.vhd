@@ -10,6 +10,7 @@ use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
 use work.ExtTriggerConfigRecords.all;
 use work.ChipBiasConfigRecords.all;
+use work.SystemInfoConfigRecords.all;
 use work.FX3ConfigRecords.all;
 
 entity TopLevel is
@@ -126,6 +127,7 @@ architecture Structural of TopLevel is
 	signal ExtTriggerConfigParamOutput_D  : std_logic_vector(31 downto 0);
 	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
 	signal ChipConfigParamOutput_D        : std_logic_vector(31 downto 0);
+	signal SystemInfoConfigParamOutput_D  : std_logic_vector(31 downto 0);
 	signal FX3ConfigParamOutput_D         : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
@@ -387,10 +389,6 @@ begin
 			FifoData_DO    => APSADCFifoDataOut_D);
 
 	apsAdcSM : entity work.APSADCStateMachine
-		generic map(
-			ADC_BUS_WIDTH     => ADC_BUS_WIDTH,
-			CHIP_SIZE_COLUMNS => CHIP_SIZE_COLUMNS,
-			CHIP_SIZE_ROWS    => CHIP_SIZE_ROWS)
 		port map(
 			Clock_CI               => ADCClock_C,
 			Reset_RI               => ADCReset_R,
@@ -499,6 +497,13 @@ begin
 			ConfigLatchInput_SI            => ConfigLatchInput_S,
 			ExtTriggerConfigParamOutput_DO => ExtTriggerConfigParamOutput_D);
 
+	systemInfoSPIConfig : entity work.SystemInfoSPIConfig
+		port map(
+			Clock_CI                       => LogicClock_C,
+			Reset_RI                       => LogicReset_R,
+			ConfigParamAddress_DI          => ConfigParamAddress_D,
+			SystemInfoConfigParamOutput_DO => SystemInfoConfigParamOutput_D);
+
 	spiConfiguration : entity work.SPIConfig
 		port map(
 			Clock_CI               => LogicClock_C,
@@ -513,7 +518,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, FX3ConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -540,6 +545,9 @@ begin
 				else
 					ConfigParamOutput_D <= ChipConfigParamOutput_D;
 				end if;
+
+			when SYSTEMINFOCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= SystemInfoConfigParamOutput_D;
 
 			when FX3CONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= FX3ConfigParamOutput_D;

@@ -9,6 +9,7 @@ use work.DVSAERConfigRecords.all;
 use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
 use work.ExtTriggerConfigRecords.all;
+use work.SystemInfoConfigRecords.all;
 use work.FX2ConfigRecords.all;
 
 entity TopLevel is
@@ -115,6 +116,7 @@ architecture Structural of TopLevel is
 	signal APSADCConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
 	signal ExtTriggerConfigParamOutput_D  : std_logic_vector(31 downto 0);
+	signal SystemInfoConfigParamOutput_D  : std_logic_vector(31 downto 0);
 	signal FX2ConfigParamOutput_D         : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
@@ -319,10 +321,6 @@ begin
 
 	-- We use the USB clock directly here, since it conveniently runs at 30MHz already.
 	apsAdcSM : entity work.APSADCStateMachine
-		generic map(
-			ADC_BUS_WIDTH     => ADC_BUS_WIDTH,
-			CHIP_SIZE_COLUMNS => CHIP_SIZE_COLUMNS,
-			CHIP_SIZE_ROWS    => CHIP_SIZE_ROWS)
 		port map(
 			Clock_CI               => USBClock_CI,
 			Reset_RI               => USBReset_R,
@@ -437,6 +435,13 @@ begin
 			ConfigLatchInput_SI            => ConfigLatchInput_S,
 			ExtTriggerConfigParamOutput_DO => ExtTriggerConfigParamOutput_D);
 
+	systemInfoSPIConfig : entity work.SystemInfoSPIConfig
+		port map(
+			Clock_CI                       => LogicClock_C,
+			Reset_RI                       => LogicReset_R,
+			ConfigParamAddress_DI          => ConfigParamAddress_D,
+			SystemInfoConfigParamOutput_DO => SystemInfoConfigParamOutput_D);
+
 	spiConfiguration : entity work.SPIConfig
 		port map(
 			Clock_CI               => LogicClock_C,
@@ -451,7 +456,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D, FX2ConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX2ConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -471,6 +476,9 @@ begin
 
 			when EXTTRIGGERCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= ExtTriggerConfigParamOutput_D;
+
+			when SYSTEMINFOCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= SystemInfoConfigParamOutput_D;
 
 			when FX2CONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= FX2ConfigParamOutput_D;

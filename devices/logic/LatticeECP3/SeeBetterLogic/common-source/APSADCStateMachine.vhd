@@ -6,6 +6,11 @@ use ieee.math_real.log2;
 use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.APSADCConfigRecords.all;
+use work.Settings.ADC_CLOCK_FREQ;
+use work.Settings.ADC_BUS_WIDTH;
+use work.Settings.CHIP_SIZE_COLUMNS;
+use work.Settings.CHIP_SIZE_ROWS;
+use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 
 -- Rolling shutter considerations: since the exposure is given by the
 -- difference in time between the reset/reset read and the signal read (integration happens
@@ -35,10 +40,6 @@ use work.APSADCConfigRecords.all;
 -- advantages of ROI stated above, but is unavoidable with the current scheme.
 
 entity APSADCStateMachine is
-	generic(
-		ADC_BUS_WIDTH     : integer;
-		CHIP_SIZE_COLUMNS : integer;
-		CHIP_SIZE_ROWS    : integer);
 	port(
 		Clock_CI               : in  std_logic; -- This clock must be 30MHz, use PLL to generate.
 		Reset_RI               : in  std_logic; -- This reset must be synchronized to the above clock.
@@ -81,7 +82,7 @@ architecture Behavioral of APSADCStateMachine is
 	-- present and next state
 	signal RowState_DP, RowState_DN : tRowState;
 
-	constant ADC_STARTUP_CYCLES      : integer := 30 * 10; -- At 30MHz, wait 10 microseconds.
+	constant ADC_STARTUP_CYCLES      : integer := ADC_CLOCK_FREQ * 10; -- At 30MHz, wait 10 microseconds.
 	constant ADC_STARTUP_CYCLES_SIZE : integer := integer(ceil(log2(real(ADC_STARTUP_CYCLES))));
 
 	constant COLMODE_NULL   : std_logic_vector(1 downto 0) := "00";
@@ -107,11 +108,11 @@ architecture Behavioral of APSADCStateMachine is
 
 	-- Column and row read counters.
 	signal ColumnReadAPositionZero_S, ColumnReadAPositionInc_S : std_logic;
-	signal ColumnReadAPosition_D                               : unsigned(CHIP_SIZE_COLUMNS_WIDTH - 1 downto 0);
+	signal ColumnReadAPosition_D                               : unsigned(CHIP_SIZE_COLUMNS'range);
 	signal ColumnReadBPositionZero_S, ColumnReadBPositionInc_S : std_logic;
-	signal ColumnReadBPosition_D                               : unsigned(CHIP_SIZE_COLUMNS_WIDTH - 1 downto 0);
+	signal ColumnReadBPosition_D                               : unsigned(CHIP_SIZE_COLUMNS'range);
 	signal RowReadPositionZero_S, RowReadPositionInc_S         : std_logic;
-	signal RowReadPosition_D                                   : unsigned(CHIP_SIZE_ROWS_WIDTH - 1 downto 0);
+	signal RowReadPosition_D                                   : unsigned(CHIP_SIZE_ROWS'range);
 
 	-- Communication between column and row state machines. Done through a register for full decoupling.
 	signal RowReadStart_SP, RowReadStart_SN : std_logic;
@@ -181,7 +182,7 @@ begin
 
 	colReadAPosition : entity work.ContinuousCounter
 		generic map(
-			SIZE              => CHIP_SIZE_COLUMNS_WIDTH,
+			SIZE              => CHIP_SIZE_COLUMNS'length,
 			RESET_ON_OVERFLOW => false,
 			GENERATE_OVERFLOW => false)
 		port map(
@@ -189,13 +190,13 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => ColumnReadAPositionZero_S,
 			Enable_SI    => ColumnReadAPositionInc_S,
-			DataLimit_DI => to_unsigned(CHIP_SIZE_COLUMNS, CHIP_SIZE_COLUMNS_WIDTH),
+			DataLimit_DI => CHIP_SIZE_COLUMNS,
 			Overflow_SO  => open,
 			Data_DO      => ColumnReadAPosition_D);
 
 	colReadBPosition : entity work.ContinuousCounter
 		generic map(
-			SIZE              => CHIP_SIZE_COLUMNS_WIDTH,
+			SIZE              => CHIP_SIZE_COLUMNS'length,
 			RESET_ON_OVERFLOW => false,
 			GENERATE_OVERFLOW => false)
 		port map(
@@ -203,13 +204,13 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => ColumnReadBPositionZero_S,
 			Enable_SI    => ColumnReadBPositionInc_S,
-			DataLimit_DI => to_unsigned(CHIP_SIZE_COLUMNS, CHIP_SIZE_COLUMNS_WIDTH),
+			DataLimit_DI => CHIP_SIZE_COLUMNS,
 			Overflow_SO  => open,
 			Data_DO      => ColumnReadBPosition_D);
 
 	rowReadPosition : entity work.ContinuousCounter
 		generic map(
-			SIZE              => CHIP_SIZE_ROWS_WIDTH,
+			SIZE              => CHIP_SIZE_ROWS'length,
 			RESET_ON_OVERFLOW => false,
 			GENERATE_OVERFLOW => false)
 		port map(
@@ -217,7 +218,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => RowReadPositionZero_S,
 			Enable_SI    => RowReadPositionInc_S,
-			DataLimit_DI => to_unsigned(CHIP_SIZE_ROWS, CHIP_SIZE_ROWS_WIDTH),
+			DataLimit_DI => CHIP_SIZE_ROWS,
 			Overflow_SO  => open,
 			Data_DO      => RowReadPosition_D);
 
@@ -353,7 +354,8 @@ begin
 				APSChipColSRClockReg_S <= '1';
 				APSChipColSRInReg_S    <= '1';
 
-				if APSADCConfigReg_D.GlobalShutter_S = '1' then
+				if CHIP_HAS_GLOBAL_SHUTTER = '1' and APSADCConfigReg_D.GlobalShutter_S = '1' then
+					-- Only switch to global shutter on chips supporting it.
 					ColState_DN <= stGSReset;
 				else
 					ColState_DN <= stRSReset;
