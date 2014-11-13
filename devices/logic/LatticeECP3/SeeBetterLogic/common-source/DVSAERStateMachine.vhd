@@ -4,10 +4,9 @@ use ieee.numeric_std.all;
 use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.DVSAERConfigRecords.all;
+use work.Settings.DVS_AER_BUS_WIDTH;
 
 entity DVSAERStateMachine is
-	generic(
-		AER_BUS_WIDTH : integer);
 	port(
 		Clock_CI          : in  std_logic;
 		Reset_RI          : in  std_logic;
@@ -17,7 +16,7 @@ entity DVSAERStateMachine is
 		OutFifoControl_SO : out tToFifoWriteSide;
 		OutFifoData_DO    : out std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
-		DVSAERData_DI     : in  std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
+		DVSAERData_DI     : in  std_logic_vector(DVS_AER_BUS_WIDTH - 1 downto 0);
 		DVSAERReq_SBI     : in  std_logic;
 		DVSAERAck_SBO     : out std_logic;
 		DVSAERReset_SBO   : out std_logic;
@@ -41,6 +40,9 @@ architecture Behavioral of DVSAERStateMachine is
 	-- ACK extension counter (prolongs dAckDOWN)
 	signal AckExtensionCount_S, AckExtensionNotify_S : std_logic;
 
+	-- Pad address output with zeros.
+	constant ADDR_OUT_ZERO_PAD : std_logic_vector(EVENT_DATA_WIDTH_MAX - DVS_AER_BUS_WIDTH + 1 downto 0) := (others => '0');
+
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S      : std_logic;
 	signal OutFifoDataRegEnable_S : std_logic;
@@ -54,7 +56,7 @@ architecture Behavioral of DVSAERStateMachine is
 begin
 	ackDelayCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => 5)
+			SIZE => DVSAERConfigReg_D.AckDelay_D'length)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -66,7 +68,7 @@ begin
 
 	ackExtensionCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => 5)
+			SIZE => DVSAERConfigReg_D.AckExtension_D'length)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -122,8 +124,8 @@ begin
 				end if;
 
 			when stDifferentiateYX =>
-				-- Get data and format it. AER(9) holds the axis.
-				if DVSAERData_DI(9) = '0' then
+				-- Get data and format it. AER(WIDTH-1) holds the axis.
+				if DVSAERData_DI(DVS_AER_BUS_WIDTH - 1) = '0' then
 					-- This is an Y address.
 					-- They are differentiated here because Y addresses have
 					-- all kinds of special timing requirements.
@@ -137,7 +139,7 @@ begin
 			when stHandleY =>
 				-- We might need to delay the ACK.
 				if AckDelayNotify_S = '1' then
-					OutFifoDataReg_D       <= EVENT_CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
+					OutFifoDataReg_D       <= EVENT_CODE_Y_ADDR & ADDR_OUT_ZERO_PAD & DVSAERData_DI(DVS_AER_BUS_WIDTH - 3 downto 0);
 					OutFifoDataRegEnable_S <= '1';
 					OutFifoWriteReg_S      <= '1';
 
@@ -164,7 +166,7 @@ begin
 			when stHandleX =>
 				-- This is an X address. AER(0) holds the polarity. The
 				-- address is shifted by one to AER(8 downto 1).
-				OutFifoDataReg_D       <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & "0000" & DVSAERData_DI(8 downto 1);
+				OutFifoDataReg_D       <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & ADDR_OUT_ZERO_PAD & DVSAERData_DI(DVS_AER_BUS_WIDTH - 2 downto 1);
 				OutFifoDataRegEnable_S <= '1';
 				OutFifoWriteReg_S      <= '1';
 

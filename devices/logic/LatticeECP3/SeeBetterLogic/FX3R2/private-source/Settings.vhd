@@ -55,6 +55,6 @@ package Settings is
 	constant CHIP_SIZE_COLUMNS : unsigned(CHIP_SIZE_COLUMNS'range) := CHIP_SIZE_COLUMNS;
 	constant CHIP_SIZE_ROWS    : unsigned(CHIP_SIZE_ROWS'range)    := CHIP_SIZE_ROWS;
 
-	constant AER_BUS_WIDTH : integer := AER_BUS_WIDTH;
-	constant ADC_BUS_WIDTH : integer := ADC_BUS_WIDTH;
+	constant DVS_AER_BUS_WIDTH : integer := DVS_AER_BUS_WIDTH;
+	constant APS_ADC_BUS_WIDTH : integer := APS_ADC_BUS_WIDTH;
 end Settings;

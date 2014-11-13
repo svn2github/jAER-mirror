@@ -188,7 +188,7 @@ begin
 
 	i2cPulseCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE              => 2,
+			SIZE              => I2CPulseCounterData_D'length,
 			GENERATE_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
@@ -201,7 +201,7 @@ begin
 
 	i2cBitCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE              => 3,
+			SIZE              => I2CBitCounterData_D'length,
 			GENERATE_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
@@ -805,7 +805,7 @@ begin
 
 	detectLPCycleTempStandbyChange : entity work.ChangeDetector
 		generic map(
-			SIZE => 2)
+			SIZE => (1 + 1))
 		port map(
 			Clock_CI                 => Clock_CI,
 			Reset_RI                 => Reset_RI,

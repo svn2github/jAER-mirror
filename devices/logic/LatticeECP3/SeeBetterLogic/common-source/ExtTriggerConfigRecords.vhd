@@ -56,10 +56,10 @@ package ExtTriggerConfigRecords is
 		DetectFallingEdges_S      => '0',
 		DetectPulses_S            => '1',
 		DetectPulsePolarity_S     => '1',
-		DetectPulseLength_D       => to_unsigned(10, tExtTriggerConfig.DetectPulseLength_D'length),
+		DetectPulseLength_D       => to_unsigned(10, MAX_TRIGGER_TIME_SIZE),
 		RunGenerator_S            => '0',
 		GenerateUseCustomSignal_S => '0',
 		GeneratePulsePolarity_S   => '1',
-		GeneratePulseInterval_D   => to_unsigned(10, tExtTriggerConfig.GeneratePulseInterval_D'length),
-		GeneratePulseLength_D     => to_unsigned(5, tExtTriggerConfig.GeneratePulseLength_D'length));
+		GeneratePulseInterval_D   => to_unsigned(10, MAX_TRIGGER_TIME_SIZE),
+		GeneratePulseLength_D     => to_unsigned(5, MAX_TRIGGER_TIME_SIZE));
 end package ExtTriggerConfigRecords;

@@ -39,7 +39,7 @@ entity TopLevel is
 		ChipBiasDiagSelect_SO      : out   std_logic;
 		--ChipBiasBitOut_DI : in std_logic;
 
-		DVSAERData_AI              : in    std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
+		DVSAERData_AI              : in    std_logic_vector(DVS_AER_BUS_WIDTH - 1 downto 0);
 		DVSAERReq_ABI              : in    std_logic;
 		DVSAERAck_SBO              : out   std_logic;
 		DVSAERReset_SBO            : out   std_logic;
@@ -51,7 +51,7 @@ entity TopLevel is
 		APSChipColMode_DO          : out   std_logic_vector(1 downto 0);
 		APSChipTXGate_SBO          : out   std_logic;
 
-		APSADCData_DI              : in    std_logic_vector(ADC_BUS_WIDTH - 1 downto 0);
+		APSADCData_DI              : in    std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
 		APSADCOverflow_SI          : in    std_logic;
 		APSADCClock_CO             : out   std_logic;
 		APSADCOutputEnable_SBO     : out   std_logic;
@@ -276,8 +276,6 @@ begin
 			FifoData_DO    => DVSAERFifoDataOut_D);
 
 	dvsAerSM : entity work.DVSAERStateMachine
-		generic map(
-			AER_BUS_WIDTH => AER_BUS_WIDTH)
 		port map(
 			Clock_CI          => LogicClock_C,
 			Reset_RI          => LogicReset_R,

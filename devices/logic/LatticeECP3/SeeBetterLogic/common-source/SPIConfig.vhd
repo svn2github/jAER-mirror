@@ -76,7 +76,7 @@ begin
 
 	spiInputShiftRegister : entity work.ShiftRegister
 		generic map(
-			SIZE => 8)
+			SIZE => SPIInputContent_D'length)
 		port map(
 			Clock_CI         => Clock_CI,
 			Reset_RI         => Reset_RI,
@@ -87,7 +87,7 @@ begin
 
 	spiOutputShiftRegister : entity work.ShiftRegister
 		generic map(
-			SIZE => 32)
+			SIZE => SPIOutputContent_D'length)
 		port map(
 			Clock_CI         => Clock_CI,
 			Reset_RI         => Reset_RI,
@@ -98,7 +98,7 @@ begin
 
 	spiBitCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE              => 6,
+			SIZE              => SPIBitCount_D'length,
 			GENERATE_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,

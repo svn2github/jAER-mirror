@@ -21,5 +21,5 @@ package FX2ConfigRecords is
 
 	constant tFX2ConfigDefault : tFX2Config := (
 		Run_S              => '1',
-		EarlyPacketDelay_D => to_unsigned(8, 13));
+		EarlyPacketDelay_D => to_unsigned(8, tFX2Config.EarlyPacketDelay_D'length));
 end package FX2ConfigRecords;

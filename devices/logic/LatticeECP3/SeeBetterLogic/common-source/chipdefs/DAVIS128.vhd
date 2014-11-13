@@ -11,6 +11,6 @@ package DAVIS128 is
 	constant CHIP_SIZE_COLUMNS : unsigned(7 downto 0) := to_unsigned(128, 8);
 	constant CHIP_SIZE_ROWS    : unsigned(7 downto 0) := to_unsigned(128, 8);
 
-	constant AER_BUS_WIDTH : integer := 9;
-	constant ADC_BUS_WIDTH : integer := 10;
+	constant DVS_AER_BUS_WIDTH : integer := 9;
+	constant APS_ADC_BUS_WIDTH : integer := 10;
 end package DAVIS128;

@@ -7,7 +7,7 @@ use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.APSADCConfigRecords.all;
 use work.Settings.ADC_CLOCK_FREQ;
-use work.Settings.ADC_BUS_WIDTH;
+use work.Settings.APS_ADC_BUS_WIDTH;
 use work.Settings.CHIP_SIZE_COLUMNS;
 use work.Settings.CHIP_SIZE_ROWS;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
@@ -56,7 +56,7 @@ entity APSADCStateMachine is
 		APSChipColMode_DO      : out std_logic_vector(1 downto 0);
 		APSChipTXGate_SBO      : out std_logic;
 
-		APSADCData_DI          : in  std_logic_vector(ADC_BUS_WIDTH - 1 downto 0);
+		APSADCData_DI          : in  std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
 		APSADCOverflow_SI      : in  std_logic;
 		APSADCClock_CO         : out std_logic;
 		APSADCOutputEnable_SBO : out std_logic;
