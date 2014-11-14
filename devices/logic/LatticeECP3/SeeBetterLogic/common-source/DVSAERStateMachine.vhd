@@ -139,7 +139,11 @@ begin
 			when stHandleY =>
 				-- We might need to delay the ACK.
 				if AckDelayNotify_S = '1' then
-					OutFifoDataReg_D       <= EVENT_CODE_Y_ADDR & ADDR_OUT_ZERO_PAD & DVSAERData_DI(DVS_AER_BUS_WIDTH - 3 downto 0);
+					if DVS_AER_BUS_WIDTH = (EVENT_DATA_WIDTH_MAX + 2) then
+						OutFifoDataReg_D <= EVENT_CODE_Y_ADDR & DVSAERData_DI(DVS_AER_BUS_WIDTH - 3 downto 0);
+					else
+						OutFifoDataReg_D <= EVENT_CODE_Y_ADDR & ADDR_OUT_ZERO_PAD & DVSAERData_DI(DVS_AER_BUS_WIDTH - 3 downto 0);
+					end if;
 					OutFifoDataRegEnable_S <= '1';
 					OutFifoWriteReg_S      <= '1';
 
@@ -166,7 +170,11 @@ begin
 			when stHandleX =>
 				-- This is an X address. AER(0) holds the polarity. The
 				-- address is shifted by one to AER(8 downto 1).
-				OutFifoDataReg_D       <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & ADDR_OUT_ZERO_PAD & DVSAERData_DI(DVS_AER_BUS_WIDTH - 2 downto 1);
+				if DVS_AER_BUS_WIDTH = (EVENT_DATA_WIDTH_MAX + 2) then
+					OutFifoDataReg_D <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & DVSAERData_DI(DVS_AER_BUS_WIDTH - 2 downto 1);
+				else
+					OutFifoDataReg_D <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & ADDR_OUT_ZERO_PAD & DVSAERData_DI(DVS_AER_BUS_WIDTH - 2 downto 1);
+				end if;
 				OutFifoDataRegEnable_S <= '1';
 				OutFifoWriteReg_S      <= '1';
 

@@ -147,6 +147,9 @@ architecture Behavioral of APSADCStateMachine is
 	signal APSChipTXGateReg_SP, APSChipTXGateReg_SN     : std_logic;
 	signal APSADCOutputEnableReg_SB, APSADCStandbyReg_S : std_logic;
 
+	-- Pad ADC value output with zeros.
+	constant VAL_OUT_ZERO_PAD : std_logic_vector(EVENT_DATA_WIDTH_MAX - APS_ADC_BUS_WIDTH - 1 downto 0) := (others => '0');
+
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
 	signal APSADCConfigSyncReg_D, APSADCConfigReg_D : tAPSADCConfig;
@@ -753,7 +756,11 @@ begin
 						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ADCOVERFLOW;
 					else
 						-- This is only a 10-bit ADC, so we pad with two zeros.
-						OutFifoDataRegRow_D <= EVENT_CODE_ADC_SAMPLE & "00" & APSADCData_DI;
+						if APS_ADC_BUS_WIDTH = EVENT_DATA_WIDTH_MAX then
+							OutFifoDataRegRow_D <= EVENT_CODE_ADC_SAMPLE & APSADCData_DI;
+						else
+							OutFifoDataRegRow_D <= EVENT_CODE_ADC_SAMPLE & VAL_OUT_ZERO_PAD & APSADCData_DI;
+						end if;
 					end if;
 					OutFifoDataRegRowEnable_S <= '1';
 					OutFifoWriteRegRow_S      <= '1';
