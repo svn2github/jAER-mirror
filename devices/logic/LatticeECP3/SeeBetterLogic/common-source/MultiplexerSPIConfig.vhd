@@ -47,6 +47,10 @@ begin
 				MultiplexerConfigReg_DN.TimestampReset_S <= MultiplexerInput_DP(0);
 				MultiplexerOutput_DN(0)                  <= MultiplexerConfigReg_DP.TimestampReset_S;
 
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.ForceChipBiasEnable_S =>
+				MultiplexerConfigReg_DN.ForceChipBiasEnable_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                       <= MultiplexerConfigReg_DP.ForceChipBiasEnable_S;
+
 			when others => null;
 		end case;
 	end process multiplexerIO;

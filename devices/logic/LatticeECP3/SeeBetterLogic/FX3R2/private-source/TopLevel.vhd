@@ -189,7 +189,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => DVSAERConfig_D.Run_S or APSADCConfig_D.Run_S,
+			Input_SI(0)  => DVSAERConfig_D.Run_S or APSADCConfig_D.Run_S or MultiplexerConfig_D.ForceChipBiasEnable_S,
 			Output_SO(0) => ChipBiasEnable_SO);
 
 	-- Wire all LEDs.
