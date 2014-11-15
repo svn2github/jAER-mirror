@@ -383,6 +383,9 @@ begin
 
 					-- Close APS TXGate after last read.
 					APSChipTXGateReg_SN <= '0';
+
+					-- Reset ReadB status to initial (need at least a zero), for next frame.
+					ReadBSRStatus_DN <= RBSTAT_NEED_ZERO_ONE;
 				else
 					ColState_DN <= stRSReset;
 				end if;
