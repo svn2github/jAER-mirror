@@ -338,7 +338,7 @@ begin
 			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R,
+			Reset_RI       => LogicReset_R or not MultiplexerConfig_D.Run_S,
 			FifoControl_SI => DVSAERFifoControlIn_S,
 			FifoControl_SO => DVSAERFifoControlOut_S,
 			FifoData_DI    => DVSAERFifoDataIn_D,
@@ -378,7 +378,7 @@ begin
 			FULL_FLAG         => APSADC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE)
 		port map(
-			Reset_RI       => ADCReset_R,
+			Reset_RI       => ADCReset_R or not MultiplexerConfig_D.Run_S,
 			WrClock_CI     => ADCClock_C,
 			RdClock_CI     => LogicClock_C,
 			FifoControl_SI => APSADCFifoControlIn_S,
@@ -427,7 +427,7 @@ begin
 			ALMOST_FULL_FLAG  => IMU_FIFO_SIZE - IMU_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R,
+			Reset_RI       => LogicReset_R or not MultiplexerConfig_D.Run_S,
 			FifoControl_SI => IMUFifoControlIn_S,
 			FifoControl_SO => IMUFifoControlOut_S,
 			FifoData_DI    => IMUFifoDataIn_D,
@@ -466,7 +466,7 @@ begin
 			ALMOST_FULL_FLAG  => EXT_TRIGGER_FIFO_SIZE - EXT_TRIGGER_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R,
+			Reset_RI       => LogicReset_R or not MultiplexerConfig_D.Run_S,
 			FifoControl_SI => ExtTriggerFifoControlIn_S,
 			FifoControl_SO => ExtTriggerFifoControlOut_S,
 			FifoData_DI    => ExtTriggerFifoDataIn_D,
