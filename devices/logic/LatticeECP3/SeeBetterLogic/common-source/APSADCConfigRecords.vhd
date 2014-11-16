@@ -12,7 +12,7 @@ package APSADCConfigRecords is
 
 	type tAPSADCConfigParamAddresses is record
 		Run_S                 : unsigned(7 downto 0);
-		Mode_D                : unsigned(7 downto 0);
+		ForceADCRunning_S     : unsigned(7 downto 0);
 		GlobalShutter_S       : unsigned(7 downto 0);
 		StartColumn_D         : unsigned(7 downto 0);
 		StartRow_D            : unsigned(7 downto 0);
@@ -30,7 +30,7 @@ package APSADCConfigRecords is
 
 	constant APSADCCONFIG_PARAM_ADDRESSES : tAPSADCConfigParamAddresses := (
 		Run_S                 => to_unsigned(0, 8),
-		Mode_D                => to_unsigned(1, 8),
+		ForceADCRunning_S     => to_unsigned(1, 8),
 		GlobalShutter_S       => to_unsigned(2, 8),
 		StartColumn_D         => to_unsigned(3, 8),
 		StartRow_D            => to_unsigned(4, 8),
@@ -49,13 +49,9 @@ package APSADCConfigRecords is
 	constant RESETTIME_SIZE     : integer := 8;
 	constant SETTLETIMES_SIZE   : integer := 6;
 
-	constant APSADC_MODE_VIDEO             : std_logic_vector(1 downto 0) := "00";
-	constant APSADC_MODE_CAMERA_POWERSAVE  : std_logic_vector(1 downto 0) := "01";
-	constant APSADC_MODE_CAMERA_LOWLATENCY : std_logic_vector(1 downto 0) := "10";
-
 	type tAPSADCConfig is record
 		Run_S                 : std_logic;
-		Mode_D                : std_logic_vector(1 downto 0); -- switch between video and camera modes
+		ForceADCRunning_S     : std_logic; -- Force ADC to be always on, for quick resume.
 		GlobalShutter_S       : std_logic; -- enable global shutter instead of rolling shutter
 		StartColumn_D         : unsigned(CHIP_SIZE_COLUMNS'range);
 		StartRow_D            : unsigned(CHIP_SIZE_ROWS'range);
@@ -73,7 +69,7 @@ package APSADCConfigRecords is
 
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
 		Run_S                 => '0',
-		Mode_D                => APSADC_MODE_VIDEO,
+		ForceADCRunning_S     => '0',
 		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,
 		StartColumn_D         => to_unsigned(0, CHIP_SIZE_COLUMNS'length),
 		StartRow_D            => to_unsigned(0, CHIP_SIZE_ROWS'length),
