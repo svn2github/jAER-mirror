@@ -1,8 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.math_real.ceil;
-use ieee.math_real.log2;
 use work.Settings.CHIP_SIZE_COLUMNS;
 use work.Settings.CHIP_SIZE_ROWS;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;

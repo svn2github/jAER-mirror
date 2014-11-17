@@ -51,6 +51,22 @@ begin
 				MultiplexerConfigReg_DN.ForceChipBiasEnable_S <= MultiplexerInput_DP(0);
 				MultiplexerOutput_DN(0)                       <= MultiplexerConfigReg_DP.ForceChipBiasEnable_S;
 
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropDVSOnTransferStall_S =>
+				MultiplexerConfigReg_DN.DropDVSOnTransferStall_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                          <= MultiplexerConfigReg_DP.DropDVSOnTransferStall_S;
+
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropAPSOnTransferStall_S =>
+				MultiplexerConfigReg_DN.DropAPSOnTransferStall_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                          <= MultiplexerConfigReg_DP.DropAPSOnTransferStall_S;
+
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropIMUOnTransferStall_S =>
+				MultiplexerConfigReg_DN.DropIMUOnTransferStall_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                          <= MultiplexerConfigReg_DP.DropIMUOnTransferStall_S;
+
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropExtTriggerOnTransferStall_S =>
+				MultiplexerConfigReg_DN.DropExtTriggerOnTransferStall_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                                 <= MultiplexerConfigReg_DP.DropExtTriggerOnTransferStall_S;
+
 			when others => null;
 		end case;
 	end process multiplexerIO;

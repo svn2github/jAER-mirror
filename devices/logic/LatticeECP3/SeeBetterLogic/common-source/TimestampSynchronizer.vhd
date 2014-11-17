@@ -9,70 +9,162 @@ entity TimestampSynchronizer is
 	port(
 		Clock_CI          : in  std_logic;
 		Reset_RI          : in  std_logic;
+
 		SyncInClock_CI    : in  std_logic;
 		SyncOutClock_CO   : out std_logic;
-		TimestampReset_SO : out std_logic;
-		TimestampInc_SO   : out std_logic);
+
+		TimestampRun_SI   : in  std_logic;
+		TimestampReset_SI : in  std_logic;
+
+		TimestampInc_SO   : out std_logic;
+		TimestampReset_SO : out std_logic);
 end entity TimestampSynchronizer;
 
 architecture Behavioral of TimestampSynchronizer is
-	constant MASTER_TIMEOUT : integer := 500; -- in microseconds
-	constant SLAVE_TIMEOUT  : integer := 10; -- in microseconds
+	attribute syn_enum_encoding : string;
 
-	constant CLOCK_PERIOD_TIME   : integer := 100; -- in microseconds
-	constant CLOCK_RISEFALL_TIME : integer := CLOCK_PERIOD_TIME / 2; -- in microseconds
+	type tState is (stRunMaster, stResetSlaves, stRunSlave, stSlaveWaitEdge);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
-	signal TimestampTickReset_S, TimestampTickEnable_S : std_logic;
-	signal TimestampTick_S                             : std_logic;
+	-- Present and next states.
+	signal State_DP, State_DN : tState;
 
-	signal TimestampSynchronizerReset_S, TimestampSynchronizerEnable_S : std_logic;
-	signal TimestampSynchronizer_D                                     : unsigned(7 downto 0);
+	-- Time constants for synchronization.
+	constant TS_COUNTER_INCREASE_CYCLES : integer := LOGIC_CLOCK_FREQ * 1; -- corresponds to 1 microsecond
+	constant SYNC_SLAVE_TIMEOUT_CYCLES  : integer := LOGIC_CLOCK_FREQ * 10; -- corresponds to 10 microseconds
+	constant SYNC_SLAVE_RESET_CYCLES    : integer := LOGIC_CLOCK_FREQ * 200; -- corresponds to 200 microseconds
+	constant SYNC_SQUARE_WAVE_HIGH_TIME : integer := 50; -- in microseconds (50% duty cycle)
+	constant SYNC_SQUARE_WAVE_PERIOD    : integer := 100; -- in microseconds (10 KHz clock)
 
-	constant LOGIC_CLOCK_FREQ_SIZE : integer := integer(ceil(log2(real(LOGIC_CLOCK_FREQ))));
+	-- Counters used to produce different timestamp ticks and to remain in a certain state
+	-- for a certain amount of time. Divider keeps track of local timestamp increases,
+	-- while Counter keeps track of everything else.
+	constant DIVIDER_SIZE : integer := integer(ceil(log2(real(TS_COUNTER_INCREASE_CYCLES))));
+	constant COUNTER_SIZE : integer := integer(ceil(log2(real(SYNC_SLAVE_RESET_CYCLES))));
 
-	signal MasterMode_SP, MasterMode_SN : std_logic;
+	signal Divider_DP, Divider_DN : unsigned(DIVIDER_SIZE - 1 downto 0);
+	signal Counter_DP, Counter_DN : unsigned(COUNTER_SIZE - 1 downto 0);
+
+	-- Register outputs.
+	signal SyncOutClockReg_C : std_logic;
 begin
-	timestampTickCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => LOGIC_CLOCK_FREQ_SIZE)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => TimestampTickReset_S,
-			Enable_SI    => TimestampTickEnable_S,
-			DataLimit_DI => to_unsigned(LOGIC_CLOCK_FREQ - 1, LOGIC_CLOCK_FREQ_SIZE),
-			Overflow_SO  => TimestampTick_S,
-			Data_DO      => open);
-
-	timestampSynchronizerCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE              => 8,
-			RESET_ON_OVERFLOW => false,
-			GENERATE_OVERFLOW => false)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => TimestampSynchronizerReset_S,
-			Enable_SI    => TimestampSynchronizerEnable_S,
-			DataLimit_DI => (others => '1'),
-			Overflow_SO  => open,
-			Data_DO      => TimestampSynchronizer_D);
-
-	masterMode : process(MasterMode_SP)
+	p_memless : process(State_DP, Divider_DP, Counter_DP, SyncInClock_CI, TimestampRun_SI, TimestampReset_SI)
 	begin
-		MasterMode_SN <= MasterMode_SP;
-	end process masterMode;
+		State_DN <= State_DP;
 
-	timestampSynchronizer : process(MasterMode_SP)
-	begin
-	end process timestampSynchronizer;
+		Divider_DN <= Divider_DP;
+		Counter_DN <= Counter_DP;
 
-	registerUpdate : process(Clock_CI, Reset_RI) is
+		SyncOutClockReg_C <= '0';
+
+		TimestampReset_SO <= '0';
+		TimestampInc_SO   <= '0';
+
+		case State_DP is
+			when stRunMaster =>
+				Divider_DN <= Divider_DP + 1;
+
+				if Divider_DP = (TS_COUNTER_INCREASE_CYCLES - 1) then
+					Divider_DN <= (others => '0');
+					Counter_DN <= Counter_DP + 1;
+
+					if Counter_DP = (SYNC_SQUARE_WAVE_PERIOD - 1) then
+						Counter_DN <= (others => '0');
+					end if;
+
+					TimestampInc_SO <= TimestampRun_SI; -- increment local timestamp, if running
+				end if;
+
+				if Counter_DP < SYNC_SQUARE_WAVE_HIGH_TIME then
+					SyncOutClockReg_C <= '0';
+				else
+					SyncOutClockReg_C <= '1';
+				end if;
+
+				if TimestampReset_SI = '1' then
+					State_DN <= stResetSlaves;
+
+					Counter_DN <= (others => '0');
+				elsif SyncInClock_CI = '0' then
+					-- Not a master if getting 0 on its input, so a slave.
+					State_DN <= stRunSlave;
+
+					TimestampReset_SO <= '1';
+				end if;
+
+			when stResetSlaves =>
+				-- Reset slaves by generating at least a 200 microsecond high on output, which slaves should detect.
+				SyncOutClockReg_C <= '1';
+
+				Counter_DN <= Counter_DP + 1;
+
+				if Counter_DP = (SYNC_SLAVE_RESET_CYCLES - 1) then
+					Divider_DN <= (others => '0');
+					Counter_DN <= (others => '0');
+
+					State_DN <= stRunMaster;
+
+					TimestampReset_SO <= '1';
+				end if;
+
+			when stRunSlave =>
+				SyncOutClockReg_C <= SyncInClock_CI;
+				TimestampReset_SO <= TimestampReset_SI;
+
+				Divider_DN <= Divider_DP + 1;
+
+				if Divider_DP = (TS_COUNTER_INCREASE_CYCLES - 1) then
+					Divider_DN <= (others => '0');
+					Counter_DN <= Counter_DP + 1;
+
+					TimestampInc_SO <= TimestampRun_SI; -- increment local timestamp, if running
+				end if;
+
+				if Counter_DP = (SYNC_SQUARE_WAVE_PERIOD - 1) then
+					Counter_DN <= (others => '0');
+
+					State_DN <= stSlaveWaitEdge;
+				end if;
+
+			when stSlaveWaitEdge =>
+				SyncOutClockReg_C <= SyncInClock_CI;
+				TimestampReset_SO <= TimestampReset_SI;
+
+				Counter_DN <= Counter_DP + 1;
+
+				if Counter_DP = (SYNC_SLAVE_TIMEOUT_CYCLES - 1) then
+					-- No acknowledgement from master, so become master.
+					State_DN <= stRunMaster;
+					
+					Divider_DN <= (others => '0');
+					Counter_DN <= (others => '0');
+				elsif SyncInClock_CI = '0' then
+					Divider_DN <= (others => '0');
+					Counter_DN <= (others => '0');
+
+					State_DN <= stRunSlave;
+
+					TimestampInc_SO <= TimestampRun_SI; -- increment local timestamp, if running
+				end if;
+		end case;
+	end process p_memless;
+
+	p_mem : process(Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then
-			MasterMode_SP <= '1';
-		elsif rising_edge(Clock_CI) then
-			MasterMode_SP <= MasterMode_SN;
+			State_DP <= stRunMaster;
+
+			Divider_DP <= (others => '0');
+			Counter_DP <= (others => '0');
+
+			SyncOutClock_CO <= '0';
+		elsif rising_edge(Clock_CI) then -- rising clock edge
+			State_DP <= State_DN;
+
+			Divider_DP <= Divider_DN;
+			Counter_DP <= Counter_DN;
+
+			SyncOutClock_CO <= SyncOutClockReg_C;
 		end if;
-	end process registerUpdate;
+	end process p_mem;
 end architecture Behavioral;

@@ -231,6 +231,8 @@ begin
 		port map(
 			Clock_CI                 => LogicClock_C,
 			Reset_RI                 => LogicReset_R,
+			SyncInClock_CI           => SyncInClockSync_C,
+			SyncOutClock_CO          => SyncOutClock_CO,
 			OutFifoControl_SI        => LogicUSBFifoControlOut_S.WriteSide,
 			OutFifoControl_SO        => LogicUSBFifoControlIn_S.WriteSide,
 			OutFifoData_DO           => LogicUSBFifoDataIn_D,

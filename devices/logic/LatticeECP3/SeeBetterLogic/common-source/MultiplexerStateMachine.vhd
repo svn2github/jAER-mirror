@@ -10,6 +10,10 @@ entity MultiplexerStateMachine is
 		Clock_CI                 : in  std_logic;
 		Reset_RI                 : in  std_logic;
 
+		-- Multiple devices synchronization support.
+		SyncInClock_CI           : in  std_logic;
+		SyncOutClock_CO          : out std_logic;
+
 		-- Fifo output (to USB)
 		OutFifoControl_SI        : in  tFromFifoWriteSide;
 		OutFifoControl_SO        : out tToFifoWriteSide;
@@ -52,9 +56,12 @@ architecture Behavioral of MultiplexerStateMachine is
 	signal TimestampOverflow_S : std_logic;
 	signal Timestamp_D         : unsigned(TIMESTAMP_WIDTH - 1 downto 0);
 
+	-- Communication between TS synchronizer and generator.
+	signal TimestampInc_S, TimestampReset_S : std_logic;
+
+	-- Timestamp reset support. Either external (host) or internal (ovreflow counter overflow).
 	signal TimestampResetExternalDetected_S : std_logic;
 	signal TimestampResetBufferClear_S      : std_logic;
-	signal TimestampResetBufferInput_S      : std_logic;
 	signal TimestampResetBuffer_S           : std_logic;
 
 	signal TimestampOverflowBufferClear_S    : std_logic;
@@ -71,11 +78,22 @@ architecture Behavioral of MultiplexerStateMachine is
 
 	signal MultiplexerConfigReg_D : tMultiplexerConfig;
 begin
+	tsSynchronizer : entity work.TimestampSynchronizer
+		port map(
+			Clock_CI          => Clock_CI,
+			Reset_RI          => Reset_RI,
+			SyncInClock_CI    => SyncInClock_CI,
+			SyncOutClock_CO   => SyncOutClock_CO,
+			TimestampRun_SI   => MultiplexerConfigReg_D.TimestampRun_S,
+			TimestampReset_SI => TimestampResetExternalDetected_S or TimestampOverflowBufferOverflow_S,
+			TimestampInc_SO   => TimestampInc_S,
+			TimestampReset_SO => TimestampReset_S);
+
 	tsGenerator : entity work.TimestampGenerator
 		port map(
 			Clock_CI             => Clock_CI,
 			Reset_RI             => Reset_RI,
-			TimestampRun_SI      => MultiplexerConfigReg_D.TimestampRun_S,
+			TimestampInc_SI      => TimestampInc_S,
 			TimestampReset_SI    => TimestampResetBufferClear_S,
 			TimestampOverflow_SO => TimestampOverflow_S,
 			Timestamp_DO         => Timestamp_D);
@@ -91,14 +109,12 @@ begin
 			InputSignal_SI   => MultiplexerConfigReg_D.TimestampReset_S,
 			PulseDetected_SO => TimestampResetExternalDetected_S);
 
-	TimestampResetBufferInput_S <= TimestampResetExternalDetected_S or TimestampOverflowBufferOverflow_S;
-
 	tsResetBuffer : entity work.BufferClear
 		port map(
 			Clock_CI        => Clock_CI,
 			Reset_RI        => Reset_RI,
 			Clear_SI        => TimestampResetBufferClear_S,
-			InputSignal_SI  => TimestampResetBufferInput_S,
+			InputSignal_SI  => TimestampReset_S,
 			OutputSignal_SO => TimestampResetBuffer_S);
 
 	-- The overflow counter keeps track of wrap events. While there usually
@@ -344,16 +360,20 @@ begin
 				-- a continuous flow of events from the data producers and
 				-- disallows a backlog of old events to remain around, which
 				-- would be timestamped incorrectly after long delays.
-				if DVSAERFifoControl_SI.Empty_S = '0' then
+				-- This is fully configurable from the host.
+				if MultiplexerConfigReg_D.DropDVSOnTransferStall_S = '1' and DVSAERFifoControl_SI.Empty_S = '0' then
 					DVSAERFifoControl_SO.Read_S <= '1';
 				end if;
-				--if APSADCFifoControl_SI.Empty_S = '0' then
-				--	APSADCFifoControl_SO.Read_S <= '1';
-				--end if;
-				if IMUFifoControl_SI.Empty_S = '0' then
+
+				if MultiplexerConfigReg_D.DropAPSOnTransferStall_S = '1' and APSADCFifoControl_SI.Empty_S = '0' then
+					APSADCFifoControl_SO.Read_S <= '1';
+				end if;
+
+				if MultiplexerConfigReg_D.DropIMUOnTransferStall_S = '1' and IMUFifoControl_SI.Empty_S = '0' then
 					IMUFifoControl_SO.Read_S <= '1';
 				end if;
-				if ExtTriggerFifoControl_SI.Empty_S = '0' then
+
+				if MultiplexerConfigReg_D.DropExtTriggerOnTransferStall_S = '1' and ExtTriggerFifoControl_SI.Empty_S = '0' then
 					ExtTriggerFifoControl_SO.Read_S <= '1';
 				end if;
 

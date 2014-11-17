@@ -1,48 +1,26 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.math_real.ceil;
-use ieee.math_real.log2;
-use work.EventCodes.all;
-use work.Settings.LOGIC_CLOCK_FREQ;
+use work.EventCodes.TIMESTAMP_WIDTH;
 
+-- Generate the timestamp, as well as its overflow signal, which is
+-- asserted for 1 cycle whenever the timestamp jumps back to zero.
+-- Or, in other words, during the first cycle that the timestamp is
+-- zero, the overflow signal goes high.
 entity TimestampGenerator is
 	port(
 		Clock_CI             : in  std_logic;
 		Reset_RI             : in  std_logic;
-		TimestampRun_SI      : in  std_logic;
+
+		TimestampInc_SI      : in  std_logic;
 		TimestampReset_SI    : in  std_logic;
+
 		TimestampOverflow_SO : out std_logic;
 		Timestamp_DO         : out unsigned(TIMESTAMP_WIDTH - 1 downto 0));
 end TimestampGenerator;
 
 architecture Structural of TimestampGenerator is
-	-- http://stackoverflow.com/questions/15244992 explains a better way to slow down a process
-	-- using a clock enable instead of creating gated clocks with a clock divider, which avoids
-	-- any issues of clock domain crossing and resource utilization.
-	-- The ContinuousCounter already has an enable signal, which we can use in this fashion directly.
-	signal TimestampEnable1MHz_S : std_logic;
-
-	-- Wire the enable signal together with the TimestampRun signal, so that when we stop the logic,
-	-- the timestamp counter will not increase anymore.
-	signal TimestampEnable_S : std_logic;
-
-	constant LOGIC_CLOCK_FREQ_SIZE : integer := integer(ceil(log2(real(LOGIC_CLOCK_FREQ + 1))));
 begin
-	timestampEnableGenerate : entity work.PulseGenerator
-		generic map(
-			SIZE => LOGIC_CLOCK_FREQ_SIZE)
-		port map(
-			Clock_CI         => Clock_CI,
-			Reset_RI         => Reset_RI,
-			PulsePolarity_SI => '1',
-			PulseInterval_DI => to_unsigned(LOGIC_CLOCK_FREQ, LOGIC_CLOCK_FREQ_SIZE),
-			PulseLength_DI   => to_unsigned(1, LOGIC_CLOCK_FREQ_SIZE),
-			Zero_SI          => TimestampReset_SI,
-			PulseOut_SO      => TimestampEnable1MHz_S);
-
-	TimestampEnable_S <= TimestampEnable1MHz_S and TimestampRun_SI;
-
 	timestampGenerator : entity work.ContinuousCounter
 		generic map(
 			SIZE             => TIMESTAMP_WIDTH,
@@ -52,7 +30,7 @@ begin
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => TimestampReset_SI,
-			Enable_SI    => TimestampEnable_S,
+			Enable_SI    => TimestampInc_SI,
 			DataLimit_DI => (others => '1'),
 			Overflow_SO  => TimestampOverflow_SO,
 			Data_DO      => Timestamp_DO);
