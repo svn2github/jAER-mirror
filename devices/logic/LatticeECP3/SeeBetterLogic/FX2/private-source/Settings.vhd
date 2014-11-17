@@ -23,12 +23,12 @@ package Settings is
 	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE      : integer := 4;
 	constant DVSAER_FIFO_ALMOST_FULL_SIZE       : integer := 2;
 	constant APSADC_FIFO_SIZE                   : integer := 512;
-	constant APSADC_FIFO_ALMOST_EMPTY_SIZE      : integer := 8;
-	constant APSADC_FIFO_ALMOST_FULL_SIZE       : integer := 8;
+	constant APSADC_FIFO_ALMOST_EMPTY_SIZE      : integer := 16;
+	constant APSADC_FIFO_ALMOST_FULL_SIZE       : integer := 2;
 	constant IMU_FIFO_SIZE                      : integer := 32; -- two samples (2x16)
 	constant IMU_FIFO_ALMOST_EMPTY_SIZE         : integer := 16; -- one sample (1x16)
 	constant IMU_FIFO_ALMOST_FULL_SIZE          : integer := 16; -- one sample (1x16)
-	constant EXT_TRIGGER_FIFO_SIZE              : integer := 6;
+	constant EXT_TRIGGER_FIFO_SIZE              : integer := 8;
 	constant EXT_TRIGGER_FIFO_ALMOST_EMPTY_SIZE : integer := 2;
 	constant EXT_TRIGGER_FIFO_ALMOST_FULL_SIZE  : integer := 2;
 

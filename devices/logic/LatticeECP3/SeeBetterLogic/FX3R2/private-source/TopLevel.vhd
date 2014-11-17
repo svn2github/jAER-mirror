@@ -288,7 +288,7 @@ begin
 			FULL_FLAG         => USBLOGIC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => USBLOGIC_FIFO_SIZE - USBLOGIC_FIFO_ALMOST_FULL_SIZE)
 		port map(
-			Reset_RI       => LogicReset_R,
+			Reset_RI       => LogicReset_R or not FX3Config_D.Run_S,
 			WrClock_CI     => LogicClock_C,
 			RdClock_CI     => USBClock_CI,
 			FifoControl_SI => LogicUSBFifoControlIn_S,
