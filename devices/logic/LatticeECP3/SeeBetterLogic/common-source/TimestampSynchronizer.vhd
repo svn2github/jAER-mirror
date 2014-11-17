@@ -23,7 +23,7 @@ end entity TimestampSynchronizer;
 architecture Behavioral of TimestampSynchronizer is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stRunMaster, stResetSlaves, stRunSlave, stSlaveWaitEdge);
+	type tState is (stRunMaster, stResetSlaves, stRunSlave, stSlaveWaitEdge, stStlaveWaitReset);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- Present and next states.
@@ -82,10 +82,13 @@ begin
 				end if;
 
 				if TimestampReset_SI = '1' then
-					State_DN <= stResetSlaves;
-
 					Counter_DN <= (others => '0');
+
+					State_DN <= stResetSlaves;
 				elsif SyncInClock_CI = '0' then
+					Divider_DN <= (others => '0');
+					Counter_DN <= (others => '0');
+
 					-- Not a master if getting 0 on its input, so a slave.
 					State_DN <= stRunSlave;
 
@@ -133,11 +136,11 @@ begin
 				Counter_DN <= Counter_DP + 1;
 
 				if Counter_DP = (SYNC_SLAVE_TIMEOUT_CYCLES - 1) then
-					-- No acknowledgement from master, so become master.
-					State_DN <= stRunMaster;
-					
-					Divider_DN <= (others => '0');
 					Counter_DN <= (others => '0');
+
+					-- No acknowledgement from master. Either resetting timestamps or
+					-- lost connection, in which case, become master.
+					State_DN <= stStlaveWaitReset;
 				elsif SyncInClock_CI = '0' then
 					Divider_DN <= (others => '0');
 					Counter_DN <= (others => '0');
@@ -145,6 +148,29 @@ begin
 					State_DN <= stRunSlave;
 
 					TimestampInc_SO <= TimestampRun_SI; -- increment local timestamp, if running
+				end if;
+
+			when stStlaveWaitReset =>
+				SyncOutClockReg_C <= SyncInClock_CI;
+
+				Counter_DN <= Counter_DP + 1;
+
+				if SyncInClock_CI = '0' then
+					-- Slave TS reset from master.
+					Divider_DN <= (others => '0');
+					Counter_DN <= (others => '0');
+
+					State_DN <= stRunSlave;
+
+					TimestampReset_SO <= '1';
+				elsif Counter_DP = (SYNC_SLAVE_RESET_CYCLES - 1) then
+					-- Lost connection, become master (after making sure that it's not just a reset).
+					Divider_DN <= (others => '0');
+					Counter_DN <= (others => '0');
+
+					State_DN <= stRunMaster;
+
+					TimestampReset_SO <= '1';
 				end if;
 		end case;
 	end process p_memless;
