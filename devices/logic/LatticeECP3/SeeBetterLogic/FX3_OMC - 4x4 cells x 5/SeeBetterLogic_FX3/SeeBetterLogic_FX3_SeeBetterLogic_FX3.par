@@ -4,7 +4,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2014 Lattice Semiconductor Corporation,  All rights reserved.
-Mon Oct 13 15:36:12 2014
+Fri Nov 07 16:44:57 2014
 
 C:/lscc/diamond/3.2_x64/ispfpga\bin\nt64\par -f
 SeeBetterLogic_FX3_SeeBetterLogic_FX3.p2t
@@ -18,17 +18,17 @@ Preference file: SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf.
 Level/      Number      Worst       Timing      Worst       Timing      Run         NCD
 Cost [ncd]  Unrouted    Slack       Score       Slack(hold) Score(hold) Time        Status
 ----------  --------    -----       ------      ----------- ----------- -----       ------
-5_1         -           -           -           -           -           06          Skip            
+5_1   *     0           3.806       0           -1.526      28066       03:13       Complete        
 
 
 * : Design saved.
 
-Total (real) run time for 1-seed: 6 secs 
+Total (real) run time for 1-seed: 3 mins 13 secs 
 
-par failed!
+par done!
 
 Lattice Place and Route Report for Design "SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd"
-Mon Oct 13 15:36:12 2014
+Fri Nov 07 16:44:57 2014
 
 PAR: Place And Route Diamond (64-bit) 3.2.0.134.
 Command Line: par -w -l 5 -i 6 -t 1 -c 0 -e 0 -gui -exp parUseNBR=1:parCDP=auto:parCDR=1:parPathBased=OFF SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd SeeBetterLogic_FX3_SeeBetterLogic_FX3.dir/5_1.ncd SeeBetterLogic_FX3_SeeBetterLogic_FX3.prf
@@ -40,47 +40,324 @@ Loading design for application par from file SeeBetterLogic_FX3_SeeBetterLogic_F
 Design name: TopLevel
 NCD version: 3.2
 Vendor:      LATTICE
-Device:      LFE3-70E
-Package:     FPBGA484
+Device:      LFE3-17EA
+Package:     FTBGA256
 Performance: 7
-Loading device for application par from file 'ep5c97x146.nph' in environment: C:/lscc/diamond/3.2_x64/ispfpga.
-Package Status:                     Final          Version 1.65
-Performance Hardware Data Status:   Final          Version 35.22
+Loading device for application par from file 'ec5a53x56.nph' in environment: C:/lscc/diamond/3.2_x64/ispfpga.
+Package Status:                     Final          Version 1.39
+Performance Hardware Data Status:   Final          Version 36.22
 License checked out.
 
 
 Ignore Preference Error(s):  True
+WARNING - par: The signal "APSADCData_DI[7]" has been assigned to PIN "G15", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - par: The signal "APSADCData_DI[2]" has been assigned to PIN "E16", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - par: The signal "APSADCData_DI[1]" has been assigned to PIN "D16", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - par: The signal "USBFifoPktEnd_SBO" has been assigned to PIN "H14", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - par: The signal "USBFifoWrite_SBO" has been assigned to PIN "H13", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - par: Preference parsing results:  5 semantic errors detected
 Device utilization summary:
 
-   PIO (prelim)      77/524          14% used
-                     77/295          26% bonded
-   IOLOGIC           41/520           7% used
+   PIO (prelim)      88/228          38% used
+                     88/133          66% bonded
+   IOLOGIC           46/224          20% used
 
-   SLICE          13868/33264        41% used
+   SLICE           3435/8640         39% used
 
    GSR                1/1           100% used
-   EBR                7/240           2% used
-   PLL                1/10           10% used
-   MULT18             1/128          <1% used
+   EBR                7/38           18% used
+   PLL                2/2           100% used
 
 
-ERROR - par: chipcheck: output PIO comp USBFifoData_DO[0] is placed on an input only site T2.
-ERROR - par: chipcheck: output PIO comp USBFifoData_DO[14] is placed on an input only site L5.
-ERROR - par: chipcheck: output PIO comp USBFifoData_DO[9] is placed on an input only site K1.
-ERROR - par: chipcheck: output PIO comp USBFifoData_DO[1] is placed on an input only site T3.
-PAR will exit now due to DRC error(s) detected.
+5 potential circuit loops found in timing analysis.
+Set delay estimator push_ratio: 95
+Number of Signals: 8524
+Number of Connections: 24902
+
+Pin Constraint Summary:
+   87 out of 87 pins locked (100% locked).
+
+WARNING - par: According to the connectivity, it is better to place PLL comp "logicClockPLL/pll/PLLInst_0" on site "PLL_R26C5", however it cannot be done because this site has been occupied or prohibited.
+WARNING - par: According to the connectivity, it is better to place PLL comp "logicClockPLL/pll/PLLInst_0" on site "PLL_R26C5", however it cannot be done because this site has been occupied or prohibited.
+The following 2 signals are selected to use the primary clock routing resources:
+    LogicClock_C (driver: logicClockPLL/pll/PLLInst_0, clk load #: 1578)
+    ADCClock_C (driver: adcClockPLL/pll/PLLInst_0, clk load #: 230)
 
 
-PAR_SUMMARY::Run status = skipped
-PAR_SUMMARY::Number of unrouted conns = <n/a>
-PAR_SUMMARY::Worst  slack<setup/<ns>> = <n/a>
-PAR_SUMMARY::Timing score<setup/<ns>> = <n/a>
-PAR_SUMMARY::Worst  slack<hold /<ns>> = <n/a>
-PAR_SUMMARY::Timing score<hold /<ns>> = <n/a>
-PAR_SUMMARY::Number of errors = 4
+The following 5 signals are selected to use the secondary clock routing resources:
+    USBClock_CI_c (driver: USBClock_CI, clk load #: 83, sr load #: 0, ce load #: 0)
+    ADCReset_R (driver: adcResetSync/SLICE_1701, clk load #: 0, sr load #: 265, ce load #: 0)
+    apsAdcSM/N_675_i (driver: apsAdcSM/SLICE_3331, clk load #: 0, sr load #: 0, ce load #: 63)
+    imuSM/I2CReadSRMode_S_0_sqmuxa (driver: imuSM/SLICE_2879, clk load #: 0, sr load #: 0, ce load #: 56)
+    USBReset_R (driver: syncInputsToUSBClock/syncReset/SLICE_2271, clk load #: 0, sr load #: 38, ce load #: 0)
 
-Total CPU  time to completion: 4 secs 
-Total REAL time to completion: 6 secs 
+Signal LogicReset_R is selected as Global Set/Reset.
+.
+Starting Placer Phase 0.
+...........
+Finished Placer Phase 0.  REAL time: 12 secs 
+
+Starting Placer Phase 1.
+...........................
+Placer score = 1859114.
+Finished Placer Phase 1.  REAL time: 40 secs 
+
+Starting Placer Phase 2.
+.
+Starting Placer Optimization. REAL time: 44 secs 
+5 potential circuit loops found in timing analysis.
+..  ..
+Placer score =  5476265
+Finished Placer Phase 2.  REAL time: 46 secs 
+
+
+------------------ Clock Report ------------------
+
+Global Clock Resources:
+  CLK_PIN    : 0 out of 6 (0%)
+  General PIO: 1 out of 224 (0%)
+  PLL        : 2 out of 2 (100%)
+  DCS        : 0 out of 8 (0%)
+
+Quadrants All (TL, TR, BL, BR) - Global Clocks:
+  PRIMARY "LogicClock_C" from CLKOP on comp "logicClockPLL/pll/PLLInst_0" on PLL site "PLL_R26C52", clk load = 1578
+  PRIMARY "ADCClock_C" from CLKOP on comp "adcClockPLL/pll/PLLInst_0" on PLL site "PLL_R26C5", clk load = 230
+  SECONDARY "USBClock_CI_c" from comp "USBClock_CI" on PIO site "K3 (PL26E_C)", clk load = 83, ce load = 0, sr load = 0
+  SECONDARY "ADCReset_R" from Q1 on comp "adcResetSync/SLICE_1701" on site "R2C28A", clk load = 0, ce load = 0, sr load = 265
+  SECONDARY "apsAdcSM/N_675_i" from F0 on comp "apsAdcSM/SLICE_3331" on site "R43C27A", clk load = 0, ce load = 63, sr load = 0
+  SECONDARY "imuSM/I2CReadSRMode_S_0_sqmuxa" from F1 on comp "imuSM/SLICE_2879" on site "R43C28A", clk load = 0, ce load = 56, sr load = 0
+  SECONDARY "USBReset_R" from Q1 on comp "syncInputsToUSBClock/syncReset/SLICE_2271" on site "R25C2C", clk load = 0, ce load = 0, sr load = 38
+
+  PRIMARY  : 2 out of 8 (25%)
+     DCS   : 0 out of 2 (0%)
+     DCC   : 2 out of 6 (33%)
+  SECONDARY: 5 out of 8 (62%)
+
+Edge Clocks:
+  No edge clock selected.
+
+Regional Secondary Clocks:
+  No regional secondary clock selected.
+
+--------------- End of Clock Report ---------------
+
+
+I/O Usage Summary (final):
+   88 out of 228 (38.6%) PIO sites used.
+   88 out of 133 (66.2%) bonded PIO sites used.
+   Number of PIO comps: 88; differential: 0
+   Number of Vref pins used: 0
+
+I/O Bank Usage Summary:
+----------+------------------+-------+-----------------+----------------
+ I/O Bank | Usage            | Vccio |  Vref1 / Vref2  |  Vtt
+----------+------------------+-------+-----------------+----------------
+    0     |  11 / 26  ( 42%) | 3.3V  |    OFF / OFF    |               
+    1     |  14 / 14  (100%) | 3.3V  |    OFF / OFF    |               
+    2     |   2 / 8   ( 25%) | 3.3V  |    OFF / OFF    |               
+    3     |  10 / 18  ( 55%) | 3.3V  |    OFF / OFF    |               
+    6     |  16 / 20  ( 80%) | 3.3V  |    OFF / OFF    |               
+    7     |  17 / 23  ( 73%) | 3.3V  |    OFF / OFF    |               
+    8     |  18 / 24  ( 75%) | 3.3V  |    OFF / OFF    |               
+----------+------------------+-------+-----------------+----------------
+
+---------------------------------- DSP Report ----------------------------------
+
+DSP Slice #:           1  2  3  4  5  6  7  8  9 10 11 12
+# of MULT9X9C                                            
+# of MULT18X18C                                          
+# of ALU24A                                              
+# of ALU54A                                              
+
+------------------------------ End of DSP Report -------------------------------
+Total placer CPU time: 45 secs 
+
+Dumping design to file SeeBetterLogic_FX3_SeeBetterLogic_FX3.dir/5_1.ncd.
+
+5 potential circuit loops found in timing analysis.
+0 connections routed; 24902 unrouted.
+Starting router resource preassignment
+WARNING - par: Unable to route net (PIO to DLL_CLKI / PLL_CLKI) with dedicated resource for net USBClock_CI_c
+
+WARNING - par: The driver of secondary clock net USBClock_CI_c is not placed on one of the PIO sites dedicated for secondary clocks. This secondary clock will be routed through general routing resource and may suffer from excessive delay or skew.
+
+Completed router resource preassignment. Real time: 52 secs 
+
+Start NBR router at 16:45:50 11/07/14
+
+*****************************************************************
+Info: NBR allows conflicts(one node used by more than one signal)
+      in the earlier iterations. In each iteration, it tries to  
+      solve the conflicts while keeping the critical connections 
+      routed as short as possible. The routing process is said to
+      be completed when no conflicts exist and all connections   
+      are routed.                                                
+Note: NBR uses a different method to calculate timing slacks. The
+      worst slack and total negative slack may not be the same as
+      that in TRCE report. You should always run TRCE to verify  
+      your design. Thanks.                                       
+*****************************************************************
+
+5 potential circuit loops found in timing analysis.
+Start NBR special constraint process at 16:45:51 11/07/14
+
+Start NBR section for initial routing at 16:45:52 11/07/14
+Level 1, iteration 1
+0(0.00%) conflict; 19659(78.95%) untouched conns; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 57 secs 
+Level 2, iteration 1
+0(0.00%) conflict; 19659(78.95%) untouched conns; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 58 secs 
+Level 3, iteration 1
+1(0.00%) conflict; 19374(77.80%) untouched conns; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 
+Level 4, iteration 1
+1072(0.13%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.744ns/0.000ns; real time: 1 mins 6 secs 
+
+Info: Initial congestion level at 75% usage is 0
+Info: Initial congestion area  at 75% usage is 0 (0.00%)
+
+Start NBR section for normal routing at 16:46:03 11/07/14
+Level 1, iteration 1
+1(0.00%) conflict; 2355(9.46%) untouched conns; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.744ns/0.000ns; real time: 1 mins 7 secs 
+Level 4, iteration 1
+829(0.10%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.711ns/0.000ns; real time: 1 mins 9 secs 
+Level 4, iteration 2
+492(0.06%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 12 secs 
+Level 4, iteration 3
+271(0.03%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 13 secs 
+Level 4, iteration 4
+168(0.02%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 14 secs 
+Level 4, iteration 5
+118(0.01%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 15 secs 
+Level 4, iteration 6
+50(0.01%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 16 secs 
+Level 4, iteration 7
+14(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 17 secs 
+Level 4, iteration 8
+10(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 17 secs 
+Level 4, iteration 9
+6(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 18 secs 
+Level 4, iteration 10
+2(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 18 secs 
+Level 4, iteration 11
+2(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 19 secs 
+Level 4, iteration 12
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 3.806ns/0.000ns; real time: 1 mins 19 secs 
+
+Start NBR section for setup/hold timing optimization with effort level 3 at 16:46:16 11/07/14
+5 potential circuit loops found in timing analysis.
+5 potential circuit loops found in timing analysis.
+5 potential circuit loops found in timing analysis.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_364:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_365:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_366:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_367:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_373:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_381:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_382:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_383:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_384:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_390:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.276ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/SLICE_708:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/SLICE_709:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.276ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/SLICE_710:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/SLICE_711:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/SLICE_712:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.276ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/SLICE_713:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.276ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/SLICE_714:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/SLICE_871:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/SLICE_1702:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_1703:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.277ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/SLICE_1704:LSR) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-0.411ns with flag 0/1/0) at conn (adcResetSync/SLICE_1701:Q1 -> apsAdcFifo/fifoDualClock/pdp_ram_0_0_0:RSTB) in signal ADCReset_R.
+WARNING - par: Cannot fix hold timing violation(-1.440ns with flag 0/1/1) at conn (DVSAERData_AI[7]:PADDI -> DVSAERData_AI[7]_MGIOL:DI) in signal DVSAERData_AI_c[7].
+WARNING - par: Cannot fix hold timing violation(-1.441ns with flag 0/1/1) at conn (DVSAERReq_ABI:PADDI -> DVSAERReq_ABI_MGIOL:DI) in signal DVSAERReq_ABI_c.
+WARNING - par: Cannot fix hold timing violation(-1.531ns with flag 0/1/1) at conn (USBFifoThr1Watermark_SI:PADDI -> USBFifoThr1Watermark_SI_MGIOL:DI) in signal USBFifoThr1Watermark_SI_c.
+. . .
+----------------------------------
+Info: Total 75 connections where the hold timing errors associated cannot be fixed.
+
+Level 4, iteration 0
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 28315 (nbr) score; 
+Estimated worst slack/total negative slack<hold >: -1.531ns/-28.316ns; real time: 2 mins 54 secs 
+5 potential circuit loops found in timing analysis.
+Level 4, iteration 0
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 1.751ns/0.000ns; real time: 2 mins 56 secs 
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 1.751ns/0.000ns; real time: 2 mins 56 secs 
+5 potential circuit loops found in timing analysis.
+5 potential circuit loops found in timing analysis.
+
+Start NBR section for re-routing at 16:47:56 11/07/14
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 1.771ns/0.000ns; real time: 2 mins 59 secs 
+
+Start NBR section for post-routing at 16:47:56 11/07/14
+5 potential circuit loops found in timing analysis.
+
+End NBR router with 0 unrouted connection
+
+NBR Summary
+-----------
+  Number of unrouted connections : 0 (0.00%)
+  Number of connections with timing violations : 0 (0.00%)
+  Estimated worst slack<setup> : 3.806ns
+  Timing score<setup> : 0
+-----------
+Notes: The timing info is calculated for SETUP only and all PAR_ADJs are ignored.
+
+
+
+5 potential circuit loops found in timing analysis.
+5 potential circuit loops found in timing analysis.
+5 potential circuit loops found in timing analysis.
+Total CPU time 2 mins 56 secs 
+Total REAL time: 3 mins 11 secs 
+Completely routed.
+End of route.  24902 routed (100.00%); 0 unrouted.
+Checking DRC ... 
+No errors found.
+
+Hold time timing score: 28, hold timing errors: 50
+
+Timing score: 0 
+
+Dumping design to file SeeBetterLogic_FX3_SeeBetterLogic_FX3.dir/5_1.ncd.
+
+
+All signals are completely routed.
+
+PAR completed successfully, with 5 Preference errors (ignored).
+
+PAR_SUMMARY::Run status = completed
+PAR_SUMMARY::Number of unrouted conns = 0
+PAR_SUMMARY::Worst  slack<setup/<ns>> = 3.806
+PAR_SUMMARY::Timing score<setup/<ns>> = 0.000
+PAR_SUMMARY::Worst  slack<hold /<ns>> = -1.526
+PAR_SUMMARY::Timing score<hold /<ns>> = 28.066
+PAR_SUMMARY::Number of errors = 0
+
+Total CPU  time to completion: 2 mins 57 secs 
+Total REAL time to completion: 3 mins 13 secs 
 
 par done!
 

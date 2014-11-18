@@ -225,43 +225,49 @@ fsm_state_encoding {59173217311} stackx {10000000}
 
 fsm_registers {59173217311} {State_DP[0]}  {State_DP[1]}  {State_DP[2]}  {State_DP[3]}  {State_DP[4]}  {State_DP[5]}  {State_DP[6]}  {State_DP[7]} 
 
-fsm_encoding {34121212112} sequential
+fsm_encoding {33131213112} sequential
 
-fsm_state_encoding {34121212112} stinit {00}
+fsm_state_encoding {33131213112} stinit {00}
 
-fsm_state_encoding {34121212112} stgetdata {01}
+fsm_state_encoding {33131213112} stgetdata {01}
 
-fsm_state_encoding {34121212112} stwaitread {10}
+fsm_state_encoding {33131213112} stwaitread {10}
 
-fsm_registers {34121212112} {State_DP[1]}  {State_DP[0]} 
+fsm_registers {33131213112} {State_DP[1]}  {State_DP[0]} 
 
-fsm_encoding {48494249414} sequential
+fsm_encoding {48805280513} sequential
 
-fsm_state_encoding {48494249414} stidle {00}
+fsm_state_encoding {48805280513} colmode_null {00}
 
-fsm_state_encoding {48494249414} stwaitforadcstartup {01}
+fsm_state_encoding {48805280513} colmode_reada {01}
 
-fsm_state_encoding {48494249414} ststartframe {10}
+fsm_state_encoding {48805280513} colmode_readb {10}
 
-fsm_registers {48494249414} {ColState_DP[1]}  {ColState_DP[0]} 
+fsm_state_encoding {48805280513} 11 {11}
 
-fsm_encoding {48494249413} onehot
+fsm_registers {48805280513} {ReadBSRStatus_DP[1]}  {ReadBSRStatus_DP[0]} 
 
-fsm_state_encoding {48494249413} stidle {0000001}
+fsm_encoding {48805280514} onehot
 
-fsm_state_encoding {48494249413} strowdone {0000010}
+fsm_state_encoding {48805280514} stidle {000000001}
 
-fsm_state_encoding {48494249413} strowsrinit {0000100}
+fsm_state_encoding {48805280514} strowdone {000000010}
 
-fsm_state_encoding {48494249413} strowsrinittick {0001000}
+fsm_state_encoding {48805280514} strowsrinit {000000100}
 
-fsm_state_encoding {48494249413} strowsrfeedtick {0010000}
+fsm_state_encoding {48805280514} strowsrinittick {000001000}
 
-fsm_state_encoding {48494249413} stcolsettlewait {0100000}
+fsm_state_encoding {48805280514} strowsrfeedtick {000010000}
 
-fsm_state_encoding {48494249413} strowfastjump {1000000}
+fsm_state_encoding {48805280514} stcolsettlewait {000100000}
 
-fsm_registers {48494249413} {RowState_DP[0]}  {RowState_DP[1]}  {RowState_DP[2]}  {RowState_DP[3]}  {RowState_DP[4]}  {RowState_DP[5]}  {RowState_DP[6]} 
+fsm_state_encoding {48805280514} strowsettlewait {001000000}
+
+fsm_state_encoding {48805280514} strowwriteevent {010000000}
+
+fsm_state_encoding {48805280514} strowfastjump {100000000}
+
+fsm_registers {48805280514} {RowState_DP[0]}  {RowState_DP[1]}  {RowState_DP[2]}  {RowState_DP[3]}  {RowState_DP[4]}  {RowState_DP[5]}  {RowState_DP[6]}  {RowState_DP[7]}  {RowState_DP[8]} 
 
 fsm_encoding {34121212115} sequential
 

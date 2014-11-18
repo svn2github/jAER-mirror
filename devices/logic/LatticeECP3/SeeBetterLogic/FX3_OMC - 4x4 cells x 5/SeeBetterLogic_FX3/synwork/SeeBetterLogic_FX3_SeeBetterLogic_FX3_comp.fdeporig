@@ -22,11 +22,11 @@
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\support\\EdgeDetector.vhd":1408693896
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\support\\PulseGenerator.vhd":1408693896
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\support\\PulseDetector.vhd":1411647535
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\private-source\\Settings.vhd":1414503299
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\private-source\\Settings.vhd":1415280602
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\MultiplexerConfigRecords.vhd":1408693896
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\DVSAERConfigRecords.vhd":1414503169
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\IMUConfigRecords.vhd":1408693895
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\EventCodes.vhd":1414503169
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\EventCodes.vhd":1415279688
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\ExtTriggerConfigRecords.vhd":1408693896
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\ChipBiasConfigRecords.vhd":1408693896
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\private-source\\WSAER2CAVIAR2.vhd":1413187009
@@ -44,28 +44,28 @@
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\fx3\\FX3USBClockSynchronizer.vhd":1408693895
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\fx3\\FX3StateMachine.vhd":1413979794
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\TimestampGenerator.vhd":1408693895
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\MultiplexerStateMachine.vhd":1411647535
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\MultiplexerStateMachine.vhd":1415279688
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\MultiplexerSPIConfig.vhd":1408693895
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\DVSAERStateMachine.vhd":1414503169
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\DVSAERSPIConfig.vhd":1414503169
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\APSADCConfigRecords.vhd":1414503169
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\APSADCStateMachine.vhd":1414503273
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\APSADCSPIConfig.vhd":1414503169
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\APSADCConfigRecords.vhd":1415279688
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\APSADCStateMachine.vhd":1415279688
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\APSADCSPIConfig.vhd":1415279688
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\IMUStateMachine.vhd":1414503169
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\IMUSPIConfig.vhd":1408693896
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\ExtTriggerSPIConfig.vhd":1408693896
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\ExtTriggerStateMachine.vhd":1411647535
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\ExtTriggerStateMachine.vhd":1415279688
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\SPIConfig.vhd":1411647535
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\support\\FifoMerger.vhd":1411649353
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\ObjectMotionCell.vhd":1414756275
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\ObjectMotionCell.vhd":1415359198
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\ObjectMotionCellSPIConfig.vhd":1413191771
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\fx3\\FX3SPIConfig.vhd":1412600751
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\private-source\\MISCAERStateMachine.vhd":1414503104
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\ObjectMotionMotherCell.vhd":1414759766
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\private-source\\TopLevel.vhd":1414682456
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\ObjectMotionMotherCell.vhd":1415362760
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\private-source\\TopLevel.vhd":1415280733
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\ChipBiasStateMachine.vhd":1411647535
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\..\\common-source\\ChipBiasSPIConfig.vhd":1408693896
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\ObjectMotionMotherCell_tb.vhd":1414682423
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\ObjectMotionMotherCell_tb.vhd":1415374670
 0 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
 1 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd" vhdl
 2 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\ext\FIFORecords.vhd" vhdl
@@ -176,7 +176,7 @@
 49 24 
 50 16 2 12 
 51 7 47 23 
-52 19 51 48 20 31 30 5 27 32 49 25 34 35 46 36 37 50 39 40 41 42 26 44 43 45 16 12 2 13 23 14 38 15 17 24 
+52 19 51 48 20 31 30 5 27 4 32 49 34 35 46 36 37 50 25 39 40 41 42 26 44 43 45 16 12 2 13 23 14 38 15 17 24 
 53 7 29 28 8 18 12 
 54 18 
 55 51 
@@ -186,7 +186,7 @@
 1 27 26 25 
 2 52 50 46 44 41 39 36 34 32 26 25 
 3 31 30 
-4 31 30 
+4 52 31 30 
 5 52 44 41 39 36 
 6 41 34 28 
 7 53 51 47 45 41 39 36 34 33 32 

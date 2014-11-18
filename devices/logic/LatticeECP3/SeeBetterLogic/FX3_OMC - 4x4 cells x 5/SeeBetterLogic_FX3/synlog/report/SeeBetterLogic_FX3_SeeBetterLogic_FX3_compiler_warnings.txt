@@ -1,18 +1,18 @@
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":148:8:148:19|Signal caviaro_data is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":148:22:148:34|Signal tcaviaro_data is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":149:32:149:45|Signal caviar_ack_aux is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":149:74:149:85|Signal tcaviaro_req is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":149:88:149:99|Signal tcaviaro_ack is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":149:148:149:149|Signal kk is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":151:8:151:16|Signal timertest is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":153:8:153:13|Signal spi_wr is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":154:8:154:15|Signal spi_data is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":155:8:155:18|Signal spi_address is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":156:8:156:10|Signal led is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":157:8:157:16|Signal ot_active is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":158:8:158:19|Signal ws2caviar_en is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":158:22:158:27|Signal bgafen is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":158:67:158:74|Signal davis_en is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":151:8:151:19|Signal caviaro_data is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":151:22:151:34|Signal tcaviaro_data is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":152:32:152:45|Signal caviar_ack_aux is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":152:74:152:85|Signal tcaviaro_req is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":152:88:152:99|Signal tcaviaro_ack is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":152:148:152:149|Signal kk is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":154:8:154:16|Signal timertest is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":156:8:156:13|Signal spi_wr is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":157:8:157:15|Signal spi_data is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":158:8:158:18|Signal spi_address is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":159:8:159:10|Signal led is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":160:8:160:16|Signal ot_active is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":161:8:161:19|Signal ws2caviar_en is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":161:22:161:27|Signal bgafen is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":161:67:161:74|Signal davis_en is undriven 
 @W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\SPIConfig.vhd":227:2:227:3|Pruning register SPIMISO_DZO_cl_2  
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\ExtTriggerSPIConfig.vhd":100:2:100:3|All reachable assignments to ExtTriggerOutput_DP(24) assign '0'; register removed by optimization
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\ExtTriggerSPIConfig.vhd":100:2:100:3|All reachable assignments to ExtTriggerOutput_DP(25) assign '0'; register removed by optimization
@@ -51,48 +51,14 @@
 @W: CL279 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\IMUSPIConfig.vhd":84:2:84:3|Pruning register bits 31 to 8 of IMUInput_DP(31 downto 0)  
 @W: CD136 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\ext\FIFO.vhd":28:49:28:56|syn_encoding should immediately follow type declaration ... ignoring attribute.
 @W: CD280 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":584:12:584:19|Unbound component pmi_fifo mapped to black box
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(20) assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(21) assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(22) assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(23) assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(24) assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(25) assign '0'; register removed by optimization
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(26) assign '0'; register removed by optimization
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(27) assign '0'; register removed by optimization
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(28) assign '0'; register removed by optimization
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(29) assign '0'; register removed by optimization
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(30) assign '0'; register removed by optimization
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|All reachable assignments to APSADCOutput_DP(31) assign '0'; register removed by optimization
-@W: CL279 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|Pruning register bits 31 to 20 of APSADCInput_DP(31 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.GSTXGateOpenReset_S_2  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.ResetSettle_D_2(7 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.GlobalShutter_S_2  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.GSTXGateOpenReset_S_4  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.ResetSettle_D_5(7 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.GlobalShutter_S_4  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register RowReadDone_SP_3  
-@W: CL168 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":194:27:194:48|Pruning instance resetTimeCounter -- not in use ... 
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|All reachable assignments to APSChipColModeReg_DP(0) assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|All reachable assignments to APSChipColModeReg_DP(1) assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|All reachable assignments to APSChipTXGate_SBO assign '1'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|All reachable assignments to APSChipColSRIn_SO assign '0'; register removed by optimization
-@W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|All reachable assignments to APSChipColSRClock_SO assign '0'; register removed by optimization
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.EndColumn_D(7 downto 4)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.EndColumn_D(3 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.StartColumn_D(7 downto 1)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.StartColumn_D(0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.EndColumn_D(7 downto 4)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.EndColumn_D(3 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.StartColumn_D(7 downto 1)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.StartColumn_D(0)  
-@W: CL168 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":155:27:155:48|Pruning instance colReadAPosition -- not in use ... 
-@W: CL168 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":168:27:168:48|Pruning instance colReadBPosition -- not in use ... 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.EndRow_D(7 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.StartRow_D(7 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.EndRow_D(7 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.StartRow_D(7 downto 0)  
-@W: CD136 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\ext\FIFO.vhd":28:49:28:56|syn_encoding should immediately follow type declaration ... ignoring attribute.
-@W: CD280 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":584:12:584:19|Unbound component pmi_fifo mapped to black box
+@W: CL279 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":104:2:104:3|Pruning register bits 31 to 26 of APSADCInput_DP(31 downto 0)  
+@W: CD280 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":551:12:551:22|Unbound component pmi_fifo_dc mapped to black box
 @W: CD434 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\MISCAERStateMachine.vhd":53:85:53:100|Signal ackdelaynotify_s in the sensitivity list is not used in the process
 @W: CD434 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\MISCAERStateMachine.vhd":53:103:53:122|Signal ackextensionnotify_s in the sensitivity list is not used in the process
 @W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\MISCAERStateMachine.vhd":36:25:36:40|Signal ackdelaynotify_s is undriven 
@@ -166,6 +132,7 @@
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\MultiplexerSPIConfig.vhd":56:2:56:3|All reachable assignments to MultiplexerOutput_DP(30) assign '0'; register removed by optimization
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\MultiplexerSPIConfig.vhd":56:2:56:3|All reachable assignments to MultiplexerOutput_DP(31) assign '0'; register removed by optimization
 @W: CD136 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\support\PulseDetector.vhd":27:49:27:56|syn_encoding should immediately follow type declaration ... ignoring attribute.
+@W: CD136 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\ext\FIFODualClock.vhd":29:49:29:56|syn_encoding should immediately follow type declaration ... ignoring attribute.
 @W: CD280 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":551:12:551:22|Unbound component pmi_fifo_dc mapped to black box
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\fx3\FX3SPIConfig.vhd":52:2:52:3|All reachable assignments to FX3Output_DP(13) assign '0'; register removed by optimization
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\fx3\FX3SPIConfig.vhd":52:2:52:3|All reachable assignments to FX3Output_DP(14) assign '0'; register removed by optimization
@@ -188,6 +155,7 @@
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\fx3\FX3SPIConfig.vhd":52:2:52:3|All reachable assignments to FX3Output_DP(31) assign '0'; register removed by optimization
 @W: CL279 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\fx3\FX3SPIConfig.vhd":52:2:52:3|Pruning register bits 31 to 13 of FX3Input_DP(31 downto 0)  
 @W: CD280 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":1143:12:1143:18|Unbound component pmi_pll mapped to black box
+@W: CD280 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":1143:12:1143:18|Unbound component pmi_pll mapped to black box
 @W: CD604 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\CAVIAR2WSAER.vhd":103:1:103:14|OTHERS clause is not synthesized 
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCellSPIConfig.vhd":88:2:88:3|All reachable assignments to ObjectMotionCellOutput_DP(25) assign '0'; register removed by optimization
 @W: CL111 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCellSPIConfig.vhd":88:2:88:3|All reachable assignments to ObjectMotionCellOutput_DP(26) assign '0'; register removed by optimization
@@ -209,17 +177,17 @@
 @W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\WSAER2CAVIAR2.vhd":43:46:43:56|Signal wsaer_data9 is undriven 
 @W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\WSAER2CAVIAR2.vhd":43:59:43:63|Signal last9 is undriven 
 @W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\WSAER2CAVIAR2.vhd":44:10:44:19|Signal latched_ev is undriven 
-@W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":158:67:158:74|DAVIS_en is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":158:8:158:19|WS2CAVIAR_en is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":157:8:157:16|Bit 0 of signal ot_active is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":157:8:157:16|Bit 1 of signal ot_active is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":157:8:157:16|Bit 2 of signal ot_active is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":157:8:157:16|Bit 3 of signal ot_active is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":156:8:156:10|Bit 0 of signal led is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":156:8:156:10|Bit 1 of signal led is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":156:8:156:10|Bit 2 of signal led is floating -- simulation mismatch possible.
+@W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":161:67:161:74|DAVIS_en is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":161:8:161:19|WS2CAVIAR_en is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":160:8:160:16|Bit 0 of signal ot_active is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":160:8:160:16|Bit 1 of signal ot_active is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":160:8:160:16|Bit 2 of signal ot_active is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":160:8:160:16|Bit 3 of signal ot_active is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":159:8:159:10|Bit 0 of signal led is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":159:8:159:10|Bit 1 of signal led is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":159:8:159:10|Bit 2 of signal led is floating -- simulation mismatch possible.
 @W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":71:2:71:16|SyncOutClock_CO is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":174:2:174:3|Pruning register testcnt_3(7 downto 0)  
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":177:2:177:3|Pruning register testcnt_3(7 downto 0)  
 @W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":36:2:36:13|Input port bits 13 to 9 of pdvsdata_adi(16 downto 0) are unused 
 @W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":36:2:36:13|Input port bits 5 to 0 of pdvsdata_adi(16 downto 0) are unused 
 @W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionCellSPIConfig.vhd":39:2:39:20|Input port bits 31 to 25 of configparaminput_di(31 downto 0) are unused 
@@ -246,19 +214,8 @@
 @W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\DVSAERSPIConfig.vhd":15:2:15:20|Input port bits 31 to 5 of configparaminput_di(31 downto 0) are unused 
 @W: CL260 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\MISCAERStateMachine.vhd":173:2:173:3|Pruning register bit 14 of OutFifoData_DO(14 downto 11)  
 @W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\MISCAERStateMachine.vhd":16:2:16:18|Input OutFifoControl_SI is unused
-@W: CL190 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Optimizing register bit RowReadStart_SP to a constant 0
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register RowReadStart_SP  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.RowSettle_D(5 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.RowSettle_D(5 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigReg_D.FrameDelay_D(19 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":494:2:494:3|Pruning register APSADCConfigSyncReg_D.FrameDelay_D(19 downto 0)  
-@W: CL247 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":21:2:21:18|Input port bit 1 of outfifocontrol_si(1 downto 0) is unused 
-@W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":39:2:39:16|Input port bits 96 to 90 of apsadcconfig_di(98 downto 0) are unused 
-@W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":39:2:39:16|Input port bits 83 to 56 of apsadcconfig_di(98 downto 0) are unused 
-@W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":39:2:39:16|Input port bits 35 to 3 of apsadcconfig_di(98 downto 0) are unused 
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":32:2:32:14|Input APSADCData_DI is unused
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":33:2:33:18|Input APSADCOverflow_SI is unused
-@W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":15:2:15:20|Input port bits 31 to 20 of configparaminput_di(31 downto 0) are unused 
+@W: CL247 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCStateMachine.vhd":47:2:47:18|Input port bit 1 of outfifocontrol_si(1 downto 0) is unused 
+@W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\APSADCSPIConfig.vhd":15:2:15:20|Input port bits 31 to 26 of configparaminput_di(31 downto 0) are unused 
 @W: CL247 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\IMUStateMachine.vhd":18:2:18:18|Input port bit 0 of outfifocontrol_si(1 downto 0) is unused 
 @W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\IMUSPIConfig.vhd":15:2:15:20|Input port bits 31 to 8 of configparaminput_di(31 downto 0) are unused 
 @W: CL247 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\..\common-source\ExtTriggerStateMachine.vhd":19:2:19:18|Input port bit 1 of outfifocontrol_si(1 downto 0) is unused 

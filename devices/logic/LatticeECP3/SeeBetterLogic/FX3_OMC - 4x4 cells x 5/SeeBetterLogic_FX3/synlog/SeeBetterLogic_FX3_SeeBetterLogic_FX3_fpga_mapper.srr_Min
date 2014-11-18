@@ -1,12 +1,12 @@
 
 
 ##### START OF TIMING REPORT #####[
-# Timing Report written on Fri Oct 31 13:50:18 2014
+# Timing Report written on Fri Nov 07 16:44:30 2014
 #
 
 
 Top view:               TopLevel
-Requested Frequency:    42.4 MHz
+Requested Frequency:    43.0 MHz
 Wire load mode:         top
 Paths requested:        5
 Constraint File(s):    
@@ -22,32 +22,36 @@ Performance Summary
 
 Worst slack in design: -0.067
 
-                                   Requested      Estimated      Requested     Estimated                Clock        Clock                
-Starting Clock                     Frequency      Frequency      Period        Period        Slack      Type         Group                
-------------------------------------------------------------------------------------------------------------------------------------------
-PLL|OutClock_CO_inferred_clock     42.4 MHz       36.1 MHz       23.573        27.733        -4.160     inferred     Autoconstr_clkgroup_0
-TopLevel|USBClock_CI               216.8 MHz      184.3 MHz      4.613         5.427         -0.814     inferred     Autoconstr_clkgroup_1
-System                             1670.6 MHz     1420.1 MHz     0.599         0.704         -0.106     system       system_clkgroup      
-==========================================================================================================================================
+                                         Requested      Estimated      Requested     Estimated                Clock        Clock                
+Starting Clock                           Frequency      Frequency      Period        Period        Slack      Type         Group                
+------------------------------------------------------------------------------------------------------------------------------------------------
+PLL_80_30|OutClock_CO_inferred_clock     215.3 MHz      183.4 MHz      4.645         5.454         -0.809     inferred     Autoconstr_clkgroup_1
+PLL_80_60|OutClock_CO_inferred_clock     43.0 MHz       36.6 MHz       23.252        27.355        -4.103     inferred     Autoconstr_clkgroup_0
+TopLevel|USBClock_CI                     216.8 MHz      184.3 MHz      4.613         5.427         -0.814     inferred     Autoconstr_clkgroup_2
+System                                   1670.6 MHz     1420.1 MHz     0.599         0.704         -0.106     system       system_clkgroup      
+================================================================================================================================================
 
 
 
 Clock Relationships
 *******************
 
-Clocks                                                          |    rise  to  rise    |    fall  to  fall   |    rise  to  fall   |    fall  to  rise 
--------------------------------------------------------------------------------------------------------------------------------------------------------
-Starting                        Ending                          |  constraint  slack   |  constraint  slack  |  constraint  slack  |  constraint  slack
--------------------------------------------------------------------------------------------------------------------------------------------------------
-System                          System                          |  0.000       0.493   |  No paths    -      |  No paths    -      |  No paths    -    
-System                          PLL|OutClock_CO_inferred_clock  |  0.000       -0.067  |  No paths    -      |  No paths    -      |  No paths    -    
-System                          TopLevel|USBClock_CI            |  0.000       -0.067  |  No paths    -      |  No paths    -      |  No paths    -    
-PLL|OutClock_CO_inferred_clock  System                          |  0.000       0.505   |  No paths    -      |  No paths    -      |  No paths    -    
-PLL|OutClock_CO_inferred_clock  PLL|OutClock_CO_inferred_clock  |  0.000       0.325   |  No paths    -      |  No paths    -      |  No paths    -    
-PLL|OutClock_CO_inferred_clock  TopLevel|USBClock_CI            |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -    
-TopLevel|USBClock_CI            System                          |  0.000       0.505   |  No paths    -      |  No paths    -      |  No paths    -    
-TopLevel|USBClock_CI            TopLevel|USBClock_CI            |  0.000       0.351   |  No paths    -      |  No paths    -      |  No paths    -    
-=======================================================================================================================================================
+Clocks                                                                      |    rise  to  rise    |    fall  to  fall   |    rise  to  fall   |    fall  to  rise 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Starting                              Ending                                |  constraint  slack   |  constraint  slack  |  constraint  slack  |  constraint  slack
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+System                                System                                |  0.000       0.493   |  No paths    -      |  No paths    -      |  No paths    -    
+System                                PLL_80_60|OutClock_CO_inferred_clock  |  0.000       -0.067  |  No paths    -      |  No paths    -      |  No paths    -    
+System                                PLL_80_30|OutClock_CO_inferred_clock  |  0.000       0.226   |  No paths    -      |  No paths    -      |  No paths    -    
+System                                TopLevel|USBClock_CI                  |  0.000       -0.067  |  No paths    -      |  No paths    -      |  No paths    -    
+PLL_80_60|OutClock_CO_inferred_clock  System                                |  0.000       0.505   |  No paths    -      |  No paths    -      |  No paths    -    
+PLL_80_60|OutClock_CO_inferred_clock  PLL_80_60|OutClock_CO_inferred_clock  |  0.000       0.317   |  No paths    -      |  No paths    -      |  No paths    -    
+PLL_80_60|OutClock_CO_inferred_clock  PLL_80_30|OutClock_CO_inferred_clock  |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -    
+PLL_80_30|OutClock_CO_inferred_clock  System                                |  0.000       0.505   |  No paths    -      |  No paths    -      |  No paths    -    
+PLL_80_30|OutClock_CO_inferred_clock  PLL_80_30|OutClock_CO_inferred_clock  |  0.000       0.331   |  No paths    -      |  No paths    -      |  No paths    -    
+TopLevel|USBClock_CI                  System                                |  0.000       0.790   |  No paths    -      |  No paths    -      |  No paths    -    
+TopLevel|USBClock_CI                  TopLevel|USBClock_CI                  |  0.000       0.348   |  No paths    -      |  No paths    -      |  No paths    -    
+===================================================================================================================================================================
  Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
        'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
 
@@ -61,7 +65,7 @@ No IO constraint found
 
 
 ====================================
-Detailed Report for Clock: PLL|OutClock_CO_inferred_clock
+Detailed Report for Clock: PLL_80_30|OutClock_CO_inferred_clock
 ====================================
 
 
@@ -69,41 +73,41 @@ Detailed Report for Clock: PLL|OutClock_CO_inferred_clock
 Starting Points with Worst Slack
 ********************************
 
-                               Starting                                                                  Arrival          
-Instance                       Reference                          Type        Pin     Net                Time        Slack
-                               Clock                                                                                      
---------------------------------------------------------------------------------------------------------------------------
-imuSM.I2CState_DP[8]           PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       I2CState_DP[8]     0.622       0.325
-imuSM.I2CState_DP[7]           PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       I2CState_DP[7]     0.626       0.329
-apsAdcSM.ColState_DP[0]        PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       ColState_DP[0]     0.637       0.340
-MergerAerFifo.State_DP[0]      PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]        0.645       0.348
-extTriggerFifo.State_DP[0]     PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP_0[0]      0.645       0.348
-imuFifo.State_DP[0]            PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]        0.645       0.348
-apsAdcFifo.State_DP[0]         PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]        0.645       0.348
-dvsAerFifo.State_DP[0]         PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]        0.647       0.349
-miscAerFifo.State_DP[0]        PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]        0.647       0.349
-dvsAerSM.State_DP[3]           PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[3]        0.539       0.432
-==========================================================================================================================
+                                                      Starting                                                                             Arrival          
+Instance                                              Reference                                Type        Pin     Net                     Time        Slack
+                                                      Clock                                                                                                 
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+apsAdcSM.ColState_DP[26]                              PLL_80_30|OutClock_CO_inferred_clock     FD1S3DX     Q       ColState_DP[26]         0.628       0.331
+apsAdcSM.APSADCConfigSyncReg_D\.ColumnSettle_D[0]     PLL_80_30|OutClock_CO_inferred_clock     FD1S3DX     Q       ColumnSettle_D_0[0]     0.505       0.439
+apsAdcSM.APSADCConfigSyncReg_D\.ColumnSettle_D[1]     PLL_80_30|OutClock_CO_inferred_clock     FD1S3BX     Q       ColumnSettle_D_0[1]     0.505       0.439
+apsAdcSM.APSADCConfigSyncReg_D\.ColumnSettle_D[2]     PLL_80_30|OutClock_CO_inferred_clock     FD1S3DX     Q       ColumnSettle_D_0[2]     0.505       0.439
+apsAdcSM.APSADCConfigSyncReg_D\.ColumnSettle_D[3]     PLL_80_30|OutClock_CO_inferred_clock     FD1S3BX     Q       ColumnSettle_D_0[3]     0.505       0.439
+apsAdcSM.APSADCConfigSyncReg_D\.ColumnSettle_D[4]     PLL_80_30|OutClock_CO_inferred_clock     FD1S3DX     Q       ColumnSettle_D_0[4]     0.505       0.439
+apsAdcSM.APSADCConfigSyncReg_D\.ColumnSettle_D[5]     PLL_80_30|OutClock_CO_inferred_clock     FD1S3DX     Q       ColumnSettle_D_0[5]     0.505       0.439
+apsAdcSM.APSADCConfigSyncReg_D\.EndColumn_D[0]        PLL_80_30|OutClock_CO_inferred_clock     FD1S3BX     Q       EndColumn_D_0[0]        0.505       0.439
+apsAdcSM.APSADCConfigSyncReg_D\.EndColumn_D[1]        PLL_80_30|OutClock_CO_inferred_clock     FD1S3BX     Q       EndColumn_D_0[1]        0.505       0.439
+apsAdcSM.APSADCConfigSyncReg_D\.EndColumn_D[2]        PLL_80_30|OutClock_CO_inferred_clock     FD1S3BX     Q       EndColumn_D_0[2]        0.505       0.439
+============================================================================================================================================================
 
 
 Ending Points with Worst Slack
 ******************************
 
-                                           Starting                                                                           Required          
-Instance                                   Reference                          Type         Pin     Net                        Time         Slack
-                                           Clock                                                                                                
-------------------------------------------------------------------------------------------------------------------------------------------------
-imuSM_IMUDataInt_SPio                      PLL|OutClock_CO_inferred_clock     OFS1P3BX     SP      imuSM.I2CState_DP_i[8]     0.297        0.325
-imuSM.I2CError_SP                          PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      I2CState_DP_i[7]           0.297        0.329
-apsAdcSM.adcStartupCounter.Count_DP[0]     PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      ColState_DP[0]             0.297        0.340
-apsAdcSM.adcStartupCounter.Count_DP[1]     PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      ColState_DP[0]             0.297        0.340
-apsAdcSM.adcStartupCounter.Count_DP[2]     PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      ColState_DP[0]             0.297        0.340
-apsAdcSM.adcStartupCounter.Count_DP[3]     PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      ColState_DP[0]             0.297        0.340
-apsAdcSM.adcStartupCounter.Count_DP[4]     PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      ColState_DP[0]             0.297        0.340
-apsAdcSM.adcStartupCounter.Count_DP[5]     PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      ColState_DP[0]             0.297        0.340
-imuFifo.FifoData_DO[0]                     PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
-apsAdcFifo.FifoData_DO[0]                  PLL|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
-================================================================================================================================================
+                                                  Starting                                                                             Required          
+Instance                                          Reference                                Type        Pin     Net                     Time         Slack
+                                                  Clock                                                                                                  
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+apsAdcSM.adcStartupCounter.Count_DP[0]            PLL_80_30|OutClock_CO_inferred_clock     FD1P3DX     SP      ColState_DP[26]         0.297        0.331
+apsAdcSM.adcStartupCounter.Count_DP[1]            PLL_80_30|OutClock_CO_inferred_clock     FD1P3DX     SP      ColState_DP[26]         0.297        0.331
+apsAdcSM.adcStartupCounter.Count_DP[2]            PLL_80_30|OutClock_CO_inferred_clock     FD1P3DX     SP      ColState_DP[26]         0.297        0.331
+apsAdcSM.adcStartupCounter.Count_DP[3]            PLL_80_30|OutClock_CO_inferred_clock     FD1P3DX     SP      ColState_DP[26]         0.297        0.331
+apsAdcSM.adcStartupCounter.Count_DP[4]            PLL_80_30|OutClock_CO_inferred_clock     FD1P3DX     SP      ColState_DP[26]         0.297        0.331
+apsAdcSM.adcStartupCounter.Count_DP[5]            PLL_80_30|OutClock_CO_inferred_clock     FD1P3DX     SP      ColState_DP[26]         0.297        0.331
+apsAdcSM.APSADCConfigReg_D\.ColumnSettle_D[0]     PLL_80_30|OutClock_CO_inferred_clock     FD1P3DX     D       ColumnSettle_D_0[0]     0.067        0.439
+apsAdcSM.APSADCConfigReg_D\.ColumnSettle_D[1]     PLL_80_30|OutClock_CO_inferred_clock     FD1P3BX     D       ColumnSettle_D_0[1]     0.067        0.439
+apsAdcSM.APSADCConfigReg_D\.ColumnSettle_D[2]     PLL_80_30|OutClock_CO_inferred_clock     FD1P3DX     D       ColumnSettle_D_0[2]     0.067        0.439
+apsAdcSM.APSADCConfigReg_D\.ColumnSettle_D[3]     PLL_80_30|OutClock_CO_inferred_clock     FD1P3BX     D       ColumnSettle_D_0[3]     0.067        0.439
+=========================================================================================================================================================
 
 
 
@@ -112,28 +116,104 @@ Worst Path Information
 
 
 Path information for path number 1: 
-    Propagation time:                        0.622
+    Propagation time:                        0.628
     + Clock delay at starting point:         0.000 (ideal)
     - Requested Period:                      0.000
     - Hold time:                             0.297
     - Clock delay at ending point:           0.000 (ideal)
-    = Slack (non-critical) :                 0.325
+    = Slack (non-critical) :                 0.331
+
+    Number of logic level(s):                0
+    Starting point:                          apsAdcSM.ColState_DP[26] / Q
+    Ending point:                            apsAdcSM.adcStartupCounter.Count_DP[0] / SP
+    The start point is clocked by            PLL_80_30|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL_80_30|OutClock_CO_inferred_clock [rising] on pin CK
+
+Instance / Net                                         Pin      Pin               Arrival     No. of    
+Name                                       Type        Name     Dir     Delay     Time        Fan Out(s)
+--------------------------------------------------------------------------------------------------------
+apsAdcSM.ColState_DP[26]                   FD1S3DX     Q        Out     0.628     0.628       -         
+ColState_DP[26]                            Net         -        -       -         -           10        
+apsAdcSM.adcStartupCounter.Count_DP[0]     FD1P3DX     SP       In      0.000     0.628       -         
+========================================================================================================
+
+
+
+
+====================================
+Detailed Report for Clock: PLL_80_60|OutClock_CO_inferred_clock
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                                      Starting                                                                               Arrival          
+Instance                              Reference                                Type        Pin     Net                       Time        Slack
+                                      Clock                                                                                                   
+----------------------------------------------------------------------------------------------------------------------------------------------
+imuSM.I2CState_DP[8]                  PLL_80_60|OutClock_CO_inferred_clock     FD1S3DX     Q       I2CState_DP[8]            0.615       0.317
+imuSM.I2CState_DP[7]                  PLL_80_60|OutClock_CO_inferred_clock     FD1S3DX     Q       I2CState_DP[7]            0.626       0.329
+extTriggerFifo.State_DP[0]            PLL_80_60|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP_0[0]             0.645       0.348
+imuFifo.State_DP[0]                   PLL_80_60|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]               0.645       0.348
+dvsAerFifo.State_DP[0]                PLL_80_60|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]               0.647       0.349
+MergerAerFifo.State_DP[0]             PLL_80_60|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]               0.647       0.349
+apsAdcFifo.State_DP[0]                PLL_80_60|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]               0.647       0.349
+miscAerFifo.State_DP[0]               PLL_80_60|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[0]               0.647       0.349
+dvsAerSM.State_DP[3]                  PLL_80_60|OutClock_CO_inferred_clock     FD1S3DX     Q       State_DP[3]               0.539       0.432
+spiConfiguration.ParamInput_DP[0]     PLL_80_60|OutClock_CO_inferred_clock     FD1P3DX     Q       ConfigParamInput_D[0]     0.505       0.439
+==============================================================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                                  Starting                                                                                 Required          
+Instance                          Reference                                Type         Pin     Net                        Time         Slack
+                                  Clock                                                                                                      
+---------------------------------------------------------------------------------------------------------------------------------------------
+imuSM_IMUDataInt_SPio             PLL_80_60|OutClock_CO_inferred_clock     OFS1P3BX     SP      imuSM.I2CState_DP_i[8]     0.297        0.317
+imuSM.I2CError_SP                 PLL_80_60|OutClock_CO_inferred_clock     FD1P3DX      SP      I2CState_DP_i[7]           0.297        0.329
+imuFifo.FifoData_DO[0]            PLL_80_60|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
+extTriggerFifo.FifoData_DO[0]     PLL_80_60|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP_0[0]              0.297        0.348
+extTriggerFifo.FifoData_DO[1]     PLL_80_60|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP_0[0]              0.297        0.348
+imuFifo.FifoData_DO[1]            PLL_80_60|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
+imuFifo.FifoData_DO[2]            PLL_80_60|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
+extTriggerFifo.FifoData_DO[2]     PLL_80_60|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP_0[0]              0.297        0.348
+imuFifo.FifoData_DO[3]            PLL_80_60|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP[0]                0.297        0.348
+extTriggerFifo.FifoData_DO[3]     PLL_80_60|OutClock_CO_inferred_clock     FD1P3DX      SP      State_DP_0[0]              0.297        0.348
+=============================================================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+    Propagation time:                        0.615
+    + Clock delay at starting point:         0.000 (ideal)
+    - Requested Period:                      0.000
+    - Hold time:                             0.297
+    - Clock delay at ending point:           0.000 (ideal)
+    = Slack (non-critical) :                 0.317
 
     Number of logic level(s):                1
     Starting point:                          imuSM.I2CState_DP[8] / Q
     Ending point:                            imuSM_IMUDataInt_SPio / SP
-    The start point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
-    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin SCLK
+    The start point is clocked by            PLL_80_60|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL_80_60|OutClock_CO_inferred_clock [rising] on pin SCLK
 
 Instance / Net                                Pin      Pin               Arrival     No. of    
 Name                             Type         Name     Dir     Delay     Time        Fan Out(s)
 -----------------------------------------------------------------------------------------------
-imuSM.I2CState_DP[8]             FD1S3DX      Q        Out     0.622     0.622       -         
-I2CState_DP[8]                   Net          -        -       -         -           8         
-imuSM.I2CState_DP_RNIR132[8]     INV          A        In      0.000     0.622       -         
-imuSM.I2CState_DP_RNIR132[8]     INV          Z        Out     0.000     0.622       -         
+imuSM.I2CState_DP[8]             FD1S3DX      Q        Out     0.615     0.615       -         
+I2CState_DP[8]                   Net          -        -       -         -           7         
+imuSM.I2CState_DP_RNIR132[8]     INV          A        In      0.000     0.615       -         
+imuSM.I2CState_DP_RNIR132[8]     INV          Z        Out     0.000     0.615       -         
 I2CState_DP_i[8]                 Net          -        -       -         -           1         
-imuSM_IMUDataInt_SPio            OFS1P3BX     SP       In      0.000     0.622       -         
+imuSM_IMUDataInt_SPio            OFS1P3BX     SP       In      0.000     0.615       -         
 ===============================================================================================
 
 
@@ -148,21 +228,21 @@ Detailed Report for Clock: TopLevel|USBClock_CI
 Starting Points with Worst Slack
 ********************************
 
-                                                       Starting                                                                 Arrival          
-Instance                                               Reference                Type        Pin     Net                         Time        Slack
-                                                       Clock                                                                                     
--------------------------------------------------------------------------------------------------------------------------------------------------
-logicUSBFifo.State_DP[0]                               TopLevel|USBClock_CI     FD1S3DX     Q       State_DP[0]                 0.649       0.351
-usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[0]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[0]     0.505       0.439
-usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[1]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[1]     0.505       0.439
-usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[2]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[2]     0.505       0.439
-usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[3]     TopLevel|USBClock_CI     FD1S3BX     Q       EarlyPacketDelay_D_0[3]     0.505       0.439
-usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[4]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[4]     0.505       0.439
-usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[5]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[5]     0.505       0.439
-usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[6]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[6]     0.505       0.439
-usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[7]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[7]     0.505       0.439
-usbFX3SM.FX3ConfigSyncReg_D\.EarlyPacketDelay_D[8]     TopLevel|USBClock_CI     FD1S3DX     Q       EarlyPacketDelay_D_0[8]     0.505       0.439
-=================================================================================================================================================
+                                                                           Starting                                                                                                               Arrival          
+Instance                                                                   Reference                Type         Pin     Net                                                                      Time        Slack
+                                                                           Clock                                                                                                                                   
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+logicUSBFifo.State_DP[0]                                                   TopLevel|USBClock_CI     FD1S3DX      Q       State_DP[0]                                                              0.645       0.348
+syncInputsToUSBClock.syncReset.SyncSignalDemetFF_S                         TopLevel|USBClock_CI     FD1S3BX      Q       SyncSignalDemetFF_S                                                      0.505       0.439
+syncInputsToUSBClock_syncUSBFifoThr0Ready_SyncSignalDemetFF_Sio[0]         TopLevel|USBClock_CI     IFS1P3DX     Q       syncInputsToUSBClock.syncUSBFifoThr0Ready.SyncSignalDemetFF_S[0]         0.505       0.439
+syncInputsToUSBClock_syncUSBFifoThr0Watermark_SyncSignalDemetFF_Sio[0]     TopLevel|USBClock_CI     IFS1P3DX     Q       syncInputsToUSBClock.syncUSBFifoThr0Watermark.SyncSignalDemetFF_S[0]     0.505       0.439
+syncInputsToUSBClock_syncUSBFifoThr1Ready_SyncSignalDemetFF_Sio[0]         TopLevel|USBClock_CI     IFS1P3DX     Q       syncInputsToUSBClock.syncUSBFifoThr1Ready.SyncSignalDemetFF_S[0]         0.505       0.439
+syncInputsToUSBClock_syncUSBFifoThr1Watermark_SyncSignalDemetFF_Sio[0]     TopLevel|USBClock_CI     IFS1P3DX     Q       syncInputsToUSBClock.syncUSBFifoThr1Watermark.SyncSignalDemetFF_S[0]     0.505       0.439
+usbFX3SM.State_DP[5]                                                       TopLevel|USBClock_CI     FD1S3DX      Q       State_DP[5]                                                              0.569       0.723
+usbFX3SM.State_DP[16]                                                      TopLevel|USBClock_CI     FD1S3DX      Q       State_DP[16]                                                             0.588       0.742
+usbFX3SM.State_DP[7]                                                       TopLevel|USBClock_CI     FD1S3DX      Q       State_DP[7]                                                              0.603       0.757
+logicUSBFifo.FifoControl_SO\.ReadSide\.Empty_S                             TopLevel|USBClock_CI     FD1S3BX      Q       Empty_S_Q_5                                                              0.607       0.761
+===================================================================================================================================================================================================================
 
 
 Ending Points with Worst Slack
@@ -172,16 +252,16 @@ Ending Points with Worst Slack
 Instance                          Reference                Type         Pin     Net                          Time         Slack
                                   Clock                                                                                        
 -------------------------------------------------------------------------------------------------------------------------------
-logicUSBFifo_FifoData_DOio[0]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
-logicUSBFifo_FifoData_DOio[1]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
-logicUSBFifo_FifoData_DOio[2]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
-logicUSBFifo_FifoData_DOio[3]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
-logicUSBFifo_FifoData_DOio[4]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
-logicUSBFifo_FifoData_DOio[5]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
-logicUSBFifo_FifoData_DOio[6]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
-logicUSBFifo_FifoData_DOio[7]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
-logicUSBFifo_FifoData_DOio[8]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
-logicUSBFifo_FifoData_DOio[9]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.351
+logicUSBFifo_FifoData_DOio[0]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.348
+logicUSBFifo_FifoData_DOio[1]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.348
+logicUSBFifo_FifoData_DOio[2]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.348
+logicUSBFifo_FifoData_DOio[3]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.348
+logicUSBFifo_FifoData_DOio[4]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.348
+logicUSBFifo_FifoData_DOio[5]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.348
+logicUSBFifo_FifoData_DOio[6]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.348
+logicUSBFifo_FifoData_DOio[7]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.348
+logicUSBFifo_FifoData_DOio[8]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.348
+logicUSBFifo_FifoData_DOio[9]     TopLevel|USBClock_CI     OFS1P3DX     SP      logicUSBFifo.State_DP[0]     0.297        0.348
 ===============================================================================================================================
 
 
@@ -191,12 +271,12 @@ Worst Path Information
 
 
 Path information for path number 1: 
-    Propagation time:                        0.649
+    Propagation time:                        0.645
     + Clock delay at starting point:         0.000 (ideal)
     - Requested Period:                      0.000
     - Hold time:                             0.297
     - Clock delay at ending point:           0.000 (ideal)
-    = Slack (non-critical) :                 0.351
+    = Slack (non-critical) :                 0.348
 
     Number of logic level(s):                0
     Starting point:                          logicUSBFifo.State_DP[0] / Q
@@ -207,9 +287,9 @@ Path information for path number 1:
 Instance / Net                                 Pin      Pin               Arrival     No. of    
 Name                              Type         Name     Dir     Delay     Time        Fan Out(s)
 ------------------------------------------------------------------------------------------------
-logicUSBFifo.State_DP[0]          FD1S3DX      Q        Out     0.649     0.649       -         
-State_DP[0]                       Net          -        -       -         -           19        
-logicUSBFifo_FifoData_DOio[0]     OFS1P3DX     SP       In      0.000     0.649       -         
+logicUSBFifo.State_DP[0]          FD1S3DX      Q        Out     0.645     0.645       -         
+State_DP[0]                       Net          -        -       -         -           17        
+logicUSBFifo_FifoData_DOio[0]     OFS1P3DX     SP       In      0.000     0.645       -         
 ================================================================================================
 
 
@@ -229,15 +309,15 @@ Instance                Reference     Type                                    Pi
                         Clock                                                                                               
 ----------------------------------------------------------------------------------------------------------------------------
 extTriggerFifo.fifo     System        pmi_fifo_work_toplevel_structural_0     Q[0]     DataInReg_D[0]     0.000       -0.067
-miscAerFifo.fifo        System        pmi_fifo_work_toplevel_structural_3     Q[0]     DataInReg_D[0]     0.000       -0.067
-apsAdcFifo.fifo         System        pmi_fifo_work_toplevel_structural_2     Q[0]     DataInReg_D[0]     0.000       -0.067
-MergerAerFifo.fifo      System        pmi_fifo_work_toplevel_structural_3     Q[0]     DataInReg_D[0]     0.000       -0.067
-dvsAerFifo.fifo         System        pmi_fifo_work_toplevel_structural_3     Q[0]     DataInReg_D[0]     0.000       -0.067
+miscAerFifo.fifo        System        pmi_fifo_work_toplevel_structural_2     Q[0]     DataInReg_D[0]     0.000       -0.067
+MergerAerFifo.fifo      System        pmi_fifo_work_toplevel_structural_2     Q[0]     DataInReg_D[0]     0.000       -0.067
+dvsAerFifo.fifo         System        pmi_fifo_work_toplevel_structural_2     Q[0]     DataInReg_D[0]     0.000       -0.067
 imuFifo.fifo            System        pmi_fifo_work_toplevel_structural_1     Q[0]     DataInReg_D[0]     0.000       -0.067
-miscAerFifo.fifo        System        pmi_fifo_work_toplevel_structural_3     Q[1]     DataInReg_D[1]     0.000       -0.067
-apsAdcFifo.fifo         System        pmi_fifo_work_toplevel_structural_2     Q[1]     DataInReg_D[1]     0.000       -0.067
-MergerAerFifo.fifo      System        pmi_fifo_work_toplevel_structural_3     Q[1]     DataInReg_D[1]     0.000       -0.067
+miscAerFifo.fifo        System        pmi_fifo_work_toplevel_structural_2     Q[1]     DataInReg_D[1]     0.000       -0.067
 imuFifo.fifo            System        pmi_fifo_work_toplevel_structural_1     Q[1]     DataInReg_D[1]     0.000       -0.067
+MergerAerFifo.fifo      System        pmi_fifo_work_toplevel_structural_2     Q[1]     DataInReg_D[1]     0.000       -0.067
+extTriggerFifo.fifo     System        pmi_fifo_work_toplevel_structural_0     Q[1]     DataInReg_D[1]     0.000       -0.067
+dvsAerFifo.fifo         System        pmi_fifo_work_toplevel_structural_2     Q[1]     DataInReg_D[1]     0.000       -0.067
 ============================================================================================================================
 
 
@@ -248,16 +328,16 @@ Ending Points with Worst Slack
 Instance                          Reference     Type        Pin     Net                Time         Slack 
                                   Clock                                                                   
 ----------------------------------------------------------------------------------------------------------
-dvsAerFifo.FifoData_DO[0]         System        FD1P3DX     D       DataInReg_D[0]     0.067        -0.067
-extTriggerFifo.FifoData_DO[0]     System        FD1P3DX     D       DataInReg_D[0]     0.067        -0.067
 apsAdcFifo.FifoData_DO[0]         System        FD1P3DX     D       DataInReg_D[0]     0.067        -0.067
 MergerAerFifo.FifoData_DO[0]      System        FD1P3DX     D       DataInReg_D[0]     0.067        -0.067
-imuFifo.FifoData_DO[0]            System        FD1P3DX     D       DataInReg_D[0]     0.067        -0.067
+extTriggerFifo.FifoData_DO[0]     System        FD1P3DX     D       DataInReg_D[0]     0.067        -0.067
+dvsAerFifo.FifoData_DO[0]         System        FD1P3DX     D       DataInReg_D[0]     0.067        -0.067
 miscAerFifo.FifoData_DO[0]        System        FD1P3DX     D       DataInReg_D[0]     0.067        -0.067
-dvsAerFifo.FifoData_DO[1]         System        FD1P3DX     D       DataInReg_D[1]     0.067        -0.067
-miscAerFifo.FifoData_DO[1]        System        FD1P3DX     D       DataInReg_D[1]     0.067        -0.067
-MergerAerFifo.FifoData_DO[1]      System        FD1P3DX     D       DataInReg_D[1]     0.067        -0.067
+imuFifo.FifoData_DO[0]            System        FD1P3DX     D       DataInReg_D[0]     0.067        -0.067
+apsAdcFifo.FifoData_DO[1]         System        FD1P3DX     D       DataInReg_D[1]     0.067        -0.067
+imuFifo.FifoData_DO[1]            System        FD1P3DX     D       DataInReg_D[1]     0.067        -0.067
 extTriggerFifo.FifoData_DO[1]     System        FD1P3DX     D       DataInReg_D[1]     0.067        -0.067
+dvsAerFifo.FifoData_DO[1]         System        FD1P3DX     D       DataInReg_D[1]     0.067        -0.067
 ==========================================================================================================
 
 
@@ -279,7 +359,7 @@ Path information for path number 1:
     Starting point:                          extTriggerFifo.fifo / Q[0]
     Ending point:                            extTriggerFifo.FifoData_DO[0] / D
     The start point is clocked by            System [rising]
-    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL_80_60|OutClock_CO_inferred_clock [rising] on pin CK
 
 Instance / Net                                                            Pin      Pin               Arrival     No. of    
 Name                              Type                                    Name     Dir     Delay     Time        Fan Out(s)
@@ -303,12 +383,12 @@ Path information for path number 2:
     Starting point:                          miscAerFifo.fifo / Q[0]
     Ending point:                            miscAerFifo.FifoData_DO[0] / D
     The start point is clocked by            System [rising]
-    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL_80_60|OutClock_CO_inferred_clock [rising] on pin CK
 
 Instance / Net                                                         Pin      Pin               Arrival     No. of    
 Name                           Type                                    Name     Dir     Delay     Time        Fan Out(s)
 ------------------------------------------------------------------------------------------------------------------------
-miscAerFifo.fifo               pmi_fifo_work_toplevel_structural_3     Q[0]     Out     0.000     0.000       -         
+miscAerFifo.fifo               pmi_fifo_work_toplevel_structural_2     Q[0]     Out     0.000     0.000       -         
 DataInReg_D[0]                 Net                                     -        -       -         -           1         
 miscAerFifo.FifoData_DO[0]     FD1P3DX                                 D        In      0.000     0.000       -         
 ========================================================================================================================
@@ -324,18 +404,18 @@ Path information for path number 3:
     = Slack (critical) :                     -0.067
 
     Number of logic level(s):                0
-    Starting point:                          apsAdcFifo.fifo / Q[0]
-    Ending point:                            apsAdcFifo.FifoData_DO[0] / D
+    Starting point:                          MergerAerFifo.fifo / Q[0]
+    Ending point:                            MergerAerFifo.FifoData_DO[0] / D
     The start point is clocked by            System [rising]
-    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL_80_60|OutClock_CO_inferred_clock [rising] on pin CK
 
-Instance / Net                                                        Pin      Pin               Arrival     No. of    
-Name                          Type                                    Name     Dir     Delay     Time        Fan Out(s)
------------------------------------------------------------------------------------------------------------------------
-apsAdcFifo.fifo               pmi_fifo_work_toplevel_structural_2     Q[0]     Out     0.000     0.000       -         
-DataInReg_D[0]                Net                                     -        -       -         -           1         
-apsAdcFifo.FifoData_DO[0]     FD1P3DX                                 D        In      0.000     0.000       -         
-=======================================================================================================================
+Instance / Net                                                           Pin      Pin               Arrival     No. of    
+Name                             Type                                    Name     Dir     Delay     Time        Fan Out(s)
+--------------------------------------------------------------------------------------------------------------------------
+MergerAerFifo.fifo               pmi_fifo_work_toplevel_structural_2     Q[0]     Out     0.000     0.000       -         
+DataInReg_D[0]                   Net                                     -        -       -         -           1         
+MergerAerFifo.FifoData_DO[0]     FD1P3DX                                 D        In      0.000     0.000       -         
+==========================================================================================================================
 
 
 Path information for path number 4: 
@@ -348,18 +428,18 @@ Path information for path number 4:
     = Slack (critical) :                     -0.067
 
     Number of logic level(s):                0
-    Starting point:                          MergerAerFifo.fifo / Q[0]
-    Ending point:                            MergerAerFifo.FifoData_DO[0] / D
+    Starting point:                          dvsAerFifo.fifo / Q[0]
+    Ending point:                            dvsAerFifo.FifoData_DO[0] / D
     The start point is clocked by            System [rising]
-    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL_80_60|OutClock_CO_inferred_clock [rising] on pin CK
 
-Instance / Net                                                           Pin      Pin               Arrival     No. of    
-Name                             Type                                    Name     Dir     Delay     Time        Fan Out(s)
---------------------------------------------------------------------------------------------------------------------------
-MergerAerFifo.fifo               pmi_fifo_work_toplevel_structural_3     Q[0]     Out     0.000     0.000       -         
-DataInReg_D[0]                   Net                                     -        -       -         -           1         
-MergerAerFifo.FifoData_DO[0]     FD1P3DX                                 D        In      0.000     0.000       -         
-==========================================================================================================================
+Instance / Net                                                        Pin      Pin               Arrival     No. of    
+Name                          Type                                    Name     Dir     Delay     Time        Fan Out(s)
+-----------------------------------------------------------------------------------------------------------------------
+dvsAerFifo.fifo               pmi_fifo_work_toplevel_structural_2     Q[0]     Out     0.000     0.000       -         
+DataInReg_D[0]                Net                                     -        -       -         -           1         
+dvsAerFifo.FifoData_DO[0]     FD1P3DX                                 D        In      0.000     0.000       -         
+=======================================================================================================================
 
 
 Path information for path number 5: 
@@ -372,18 +452,18 @@ Path information for path number 5:
     = Slack (critical) :                     -0.067
 
     Number of logic level(s):                0
-    Starting point:                          dvsAerFifo.fifo / Q[0]
-    Ending point:                            dvsAerFifo.FifoData_DO[0] / D
+    Starting point:                          imuFifo.fifo / Q[0]
+    Ending point:                            imuFifo.FifoData_DO[0] / D
     The start point is clocked by            System [rising]
-    The end   point is clocked by            PLL|OutClock_CO_inferred_clock [rising] on pin CK
+    The end   point is clocked by            PLL_80_60|OutClock_CO_inferred_clock [rising] on pin CK
 
-Instance / Net                                                        Pin      Pin               Arrival     No. of    
-Name                          Type                                    Name     Dir     Delay     Time        Fan Out(s)
------------------------------------------------------------------------------------------------------------------------
-dvsAerFifo.fifo               pmi_fifo_work_toplevel_structural_3     Q[0]     Out     0.000     0.000       -         
-DataInReg_D[0]                Net                                     -        -       -         -           1         
-dvsAerFifo.FifoData_DO[0]     FD1P3DX                                 D        In      0.000     0.000       -         
-=======================================================================================================================
+Instance / Net                                                     Pin      Pin               Arrival     No. of    
+Name                       Type                                    Name     Dir     Delay     Time        Fan Out(s)
+--------------------------------------------------------------------------------------------------------------------
+imuFifo.fifo               pmi_fifo_work_toplevel_structural_1     Q[0]     Out     0.000     0.000       -         
+DataInReg_D[0]             Net                                     -        -       -         -           1         
+imuFifo.FifoData_DO[0]     FD1P3DX                                 D        In      0.000     0.000       -         
+====================================================================================================================
 
 
 

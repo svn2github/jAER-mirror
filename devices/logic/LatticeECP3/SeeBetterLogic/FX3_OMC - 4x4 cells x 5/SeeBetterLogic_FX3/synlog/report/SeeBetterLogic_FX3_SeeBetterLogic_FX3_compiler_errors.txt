@@ -1,5 +1,11 @@
-@E: CL219 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":89:9:89:20|Multiple non-tristate drivers for net AllowReset_S in ObjectMotionMotherCell
-@E: CL219 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":39:2:39:20|Multiple non-tristate drivers for net PSMMotherOMCreq_ABO in ObjectMotionMotherCell
-@E: CL229 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":39:2:39:20|Unresolved tristate drivers for net PSMMotherOMCreq_ABO in ObjectMotionMotherCell
-@E: CL229 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\ObjectMotionMotherCell.vhd":89:9:89:20|Unresolved tristate drivers for net AllowReset_S in ObjectMotionMotherCell
+@E: CD725 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":599:24:599:37|Can't associate actual.  Formal 'adc_clock_freq' is unknown.
+@E: CD415 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":622:30:622:30|Expecting keyword is
+@E: CD632 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":633:22:633:22|duplicate entity name work
+@E: CD632 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":649:20:649:20|duplicate entity name work
+@E: CD632 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":661:27:661:27|duplicate entity name work
+@E: CD632 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":672:29:672:29|duplicate entity name work
+@E: CD632 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":688:27:688:27|duplicate entity name work
+@E: CD632 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":700:34:700:34|duplicate entity name work
+@E: CD632 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\private-source\TopLevel.vhd":711:31:711:31|duplicate entity name work
+@E|Parse errors encountered - exiting
 

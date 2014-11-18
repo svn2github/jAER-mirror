@@ -4,9 +4,9 @@
   (keywordMap (keywordLevel 0))
   (status
     (written
-      (timestamp 2014 10 13 15 33 0)
+      (timestamp 2014 11 7 16 44 44)
       (program "SCUBA" (version "Diamond (64-bit) 3.2.0.134"))))
-      (comment "C:/lscc/diamond/3.2_x64/ispfpga/bin/nt64/scuba -w -arch ep5c00 -n pmi_pll10010010010050E050o0pe5b66d1 -bb -bus_exp 7 -type pll -fin 80 -fclkop 60 -fclkok 60 -fb_mode CLKOP -phaseadj 0 -duty 8.00000 -pmi ")
+      (comment "C:/lscc/diamond/3.2_x64/ispfpga/bin/nt64/scuba -w -arch ep5c00 -n pmi_pll10010010010050E050o0pe5b66d1 -bb -bus_exp 7 -type pll -fin 80 -fclkop 30 -fclkok 30 -fb_mode CLKOP -phaseadj 0 -duty 8.00000 -pmi ")
   (library ORCLIB
     (edifLevel 0)
     (technology
@@ -105,9 +105,9 @@
             (property CLKOS_BYPASS
               (string "DISABLED"))
             (property FREQUENCY_PIN_CLKOK2
-              (string "20.000000"))
+              (string "10.000000"))
             (property FREQUENCY_PIN_CLKOP
-              (string "60.000000"))
+              (string "30.000000"))
             (property CLKOP_BYPASS
               (string "DISABLED"))
             (property CLKOK_INPUT
@@ -131,19 +131,19 @@
             (property PHASEADJ
               (string "0.0"))
             (property FREQUENCY_PIN_CLKOS
-              (string "60.000000"))
+              (string "30.000000"))
             (property FREQUENCY_PIN_CLKI
               (string "80.000000"))
             (property FREQUENCY_PIN_CLKOK
-              (string "30.000000"))
+              (string "15.000000"))
             (property CLKOK_DIV
               (string "2"))
             (property CLKOP_DIV
-              (string "16"))
+              (string "32"))
             (property CLKFB_DIV
               (string "3"))
             (property CLKI_DIV
-              (string "4"))
+              (string "8"))
             (property FIN
               (string "80.000000")))
           (net scuba_vlo

@@ -3,80 +3,82 @@ Report for cell TopLevel
    Instance path: TopLevel
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	   13868.00        100.0
-                                 IOLGC	      41.00        100.0
-                                  LUT4	   18529.00        100.0
-                                 IOREG	         42        100.0
-                                 IOBUF	         77        100.0
-                                PFUREG	       9837        100.0
-                                RIPPLE	       1969        100.0
+                                  SLIC	    3435.00        100.0
+                                 IOLGC	      46.00        100.0
+                                  LUT4	    4144.00        100.0
+                                 IOREG	         47        100.0
+                                 IOBUF	         88        100.0
+                                PFUREG	       3104        100.0
+                                RIPPLE	        628        100.0
                                    EBR	          7        100.0
-                                MULT18	          1        100.0
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-                          WSAER2CAVIAR	          1         0.1
-                             SPIConfig	          1         0.6
-                                   PLL	          1         0.0
-             ObjectMotionCellSPIConfig	          1         0.7
-                      ObjectMotionCell	          1        89.8
-                  MultiplexerSPIConfig	          1         0.0
-               MultiplexerStateMachine	          1         1.0
-                   MISCAERStateMachine	          1         0.1
-                LogicClockSynchronizer	          1         0.0
-                       IMUStateMachine	          1         1.7
-                          IMUSPIConfig	          1         0.2
-                            FifoMerger	          1         0.1
-               FX3USBClockSynchronizer	          1         0.0
-                       FX3Statemachine	          1         0.7
-                          FX3SPIConfig	          1         0.1
-   FIFO_15_16_0_4_16_14_EBR_dvsAerFifo	          1         0.2
-                 FIFO_15_4_0_1_4_3_EBR	          1         0.2
-  FIFO_15_16_0_4_16_14_EBR_miscAerFifo	          1         0.2
-               FIFO_15_14_0_7_14_7_EBR	          1         0.3
-FIFO_15_16_0_4_16_14_EBR_MergerAerFifo	          1         0.3
-           FIFO_15_128_0_8_128_120_EBR	          1         0.3
-                         FIFODualClock	          1         0.5
-                   ExtTriggerSPIConfig	          1         0.7
-                ExtTriggerStateMachine	          1         1.4
-                       DVSAERSPIConfig	          1         0.1
-                    DVSAERStateMachine	          1         0.3
-                          CAVIAR2WSAER	          1         0.0
-                       APSADCSPIConfig	          1         0.0
+                          WSAER2CAVIAR	          1         0.5
+                             SPIConfig	          1         2.1
+        ResetSynchronizer_adcResetSync	          1         0.0
+                             PLL_80_60	          1         0.0
+                             PLL_80_30	          1         0.0
+                ObjectMotionMotherCell	          1        41.9
+             ObjectMotionCellSPIConfig	          1         2.2
+                  MultiplexerSPIConfig	          1         0.2
+               MultiplexerStateMachine	          1         3.9
+                   MISCAERStateMachine	          1         0.3
+                LogicClockSynchronizer	          1         0.1
+                       IMUStateMachine	          1         6.8
+                          IMUSPIConfig	          1         1.0
+                            FifoMerger	          1         0.4
+                       FX3Statemachine	          1         2.6
+               FX3USBClockSynchronizer	          1         0.1
+                          FX3SPIConfig	          1         0.6
+                   ExtTriggerSPIConfig	          1         2.5
+  FIFO_15_16_0_4_16_14_EBR_miscAerFifo	          1         1.0
+                 FIFO_15_4_0_1_4_3_EBR	          1         1.0
+FIFO_15_16_0_4_16_14_EBR_MergerAerFifo	          1         1.2
+   FIFO_15_16_0_4_16_14_EBR_dvsAerFifo	          1         1.0
+               FIFO_15_14_0_7_14_7_EBR	          1         1.4
+  FIFODualClock_15_128_0_8_128_120_EBR	          1         2.5
+     FIFODualClock_16_32_0_8_32_30_EBR	          1         2.2
+                ExtTriggerStateMachine	          1         7.0
+                       DVSAERSPIConfig	          1         0.4
+                    DVSAERStateMachine	          1         1.3
+                          CAVIAR2WSAER	          1         0.1
+                    APSADCStateMachine	          1        11.0
+                       APSADCSPIConfig	          1         3.5
 ---------------------------------------------------
 Report for cell IMUStateMachine
    Instance path: TopLevel/imuSM
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	     234.33         1.7
-                                  LUT4	     233.50         1.3
-                                PFUREG	        256         2.6
-                                RIPPLE	         13         0.7
+                                  SLIC	     234.33         6.8
+                                  LUT4	     231.50         5.6
+                                PFUREG	        256         8.2
+                                RIPPLE	         13         2.1
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-                      SimpleRegister_1	          1         0.0
-                     ShiftRegister_112	          1         0.4
-                      ShiftRegister_24	          1         0.1
-                    PulseGeneratorZ0_0	          1         0.0
-ContinuousCounter_5_true_false_false_false	          1         0.0
-ContinuousCounter_3_true_false_false_false	          1         0.0
+              SimpleRegister_1_false_1	          1         0.0
+                     ShiftRegister_112	          1         1.6
+                      ShiftRegister_24	          1         0.4
+                    PulseGeneratorZ0_0	          1         0.2
 ContinuousCounter_2_true_false_false_false	          1         0.0
-                      ChangeDetector_8	          1         0.1
-                    ChangeDetector_8_0	          1         0.1
-                      ChangeDetector_1	          1         0.0
-                    ChangeDetector_2_0	          1         0.0
-                    ChangeDetector_2_1	          1         0.0
-                      ChangeDetector_3	          1         0.0
-                      ChangeDetector_2	          1         0.0
-                         BufferClear_1	          1         0.0
-                         BufferClear_2	          1         0.0
+ContinuousCounter_5_true_false_false_false	          1         0.2
+ContinuousCounter_3_true_false_false_false	          1         0.1
+                    ChangeDetector_2_1	          1         0.1
+                      ChangeDetector_8	          1         0.3
+                    ChangeDetector_8_0	          1         0.3
+                      ChangeDetector_3	          1         0.1
+                      ChangeDetector_1	          1         0.1
+                      ChangeDetector_2	          1         0.1
+                    ChangeDetector_2_0	          1         0.1
+                         BufferClear_1	          1         0.1
+                         BufferClear_2	          1         0.1
 ---------------------------------------------------
 Report for cell ChangeDetector_2_1
    Instance path: TopLevel/imuSM/detectGyroFullScaleChange
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.00         0.0
+                                  SLIC	       2.00         0.1
                                   LUT4	       2.00         0.0
-                                PFUREG	          3         0.0
+                                PFUREG	          3         0.1
 SUB MODULES
                                   cell	      count    SLC Usage(%)
                          BufferClear_9	          1         0.0
@@ -93,9 +95,9 @@ Report for cell ChangeDetector_2_0
    Instance path: TopLevel/imuSM/detectAccelFullScaleChange
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.00         0.0
+                                  SLIC	       2.00         0.1
                                   LUT4	       2.00         0.0
-                                PFUREG	          3         0.0
+                                PFUREG	          3         0.1
 SUB MODULES
                                   cell	      count    SLC Usage(%)
                          BufferClear_8	          1         0.0
@@ -112,9 +114,9 @@ Report for cell ChangeDetector_3
    Instance path: TopLevel/imuSM/detectDigitalLowPassFilterChange
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       3.50         0.0
-                                  LUT4	       3.00         0.0
-                                PFUREG	          4         0.0
+                                  SLIC	       3.50         0.1
+                                  LUT4	       3.00         0.1
+                                PFUREG	          4         0.1
 SUB MODULES
                                   cell	      count    SLC Usage(%)
                          BufferClear_7	          1         0.0
@@ -131,19 +133,19 @@ Report for cell ChangeDetector_8_0
    Instance path: TopLevel/imuSM/detectSampleRateDividerChange
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       9.00         0.1
+                                  SLIC	       9.00         0.3
                                   LUT4	       2.00         0.0
-                                PFUREG	          9         0.1
-                                RIPPLE	          3         0.2
+                                PFUREG	          9         0.3
+                                RIPPLE	          3         0.5
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-                         BufferClear_6	          1         0.0
+                         BufferClear_6	          1         0.1
 ---------------------------------------------------
 Report for cell BufferClear_6
    Instance path: TopLevel/imuSM/detectSampleRateDividerChange/bufferChangeDetectedSignal
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.00         0.0
+                                  SLIC	       2.00         0.1
                                   LUT4	       2.00         0.0
                                 PFUREG	          1         0.0
 ---------------------------------------------------
@@ -151,19 +153,19 @@ Report for cell ChangeDetector_8
    Instance path: TopLevel/imuSM/detectLPWakeupAccelGyroStandbyChange
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       9.00         0.1
+                                  SLIC	       9.00         0.3
                                   LUT4	       2.00         0.0
-                                PFUREG	          9         0.1
-                                RIPPLE	          3         0.2
+                                PFUREG	          9         0.3
+                                RIPPLE	          3         0.5
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-                         BufferClear_5	          1         0.0
+                         BufferClear_5	          1         0.1
 ---------------------------------------------------
 Report for cell BufferClear_5
    Instance path: TopLevel/imuSM/detectLPWakeupAccelGyroStandbyChange/bufferChangeDetectedSignal
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.00         0.0
+                                  SLIC	       2.00         0.1
                                   LUT4	       2.00         0.0
                                 PFUREG	          1         0.0
 ---------------------------------------------------
@@ -171,9 +173,9 @@ Report for cell ChangeDetector_2
    Instance path: TopLevel/imuSM/detectLPCycleTempStandbyChange
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.00         0.0
+                                  SLIC	       2.00         0.1
                                   LUT4	       2.00         0.0
-                                PFUREG	          3         0.0
+                                PFUREG	          3         0.1
 SUB MODULES
                                   cell	      count    SLC Usage(%)
                          BufferClear_4	          1         0.0
@@ -190,7 +192,7 @@ Report for cell ChangeDetector_1
    Instance path: TopLevel/imuSM/detectRunChange
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       1.50         0.0
+                                  SLIC	       2.00         0.1
                                   LUT4	       2.00         0.0
                                 PFUREG	          1         0.0
 SUB MODULES
@@ -201,7 +203,7 @@ Report for cell BufferClear_3
    Instance path: TopLevel/imuSM/detectRunChange/bufferChangeDetectedSignal
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       1.00         0.0
+                                  SLIC	       1.50         0.0
                                   LUT4	       1.00         0.0
                                 PFUREG	          1         0.0
 ---------------------------------------------------
@@ -209,7 +211,7 @@ Report for cell BufferClear_2
    Instance path: TopLevel/imuSM/fakeInterruptEnableChange
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.00         0.0
+                                  SLIC	       2.00         0.1
                                   LUT4	       1.00         0.0
                                 PFUREG	          1         0.0
 ---------------------------------------------------
@@ -217,11 +219,11 @@ Report for cell BufferClear_1
    Instance path: TopLevel/imuSM/fakeInterruptConfigChange
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.00         0.0
+                                  SLIC	       2.00         0.1
                                   LUT4	       1.00         0.0
                                 PFUREG	          1         0.0
 ---------------------------------------------------
-Report for cell SimpleRegister_1
+Report for cell SimpleRegister_1_false_1
    Instance path: TopLevel/imuSM/delayRun
                      Cell usage:
                                   cell	      count    Res Usage(%)
@@ -232,388 +234,486 @@ Report for cell ContinuousCounter_5_true_false_false_false
    Instance path: TopLevel/imuSM/i2cByteCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       6.00         0.0
-                                  LUT4	       6.00         0.0
-                                PFUREG	          5         0.1
-                                RIPPLE	          3         0.2
+                                  SLIC	       6.00         0.2
+                                  LUT4	       5.00         0.1
+                                PFUREG	          5         0.2
+                                RIPPLE	          3         0.5
 ---------------------------------------------------
 Report for cell ContinuousCounter_3_true_false_false_false
    Instance path: TopLevel/imuSM/i2cBitCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       5.00         0.0
-                                  LUT4	      10.00         0.1
-                                PFUREG	          3         0.0
+                                  SLIC	       3.50         0.1
+                                  LUT4	       6.00         0.1
+                                PFUREG	          3         0.1
 ---------------------------------------------------
 Report for cell ContinuousCounter_2_true_false_false_false
    Instance path: TopLevel/imuSM/i2cPulseCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.00         0.0
-                                  LUT4	       3.00         0.0
-                                PFUREG	          2         0.0
+                                  SLIC	       1.00         0.0
+                                  LUT4	       2.00         0.0
+                                PFUREG	          2         0.1
 ---------------------------------------------------
 Report for cell PulseGeneratorZ0_0
    Instance path: TopLevel/imuSM/i2cPulseGenerator
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       6.00         0.0
-                                  LUT4	       3.00         0.0
-                                PFUREG	          7         0.1
-                                RIPPLE	          4         0.2
+                                  SLIC	       6.00         0.2
+                                  LUT4	       3.00         0.1
+                                PFUREG	          7         0.2
+                                RIPPLE	          4         0.6
 ---------------------------------------------------
 Report for cell ShiftRegister_112
    Instance path: TopLevel/imuSM/i2cReadShiftRegister
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      56.00         0.4
-                                PFUREG	        112         1.1
+                                  SLIC	      56.00         1.6
+                                PFUREG	        112         3.6
 ---------------------------------------------------
 Report for cell ShiftRegister_24
    Instance path: TopLevel/imuSM/i2cWriteShiftRegister
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      14.33         0.1
-                                  LUT4	      27.00         0.1
-                                PFUREG	         24         0.2
+                                  SLIC	      14.33         0.4
+                                  LUT4	      27.00         0.7
+                                PFUREG	         24         0.8
 ---------------------------------------------------
 Report for cell SPIConfig
    Instance path: TopLevel/spiConfiguration
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      88.00         0.6
-                                  LUT4	      97.00         0.5
-                                PFUREG	        119         1.2
-                                RIPPLE	          4         0.2
+                                  SLIC	      71.08         2.1
+                                  LUT4	      72.00         1.7
+                                PFUREG	        121         3.9
+                                RIPPLE	          4         0.6
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-                      ShiftRegister_32	          1         0.2
-                       ShiftRegister_8	          1         0.0
-                        EdgeDetector_0	          1         0.0
-ContinuousCounter_6_true_false_false_false	          1         0.1
+                      ShiftRegister_32	          1         0.6
+                       ShiftRegister_8	          1         0.1
+                        EdgeDetector_0	          1         0.1
+ContinuousCounter_6_true_false_false_false	          1         0.2
 ---------------------------------------------------
 Report for cell ContinuousCounter_6_true_false_false_false
    Instance path: TopLevel/spiConfiguration/spiBitCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       7.00         0.1
-                                  LUT4	       6.00         0.0
-                                PFUREG	          6         0.1
-                                RIPPLE	          4         0.2
+                                  SLIC	       6.83         0.2
+                                  LUT4	       6.00         0.1
+                                PFUREG	          6         0.2
+                                RIPPLE	          4         0.6
 ---------------------------------------------------
 Report for cell ShiftRegister_32
    Instance path: TopLevel/spiConfiguration/spiOutputShiftRegister
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      34.17         0.2
-                                  LUT4	      57.50         0.3
-                                PFUREG	         32         0.3
+                                  SLIC	      20.67         0.6
+                                  LUT4	      38.00         0.9
+                                PFUREG	         32         1.0
 ---------------------------------------------------
 Report for cell ShiftRegister_8
    Instance path: TopLevel/spiConfiguration/spiInputShiftRegister
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       4.50         0.0
-                                  LUT4	       9.00         0.0
-                                PFUREG	          8         0.1
+                                  SLIC	       4.25         0.1
+                                  LUT4	       9.00         0.2
+                                PFUREG	          8         0.3
 ---------------------------------------------------
 Report for cell EdgeDetector_0
    Instance path: TopLevel/spiConfiguration/spiClockDetector
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       3.50         0.0
+                                  SLIC	       3.50         0.1
                                   LUT4	       2.00         0.0
-                                PFUREG	          4         0.0
+                                PFUREG	          4         0.1
 ---------------------------------------------------
 Report for cell ExtTriggerSPIConfig
    Instance path: TopLevel/extTriggerSPIConfig
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      96.50         0.7
-                                  LUT4	      73.00         0.4
-                                PFUREG	        118         1.2
+                                  SLIC	      84.50         2.5
+                                  LUT4	      65.00         1.6
+                                PFUREG	        104         3.4
 ---------------------------------------------------
 Report for cell ExtTriggerStateMachine
    Instance path: TopLevel/extTriggerSM
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	     196.25         1.4
-                                  LUT4	      33.50         0.2
-                                PFUREG	        177         1.8
-                                RIPPLE	        165         8.4
+                                  SLIC	     239.25         7.0
+                                  LUT4	     111.50         2.7
+                                PFUREG	        181         5.8
+                                RIPPLE	        165        26.3
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-                      PulseGeneratorZ1	          1         0.6
-                      PulseDetector_27	          1         0.2
-                          EdgeDetector	          1         0.0
+                      PulseGeneratorZ1	          1         3.0
+                      PulseDetector_27	          1         1.3
+                          EdgeDetector	          1         0.1
 ---------------------------------------------------
 Report for cell PulseGeneratorZ1
    Instance path: TopLevel/extTriggerSM/generator.extTriggerPulseGenerator
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      78.50         0.6
-                                  LUT4	      13.00         0.1
-                                PFUREG	         55         0.6
-                                RIPPLE	         71         3.6
+                                  SLIC	     104.67         3.0
+                                  LUT4	      64.00         1.5
+                                PFUREG	         55         1.8
+                                RIPPLE	         71        11.3
 ---------------------------------------------------
 Report for cell PulseDetector_27
    Instance path: TopLevel/extTriggerSM/extTriggerPulseDetector
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      31.50         0.2
-                                  LUT4	       5.00         0.0
-                                PFUREG	         30         0.3
-                                RIPPLE	         28         1.4
+                                  SLIC	      44.00         1.3
+                                  LUT4	      31.00         0.7
+                                PFUREG	         30         1.0
+                                RIPPLE	         28         4.5
 ---------------------------------------------------
 Report for cell EdgeDetector
    Instance path: TopLevel/extTriggerSM/extTriggerEdgeDetector
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       3.50         0.0
+                                  SLIC	       3.50         0.1
                                   LUT4	       2.00         0.0
-                                PFUREG	          4         0.0
+                                PFUREG	          4         0.1
 ---------------------------------------------------
 Report for cell FIFO_15_4_0_1_4_3_EBR
    Instance path: TopLevel/extTriggerFifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      32.75         0.2
-                                  LUT4	      12.50         0.1
-                                PFUREG	         29         0.3
-                                RIPPLE	         19         1.0
+                                  SLIC	      32.75         1.0
+                                  LUT4	      12.50         0.3
+                                PFUREG	         29         0.9
+                                RIPPLE	         19         3.0
                                    EBR	          1        14.3
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-            pmi_fifo1544031nEEpd1396db	          1         0.2
+            pmi_fifo1544031nEEpd1396db	          1         0.6
 ---------------------------------------------------
 Report for cell pmi_fifo1544031nEEpd1396db
    Instance path: TopLevel/extTriggerFifo/fifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      21.33         0.2
-                                  LUT4	       4.00         0.0
-                                PFUREG	         10         0.1
-                                RIPPLE	         19         1.0
+                                  SLIC	      21.33         0.6
+                                  LUT4	       4.00         0.1
+                                PFUREG	         10         0.3
+                                RIPPLE	         19         3.0
                                    EBR	          1        14.3
 ---------------------------------------------------
 Report for cell IMUSPIConfig
    Instance path: TopLevel/imuSPIConfig
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      33.50         0.2
-                                  LUT4	      36.00         0.2
-                                PFUREG	         34         0.3
+                                  SLIC	      33.83         1.0
+                                  LUT4	      39.00         0.9
+                                PFUREG	         34         1.1
 ---------------------------------------------------
 Report for cell FIFO_15_14_0_7_14_7_EBR
    Instance path: TopLevel/imuFifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      42.93         0.3
-                                  LUT4	      15.50         0.1
-                                PFUREG	         37         0.4
-                                RIPPLE	         27         1.4
+                                  SLIC	      48.83         1.4
+                                  LUT4	      15.50         0.4
+                                PFUREG	         38         1.2
+                                RIPPLE	         32         5.1
                                    EBR	          1        14.3
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-          pmi_fifo151414077nEEpd37b303	          1         0.2
+          pmi_fifo151414077nEEpd37b303	          1         1.1
 ---------------------------------------------------
 Report for cell pmi_fifo151414077nEEpd37b303
    Instance path: TopLevel/imuFifo/fifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      31.32         0.2
-                                  LUT4	       8.00         0.0
-                                PFUREG	         18         0.2
-                                RIPPLE	         27         1.4
+                                  SLIC	      36.18         1.1
+                                  LUT4	       8.00         0.2
+                                PFUREG	         19         0.6
+                                RIPPLE	         32         5.1
                                    EBR	          1        14.3
 ---------------------------------------------------
 Report for cell APSADCSPIConfig
    Instance path: TopLevel/apsadcSPIConfig
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.50         0.0
-                                  LUT4	       3.00         0.0
-                                PFUREG	          3         0.0
+                                  SLIC	     120.92         3.5
+                                  LUT4	     104.00         2.5
+                                PFUREG	        155         5.0
 ---------------------------------------------------
-Report for cell FIFO_15_128_0_8_128_120_EBR
+Report for cell APSADCStateMachine
+   Instance path: TopLevel/apsAdcSM
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	     379.00        11.0
+                                  LUT4	     260.00         6.3
+                                PFUREG	        366        11.8
+                                RIPPLE	        125        19.9
+SUB MODULES
+                                  cell	      count    SLC Usage(%)
+SimpleRegister_15_false_outputDataRegister_0	          1         0.2
+ContinuousCounter_6_true_true_false_false	          1         0.3
+ContinuousCounter_8_false_false_false_false_1	          1         0.3
+ContinuousCounter_8_true_true_false_false	          1         0.7
+ContinuousCounter_8_false_false_false_false_2	          1         0.3
+ContinuousCounter_6_true_true_false_false_0	          1         0.5
+ContinuousCounter_8_false_false_false_false	          1         0.3
+ContinuousCounter_26_false_true_false_false	          1         2.0
+---------------------------------------------------
+Report for cell SimpleRegister_15_false_outputDataRegister_0
+   Instance path: TopLevel/apsAdcSM/outputDataRegister
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	       7.47         0.2
+                                  LUT4	      13.50         0.3
+                                PFUREG	         11         0.4
+---------------------------------------------------
+Report for cell ContinuousCounter_6_true_true_false_false_0
+   Instance path: TopLevel/apsAdcSM/settleTimesCounter
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	      16.50         0.5
+                                  LUT4	      17.00         0.4
+                                PFUREG	          7         0.2
+                                RIPPLE	          8         1.3
+---------------------------------------------------
+Report for cell ContinuousCounter_8_true_true_false_false
+   Instance path: TopLevel/apsAdcSM/resetTimeCounter
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	      24.00         0.7
+                                  LUT4	      10.00         0.2
+                                PFUREG	         17         0.5
+                                RIPPLE	         18         2.9
+---------------------------------------------------
+Report for cell ContinuousCounter_8_false_false_false_false_2
+   Instance path: TopLevel/apsAdcSM/rowReadPosition
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	      10.50         0.3
+                                  LUT4	      11.00         0.3
+                                PFUREG	          8         0.3
+                                RIPPLE	          5         0.8
+---------------------------------------------------
+Report for cell ContinuousCounter_8_false_false_false_false_1
+   Instance path: TopLevel/apsAdcSM/colReadBPosition
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	      10.50         0.3
+                                  LUT4	      10.50         0.3
+                                PFUREG	          8         0.3
+                                RIPPLE	          5         0.8
+---------------------------------------------------
+Report for cell ContinuousCounter_8_false_false_false_false
+   Instance path: TopLevel/apsAdcSM/colReadAPosition
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	      10.00         0.3
+                                  LUT4	      10.00         0.2
+                                PFUREG	          8         0.3
+                                RIPPLE	          5         0.8
+---------------------------------------------------
+Report for cell ContinuousCounter_26_false_true_false_false
+   Instance path: TopLevel/apsAdcSM/exposureDelayCounter
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	      68.00         2.0
+                                  LUT4	      36.00         0.9
+                                PFUREG	         27         0.9
+                                RIPPLE	         50         8.0
+---------------------------------------------------
+Report for cell ContinuousCounter_6_true_true_false_false
+   Instance path: TopLevel/apsAdcSM/adcStartupCounter
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	      10.00         0.3
+                                  LUT4	      10.00         0.2
+                                PFUREG	          7         0.2
+                                RIPPLE	          4         0.6
+---------------------------------------------------
+Report for cell FIFODualClock_15_128_0_8_128_120_EBR
    Instance path: TopLevel/apsAdcFifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      39.50         0.3
-                                  LUT4	       7.00         0.0
-                                PFUREG	         45         0.5
-                                RIPPLE	         27         1.4
+                                  SLIC	      87.50         2.5
+                                  LUT4	      42.00         1.0
+                                PFUREG	        110         3.5
+                                RIPPLE	         33         5.3
                                    EBR	          1        14.3
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-      pmi_fifo1512812801208nEEpd6e7bb9	          1         0.2
+pmi_fifo_dc151512812812801208naEEp12029802	          1         2.2
 ---------------------------------------------------
-Report for cell pmi_fifo1512812801208nEEpd6e7bb9
-   Instance path: TopLevel/apsAdcFifo/fifo
+Report for cell pmi_fifo_dc151512812812801208naEEp12029802
+   Instance path: TopLevel/apsAdcFifo/fifoDualClock
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      28.50         0.2
-                                  LUT4	       1.50         0.0
-                                PFUREG	         26         0.3
-                                RIPPLE	         27         1.4
+                                  SLIC	      77.25         2.2
+                                  LUT4	      37.50         0.9
+                                PFUREG	         91         2.9
+                                RIPPLE	         33         5.3
                                    EBR	          1        14.3
 ---------------------------------------------------
 Report for cell MISCAERStateMachine
    Instance path: TopLevel/miscAerSM
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      11.00         0.1
-                                  LUT4	      15.00         0.1
-                                PFUREG	         18         0.2
+                                  SLIC	      11.00         0.3
+                                  LUT4	      15.00         0.4
+                                PFUREG	         18         0.6
 ---------------------------------------------------
 Report for cell FIFO_15_16_0_4_16_14_EBR_miscAerFifo
    Instance path: TopLevel/miscAerFifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      34.00         0.2
-                                  LUT4	       9.00         0.0
-                                PFUREG	         33         0.3
-                                RIPPLE	         20         1.0
+                                  SLIC	      34.00         1.0
+                                  LUT4	       9.00         0.2
+                                PFUREG	         33         1.1
+                                RIPPLE	         20         3.2
                                    EBR	          1        14.3
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-         pmi_fifo1516160144nEEpd3872c8	          1         0.2
+         pmi_fifo1516160144nEEpd3872c8	          1         0.7
 ---------------------------------------------------
 Report for cell pmi_fifo1516160144nEEpd3872c8
    Instance path: TopLevel/miscAerFifo/fifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      23.75         0.2
-                                  LUT4	       5.50         0.0
-                                PFUREG	         15         0.2
-                                RIPPLE	         20         1.0
+                                  SLIC	      23.75         0.7
+                                  LUT4	       5.50         0.1
+                                PFUREG	         15         0.5
+                                RIPPLE	         20         3.2
                                    EBR	          1        14.3
 ---------------------------------------------------
 Report for cell DVSAERSPIConfig
    Instance path: TopLevel/dvsaerSPIConfig
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      15.33         0.1
-                                  LUT4	      13.00         0.1
-                                PFUREG	         20         0.2
+                                  SLIC	      13.33         0.4
+                                  LUT4	      10.00         0.2
+                                PFUREG	         17         0.5
 ---------------------------------------------------
 Report for cell DVSAERStateMachine
    Instance path: TopLevel/dvsAerSM
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      43.83         0.3
-                                  LUT4	      40.00         0.2
-                                PFUREG	         50         0.5
-                                RIPPLE	         14         0.7
+                                  SLIC	      43.50         1.3
+                                  LUT4	      39.00         0.9
+                                PFUREG	         42         1.4
+                                RIPPLE	         14         2.2
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-ContinuousCounter_5_true_true_false_false_ackDelayCounter	          1         0.1
-ContinuousCounter_5_true_true_false_false_ackDelayCounter_0	          1         0.1
+SimpleRegister_15_false_outputDataRegister	          1         0.1
+ContinuousCounter_5_true_true_false_false_ackDelayCounter_0	          1         0.3
+ContinuousCounter_5_true_true_false_false_ackDelayCounter	          1         0.3
+---------------------------------------------------
+Report for cell SimpleRegister_15_false_outputDataRegister
+   Instance path: TopLevel/dvsAerSM/outputDataRegister
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	       2.67         0.1
+                                PFUREG	         10         0.3
 ---------------------------------------------------
 Report for cell ContinuousCounter_5_true_true_false_false_ackDelayCounter_0
    Instance path: TopLevel/dvsAerSM/ackExtensionCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      12.25         0.1
-                                  LUT4	       9.00         0.0
-                                PFUREG	         11         0.1
-                                RIPPLE	          7         0.4
+                                  SLIC	      11.00         0.3
+                                  LUT4	       7.00         0.2
+                                PFUREG	          6         0.2
+                                RIPPLE	          7         1.1
 ---------------------------------------------------
 Report for cell ContinuousCounter_5_true_true_false_false_ackDelayCounter
    Instance path: TopLevel/dvsAerSM/ackDelayCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      12.25         0.1
-                                  LUT4	       9.00         0.0
-                                PFUREG	         11         0.1
-                                RIPPLE	          7         0.4
+                                  SLIC	      11.00         0.3
+                                  LUT4	       7.00         0.2
+                                PFUREG	          6         0.2
+                                RIPPLE	          7         1.1
 ---------------------------------------------------
 Report for cell FIFO_15_16_0_4_16_14_EBR_dvsAerFifo
    Instance path: TopLevel/dvsAerFifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      32.70         0.2
-                                  LUT4	       9.00         0.0
-                                PFUREG	         33         0.3
-                                RIPPLE	         20         1.0
+                                  SLIC	      32.70         1.0
+                                  LUT4	       9.00         0.2
+                                PFUREG	         33         1.1
+                                RIPPLE	         20         3.2
                                    EBR	          1        14.3
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-       pmi_fifo1516160144nEEpd3872c8_0	          1         0.2
+       pmi_fifo1516160144nEEpd3872c8_0	          1         0.7
 ---------------------------------------------------
 Report for cell pmi_fifo1516160144nEEpd3872c8_0
    Instance path: TopLevel/dvsAerFifo/fifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      23.00         0.2
-                                  LUT4	       5.50         0.0
-                                PFUREG	         15         0.2
-                                RIPPLE	         20         1.0
+                                  SLIC	      23.00         0.7
+                                  LUT4	       5.50         0.1
+                                PFUREG	         15         0.5
+                                RIPPLE	         20         3.2
                                    EBR	          1        14.3
 ---------------------------------------------------
 Report for cell FifoMerger
    Instance path: TopLevel/MergerFifos
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      14.20         0.1
-                                  LUT4	      20.00         0.1
-                                PFUREG	         23         0.2
+                                  SLIC	      14.20         0.4
+                                  LUT4	      20.00         0.5
+                                PFUREG	         23         0.7
 ---------------------------------------------------
 Report for cell FIFO_15_16_0_4_16_14_EBR_MergerAerFifo
    Instance path: TopLevel/MergerAerFifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      41.50         0.3
-                                  LUT4	      11.00         0.1
-                                PFUREG	         35         0.4
-                                RIPPLE	         25         1.3
+                                  SLIC	      39.77         1.2
+                                  LUT4	      11.00         0.3
+                                PFUREG	         35         1.1
+                                RIPPLE	         25         4.0
                                    EBR	          1        14.3
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-       pmi_fifo1516160144nEEpd3872c8_1	          1         0.2
+       pmi_fifo1516160144nEEpd3872c8_1	          1         0.8
 ---------------------------------------------------
 Report for cell pmi_fifo1516160144nEEpd3872c8_1
    Instance path: TopLevel/MergerAerFifo/fifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      28.67         0.2
-                                  LUT4	       4.00         0.0
-                                PFUREG	         16         0.2
-                                RIPPLE	         25         1.3
+                                  SLIC	      28.93         0.8
+                                  LUT4	       5.50         0.1
+                                PFUREG	         16         0.5
+                                RIPPLE	         25         4.0
                                    EBR	          1        14.3
 ---------------------------------------------------
 Report for cell MultiplexerSPIConfig
    Instance path: TopLevel/multiplexerSPIConfig
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       5.83         0.0
-                                  LUT4	       6.00         0.0
-                                PFUREG	          4         0.0
+                                  SLIC	       7.00         0.2
+                                  LUT4	       7.00         0.2
+                                PFUREG	          4         0.1
 ---------------------------------------------------
 Report for cell MultiplexerStateMachine
    Instance path: TopLevel/multiplexerSM
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	     133.50         1.0
-                                  LUT4	     170.00         0.9
-                                PFUREG	         80         0.8
-                                RIPPLE	         24         1.2
+                                  SLIC	     134.33         3.9
+                                  LUT4	     170.00         4.1
+                                PFUREG	         80         2.6
+                                RIPPLE	         24         3.8
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-                    TimestampGenerator	          1         0.1
-                       PulseDetector_2	          1         0.0
-ContinuousCounter_12_true_true_true_true	          1         0.1
-                     ChangeDetector_15	          1         0.1
+                    TimestampGenerator	          1         0.5
+                       PulseDetector_2	          1         0.1
+ContinuousCounter_12_true_true_true_true	          1         0.3
+                     ChangeDetector_15	          1         0.2
                            BufferClear	          1         0.0
 ---------------------------------------------------
 Report for cell ChangeDetector_15
    Instance path: TopLevel/multiplexerSM/timestampChangeDetector
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       7.00         0.1
-                                  LUT4	       3.00         0.0
+                                  SLIC	       6.50         0.2
+                                  LUT4	       2.00         0.0
                                 PFUREG	          1         0.0
-                                RIPPLE	          5         0.3
+                                RIPPLE	          5         0.8
 SUB MODULES
                                   cell	      count    SLC Usage(%)
                          BufferClear_0	          1         0.0
@@ -622,18 +722,18 @@ Report for cell BufferClear_0
    Instance path: TopLevel/multiplexerSM/timestampChangeDetector/bufferChangeDetectedSignal
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.00         0.0
-                                  LUT4	       3.00         0.0
+                                  SLIC	       1.50         0.0
+                                  LUT4	       2.00         0.0
                                 PFUREG	          1         0.0
 ---------------------------------------------------
 Report for cell ContinuousCounter_12_true_true_true_true
    Instance path: TopLevel/multiplexerSM/tsOverflowBuffer
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      11.50         0.1
-                                  LUT4	       8.00         0.0
-                                PFUREG	         13         0.1
-                                RIPPLE	          7         0.4
+                                  SLIC	      11.00         0.3
+                                  LUT4	       8.00         0.2
+                                PFUREG	         13         0.4
+                                RIPPLE	          7         1.1
 ---------------------------------------------------
 Report for cell BufferClear
    Instance path: TopLevel/multiplexerSM/tsResetBuffer
@@ -647,105 +747,111 @@ Report for cell PulseDetector_2
    Instance path: TopLevel/multiplexerSM/tsResetExternalDetector
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       3.00         0.0
-                                  LUT4	       5.00         0.0
-                                PFUREG	          5         0.1
+                                  SLIC	       3.00         0.1
+                                  LUT4	       5.00         0.1
+                                PFUREG	          5         0.2
 ---------------------------------------------------
 Report for cell TimestampGenerator
    Instance path: TopLevel/multiplexerSM/tsGenerator
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      18.50         0.1
-                                  LUT4	      13.00         0.1
-                                PFUREG	         23         0.2
-                                RIPPLE	         12         0.6
+                                  SLIC	      18.50         0.5
+                                  LUT4	      13.00         0.3
+                                PFUREG	         23         0.7
+                                RIPPLE	         12         1.9
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-                      PulseGeneratorZ0	          1         0.0
-ContinuousCounter_15_true_true_true_true	          1         0.1
+                      PulseGeneratorZ0	          1         0.2
+ContinuousCounter_15_true_true_true_true	          1         0.4
 ---------------------------------------------------
 Report for cell ContinuousCounter_15_true_true_true_true
    Instance path: TopLevel/multiplexerSM/tsGenerator/timestampGenerator
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      12.50         0.1
-                                  LUT4	       9.00         0.0
-                                PFUREG	         16         0.2
-                                RIPPLE	          8         0.4
+                                  SLIC	      12.50         0.4
+                                  LUT4	       9.00         0.2
+                                PFUREG	         16         0.5
+                                RIPPLE	          8         1.3
 ---------------------------------------------------
 Report for cell PulseGeneratorZ0
    Instance path: TopLevel/multiplexerSM/tsGenerator/timestampEnableGenerate
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       6.00         0.0
-                                  LUT4	       4.00         0.0
-                                PFUREG	          7         0.1
-                                RIPPLE	          4         0.2
+                                  SLIC	       6.00         0.2
+                                  LUT4	       4.00         0.1
+                                PFUREG	          7         0.2
+                                RIPPLE	          4         0.6
 ---------------------------------------------------
-Report for cell FIFODualClock
+Report for cell FIFODualClock_16_32_0_8_32_30_EBR
    Instance path: TopLevel/logicUSBFifo
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      73.83         0.5
-                                  LUT4	      34.00         0.2
-                                PFUREG	         80         0.8
-                                RIPPLE	         36         1.8
+                                  SLIC	      75.00         2.2
+                                  LUT4	      37.00         0.9
+                                PFUREG	         80         2.6
+                                RIPPLE	         36         5.7
                                    EBR	          1        14.3
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-pmi_fifo_dc16163232320308naEEp11ba852d	          1         0.5
+pmi_fifo_dc16163232320308naEEp11ba852d	          1         2.1
 ---------------------------------------------------
 Report for cell pmi_fifo_dc16163232320308naEEp11ba852d
    Instance path: TopLevel/logicUSBFifo/fifoDualClock
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      70.75         0.5
-                                  LUT4	      29.50         0.2
-                                PFUREG	         76         0.8
-                                RIPPLE	         36         1.8
+                                  SLIC	      70.75         2.1
+                                  LUT4	      29.50         0.7
+                                PFUREG	         76         2.4
+                                RIPPLE	         36         5.7
                                    EBR	          1        14.3
 ---------------------------------------------------
 Report for cell FX3SPIConfig
    Instance path: TopLevel/fx3SPIConfig
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      15.00         0.1
-                                  LUT4	      12.00         0.1
-                                PFUREG	         26         0.3
+                                  SLIC	      20.50         0.6
+                                  LUT4	      15.00         0.4
+                                PFUREG	         35         1.1
 ---------------------------------------------------
 Report for cell FX3Statemachine
    Instance path: TopLevel/usbFX3SM
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      97.00         0.7
-                                  LUT4	      73.00         0.4
-                                PFUREG	         72         0.7
-                                RIPPLE	         47         2.4
-                                MULT18	          1        100.0
+                                  SLIC	      90.83         2.6
+                                  LUT4	      79.00         1.9
+                                PFUREG	         50         1.6
+                                RIPPLE	         47         7.5
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-ContinuousCounter_27_false_true_false_false	          1         0.4
-ContinuousCounter_3_true_true_false_false	          1         0.0
+ContinuousCounter_3_true_true_false_false	          1         0.1
+ContinuousCounter_27_false_true_false_false	          1         1.8
 ---------------------------------------------------
 Report for cell ContinuousCounter_27_false_true_false_false
    Instance path: TopLevel/usbFX3SM/earlyPacketCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      61.67         0.4
-                                  LUT4	      28.00         0.2
-                                PFUREG	         28         0.3
-                                RIPPLE	         47         2.4
+                                  SLIC	      61.67         1.8
+                                  LUT4	      28.00         0.7
+                                PFUREG	         28         0.9
+                                RIPPLE	         47         7.5
 ---------------------------------------------------
 Report for cell ContinuousCounter_3_true_true_false_false
    Instance path: TopLevel/usbFX3SM/writeCyclesCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       2.67         0.0
-                                  LUT4	       4.00         0.0
-                                PFUREG	          4         0.0
+                                  SLIC	       2.67         0.1
+                                  LUT4	       4.00         0.1
+                                PFUREG	          4         0.1
 ---------------------------------------------------
-Report for cell PLL
-   Instance path: TopLevel/logicClockPLL
+Report for cell ResetSynchronizer_adcResetSync
+   Instance path: TopLevel/adcResetSync
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	       1.00         0.0
+                                PFUREG	          2         0.1
+---------------------------------------------------
+Report for cell PLL_80_30
+   Instance path: TopLevel/adcClockPLL
                      Cell usage:
                                   cell	      count    Res Usage(%)
 SUB MODULES
@@ -753,6 +859,19 @@ SUB MODULES
    pmi_pll10010010010050E050o0pe5b66d1	          1         0.0
 ---------------------------------------------------
 Report for cell pmi_pll10010010010050E050o0pe5b66d1
+   Instance path: TopLevel/adcClockPLL/pll
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+---------------------------------------------------
+Report for cell PLL_80_60
+   Instance path: TopLevel/logicClockPLL
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+SUB MODULES
+                                  cell	      count    SLC Usage(%)
+ pmi_pll10010010010050E050o0pe5b66d1_0	          1         0.0
+---------------------------------------------------
+Report for cell pmi_pll10010010010050E050o0pe5b66d1_0
    Instance path: TopLevel/logicClockPLL/pll
                      Cell usage:
                                   cell	      count    Res Usage(%)
@@ -761,16 +880,16 @@ Report for cell LogicClockSynchronizer
    Instance path: TopLevel/syncInputsToLogicClock
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       4.00         0.0
-                                PFUREG	          8         0.1
+                                  SLIC	       4.08         0.1
+                                PFUREG	          8         0.3
 SUB MODULES
                                   cell	      count    SLC Usage(%)
          ResetSynchronizer_syncReset_0	          1         0.0
-                DFFSynchronizer_1_true	          1         0.0
-              DFFSynchronizer_1_true_0	          1         0.0
-                   DFFSynchronizerZ0_1	          1         0.0
                    DFFSynchronizerZ0_2	          1         0.0
+              DFFSynchronizer_1_true_0	          1         0.0
+                DFFSynchronizer_1_true	          1         0.0
                    DFFSynchronizerZ0_3	          1         0.0
+                   DFFSynchronizerZ0_1	          1         0.0
                      DFFSynchronizerZ0	          1         0.0
 ---------------------------------------------------
 Report for cell DFFSynchronizerZ0_3
@@ -791,7 +910,7 @@ Report for cell DFFSynchronizer_1_true_0
    Instance path: TopLevel/syncInputsToLogicClock/syncDVSAERReq
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       0.33         0.0
+                                  SLIC	       0.50         0.0
                                 PFUREG	          1         0.0
 ---------------------------------------------------
 Report for cell DFFSynchronizerZ0_1
@@ -812,7 +931,7 @@ Report for cell DFFSynchronizer_1_true
    Instance path: TopLevel/syncInputsToLogicClock/syncSPISlaveSelect
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       0.33         0.0
+                                  SLIC	       0.25         0.0
                                 PFUREG	          1         0.0
 ---------------------------------------------------
 Report for cell ResetSynchronizer_syncReset_0
@@ -820,21 +939,21 @@ Report for cell ResetSynchronizer_syncReset_0
                      Cell usage:
                                   cell	      count    Res Usage(%)
                                   SLIC	       1.00         0.0
-                                PFUREG	          2         0.0
+                                PFUREG	          2         0.1
 ---------------------------------------------------
 Report for cell FX3USBClockSynchronizer
    Instance path: TopLevel/syncInputsToUSBClock
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       3.67         0.0
-                                PFUREG	          6         0.1
+                                  SLIC	       3.67         0.1
+                                PFUREG	          6         0.2
 SUB MODULES
                                   cell	      count    SLC Usage(%)
            ResetSynchronizer_syncReset	          1         0.0
-                 DFFSynchronizerZ0_0_0	          1         0.0
                  DFFSynchronizerZ0_0_1	          1         0.0
                  DFFSynchronizerZ0_0_2	          1         0.0
                    DFFSynchronizerZ0_0	          1         0.0
+                 DFFSynchronizerZ0_0_0	          1         0.0
 ---------------------------------------------------
 Report for cell DFFSynchronizerZ0_0_2
    Instance path: TopLevel/syncInputsToUSBClock/syncUSBFifoThr1Watermark
@@ -869,50 +988,95 @@ Report for cell ResetSynchronizer_syncReset
                      Cell usage:
                                   cell	      count    Res Usage(%)
                                   SLIC	       1.00         0.0
-                                PFUREG	          2         0.0
+                                PFUREG	          2         0.1
 ---------------------------------------------------
 Report for cell CAVIAR2WSAER
    Instance path: TopLevel/BCAVIAR2WSAER
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       5.00         0.0
-                                  LUT4	       5.00         0.0
-                                PFUREG	          5         0.1
+                                  SLIC	       5.00         0.1
+                                  LUT4	       5.00         0.1
+                                PFUREG	          5         0.2
 ---------------------------------------------------
 Report for cell ObjectMotionCellSPIConfig
    Instance path: TopLevel/OMCellSPIConfig
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      97.33         0.7
-                                  LUT4	     111.00         0.6
-                                PFUREG	        101         1.0
+                                  SLIC	      76.42         2.2
+                                  LUT4	      72.00         1.7
+                                PFUREG	        100         3.2
 ---------------------------------------------------
-Report for cell ObjectMotionCell
+Report for cell ObjectMotionMotherCell
    Instance path: TopLevel/OMCellSM
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	   12458.67        89.8
-                                  LUT4	   17473.00        94.3
-                                PFUREG	       8407        85.5
-                                RIPPLE	       1525        77.5
+                                  SLIC	    1438.65        41.9
+                                  LUT4	    2609.00        63.0
+                                PFUREG	       1121        36.1
+                                RIPPLE	         48         7.6
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-ContinuousCounter_25_false_true_false_false	          1         0.6
+                    ObjectMotionCell_1	          1         0.2
+                    ObjectMotionCell_3	          1         1.0
+                    ObjectMotionCell_2	          1         0.2
+                    ObjectMotionCell_0	          1         0.2
+                      ObjectMotionCell	          1         0.2
+ContinuousCounter_25_false_true_false_false	          1         1.9
+---------------------------------------------------
+Report for cell ObjectMotionCell_3
+   Instance path: TopLevel/OMCellSM/OMC5
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	      34.75         1.0
+                                  LUT4	      86.00         2.1
+                                PFUREG	          6         0.2
+---------------------------------------------------
+Report for cell ObjectMotionCell_2
+   Instance path: TopLevel/OMCellSM/OMC4
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	       8.00         0.2
+                                  LUT4	      10.00         0.2
+                                PFUREG	          6         0.2
+---------------------------------------------------
+Report for cell ObjectMotionCell_1
+   Instance path: TopLevel/OMCellSM/OMC3
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	       8.00         0.2
+                                  LUT4	      10.00         0.2
+                                PFUREG	          6         0.2
+---------------------------------------------------
+Report for cell ObjectMotionCell_0
+   Instance path: TopLevel/OMCellSM/OMC2
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	       8.00         0.2
+                                  LUT4	      10.00         0.2
+                                PFUREG	          6         0.2
+---------------------------------------------------
+Report for cell ObjectMotionCell
+   Instance path: TopLevel/OMCellSM/OMC1
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	       7.33         0.2
+                                  LUT4	      10.00         0.2
+                                PFUREG	          6         0.2
 ---------------------------------------------------
 Report for cell ContinuousCounter_25_false_true_false_false
    Instance path: TopLevel/OMCellSM/DecayCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      78.17         0.6
-                                  LUT4	      35.00         0.2
-                                PFUREG	         26         0.3
-                                RIPPLE	         48         2.4
+                                  SLIC	      65.67         1.9
+                                  LUT4	      34.00         0.8
+                                PFUREG	         26         0.8
+                                RIPPLE	         48         7.6
 ---------------------------------------------------
 Report for cell WSAER2CAVIAR
    Instance path: TopLevel/BWSAER2CAVIAR
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      14.73         0.1
-                                  LUT4	      16.00         0.1
-                                PFUREG	         18         0.2
-                                RIPPLE	          3         0.2
+                                  SLIC	      15.67         0.5
+                                  LUT4	      16.00         0.4
+                                PFUREG	         18         0.6
+                                RIPPLE	          3         0.5

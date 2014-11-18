@@ -4,7 +4,8 @@
 
 # Period Constraints 
 #FREQUENCY PORT "USBClock_CI" 216.8 MHz;
-#FREQUENCY NET "logicClockPLL/LogicClock_C" 42.4 MHz;
+#FREQUENCY NET "adcClockPLL/ADCClock_C" 215.3 MHz;
+#FREQUENCY NET "logicClockPLL/LogicClock_C" 43.0 MHz;
 
 
 # Output Constraints 
@@ -16,6 +17,8 @@
 
 
 # Block Path Constraints 
+#BLOCK PATH FROM CLKNET "PLL_80_30|OutClock_CO_inferred_clock" TO CLKNET "PLL_80_60|OutClock_CO_inferred_clock";
+#BLOCK PATH FROM CLKNET "PLL_80_60|OutClock_CO_inferred_clock" TO CLKNET "PLL_80_30|OutClock_CO_inferred_clock";
 
 BLOCK ASYNCPATHS;
 

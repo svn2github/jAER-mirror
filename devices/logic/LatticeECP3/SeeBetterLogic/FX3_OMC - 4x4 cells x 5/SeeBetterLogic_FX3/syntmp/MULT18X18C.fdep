@@ -1,6 +1,6 @@
 #OPTIONS:"|-top|MULT18X18C|-I|C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib|-devicelib|C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\xilinx\\unisim.v|-encrypt|-pro|-sysv|-dw|-primux|-ram|-fixsmult|-tri_compatible|-autosm|-fid2|-sharing|on|-ll|2000|-params|E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\SeeBetterLogic_FX3\\syntmp\\MULT18X18C.param"
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\bin\\c_ver.exe":1397595496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\SeeBetterLogic_FX3\\syntmp\\MULT18X18C.param":1414759815
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC - 4x4 cells x 5\\SeeBetterLogic_FX3\\syntmp\\MULT18X18C.param":1414788827
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vlog\\umr_capim.v":1397595630
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vlog\\scemi_objects.v":1397595378
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vlog\\scemi_pipes.svh":1397595378

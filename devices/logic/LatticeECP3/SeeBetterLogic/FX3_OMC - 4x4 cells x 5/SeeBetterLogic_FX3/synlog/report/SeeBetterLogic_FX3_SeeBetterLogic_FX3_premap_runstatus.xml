@@ -19,7 +19,7 @@ The file contains the job information from mapper to be displayed as part of the
 </report_link>
 </info>
 <info name="Warnings">
-<data>8</data>
+<data>9</data>
 <report_link name="more">
 <data>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - 4x4 cells x 5\SeeBetterLogic_FX3\synlog\report\SeeBetterLogic_FX3_SeeBetterLogic_FX3_premap_warnings.txt</data>
 </report_link>
@@ -40,7 +40,7 @@ The file contains the job information from mapper to be displayed as part of the
 <data>152MB</data>
 </info>
 <info name="Date &amp; Time">
-<data type="timestamp">1414759791</data>
+<data type="timestamp">1415375036</data>
 </info>
 </job_info>
 </job_run_status>

@@ -1,9 +1,14 @@
-@P:  Worst Slack : -4.160
-@P:  PLL|OutClock_CO_inferred_clock - Estimated Frequency : 36.1 MHz
-@P:  PLL|OutClock_CO_inferred_clock - Requested Frequency : 42.4 MHz
-@P:  PLL|OutClock_CO_inferred_clock - Estimated Period : 27.733
-@P:  PLL|OutClock_CO_inferred_clock - Requested Period : 23.573
-@P:  PLL|OutClock_CO_inferred_clock - Slack : -4.160
+@P:  Worst Slack : -4.103
+@P:  PLL_80_30|OutClock_CO_inferred_clock - Estimated Frequency : 183.4 MHz
+@P:  PLL_80_30|OutClock_CO_inferred_clock - Requested Frequency : 215.3 MHz
+@P:  PLL_80_30|OutClock_CO_inferred_clock - Estimated Period : 5.454
+@P:  PLL_80_30|OutClock_CO_inferred_clock - Requested Period : 4.645
+@P:  PLL_80_30|OutClock_CO_inferred_clock - Slack : -0.809
+@P:  PLL_80_60|OutClock_CO_inferred_clock - Estimated Frequency : 36.6 MHz
+@P:  PLL_80_60|OutClock_CO_inferred_clock - Requested Frequency : 43.0 MHz
+@P:  PLL_80_60|OutClock_CO_inferred_clock - Estimated Period : 27.355
+@P:  PLL_80_60|OutClock_CO_inferred_clock - Requested Period : 23.252
+@P:  PLL_80_60|OutClock_CO_inferred_clock - Slack : -4.103
 @P:  TopLevel|USBClock_CI - Estimated Frequency : 184.3 MHz
 @P:  TopLevel|USBClock_CI - Requested Frequency : 216.8 MHz
 @P:  TopLevel|USBClock_CI - Estimated Period : 5.427
@@ -15,11 +20,16 @@
 @P:  System - Requested Period : 0.599
 @P:  System - Slack : -0.106
 @P:  Worst Slack(min analysis) : -0.067
-@P:  PLL|OutClock_CO_inferred_clock - Estimated Frequency(min analysis) : 36.1 MHz
-@P:  PLL|OutClock_CO_inferred_clock - Requested Frequency(min analysis) : 42.4 MHz
-@P:  PLL|OutClock_CO_inferred_clock - Estimated Period(min analysis) : 27.733
-@P:  PLL|OutClock_CO_inferred_clock - Requested Period(min analysis) : 23.573
-@P:  PLL|OutClock_CO_inferred_clock - Slack(min analysis) : -4.160
+@P:  PLL_80_30|OutClock_CO_inferred_clock - Estimated Frequency(min analysis) : 183.4 MHz
+@P:  PLL_80_30|OutClock_CO_inferred_clock - Requested Frequency(min analysis) : 215.3 MHz
+@P:  PLL_80_30|OutClock_CO_inferred_clock - Estimated Period(min analysis) : 5.454
+@P:  PLL_80_30|OutClock_CO_inferred_clock - Requested Period(min analysis) : 4.645
+@P:  PLL_80_30|OutClock_CO_inferred_clock - Slack(min analysis) : -0.809
+@P:  PLL_80_60|OutClock_CO_inferred_clock - Estimated Frequency(min analysis) : 36.6 MHz
+@P:  PLL_80_60|OutClock_CO_inferred_clock - Requested Frequency(min analysis) : 43.0 MHz
+@P:  PLL_80_60|OutClock_CO_inferred_clock - Estimated Period(min analysis) : 27.355
+@P:  PLL_80_60|OutClock_CO_inferred_clock - Requested Period(min analysis) : 23.252
+@P:  PLL_80_60|OutClock_CO_inferred_clock - Slack(min analysis) : -4.103
 @P:  TopLevel|USBClock_CI - Estimated Frequency(min analysis) : 184.3 MHz
 @P:  TopLevel|USBClock_CI - Requested Frequency(min analysis) : 216.8 MHz
 @P:  TopLevel|USBClock_CI - Estimated Period(min analysis) : 5.427
@@ -30,7 +40,7 @@
 @P:  System - Estimated Period(min analysis) : 0.704
 @P:  System - Requested Period(min analysis) : 0.599
 @P:  System - Slack(min analysis) : -0.106
-@P:  Total Area : 3808.0
+@P:  Total Area : 4053.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
@@ -124,4 +134,11 @@
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
-@P:  CPU Time : 0h:00m:23s
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  CPU Time : 0h:00m:31s

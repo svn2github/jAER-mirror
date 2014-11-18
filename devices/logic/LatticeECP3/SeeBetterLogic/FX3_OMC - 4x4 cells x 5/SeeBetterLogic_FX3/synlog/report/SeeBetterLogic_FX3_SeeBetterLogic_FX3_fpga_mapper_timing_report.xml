@@ -15,10 +15,16 @@ Max Top 5 critical clocks will be reported. For rest user needs to refer to Deta
 <data tcl_name="slack">Slack</data>
 </row>
 <row>
-<data>PLL|OutClock_CO_inferred_clock</data>
-<data>42.4 MHz</data>
-<data>36.1 MHz</data>
-<data>-4.160</data>
+<data>PLL_80_30|OutClock_CO_inferred_clock</data>
+<data>215.3 MHz</data>
+<data>183.4 MHz</data>
+<data>-0.809</data>
+</row>
+<row>
+<data>PLL_80_60|OutClock_CO_inferred_clock</data>
+<data>43.0 MHz</data>
+<data>36.6 MHz</data>
+<data>-4.103</data>
 </row>
 <row>
 <data>TopLevel|USBClock_CI</data>
