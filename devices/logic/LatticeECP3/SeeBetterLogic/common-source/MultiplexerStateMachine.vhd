@@ -39,6 +39,9 @@ entity MultiplexerStateMachine is
 		ExtTriggerFifoControl_SO : out tToFifoReadSide;
 		ExtTriggerFifoData_DI    : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
+		-- Signal when really running or not (used for upstream FIFO resets).
+		MultiplexerRunning_SO    : out std_logic;
+
 		-- Configuration input
 		MultiplexerConfig_DI     : in  tMultiplexerConfig);
 end MultiplexerStateMachine;
@@ -77,6 +80,9 @@ architecture Behavioral of MultiplexerStateMachine is
 	signal HighestTimestampSent_SP, HighestTimestampSent_SN : std_logic;
 
 	signal MultiplexerConfigReg_D : tMultiplexerConfig;
+
+	-- Register output.
+	signal MultiplexerRunningReg_S : std_logic;
 begin
 	tsSynchronizer : entity work.TimestampSynchronizer
 		port map(
@@ -175,6 +181,8 @@ begin
 		IMUFifoControl_SO.Read_S        <= '0';
 		ExtTriggerFifoControl_SO.Read_S <= '0';
 
+		MultiplexerRunningReg_S <= '1';
+
 		case State_DP is
 			when stIdle =>
 				-- Only exit idle state if logic is running.
@@ -218,6 +226,8 @@ begin
 						-- ensure flow continues.
 						State_DN <= stDropData;
 					end if;
+				else
+					MultiplexerRunningReg_S <= '0';
 				end if;
 
 			when stTimestampReset =>
@@ -393,6 +403,8 @@ begin
 			HighestTimestampSent_SP <= '0';
 			TimestampBuffer_D       <= (others => '0');
 
+			MultiplexerRunning_SO <= tMultiplexerConfigDefault.Run_S;
+
 			MultiplexerConfigReg_D <= tMultiplexerConfigDefault;
 		elsif rising_edge(Clock_CI) then
 			State_DP              <= State_DN;
@@ -400,6 +412,8 @@ begin
 
 			HighestTimestampSent_SP <= HighestTimestampSent_SN;
 			TimestampBuffer_D       <= Timestamp_D;
+
+			MultiplexerRunning_SO <= MultiplexerRunningReg_S;
 
 			MultiplexerConfigReg_D <= MultiplexerConfig_DI;
 		end if;

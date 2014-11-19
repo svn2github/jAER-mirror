@@ -80,6 +80,8 @@ architecture Structural of TopLevel is
 	signal SyncOutSwitchSync_S, SyncInClockSync_C, SyncInSwitchSync_S, SyncInSignalSync_S : std_logic;
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D                           : std_logic;
 
+	signal FXUSBRunning_S, MultiplexerRunning_S : std_logic;
+
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
 	signal LogicUSBFifoDataIn_D     : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
@@ -196,6 +198,7 @@ begin
 			USBFifoPktEnd_SBO       => USBFifoPktEnd_SBO,
 			InFifoControl_SI        => LogicUSBFifoControlOut_S.ReadSide,
 			InFifoControl_SO        => LogicUSBFifoControlIn_S.ReadSide,
+			FX2Running_SO           => FXUSBRunning_S,
 			FX2Config_DI            => FX2Config_D);
 
 	fx2SPIConfig : entity work.FX2SPIConfig
@@ -219,7 +222,7 @@ begin
 			FULL_FLAG         => USBLOGIC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => USBLOGIC_FIFO_SIZE - USBLOGIC_FIFO_ALMOST_FULL_SIZE)
 		port map(
-			Reset_RI       => LogicReset_R or not FX2Config_D.Run_S,
+			Reset_RI       => LogicReset_R or not FXUSBRunning_S,
 			WrClock_CI     => LogicClock_C,
 			RdClock_CI     => USBClock_CI,
 			FifoControl_SI => LogicUSBFifoControlIn_S,
@@ -248,6 +251,7 @@ begin
 			ExtTriggerFifoControl_SI => ExtTriggerFifoControlOut_S.ReadSide,
 			ExtTriggerFifoControl_SO => ExtTriggerFifoControlIn_S.ReadSide,
 			ExtTriggerFifoData_DI    => ExtTriggerFifoDataOut_D,
+			MultiplexerRunning_SO    => MultiplexerRunning_S,
 			MultiplexerConfig_DI     => MultiplexerConfig_D);
 
 	multiplexerSPIConfig : entity work.MultiplexerSPIConfig
@@ -271,7 +275,7 @@ begin
 			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R or not MultiplexerConfig_D.Run_S,
+			Reset_RI       => LogicReset_R or not MultiplexerRunning_S,
 			FifoControl_SI => DVSAERFifoControlIn_S,
 			FifoControl_SO => DVSAERFifoControlOut_S,
 			FifoData_DI    => DVSAERFifoDataIn_D,
@@ -311,7 +315,7 @@ begin
 			FULL_FLAG         => APSADC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE)
 		port map(
-			Reset_RI       => USBReset_R or not MultiplexerConfig_D.Run_S,
+			Reset_RI       => USBReset_R or not MultiplexerRunning_S,
 			WrClock_CI     => USBClock_CI,
 			RdClock_CI     => LogicClock_C,
 			FifoControl_SI => APSADCFifoControlIn_S,
@@ -362,7 +366,7 @@ begin
 			MEMORY            => "LUT")
 		port map(
 			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R or not MultiplexerConfig_D.Run_S,
+			Reset_RI       => LogicReset_R or not MultiplexerRunning_S,
 			FifoControl_SI => IMUFifoControlIn_S,
 			FifoControl_SO => IMUFifoControlOut_S,
 			FifoData_DI    => IMUFifoDataIn_D,
@@ -402,7 +406,7 @@ begin
 			MEMORY            => "LUT")
 		port map(
 			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R or not MultiplexerConfig_D.Run_S,
+			Reset_RI       => LogicReset_R or not MultiplexerRunning_S,
 			FifoControl_SI => ExtTriggerFifoControlIn_S,
 			FifoControl_SO => ExtTriggerFifoControlOut_S,
 			FifoData_DI    => ExtTriggerFifoDataIn_D,
