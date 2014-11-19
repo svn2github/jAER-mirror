@@ -5,8 +5,8 @@ use ieee.std_logic_1164.all;
 -- by using two Flip-Flops in series, to avoid meta-stability problems.
 entity DFFSynchronizer is
 	generic(
-		SIZE        : integer := 1;
-		RESET_VALUE : boolean := false);
+		SIZE        : integer   := 1;
+		RESET_VALUE : std_logic := '0');
 	port(
 		SyncClock_CI    : in  std_logic;
 		Reset_RI        : in  std_logic;
@@ -26,7 +26,7 @@ begin
 	registerUpdate : process(SyncClock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
-			if RESET_VALUE then
+			if RESET_VALUE = '1' then
 				SyncSignalSyncFF_S  <= (others => '1');
 				SyncSignalDemetFF_S <= (others => '1');
 			else

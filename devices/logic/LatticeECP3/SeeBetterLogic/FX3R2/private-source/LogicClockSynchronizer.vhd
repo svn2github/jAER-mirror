@@ -43,7 +43,7 @@ begin
 	-- Ensure synchronization of FX3 inputs related to logic control.
 	syncSPISlaveSelect : entity work.DFFSynchronizer
 		generic map(
-			RESET_VALUE => true)        -- active-low signal
+			RESET_VALUE => '1')         -- active-low signal
 		port map(
 			SyncClock_CI       => LogicClock_CI,
 			Reset_RI           => ResetSync_R,
@@ -66,7 +66,7 @@ begin
 
 	syncDVSAERReq : entity work.DFFSynchronizer
 		generic map(
-			RESET_VALUE => true)        -- active-low signal
+			RESET_VALUE => '1')         -- active-low signal
 		port map(
 			SyncClock_CI       => LogicClock_CI,
 			Reset_RI           => ResetSync_R,

@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 entity SimpleRegister is
 	generic(
 		SIZE        : integer := 1;
-		RESET_VALUE : boolean := false);
+		RESET_VALUE : std_logic := '0');
 	port(
 		Clock_CI  : in  std_logic;
 		Reset_RI  : in  std_logic;
@@ -18,7 +18,7 @@ begin
 	registerUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
-			if RESET_VALUE then
+			if RESET_VALUE = '1' then
 				Output_SO <= (others => '1');
 			else
 				Output_SO <= (others => '0');

@@ -114,7 +114,7 @@ begin
 
 	extTriggerEdgeDetector : entity work.EdgeDetector
 		generic map(
-			SIGNAL_INITIAL_POLARITY => '0')
+			SIGNAL_INITIAL_POLARITY => not tExtTriggerConfigDefault.DetectPulsePolarity_S)
 		port map(
 			Clock_CI               => Clock_CI,
 			Reset_RI               => Reset_RI,
@@ -153,7 +153,7 @@ begin
 		extTriggerPulseGenerator : entity work.PulseGenerator
 			generic map(
 				SIZE                    => TRIGGER_CYCLES_SIZE,
-				SIGNAL_INITIAL_POLARITY => '0')
+				SIGNAL_INITIAL_POLARITY => not tExtTriggerConfigDefault.GeneratePulsePolarity_S)
 			port map(
 				Clock_CI         => Clock_CI,
 				Reset_RI         => Reset_RI,
@@ -168,9 +168,6 @@ begin
 
 		-- Register output to meet timing specifications.
 		extTriggerSignalOutBuffer : entity work.SimpleRegister
-			generic map(
-				SIZE        => 1,
-				RESET_VALUE => false)
 			port map(
 				Clock_CI     => Clock_CI,
 				Reset_RI     => Reset_RI,
