@@ -24,6 +24,7 @@ package APSADCConfigRecords is
 		GSTXGateOpenReset_S   : unsigned(7 downto 0);
 		ResetRead_S           : unsigned(7 downto 0);
 		WaitOnTransferStall_S : unsigned(7 downto 0);
+		ReportADCOverflow_S   : unsigned(7 downto 0);
 	end record tAPSADCConfigParamAddresses;
 
 	constant APSADCCONFIG_PARAM_ADDRESSES : tAPSADCConfigParamAddresses := (
@@ -41,7 +42,8 @@ package APSADCConfigRecords is
 		RowSettle_D           => to_unsigned(11, 8),
 		GSTXGateOpenReset_S   => to_unsigned(12, 8),
 		ResetRead_S           => to_unsigned(13, 8),
-		WaitOnTransferStall_S => to_unsigned(14, 8));
+		WaitOnTransferStall_S => to_unsigned(14, 8),
+		ReportADCOverflow_S   => to_unsigned(15, 8));
 
 	constant EXPOSUREDELAY_SIZE : integer := 26;
 	constant RESETTIME_SIZE     : integer := 8;
@@ -63,6 +65,7 @@ package APSADCConfigRecords is
 		GSTXGateOpenReset_S   : std_logic; -- GS: is the TXGate open during reset too?
 		ResetRead_S           : std_logic; -- Wether to do the reset read or not.
 		WaitOnTransferStall_S : std_logic; -- Wether to wait when the FIFOs are full or not.
+		ReportADCOverflow_S   : std_logic; -- Wether to signal ADC Overflow with an event or just use the value.
 	end record tAPSADCConfig;
 
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
@@ -80,5 +83,6 @@ package APSADCConfigRecords is
 		RowSettle_D           => to_unsigned(10, SETTLETIMES_SIZE),
 		GSTXGateOpenReset_S   => '1',
 		ResetRead_S           => '1',
-		WaitOnTransferStall_S => '0');
+		WaitOnTransferStall_S => '0',
+		ReportADCOverflow_S   => '1');
 end package APSADCConfigRecords;

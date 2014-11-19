@@ -754,7 +754,7 @@ begin
 				-- Write event only if FIFO has place, else wait.
 				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 					-- Detect ADC overflow.
-					if APSADCOverflow_SI = '1' then
+					if APSADCConfigReg_D.ReportADCOverflow_S = '1' and APSADCOverflow_SI = '1' then
 						-- Overflow detected, let's try to signal this.
 						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ADCOVERFLOW;
 					else
