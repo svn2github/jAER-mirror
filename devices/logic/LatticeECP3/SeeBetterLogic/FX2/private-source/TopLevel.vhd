@@ -170,8 +170,14 @@ begin
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
 	IMUFSync_SO           <= '0';       -- Not used, tie to ground according to docs.
 	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI; -- Direct bypass.
-	-- Always enable chip if it is needed (for DVS or APS).
-	ChipBiasEnable_SO     <= DVSAERConfig_D.Run_S or APSADCConfig_D.Run_S or MultiplexerConfig_D.ForceChipBiasEnable_S;
+	-- Always enable chip if it is needed (for DVS or APS or forced).
+	chipBiasEnableBuffer : entity work.SimpleRegister
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => DVSAERConfig_D.Run_S or APSADCConfig_D.Run_S or MultiplexerConfig_D.ForceChipBiasEnable_S,
+			Output_SO(0) => ChipBiasEnable_SO);
 
 	-- Wire all LEDs.
 	LED1_SO <= MultiplexerConfig_D.Run_S;

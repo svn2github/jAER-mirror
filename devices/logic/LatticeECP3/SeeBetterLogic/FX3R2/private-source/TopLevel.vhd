@@ -185,7 +185,7 @@ begin
 	USBFifoChipSelect_SBO <= '0';       -- Always keep USB chip selected (active-low).
 	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
-	-- Always enable chip if it is needed (for DVS or APS).
+	-- Always enable chip if it is needed (for DVS or APS or forced).
 	chipBiasEnableBuffer : entity work.SimpleRegister
 		port map(
 			Clock_CI     => LogicClock_C,
