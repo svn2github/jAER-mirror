@@ -8,7 +8,7 @@ use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
 use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
-use work.ExtTriggerConfigRecords.all;
+use work.ExtInputConfigRecords.all;
 use work.ChipBiasConfigRecords.all;
 use work.SystemInfoConfigRecords.all;
 use work.FX3ConfigRecords.all;
@@ -111,10 +111,10 @@ architecture Structural of TopLevel is
 	signal IMUFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 	signal IMUFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
-	signal ExtTriggerFifoControlIn_S  : tToFifo;
-	signal ExtTriggerFifoControlOut_S : tFromFifo;
-	signal ExtTriggerFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
-	signal ExtTriggerFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal ExtInputFifoControlIn_S  : tToFifo;
+	signal ExtInputFifoControlOut_S : tFromFifo;
+	signal ExtInputFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal ExtInputFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 	signal ConfigModuleAddress_D : unsigned(6 downto 0);
 	signal ConfigParamAddress_D  : unsigned(7 downto 0);
@@ -126,7 +126,7 @@ architecture Structural of TopLevel is
 	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal APSADCConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
-	signal ExtTriggerConfigParamOutput_D  : std_logic_vector(31 downto 0);
+	signal ExtInputConfigParamOutput_D    : std_logic_vector(31 downto 0);
 	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
 	signal ChipConfigParamOutput_D        : std_logic_vector(31 downto 0);
 	signal SystemInfoConfigParamOutput_D  : std_logic_vector(31 downto 0);
@@ -136,7 +136,7 @@ architecture Structural of TopLevel is
 	signal DVSAERConfig_D      : tDVSAERConfig;
 	signal APSADCConfig_D      : tAPSADCConfig;
 	signal IMUConfig_D         : tIMUConfig;
-	signal ExtTriggerConfig_D  : tExtTriggerConfig;
+	signal ExtInputConfig_D    : tExtInputConfig;
 	signal BiasConfig_D        : tBiasConfig;
 	signal ChipConfig_D        : tChipConfig;
 	signal FX3Config_D         : tFX3Config;
@@ -301,27 +301,27 @@ begin
 
 	multiplexerSM : entity work.MultiplexerStateMachine
 		port map(
-			Clock_CI                 => LogicClock_C,
-			Reset_RI                 => LogicReset_R,
-			SyncInClock_CI           => SyncInClockSync_C,
-			SyncOutClock_CO          => SyncOutClock_CO,
-			OutFifoControl_SI        => LogicUSBFifoControlOut_S.WriteSide,
-			OutFifoControl_SO        => LogicUSBFifoControlIn_S.WriteSide,
-			OutFifoData_DO           => LogicUSBFifoDataIn_D,
-			DVSAERFifoControl_SI     => DVSAERFifoControlOut_S.ReadSide,
-			DVSAERFifoControl_SO     => DVSAERFifoControlIn_S.ReadSide,
-			DVSAERFifoData_DI        => DVSAERFifoDataOut_D,
-			APSADCFifoControl_SI     => APSADCFifoControlOut_S.ReadSide,
-			APSADCFifoControl_SO     => APSADCFifoControlIn_S.ReadSide,
-			APSADCFifoData_DI        => APSADCFifoDataOut_D,
-			IMUFifoControl_SI        => IMUFifoControlOut_S.ReadSide,
-			IMUFifoControl_SO        => IMUFifoControlIn_S.ReadSide,
-			IMUFifoData_DI           => IMUFifoDataOut_D,
-			ExtTriggerFifoControl_SI => ExtTriggerFifoControlOut_S.ReadSide,
-			ExtTriggerFifoControl_SO => ExtTriggerFifoControlIn_S.ReadSide,
-			ExtTriggerFifoData_DI    => ExtTriggerFifoDataOut_D,
-			MultiplexerRunning_SO    => MultiplexerRunning_S,
-			MultiplexerConfig_DI     => MultiplexerConfig_D);
+			Clock_CI               => LogicClock_C,
+			Reset_RI               => LogicReset_R,
+			SyncInClock_CI         => SyncInClockSync_C,
+			SyncOutClock_CO        => SyncOutClock_CO,
+			OutFifoControl_SI      => LogicUSBFifoControlOut_S.WriteSide,
+			OutFifoControl_SO      => LogicUSBFifoControlIn_S.WriteSide,
+			OutFifoData_DO         => LogicUSBFifoDataIn_D,
+			DVSAERFifoControl_SI   => DVSAERFifoControlOut_S.ReadSide,
+			DVSAERFifoControl_SO   => DVSAERFifoControlIn_S.ReadSide,
+			DVSAERFifoData_DI      => DVSAERFifoDataOut_D,
+			APSADCFifoControl_SI   => APSADCFifoControlOut_S.ReadSide,
+			APSADCFifoControl_SO   => APSADCFifoControlIn_S.ReadSide,
+			APSADCFifoData_DI      => APSADCFifoDataOut_D,
+			IMUFifoControl_SI      => IMUFifoControlOut_S.ReadSide,
+			IMUFifoControl_SO      => IMUFifoControlIn_S.ReadSide,
+			IMUFifoData_DI         => IMUFifoDataOut_D,
+			ExtInputFifoControl_SI => ExtInputFifoControlOut_S.ReadSide,
+			ExtInputFifoControl_SO => ExtInputFifoControlIn_S.ReadSide,
+			ExtInputFifoData_DI    => ExtInputFifoDataOut_D,
+			MultiplexerRunning_SO  => MultiplexerRunning_S,
+			MultiplexerConfig_DI   => MultiplexerConfig_D);
 
 	multiplexerSPIConfig : entity work.MultiplexerSPIConfig
 		port map(
@@ -462,44 +462,44 @@ begin
 			ConfigLatchInput_SI     => ConfigLatchInput_S,
 			IMUConfigParamOutput_DO => IMUConfigParamOutput_D);
 
-	extTriggerFifo : entity work.FIFO
+	extInputFifo : entity work.FIFO
 		generic map(
 			DATA_WIDTH        => EVENT_WIDTH,
-			DATA_DEPTH        => EXT_TRIGGER_FIFO_SIZE,
+			DATA_DEPTH        => EXT_INPUT_FIFO_SIZE,
 			EMPTY_FLAG        => 0,
-			ALMOST_EMPTY_FLAG => EXT_TRIGGER_FIFO_ALMOST_EMPTY_SIZE,
-			FULL_FLAG         => EXT_TRIGGER_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => EXT_TRIGGER_FIFO_SIZE - EXT_TRIGGER_FIFO_ALMOST_FULL_SIZE)
+			ALMOST_EMPTY_FLAG => EXT_INPUT_FIFO_ALMOST_EMPTY_SIZE,
+			FULL_FLAG         => EXT_INPUT_FIFO_SIZE,
+			ALMOST_FULL_FLAG  => EXT_INPUT_FIFO_SIZE - EXT_INPUT_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
 			Reset_RI       => LogicReset_R or not MultiplexerRunning_S,
-			FifoControl_SI => ExtTriggerFifoControlIn_S,
-			FifoControl_SO => ExtTriggerFifoControlOut_S,
-			FifoData_DI    => ExtTriggerFifoDataIn_D,
-			FifoData_DO    => ExtTriggerFifoDataOut_D);
+			FifoControl_SI => ExtInputFifoControlIn_S,
+			FifoControl_SO => ExtInputFifoControlOut_S,
+			FifoData_DI    => ExtInputFifoDataIn_D,
+			FifoData_DO    => ExtInputFifoDataOut_D);
 
-	extTriggerSM : entity work.ExtTriggerStateMachine
+	extInputSM : entity work.ExtInputStateMachine
 		port map(
-			Clock_CI               => LogicClock_C,
-			Reset_RI               => LogicReset_R,
-			OutFifoControl_SI      => ExtTriggerFifoControlOut_S.WriteSide,
-			OutFifoControl_SO      => ExtTriggerFifoControlIn_S.WriteSide,
-			OutFifoData_DO         => ExtTriggerFifoDataIn_D,
-			ExtTriggerSignal_SI    => SyncInSignalSync_S,
-			CustomTriggerSignal_SI => '1',
-			ExtTriggerSignal_SO    => SyncOutSignal_SO,
-			ExtTriggerConfig_DI    => ExtTriggerConfig_D);
+			Clock_CI              => LogicClock_C,
+			Reset_RI              => LogicReset_R,
+			OutFifoControl_SI     => ExtInputFifoControlOut_S.WriteSide,
+			OutFifoControl_SO     => ExtInputFifoControlIn_S.WriteSide,
+			OutFifoData_DO        => ExtInputFifoDataIn_D,
+			ExtInputSignal_SI     => SyncInSignalSync_S,
+			CustomOutputSignal_SI => '1',
+			ExtInputSignal_SO     => SyncOutSignal_SO,
+			ExtInputConfig_DI     => ExtInputConfig_D);
 
-	extTriggerSPIConfig : entity work.ExtTriggerSPIConfig
+	extInputSPIConfig : entity work.ExtInputSPIConfig
 		port map(
-			Clock_CI                       => LogicClock_C,
-			Reset_RI                       => LogicReset_R,
-			ExtTriggerConfig_DO            => ExtTriggerConfig_D,
-			ConfigModuleAddress_DI         => ConfigModuleAddress_D,
-			ConfigParamAddress_DI          => ConfigParamAddress_D,
-			ConfigParamInput_DI            => ConfigParamInput_D,
-			ConfigLatchInput_SI            => ConfigLatchInput_S,
-			ExtTriggerConfigParamOutput_DO => ExtTriggerConfigParamOutput_D);
+			Clock_CI                     => LogicClock_C,
+			Reset_RI                     => LogicReset_R,
+			ExtInputConfig_DO            => ExtInputConfig_D,
+			ConfigModuleAddress_DI       => ConfigModuleAddress_D,
+			ConfigParamAddress_DI        => ConfigParamAddress_D,
+			ConfigParamInput_DI          => ConfigParamInput_D,
+			ConfigLatchInput_SI          => ConfigLatchInput_S,
+			ExtInputConfigParamOutput_DO => ExtInputConfigParamOutput_D);
 
 	systemInfoSPIConfig : entity work.SystemInfoSPIConfig
 		port map(
@@ -522,7 +522,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtInputConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -540,8 +540,8 @@ begin
 			when IMUCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= IMUConfigParamOutput_D;
 
-			when EXTTRIGGERCONFIG_MODULE_ADDRESS =>
-				ConfigParamOutput_D <= ExtTriggerConfigParamOutput_D;
+			when EXTINPUTCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= ExtInputConfigParamOutput_D;
 
 			when CHIPBIASCONFIG_MODULE_ADDRESS =>
 				if ConfigParamAddress_D(7) = '0' then

@@ -120,13 +120,13 @@
         <Source name="../common-source/IMUConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/ExtTriggerStateMachine.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/ExtInputStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/ExtTriggerSPIConfig.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/ExtInputSPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/ExtTriggerConfigRecords.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/ExtInputConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/SystemInfoSPIConfig.vhd" type="VHDL" type_short="VHDL">

@@ -16,21 +16,21 @@ package Settings is
 
 	constant ADC_CLOCK_FREQ : integer := USB_CLOCK_FREQ;
 
-	constant USBLOGIC_FIFO_SIZE                 : integer := 512;
-	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE    : integer := USB_BURST_WRITE_LENGTH;
-	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE     : integer := 2;
-	constant DVSAER_FIFO_SIZE                   : integer := 256;
-	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE      : integer := 2;
-	constant DVSAER_FIFO_ALMOST_FULL_SIZE       : integer := 2;
-	constant APSADC_FIFO_SIZE                   : integer := 512;
-	constant APSADC_FIFO_ALMOST_EMPTY_SIZE      : integer := 16;
-	constant APSADC_FIFO_ALMOST_FULL_SIZE       : integer := 2;
-	constant IMU_FIFO_SIZE                      : integer := 32; -- two samples (2x16)
-	constant IMU_FIFO_ALMOST_EMPTY_SIZE         : integer := 16; -- one sample (1x16)
-	constant IMU_FIFO_ALMOST_FULL_SIZE          : integer := 16; -- one sample (1x16)
-	constant EXT_TRIGGER_FIFO_SIZE              : integer := 8;
-	constant EXT_TRIGGER_FIFO_ALMOST_EMPTY_SIZE : integer := 2;
-	constant EXT_TRIGGER_FIFO_ALMOST_FULL_SIZE  : integer := 2;
+	constant USBLOGIC_FIFO_SIZE               : integer := 512;
+	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE  : integer := USB_BURST_WRITE_LENGTH;
+	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE   : integer := 2;
+	constant DVSAER_FIFO_SIZE                 : integer := 256;
+	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE    : integer := 2;
+	constant DVSAER_FIFO_ALMOST_FULL_SIZE     : integer := 2;
+	constant APSADC_FIFO_SIZE                 : integer := 512;
+	constant APSADC_FIFO_ALMOST_EMPTY_SIZE    : integer := 16;
+	constant APSADC_FIFO_ALMOST_FULL_SIZE     : integer := 2;
+	constant IMU_FIFO_SIZE                    : integer := 32; -- two samples (2x16)
+	constant IMU_FIFO_ALMOST_EMPTY_SIZE       : integer := 16; -- one sample (1x16)
+	constant IMU_FIFO_ALMOST_FULL_SIZE        : integer := 16; -- one sample (1x16)
+	constant EXT_INPUT_FIFO_SIZE              : integer := 8;
+	constant EXT_INPUT_FIFO_ALMOST_EMPTY_SIZE : integer := 2;
+	constant EXT_INPUT_FIFO_ALMOST_FULL_SIZE  : integer := 2;
 
 	constant LOGIC_VERSION : unsigned(3 downto 0) := to_unsigned(1, 4);
 

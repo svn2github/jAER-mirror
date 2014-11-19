@@ -63,9 +63,9 @@ begin
 				MultiplexerConfigReg_DN.DropIMUOnTransferStall_S <= MultiplexerInput_DP(0);
 				MultiplexerOutput_DN(0)                          <= MultiplexerConfigReg_DP.DropIMUOnTransferStall_S;
 
-			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropExtTriggerOnTransferStall_S =>
-				MultiplexerConfigReg_DN.DropExtTriggerOnTransferStall_S <= MultiplexerInput_DP(0);
-				MultiplexerOutput_DN(0)                                 <= MultiplexerConfigReg_DP.DropExtTriggerOnTransferStall_S;
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropExtInputOnTransferStall_S =>
+				MultiplexerConfigReg_DN.DropExtInputOnTransferStall_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                               <= MultiplexerConfigReg_DP.DropExtInputOnTransferStall_S;
 
 			when others => null;
 		end case;
