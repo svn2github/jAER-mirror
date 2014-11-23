@@ -57,7 +57,6 @@ entity APSADCStateMachine is
 		APSChipTXGate_SBO      : out std_logic;
 
 		APSADCData_DI          : in  std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
-		APSADCOverflow_SI      : in  std_logic;
 		APSADCClock_CO         : out std_logic;
 		APSADCOutputEnable_SBO : out std_logic;
 		APSADCStandby_SO       : out std_logic;
@@ -650,7 +649,7 @@ begin
 
 	CurrentRowValid_S <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow_D) else '0';
 
-	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, APSADCOverflow_SI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, SettleTimesDone_S, RowReadPosition_D)
+	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, SettleTimesDone_S, RowReadPosition_D)
 	begin
 		RowState_DN <= RowState_DP;
 
@@ -753,17 +752,11 @@ begin
 			when stRowWriteEvent =>
 				-- Write event only if FIFO has place, else wait.
 				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-					-- Detect ADC overflow.
-					if APSADCConfigReg_D.ReportADCOverflow_S = '1' and APSADCOverflow_SI = '1' then
-						-- Overflow detected, let's try to signal this.
-						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ADCOVERFLOW;
+					-- This is only a 10-bit ADC, so we pad with two zeros.
+					if APS_ADC_BUS_WIDTH = EVENT_DATA_WIDTH_MAX then
+						OutFifoDataRegRow_D <= EVENT_CODE_ADC_SAMPLE & APSADCData_DI;
 					else
-						-- This is only a 10-bit ADC, so we pad with two zeros.
-						if APS_ADC_BUS_WIDTH = EVENT_DATA_WIDTH_MAX then
-							OutFifoDataRegRow_D <= EVENT_CODE_ADC_SAMPLE & APSADCData_DI;
-						else
-							OutFifoDataRegRow_D <= EVENT_CODE_ADC_SAMPLE & VAL_OUT_ZERO_PAD & APSADCData_DI;
-						end if;
+						OutFifoDataRegRow_D <= EVENT_CODE_ADC_SAMPLE & VAL_OUT_ZERO_PAD & APSADCData_DI;
 					end if;
 					OutFifoDataRegRowEnable_S <= '1';
 					OutFifoWriteRegRow_S      <= '1';

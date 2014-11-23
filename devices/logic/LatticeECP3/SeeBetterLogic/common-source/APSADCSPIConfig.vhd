@@ -99,10 +99,6 @@ begin
 				APSADCConfigReg_DN.WaitOnTransferStall_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)                       <= APSADCConfigReg_DP.WaitOnTransferStall_S;
 
-			when APSADCCONFIG_PARAM_ADDRESSES.ReportADCOverflow_S =>
-				APSADCConfigReg_DN.ReportADCOverflow_S <= APSADCInput_DP(0);
-				APSADCOutput_DN(0)                     <= APSADCConfigReg_DP.ReportADCOverflow_S;
-
 			when others => null;
 		end case;
 	end process apsadcIO;

@@ -406,7 +406,6 @@ begin
 			APSChipColMode_DO      => APSChipColMode_DO,
 			APSChipTXGate_SBO      => APSChipTXGate_SBO,
 			APSADCData_DI          => APSADCData_DI,
-			APSADCOverflow_SI      => APSADCOverflow_SI,
 			APSADCClock_CO         => APSADCClock_CO,
 			APSADCOutputEnable_SBO => APSADCOutputEnable_SBO,
 			APSADCStandby_SO       => APSADCStandby_SO,
