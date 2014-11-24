@@ -1,8 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.Settings.CHIP_SIZE_COLUMNS;
-use work.Settings.CHIP_SIZE_ROWS;
+use work.Settings.CHIP_APS_SIZE_COLUMNS;
+use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 
 package APSADCConfigRecords is
@@ -51,10 +51,10 @@ package APSADCConfigRecords is
 		Run_S                 : std_logic;
 		ForceADCRunning_S     : std_logic; -- Force ADC to be always on, for quick resume.
 		GlobalShutter_S       : std_logic; -- enable global shutter instead of rolling shutter
-		StartColumn_D         : unsigned(CHIP_SIZE_COLUMNS'range);
-		StartRow_D            : unsigned(CHIP_SIZE_ROWS'range);
-		EndColumn_D           : unsigned(CHIP_SIZE_COLUMNS'range);
-		EndRow_D              : unsigned(CHIP_SIZE_ROWS'range);
+		StartColumn_D         : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+		StartRow_D            : unsigned(CHIP_APS_SIZE_ROWS'range);
+		EndColumn_D           : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+		EndRow_D              : unsigned(CHIP_APS_SIZE_ROWS'range);
 		Exposure_D            : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in microseconds, up to 1 second
 		FrameDelay_D          : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in microseconds, up to 1 second
 		ResetSettle_D         : unsigned(RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 255 cycles
@@ -69,10 +69,10 @@ package APSADCConfigRecords is
 		Run_S                 => '0',
 		ForceADCRunning_S     => '0',
 		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,
-		StartColumn_D         => to_unsigned(0, CHIP_SIZE_COLUMNS'length),
-		StartRow_D            => to_unsigned(0, CHIP_SIZE_ROWS'length),
-		EndColumn_D           => CHIP_SIZE_COLUMNS - 1,
-		EndRow_D              => CHIP_SIZE_ROWS - 1,
+		StartColumn_D         => to_unsigned(0, CHIP_APS_SIZE_COLUMNS'length),
+		StartRow_D            => to_unsigned(0, CHIP_APS_SIZE_ROWS'length),
+		EndColumn_D           => CHIP_APS_SIZE_COLUMNS - 1,
+		EndRow_D              => CHIP_APS_SIZE_ROWS - 1,
 		Exposure_D            => to_unsigned(60000, EXPOSUREDELAY_SIZE),
 		FrameDelay_D          => to_unsigned(6000, EXPOSUREDELAY_SIZE),
 		ResetSettle_D         => to_unsigned(10, RESETTIME_SIZE),

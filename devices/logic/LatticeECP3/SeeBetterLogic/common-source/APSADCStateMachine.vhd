@@ -8,8 +8,8 @@ use work.FIFORecords.all;
 use work.APSADCConfigRecords.all;
 use work.Settings.ADC_CLOCK_FREQ;
 use work.Settings.APS_ADC_BUS_WIDTH;
-use work.Settings.CHIP_SIZE_COLUMNS;
-use work.Settings.CHIP_SIZE_ROWS;
+use work.Settings.CHIP_APS_SIZE_COLUMNS;
+use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 
 -- Rolling shutter considerations: since the exposure is given by the
@@ -107,11 +107,11 @@ architecture Behavioral of APSADCStateMachine is
 
 	-- Column and row read counters.
 	signal ColumnReadAPositionZero_S, ColumnReadAPositionInc_S : std_logic;
-	signal ColumnReadAPosition_D                               : unsigned(CHIP_SIZE_COLUMNS'range);
+	signal ColumnReadAPosition_D                               : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 	signal ColumnReadBPositionZero_S, ColumnReadBPositionInc_S : std_logic;
-	signal ColumnReadBPosition_D                               : unsigned(CHIP_SIZE_COLUMNS'range);
+	signal ColumnReadBPosition_D                               : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 	signal RowReadPositionZero_S, RowReadPositionInc_S         : std_logic;
-	signal RowReadPosition_D                                   : unsigned(CHIP_SIZE_ROWS'range);
+	signal RowReadPosition_D                                   : unsigned(CHIP_APS_SIZE_ROWS'range);
 
 	-- Communication between column and row state machines. Done through a register for full decoupling.
 	signal RowReadStart_SP, RowReadStart_SN : std_logic;
@@ -184,7 +184,7 @@ begin
 
 	colReadAPosition : entity work.ContinuousCounter
 		generic map(
-			SIZE              => CHIP_SIZE_COLUMNS'length,
+			SIZE              => CHIP_APS_SIZE_COLUMNS'length,
 			RESET_ON_OVERFLOW => false,
 			GENERATE_OVERFLOW => false)
 		port map(
@@ -192,13 +192,13 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => ColumnReadAPositionZero_S,
 			Enable_SI    => ColumnReadAPositionInc_S,
-			DataLimit_DI => CHIP_SIZE_COLUMNS,
+			DataLimit_DI => CHIP_APS_SIZE_COLUMNS,
 			Overflow_SO  => open,
 			Data_DO      => ColumnReadAPosition_D);
 
 	colReadBPosition : entity work.ContinuousCounter
 		generic map(
-			SIZE              => CHIP_SIZE_COLUMNS'length,
+			SIZE              => CHIP_APS_SIZE_COLUMNS'length,
 			RESET_ON_OVERFLOW => false,
 			GENERATE_OVERFLOW => false)
 		port map(
@@ -206,13 +206,13 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => ColumnReadBPositionZero_S,
 			Enable_SI    => ColumnReadBPositionInc_S,
-			DataLimit_DI => CHIP_SIZE_COLUMNS,
+			DataLimit_DI => CHIP_APS_SIZE_COLUMNS,
 			Overflow_SO  => open,
 			Data_DO      => ColumnReadBPosition_D);
 
 	rowReadPosition : entity work.ContinuousCounter
 		generic map(
-			SIZE              => CHIP_SIZE_ROWS'length,
+			SIZE              => CHIP_APS_SIZE_ROWS'length,
 			RESET_ON_OVERFLOW => false,
 			GENERATE_OVERFLOW => false)
 		port map(
@@ -220,7 +220,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => RowReadPositionZero_S,
 			Enable_SI    => RowReadPositionInc_S,
-			DataLimit_DI => CHIP_SIZE_ROWS,
+			DataLimit_DI => CHIP_APS_SIZE_ROWS,
 			Overflow_SO  => open,
 			Data_DO      => RowReadPosition_D);
 
@@ -377,7 +377,7 @@ begin
 				end if;
 
 				-- Check if we're done (read B ended).
-				if ColumnReadBPosition_D = CHIP_SIZE_COLUMNS then
+				if ColumnReadBPosition_D = CHIP_APS_SIZE_COLUMNS then
 					ColState_DN <= stEndFrame;
 
 					-- Close APS TXGate after last read.
@@ -390,7 +390,7 @@ begin
 				end if;
 
 			when stRSReset =>
-				if ColumnReadAPosition_D = CHIP_SIZE_COLUMNS then
+				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 				else
 					-- Do reset.
@@ -427,7 +427,7 @@ begin
 				ColState_DN     <= stRSReadA;
 
 			when stRSReadA =>
-				if ColumnReadAPosition_D = CHIP_SIZE_COLUMNS then
+				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 				else
 					-- Do column read A.
@@ -527,7 +527,7 @@ begin
 				APSChipColSRClockReg_S <= '1';
 				APSChipColSRInReg_S    <= '0';
 
-				if ColumnReadAPosition_D = CHIP_SIZE_COLUMNS then
+				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS then
 					-- Done with reset read.
 					ColState_DN <= stGSStartExposure;
 				else
@@ -601,7 +601,7 @@ begin
 				APSChipColSRClockReg_S <= '1';
 				APSChipColSRInReg_S    <= '0';
 
-				if ColumnReadBPosition_D = CHIP_SIZE_COLUMNS then
+				if ColumnReadBPosition_D = CHIP_APS_SIZE_COLUMNS then
 					-- Done with signal read.
 					ColState_DN <= stEndFrame;
 				else
@@ -730,7 +730,7 @@ begin
 				-- Check if we're done. This means that we just clock the 1 in the RowSR out,
 				-- leaving it clean at only zeros. Further, the row read position is at the
 				-- maximum, so we can detect that, zero it and exit.
-				if RowReadPosition_D = CHIP_SIZE_ROWS then
+				if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
 					RowState_DN           <= stRowDone;
 					RowReadPositionZero_S <= '1';
 				else

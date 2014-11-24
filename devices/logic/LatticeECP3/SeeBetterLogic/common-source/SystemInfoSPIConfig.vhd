@@ -30,11 +30,17 @@ begin
 			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipIdentifier_D =>
 				SystemInfoOutput_DN(CHIP_IDENTIFIER'range) <= std_logic_vector(CHIP_IDENTIFIER);
 
-			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipSizeColumns_D =>
-				SystemInfoOutput_DN(CHIP_SIZE_COLUMNS'range) <= std_logic_vector(CHIP_SIZE_COLUMNS);
+			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipAPSSizeColumns_D =>
+				SystemInfoOutput_DN(CHIP_APS_SIZE_COLUMNS'range) <= std_logic_vector(CHIP_APS_SIZE_COLUMNS);
 
-			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipSizeRows_D =>
-				SystemInfoOutput_DN(CHIP_SIZE_ROWS'range) <= std_logic_vector(CHIP_SIZE_ROWS);
+			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipAPSSizeRows_D =>
+				SystemInfoOutput_DN(CHIP_APS_SIZE_ROWS'range) <= std_logic_vector(CHIP_APS_SIZE_ROWS);
+
+			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipDVSSizeColumns_D =>
+				SystemInfoOutput_DN(CHIP_DVS_SIZE_COLUMNS'range) <= std_logic_vector(CHIP_DVS_SIZE_COLUMNS);
+
+			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipDVSSizeRows_D =>
+				SystemInfoOutput_DN(CHIP_DVS_SIZE_ROWS'range) <= std_logic_vector(CHIP_DVS_SIZE_ROWS);
 
 			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipHasGlobalShutter_S =>
 				SystemInfoOutput_DN(0) <= CHIP_HAS_GLOBAL_SHUTTER;

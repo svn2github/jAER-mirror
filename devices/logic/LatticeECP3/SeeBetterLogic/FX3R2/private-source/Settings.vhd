@@ -52,8 +52,11 @@ package Settings is
 	constant CHIP_HAS_GLOBAL_SHUTTER : std_logic := CHIP_HAS_GLOBAL_SHUTTER;
 	constant CHIP_HAS_INTEGRATED_ADC : std_logic := CHIP_HAS_INTEGRATED_ADC;
 
-	constant CHIP_SIZE_COLUMNS : unsigned(CHIP_SIZE_COLUMNS'range) := CHIP_SIZE_COLUMNS;
-	constant CHIP_SIZE_ROWS    : unsigned(CHIP_SIZE_ROWS'range)    := CHIP_SIZE_ROWS;
+	constant CHIP_APS_SIZE_COLUMNS : unsigned(CHIP_APS_SIZE_COLUMNS'range) := CHIP_APS_SIZE_COLUMNS;
+	constant CHIP_APS_SIZE_ROWS    : unsigned(CHIP_APS_SIZE_ROWS'range)    := CHIP_APS_SIZE_ROWS;
+
+	constant CHIP_DVS_SIZE_COLUMNS : unsigned(CHIP_DVS_SIZE_COLUMNS'range) := CHIP_DVS_SIZE_COLUMNS;
+	constant CHIP_DVS_SIZE_ROWS    : unsigned(CHIP_DVS_SIZE_ROWS'range)    := CHIP_DVS_SIZE_ROWS;
 
 	constant DVS_AER_BUS_WIDTH : integer := DVS_AER_BUS_WIDTH;
 	constant APS_ADC_BUS_WIDTH : integer := APS_ADC_BUS_WIDTH;
