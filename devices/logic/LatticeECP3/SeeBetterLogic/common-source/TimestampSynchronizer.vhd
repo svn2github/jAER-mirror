@@ -30,30 +30,34 @@ architecture Behavioral of TimestampSynchronizer is
 	signal State_DP, State_DN : tState;
 
 	-- Time constants for synchronization.
-	constant TS_COUNTER_INCREASE_CYCLES : integer := LOGIC_CLOCK_FREQ * 1; -- corresponds to 1 microsecond
-	constant SYNC_SLAVE_TIMEOUT_CYCLES  : integer := LOGIC_CLOCK_FREQ * 10; -- corresponds to 10 microseconds
-	constant SYNC_SLAVE_RESET_CYCLES    : integer := LOGIC_CLOCK_FREQ * 200; -- corresponds to 200 microseconds
-	constant SYNC_SQUARE_WAVE_HIGH_TIME : integer := 50; -- in microseconds (50% duty cycle)
-	constant SYNC_SQUARE_WAVE_PERIOD    : integer := 100; -- in microseconds (10 KHz clock)
+	constant SYNC_SQUARE_WAVE_HIGH_TIME     : integer := 50; -- in microseconds (50% duty cycle)
+	constant SYNC_SQUARE_WAVE_PERIOD        : integer := 100; -- in microseconds (10 KHz clock)
+	constant TS_COUNTER_INCREASE_CYCLES     : integer := LOGIC_CLOCK_FREQ * 1; -- corresponds to 1 microsecond
+	constant SYNC_SLAVE_TIMEOUT_CYCLES      : integer := LOGIC_CLOCK_FREQ * 10; -- corresponds to 10 microseconds
+	constant SYNC_SLAVE_RESET_CYCLES        : integer := LOGIC_CLOCK_FREQ * 200; -- corresponds to 200 microseconds
+	constant SYNC_SLAVE_CONFIRMATION_CYCLES : integer := LOGIC_CLOCK_FREQ * 49; -- corresponds to 49 microseconds
 
 	-- Counters used to produce different timestamp ticks and to remain in a certain state
 	-- for a certain amount of time. Divider keeps track of local timestamp increases,
 	-- while Counter keeps track of everything else.
 	constant DIVIDER_SIZE : integer := integer(ceil(log2(real(TS_COUNTER_INCREASE_CYCLES))));
 	constant COUNTER_SIZE : integer := integer(ceil(log2(real(SYNC_SLAVE_RESET_CYCLES))));
+	constant CONFIRM_SIZE : integer := integer(ceil(log2(real(SYNC_SLAVE_CONFIRMATION_CYCLES))));
 
 	signal Divider_DP, Divider_DN : unsigned(DIVIDER_SIZE - 1 downto 0);
 	signal Counter_DP, Counter_DN : unsigned(COUNTER_SIZE - 1 downto 0);
+	signal Confirm_DP, Confirm_DN : unsigned(CONFIRM_SIZE - 1 downto 0);
 
 	-- Register outputs.
 	signal SyncOutClockReg_C : std_logic;
 begin
-	p_memless : process(State_DP, Divider_DP, Counter_DP, SyncInClock_CI, TimestampRun_SI, TimestampReset_SI)
+	tsSynchronizer : process(State_DP, Divider_DP, Counter_DP, Confirm_DP, SyncInClock_CI, TimestampRun_SI, TimestampReset_SI)
 	begin
 		State_DN <= State_DP;
 
 		Divider_DN <= Divider_DP;
 		Counter_DN <= Counter_DP;
+		Confirm_DN <= (others => '0');
 
 		SyncOutClockReg_C <= '0';
 
@@ -86,13 +90,17 @@ begin
 
 					State_DN <= stResetSlaves;
 				elsif SyncInClock_CI = '0' then
-					Divider_DN <= (others => '0');
-					Counter_DN <= (others => '0');
+					if Confirm_DP = (SYNC_SLAVE_CONFIRMATION_CYCLES - 1) then
+						Divider_DN <= (others => '0');
+						Counter_DN <= (others => '0');
 
-					-- Not a master if getting 0 on its input, so a slave.
-					State_DN <= stRunSlave;
+						-- Not a master if getting 0 on its input, so a slave.
+						State_DN <= stRunSlave;
 
-					TimestampReset_SO <= '1';
+						TimestampReset_SO <= '1';
+					else
+						Confirm_DN <= Confirm_DP + 1;
+					end if;
 				end if;
 
 			when stResetSlaves =>
@@ -173,15 +181,16 @@ begin
 					TimestampReset_SO <= '1';
 				end if;
 		end case;
-	end process p_memless;
+	end process tsSynchronizer;
 
-	p_mem : process(Clock_CI, Reset_RI)
+	registerUpdate : process(Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then
 			State_DP <= stRunMaster;
 
 			Divider_DP <= (others => '0');
 			Counter_DP <= (others => '0');
+			Confirm_DP <= (others => '0');
 
 			SyncOutClock_CO <= '0';
 		elsif rising_edge(Clock_CI) then -- rising clock edge
@@ -189,8 +198,9 @@ begin
 
 			Divider_DP <= Divider_DN;
 			Counter_DP <= Counter_DN;
+			Confirm_DP <= Confirm_DN;
 
 			SyncOutClock_CO <= SyncOutClockReg_C;
 		end if;
-	end process p_mem;
+	end process registerUpdate;
 end architecture Behavioral;
