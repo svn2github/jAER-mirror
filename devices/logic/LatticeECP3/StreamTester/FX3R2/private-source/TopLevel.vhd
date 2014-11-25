@@ -29,7 +29,9 @@ entity TopLevel is
 		LED1_SO                 : out std_logic;
 		LED2_SO                 : out std_logic;
 		LED3_SO                 : out std_logic;
-		LED4_SO                 : out std_logic);
+		LED4_SO                 : out std_logic;
+		LED5_SO                 : out std_logic;
+		LED6_SO                 : out std_logic);
 end TopLevel;
 
 architecture Structural of TopLevel is
@@ -119,6 +121,22 @@ begin
 			Enable_SI    => '1',
 			Input_SI(0)  => LogicUSBFifoControlOut_S.WriteSide.Full_S,
 			Output_SO(0) => LED4_SO);
+
+	led5Buffer : entity work.SimpleRegister
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => '0',
+			Output_SO(0) => LED5_SO);
+
+	led6Buffer : entity work.SimpleRegister
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => '0',
+			Output_SO(0) => LED6_SO);
 
 	-- Generate logic clock using a PLL.
 	logicClockPLL : entity work.PLL
