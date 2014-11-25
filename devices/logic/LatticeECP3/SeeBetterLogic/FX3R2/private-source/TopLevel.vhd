@@ -38,6 +38,8 @@ entity TopLevel is
 		LED2_SO                 : out   std_logic;
 		LED3_SO                 : out   std_logic;
 		LED4_SO                 : out   std_logic;
+		LED5_SO                 : out   std_logic;
+		LED6_SO                 : out   std_logic;
 
 		ChipBiasEnable_SO       : out   std_logic;
 		ChipBiasDiagSelect_SO   : out   std_logic;
@@ -68,6 +70,7 @@ entity TopLevel is
 		IMUClock_CZO            : out   std_logic;
 		IMUData_DZIO            : inout std_logic;
 		IMUInterrupt_AI         : in    std_logic;
+		IMUFSync_SO             : out   std_logic;
 
 		SyncOutClock_CO         : out   std_logic;
 		SyncOutSwitch_AI        : in    std_logic;
@@ -185,6 +188,7 @@ begin
 	USBFifoChipSelect_SBO <= '0';       -- Always keep USB chip selected (active-low).
 	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
+	IMUFSync_SO           <= '0';       -- Not used, tie to ground according to docs.
 	-- Always enable chip if it is needed (for DVS or APS or forced).
 	chipBiasEnableBuffer : entity work.SimpleRegister
 		port map(
@@ -226,6 +230,22 @@ begin
 			Enable_SI    => '1',
 			Input_SI(0)  => LogicUSBFifoControlOut_S.WriteSide.Full_S,
 			Output_SO(0) => LED4_SO);
+
+	led5Buffer : entity work.SimpleRegister
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => '0',
+			Output_SO(0) => LED5_SO);
+
+	led6Buffer : entity work.SimpleRegister
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => '0',
+			Output_SO(0) => LED6_SO);
 
 	-- Generate logic clock using a PLL.
 	logicClockPLL : entity work.PLL
