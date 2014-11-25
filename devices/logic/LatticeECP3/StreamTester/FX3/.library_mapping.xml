@@ -3,9 +3,32 @@
   <Mappings Location="Common Libraries/IEEE" Library="ieee"/>
   <Mappings Location="Common Libraries/IEEE Synopsys" Library="ieee"/>
   <Mappings Location="Common Libraries" Library="not mapped"/>
+  <Mappings Location="StreamTester_FX3" Library="not mapped"/>
+  <Mappings Location="StreamTester_FX3_tcr.dir" Library="not mapped"/>
   <Mappings Location="common-source/APSADCConfigRecords.vhd" Library="not mapped"/>
   <Mappings Location="common-source/APSADCSPIConfig.vhd" Library="not mapped"/>
   <Mappings Location="common-source/APSADCStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ChipBiasConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ChipBiasSPIConfig.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ChipBiasStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/DVSAERConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/DVSAERSPIConfig.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/DVSAERStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/EventCodes.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ExtInputConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ExtInputSPIConfig.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ExtInputStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/IMUConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/IMUSPIConfig.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/IMUStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/MISCAERStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/MultiplexerConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/MultiplexerSPIConfig.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/MultiplexerStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/SystemInfoConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/SystemInfoSPIConfig.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/TimestampGenerator.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/TimestampSynchronizer.vhd" Library="not mapped"/>
   <Mappings Location="Common Libraries/STD" Library="std"/>
   <Mappings Location="" Library="work"/>
 </com.sigasi.hdt.shared.librarymapping.model:LibraryMappings>

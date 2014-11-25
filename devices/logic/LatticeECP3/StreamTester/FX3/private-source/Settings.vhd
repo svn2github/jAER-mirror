@@ -10,7 +10,7 @@ package Settings is
 
 	constant LOGIC_CLOCK_FREQ : integer := 160; -- PLL can generate between 5 and 500 MHz here.
 
-	constant USBLOGIC_FIFO_SIZE                 : integer := 64;
-	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE    : integer := USB_BURST_WRITE_LENGTH;
-	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE     : integer := 2;
+	constant USBLOGIC_FIFO_SIZE              : integer := 512;
+	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE : integer := USB_BURST_WRITE_LENGTH;
+	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE  : integer := 2;
 end Settings;

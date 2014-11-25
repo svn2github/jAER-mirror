@@ -143,6 +143,7 @@ begin
 			USBFifoAddress_DO           => USBFifoAddress_DO,
 			InFifoControl_SI            => LogicUSBFifoControlOut_S.ReadSide,
 			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide,
+			FX3Running_SO               => open,
 			FX3Config_DI                => tFX3ConfigDefault);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
