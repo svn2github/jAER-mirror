@@ -3,12 +3,13 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.ChipBiasConfigRecords.all;
 use work.DAVIS346ChipBiasConfigRecords.all;
+use work.DAVIS128ChipBiasConfigRecords.all;
 
 entity DAVIS346SPIConfig is
 	port(
 		Clock_CI                 : in  std_logic;
 		Reset_RI                 : in  std_logic;
-		BiasConfig_DO            : out tDAVIS346BiasConfig;
+		BiasConfig_DO            : out tDAVIS128BiasConfig;
 		ChipConfig_DO            : out tDAVIS346ChipConfig;
 
 		-- SPI configuration inputs and outputs.
@@ -24,7 +25,7 @@ architecture Behavioral of DAVIS346SPIConfig is
 	signal LatchBiasReg_S                     : std_logic;
 	signal BiasInput_DP, BiasInput_DN         : std_logic_vector(31 downto 0);
 	signal BiasOutput_DP, BiasOutput_DN       : std_logic_vector(31 downto 0);
-	signal BiasConfigReg_DP, BiasConfigReg_DN : tDAVIS346BiasConfig;
+	signal BiasConfigReg_DP, BiasConfigReg_DN : tDAVIS128BiasConfig;
 
 	signal LatchChipReg_S                     : std_logic;
 	signal ChipInput_DP, ChipInput_DN         : std_logic_vector(31 downto 0);
@@ -47,93 +48,93 @@ begin
 		BiasOutput_DN    <= (others => '0');
 
 		case ConfigParamAddress_DI is
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.DiffBn_D =>
-				BiasConfigReg_DN.DiffBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.DiffBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.DiffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.DiffBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.DiffBn_D =>
+				BiasConfigReg_DN.DiffBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.DiffBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.DiffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.DiffBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.OnBn_D =>
-				BiasConfigReg_DN.OnBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.OnBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.OnBn_D'length - 1 downto 0) <= BiasConfigReg_DP.OnBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.OnBn_D =>
+				BiasConfigReg_DN.OnBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.OnBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.OnBn_D'length - 1 downto 0) <= BiasConfigReg_DP.OnBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.OffBn_D =>
-				BiasConfigReg_DN.OffBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.OffBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.OffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.OffBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.OffBn_D =>
+				BiasConfigReg_DN.OffBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.OffBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.OffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.OffBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.ApsCasEpc_D =>
-				BiasConfigReg_DN.ApsCasEpc_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.ApsCasEpc_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.ApsCasEpc_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsCasEpc_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsCasEpc_D =>
+				BiasConfigReg_DN.ApsCasEpc_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsCasEpc_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.ApsCasEpc_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsCasEpc_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.DiffCasBnc_D =>
-				BiasConfigReg_DN.DiffCasBnc_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.DiffCasBnc_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.DiffCasBnc_D'length - 1 downto 0) <= BiasConfigReg_DP.DiffCasBnc_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.DiffCasBnc_D =>
+				BiasConfigReg_DN.DiffCasBnc_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.DiffCasBnc_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.DiffCasBnc_D'length - 1 downto 0) <= BiasConfigReg_DP.DiffCasBnc_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.ApsROSFBn_D =>
-				BiasConfigReg_DN.ApsROSFBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.ApsROSFBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.ApsROSFBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsROSFBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsROSFBn_D =>
+				BiasConfigReg_DN.ApsROSFBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsROSFBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.ApsROSFBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsROSFBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.LocalBufBn_D =>
-				BiasConfigReg_DN.LocalBufBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.LocalBufBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.LocalBufBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LocalBufBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.LocalBufBn_D =>
+				BiasConfigReg_DN.LocalBufBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.LocalBufBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.LocalBufBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LocalBufBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.PixInvBn_D =>
-				BiasConfigReg_DN.PixInvBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.PixInvBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.PixInvBn_D'length - 1 downto 0) <= BiasConfigReg_DP.PixInvBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.PixInvBn_D =>
+				BiasConfigReg_DN.PixInvBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.PixInvBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.PixInvBn_D'length - 1 downto 0) <= BiasConfigReg_DP.PixInvBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.PrBp_D =>
-				BiasConfigReg_DN.PrBp_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.PrBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.PrBp_D'length - 1 downto 0) <= BiasConfigReg_DP.PrBp_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.PrBp_D =>
+				BiasConfigReg_DN.PrBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.PrBp_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.PrBp_D'length - 1 downto 0) <= BiasConfigReg_DP.PrBp_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.PrSFBp_D =>
-				BiasConfigReg_DN.PrSFBp_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.PrSFBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.PrSFBp_D'length - 1 downto 0) <= BiasConfigReg_DP.PrSFBp_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.PrSFBp_D =>
+				BiasConfigReg_DN.PrSFBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.PrSFBp_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.PrSFBp_D'length - 1 downto 0) <= BiasConfigReg_DP.PrSFBp_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.RefrBp_D =>
-				BiasConfigReg_DN.RefrBp_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.RefrBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.RefrBp_D'length - 1 downto 0) <= BiasConfigReg_DP.RefrBp_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.RefrBp_D =>
+				BiasConfigReg_DN.RefrBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.RefrBp_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.RefrBp_D'length - 1 downto 0) <= BiasConfigReg_DP.RefrBp_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.AEPdBn_D =>
-				BiasConfigReg_DN.AEPdBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.AEPdBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.AEPdBn_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPdBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.AEPdBn_D =>
+				BiasConfigReg_DN.AEPdBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AEPdBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.AEPdBn_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPdBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.LcolTimeoutBn_D =>
-				BiasConfigReg_DN.LcolTimeoutBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.LcolTimeoutBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.LcolTimeoutBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LcolTimeoutBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.LcolTimeoutBn_D =>
+				BiasConfigReg_DN.LcolTimeoutBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.LcolTimeoutBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.LcolTimeoutBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LcolTimeoutBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.AEPuXBp_D =>
-				BiasConfigReg_DN.AEPuXBp_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.AEPuXBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.AEPuXBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPuXBp_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.AEPuXBp_D =>
+				BiasConfigReg_DN.AEPuXBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AEPuXBp_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.AEPuXBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPuXBp_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.AEPuYBp_D =>
-				BiasConfigReg_DN.AEPuYBp_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.AEPuYBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.AEPuYBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPuYBp_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.AEPuYBp_D =>
+				BiasConfigReg_DN.AEPuYBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AEPuYBp_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.AEPuYBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPuYBp_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.IFThrBn_D =>
-				BiasConfigReg_DN.IFThrBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.IFThrBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.IFThrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFThrBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.IFThrBn_D =>
+				BiasConfigReg_DN.IFThrBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.IFThrBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.IFThrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFThrBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.IFRefrBn_D =>
-				BiasConfigReg_DN.IFRefrBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.IFRefrBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.IFRefrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFRefrBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.IFRefrBn_D =>
+				BiasConfigReg_DN.IFRefrBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.IFRefrBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.IFRefrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFRefrBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.PadFollBn_D =>
-				BiasConfigReg_DN.PadFollBn_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.PadFollBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.PadFollBn_D'length - 1 downto 0) <= BiasConfigReg_DP.PadFollBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.PadFollBn_D =>
+				BiasConfigReg_DN.PadFollBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.PadFollBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.PadFollBn_D'length - 1 downto 0) <= BiasConfigReg_DP.PadFollBn_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.ApsOverflowLevel_D =>
-				BiasConfigReg_DN.ApsOverflowLevel_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.ApsOverflowLevel_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.ApsOverflowLevel_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsOverflowLevel_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsOverflowLevel_D =>
+				BiasConfigReg_DN.ApsOverflowLevel_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsOverflowLevel_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.ApsOverflowLevel_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsOverflowLevel_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.BiasBuffer_D =>
-				BiasConfigReg_DN.BiasBuffer_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.BiasBuffer_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.BiasBuffer_D'length - 1 downto 0) <= BiasConfigReg_DP.BiasBuffer_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.BiasBuffer_D =>
+				BiasConfigReg_DN.BiasBuffer_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.BiasBuffer_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.BiasBuffer_D'length - 1 downto 0) <= BiasConfigReg_DP.BiasBuffer_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.SSP_D =>
-				BiasConfigReg_DN.SSP_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.SSP_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.SSP_D'length - 1 downto 0) <= BiasConfigReg_DP.SSP_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.SSP_D =>
+				BiasConfigReg_DN.SSP_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.SSP_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.SSP_D'length - 1 downto 0) <= BiasConfigReg_DP.SSP_D;
 
-			when DAVIS346_BIASCONFIG_PARAM_ADDRESSES.SSN_D =>
-				BiasConfigReg_DN.SSN_D                                       <= BiasInput_DP(tDAVIS346BiasConfig.SSN_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS346BiasConfig.SSN_D'length - 1 downto 0) <= BiasConfigReg_DP.SSN_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.SSN_D =>
+				BiasConfigReg_DN.SSN_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.SSN_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.SSN_D'length - 1 downto 0) <= BiasConfigReg_DP.SSN_D;
 
 			when others => null;
 		end case;
@@ -145,7 +146,7 @@ begin
 			BiasInput_DP  <= (others => '0');
 			BiasOutput_DP <= (others => '0');
 
-			BiasConfigReg_DP <= tDAVIS346BiasConfigDefault;
+			BiasConfigReg_DP <= tDAVIS128BiasConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
 			BiasInput_DP  <= BiasInput_DN;
 			BiasOutput_DP <= BiasOutput_DN;

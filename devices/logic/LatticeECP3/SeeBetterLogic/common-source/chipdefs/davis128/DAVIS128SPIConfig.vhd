@@ -59,14 +59,6 @@ begin
 				BiasConfigReg_DN.OffBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.OffBn_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS128BiasConfig.OffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.OffBn_D;
 
-			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsCasEpc_D =>
-				BiasConfigReg_DN.ApsCasEpc_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsCasEpc_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS128BiasConfig.ApsCasEpc_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsCasEpc_D;
-
-			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.DiffCasBnc_D =>
-				BiasConfigReg_DN.DiffCasBnc_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.DiffCasBnc_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS128BiasConfig.DiffCasBnc_D'length - 1 downto 0) <= BiasConfigReg_DP.DiffCasBnc_D;
-
 			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsROSFBn_D =>
 				BiasConfigReg_DN.ApsROSFBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsROSFBn_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS128BiasConfig.ApsROSFBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsROSFBn_D;

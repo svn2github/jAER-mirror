@@ -285,34 +285,6 @@ begin
 
 				State_DN <= stPrepareSendBiasAddress;
 
-			when stAckAndLoadBias3 =>
-				-- Acknowledge this particular bias.
-				Bias3Sent_S <= '1';
-
-				-- Load shiftreg with current bias address.
-				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(3, BIASADDR_REG_LENGTH));
-				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.ApsCasEpc_D);
-				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				State_DN <= stPrepareSendBiasAddress;
-
-			when stAckAndLoadBias4 =>
-				-- Acknowledge this particular bias.
-				Bias4Sent_S <= '1';
-
-				-- Load shiftreg with current bias address.
-				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(4, BIASADDR_REG_LENGTH));
-				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.DiffCasBnc_D);
-				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				State_DN <= stPrepareSendBiasAddress;
-
 			when stAckAndLoadBias5 =>
 				-- Acknowledge this particular bias.
 				Bias5Sent_S <= '1';

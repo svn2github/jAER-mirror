@@ -7,6 +7,7 @@ use work.ShiftRegisterModes.all;
 use work.Settings.LOGIC_CLOCK_FREQ;
 use work.ChipBiasConfigRecords.all;
 use work.DAVIS346ChipBiasConfigRecords.all;
+use work.DAVIS128ChipBiasConfigRecords.all;
 
 entity DAVIS346StateMachine is
 	port(
@@ -21,7 +22,7 @@ entity DAVIS346StateMachine is
 		ChipBiasLatch_SBO      : out std_logic;
 
 		-- Configuration inputs
-		BiasConfig_DI          : in  tDAVIS346BiasConfig;
+		BiasConfig_DI          : in  tDAVIS128BiasConfig;
 		ChipConfig_DI          : in  tDAVIS346ChipConfig);
 end entity DAVIS346StateMachine;
 
@@ -103,7 +104,7 @@ architecture Behavioral of DAVIS346StateMachine is
 	signal WaitCyclesCounterData_D                             : unsigned(WAIT_CYCLES_COUNTER_SIZE - 1 downto 0);
 
 	-- Register configuration inputs.
-	signal BiasConfigReg_D : tDAVIS346BiasConfig;
+	signal BiasConfigReg_D : tDAVIS128BiasConfig;
 	signal ChipConfigReg_D : tDAVIS346ChipConfig;
 
 	-- Register all outputs.
@@ -741,7 +742,7 @@ begin
 		if Reset_RI = '1' then
 			State_DP <= stIdle;
 
-			BiasConfigReg_D <= tDAVIS346BiasConfigDefault;
+			BiasConfigReg_D <= tDAVIS128BiasConfigDefault;
 			ChipConfigReg_D <= tDAVIS346ChipConfigDefault;
 
 			ChipBiasDiagSelect_SO  <= '0';
