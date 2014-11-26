@@ -140,8 +140,6 @@ architecture Structural of TopLevel is
 	signal APSADCConfig_D      : tAPSADCConfig;
 	signal IMUConfig_D         : tIMUConfig;
 	signal ExtInputConfig_D    : tExtInputConfig;
-	signal BiasConfig_D        : tBiasConfig;
-	signal ChipConfig_D        : tChipConfig;
 	signal FX3Config_D         : tFX3Config;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
@@ -579,24 +577,15 @@ begin
 		end case;
 	end process spiConfigurationOutputSelect;
 
-	chipBiasSM : entity work.ChipBiasStateMachine
-		port map(
-			Clock_CI               => LogicClock_C,
-			Reset_RI               => LogicReset_R,
-			ChipBiasDiagSelect_SO  => ChipBiasDiagSelect_SO,
-			ChipBiasAddrSelect_SBO => ChipBiasAddrSelect_SBO,
-			ChipBiasClock_CBO      => ChipBiasClock_CBO,
-			ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
-			ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
-			BiasConfig_DI          => BiasConfig_D,
-			ChipConfig_DI          => ChipConfig_D);
-
-	chipBiasSPIConfig : entity work.ChipBiasSPIConfig
+	chipBiasSelector : entity work.ChipBiasStateMachine
 		port map(
 			Clock_CI                 => LogicClock_C,
 			Reset_RI                 => LogicReset_R,
-			BiasConfig_DO            => BiasConfig_D,
-			ChipConfig_DO            => ChipConfig_D,
+			ChipBiasDiagSelect_SO    => ChipBiasDiagSelect_SO,
+			ChipBiasAddrSelect_SBO   => ChipBiasAddrSelect_SBO,
+			ChipBiasClock_CBO        => ChipBiasClock_CBO,
+			ChipBiasBitIn_DO         => ChipBiasBitIn_DO,
+			ChipBiasLatch_SBO        => ChipBiasLatch_SBO,
 			ConfigModuleAddress_DI   => ConfigModuleAddress_D,
 			ConfigParamAddress_DI    => ConfigParamAddress_D,
 			ConfigParamInput_DI      => ConfigParamInput_D,

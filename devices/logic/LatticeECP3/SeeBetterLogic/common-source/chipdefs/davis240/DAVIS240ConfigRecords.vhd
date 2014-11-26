@@ -2,15 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
+use work.ChipBiasConfigRecords.all;
 
 package DAVIS240ChipBiasConfigRecords is
-	constant BIASADDR_REG_LENGTH : integer := 8;
-	constant BIAS_REG_LENGTH     : integer := 16;
-
-	constant BIAS_CF_LENGTH : integer := 15;
-	constant BIAS_SS_LENGTH : integer := 16;
-
-	type tBiasConfigParamAddresses is record
+	type tDAVIS240BiasConfigParamAddresses is record
 		DiffBn_D           : unsigned(7 downto 0);
 		OnBn_D             : unsigned(7 downto 0);
 		OffBn_D            : unsigned(7 downto 0);
@@ -33,9 +28,9 @@ package DAVIS240ChipBiasConfigRecords is
 		BiasBuffer_D       : unsigned(7 downto 0);
 		SSP_D              : unsigned(7 downto 0);
 		SSN_D              : unsigned(7 downto 0);
-	end record tBiasConfigParamAddresses;
+	end record tDAVIS240BiasConfigParamAddresses;
 
-	constant BIASCONFIG_PARAM_ADDRESSES : tBiasConfigParamAddresses := (
+	constant DAVIS240_BIASCONFIG_PARAM_ADDRESSES : tDAVIS240BiasConfigParamAddresses := (
 		DiffBn_D           => to_unsigned(0, 8),
 		OnBn_D             => to_unsigned(1, 8),
 		OffBn_D            => to_unsigned(2, 8),
@@ -59,7 +54,7 @@ package DAVIS240ChipBiasConfigRecords is
 		SSP_D              => to_unsigned(20, 8),
 		SSN_D              => to_unsigned(21, 8));
 
-	type tBiasConfig is record
+	type tDAVIS240BiasConfig is record
 		DiffBn_D           : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		OnBn_D             : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		OffBn_D            : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
@@ -82,9 +77,9 @@ package DAVIS240ChipBiasConfigRecords is
 		BiasBuffer_D       : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		SSP_D              : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
 		SSN_D              : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
-	end record tBiasConfig;
+	end record tDAVIS240BiasConfig;
 
-	constant tBiasConfigDefault : tBiasConfig := (
+	constant tDAVIS240BiasConfigDefault : tDAVIS240BiasConfig := (
 		DiffBn_D           => (others => '0'),
 		OnBn_D             => (others => '0'),
 		OffBn_D            => (others => '0'),
@@ -108,10 +103,7 @@ package DAVIS240ChipBiasConfigRecords is
 		SSP_D              => (others => '0'),
 		SSN_D              => (others => '0'));
 
-	constant CHIP_REG_LENGTH : integer := 56;
-	constant CHIP_MUX_LENGTH : integer := 4;
-
-	type tChipConfigParamAddresses is record
+	type tDAVIS240ChipConfigParamAddresses is record
 		DigitalMux0_D         : unsigned(7 downto 0);
 		DigitalMux1_D         : unsigned(7 downto 0);
 		DigitalMux2_D         : unsigned(7 downto 0);
@@ -127,11 +119,11 @@ package DAVIS240ChipBiasConfigRecords is
 		AERnArow_S            : unsigned(7 downto 0);
 		UseAOut_S             : unsigned(7 downto 0);
 		GlobalShutter_S       : unsigned(7 downto 0);
-	end record tChipConfigParamAddresses;
+	end record tDAVIS240ChipConfigParamAddresses;
 
 	-- Start with addresses 128 here, so that the MSB (bit 7) is always high. This heavily simplifies
 	-- the SPI configuration module, and clearly separates biases from chip diagnostic.
-	constant CHIPCONFIG_PARAM_ADDRESSES : tChipConfigParamAddresses := (
+	constant DAVIS240_CHIPCONFIG_PARAM_ADDRESSES : tDAVIS240ChipConfigParamAddresses := (
 		DigitalMux0_D         => to_unsigned(128, 8),
 		DigitalMux1_D         => to_unsigned(129, 8),
 		DigitalMux2_D         => to_unsigned(130, 8),
@@ -148,7 +140,7 @@ package DAVIS240ChipBiasConfigRecords is
 		UseAOut_S             => to_unsigned(141, 8),
 		GlobalShutter_S       => to_unsigned(142, 8));
 
-	type tChipConfig is record
+	type tDAVIS240ChipConfig is record
 		DigitalMux0_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		DigitalMux1_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		DigitalMux2_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
@@ -164,9 +156,9 @@ package DAVIS240ChipBiasConfigRecords is
 		AERnArow_S            : std_logic;
 		UseAOut_S             : std_logic;
 		GlobalShutter_S       : std_logic;
-	end record tChipConfig;
+	end record tDAVIS240ChipConfig;
 
-	constant tChipConfigDefault : tChipConfig := (
+	constant tDAVIS240ChipConfigDefault : tDAVIS240ChipConfig := (
 		DigitalMux0_D         => (others => '0'),
 		DigitalMux1_D         => (others => '0'),
 		DigitalMux2_D         => (others => '0'),

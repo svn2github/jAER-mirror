@@ -2,16 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
+use work.ChipBiasConfigRecords.all;
 
 package DAVISrgbChipBiasConfigRecords is
-	constant BIASADDR_REG_LENGTH : integer := 8;
-	constant BIAS_REG_LENGTH     : integer := 16;
-
-	constant BIAS_VD_LENGTH : integer := 6;
-	constant BIAS_CF_LENGTH : integer := 15;
-	constant BIAS_SS_LENGTH : integer := 16;
-
-	type tBiasConfigParamAddresses is record
+	type tDAVISrgbBiasConfigParamAddresses is record
 		ApsCasBpc_D          : unsigned(7 downto 0);
 		OVG1Lo_D             : unsigned(7 downto 0);
 		OVG2Lo_D             : unsigned(7 downto 0);
@@ -49,9 +43,9 @@ package DAVISrgbChipBiasConfigRecords is
 		BiasBuffer_D         : unsigned(7 downto 0);
 		SSP_D                : unsigned(7 downto 0);
 		SSN_D                : unsigned(7 downto 0);
-	end record tBiasConfigParamAddresses;
+	end record tDAVISrgbBiasConfigParamAddresses;
 
-	constant BIASCONFIG_PARAM_ADDRESSES : tBiasConfigParamAddresses := (
+	constant DAVISRGB_BIASCONFIG_PARAM_ADDRESSES : tDAVISrgbBiasConfigParamAddresses := (
 		ApsCasBpc_D          => to_unsigned(0, 8),
 		OVG1Lo_D             => to_unsigned(1, 8),
 		OVG2Lo_D             => to_unsigned(2, 8),
@@ -90,7 +84,7 @@ package DAVISrgbChipBiasConfigRecords is
 		SSP_D                => to_unsigned(35, 8),
 		SSN_D                => to_unsigned(36, 8));
 
-	type tBiasConfig is record
+	type tDAVISrgbBiasConfig is record
 		ApsCasBpc_D          : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
 		OVG1Lo_D             : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
 		OVG2Lo_D             : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
@@ -128,9 +122,9 @@ package DAVISrgbChipBiasConfigRecords is
 		BiasBuffer_D         : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
 		SSP_D                : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
 		SSN_D                : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
-	end record tBiasConfig;
+	end record tDAVISrgbBiasConfig;
 
-	constant tBiasConfigDefault : tBiasConfig := (
+	constant tDAVISrgbBiasConfigDefault : tDAVISrgbBiasConfig := (
 		ApsCasBpc_D          => (others => '0'),
 		OVG1Lo_D             => (others => '0'),
 		OVG2Lo_D             => (others => '0'),
@@ -169,10 +163,7 @@ package DAVISrgbChipBiasConfigRecords is
 		SSP_D                => (others => '0'),
 		SSN_D                => (others => '0'));
 
-	constant CHIP_REG_LENGTH : integer := 56;
-	constant CHIP_MUX_LENGTH : integer := 4;
-
-	type tChipConfigParamAddresses is record
+	type tDAVISrgbChipConfigParamAddresses is record
 		DigitalMux0_D       : unsigned(7 downto 0);
 		DigitalMux1_D       : unsigned(7 downto 0);
 		DigitalMux2_D       : unsigned(7 downto 0);
@@ -191,11 +182,11 @@ package DAVISrgbChipBiasConfigRecords is
 		AdjOVG1Lo_S         : unsigned(7 downto 0);
 		AdjOVG2Lo_S         : unsigned(7 downto 0);
 		AdjTX2OVG2Hi_S      : unsigned(7 downto 0);
-	end record tChipConfigParamAddresses;
+	end record tDAVISrgbChipConfigParamAddresses;
 
 	-- Start with addresses 128 here, so that the MSB (bit 7) is always high. This heavily simplifies
 	-- the SPI configuration module, and clearly separates biases from chip diagnostic.
-	constant CHIPCONFIG_PARAM_ADDRESSES : tChipConfigParamAddresses := (
+	constant DAVISRGB_CHIPCONFIG_PARAM_ADDRESSES : tDAVISrgbChipConfigParamAddresses := (
 		DigitalMux0_D       => to_unsigned(128, 8),
 		DigitalMux1_D       => to_unsigned(129, 8),
 		DigitalMux2_D       => to_unsigned(130, 8),
@@ -215,7 +206,7 @@ package DAVISrgbChipBiasConfigRecords is
 		AdjOVG2Lo_S         => to_unsigned(146, 8),
 		AdjTX2OVG2Hi_S      => to_unsigned(147, 8));
 
-	type tChipConfig is record
+	type tDAVISrgbChipConfig is record
 		DigitalMux0_D       : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		DigitalMux1_D       : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		DigitalMux2_D       : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
@@ -234,9 +225,9 @@ package DAVISrgbChipBiasConfigRecords is
 		AdjOVG1Lo_S         : std_logic;
 		AdjOVG2Lo_S         : std_logic;
 		AdjTX2OVG2Hi_S      : std_logic;
-	end record tChipConfig;
+	end record tDAVISrgbChipConfig;
 
-	constant tChipConfigDefault : tChipConfig := (
+	constant tDAVISrgbChipConfigDefault : tDAVISrgbChipConfig := (
 		DigitalMux0_D       => (others => '0'),
 		DigitalMux1_D       => (others => '0'),
 		DigitalMux2_D       => (others => '0'),

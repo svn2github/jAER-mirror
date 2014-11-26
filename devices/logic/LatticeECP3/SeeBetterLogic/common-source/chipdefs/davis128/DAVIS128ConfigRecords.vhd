@@ -2,16 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
+use work.ChipBiasConfigRecords.all;
 
 package DAVIS128ChipBiasConfigRecords is
-	constant BIASADDR_REG_LENGTH : integer := 8;
-	constant BIAS_REG_LENGTH     : integer := 16;
-
-	constant BIAS_VD_LENGTH : integer := 6;
-	constant BIAS_CF_LENGTH : integer := 15;
-	constant BIAS_SS_LENGTH : integer := 16;
-
-	type tBiasConfigParamAddresses is record
+	type tDAVIS128BiasConfigParamAddresses is record
 		ApsOverflowLevel_D : unsigned(7 downto 0);
 		ApsCas_D           : unsigned(7 downto 0);
 		AdcRefHigh_D       : unsigned(7 downto 0);
@@ -40,9 +34,9 @@ package DAVIS128ChipBiasConfigRecords is
 		BiasBuffer_D       : unsigned(7 downto 0);
 		SSP_D              : unsigned(7 downto 0);
 		SSN_D              : unsigned(7 downto 0);
-	end record tBiasConfigParamAddresses;
+	end record tDAVIS128BiasConfigParamAddresses;
 
-	constant BIASCONFIG_PARAM_ADDRESSES : tBiasConfigParamAddresses := (
+	constant DAVIS128_BIASCONFIG_PARAM_ADDRESSES : tDAVIS128BiasConfigParamAddresses := (
 		ApsOverflowLevel_D => to_unsigned(0, 8),
 		ApsCas_D           => to_unsigned(1, 8),
 		AdcRefHigh_D       => to_unsigned(2, 8),
@@ -72,7 +66,7 @@ package DAVIS128ChipBiasConfigRecords is
 		SSP_D              => to_unsigned(35, 8),
 		SSN_D              => to_unsigned(36, 8));
 
-	type tBiasConfig is record
+	type tDAVIS128BiasConfig is record
 		ApsOverflowLevel_D : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
 		ApsCas_D           : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
 		AdcRefHigh_D       : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
@@ -101,9 +95,9 @@ package DAVIS128ChipBiasConfigRecords is
 		BiasBuffer_D       : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		SSP_D              : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
 		SSN_D              : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
-	end record tBiasConfig;
+	end record tDAVIS128BiasConfig;
 
-	constant tBiasConfigDefault : tBiasConfig := (
+	constant tDAVIS128BiasConfigDefault : tDAVIS128BiasConfig := (
 		ApsOverflowLevel_D => (others => '0'),
 		ApsCas_D           => (others => '0'),
 		AdcRefHigh_D       => (others => '0'),
@@ -133,10 +127,7 @@ package DAVIS128ChipBiasConfigRecords is
 		SSP_D              => (others => '0'),
 		SSN_D              => (others => '0'));
 
-	constant CHIP_REG_LENGTH : integer := 56;
-	constant CHIP_MUX_LENGTH : integer := 4;
-
-	type tChipConfigParamAddresses is record
+	type tDAVIS128ChipConfigParamAddresses is record
 		DigitalMux0_D         : unsigned(7 downto 0);
 		DigitalMux1_D         : unsigned(7 downto 0);
 		DigitalMux2_D         : unsigned(7 downto 0);
@@ -153,11 +144,11 @@ package DAVIS128ChipBiasConfigRecords is
 		UseAOut_S             : unsigned(7 downto 0);
 		GlobalShutter_S       : unsigned(7 downto 0);
 		SelectGrayCounter_S   : unsigned(7 downto 0);
-	end record tChipConfigParamAddresses;
+	end record tDAVIS128ChipConfigParamAddresses;
 
 	-- Start with addresses 128 here, so that the MSB (bit 7) is always high. This heavily simplifies
 	-- the SPI configuration module, and clearly separates biases from chip diagnostic.
-	constant CHIPCONFIG_PARAM_ADDRESSES : tChipConfigParamAddresses := (
+	constant DAVIS128_CHIPCONFIG_PARAM_ADDRESSES : tDAVIS128ChipConfigParamAddresses := (
 		DigitalMux0_D         => to_unsigned(128, 8),
 		DigitalMux1_D         => to_unsigned(129, 8),
 		DigitalMux2_D         => to_unsigned(130, 8),
@@ -175,7 +166,7 @@ package DAVIS128ChipBiasConfigRecords is
 		GlobalShutter_S       => to_unsigned(142, 8),
 		SelectGrayCounter_S   => to_unsigned(143, 8));
 
-	type tChipConfig is record
+	type tDAVIS128ChipConfig is record
 		DigitalMux0_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		DigitalMux1_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		DigitalMux2_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
@@ -192,9 +183,9 @@ package DAVIS128ChipBiasConfigRecords is
 		UseAOut_S             : std_logic;
 		GlobalShutter_S       : std_logic;
 		SelectGrayCounter_S   : std_logic;
-	end record tChipConfig;
+	end record tDAVIS128ChipConfig;
 
-	constant tChipConfigDefault : tChipConfig := (
+	constant tDAVIS128ChipConfigDefault : tDAVIS128ChipConfig := (
 		DigitalMux0_D         => (others => '0'),
 		DigitalMux1_D         => (others => '0'),
 		DigitalMux2_D         => (others => '0'),

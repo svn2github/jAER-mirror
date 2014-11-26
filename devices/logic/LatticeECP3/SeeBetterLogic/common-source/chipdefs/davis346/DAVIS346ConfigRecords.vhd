@@ -2,12 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
+use work.ChipBiasConfigRecords.all;
 
 package DAVIS346ChipBiasConfigRecords is
-	constant CHIP_REG_LENGTH : integer := 56;
-	constant CHIP_MUX_LENGTH : integer := 4;
-
-	type tChipConfigParamAddresses is record
+	type tDAVIS346ChipConfigParamAddresses is record
 		DigitalMux0_D       : unsigned(7 downto 0);
 		DigitalMux1_D       : unsigned(7 downto 0);
 		DigitalMux2_D       : unsigned(7 downto 0);
@@ -24,11 +22,11 @@ package DAVIS346ChipBiasConfigRecords is
 		GlobalShutter_S     : unsigned(7 downto 0);
 		SelectGrayCounter_S : unsigned(7 downto 0);
 		TestADC_S           : unsigned(7 downto 0);
-	end record tChipConfigParamAddresses;
+	end record tDAVIS346ChipConfigParamAddresses;
 
 	-- Start with addresses 128 here, so that the MSB (bit 7) is always high. This heavily simplifies
 	-- the SPI configuration module, and clearly separates biases from chip diagnostic.
-	constant CHIPCONFIG_PARAM_ADDRESSES : tChipConfigParamAddresses := (
+	constant DAVIS346_CHIPCONFIG_PARAM_ADDRESSES : tDAVIS346ChipConfigParamAddresses := (
 		DigitalMux0_D       => to_unsigned(128, 8),
 		DigitalMux1_D       => to_unsigned(129, 8),
 		DigitalMux2_D       => to_unsigned(130, 8),
@@ -46,7 +44,7 @@ package DAVIS346ChipBiasConfigRecords is
 		SelectGrayCounter_S => to_unsigned(143, 8),
 		TestADC_S           => to_unsigned(144, 8));
 
-	type tChipConfig is record
+	type tDAVIS346ChipConfig is record
 		DigitalMux0_D       : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		DigitalMux1_D       : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		DigitalMux2_D       : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
@@ -63,9 +61,9 @@ package DAVIS346ChipBiasConfigRecords is
 		GlobalShutter_S     : std_logic;
 		SelectGrayCounter_S : std_logic;
 		TestADC_S           : std_logic;
-	end record tChipConfig;
+	end record tDAVIS346ChipConfig;
 
-	constant tChipConfigDefault : tChipConfig := (
+	constant tDAVIS346ChipConfigDefault : tDAVIS346ChipConfig := (
 		DigitalMux0_D       => (others => '0'),
 		DigitalMux1_D       => (others => '0'),
 		DigitalMux2_D       => (others => '0'),
