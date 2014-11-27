@@ -63,6 +63,9 @@ package DAVIS346ChipBiasConfigRecords is
 		TestADC_S           : std_logic;
 	end record tDAVIS346ChipConfig;
 
+	-- Effectively used bits in chip register.
+	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 8;
+
 	constant tDAVIS346ChipConfigDefault : tDAVIS346ChipConfig := (
 		DigitalMux0_D       => (others => '0'),
 		DigitalMux1_D       => (others => '0'),

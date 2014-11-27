@@ -227,6 +227,9 @@ package DAVISrgbChipBiasConfigRecords is
 		AdjTX2OVG2Hi_S      : std_logic;
 	end record tDAVISrgbChipConfig;
 
+	-- Effectively used bits in chip register.
+	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 10;
+
 	constant tDAVISrgbChipConfigDefault : tDAVISrgbChipConfig := (
 		DigitalMux0_D       => (others => '0'),
 		DigitalMux1_D       => (others => '0'),

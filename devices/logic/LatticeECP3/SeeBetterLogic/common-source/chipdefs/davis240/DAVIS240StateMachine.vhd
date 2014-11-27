@@ -53,9 +53,6 @@ architecture Behavioral of DAVIS240StateMachine is
 	-- Counts number of sent bits. Biggest value is 56 bits of chip SR, so 6 bits are enough.
 	constant SENT_BITS_COUNTER_SIZE : integer := 6;
 
-	-- Effectively used bits in chip register.
-	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 7;
-
 	-- Chip changes and acknowledges.
 	signal ChipChangedInput_D        : std_logic_vector(CHIP_REG_USED_SIZE - 1 downto 0);
 	signal ChipChanged_S, ChipSent_S : std_logic;
@@ -118,7 +115,7 @@ architecture Behavioral of DAVIS240StateMachine is
 		return not CFBIAS(12) & not CFBIAS(13) & not CFBIAS(14) & CFBIAS(11 downto 0);
 	end function CoarseBiasFixBits;
 begin
-	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, Bias0Changed_S, Bias10Changed_S, Bias11Changed_S, Bias12Changed_S, Bias13Changed_S, Bias14Changed_S, Bias15Changed_S, Bias16Changed_S, Bias17Changed_S, Bias18Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias2Changed_S, Bias3Changed_S, Bias4Changed_S, Bias5Changed_S, Bias6Changed_S, Bias7Changed_S, Bias8Changed_S, Bias9Changed_S, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D)
+	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D, Bias0Changed_S, Bias10Changed_S, Bias11Changed_S, Bias12Changed_S, Bias13Changed_S, Bias14Changed_S, Bias15Changed_S, Bias16Changed_S, Bias17Changed_S, Bias18Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias2Changed_S, Bias3Changed_S, Bias4Changed_S, Bias5Changed_S, Bias6Changed_S, Bias7Changed_S, Bias8Changed_S, Bias9Changed_S)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;

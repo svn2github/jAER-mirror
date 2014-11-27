@@ -3,7 +3,9 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.ChipBiasConfigRecords.all;
 use work.DAVIS346ChipBiasConfigRecords.all;
-use work.DAVIS128ChipBiasConfigRecords.all;
+use work.DAVIS128ChipBiasConfigRecords.DAVIS128_BIASCONFIG_PARAM_ADDRESSES;
+use work.DAVIS128ChipBiasConfigRecords.tDAVIS128BiasConfigDefault;
+use work.DAVIS128ChipBiasConfigRecords.tDAVIS128BiasConfig;
 
 entity DAVIS346SPIConfig is
 	port(
@@ -48,6 +50,34 @@ begin
 		BiasOutput_DN    <= (others => '0');
 
 		case ConfigParamAddress_DI is
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsOverflowLevel_D =>
+				BiasConfigReg_DN.ApsOverflowLevel_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsOverflowLevel_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.ApsOverflowLevel_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsOverflowLevel_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsCas_D =>
+				BiasConfigReg_DN.ApsCas_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsCas_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.ApsCas_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsCas_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.AdcRefHigh_D =>
+				BiasConfigReg_DN.AdcRefHigh_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AdcRefHigh_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.AdcRefHigh_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcRefHigh_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.AdcRefLow_D =>
+				BiasConfigReg_DN.AdcRefLow_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AdcRefLow_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.AdcRefLow_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcRefLow_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.AdcTestVoltage_D =>
+				BiasConfigReg_DN.AdcTestVoltage_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AdcTestVoltage_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.AdcTestVoltage_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcTestVoltage_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.LocalBufBn_D =>
+				BiasConfigReg_DN.LocalBufBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.LocalBufBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.LocalBufBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LocalBufBn_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.PadFollBn_D =>
+				BiasConfigReg_DN.PadFollBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.PadFollBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.PadFollBn_D'length - 1 downto 0) <= BiasConfigReg_DP.PadFollBn_D;
+
 			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.DiffBn_D =>
 				BiasConfigReg_DN.DiffBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.DiffBn_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS128BiasConfig.DiffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.DiffBn_D;
@@ -59,22 +89,6 @@ begin
 			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.OffBn_D =>
 				BiasConfigReg_DN.OffBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.OffBn_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS128BiasConfig.OffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.OffBn_D;
-
-			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsCasEpc_D =>
-				BiasConfigReg_DN.ApsCasEpc_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsCasEpc_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS128BiasConfig.ApsCasEpc_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsCasEpc_D;
-
-			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.DiffCasBnc_D =>
-				BiasConfigReg_DN.DiffCasBnc_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.DiffCasBnc_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS128BiasConfig.DiffCasBnc_D'length - 1 downto 0) <= BiasConfigReg_DP.DiffCasBnc_D;
-
-			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsROSFBn_D =>
-				BiasConfigReg_DN.ApsROSFBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsROSFBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS128BiasConfig.ApsROSFBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsROSFBn_D;
-
-			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.LocalBufBn_D =>
-				BiasConfigReg_DN.LocalBufBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.LocalBufBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS128BiasConfig.LocalBufBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LocalBufBn_D;
 
 			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.PixInvBn_D =>
 				BiasConfigReg_DN.PixInvBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.PixInvBn_D'length - 1 downto 0);
@@ -92,13 +106,33 @@ begin
 				BiasConfigReg_DN.RefrBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.RefrBp_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS128BiasConfig.RefrBp_D'length - 1 downto 0) <= BiasConfigReg_DP.RefrBp_D;
 
-			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.AEPdBn_D =>
-				BiasConfigReg_DN.AEPdBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AEPdBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS128BiasConfig.AEPdBn_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPdBn_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ReadoutBufBp_D =>
+				BiasConfigReg_DN.ReadoutBufBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ReadoutBufBp_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.ReadoutBufBp_D'length - 1 downto 0) <= BiasConfigReg_DP.ReadoutBufBp_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsROSFBn_D =>
+				BiasConfigReg_DN.ApsROSFBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsROSFBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.ApsROSFBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsROSFBn_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.AdcCompBp_D =>
+				BiasConfigReg_DN.AdcCompBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AdcCompBp_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.AdcCompBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcCompBp_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ColSelLowBn_D =>
+				BiasConfigReg_DN.ColSelLowBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ColSelLowBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.ColSelLowBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ColSelLowBn_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.DACBufBp_D =>
+				BiasConfigReg_DN.DACBufBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.DACBufBp_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.DACBufBp_D'length - 1 downto 0) <= BiasConfigReg_DP.DACBufBp_D;
 
 			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.LcolTimeoutBn_D =>
 				BiasConfigReg_DN.LcolTimeoutBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.LcolTimeoutBn_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS128BiasConfig.LcolTimeoutBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LcolTimeoutBn_D;
+
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.AEPdBn_D =>
+				BiasConfigReg_DN.AEPdBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AEPdBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.AEPdBn_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPdBn_D;
 
 			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.AEPuXBp_D =>
 				BiasConfigReg_DN.AEPuXBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AEPuXBp_D'length - 1 downto 0);
@@ -108,21 +142,13 @@ begin
 				BiasConfigReg_DN.AEPuYBp_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.AEPuYBp_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS128BiasConfig.AEPuYBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPuYBp_D;
 
-			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.IFThrBn_D =>
-				BiasConfigReg_DN.IFThrBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.IFThrBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS128BiasConfig.IFThrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFThrBn_D;
-
 			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.IFRefrBn_D =>
 				BiasConfigReg_DN.IFRefrBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.IFRefrBn_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS128BiasConfig.IFRefrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFRefrBn_D;
 
-			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.PadFollBn_D =>
-				BiasConfigReg_DN.PadFollBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.PadFollBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS128BiasConfig.PadFollBn_D'length - 1 downto 0) <= BiasConfigReg_DP.PadFollBn_D;
-
-			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.ApsOverflowLevel_D =>
-				BiasConfigReg_DN.ApsOverflowLevel_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.ApsOverflowLevel_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVIS128BiasConfig.ApsOverflowLevel_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsOverflowLevel_D;
+			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.IFThrBn_D =>
+				BiasConfigReg_DN.IFThrBn_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.IFThrBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS128BiasConfig.IFThrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFThrBn_D;
 
 			when DAVIS128_BIASCONFIG_PARAM_ADDRESSES.BiasBuffer_D =>
 				BiasConfigReg_DN.BiasBuffer_D                                       <= BiasInput_DP(tDAVIS128BiasConfig.BiasBuffer_D'length - 1 downto 0);
@@ -208,10 +234,6 @@ begin
 				ChipConfigReg_DN.ResetTestPixel_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)                  <= ChipConfigReg_DP.ResetTestPixel_S;
 
-			when DAVIS346_CHIPCONFIG_PARAM_ADDRESSES.HotPixelSuppression_S =>
-				ChipConfigReg_DN.HotPixelSuppression_S <= ChipInput_DP(0);
-				ChipOutput_DN(0)                       <= ChipConfigReg_DP.HotPixelSuppression_S;
-
 			when DAVIS346_CHIPCONFIG_PARAM_ADDRESSES.AERnArow_S =>
 				ChipConfigReg_DN.AERnArow_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)            <= ChipConfigReg_DP.AERnArow_S;
@@ -223,6 +245,10 @@ begin
 			when DAVIS346_CHIPCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
 				ChipConfigReg_DN.GlobalShutter_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)                 <= ChipConfigReg_DP.GlobalShutter_S;
+
+			when DAVIS346_CHIPCONFIG_PARAM_ADDRESSES.SelectGrayCounter_S =>
+				ChipConfigReg_DN.SelectGrayCounter_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)                     <= ChipConfigReg_DP.SelectGrayCounter_S;
 
 			when others => null;
 		end case;

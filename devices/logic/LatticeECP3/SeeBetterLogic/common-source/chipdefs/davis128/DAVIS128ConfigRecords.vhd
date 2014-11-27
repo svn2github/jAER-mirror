@@ -185,6 +185,9 @@ package DAVIS128ChipBiasConfigRecords is
 		SelectGrayCounter_S   : std_logic;
 	end record tDAVIS128ChipConfig;
 
+	-- Effectively used bits in chip register.
+	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 8;
+
 	constant tDAVIS128ChipConfigDefault : tDAVIS128ChipConfig := (
 		DigitalMux0_D         => (others => '0'),
 		DigitalMux1_D         => (others => '0'),
