@@ -250,6 +250,10 @@ begin
 				ChipConfigReg_DN.SelectGrayCounter_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)                     <= ChipConfigReg_DP.SelectGrayCounter_S;
 
+			when DAVIS346_CHIPCONFIG_PARAM_ADDRESSES.TestADC_S =>
+				ChipConfigReg_DN.TestADC_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)           <= ChipConfigReg_DP.TestADC_S;
+
 			when others => null;
 		end case;
 	end process chipIO;
