@@ -119,7 +119,7 @@ package DAVISrgbChipBiasConfigRecords is
 		AEPdBn_D             : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		AEPuXBp_D            : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		AEPuYBp_D            : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
-		BiasBuffer_D         : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
+		BiasBuffer_D         : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		SSP_D                : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
 		SSN_D                : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
 	end record tDAVISrgbBiasConfig;
