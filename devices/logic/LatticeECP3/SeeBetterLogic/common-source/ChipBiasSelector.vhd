@@ -8,7 +8,7 @@ use work.DAVIS240ChipBiasConfigRecords.all;
 use work.DAVIS346ChipBiasConfigRecords.all;
 use work.DAVISrgbChipBiasConfigRecords.all;
 
-entity ChipBiasStateMachine is
+entity ChipBiasSelector is
 	port(
 		Clock_CI                 : in  std_logic;
 		Reset_RI                 : in  std_logic;
@@ -27,9 +27,9 @@ entity ChipBiasStateMachine is
 		ConfigLatchInput_SI      : in  std_logic;
 		BiasConfigParamOutput_DO : out std_logic_vector(31 downto 0);
 		ChipConfigParamOutput_DO : out std_logic_vector(31 downto 0));
-end entity ChipBiasStateMachine;
+end entity ChipBiasSelector;
 
-architecture Structural of ChipBiasStateMachine is
+architecture Structural of ChipBiasSelector is
 	signal DAVIS128BiasConfig_D : tDAVIS128BiasConfig;
 	signal DAVIS128ChipConfig_D : tDAVIS128ChipConfig;
 	signal DAVIS240BiasConfig_D : tDAVIS240BiasConfig;

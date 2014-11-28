@@ -138,7 +138,7 @@
         <Source name="../common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/ChipBiasStateMachine.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/ChipBiasSelector.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/ChipBiasConfigRecords.vhd" type="VHDL" type_short="VHDL">

@@ -577,7 +577,7 @@ begin
 		end case;
 	end process spiConfigurationOutputSelect;
 
-	chipBiasSelector : entity work.ChipBiasStateMachine
+	chipBiasSelector : entity work.ChipBiasSelector
 		port map(
 			Clock_CI                 => LogicClock_C,
 			Reset_RI                 => LogicReset_R,
