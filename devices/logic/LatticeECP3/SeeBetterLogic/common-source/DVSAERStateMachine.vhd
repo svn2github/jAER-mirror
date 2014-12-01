@@ -40,6 +40,9 @@ architecture Behavioral of DVSAERStateMachine is
 	-- ACK extension counter (prolongs dAckDOWN)
 	signal AckExtensionCount_S, AckExtensionNotify_S : std_logic;
 
+	-- Remember if last address was a Y address to filter out row-only events.
+	signal LastAddressWasY_DP, LastAddressWasY_DN : std_logic;
+
 	-- Pad address output with zeros.
 	constant ADDR_OUT_ZERO_PAD : std_logic_vector(EVENT_DATA_WIDTH_MAX - DVS_AER_BUS_WIDTH + 1 downto 0) := (others => '0');
 
@@ -52,6 +55,7 @@ architecture Behavioral of DVSAERStateMachine is
 	signal DVSAERAckReg_SB   : std_logic;
 	signal DVSAERResetReg_SB : std_logic;
 
+	-- Register configuration input.
 	signal DVSAERConfigReg_D : tDVSAERConfig;
 begin
 	ackDelayCounter : entity work.ContinuousCounter
@@ -78,9 +82,11 @@ begin
 			Overflow_SO  => AckExtensionNotify_S,
 			Data_DO      => open);
 
-	p_memoryless : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, AckDelayNotify_S, AckExtensionNotify_S, DVSAERConfigReg_D)
+	p_memoryless : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, AckDelayNotify_S, AckExtensionNotify_S, LastAddressWasY_DP, DVSAERConfigReg_D)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
+
+		LastAddressWasY_DN <= LastAddressWasY_DP;
 
 		OutFifoWriteReg_S      <= '0';
 		OutFifoDataRegEnable_S <= '0';
@@ -134,6 +140,13 @@ begin
 				else
 					-- This is an X address.
 					State_DN <= stHandleX;
+
+					-- If we don't want row-only events, the Y address has not yet been sent, and
+					-- was waiting on an X address to follow. This is the case now, so we can tell
+					-- the output FIFO to take that Y address and forward it.
+					if LastAddressWasY_DP = '1' and DVSAERConfigReg_D.SendRowOnlyEvents_S = '0' then
+						OutFifoWriteReg_S <= '1';
+					end if;
 				end if;
 
 			when stHandleY =>
@@ -145,7 +158,12 @@ begin
 						OutFifoDataReg_D <= EVENT_CODE_Y_ADDR & ADDR_OUT_ZERO_PAD & DVSAERData_DI(DVS_AER_BUS_WIDTH - 3 downto 0);
 					end if;
 					OutFifoDataRegEnable_S <= '1';
-					OutFifoWriteReg_S      <= '1';
+					OutFifoWriteReg_S      <= DVSAERConfigReg_D.SendRowOnlyEvents_S;
+					-- If row-only events are to be sent, then we send all Y addresses right away.
+					-- If not, we wait until there is an X address to send them on.
+
+					-- This is an Y address!
+					LastAddressWasY_DN <= '1';
 
 					DVSAERAckReg_SB     <= '0';
 					State_DN            <= stAckY;
@@ -178,6 +196,9 @@ begin
 				OutFifoDataRegEnable_S <= '1';
 				OutFifoWriteReg_S      <= '1';
 
+				-- This is an X address!
+				LastAddressWasY_DN <= '0';
+
 				DVSAERAckReg_SB <= '0';
 				State_DN        <= stAckX;
 
@@ -209,6 +230,8 @@ begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
 
+			LastAddressWasY_DP <= '0';
+
 			OutFifoControl_SO.Write_S <= '0';
 
 			DVSAERAck_SBO   <= '1';
@@ -217,6 +240,8 @@ begin
 			DVSAERConfigReg_D <= tDVSAERConfigDefault;
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
+
+			LastAddressWasY_DP <= LastAddressWasY_DN;
 
 			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
 

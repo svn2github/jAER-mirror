@@ -51,6 +51,10 @@ begin
 				DVSAERConfigReg_DN.WaitOnTransferStall_S <= DVSAERInput_DP(0);
 				DVSAEROutput_DN(0)                       <= DVSAERConfigReg_DP.WaitOnTransferStall_S;
 
+			when DVSAERCONFIG_PARAM_ADDRESSES.SendRowOnlyEvents_S =>
+				DVSAERConfigReg_DN.SendRowOnlyEvents_S <= DVSAERInput_DP(0);
+				DVSAEROutput_DN(0)                     <= DVSAERConfigReg_DP.SendRowOnlyEvents_S;
+
 			when others => null;
 		end case;
 	end process dvsaerIO;
