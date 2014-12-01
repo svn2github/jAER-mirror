@@ -8,7 +8,7 @@ package ChipBiasConfigRecords is
 	constant BIASADDR_REG_LENGTH : integer := 8;
 	constant BIAS_REG_LENGTH     : integer := 16;
 
-	constant BIAS_VD_LENGTH : integer := 6;
+	constant BIAS_VD_LENGTH : integer := 9;
 	constant BIAS_CF_LENGTH : integer := 15;
 	constant BIAS_SS_LENGTH : integer := 16;
 

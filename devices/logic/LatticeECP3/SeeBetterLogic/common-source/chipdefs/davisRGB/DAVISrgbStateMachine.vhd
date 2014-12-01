@@ -124,10 +124,15 @@ architecture Behavioral of DAVISrgbStateMachine is
 	signal ChipBiasBitInReg_D       : std_logic;
 	signal ChipBiasLatchReg_SB      : std_logic;
 
-	function CoarseBiasFixBits(CFBIAS : in std_logic_vector(BIAS_CF_LENGTH - 1 downto 0)) return std_logic_vector is
+	function BiasGenerateCoarseFine(CFBIAS : in std_logic_vector(BIAS_CF_LENGTH - 1 downto 0)) return std_logic_vector is
 	begin
-		return not CFBIAS(12) & not CFBIAS(13) & not CFBIAS(14) & CFBIAS(11 downto 0);
-	end function CoarseBiasFixBits;
+		return '0' & not CFBIAS(12) & not CFBIAS(13) & not CFBIAS(14) & CFBIAS(11 downto 0);
+	end function BiasGenerateCoarseFine;
+
+	function BiasGenerateVDAC(VDBIAS : in std_logic_vector(BIAS_VD_LENGTH - 1 downto 0)) return std_logic_vector is
+	begin
+		return '0' & not VDBIAS(6) & not VDBIAS(7) & not VDBIAS(8) & "000000" & VDBIAS(5 downto 0);
+	end function BiasGenerateVDAC;
 begin
 	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D, Bias0Changed_S, Bias10Changed_S, Bias11Changed_S, Bias12Changed_S, Bias13Changed_S, Bias14Changed_S, Bias15Changed_S, Bias16Changed_S, Bias17Changed_S, Bias18Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias22Changed_S, Bias23Changed_S, Bias24Changed_S, Bias25Changed_S, Bias26Changed_S, Bias27Changed_S, Bias28Changed_S, Bias29Changed_S, Bias2Changed_S, Bias30Changed_S, Bias31Changed_S, Bias32Changed_S, Bias33Changed_S, Bias34Changed_S, Bias35Changed_S, Bias36Changed_S, Bias3Changed_S, Bias4Changed_S, Bias5Changed_S, Bias6Changed_S, Bias7Changed_S, Bias8Changed_S, Bias9Changed_S)
 	begin
@@ -323,7 +328,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= "0000000000" & BiasConfigReg_D.ApsCasBpc_D;
+				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.ApsCasBpc_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -337,7 +342,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= "0000000000" & BiasConfigReg_D.OVG1Lo_D;
+				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.OVG1Lo_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -351,7 +356,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= "0000000000" & BiasConfigReg_D.OVG2Lo_D;
+				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.OVG2Lo_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -365,7 +370,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= "0000000000" & BiasConfigReg_D.TX2OVG2Hi_D;
+				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.TX2OVG2Hi_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -379,7 +384,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= "0000000000" & BiasConfigReg_D.Gnd07_D;
+				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.Gnd07_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -393,7 +398,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= "0000000000" & BiasConfigReg_D.vADCTest_D;
+				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.vADCTest_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -407,7 +412,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= "0000000000" & BiasConfigReg_D.AdcRefHigh_D;
+				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.AdcRefHigh_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -421,7 +426,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= "0000000000" & BiasConfigReg_D.AdcRefLow_D;
+				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.AdcRefLow_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -435,7 +440,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.IFRefrBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.IFRefrBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -449,7 +454,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.IFThrBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.IFThrBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -463,7 +468,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.LocalBufBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.LocalBufBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -477,7 +482,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.PadFollBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.PadFollBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -491,7 +496,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.Blk1N_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.Blk1N_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -505,7 +510,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.PixInvBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.PixInvBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -519,7 +524,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.DiffBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.DiffBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -533,7 +538,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.OnBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.OnBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -547,7 +552,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.OffBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.OffBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -561,7 +566,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.PrBp_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.PrBp_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -575,7 +580,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.PrSFBp_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.PrSFBp_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -589,7 +594,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.RefrBp_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.RefrBp_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -603,7 +608,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.ArrayBiasBufferBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.ArrayBiasBufferBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -617,7 +622,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.Blk1P_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.Blk1P_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -631,7 +636,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.ArrayLogicBufferBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.ArrayLogicBufferBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -645,7 +650,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.FalltimeBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.FalltimeBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -659,7 +664,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.RisetimeBp_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.RisetimeBp_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -673,7 +678,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.ReadoutBufBp_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.ReadoutBufBp_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -687,7 +692,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.ApsROSFBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.ApsROSFBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -701,7 +706,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.AdcCompBp_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.AdcCompBp_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -715,7 +720,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.DACBufBp_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.DACBufBp_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -729,7 +734,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.DACBufBp_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.DACBufBp_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -743,7 +748,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.LcolTimeoutBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.LcolTimeoutBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -757,7 +762,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.AEPdBn_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.AEPdBn_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -771,7 +776,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.AEPuXBp_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.AEPuXBp_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -785,7 +790,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.AEPuYBp_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.AEPuYBp_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -799,7 +804,7 @@ begin
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.BiasBuffer_D);
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.BiasBuffer_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
