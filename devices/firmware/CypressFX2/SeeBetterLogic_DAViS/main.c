@@ -454,6 +454,11 @@ BOOL DR_VendorCmnd(void) {
 			setPE(BIAS_ADDR_SELECT, 1);
 
 			// Write out all the data bytes for this bias.
+			// The first byte of a coarse/fine bias needs to have the coarse bits
+			// flipped and reversed. For DAVIS240, that's all biases below address 20.
+			// We track if this is the first byte by re-using the 'address' variable.
+			address = 0;
+
 			while (wLength) {
 				// Get data from USB control endpoint.
 				// Move new data through EP0OUT, one packet at a time,
@@ -471,6 +476,16 @@ BOOL DR_VendorCmnd(void) {
 				currByteCount = EP0BCL; // Get the new byte count
 
 				for (i = 0; i < currByteCount; i++) {
+					// We use 'address' to track if this is really the first byte.
+					// See comment above for a more detailed explanation.
+					if (address == 0 && wValue < 20) {
+						address = 1;
+
+						// Reverse and flip coarse part.
+						EP0BUF[0] = EP0BUF[0] ^ 0x70;
+						EP0BUF[0] = (EP0BUF[0] & ~0x50) | ((EP0BUF[0] & 0x40) >> 2) | ((EP0BUF[0] & 0x10) << 2);
+					}
+
 					BiasWrite(EP0BUF[i]);
 				}
 
