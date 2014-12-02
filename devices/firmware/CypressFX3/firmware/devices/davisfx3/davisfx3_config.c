@@ -326,13 +326,19 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			// Write a byte, containing the bias address (from wValue).
 			CyFxWriteByteToShiftReg((uint8_t) wValue, BIAS_CLOCK, BIAS_BIT);
 
-			// Latch bias.
+			// Latch bias address.
 			CyFxGpioTurnOn(BIAS_LATCH);
 			CyU3PBusyWait(10);
 			CyFxGpioTurnOff(BIAS_LATCH);
 
 			// Release address selection.
 			CyFxGpioTurnOff(BIAS_ADDR_SELECT);
+
+			// Reverse and flip coarse part of coarse/fine bias.
+			if (wValue < 20) {
+				glEP0Buffer[0] = glEP0Buffer[0] ^ 0x70;
+				glEP0Buffer[0] = (uint8_t) ((glEP0Buffer[0] & ~0x50) | ((glEP0Buffer[0] & 0x40) >> 2) | ((glEP0Buffer[0] & 0x10) << 2));
+			}
 
 			// Write out all the data bytes for this bias.
 			for (size_t i = 0; i < wLength; i++) {
