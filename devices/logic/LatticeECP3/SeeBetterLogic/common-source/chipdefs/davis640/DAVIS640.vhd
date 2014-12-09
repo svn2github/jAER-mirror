@@ -14,6 +14,6 @@ package DAVIS640 is
 	constant CHIP_DVS_SIZE_COLUMNS : unsigned(9 downto 0) := to_unsigned(640, 10);
 	constant CHIP_DVS_SIZE_ROWS    : unsigned(8 downto 0) := to_unsigned(480, 9);
 
-	constant DVS_AER_BUS_WIDTH : integer := 12;
+	constant DVS_AER_BUS_WIDTH : integer := 11;
 	constant APS_ADC_BUS_WIDTH : integer := 10;
 end package DAVIS640;
