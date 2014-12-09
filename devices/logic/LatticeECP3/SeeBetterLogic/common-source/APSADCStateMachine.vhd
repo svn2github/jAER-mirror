@@ -327,7 +327,12 @@ begin
 				-- Write out start of frame marker. This and the end of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
 				if OutFifoControl_SI.Full_S = '0' then
-					OutFifoDataRegCol_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME;
+					if CHIP_HAS_GLOBAL_SHUTTER = '1' and APSADCConfigReg_D.GlobalShutter_S = '1' then
+						OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME_GS;
+					else
+						OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME_RS;
+					end if;
+
 					OutFifoDataRegColEnable_S <= '1';
 					OutFifoWriteRegCol_S      <= '1';
 

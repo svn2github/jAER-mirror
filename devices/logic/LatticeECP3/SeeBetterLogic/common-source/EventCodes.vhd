@@ -20,11 +20,12 @@ package EventCodes is
 	constant EVENT_CODE_SPECIAL_IMU_START6         : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(5, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_SPECIAL_IMU_START9         : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(6, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_SPECIAL_IMU_END            : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(7, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_STARTFRAME     : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(8, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_ENDFRAME       : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(9, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_STARTRESETCOL  : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(10, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(11, EVENT_DATA_WIDTH_MAX));
-	constant EVENT_CODE_SPECIAL_APS_ENDCOL         : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(12, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_STARTFRAME_GS  : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(8, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_STARTFRAME_RS  : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(9, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_ENDFRAME       : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(10, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_STARTRESETCOL  : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(11, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(12, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_APS_ENDCOL         : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(13, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_Y_ADDR                     : std_logic_vector(2 downto 0)                        := "001";
 	-- The fourth bit of an X address is the polarity. It usually gets encoded directly from the AER bus input.
 	constant EVENT_CODE_X_ADDR                     : std_logic_vector(1 downto 0)                        := "01";
