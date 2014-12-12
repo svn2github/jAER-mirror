@@ -1,12 +1,21 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.ceil;
+use ieee.math_real.log2;
 use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.DVSAERConfigRecords.all;
 use work.Settings.DVS_AER_BUS_WIDTH;
+use work.Settings.CHIP_DVS_SIZE_ROWS;
+use work.Settings.CHIP_DVS_SIZE_COLUMNS;
 
 entity DVSAERStateMachine is
+	generic(
+		FLIP_ROW_ADDRESS                     : boolean := false;
+		FLIP_COLUMN_ADDRESS                  : boolean := false;
+		ENABLE_PIXEL_FILTERING               : boolean := false;
+		ENABLE_BACKGROUND_ACTIVITY_FILTERING : boolean := false);
 	port(
 		Clock_CI          : in  std_logic;
 		Reset_RI          : in  std_logic;
@@ -28,28 +37,26 @@ end DVSAERStateMachine;
 architecture Behavioral of DVSAERStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleX, stAckX, stFIFOFull);
+	type tState is (stIdle, stDifferentiateRowCol, stAERHandleRow, stAERAckRow, stAERHandleCol, stAERAckCol, stFIFOFull);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
 	signal State_DP, State_DN : tState;
 
-	-- ACK delay counter (prolongs dAckUP)
-	signal AckDelayCount_S, AckDelayNotify_S : std_logic;
+	-- Counter to influence acknowledge delays.
+	signal AckCounter_DP, AckCounter_DN : unsigned(DVS_AER_ACK_COUNTER_WIDTH - 1 downto 0);
 
-	-- ACK extension counter (prolongs dAckDOWN)
-	signal AckExtensionCount_S, AckExtensionNotify_S : std_logic;
+	-- Remember if what we're working on right now is an X or Y address.
+	signal DVSIsRowAddress_SP, DVSIsRowAddress_SN : std_logic;
 
-	-- Remember if last address was a Y address to filter out row-only events.
-	signal LastAddressWasY_DP, LastAddressWasY_DN : std_logic;
+	-- Bits needed for each address.
+	constant DVS_ROW_ADDRESS_WIDTH    : integer := integer(ceil(log2(real(to_integer(CHIP_DVS_SIZE_ROWS)))));
+	constant DVS_COLUMN_ADDRESS_WIDTH : integer := integer(ceil(log2(real(to_integer(CHIP_DVS_SIZE_COLUMNS)))));
 
-	-- Pad address output with zeros.
-	constant ADDR_OUT_ZERO_PAD : std_logic_vector(EVENT_DATA_WIDTH_MAX - DVS_AER_BUS_WIDTH + 1 downto 0) := (others => '0');
-
-	-- Register outputs to FIFO.
-	signal OutFifoWriteReg_S      : std_logic;
-	signal OutFifoDataRegEnable_S : std_logic;
-	signal OutFifoDataReg_D       : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	-- Data incoming from DVS.
+	signal DVSEventValidReg_S : std_logic;
+	signal DVSDataRegEnable_S : std_logic;
+	signal DVSDataReg_D       : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 	-- Register outputs to DVS.
 	signal DVSAERAckReg_SB   : std_logic;
@@ -58,45 +65,20 @@ architecture Behavioral of DVSAERStateMachine is
 	-- Register configuration input.
 	signal DVSAERConfigReg_D : tDVSAERConfig;
 begin
-	ackDelayCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => DVSAERConfigReg_D.AckDelay_D'length)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => AckDelayCount_S,
-			DataLimit_DI => DVSAERConfigReg_D.AckDelay_D,
-			Overflow_SO  => AckDelayNotify_S,
-			Data_DO      => open);
-
-	ackExtensionCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => DVSAERConfigReg_D.AckExtension_D'length)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => AckExtensionCount_S,
-			DataLimit_DI => DVSAERConfigReg_D.AckExtension_D,
-			Overflow_SO  => AckExtensionNotify_S,
-			Data_DO      => open);
-
-	p_memoryless : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, AckDelayNotify_S, AckExtensionNotify_S, LastAddressWasY_DP, DVSAERConfigReg_D)
+	p_memoryless : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, AckCounter_DP, DVSIsRowAddress_SP, DVSAERConfigReg_D)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
-		LastAddressWasY_DN <= LastAddressWasY_DP;
+		DVSIsRowAddress_SN <= DVSIsRowAddress_SP;
 
-		OutFifoWriteReg_S      <= '0';
-		OutFifoDataRegEnable_S <= '0';
-		OutFifoDataReg_D       <= (others => '0');
+		DVSEventValidReg_S <= '0';
+		DVSDataRegEnable_S <= '0';
+		DVSDataReg_D       <= (others => '0');
 
 		DVSAERAckReg_SB   <= '1';       -- No AER ACK by default.
 		DVSAERResetReg_SB <= '1';       -- Keep DVS out of reset by default, so we don't have to repeat this in every state.
 
-		AckDelayCount_S     <= '0';
-		AckExtensionCount_S <= '0';
+		AckCounter_DN <= (others => '0');
 
 		case State_DP is
 			when stIdle =>
@@ -106,7 +88,7 @@ begin
 						if OutFifoControl_SI.Full_S = '0' then
 							-- Got a request on the AER bus, let's get the data.
 							-- We do have space in the output FIFO for it.
-							State_DN <= stDifferentiateYX;
+							State_DN <= stDifferentiateRowCol;
 						elsif DVSAERConfigReg_D.WaitOnTransferStall_S = '0' then
 							-- FIFO full, keep ACKing.
 							State_DN <= stFIFOFull;
@@ -129,100 +111,121 @@ begin
 					State_DN <= stIdle;
 				end if;
 
-			when stDifferentiateYX =>
+			when stDifferentiateRowCol =>
 				-- Get data and format it. AER(WIDTH-1) holds the axis.
 				if DVSAERData_DI(DVS_AER_BUS_WIDTH - 1) = '0' then
 					-- This is an Y address.
-					-- They are differentiated here because Y addresses have
-					-- all kinds of special timing requirements.
-					State_DN        <= stHandleY;
-					AckDelayCount_S <= '1';
+					DVSIsRowAddress_SN <= '1';
+					State_DN           <= stAERHandleRow;
 				else
-					-- This is an X address.
-					State_DN <= stHandleX;
+					DVSIsRowAddress_SN <= '0';
+					State_DN           <= stAERHandleCol;
 
-					-- If we don't want row-only events, the Y address has not yet been sent, and
-					-- was waiting on an X address to follow. This is the case now, so we can tell
-					-- the output FIFO to take that Y address and forward it.
-					if LastAddressWasY_DP = '1' and DVSAERConfigReg_D.SendRowOnlyEvents_S = '0' then
-						OutFifoWriteReg_S <= '1';
+					-- Let's see if the previously address was a row-address.
+					-- If yes, we send it along on its path, since it has to be the valid row address
+					-- for this column address. We only do this if row-only event filtering is enabled,
+					-- since if not, row-addresses are sent right away.
+					if DVSAERConfigReg_D.FilterRowOnlyEvents_S = '1' and DVSIsRowAddress_SP = '1' then
+						DVSEventValidReg_S <= '1';
 					end if;
 				end if;
 
-			when stHandleY =>
+			when stAERHandleRow =>
 				-- We might need to delay the ACK.
-				if AckDelayNotify_S = '1' then
-					if DVS_AER_BUS_WIDTH = (EVENT_DATA_WIDTH_MAX + 2) then
-						OutFifoDataReg_D <= EVENT_CODE_Y_ADDR & DVSAERData_DI(DVS_AER_BUS_WIDTH - 3 downto 0);
+				if AckCounter_DP >= DVSAERConfigReg_D.AckDelayRow_D then
+					-- Row address (Y).
+					DVSDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_Y_ADDR;
+
+					if FLIP_ROW_ADDRESS = true then
+						DVSDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0) <= std_logic_vector(CHIP_DVS_SIZE_ROWS - 1 - unsigned(DVSAERData_DI(DVS_ROW_ADDRESS_WIDTH - 1 downto 0)));
 					else
-						OutFifoDataReg_D <= EVENT_CODE_Y_ADDR & ADDR_OUT_ZERO_PAD & DVSAERData_DI(DVS_AER_BUS_WIDTH - 3 downto 0);
+						DVSDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0) <= DVSAERData_DI(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
 					end if;
-					OutFifoDataRegEnable_S <= '1';
-					OutFifoWriteReg_S      <= DVSAERConfigReg_D.SendRowOnlyEvents_S;
-					-- If row-only events are to be sent, then we send all Y addresses right away.
-					-- If not, we wait until there is an X address to send them on.
 
-					-- This is an Y address!
-					LastAddressWasY_DN <= '1';
+					-- If we're not filtering row-only events, then we can just pass all row-events right away.
+					if DVSAERConfigReg_D.FilterRowOnlyEvents_S = '0' then
+						DVSEventValidReg_S <= '1';
+					end if;
 
-					DVSAERAckReg_SB     <= '0';
-					State_DN            <= stAckY;
-					AckExtensionCount_S <= '1';
+					DVSDataRegEnable_S <= '1';
+
+					DVSAERAckReg_SB <= '0';
+					State_DN        <= stAERAckRow;
+				else
+					AckCounter_DN <= AckCounter_DP + 1;
 				end if;
 
-				AckDelayCount_S <= '1';
-
-			when stAckY =>
+			when stAERAckRow =>
 				DVSAERAckReg_SB <= '0';
 
 				if DVSAERReq_SBI = '1' then
 					-- We might need to extend the ACK period.
-					if AckExtensionNotify_S = '1' then
+					if AckCounter_DP >= DVSAERConfigReg_D.AckExtensionRow_D then
 						DVSAERAckReg_SB <= '1';
 						State_DN        <= stIdle;
+					else
+						AckCounter_DN <= AckCounter_DP + 1;
+					end if;
+				end if;
+
+			when stAERHandleCol =>
+				-- We might need to delay the ACK.
+				if AckCounter_DP >= DVSAERConfigReg_D.AckDelayColumn_D then
+					-- Column address (X).
+					DVSDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR & DVSAERData_DI(0);
+
+					if FLIP_COLUMN_ADDRESS = true then
+						DVSDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0) <= std_logic_vector(CHIP_DVS_SIZE_COLUMNS - 1 - unsigned(DVSAERData_DI(DVS_COLUMN_ADDRESS_WIDTH downto 1)));
+					else
+						DVSDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0) <= DVSAERData_DI(DVS_COLUMN_ADDRESS_WIDTH downto 1);
 					end if;
 
-					AckExtensionCount_S <= '1';
-				end if;
+					DVSEventValidReg_S <= '1';
 
-			when stHandleX =>
-				-- This is an X address. AER(0) holds the polarity. The
-				-- address is shifted by one to AER(8 downto 1).
-				if DVS_AER_BUS_WIDTH = (EVENT_DATA_WIDTH_MAX + 2) then
-					OutFifoDataReg_D <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & DVSAERData_DI(DVS_AER_BUS_WIDTH - 2 downto 1);
+					DVSDataRegEnable_S <= '1';
+
+					DVSAERAckReg_SB <= '0';
+					State_DN        <= stAERAckCol;
 				else
-					OutFifoDataReg_D <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & ADDR_OUT_ZERO_PAD & DVSAERData_DI(DVS_AER_BUS_WIDTH - 2 downto 1);
+					AckCounter_DN <= AckCounter_DP + 1;
 				end if;
-				OutFifoDataRegEnable_S <= '1';
-				OutFifoWriteReg_S      <= '1';
 
-				-- This is an X address!
-				LastAddressWasY_DN <= '0';
-
-				DVSAERAckReg_SB <= '0';
-				State_DN        <= stAckX;
-
-			when stAckX =>
+			when stAERAckCol =>
 				DVSAERAckReg_SB <= '0';
 
 				if DVSAERReq_SBI = '1' then
-					DVSAERAckReg_SB <= '1';
-					State_DN        <= stIdle;
+					-- We might need to extend the ACK period.
+					if AckCounter_DP >= DVSAERConfigReg_D.AckExtensionColumn_D then
+						DVSAERAckReg_SB <= '1';
+						State_DN        <= stIdle;
+					else
+						AckCounter_DN <= AckCounter_DP + 1;
+					end if;
 				end if;
 
 			when others => null;
 		end case;
 	end process p_memoryless;
 
-	outputDataRegister : entity work.SimpleRegister
+	dvsDataRegister : entity work.SimpleRegister
 		generic map(
 			SIZE => EVENT_WIDTH)
 		port map(
 			Clock_CI  => Clock_CI,
 			Reset_RI  => Reset_RI,
-			Enable_SI => OutFifoDataRegEnable_S,
-			Input_SI  => OutFifoDataReg_D,
+			Enable_SI => DVSDataRegEnable_S,
+			Input_SI  => DVSDataReg_D,
 			Output_SO => OutFifoData_DO);
+
+	dvsEventValidRegister : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Enable_SI    => '1',
+			Input_SI(0)  => DVSEventValidReg_S,
+			Output_SO(0) => OutFifoControl_SO.Write_S);
 
 	-- Change state on clock edge (synchronous).
 	p_memoryzing : process(Clock_CI, Reset_RI)
@@ -230,9 +233,9 @@ begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
 
-			LastAddressWasY_DP <= '0';
+			DVSIsRowAddress_SP <= '0';
 
-			OutFifoControl_SO.Write_S <= '0';
+			AckCounter_DP <= (others => '0');
 
 			DVSAERAck_SBO   <= '1';
 			DVSAERReset_SBO <= '0';
@@ -241,9 +244,9 @@ begin
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
-			LastAddressWasY_DP <= LastAddressWasY_DN;
+			DVSIsRowAddress_SP <= DVSIsRowAddress_SN;
 
-			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
+			AckCounter_DP <= AckCounter_DN;
 
 			DVSAERAck_SBO   <= DVSAERAckReg_SB;
 			DVSAERReset_SBO <= DVSAERResetReg_SB;

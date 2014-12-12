@@ -288,6 +288,8 @@ begin
 			FifoData_DO    => DVSAERFifoDataOut_D);
 
 	dvsAerSM : entity work.DVSAERStateMachine
+		generic map(
+			FLIP_COLUMN_ADDRESS => true)
 		port map(
 			Clock_CI          => LogicClock_C,
 			Reset_RI          => LogicReset_R,
@@ -301,6 +303,8 @@ begin
 			DVSAERConfig_DI   => DVSAERConfig_D);
 
 	dvsaerSPIConfig : entity work.DVSAERSPIConfig
+		generic map(
+			ENABLE_COLUMN_ACK_DELAYS => false)
 		port map(
 			Clock_CI                   => LogicClock_C,
 			Reset_RI                   => LogicReset_R,
