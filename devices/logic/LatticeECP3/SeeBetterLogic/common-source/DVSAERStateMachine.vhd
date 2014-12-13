@@ -54,9 +54,9 @@ architecture Behavioral of DVSAERStateMachine is
 	constant DVS_COLUMN_ADDRESS_WIDTH : integer := integer(ceil(log2(real(to_integer(CHIP_DVS_SIZE_COLUMNS)))));
 
 	-- Data incoming from DVS.
-	signal DVSEventValidReg_S : std_logic;
-	signal DVSDataRegEnable_S : std_logic;
-	signal DVSDataReg_D       : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal DVSEventDataRegEnable_S : std_logic;
+	signal DVSEventDataReg_D       : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal DVSEventValidReg_S      : std_logic;
 
 	-- Register outputs to DVS.
 	signal DVSAERAckReg_SB   : std_logic;
@@ -64,16 +64,28 @@ architecture Behavioral of DVSAERStateMachine is
 
 	-- Register configuration input.
 	signal DVSAERConfigReg_D : tDVSAERConfig;
+
+	-- Pixel filtering support.
+	signal PixelFilterInDataReg_D   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal PixelFilterInValidReg_S  : std_logic;
+	signal PixelFilterOutDataReg_D  : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal PixelFilterOutValidReg_S : std_logic;
+
+	-- Background Activity filtering support.
+	signal BAFilterInDataReg_D   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal BAFilterInValidReg_S  : std_logic;
+	signal BAFilterOutDataReg_D  : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal BAFilterOutValidReg_S : std_logic;
 begin
-	p_memoryless : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, AckCounter_DP, DVSIsRowAddress_SP, DVSAERConfigReg_D)
+	dvsHandleAERComb : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, AckCounter_DP, DVSIsRowAddress_SP, DVSAERConfigReg_D)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
 		DVSIsRowAddress_SN <= DVSIsRowAddress_SP;
 
-		DVSEventValidReg_S <= '0';
-		DVSDataRegEnable_S <= '0';
-		DVSDataReg_D       <= (others => '0');
+		DVSEventValidReg_S      <= '0';
+		DVSEventDataRegEnable_S <= '0';
+		DVSEventDataReg_D       <= (others => '0');
 
 		DVSAERAckReg_SB   <= '1';       -- No AER ACK by default.
 		DVSAERResetReg_SB <= '1';       -- Keep DVS out of reset by default, so we don't have to repeat this in every state.
@@ -134,12 +146,12 @@ begin
 				-- We might need to delay the ACK.
 				if AckCounter_DP >= DVSAERConfigReg_D.AckDelayRow_D then
 					-- Row address (Y).
-					DVSDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_Y_ADDR;
+					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_Y_ADDR;
 
 					if FLIP_ROW_ADDRESS = true then
-						DVSDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0) <= std_logic_vector(CHIP_DVS_SIZE_ROWS - 1 - unsigned(DVSAERData_DI(DVS_ROW_ADDRESS_WIDTH - 1 downto 0)));
+						DVSEventDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0) <= std_logic_vector(CHIP_DVS_SIZE_ROWS - 1 - unsigned(DVSAERData_DI(DVS_ROW_ADDRESS_WIDTH - 1 downto 0)));
 					else
-						DVSDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0) <= DVSAERData_DI(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
+						DVSEventDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0) <= DVSAERData_DI(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
 					end if;
 
 					-- If we're not filtering row-only events, then we can just pass all row-events right away.
@@ -147,7 +159,7 @@ begin
 						DVSEventValidReg_S <= '1';
 					end if;
 
-					DVSDataRegEnable_S <= '1';
+					DVSEventDataRegEnable_S <= '1';
 
 					DVSAERAckReg_SB <= '0';
 					State_DN        <= stAERAckRow;
@@ -172,17 +184,17 @@ begin
 				-- We might need to delay the ACK.
 				if AckCounter_DP >= DVSAERConfigReg_D.AckDelayColumn_D then
 					-- Column address (X).
-					DVSDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR & DVSAERData_DI(0);
+					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR & DVSAERData_DI(0);
 
 					if FLIP_COLUMN_ADDRESS = true then
-						DVSDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0) <= std_logic_vector(CHIP_DVS_SIZE_COLUMNS - 1 - unsigned(DVSAERData_DI(DVS_COLUMN_ADDRESS_WIDTH downto 1)));
+						DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0) <= std_logic_vector(CHIP_DVS_SIZE_COLUMNS - 1 - unsigned(DVSAERData_DI(DVS_COLUMN_ADDRESS_WIDTH downto 1)));
 					else
-						DVSDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0) <= DVSAERData_DI(DVS_COLUMN_ADDRESS_WIDTH downto 1);
+						DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0) <= DVSAERData_DI(DVS_COLUMN_ADDRESS_WIDTH downto 1);
 					end if;
 
 					DVSEventValidReg_S <= '1';
 
-					DVSDataRegEnable_S <= '1';
+					DVSEventDataRegEnable_S <= '1';
 
 					DVSAERAckReg_SB <= '0';
 					State_DN        <= stAERAckCol;
@@ -205,30 +217,10 @@ begin
 
 			when others => null;
 		end case;
-	end process p_memoryless;
-
-	dvsDataRegister : entity work.SimpleRegister
-		generic map(
-			SIZE => EVENT_WIDTH)
-		port map(
-			Clock_CI  => Clock_CI,
-			Reset_RI  => Reset_RI,
-			Enable_SI => DVSDataRegEnable_S,
-			Input_SI  => DVSDataReg_D,
-			Output_SO => OutFifoData_DO);
-
-	dvsEventValidRegister : entity work.SimpleRegister
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Enable_SI    => '1',
-			Input_SI(0)  => DVSEventValidReg_S,
-			Output_SO(0) => OutFifoControl_SO.Write_S);
+	end process dvsHandleAERComb;
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process(Clock_CI, Reset_RI)
+	dvsHandleAERRegisterUpdate : process(Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
@@ -253,5 +245,230 @@ begin
 
 			DVSAERConfigReg_D <= DVSAERConfig_DI;
 		end if;
-	end process p_memoryzing;
+	end process dvsHandleAERRegisterUpdate;
+
+	dvsOnly : if ENABLE_PIXEL_FILTERING = false and ENABLE_BACKGROUND_ACTIVITY_FILTERING = false generate
+	begin
+		dvsEventDataRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_WIDTH)
+			port map(
+				Clock_CI  => Clock_CI,
+				Reset_RI  => Reset_RI,
+				Enable_SI => DVSEventDataRegEnable_S,
+				Input_SI  => DVSEventDataReg_D,
+				Output_SO => OutFifoData_DO);
+
+		dvsEventValidRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => 1)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => DVSEventValidReg_S,
+				Output_SO(0) => OutFifoControl_SO.Write_S);
+	end generate dvsOnly;
+
+	pixelFilteringOnly : if ENABLE_PIXEL_FILTERING = true and ENABLE_BACKGROUND_ACTIVITY_FILTERING = false generate
+	begin
+		dvsEventDataRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_WIDTH)
+			port map(
+				Clock_CI  => Clock_CI,
+				Reset_RI  => Reset_RI,
+				Enable_SI => DVSEventDataRegEnable_S,
+				Input_SI  => DVSEventDataReg_D,
+				Output_SO => PixelFilterInDataReg_D);
+
+		dvsEventValidRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => 1)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => DVSEventValidReg_S,
+				Output_SO(0) => PixelFilterInValidReg_S);
+
+		pixelFilterDataRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_WIDTH)
+			port map(
+				Clock_CI  => Clock_CI,
+				Reset_RI  => Reset_RI,
+				Enable_SI => '1',
+				Input_SI  => PixelFilterOutDataReg_D,
+				Output_SO => OutFifoData_DO);
+
+		pixelFilterValidRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => 1)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => PixelFilterOutValidReg_S,
+				Output_SO(0) => OutFifoControl_SO.Write_S);
+	end generate pixelFilteringOnly;
+
+	baFilteringOnly : if ENABLE_PIXEL_FILTERING = false and ENABLE_BACKGROUND_ACTIVITY_FILTERING = true generate
+	begin
+		dvsEventDataRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_WIDTH)
+			port map(
+				Clock_CI  => Clock_CI,
+				Reset_RI  => Reset_RI,
+				Enable_SI => DVSEventDataRegEnable_S,
+				Input_SI  => DVSEventDataReg_D,
+				Output_SO => BAFilterInDataReg_D);
+
+		dvsEventValidRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => 1)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => DVSEventValidReg_S,
+				Output_SO(0) => BAFilterInValidReg_S);
+
+		baFilterDataRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_WIDTH)
+			port map(
+				Clock_CI  => Clock_CI,
+				Reset_RI  => Reset_RI,
+				Enable_SI => '1',
+				Input_SI  => BAFilterOutDataReg_D,
+				Output_SO => OutFifoData_DO);
+
+		baFilterValidRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => 1)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => BAFilterOutValidReg_S,
+				Output_SO(0) => OutFifoControl_SO.Write_S);
+	end generate baFilteringOnly;
+
+	allFilters : if ENABLE_PIXEL_FILTERING = true and ENABLE_BACKGROUND_ACTIVITY_FILTERING = true generate
+	begin
+		dvsEventDataRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_WIDTH)
+			port map(
+				Clock_CI  => Clock_CI,
+				Reset_RI  => Reset_RI,
+				Enable_SI => DVSEventDataRegEnable_S,
+				Input_SI  => DVSEventDataReg_D,
+				Output_SO => PixelFilterInDataReg_D);
+
+		dvsEventValidRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => 1)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => DVSEventValidReg_S,
+				Output_SO(0) => PixelFilterInValidReg_S);
+
+		pixelFilterDataRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_WIDTH)
+			port map(
+				Clock_CI  => Clock_CI,
+				Reset_RI  => Reset_RI,
+				Enable_SI => '1',
+				Input_SI  => PixelFilterOutDataReg_D,
+				Output_SO => BAFilterInDataReg_D);
+
+		pixelFilterValidRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => 1)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => PixelFilterOutValidReg_S,
+				Output_SO(0) => BAFilterInValidReg_S);
+
+		baFilterDataRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_WIDTH)
+			port map(
+				Clock_CI  => Clock_CI,
+				Reset_RI  => Reset_RI,
+				Enable_SI => '1',
+				Input_SI  => BAFilterOutDataReg_D,
+				Output_SO => OutFifoData_DO);
+
+		baFilterValidRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => 1)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => BAFilterOutValidReg_S,
+				Output_SO(0) => OutFifoControl_SO.Write_S);
+	end generate allFilters;
+
+	pixelFilterSupport : if ENABLE_PIXEL_FILTERING = true generate
+		signal LastRowAddress_DP, LastRowAddress_DN : unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0);
+	begin
+		pixelFilter : process(PixelFilterInDataReg_D, PixelFilterInValidReg_S, LastRowAddress_DP, DVSAERConfigReg_D)
+			variable Pixel0Hit_S : boolean := false;
+			variable Pixel1Hit_S : boolean := false;
+			variable Pixel2Hit_S : boolean := false;
+			variable Pixel3Hit_S : boolean := false;
+		begin
+			PixelFilterOutDataReg_D  <= PixelFilterInDataReg_D;
+			PixelFilterOutValidReg_S <= PixelFilterInValidReg_S;
+
+			LastRowAddress_DN <= LastRowAddress_DP;
+
+			if PixelFilterInValidReg_S = '1' then
+				if PixelFilterInDataReg_D(EVENT_WIDTH - 2) = '0' then
+					-- This is a row address, we just save it.
+					LastRowAddress_DN <= unsigned(PixelFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0));
+				else
+					-- This is a column address, we do the full comparison at this point.
+					-- If it matches any of the pixels that should be filtered, we set the column
+					-- address to be invalid.
+					Pixel0Hit_S := LastRowAddress_DP = DVSAERConfigReg_D.FilterPixel0Row_D and unsigned(PixelFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0)) = DVSAERConfigReg_D.FilterPixel0Column_D;
+					Pixel1Hit_S := LastRowAddress_DP = DVSAERConfigReg_D.FilterPixel1Row_D and unsigned(PixelFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0)) = DVSAERConfigReg_D.FilterPixel1Column_D;
+					Pixel2Hit_S := LastRowAddress_DP = DVSAERConfigReg_D.FilterPixel2Row_D and unsigned(PixelFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0)) = DVSAERConfigReg_D.FilterPixel2Column_D;
+					Pixel3Hit_S := LastRowAddress_DP = DVSAERConfigReg_D.FilterPixel3Row_D and unsigned(PixelFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0)) = DVSAERConfigReg_D.FilterPixel3Column_D;
+
+					if Pixel0Hit_S or Pixel1Hit_S or Pixel2Hit_S or Pixel3Hit_S then
+						PixelFilterOutValidReg_S <= '0';
+					end if;
+				end if;
+			end if;
+		end process pixelFilter;
+
+		pixelFilterLastRowAddressRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_DATA_WIDTH_MAX)
+			port map(
+				Clock_CI            => Clock_CI,
+				Reset_RI            => Reset_RI,
+				Enable_SI           => '1',
+				Input_SI            => std_logic_vector(LastRowAddress_DN),
+				unsigned(Output_SO) => LastRowAddress_DP);
+	end generate pixelFilterSupport;
+
+	baFilterSupport : if ENABLE_BACKGROUND_ACTIVITY_FILTERING = true generate
+		type tTimestampMap is array (0 to 15, 0 to 15) of unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap_D : tTimestampMap;
+	begin
+		BAFilterOutDataReg_D  <= BAFilterInDataReg_D;
+		BAFilterOutValidReg_S <= BAFilterInValidReg_S;
+	end generate baFilterSupport;
 end Behavioral;

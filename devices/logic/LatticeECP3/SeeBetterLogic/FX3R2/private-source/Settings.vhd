@@ -12,7 +12,7 @@ package Settings is
 	constant USB_FIFO_WIDTH         : integer := 16;
 	constant USB_BURST_WRITE_LENGTH : integer := 8;
 
-	constant LOGIC_CLOCK_FREQ : integer := 150; -- PLL can generate between 5 and 500 MHz here.
+	constant LOGIC_CLOCK_FREQ : integer := 125; -- PLL can generate between 5 and 500 MHz here.
 
 	constant ADC_CLOCK_FREQ : integer := 30;
 
