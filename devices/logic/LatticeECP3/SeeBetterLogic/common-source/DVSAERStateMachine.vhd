@@ -465,10 +465,85 @@ begin
 	end generate pixelFilterSupport;
 
 	baFilterSupport : if ENABLE_BACKGROUND_ACTIVITY_FILTERING = true generate
-		type tTimestampMap is array (0 to 15, 0 to 15) of unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap_D : tTimestampMap;
+		type tTimestampMap is array (0 to 14, 0 to 11) of unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap_DP, TimestampMap_DN : tTimestampMap;
+
+		signal Timestamp_D : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+
+		signal LastRowAddress_DP, LastRowAddress_DN : unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0);
 	begin
-		BAFilterOutDataReg_D  <= BAFilterInDataReg_D;
-		BAFilterOutValidReg_S <= BAFilterInValidReg_S;
+		baFilter : process(BAFilterInDataReg_D, BAFilterInValidReg_S, LastRowAddress_DP, TimestampMap_DP, Timestamp_D, DVSAERConfigReg_D)
+			variable RowAddress_D    : integer := 0;
+			variable ColumnAddress_D : integer := 0;
+		begin
+			BAFilterOutDataReg_D  <= BAFilterInDataReg_D;
+			BAFilterOutValidReg_S <= BAFilterInValidReg_S;
+
+			LastRowAddress_DN <= LastRowAddress_DP;
+			TimestampMap_DN   <= TimestampMap_DP;
+
+			if BAFilterInValidReg_S = '1' then
+				if BAFilterInDataReg_D(EVENT_WIDTH - 2) = '0' then
+					-- This is a row address, we just save it.
+					LastRowAddress_DN <= unsigned(BAFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0));
+				else
+					-- This is a column address, check against previous value and filter if deltaT too big.
+					RowAddress_D    := to_integer(LastRowAddress_DP(DVS_ROW_ADDRESS_WIDTH - 1 downto DVS_ROW_ADDRESS_WIDTH - 4));
+					ColumnAddress_D := to_integer(unsigned(BAFilterInDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto DVS_COLUMN_ADDRESS_WIDTH - 4)));
+
+					if (Timestamp_D - TimestampMap_DP(ColumnAddress_D, RowAddress_D)) >= DVSAERConfigReg_D.FilterBackgroundActivityDeltaTime_D then
+						BAFilterOutValidReg_S <= '0';
+					end if;
+
+					-- Update all 8 neighbor cells with the new time.
+					if ColumnAddress_D > 0 then
+						TimestampMap_DN(ColumnAddress_D - 1, RowAddress_D) <= Timestamp_D;
+					end if;
+					if ColumnAddress_D < CHIP_DVS_SIZE_COLUMNS then
+						TimestampMap_DN(ColumnAddress_D + 1, RowAddress_D) <= Timestamp_D;
+					end if;
+
+					if RowAddress_D > 0 then
+						TimestampMap_DN(ColumnAddress_D, RowAddress_D - 1) <= Timestamp_D;
+					end if;
+					if RowAddress_D < CHIP_DVS_SIZE_ROWS then
+						TimestampMap_DN(ColumnAddress_D, RowAddress_D + 1) <= Timestamp_D;
+					end if;
+				end if;
+			end if;
+		end process baFilter;
+
+		baFilterTSMapUpdate : process(Clock_CI, Reset_RI) is
+		begin
+			if Reset_RI = '1' then
+				TimestampMap_DP <= (others => (others => (others => '0')));
+			elsif rising_edge(Clock_CI) then
+				TimestampMap_DP <= TimestampMap_DN;
+			end if;
+		end process baFilterTSMapUpdate;
+
+		baFilterTSCounter : entity work.ContinuousCounter
+			generic map(
+				SIZE              => DVS_FILTER_BA_DELTAT_WIDTH,
+				RESET_ON_OVERFLOW => true,
+				GENERATE_OVERFLOW => false)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Clear_SI     => not DVSAERConfigReg_D.Run_S,
+				Enable_SI    => '1',
+				DataLimit_DI => (others => '1'),
+				Overflow_SO  => open,
+				Data_DO      => Timestamp_D);
+
+		baFilterLastRowAddressRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_DATA_WIDTH_MAX)
+			port map(
+				Clock_CI            => Clock_CI,
+				Reset_RI            => Reset_RI,
+				Enable_SI           => '1',
+				Input_SI            => std_logic_vector(LastRowAddress_DN),
+				unsigned(Output_SO) => LastRowAddress_DP);
 	end generate baFilterSupport;
 end Behavioral;

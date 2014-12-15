@@ -92,7 +92,7 @@ architecture Structural of TopLevel is
 	signal SyncOutSwitchSync_S, SyncInClockSync_C, SyncInSwitchSync_S, SyncInSignalSync_S                         : std_logic;
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D                                                   : std_logic;
 
-	signal FXUSBRunning_S, MultiplexerRunning_S : std_logic;
+	signal FXUSBRunning_S, MultiplexerRunning_S, MultiplexerRunningADC_S : std_logic;
 
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
@@ -409,13 +409,23 @@ begin
 			FULL_FLAG         => APSADC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE)
 		port map(
-			Reset_RI       => ADCReset_R or not MultiplexerRunning_S,
+			Reset_RI       => ADCReset_R or not MultiplexerRunningADC_S,
 			WrClock_CI     => ADCClock_C,
 			RdClock_CI     => LogicClock_C,
 			FifoControl_SI => APSADCFifoControlIn_S,
 			FifoControl_SO => APSADCFifoControlOut_S,
 			FifoData_DI    => APSADCFifoDataIn_D,
 			FifoData_DO    => APSADCFifoDataOut_D);
+
+	apsAdcFifoResetRegister : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => MultiplexerRunning_S,
+			Output_SO(0) => MultiplexerRunningADC_S);
 
 	apsAdcSM : entity work.APSADCStateMachine
 		port map(
