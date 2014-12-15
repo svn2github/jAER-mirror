@@ -30,15 +30,11 @@ entity ChipBiasSelector is
 end entity ChipBiasSelector;
 
 architecture Structural of ChipBiasSelector is
-	signal DAVIS128BiasConfig_D : tDAVIS128BiasConfig;
-	signal DAVIS128ChipConfig_D : tDAVIS128ChipConfig;
-	signal DAVIS240BiasConfig_D : tDAVIS240BiasConfig;
-	signal DAVIS240ChipConfig_D : tDAVIS240ChipConfig;
-	signal DAVIS346ChipConfig_D : tDAVIS346ChipConfig;
-	signal DAVISrgbBiasConfig_D : tDAVISrgbBiasConfig;
-	signal DAVISrgbChipConfig_D : tDAVISrgbChipConfig;
 begin
 	davis128ChipBias : if CHIP_IDENTIFIER = 3 generate
+		signal DAVIS128BiasConfig_D : tDAVIS128BiasConfig;
+		signal DAVIS128ChipConfig_D : tDAVIS128ChipConfig;
+	begin
 		davis128ChipBiasSM : entity work.DAVIS128StateMachine
 			port map(
 				Clock_CI               => Clock_CI,
@@ -66,6 +62,9 @@ begin
 	end generate davis128ChipBias;
 
 	davis240ChipBias : if CHIP_IDENTIFIER = 0 or CHIP_IDENTIFIER = 1 or CHIP_IDENTIFIER = 2 generate
+		signal DAVIS240BiasConfig_D : tDAVIS240BiasConfig;
+		signal DAVIS240ChipConfig_D : tDAVIS240ChipConfig;
+	begin
 		davis240ChipBiasSM : entity work.DAVIS240StateMachine
 			port map(
 				Clock_CI               => Clock_CI,
@@ -94,6 +93,9 @@ begin
 
 	-- DAVIS640 uses this too, since it has the same biases and chip config chain as DAVIS346.
 	davis346ChipBias : if CHIP_IDENTIFIER = 4 or CHIP_IDENTIFIER = 5 or CHIP_IDENTIFIER = 6 generate
+		signal DAVIS128BiasConfig_D : tDAVIS128BiasConfig;
+		signal DAVIS346ChipConfig_D : tDAVIS346ChipConfig;
+	begin
 		davis346ChipBiasSM : entity work.DAVIS346StateMachine
 			port map(
 				Clock_CI               => Clock_CI,
@@ -121,6 +123,9 @@ begin
 	end generate davis346ChipBias;
 
 	davisRGBChipBias : if CHIP_IDENTIFIER = 7 generate
+		signal DAVISrgbBiasConfig_D : tDAVISrgbBiasConfig;
+		signal DAVISrgbChipConfig_D : tDAVISrgbChipConfig;
+	begin
 		davisRGBChipBiasSM : entity work.DAVISrgbStateMachine
 			port map(
 				Clock_CI               => Clock_CI,
