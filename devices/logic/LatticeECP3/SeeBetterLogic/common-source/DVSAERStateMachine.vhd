@@ -467,258 +467,509 @@ begin
 	end generate pixelFilterSupport;
 
 	baFilterSupport : if ENABLE_BACKGROUND_ACTIVITY_FILTERING = true generate
-		type tTimestampMap is array (0 to 3, 0 to 2) of unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap0_DP, TimestampMap0_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap1_DP, TimestampMap1_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap2_DP, TimestampMap2_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap3_DP, TimestampMap3_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap4_DP, TimestampMap4_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap5_DP, TimestampMap5_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap6_DP, TimestampMap6_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap7_DP, TimestampMap7_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap8_DP, TimestampMap8_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap9_DP, TimestampMap9_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap10_DP, TimestampMap10_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap11_DP, TimestampMap11_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap12_DP, TimestampMap12_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap13_DP, TimestampMap13_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap14_DP, TimestampMap14_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap15_DP, TimestampMap15_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
 
-		signal TimestampMap0_DP, TimestampMap0_DN   : tTimestampMap;
-		signal TimestampMap1_DP, TimestampMap1_DN   : tTimestampMap;
-		signal TimestampMap2_DP, TimestampMap2_DN   : tTimestampMap;
-		signal TimestampMap3_DP, TimestampMap3_DN   : tTimestampMap;
-		signal TimestampMap4_DP, TimestampMap4_DN   : tTimestampMap;
-		signal TimestampMap5_DP, TimestampMap5_DN   : tTimestampMap;
-		signal TimestampMap6_DP, TimestampMap6_DN   : tTimestampMap;
-		signal TimestampMap7_DP, TimestampMap7_DN   : tTimestampMap;
-		signal TimestampMap8_DP, TimestampMap8_DN   : tTimestampMap;
-		signal TimestampMap9_DP, TimestampMap9_DN   : tTimestampMap;
-		signal TimestampMap10_DP, TimestampMap10_DN : tTimestampMap;
-		signal TimestampMap11_DP, TimestampMap11_DN : tTimestampMap;
-		signal TimestampMap12_DP, TimestampMap12_DN : tTimestampMap;
-		signal TimestampMap13_DP, TimestampMap13_DN : tTimestampMap;
-		signal TimestampMap14_DP, TimestampMap14_DN : tTimestampMap;
-		signal TimestampMap15_DP, TimestampMap15_DN : tTimestampMap;
+		signal TimestampMap0Address_D  : std_logic_vector(3 downto 0);
+		signal TimestampMap1Address_D  : std_logic_vector(3 downto 0);
+		signal TimestampMap2Address_D  : std_logic_vector(3 downto 0);
+		signal TimestampMap3Address_D  : std_logic_vector(3 downto 0);
+		signal TimestampMap4Address_D  : std_logic_vector(3 downto 0);
+		signal TimestampMap5Address_D  : std_logic_vector(3 downto 0);
+		signal TimestampMap6Address_D  : std_logic_vector(3 downto 0);
+		signal TimestampMap7Address_D  : std_logic_vector(3 downto 0);
+		signal TimestampMap8Address_D  : std_logic_vector(3 downto 0);
+		signal TimestampMap9Address_D  : std_logic_vector(3 downto 0);
+		signal TimestampMap10Address_D : std_logic_vector(3 downto 0);
+		signal TimestampMap11Address_D : std_logic_vector(3 downto 0);
+		signal TimestampMap12Address_D : std_logic_vector(3 downto 0);
+		signal TimestampMap13Address_D : std_logic_vector(3 downto 0);
+		signal TimestampMap14Address_D : std_logic_vector(3 downto 0);
+		signal TimestampMap15Address_D : std_logic_vector(3 downto 0);
+
+		signal TimestampMap0En_S  : std_logic;
+		signal TimestampMap1En_S  : std_logic;
+		signal TimestampMap2En_S  : std_logic;
+		signal TimestampMap3En_S  : std_logic;
+		signal TimestampMap4En_S  : std_logic;
+		signal TimestampMap5En_S  : std_logic;
+		signal TimestampMap6En_S  : std_logic;
+		signal TimestampMap7En_S  : std_logic;
+		signal TimestampMap8En_S  : std_logic;
+		signal TimestampMap9En_S  : std_logic;
+		signal TimestampMap10En_S : std_logic;
+		signal TimestampMap11En_S : std_logic;
+		signal TimestampMap12En_S : std_logic;
+		signal TimestampMap13En_S : std_logic;
+		signal TimestampMap14En_S : std_logic;
+		signal TimestampMap15En_S : std_logic;
+
+		signal TimestampMap0WrEn_S  : std_logic;
+		signal TimestampMap1WrEn_S  : std_logic;
+		signal TimestampMap2WrEn_S  : std_logic;
+		signal TimestampMap3WrEn_S  : std_logic;
+		signal TimestampMap4WrEn_S  : std_logic;
+		signal TimestampMap5WrEn_S  : std_logic;
+		signal TimestampMap6WrEn_S  : std_logic;
+		signal TimestampMap7WrEn_S  : std_logic;
+		signal TimestampMap8WrEn_S  : std_logic;
+		signal TimestampMap9WrEn_S  : std_logic;
+		signal TimestampMap10WrEn_S : std_logic;
+		signal TimestampMap11WrEn_S : std_logic;
+		signal TimestampMap12WrEn_S : std_logic;
+		signal TimestampMap13WrEn_S : std_logic;
+		signal TimestampMap14WrEn_S : std_logic;
+		signal TimestampMap15WrEn_S : std_logic;
 
 		constant TS_TICK      : integer := LOGIC_CLOCK_FREQ;
 		constant TS_TICK_SIZE : integer := integer(ceil(log2(real(TS_TICK + 1))));
+
+		constant ADDRESS_SUBSAMPLE_BY : integer := 3;
 
 		signal Timestamp_D       : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
 		signal TimestampEnable_S : std_logic;
 
 		signal LastRowAddress_DP, LastRowAddress_DN : unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0);
+
+		function BooleanToStdLogic(BOOL : boolean) return std_logic is
+		begin
+			if BOOL then
+				return ('1');
+			else
+				return ('0');
+			end if;
+		end function BooleanToStdLogic;
 	begin
-		baFilter : process(BAFilterInDataReg_D, BAFilterInValidReg_S, LastRowAddress_DP, Timestamp_D, DVSAERConfigReg_D, TimestampMap0_DP, TimestampMap10_DP, TimestampMap11_DP, TimestampMap12_DP, TimestampMap13_DP, TimestampMap14_DP, TimestampMap15_DP, TimestampMap1_DP, TimestampMap2_DP, TimestampMap3_DP, TimestampMap4_DP, TimestampMap5_DP, TimestampMap6_DP, TimestampMap7_DP, TimestampMap8_DP, TimestampMap9_DP)
-			variable ColumnAddress_D : unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0);
-			variable RowAddress_D    : unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0);
+		baFilter : process(BAFilterInDataReg_D, BAFilterInValidReg_S, LastRowAddress_DP, Timestamp_D)
+			variable ColumnAddress_D : unsigned(DVS_COLUMN_ADDRESS_WIDTH - ADDRESS_SUBSAMPLE_BY - 1 downto 0) := (others => '0');
+			variable RowAddress_D    : unsigned(DVS_ROW_ADDRESS_WIDTH - ADDRESS_SUBSAMPLE_BY - 1 downto 0)    := (others => '0');
 
-			impure function ReadMap(ColumnAddressFull_D : in unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0); RowAddressFull_D : in unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0)) return unsigned is
-				variable ColumnAddressArray_D : integer;
-				variable RowAddressArray_D    : integer;
-			begin
-				ColumnAddressArray_D := to_integer(ColumnAddressFull_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto DVS_COLUMN_ADDRESS_WIDTH - 2));
-				RowAddressArray_D    := to_integer(RowAddressFull_D(DVS_ROW_ADDRESS_WIDTH - 1 downto DVS_ROW_ADDRESS_WIDTH - 2));
+			variable BorderLeft_S  : std_logic := '0';
+			variable BorderDown_S  : std_logic := '0';
+			variable BorderRight_S : std_logic := '0';
+			variable BorderUp_S    : std_logic := '0';
 
-				case (RowAddressFull_D(DVS_ROW_ADDRESS_WIDTH - 3 downto DVS_ROW_ADDRESS_WIDTH - 4) & ColumnAddressFull_D(DVS_COLUMN_ADDRESS_WIDTH - 3 downto DVS_COLUMN_ADDRESS_WIDTH - 4)) is
-					when "0000" =>
-						return TimestampMap0_DP(ColumnAddressArray_D, RowAddressArray_D);
+			variable Column0_S : std_logic := '0';
+			variable Column1_S : std_logic := '0';
+			variable Column2_S : std_logic := '0';
+			variable Column3_S : std_logic := '0';
 
-					when "0001" =>
-						return TimestampMap1_DP(ColumnAddressArray_D, RowAddressArray_D);
+			variable Column0Active_S : std_logic := '0';
+			variable Column1Active_S : std_logic := '0';
+			variable Column2Active_S : std_logic := '0';
+			variable Column3Active_S : std_logic := '0';
 
-					when "0010" =>
-						return TimestampMap2_DP(ColumnAddressArray_D, RowAddressArray_D);
+			variable Row0_S : std_logic := '0';
+			variable Row1_S : std_logic := '0';
+			variable Row2_S : std_logic := '0';
+			variable Row3_S : std_logic := '0';
 
-					when "0011" =>
-						return TimestampMap3_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "0100" =>
-						return TimestampMap4_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "0101" =>
-						return TimestampMap5_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "0110" =>
-						return TimestampMap6_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "0111" =>
-						return TimestampMap7_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "1000" =>
-						return TimestampMap8_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "1001" =>
-						return TimestampMap9_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "1010" =>
-						return TimestampMap10_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "1011" =>
-						return TimestampMap11_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "1100" =>
-						return TimestampMap12_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "1101" =>
-						return TimestampMap13_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "1110" =>
-						return TimestampMap14_DP(ColumnAddressArray_D, RowAddressArray_D);
-
-					when "1111" =>
-						return TimestampMap15_DP(ColumnAddressArray_D, RowAddressArray_D);
-				end case;
-			end function ReadMap;
-
-			procedure WriteMap(ColumnAddressFull_D : in unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0); RowAddressFull_D : in unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0); TSValue_D : in unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0)) is
-				variable ColumnAddressArray_D : integer;
-				variable RowAddressArray_D    : integer;
-			begin
-				ColumnAddressArray_D := to_integer(ColumnAddressFull_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto DVS_COLUMN_ADDRESS_WIDTH - 2));
-				RowAddressArray_D    := to_integer(RowAddressFull_D(DVS_ROW_ADDRESS_WIDTH - 1 downto DVS_ROW_ADDRESS_WIDTH - 2));
-
-				case (RowAddressFull_D(DVS_ROW_ADDRESS_WIDTH - 3 downto DVS_ROW_ADDRESS_WIDTH - 4) & ColumnAddressFull_D(DVS_COLUMN_ADDRESS_WIDTH - 3 downto DVS_COLUMN_ADDRESS_WIDTH - 4)) is
-					when "0000" =>
-						TimestampMap0_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "0001" =>
-						TimestampMap1_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "0010" =>
-						TimestampMap2_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "0011" =>
-						TimestampMap3_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "0100" =>
-						TimestampMap4_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "0101" =>
-						TimestampMap5_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "0110" =>
-						TimestampMap6_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "0111" =>
-						TimestampMap7_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "1000" =>
-						TimestampMap8_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "1001" =>
-						TimestampMap9_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "1010" =>
-						TimestampMap10_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "1011" =>
-						TimestampMap11_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "1100" =>
-						TimestampMap12_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "1101" =>
-						TimestampMap13_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "1110" =>
-						TimestampMap14_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-
-					when "1111" =>
-						TimestampMap15_DN(ColumnAddressArray_D, RowAddressArray_D) <= TSValue_D;
-				end case;
-			end procedure WriteMap;
+			variable Row0Active_S : std_logic := '0';
+			variable Row1Active_S : std_logic := '0';
+			variable Row2Active_S : std_logic := '0';
+			variable Row3Active_S : std_logic := '0';
 		begin
 			BAFilterOutDataReg_D  <= BAFilterInDataReg_D;
 			BAFilterOutValidReg_S <= BAFilterInValidReg_S;
 
 			LastRowAddress_DN <= LastRowAddress_DP;
 
-			TimestampMap0_DN  <= TimestampMap0_DP;
-			TimestampMap1_DN  <= TimestampMap1_DP;
-			TimestampMap2_DN  <= TimestampMap2_DP;
-			TimestampMap3_DN  <= TimestampMap3_DP;
-			TimestampMap4_DN  <= TimestampMap4_DP;
-			TimestampMap5_DN  <= TimestampMap5_DP;
-			TimestampMap6_DN  <= TimestampMap6_DP;
-			TimestampMap7_DN  <= TimestampMap7_DP;
-			TimestampMap8_DN  <= TimestampMap8_DP;
-			TimestampMap9_DN  <= TimestampMap9_DP;
-			TimestampMap10_DN <= TimestampMap10_DP;
-			TimestampMap11_DN <= TimestampMap11_DP;
-			TimestampMap12_DN <= TimestampMap12_DP;
-			TimestampMap13_DN <= TimestampMap13_DP;
-			TimestampMap14_DN <= TimestampMap14_DP;
-			TimestampMap15_DN <= TimestampMap15_DP;
+			-- The next value, if and when we're going to write to a RAM address, is
+			-- always going to be the current timestamp. So we can just hardcode that.
+			TimestampMap0_DN  <= Timestamp_D;
+			TimestampMap1_DN  <= Timestamp_D;
+			TimestampMap2_DN  <= Timestamp_D;
+			TimestampMap3_DN  <= Timestamp_D;
+			TimestampMap4_DN  <= Timestamp_D;
+			TimestampMap5_DN  <= Timestamp_D;
+			TimestampMap6_DN  <= Timestamp_D;
+			TimestampMap7_DN  <= Timestamp_D;
+			TimestampMap8_DN  <= Timestamp_D;
+			TimestampMap9_DN  <= Timestamp_D;
+			TimestampMap10_DN <= Timestamp_D;
+			TimestampMap11_DN <= Timestamp_D;
+			TimestampMap12_DN <= Timestamp_D;
+			TimestampMap13_DN <= Timestamp_D;
+			TimestampMap14_DN <= Timestamp_D;
+			TimestampMap15_DN <= Timestamp_D;
+
+			TimestampMap0En_S  <= '0';
+			TimestampMap1En_S  <= '0';
+			TimestampMap2En_S  <= '0';
+			TimestampMap3En_S  <= '0';
+			TimestampMap4En_S  <= '0';
+			TimestampMap5En_S  <= '0';
+			TimestampMap6En_S  <= '0';
+			TimestampMap7En_S  <= '0';
+			TimestampMap8En_S  <= '0';
+			TimestampMap9En_S  <= '0';
+			TimestampMap10En_S <= '0';
+			TimestampMap11En_S <= '0';
+			TimestampMap12En_S <= '0';
+			TimestampMap13En_S <= '0';
+			TimestampMap14En_S <= '0';
+			TimestampMap15En_S <= '0';
+
+			TimestampMap0WrEn_S  <= '0';
+			TimestampMap1WrEn_S  <= '0';
+			TimestampMap2WrEn_S  <= '0';
+			TimestampMap3WrEn_S  <= '0';
+			TimestampMap4WrEn_S  <= '0';
+			TimestampMap5WrEn_S  <= '0';
+			TimestampMap6WrEn_S  <= '0';
+			TimestampMap7WrEn_S  <= '0';
+			TimestampMap8WrEn_S  <= '0';
+			TimestampMap9WrEn_S  <= '0';
+			TimestampMap10WrEn_S <= '0';
+			TimestampMap11WrEn_S <= '0';
+			TimestampMap12WrEn_S <= '0';
+			TimestampMap13WrEn_S <= '0';
+			TimestampMap14WrEn_S <= '0';
+			TimestampMap15WrEn_S <= '0';
+
+			TimestampMap0Address_D  <= (others => '0');
+			TimestampMap1Address_D  <= (others => '0');
+			TimestampMap2Address_D  <= (others => '0');
+			TimestampMap3Address_D  <= (others => '0');
+			TimestampMap4Address_D  <= (others => '0');
+			TimestampMap5Address_D  <= (others => '0');
+			TimestampMap6Address_D  <= (others => '0');
+			TimestampMap7Address_D  <= (others => '0');
+			TimestampMap8Address_D  <= (others => '0');
+			TimestampMap9Address_D  <= (others => '0');
+			TimestampMap10Address_D <= (others => '0');
+			TimestampMap11Address_D <= (others => '0');
+			TimestampMap12Address_D <= (others => '0');
+			TimestampMap13Address_D <= (others => '0');
+			TimestampMap14Address_D <= (others => '0');
+			TimestampMap15Address_D <= (others => '0');
 
 			if BAFilterInValidReg_S = '1' then
 				if BAFilterInDataReg_D(EVENT_WIDTH - 2) = '0' then
 					-- This is a row address, we just save it.
 					LastRowAddress_DN <= unsigned(BAFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0));
 				else
-					-- This is a column address, check against previous value and filter if deltaT too big.
-					ColumnAddress_D := unsigned(BAFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0));
-					RowAddress_D    := LastRowAddress_DP;
+					-- This is a column address, let's determine all valid RAM parameters.
+					-- The address is downsampled here, right at the start.
+					ColumnAddress_D := unsigned(BAFilterInDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto ADDRESS_SUBSAMPLE_BY));
+					RowAddress_D    := LastRowAddress_DP(DVS_ROW_ADDRESS_WIDTH - 1 downto ADDRESS_SUBSAMPLE_BY);
 
-					if (Timestamp_D - ReadMap(ColumnAddress_D, RowAddress_D)) >= DVSAERConfigReg_D.FilterBackgroundActivityDeltaTime_D then
-						BAFilterOutValidReg_S <= '0';
-					end if;
+					BorderLeft_S  := BooleanToStdLogic(ColumnAddress_D = 0);
+					BorderDown_S  := BooleanToStdLogic(RowAddress_D = 0);
+					BorderRight_S := BooleanToStdLogic(ColumnAddress_D = 0);
+					BorderUp_S    := BooleanToStdLogic(RowAddress_D = 0);
 
-					-- Update all 8 neighbor cells with the new time.
-					if ColumnAddress_D > 0 then
-						WriteMap(ColumnAddress_D - 1, RowAddress_D, Timestamp_D);
-					end if;
-					if ColumnAddress_D < CHIP_DVS_SIZE_COLUMNS then
-						WriteMap(ColumnAddress_D + 1, RowAddress_D, Timestamp_D);
-					end if;
+					Column0_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "00");
+					Column1_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "01");
+					Column2_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "10");
+					Column3_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "11");
 
-					if RowAddress_D > 0 then
-						WriteMap(ColumnAddress_D, RowAddress_D - 1, Timestamp_D);
-					end if;
-					if RowAddress_D < CHIP_DVS_SIZE_ROWS then
-						WriteMap(ColumnAddress_D, RowAddress_D + 1, Timestamp_D);
-					end if;
+					Column0Active_S := Column0_S or Column1_S or Column3_S;
+					Column1Active_S := Column1_S or Column2_S or Column0_S;
+					Column2Active_S := Column2_S or Column3_S or Column1_S;
+					Column3Active_S := Column3_S or Column0_S or Column2_S;
 
-					if ColumnAddress_D > 0 and RowAddress_D > 0 then
-						WriteMap(ColumnAddress_D - 1, RowAddress_D - 1, Timestamp_D);
-					end if;
-					if ColumnAddress_D < CHIP_DVS_SIZE_COLUMNS and RowAddress_D < CHIP_DVS_SIZE_ROWS then
-						WriteMap(ColumnAddress_D + 1, RowAddress_D + 1, Timestamp_D);
-					end if;
+					Row0_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "00");
+					Row1_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "01");
+					Row2_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "10");
+					Row3_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "11");
 
-					if ColumnAddress_D > 0 and RowAddress_D < CHIP_DVS_SIZE_ROWS then
-						WriteMap(ColumnAddress_D - 1, RowAddress_D + 1, Timestamp_D);
-					end if;
-					if ColumnAddress_D < CHIP_DVS_SIZE_COLUMNS and RowAddress_D > 0 then
-						WriteMap(ColumnAddress_D + 1, RowAddress_D - 1, Timestamp_D);
-					end if;
+					Row0Active_S := Row0_S or Row1_S or Row3_S;
+					Row1Active_S := Row1_S or Row2_S or Row0_S;
+					Row2Active_S := Row2_S or Row3_S or Row1_S;
+					Row3Active_S := Row3_S or Row0_S or Row2_S;
+
+					TimestampMap0En_S  <= Column0Active_S and Row0Active_S;
+					TimestampMap1En_S  <= Column1Active_S and Row0Active_S;
+					TimestampMap2En_S  <= Column2Active_S and Row0Active_S;
+					TimestampMap3En_S  <= Column3Active_S and Row0Active_S;
+					TimestampMap4En_S  <= Column0Active_S and Row1Active_S;
+					TimestampMap5En_S  <= Column1Active_S and Row1Active_S;
+					TimestampMap6En_S  <= Column2Active_S and Row1Active_S;
+					TimestampMap7En_S  <= Column3Active_S and Row1Active_S;
+					TimestampMap8En_S  <= Column0Active_S and Row2Active_S;
+					TimestampMap9En_S  <= Column1Active_S and Row2Active_S;
+					TimestampMap10En_S <= Column2Active_S and Row2Active_S;
+					TimestampMap11En_S <= Column3Active_S and Row2Active_S;
+					TimestampMap12En_S <= Column0Active_S and Row3Active_S;
+					TimestampMap13En_S <= Column1Active_S and Row3Active_S;
+					TimestampMap14En_S <= Column2Active_S and Row3Active_S;
+					TimestampMap15En_S <= Column3Active_S and Row3Active_S;
+
+					TimestampMap0WrEn_S  <= Column0_S nand Row0_S;
+					TimestampMap1WrEn_S  <= Column1_S nand Row0_S;
+					TimestampMap2WrEn_S  <= Column2_S nand Row0_S;
+					TimestampMap3WrEn_S  <= Column3_S nand Row0_S;
+					TimestampMap4WrEn_S  <= Column0_S nand Row1_S;
+					TimestampMap5WrEn_S  <= Column1_S nand Row1_S;
+					TimestampMap6WrEn_S  <= Column2_S nand Row1_S;
+					TimestampMap7WrEn_S  <= Column3_S nand Row1_S;
+					TimestampMap8WrEn_S  <= Column0_S nand Row2_S;
+					TimestampMap9WrEn_S  <= Column1_S nand Row2_S;
+					TimestampMap10WrEn_S <= Column2_S nand Row2_S;
+					TimestampMap11WrEn_S <= Column3_S nand Row2_S;
+					TimestampMap12WrEn_S <= Column0_S nand Row3_S;
+					TimestampMap13WrEn_S <= Column1_S nand Row3_S;
+					TimestampMap14WrEn_S <= Column2_S nand Row3_S;
+					TimestampMap15WrEn_S <= Column3_S nand Row3_S;
+
+					TimestampMap0Address_D  <= (others => '0');
+					TimestampMap1Address_D  <= (others => '0');
+					TimestampMap2Address_D  <= (others => '0');
+					TimestampMap3Address_D  <= (others => '0');
+					TimestampMap4Address_D  <= (others => '0');
+					TimestampMap5Address_D  <= (others => '0');
+					TimestampMap6Address_D  <= (others => '0');
+					TimestampMap7Address_D  <= (others => '0');
+					TimestampMap8Address_D  <= (others => '0');
+					TimestampMap9Address_D  <= (others => '0');
+					TimestampMap10Address_D <= (others => '0');
+					TimestampMap11Address_D <= (others => '0');
+					TimestampMap12Address_D <= (others => '0');
+					TimestampMap13Address_D <= (others => '0');
+					TimestampMap14Address_D <= (others => '0');
+					TimestampMap15Address_D <= (others => '0');
 				end if;
 			end if;
 		end process baFilter;
 
-		baFilterTSMapUpdate : process(Clock_CI, Reset_RI) is
-		begin
-			if Reset_RI = '1' then
-				TimestampMap0_DP  <= (others => (others => (others => '0')));
-				TimestampMap1_DP  <= (others => (others => (others => '0')));
-				TimestampMap2_DP  <= (others => (others => (others => '0')));
-				TimestampMap3_DP  <= (others => (others => (others => '0')));
-				TimestampMap4_DP  <= (others => (others => (others => '0')));
-				TimestampMap5_DP  <= (others => (others => (others => '0')));
-				TimestampMap6_DP  <= (others => (others => (others => '0')));
-				TimestampMap7_DP  <= (others => (others => (others => '0')));
-				TimestampMap8_DP  <= (others => (others => (others => '0')));
-				TimestampMap9_DP  <= (others => (others => (others => '0')));
-				TimestampMap10_DP <= (others => (others => (others => '0')));
-				TimestampMap11_DP <= (others => (others => (others => '0')));
-				TimestampMap12_DP <= (others => (others => (others => '0')));
-				TimestampMap13_DP <= (others => (others => (others => '0')));
-				TimestampMap14_DP <= (others => (others => (others => '0')));
-				TimestampMap15_DP <= (others => (others => (others => '0')));
-			elsif rising_edge(Clock_CI) then
-				TimestampMap0_DP  <= TimestampMap0_DN;
-				TimestampMap1_DP  <= TimestampMap1_DN;
-				TimestampMap2_DP  <= TimestampMap2_DN;
-				TimestampMap3_DP  <= TimestampMap3_DN;
-				TimestampMap4_DP  <= TimestampMap4_DN;
-				TimestampMap5_DP  <= TimestampMap5_DN;
-				TimestampMap6_DP  <= TimestampMap6_DN;
-				TimestampMap7_DP  <= TimestampMap7_DN;
-				TimestampMap8_DP  <= TimestampMap8_DN;
-				TimestampMap9_DP  <= TimestampMap9_DN;
-				TimestampMap10_DP <= TimestampMap10_DN;
-				TimestampMap11_DP <= TimestampMap11_DN;
-				TimestampMap12_DP <= TimestampMap12_DN;
-				TimestampMap13_DP <= TimestampMap13_DN;
-				TimestampMap14_DP <= TimestampMap14_DN;
-				TimestampMap15_DP <= TimestampMap15_DN;
-			end if;
-		end process baFilterTSMapUpdate;
+		TSMap0 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap0Address_D,
+				Enable_SI         => TimestampMap0En_S,
+				WriteEnable_SI    => TimestampMap0WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap0_DN),
+				unsigned(Data_DO) => TimestampMap0_DP);
+
+		TSMap1 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap1Address_D,
+				Enable_SI         => TimestampMap1En_S,
+				WriteEnable_SI    => TimestampMap1WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap1_DN),
+				unsigned(Data_DO) => TimestampMap1_DP);
+
+		TSMap2 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap2Address_D,
+				Enable_SI         => TimestampMap2En_S,
+				WriteEnable_SI    => TimestampMap2WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap2_DN),
+				unsigned(Data_DO) => TimestampMap2_DP);
+
+		TSMap3 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap3Address_D,
+				Enable_SI         => TimestampMap3En_S,
+				WriteEnable_SI    => TimestampMap3WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap3_DN),
+				unsigned(Data_DO) => TimestampMap3_DP);
+
+		TSMap4 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap4Address_D,
+				Enable_SI         => TimestampMap4En_S,
+				WriteEnable_SI    => TimestampMap4WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap4_DN),
+				unsigned(Data_DO) => TimestampMap4_DP);
+
+		TSMap5 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap5Address_D,
+				Enable_SI         => TimestampMap5En_S,
+				WriteEnable_SI    => TimestampMap5WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap5_DN),
+				unsigned(Data_DO) => TimestampMap5_DP);
+
+		TSMap6 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap6Address_D,
+				Enable_SI         => TimestampMap6En_S,
+				WriteEnable_SI    => TimestampMap6WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap6_DN),
+				unsigned(Data_DO) => TimestampMap6_DP);
+
+		TSMap7 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap7Address_D,
+				Enable_SI         => TimestampMap7En_S,
+				WriteEnable_SI    => TimestampMap7WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap7_DN),
+				unsigned(Data_DO) => TimestampMap7_DP);
+
+		TSMap8 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap8Address_D,
+				Enable_SI         => TimestampMap8En_S,
+				WriteEnable_SI    => TimestampMap8WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap8_DN),
+				unsigned(Data_DO) => TimestampMap8_DP);
+
+		TSMap9 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap9Address_D,
+				Enable_SI         => TimestampMap9En_S,
+				WriteEnable_SI    => TimestampMap9WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap9_DN),
+				unsigned(Data_DO) => TimestampMap9_DP);
+
+		TSMap10 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap10Address_D,
+				Enable_SI         => TimestampMap10En_S,
+				WriteEnable_SI    => TimestampMap10WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap10_DN),
+				unsigned(Data_DO) => TimestampMap10_DP);
+
+		TSMap11 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap11Address_D,
+				Enable_SI         => TimestampMap11En_S,
+				WriteEnable_SI    => TimestampMap11WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap11_DN),
+				unsigned(Data_DO) => TimestampMap11_DP);
+
+		TSMap12 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap12Address_D,
+				Enable_SI         => TimestampMap12En_S,
+				WriteEnable_SI    => TimestampMap12WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap12_DN),
+				unsigned(Data_DO) => TimestampMap12_DP);
+
+		TSMap13 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap13Address_D,
+				Enable_SI         => TimestampMap13En_S,
+				WriteEnable_SI    => TimestampMap13WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap13_DN),
+				unsigned(Data_DO) => TimestampMap13_DP);
+
+		TSMap14 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap14Address_D,
+				Enable_SI         => TimestampMap14En_S,
+				WriteEnable_SI    => TimestampMap14WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap14_DN),
+				unsigned(Data_DO) => TimestampMap14_DP);
+
+		TSMap15 : entity work.BlockRAM
+			generic map(
+				ADDRESS_DEPTH => 12,
+				ADDRESS_WIDTH => 4,
+				DATA_WIDTH    => 20)
+			port map(
+				Clock_CI          => Clock_CI,
+				Reset_RI          => Reset_RI,
+				Address_DI        => TimestampMap15Address_D,
+				Enable_SI         => TimestampMap15En_S,
+				WriteEnable_SI    => TimestampMap15WrEn_S,
+				Data_DI           => std_logic_vector(TimestampMap15_DN),
+				unsigned(Data_DO) => TimestampMap15_DP);
 
 		baFilterTSCounter : entity work.ContinuousCounter
 			generic map(
