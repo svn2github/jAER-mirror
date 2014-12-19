@@ -15,6 +15,9 @@
         <Source name="../common-source/ext/FIFO.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/ext/BlockRAM.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/ext/PLL.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
