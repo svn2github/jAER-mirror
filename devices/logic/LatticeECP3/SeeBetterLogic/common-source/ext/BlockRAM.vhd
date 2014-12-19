@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 use work.Settings.DEVICE_FAMILY;
 
 entity BlockRAM is
@@ -11,7 +12,7 @@ entity BlockRAM is
 		Clock_CI       : in  std_logic;
 		Reset_RI       : in  std_logic;
 
-		Address_DI     : in  std_logic_vector(ADDRESS_WIDTH - 1 downto 0);
+		Address_DI     : in  unsigned(ADDRESS_WIDTH - 1 downto 0);
 		Enable_SI      : in  std_logic;
 		WriteEnable_SI : in  std_logic;
 		Data_DI        : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
@@ -33,7 +34,7 @@ begin
 			pmi_family     => DEVICE_FAMILY)
 		port map(
 			Data    => Data_DI,
-			Address => Address_DI,
+			Address => std_logic_vector(Address_DI),
 			Clock   => Clock_CI,
 			ClockEn => Enable_SI,
 			WE      => WriteEnable_SI,

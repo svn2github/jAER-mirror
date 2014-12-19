@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.ceil;
 use ieee.math_real.log2;
+use ieee.math_real."**";
 use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.DVSAERConfigRecords.all;
@@ -467,6 +468,16 @@ begin
 	end generate pixelFilterSupport;
 
 	baFilterSupport : if ENABLE_BACKGROUND_ACTIVITY_FILTERING = true generate
+		constant BA_ADDRESS_SUBSAMPLE_BY : integer := 3;
+		constant BA_COLUMN_ADDRESS_WIDTH : integer := DVS_COLUMN_ADDRESS_WIDTH - BA_ADDRESS_SUBSAMPLE_BY;
+		constant BA_ROW_ADDRESS_WIDTH    : integer := DVS_ROW_ADDRESS_WIDTH - BA_ADDRESS_SUBSAMPLE_BY;
+		constant BA_COLUMN_CELL_NUMBER   : integer := integer(ceil(real(to_integer(CHIP_DVS_SIZE_COLUMNS)) / (2 ** real(BA_ADDRESS_SUBSAMPLE_BY))));
+		constant BA_ROW_CELL_NUMBER      : integer := integer(ceil(real(to_integer(CHIP_DVS_SIZE_ROWS)) / (2 ** real(BA_ADDRESS_SUBSAMPLE_BY))));
+		constant BA_COLUMN_CELL_ADDRESS  : integer := integer(ceil(real(BA_COLUMN_CELL_NUMBER) / 4.0));
+		constant BA_ROW_CELL_ADDRESS     : integer := integer(ceil(real(BA_ROW_CELL_NUMBER) / 4.0));
+		constant BA_ADDRESS_DEPTH        : integer := BA_COLUMN_CELL_ADDRESS * BA_ROW_CELL_ADDRESS;
+		constant BA_ADDRESS_WIDTH        : integer := integer(ceil(log2(real(BA_ADDRESS_DEPTH))));
+
 		signal TimestampMap0_DP, TimestampMap0_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
 		signal TimestampMap1_DP, TimestampMap1_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
 		signal TimestampMap2_DP, TimestampMap2_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
@@ -484,22 +495,22 @@ begin
 		signal TimestampMap14_DP, TimestampMap14_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
 		signal TimestampMap15_DP, TimestampMap15_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
 
-		signal TimestampMap0Address_D  : std_logic_vector(3 downto 0);
-		signal TimestampMap1Address_D  : std_logic_vector(3 downto 0);
-		signal TimestampMap2Address_D  : std_logic_vector(3 downto 0);
-		signal TimestampMap3Address_D  : std_logic_vector(3 downto 0);
-		signal TimestampMap4Address_D  : std_logic_vector(3 downto 0);
-		signal TimestampMap5Address_D  : std_logic_vector(3 downto 0);
-		signal TimestampMap6Address_D  : std_logic_vector(3 downto 0);
-		signal TimestampMap7Address_D  : std_logic_vector(3 downto 0);
-		signal TimestampMap8Address_D  : std_logic_vector(3 downto 0);
-		signal TimestampMap9Address_D  : std_logic_vector(3 downto 0);
-		signal TimestampMap10Address_D : std_logic_vector(3 downto 0);
-		signal TimestampMap11Address_D : std_logic_vector(3 downto 0);
-		signal TimestampMap12Address_D : std_logic_vector(3 downto 0);
-		signal TimestampMap13Address_D : std_logic_vector(3 downto 0);
-		signal TimestampMap14Address_D : std_logic_vector(3 downto 0);
-		signal TimestampMap15Address_D : std_logic_vector(3 downto 0);
+		signal TimestampMap0Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap1Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap2Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap3Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap4Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap5Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap6Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap7Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap8Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap9Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap10Address_D : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap11Address_D : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap12Address_D : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap13Address_D : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap14Address_D : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+		signal TimestampMap15Address_D : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
 
 		signal TimestampMap0En_S  : std_logic;
 		signal TimestampMap1En_S  : std_logic;
@@ -538,8 +549,6 @@ begin
 		constant TS_TICK      : integer := LOGIC_CLOCK_FREQ;
 		constant TS_TICK_SIZE : integer := integer(ceil(log2(real(TS_TICK + 1))));
 
-		constant ADDRESS_SUBSAMPLE_BY : integer := 3;
-
 		signal Timestamp_D       : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
 		signal TimestampEnable_S : std_logic;
 
@@ -548,15 +557,33 @@ begin
 		function BooleanToStdLogic(BOOL : boolean) return std_logic is
 		begin
 			if BOOL then
-				return ('1');
+				return '1';
 			else
-				return ('0');
+				return '0';
 			end if;
 		end function BooleanToStdLogic;
 	begin
 		baFilter : process(BAFilterInDataReg_D, BAFilterInValidReg_S, LastRowAddress_DP, Timestamp_D)
-			variable ColumnAddress_D : unsigned(DVS_COLUMN_ADDRESS_WIDTH - ADDRESS_SUBSAMPLE_BY - 1 downto 0) := (others => '0');
-			variable RowAddress_D    : unsigned(DVS_ROW_ADDRESS_WIDTH - ADDRESS_SUBSAMPLE_BY - 1 downto 0)    := (others => '0');
+			variable ColumnAddress_D : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+			variable RowAddress_D    : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
+
+			variable ColumnAddressLeft_D  : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+			variable RowAddressLeft_D     : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
+			variable ColumnAddressDown_D  : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+			variable RowAddressDown_D     : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
+			variable ColumnAddressRight_D : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+			variable RowAddressRight_D    : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
+			variable ColumnAddressUp_D    : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+			variable RowAddressUp_D       : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
+
+			variable ColumnAddressLeftDown_D  : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+			variable RowAddressLeftDown_D     : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
+			variable ColumnAddressRightDown_D : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+			variable RowAddressRightDown_D    : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
+			variable ColumnAddressRightUp_D   : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+			variable RowAddressRightUp_D      : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
+			variable ColumnAddressLeftUp_D    : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+			variable RowAddressLeftUp_D       : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
 
 			variable BorderLeft_S  : std_logic := '0';
 			variable BorderDown_S  : std_logic := '0';
@@ -568,15 +595,15 @@ begin
 			variable Column2_S : std_logic := '0';
 			variable Column3_S : std_logic := '0';
 
-			variable Column0Active_S : std_logic := '0';
-			variable Column1Active_S : std_logic := '0';
-			variable Column2Active_S : std_logic := '0';
-			variable Column3Active_S : std_logic := '0';
-
 			variable Row0_S : std_logic := '0';
 			variable Row1_S : std_logic := '0';
 			variable Row2_S : std_logic := '0';
 			variable Row3_S : std_logic := '0';
+
+			variable Column0Active_S : std_logic := '0';
+			variable Column1Active_S : std_logic := '0';
+			variable Column2Active_S : std_logic := '0';
+			variable Column3Active_S : std_logic := '0';
 
 			variable Row0Active_S : std_logic := '0';
 			variable Row1Active_S : std_logic := '0';
@@ -665,33 +692,51 @@ begin
 				else
 					-- This is a column address, let's determine all valid RAM parameters.
 					-- The address is downsampled here, right at the start.
-					ColumnAddress_D := unsigned(BAFilterInDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto ADDRESS_SUBSAMPLE_BY));
-					RowAddress_D    := LastRowAddress_DP(DVS_ROW_ADDRESS_WIDTH - 1 downto ADDRESS_SUBSAMPLE_BY);
+					ColumnAddress_D := unsigned(BAFilterInDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto BA_ADDRESS_SUBSAMPLE_BY));
+					RowAddress_D    := LastRowAddress_DP(DVS_ROW_ADDRESS_WIDTH - 1 downto BA_ADDRESS_SUBSAMPLE_BY);
+
+					ColumnAddressLeft_D  := ColumnAddress_D - 1;
+					RowAddressLeft_D     := RowAddress_D;
+					ColumnAddressDown_D  := ColumnAddress_D;
+					RowAddressDown_D     := RowAddress_D - 1;
+					ColumnAddressRight_D := ColumnAddress_D + 1;
+					RowAddressRight_D    := RowAddress_D;
+					ColumnAddressUp_D    := ColumnAddress_D;
+					RowAddressUp_D       := RowAddress_D + 1;
+
+					ColumnAddressLeftDown_D  := ColumnAddress_D - 1;
+					RowAddressLeftDown_D     := RowAddress_D - 1;
+					ColumnAddressRightDown_D := ColumnAddress_D + 1;
+					RowAddressRightDown_D    := RowAddress_D - 1;
+					ColumnAddressRightUp_D   := ColumnAddress_D + 1;
+					RowAddressRightUp_D      := RowAddress_D + 1;
+					ColumnAddressLeftUp_D    := ColumnAddress_D - 1;
+					RowAddressLeftUp_D       := RowAddress_D + 1;
 
 					BorderLeft_S  := BooleanToStdLogic(ColumnAddress_D = 0);
 					BorderDown_S  := BooleanToStdLogic(RowAddress_D = 0);
-					BorderRight_S := BooleanToStdLogic(ColumnAddress_D = 0);
-					BorderUp_S    := BooleanToStdLogic(RowAddress_D = 0);
+					BorderRight_S := BooleanToStdLogic(ColumnAddress_D = (BA_COLUMN_CELL_NUMBER - 1));
+					BorderUp_S    := BooleanToStdLogic(RowAddress_D = (BA_ROW_CELL_NUMBER - 1));
 
 					Column0_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "00");
 					Column1_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "01");
 					Column2_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "10");
 					Column3_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "11");
 
-					Column0Active_S := Column0_S or Column1_S or Column3_S;
-					Column1Active_S := Column1_S or Column2_S or Column0_S;
-					Column2Active_S := Column2_S or Column3_S or Column1_S;
-					Column3Active_S := Column3_S or Column0_S or Column2_S;
-
 					Row0_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "00");
 					Row1_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "01");
 					Row2_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "10");
 					Row3_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "11");
 
-					Row0Active_S := Row0_S or Row1_S or Row3_S;
-					Row1Active_S := Row1_S or Row2_S or Row0_S;
-					Row2Active_S := Row2_S or Row3_S or Row1_S;
-					Row3Active_S := Row3_S or Row0_S or Row2_S;
+					Column0Active_S := Column0_S or (Column1_S and not BorderLeft_S) or (Column3_S and not BorderRight_S);
+					Column1Active_S := Column1_S or (Column2_S and not BorderLeft_S) or (Column0_S and not BorderRight_S);
+					Column2Active_S := Column2_S or (Column3_S and not BorderLeft_S) or (Column1_S and not BorderRight_S);
+					Column3Active_S := Column3_S or (Column0_S and not BorderLeft_S) or (Column2_S and not BorderRight_S);
+
+					Row0Active_S := Row0_S or (Row1_S and not BorderDown_S) or (Row3_S and not BorderUp_S);
+					Row1Active_S := Row1_S or (Row2_S and not BorderDown_S) or (Row0_S and not BorderUp_S);
+					Row2Active_S := Row2_S or (Row3_S and not BorderDown_S) or (Row1_S and not BorderUp_S);
+					Row3Active_S := Row3_S or (Row0_S and not BorderDown_S) or (Row2_S and not BorderUp_S);
 
 					TimestampMap0En_S  <= Column0Active_S and Row0Active_S;
 					TimestampMap1En_S  <= Column1Active_S and Row0Active_S;
@@ -727,31 +772,56 @@ begin
 					TimestampMap14WrEn_S <= Column2_S nand Row3_S;
 					TimestampMap15WrEn_S <= Column3_S nand Row3_S;
 
-					TimestampMap0Address_D  <= (others => '0');
-					TimestampMap1Address_D  <= (others => '0');
-					TimestampMap2Address_D  <= (others => '0');
-					TimestampMap3Address_D  <= (others => '0');
-					TimestampMap4Address_D  <= (others => '0');
-					TimestampMap5Address_D  <= (others => '0');
-					TimestampMap6Address_D  <= (others => '0');
-					TimestampMap7Address_D  <= (others => '0');
-					TimestampMap8Address_D  <= (others => '0');
-					TimestampMap9Address_D  <= (others => '0');
-					TimestampMap10Address_D <= (others => '0');
-					TimestampMap11Address_D <= (others => '0');
-					TimestampMap12Address_D <= (others => '0');
-					TimestampMap13Address_D <= (others => '0');
-					TimestampMap14Address_D <= (others => '0');
-					TimestampMap15Address_D <= (others => '0');
+					if Column0_S = '1' then
+						if Row0_S = '1' then
+						-- Left/Down Corner
+						elsif Row3_S = '1' then
+						-- Left/Up Corner
+						else            -- Rows 1/2
+						-- Left Border
+						end if;
+					elsif Column3_S = '1' then
+						if Row0_S = '1' then
+						-- Right/Down Corner
+						elsif Row3_S = '1' then
+						-- Right/Up Corner
+						else            -- Rows 1/2
+						-- Right Border
+						end if;
+					else                -- Columns 1/2
+						if Row0_S = '1' then
+						-- Down Border
+						elsif Row3_S = '1' then
+						-- Up Border
+						else            -- Rows 1/2
+							-- Normal
+							TimestampMap0Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap1Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap2Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap3Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap4Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap5Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap6Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap7Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap8Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap9Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap10Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap11Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap12Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap13Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap14Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap15Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+						end if;
+					end if;
 				end if;
 			end if;
 		end process baFilter;
 
 		TSMap0 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -763,9 +833,9 @@ begin
 
 		TSMap1 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -777,9 +847,9 @@ begin
 
 		TSMap2 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -791,9 +861,9 @@ begin
 
 		TSMap3 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -805,9 +875,9 @@ begin
 
 		TSMap4 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -819,9 +889,9 @@ begin
 
 		TSMap5 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -833,9 +903,9 @@ begin
 
 		TSMap6 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -847,9 +917,9 @@ begin
 
 		TSMap7 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -861,9 +931,9 @@ begin
 
 		TSMap8 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -875,9 +945,9 @@ begin
 
 		TSMap9 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -889,9 +959,9 @@ begin
 
 		TSMap10 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -903,9 +973,9 @@ begin
 
 		TSMap11 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -917,9 +987,9 @@ begin
 
 		TSMap12 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -931,9 +1001,9 @@ begin
 
 		TSMap13 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -945,9 +1015,9 @@ begin
 
 		TSMap14 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -959,9 +1029,9 @@ begin
 
 		TSMap15 : entity work.BlockRAM
 			generic map(
-				ADDRESS_DEPTH => 12,
-				ADDRESS_WIDTH => 4,
-				DATA_WIDTH    => 20)
+				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
+				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
+				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
