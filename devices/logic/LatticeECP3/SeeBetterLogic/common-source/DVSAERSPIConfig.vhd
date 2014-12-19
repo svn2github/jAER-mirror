@@ -5,7 +5,6 @@ use work.DVSAERConfigRecords.all;
 
 entity DVSAERSPIConfig is
 	generic(
-		ENABLE_COLUMN_ACK_DELAYS             : boolean := true;
 		ENABLE_PIXEL_FILTERING               : boolean := false;
 		ENABLE_BACKGROUND_ACTIVITY_FILTERING : boolean := false);
 	port(
@@ -48,20 +47,16 @@ begin
 				DVSAEROutput_DN(tDVSAERConfig.AckDelayRow_D'range) <= std_logic_vector(DVSAERConfigReg_DP.AckDelayRow_D);
 
 			when DVSAERCONFIG_PARAM_ADDRESSES.AckDelayColumn_D =>
-				if ENABLE_COLUMN_ACK_DELAYS = true then
-					DVSAERConfigReg_DN.AckDelayColumn_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.AckDelayColumn_D'range));
-					DVSAEROutput_DN(tDVSAERConfig.AckDelayColumn_D'range) <= std_logic_vector(DVSAERConfigReg_DP.AckDelayColumn_D);
-				end if;
+				DVSAERConfigReg_DN.AckDelayColumn_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.AckDelayColumn_D'range));
+				DVSAEROutput_DN(tDVSAERConfig.AckDelayColumn_D'range) <= std_logic_vector(DVSAERConfigReg_DP.AckDelayColumn_D);
 
 			when DVSAERCONFIG_PARAM_ADDRESSES.AckExtensionRow_D =>
 				DVSAERConfigReg_DN.AckExtensionRow_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.AckExtensionRow_D'range));
 				DVSAEROutput_DN(tDVSAERConfig.AckExtensionRow_D'range) <= std_logic_vector(DVSAERConfigReg_DP.AckExtensionRow_D);
 
 			when DVSAERCONFIG_PARAM_ADDRESSES.AckExtensionColumn_D =>
-				if ENABLE_COLUMN_ACK_DELAYS = true then
-					DVSAERConfigReg_DN.AckExtensionColumn_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.AckExtensionColumn_D'range));
-					DVSAEROutput_DN(tDVSAERConfig.AckExtensionColumn_D'range) <= std_logic_vector(DVSAERConfigReg_DP.AckExtensionColumn_D);
-				end if;
+				DVSAERConfigReg_DN.AckExtensionColumn_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.AckExtensionColumn_D'range));
+				DVSAEROutput_DN(tDVSAERConfig.AckExtensionColumn_D'range) <= std_logic_vector(DVSAERConfigReg_DP.AckExtensionColumn_D);
 
 			when DVSAERCONFIG_PARAM_ADDRESSES.WaitOnTransferStall_S =>
 				DVSAERConfigReg_DN.WaitOnTransferStall_S <= DVSAERInput_DP(0);

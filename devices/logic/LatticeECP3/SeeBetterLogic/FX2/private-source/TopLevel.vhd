@@ -303,8 +303,6 @@ begin
 			DVSAERConfig_DI   => DVSAERConfig_D);
 
 	dvsaerSPIConfig : entity work.DVSAERSPIConfig
-		generic map(
-			ENABLE_COLUMN_ACK_DELAYS => false)
 		port map(
 			Clock_CI                   => LogicClock_C,
 			Reset_RI                   => LogicReset_R,
