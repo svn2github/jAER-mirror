@@ -21,17 +21,17 @@ end entity BlockRAM;
 
 architecture Structural of BlockRAM is
 begin
-	blockRAM : component work.pmi_components.pmi_distributed_spram
+	blockRAM : component work.pmi_components.pmi_ram_dq
 		generic map(
-			pmi_addr_depth => ADDRESS_DEPTH,
-			pmi_addr_width => ADDRESS_WIDTH,
-			pmi_data_width => DATA_WIDTH,
-			pmi_regmode    => "noreg",
-			--pmi_gsr          => "disable",
-			--pmi_resetmode    => "async",
-			--pmi_optimization => "speed",
-			--pmi_write_mode   => "normal",
-			pmi_family     => DEVICE_FAMILY)
+			pmi_addr_depth   => ADDRESS_DEPTH,
+			pmi_addr_width   => ADDRESS_WIDTH,
+			pmi_data_width   => DATA_WIDTH,
+			pmi_regmode      => "noreg",
+			pmi_gsr          => "disable",
+			pmi_resetmode    => "async",
+			pmi_optimization => "speed",
+			pmi_write_mode   => "normal",
+			pmi_family       => DEVICE_FAMILY)
 		port map(
 			Data    => Data_DI,
 			Address => std_logic_vector(Address_DI),

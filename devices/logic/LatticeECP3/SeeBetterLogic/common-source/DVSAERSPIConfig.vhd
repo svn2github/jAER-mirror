@@ -114,6 +114,54 @@ begin
 					DVSAEROutput_DN(tDVSAERConfig.FilterPixel3Column_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterPixel3Column_D);
 				end if;
 
+			when DVSAERCONFIG_PARAM_ADDRESSES.FilterPixel4Row_D =>
+				if ENABLE_PIXEL_FILTERING = true then
+					DVSAERConfigReg_DN.FilterPixel4Row_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterPixel4Row_D'range));
+					DVSAEROutput_DN(tDVSAERConfig.FilterPixel4Row_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterPixel4Row_D);
+				end if;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.FilterPixel4Column_D =>
+				if ENABLE_PIXEL_FILTERING = true then
+					DVSAERConfigReg_DN.FilterPixel4Column_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterPixel4Column_D'range));
+					DVSAEROutput_DN(tDVSAERConfig.FilterPixel4Column_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterPixel4Column_D);
+				end if;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.FilterPixel5Row_D =>
+				if ENABLE_PIXEL_FILTERING = true then
+					DVSAERConfigReg_DN.FilterPixel5Row_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterPixel5Row_D'range));
+					DVSAEROutput_DN(tDVSAERConfig.FilterPixel5Row_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterPixel5Row_D);
+				end if;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.FilterPixel5Column_D =>
+				if ENABLE_PIXEL_FILTERING = true then
+					DVSAERConfigReg_DN.FilterPixel5Column_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterPixel5Column_D'range));
+					DVSAEROutput_DN(tDVSAERConfig.FilterPixel5Column_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterPixel5Column_D);
+				end if;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.FilterPixel6Row_D =>
+				if ENABLE_PIXEL_FILTERING = true then
+					DVSAERConfigReg_DN.FilterPixel6Row_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterPixel6Row_D'range));
+					DVSAEROutput_DN(tDVSAERConfig.FilterPixel6Row_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterPixel6Row_D);
+				end if;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.FilterPixel6Column_D =>
+				if ENABLE_PIXEL_FILTERING = true then
+					DVSAERConfigReg_DN.FilterPixel6Column_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterPixel6Column_D'range));
+					DVSAEROutput_DN(tDVSAERConfig.FilterPixel6Column_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterPixel6Column_D);
+				end if;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.FilterPixel7Row_D =>
+				if ENABLE_PIXEL_FILTERING = true then
+					DVSAERConfigReg_DN.FilterPixel7Row_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterPixel7Row_D'range));
+					DVSAEROutput_DN(tDVSAERConfig.FilterPixel7Row_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterPixel7Row_D);
+				end if;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.FilterPixel7Column_D =>
+				if ENABLE_PIXEL_FILTERING = true then
+					DVSAERConfigReg_DN.FilterPixel7Column_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterPixel7Column_D'range));
+					DVSAEROutput_DN(tDVSAERConfig.FilterPixel7Column_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterPixel7Column_D);
+				end if;
+
 			when DVSAERCONFIG_PARAM_ADDRESSES.FilterBackgroundActivity_S =>
 				if ENABLE_BACKGROUND_ACTIVITY_FILTERING = true then
 					DVSAERConfigReg_DN.FilterBackgroundActivity_S <= DVSAERInput_DP(0);

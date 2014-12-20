@@ -15,10 +15,12 @@ use work.Settings.DEVICE_FAMILY;
 
 entity DVSAERStateMachine is
 	generic(
-		FLIP_ROW_ADDRESS                     : boolean := false;
-		FLIP_COLUMN_ADDRESS                  : boolean := false;
-		ENABLE_PIXEL_FILTERING               : boolean := false;
-		ENABLE_BACKGROUND_ACTIVITY_FILTERING : boolean := false);
+		FLIP_ROW_ADDRESS           : boolean := false;
+		FLIP_COLUMN_ADDRESS        : boolean := false;
+		ENABLE_PIXEL_FILTERING     : boolean := false;
+		ENABLE_BA_FILTERING        : boolean := false;
+		BA_FILTER_SUBSAMPLE_COLUMN : integer := 3;
+		BA_FILTER_SUBSAMPLE_ROW    : integer := 3);
 	port(
 		Clock_CI          : in  std_logic;
 		Reset_RI          : in  std_logic;
@@ -250,7 +252,7 @@ begin
 		end if;
 	end process dvsHandleAERRegisterUpdate;
 
-	dvsOnly : if ENABLE_PIXEL_FILTERING = false and ENABLE_BACKGROUND_ACTIVITY_FILTERING = false generate
+	dvsOnly : if ENABLE_PIXEL_FILTERING = false and ENABLE_BA_FILTERING = false generate
 	begin
 		dvsEventDataRegister : entity work.SimpleRegister
 			generic map(
@@ -273,7 +275,7 @@ begin
 				Output_SO(0) => OutFifoControl_SO.Write_S);
 	end generate dvsOnly;
 
-	pixelFilteringOnly : if ENABLE_PIXEL_FILTERING = true and ENABLE_BACKGROUND_ACTIVITY_FILTERING = false generate
+	pixelFilteringOnly : if ENABLE_PIXEL_FILTERING = true and ENABLE_BA_FILTERING = false generate
 	begin
 		dvsEventDataRegister : entity work.SimpleRegister
 			generic map(
@@ -316,7 +318,7 @@ begin
 				Output_SO(0) => OutFifoControl_SO.Write_S);
 	end generate pixelFilteringOnly;
 
-	baFilteringOnly : if ENABLE_PIXEL_FILTERING = false and ENABLE_BACKGROUND_ACTIVITY_FILTERING = true generate
+	baFilteringOnly : if ENABLE_PIXEL_FILTERING = false and ENABLE_BA_FILTERING = true generate
 	begin
 		dvsEventDataRegister : entity work.SimpleRegister
 			generic map(
@@ -359,7 +361,7 @@ begin
 				Output_SO(0) => OutFifoControl_SO.Write_S);
 	end generate baFilteringOnly;
 
-	allFilters : if ENABLE_PIXEL_FILTERING = true and ENABLE_BACKGROUND_ACTIVITY_FILTERING = true generate
+	allFilters : if ENABLE_PIXEL_FILTERING = true and ENABLE_BA_FILTERING = true generate
 	begin
 		dvsEventDataRegister : entity work.SimpleRegister
 			generic map(
@@ -426,10 +428,17 @@ begin
 		signal LastRowAddress_DP, LastRowAddress_DN : unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0);
 	begin
 		pixelFilter : process(PixelFilterInDataReg_D, PixelFilterInValidReg_S, LastRowAddress_DP, DVSAERConfigReg_D)
+			variable ColumnAddress_D : unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0) := (others => '0');
+			variable RowAddress_D    : unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0) := (others => '0');
+
 			variable Pixel0Hit_S : boolean := false;
 			variable Pixel1Hit_S : boolean := false;
 			variable Pixel2Hit_S : boolean := false;
 			variable Pixel3Hit_S : boolean := false;
+			variable Pixel4Hit_S : boolean := false;
+			variable Pixel5Hit_S : boolean := false;
+			variable Pixel6Hit_S : boolean := false;
+			variable Pixel7Hit_S : boolean := false;
 		begin
 			PixelFilterOutDataReg_D  <= PixelFilterInDataReg_D;
 			PixelFilterOutValidReg_S <= PixelFilterInValidReg_S;
@@ -444,12 +453,19 @@ begin
 					-- This is a column address, we do the full comparison at this point.
 					-- If it matches any of the pixels that should be filtered, we set the column
 					-- address to be invalid.
-					Pixel0Hit_S := LastRowAddress_DP = DVSAERConfigReg_D.FilterPixel0Row_D and unsigned(PixelFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0)) = DVSAERConfigReg_D.FilterPixel0Column_D;
-					Pixel1Hit_S := LastRowAddress_DP = DVSAERConfigReg_D.FilterPixel1Row_D and unsigned(PixelFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0)) = DVSAERConfigReg_D.FilterPixel1Column_D;
-					Pixel2Hit_S := LastRowAddress_DP = DVSAERConfigReg_D.FilterPixel2Row_D and unsigned(PixelFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0)) = DVSAERConfigReg_D.FilterPixel2Column_D;
-					Pixel3Hit_S := LastRowAddress_DP = DVSAERConfigReg_D.FilterPixel3Row_D and unsigned(PixelFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0)) = DVSAERConfigReg_D.FilterPixel3Column_D;
+					ColumnAddress_D := unsigned(PixelFilterInDataReg_D(EVENT_DATA_WIDTH_MAX - 1 downto 0));
+					RowAddress_D    := LastRowAddress_DP;
 
-					if Pixel0Hit_S or Pixel1Hit_S or Pixel2Hit_S or Pixel3Hit_S then
+					Pixel0Hit_S := RowAddress_D = DVSAERConfigReg_D.FilterPixel0Row_D and ColumnAddress_D = DVSAERConfigReg_D.FilterPixel0Column_D;
+					Pixel1Hit_S := RowAddress_D = DVSAERConfigReg_D.FilterPixel1Row_D and ColumnAddress_D = DVSAERConfigReg_D.FilterPixel1Column_D;
+					Pixel2Hit_S := RowAddress_D = DVSAERConfigReg_D.FilterPixel2Row_D and ColumnAddress_D = DVSAERConfigReg_D.FilterPixel2Column_D;
+					Pixel3Hit_S := RowAddress_D = DVSAERConfigReg_D.FilterPixel3Row_D and ColumnAddress_D = DVSAERConfigReg_D.FilterPixel3Column_D;
+					Pixel4Hit_S := RowAddress_D = DVSAERConfigReg_D.FilterPixel4Row_D and ColumnAddress_D = DVSAERConfigReg_D.FilterPixel4Column_D;
+					Pixel5Hit_S := RowAddress_D = DVSAERConfigReg_D.FilterPixel5Row_D and ColumnAddress_D = DVSAERConfigReg_D.FilterPixel5Column_D;
+					Pixel6Hit_S := RowAddress_D = DVSAERConfigReg_D.FilterPixel6Row_D and ColumnAddress_D = DVSAERConfigReg_D.FilterPixel6Column_D;
+					Pixel7Hit_S := RowAddress_D = DVSAERConfigReg_D.FilterPixel7Row_D and ColumnAddress_D = DVSAERConfigReg_D.FilterPixel7Column_D;
+
+					if Pixel0Hit_S or Pixel1Hit_S or Pixel2Hit_S or Pixel3Hit_S or Pixel4Hit_S or Pixel5Hit_S or Pixel6Hit_S or Pixel7Hit_S then
 						PixelFilterOutValidReg_S <= '0';
 					end if;
 				end if;
@@ -467,12 +483,11 @@ begin
 				unsigned(Output_SO) => LastRowAddress_DP);
 	end generate pixelFilterSupport;
 
-	baFilterSupport : if ENABLE_BACKGROUND_ACTIVITY_FILTERING = true generate
-		constant BA_ADDRESS_SUBSAMPLE_BY : integer := 3;
-		constant BA_COLUMN_ADDRESS_WIDTH : integer := DVS_COLUMN_ADDRESS_WIDTH - BA_ADDRESS_SUBSAMPLE_BY;
-		constant BA_ROW_ADDRESS_WIDTH    : integer := DVS_ROW_ADDRESS_WIDTH - BA_ADDRESS_SUBSAMPLE_BY;
-		constant BA_COLUMN_CELL_NUMBER   : integer := integer(ceil(real(to_integer(CHIP_DVS_SIZE_COLUMNS)) / (2 ** real(BA_ADDRESS_SUBSAMPLE_BY))));
-		constant BA_ROW_CELL_NUMBER      : integer := integer(ceil(real(to_integer(CHIP_DVS_SIZE_ROWS)) / (2 ** real(BA_ADDRESS_SUBSAMPLE_BY))));
+	baFilterSupport : if ENABLE_BA_FILTERING = true generate
+		constant BA_COLUMN_ADDRESS_WIDTH : integer := DVS_COLUMN_ADDRESS_WIDTH - BA_FILTER_SUBSAMPLE_COLUMN;
+		constant BA_ROW_ADDRESS_WIDTH    : integer := DVS_ROW_ADDRESS_WIDTH - BA_FILTER_SUBSAMPLE_ROW;
+		constant BA_COLUMN_CELL_NUMBER   : integer := integer(ceil(real(to_integer(CHIP_DVS_SIZE_COLUMNS)) / (2.0 ** real(BA_FILTER_SUBSAMPLE_COLUMN))));
+		constant BA_ROW_CELL_NUMBER      : integer := integer(ceil(real(to_integer(CHIP_DVS_SIZE_ROWS)) / (2.0 ** real(BA_FILTER_SUBSAMPLE_ROW))));
 		constant BA_COLUMN_CELL_ADDRESS  : integer := integer(ceil(real(BA_COLUMN_CELL_NUMBER) / 4.0));
 		constant BA_ROW_CELL_ADDRESS     : integer := integer(ceil(real(BA_ROW_CELL_NUMBER) / 4.0));
 		constant BA_ADDRESS_DEPTH        : integer := BA_COLUMN_CELL_ADDRESS * BA_ROW_CELL_ADDRESS;
@@ -495,6 +510,23 @@ begin
 		signal TimestampMap14_DP, TimestampMap14_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
 		signal TimestampMap15_DP, TimestampMap15_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
 
+		signal TimestampMap0En_S, TimestampMap0WrEn_S   : std_logic;
+		signal TimestampMap1En_S, TimestampMap1WrEn_S   : std_logic;
+		signal TimestampMap2En_S, TimestampMap2WrEn_S   : std_logic;
+		signal TimestampMap3En_S, TimestampMap3WrEn_S   : std_logic;
+		signal TimestampMap4En_S, TimestampMap4WrEn_S   : std_logic;
+		signal TimestampMap5En_S, TimestampMap5WrEn_S   : std_logic;
+		signal TimestampMap6En_S, TimestampMap6WrEn_S   : std_logic;
+		signal TimestampMap7En_S, TimestampMap7WrEn_S   : std_logic;
+		signal TimestampMap8En_S, TimestampMap8WrEn_S   : std_logic;
+		signal TimestampMap9En_S, TimestampMap9WrEn_S   : std_logic;
+		signal TimestampMap10En_S, TimestampMap10WrEn_S : std_logic;
+		signal TimestampMap11En_S, TimestampMap11WrEn_S : std_logic;
+		signal TimestampMap12En_S, TimestampMap12WrEn_S : std_logic;
+		signal TimestampMap13En_S, TimestampMap13WrEn_S : std_logic;
+		signal TimestampMap14En_S, TimestampMap14WrEn_S : std_logic;
+		signal TimestampMap15En_S, TimestampMap15WrEn_S : std_logic;
+
 		signal TimestampMap0Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
 		signal TimestampMap1Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
 		signal TimestampMap2Address_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
@@ -512,106 +544,67 @@ begin
 		signal TimestampMap14Address_D : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
 		signal TimestampMap15Address_D : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
 
-		signal TimestampMap0En_S  : std_logic;
-		signal TimestampMap1En_S  : std_logic;
-		signal TimestampMap2En_S  : std_logic;
-		signal TimestampMap3En_S  : std_logic;
-		signal TimestampMap4En_S  : std_logic;
-		signal TimestampMap5En_S  : std_logic;
-		signal TimestampMap6En_S  : std_logic;
-		signal TimestampMap7En_S  : std_logic;
-		signal TimestampMap8En_S  : std_logic;
-		signal TimestampMap9En_S  : std_logic;
-		signal TimestampMap10En_S : std_logic;
-		signal TimestampMap11En_S : std_logic;
-		signal TimestampMap12En_S : std_logic;
-		signal TimestampMap13En_S : std_logic;
-		signal TimestampMap14En_S : std_logic;
-		signal TimestampMap15En_S : std_logic;
-
-		signal TimestampMap0WrEn_S  : std_logic;
-		signal TimestampMap1WrEn_S  : std_logic;
-		signal TimestampMap2WrEn_S  : std_logic;
-		signal TimestampMap3WrEn_S  : std_logic;
-		signal TimestampMap4WrEn_S  : std_logic;
-		signal TimestampMap5WrEn_S  : std_logic;
-		signal TimestampMap6WrEn_S  : std_logic;
-		signal TimestampMap7WrEn_S  : std_logic;
-		signal TimestampMap8WrEn_S  : std_logic;
-		signal TimestampMap9WrEn_S  : std_logic;
-		signal TimestampMap10WrEn_S : std_logic;
-		signal TimestampMap11WrEn_S : std_logic;
-		signal TimestampMap12WrEn_S : std_logic;
-		signal TimestampMap13WrEn_S : std_logic;
-		signal TimestampMap14WrEn_S : std_logic;
-		signal TimestampMap15WrEn_S : std_logic;
-
+		-- Generate microsecond continuous timestamp value.
 		constant TS_TICK      : integer := LOGIC_CLOCK_FREQ;
 		constant TS_TICK_SIZE : integer := integer(ceil(log2(real(TS_TICK + 1))));
 
+		signal TimestampTick_S   : std_logic;
 		signal Timestamp_D       : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampEnable_S : std_logic;
+		signal TimestampBuffer_D : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+
+		-- Intermediate TS Map Lookup stage support.
+		signal BAFilterTSLookupInDataReg_D   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		signal BAFilterTSLookupInValidReg_S  : std_logic;
+		signal BAFilterTSLookupOutDataReg_D  : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		signal BAFilterTSLookupOutValidReg_S : std_logic;
+
+		-- Remember TS Map number for second stage, to get right value from RAM.
+		signal BAFilterTSLookupMapReg_DP, BAFilterTSLookupMapReg_DN : std_logic_vector(3 downto 0);
 
 		signal LastRowAddress_DP, LastRowAddress_DN : unsigned(EVENT_DATA_WIDTH_MAX - 1 downto 0);
-
-		function BooleanToStdLogic(BOOL : boolean) return std_logic is
-		begin
-			if BOOL then
-				return '1';
-			else
-				return '0';
-			end if;
-		end function BooleanToStdLogic;
 	begin
-		baFilter : process(BAFilterInDataReg_D, BAFilterInValidReg_S, LastRowAddress_DP, Timestamp_D)
+		baFilter1 : process(BAFilterInDataReg_D, BAFilterInValidReg_S, LastRowAddress_DP, Timestamp_D)
 			variable ColumnAddress_D : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
 			variable RowAddress_D    : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
 
-			variable ColumnAddressLeft_D  : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-			variable RowAddressLeft_D     : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
-			variable ColumnAddressDown_D  : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-			variable RowAddressDown_D     : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
-			variable ColumnAddressRight_D : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-			variable RowAddressRight_D    : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
-			variable ColumnAddressUp_D    : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-			variable RowAddressUp_D       : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
+			variable BorderLeft_S  : boolean := false;
+			variable BorderDown_S  : boolean := false;
+			variable BorderRight_S : boolean := false;
+			variable BorderUp_S    : boolean := false;
 
-			variable ColumnAddressLeftDown_D  : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-			variable RowAddressLeftDown_D     : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
-			variable ColumnAddressRightDown_D : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-			variable RowAddressRightDown_D    : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
-			variable ColumnAddressRightUp_D   : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-			variable RowAddressRightUp_D      : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
-			variable ColumnAddressLeftUp_D    : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
-			variable RowAddressLeftUp_D       : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
+			variable Column0_S : boolean := false;
+			variable Column1_S : boolean := false;
+			variable Column2_S : boolean := false;
+			variable Column3_S : boolean := false;
 
-			variable BorderLeft_S  : std_logic := '0';
-			variable BorderDown_S  : std_logic := '0';
-			variable BorderRight_S : std_logic := '0';
-			variable BorderUp_S    : std_logic := '0';
+			variable Row0_S : boolean := false;
+			variable Row1_S : boolean := false;
+			variable Row2_S : boolean := false;
+			variable Row3_S : boolean := false;
 
-			variable Column0_S : std_logic := '0';
-			variable Column1_S : std_logic := '0';
-			variable Column2_S : std_logic := '0';
-			variable Column3_S : std_logic := '0';
+			variable Column0Active_S : boolean := false;
+			variable Column1Active_S : boolean := false;
+			variable Column2Active_S : boolean := false;
+			variable Column3Active_S : boolean := false;
 
-			variable Row0_S : std_logic := '0';
-			variable Row1_S : std_logic := '0';
-			variable Row2_S : std_logic := '0';
-			variable Row3_S : std_logic := '0';
+			variable Row0Active_S : boolean := false;
+			variable Row1Active_S : boolean := false;
+			variable Row2Active_S : boolean := false;
+			variable Row3Active_S : boolean := false;
 
-			variable Column0Active_S : std_logic := '0';
-			variable Column1Active_S : std_logic := '0';
-			variable Column2Active_S : std_logic := '0';
-			variable Column3Active_S : std_logic := '0';
-
-			variable Row0Active_S : std_logic := '0';
-			variable Row1Active_S : std_logic := '0';
-			variable Row2Active_S : std_logic := '0';
-			variable Row3Active_S : std_logic := '0';
+			function BooleanToStdLogic(BOOL : boolean) return std_logic is
+			begin
+				if BOOL then
+					return '1';
+				else
+					return '0';
+				end if;
+			end function BooleanToStdLogic;
 		begin
-			BAFilterOutDataReg_D  <= BAFilterInDataReg_D;
-			BAFilterOutValidReg_S <= BAFilterInValidReg_S;
+			BAFilterTSLookupOutDataReg_D  <= BAFilterInDataReg_D;
+			BAFilterTSLookupOutValidReg_S <= BAFilterInValidReg_S;
+
+			BAFilterTSLookupMapReg_DN <= (others => '0');
 
 			LastRowAddress_DN <= LastRowAddress_DP;
 
@@ -692,41 +685,25 @@ begin
 				else
 					-- This is a column address, let's determine all valid RAM parameters.
 					-- The address is downsampled here, right at the start.
-					ColumnAddress_D := unsigned(BAFilterInDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto BA_ADDRESS_SUBSAMPLE_BY));
-					RowAddress_D    := LastRowAddress_DP(DVS_ROW_ADDRESS_WIDTH - 1 downto BA_ADDRESS_SUBSAMPLE_BY);
+					ColumnAddress_D := unsigned(BAFilterInDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto BA_FILTER_SUBSAMPLE_COLUMN));
+					RowAddress_D    := LastRowAddress_DP(DVS_ROW_ADDRESS_WIDTH - 1 downto BA_FILTER_SUBSAMPLE_ROW);
 
-					ColumnAddressLeft_D  := ColumnAddress_D - 1;
-					RowAddressLeft_D     := RowAddress_D;
-					ColumnAddressDown_D  := ColumnAddress_D;
-					RowAddressDown_D     := RowAddress_D - 1;
-					ColumnAddressRight_D := ColumnAddress_D + 1;
-					RowAddressRight_D    := RowAddress_D;
-					ColumnAddressUp_D    := ColumnAddress_D;
-					RowAddressUp_D       := RowAddress_D + 1;
+					BAFilterTSLookupMapReg_DN <= std_logic_vector(RowAddress_D(1 downto 0) & ColumnAddress_D(1 downto 0));
 
-					ColumnAddressLeftDown_D  := ColumnAddress_D - 1;
-					RowAddressLeftDown_D     := RowAddress_D - 1;
-					ColumnAddressRightDown_D := ColumnAddress_D + 1;
-					RowAddressRightDown_D    := RowAddress_D - 1;
-					ColumnAddressRightUp_D   := ColumnAddress_D + 1;
-					RowAddressRightUp_D      := RowAddress_D + 1;
-					ColumnAddressLeftUp_D    := ColumnAddress_D - 1;
-					RowAddressLeftUp_D       := RowAddress_D + 1;
+					BorderLeft_S  := ColumnAddress_D = 0;
+					BorderDown_S  := RowAddress_D = 0;
+					BorderRight_S := ColumnAddress_D = (BA_COLUMN_CELL_NUMBER - 1);
+					BorderUp_S    := RowAddress_D = (BA_ROW_CELL_NUMBER - 1);
 
-					BorderLeft_S  := BooleanToStdLogic(ColumnAddress_D = 0);
-					BorderDown_S  := BooleanToStdLogic(RowAddress_D = 0);
-					BorderRight_S := BooleanToStdLogic(ColumnAddress_D = (BA_COLUMN_CELL_NUMBER - 1));
-					BorderUp_S    := BooleanToStdLogic(RowAddress_D = (BA_ROW_CELL_NUMBER - 1));
+					Column0_S := ColumnAddress_D(1 downto 0) = "00";
+					Column1_S := ColumnAddress_D(1 downto 0) = "01";
+					Column2_S := ColumnAddress_D(1 downto 0) = "10";
+					Column3_S := ColumnAddress_D(1 downto 0) = "11";
 
-					Column0_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "00");
-					Column1_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "01");
-					Column2_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "10");
-					Column3_S := BooleanToStdLogic(ColumnAddress_D(1 downto 0) = "11");
-
-					Row0_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "00");
-					Row1_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "01");
-					Row2_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "10");
-					Row3_S := BooleanToStdLogic(RowAddress_D(1 downto 0) = "11");
+					Row0_S := RowAddress_D(1 downto 0) = "00";
+					Row1_S := RowAddress_D(1 downto 0) = "01";
+					Row2_S := RowAddress_D(1 downto 0) = "10";
+					Row3_S := RowAddress_D(1 downto 0) = "11";
 
 					Column0Active_S := Column0_S or (Column1_S and not BorderLeft_S) or (Column3_S and not BorderRight_S);
 					Column1Active_S := Column1_S or (Column2_S and not BorderLeft_S) or (Column0_S and not BorderRight_S);
@@ -738,84 +715,218 @@ begin
 					Row2Active_S := Row2_S or (Row3_S and not BorderDown_S) or (Row1_S and not BorderUp_S);
 					Row3Active_S := Row3_S or (Row0_S and not BorderDown_S) or (Row2_S and not BorderUp_S);
 
-					TimestampMap0En_S  <= Column0Active_S and Row0Active_S;
-					TimestampMap1En_S  <= Column1Active_S and Row0Active_S;
-					TimestampMap2En_S  <= Column2Active_S and Row0Active_S;
-					TimestampMap3En_S  <= Column3Active_S and Row0Active_S;
-					TimestampMap4En_S  <= Column0Active_S and Row1Active_S;
-					TimestampMap5En_S  <= Column1Active_S and Row1Active_S;
-					TimestampMap6En_S  <= Column2Active_S and Row1Active_S;
-					TimestampMap7En_S  <= Column3Active_S and Row1Active_S;
-					TimestampMap8En_S  <= Column0Active_S and Row2Active_S;
-					TimestampMap9En_S  <= Column1Active_S and Row2Active_S;
-					TimestampMap10En_S <= Column2Active_S and Row2Active_S;
-					TimestampMap11En_S <= Column3Active_S and Row2Active_S;
-					TimestampMap12En_S <= Column0Active_S and Row3Active_S;
-					TimestampMap13En_S <= Column1Active_S and Row3Active_S;
-					TimestampMap14En_S <= Column2Active_S and Row3Active_S;
-					TimestampMap15En_S <= Column3Active_S and Row3Active_S;
+					TimestampMap0En_S  <= BooleanToStdLogic(Column0Active_S and Row0Active_S);
+					TimestampMap1En_S  <= BooleanToStdLogic(Column1Active_S and Row0Active_S);
+					TimestampMap2En_S  <= BooleanToStdLogic(Column2Active_S and Row0Active_S);
+					TimestampMap3En_S  <= BooleanToStdLogic(Column3Active_S and Row0Active_S);
+					TimestampMap4En_S  <= BooleanToStdLogic(Column0Active_S and Row1Active_S);
+					TimestampMap5En_S  <= BooleanToStdLogic(Column1Active_S and Row1Active_S);
+					TimestampMap6En_S  <= BooleanToStdLogic(Column2Active_S and Row1Active_S);
+					TimestampMap7En_S  <= BooleanToStdLogic(Column3Active_S and Row1Active_S);
+					TimestampMap8En_S  <= BooleanToStdLogic(Column0Active_S and Row2Active_S);
+					TimestampMap9En_S  <= BooleanToStdLogic(Column1Active_S and Row2Active_S);
+					TimestampMap10En_S <= BooleanToStdLogic(Column2Active_S and Row2Active_S);
+					TimestampMap11En_S <= BooleanToStdLogic(Column3Active_S and Row2Active_S);
+					TimestampMap12En_S <= BooleanToStdLogic(Column0Active_S and Row3Active_S);
+					TimestampMap13En_S <= BooleanToStdLogic(Column1Active_S and Row3Active_S);
+					TimestampMap14En_S <= BooleanToStdLogic(Column2Active_S and Row3Active_S);
+					TimestampMap15En_S <= BooleanToStdLogic(Column3Active_S and Row3Active_S);
 
-					TimestampMap0WrEn_S  <= Column0_S nand Row0_S;
-					TimestampMap1WrEn_S  <= Column1_S nand Row0_S;
-					TimestampMap2WrEn_S  <= Column2_S nand Row0_S;
-					TimestampMap3WrEn_S  <= Column3_S nand Row0_S;
-					TimestampMap4WrEn_S  <= Column0_S nand Row1_S;
-					TimestampMap5WrEn_S  <= Column1_S nand Row1_S;
-					TimestampMap6WrEn_S  <= Column2_S nand Row1_S;
-					TimestampMap7WrEn_S  <= Column3_S nand Row1_S;
-					TimestampMap8WrEn_S  <= Column0_S nand Row2_S;
-					TimestampMap9WrEn_S  <= Column1_S nand Row2_S;
-					TimestampMap10WrEn_S <= Column2_S nand Row2_S;
-					TimestampMap11WrEn_S <= Column3_S nand Row2_S;
-					TimestampMap12WrEn_S <= Column0_S nand Row3_S;
-					TimestampMap13WrEn_S <= Column1_S nand Row3_S;
-					TimestampMap14WrEn_S <= Column2_S nand Row3_S;
-					TimestampMap15WrEn_S <= Column3_S nand Row3_S;
+					TimestampMap0WrEn_S  <= BooleanToStdLogic(Column0_S nand Row0_S);
+					TimestampMap1WrEn_S  <= BooleanToStdLogic(Column1_S nand Row0_S);
+					TimestampMap2WrEn_S  <= BooleanToStdLogic(Column2_S nand Row0_S);
+					TimestampMap3WrEn_S  <= BooleanToStdLogic(Column3_S nand Row0_S);
+					TimestampMap4WrEn_S  <= BooleanToStdLogic(Column0_S nand Row1_S);
+					TimestampMap5WrEn_S  <= BooleanToStdLogic(Column1_S nand Row1_S);
+					TimestampMap6WrEn_S  <= BooleanToStdLogic(Column2_S nand Row1_S);
+					TimestampMap7WrEn_S  <= BooleanToStdLogic(Column3_S nand Row1_S);
+					TimestampMap8WrEn_S  <= BooleanToStdLogic(Column0_S nand Row2_S);
+					TimestampMap9WrEn_S  <= BooleanToStdLogic(Column1_S nand Row2_S);
+					TimestampMap10WrEn_S <= BooleanToStdLogic(Column2_S nand Row2_S);
+					TimestampMap11WrEn_S <= BooleanToStdLogic(Column3_S nand Row2_S);
+					TimestampMap12WrEn_S <= BooleanToStdLogic(Column0_S nand Row3_S);
+					TimestampMap13WrEn_S <= BooleanToStdLogic(Column1_S nand Row3_S);
+					TimestampMap14WrEn_S <= BooleanToStdLogic(Column2_S nand Row3_S);
+					TimestampMap15WrEn_S <= BooleanToStdLogic(Column3_S nand Row3_S);
 
-					if Column0_S = '1' then
-						if Row0_S = '1' then
-						-- Left/Down Corner
-						elsif Row3_S = '1' then
-						-- Left/Up Corner
+					TimestampMap0Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap1Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap2Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap3Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap4Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap5Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap6Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap7Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap8Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap9Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap10Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap11Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap12Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap13Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap14Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMap15Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+
+					if Column0_S then
+						if Row0_S then
+							-- Left/Down Corner
+							TimestampMap3Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+							TimestampMap7Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+							TimestampMap12Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap13Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap15Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+						elsif Row3_S then
+							-- Left/Up Corner
+							TimestampMap0Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap1Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap3Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+							TimestampMap11Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+							TimestampMap15Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
 						else            -- Rows 1/2
-						-- Left Border
+							-- Left Border
+							TimestampMap3Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+							TimestampMap7Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+							TimestampMap11Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+							TimestampMap15Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
 						end if;
-					elsif Column3_S = '1' then
-						if Row0_S = '1' then
-						-- Right/Down Corner
-						elsif Row3_S = '1' then
-						-- Right/Up Corner
+					elsif Column3_S then
+						if Row0_S then
+							-- Right/Down Corner
+							TimestampMap0Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
+							TimestampMap4Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
+							TimestampMap12Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
+							TimestampMap14Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap15Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+						elsif Row3_S then
+							-- Right/Up Corner
+							TimestampMap0Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
+							TimestampMap2Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap3Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap8Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
+							TimestampMap12Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
 						else            -- Rows 1/2
-						-- Right Border
+							-- Right Border
+							TimestampMap0Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
+							TimestampMap4Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
+							TimestampMap8Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
+							TimestampMap12Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
 						end if;
 					else                -- Columns 1/2
-						if Row0_S = '1' then
-						-- Down Border
-						elsif Row3_S = '1' then
-						-- Up Border
-						else            -- Rows 1/2
-							-- Normal
-							TimestampMap0Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap1Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap2Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap3Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap4Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap5Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap6Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap7Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap8Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap9Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap10Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap11Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap12Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap13Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap14Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap15Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+						if Row0_S then
+							-- Down Border
+							TimestampMap12Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap13Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap14Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap15Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+						elsif Row3_S then
+							-- Up Border
+							TimestampMap0Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap1Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap2Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap3Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 						end if;
 					end if;
 				end if;
 			end if;
-		end process baFilter;
+		end process baFilter1;
+
+		baFilterTSLookupDataRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => EVENT_WIDTH)
+			port map(
+				Clock_CI  => Clock_CI,
+				Reset_RI  => Reset_RI,
+				Enable_SI => '1',
+				Input_SI  => BAFilterTSLookupOutDataReg_D,
+				Output_SO => BAFilterTSLookupInDataReg_D);
+
+		baFilterTSLookupValidRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => 1)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => BAFilterTSLookupOutValidReg_S,
+				Output_SO(0) => BAFilterTSLookupInValidReg_S);
+
+		baFilterTSLookupMapRegister : entity work.SimpleRegister
+			generic map(
+				SIZE => 2 + 2)
+			port map(
+				Clock_CI  => Clock_CI,
+				Reset_RI  => Reset_RI,
+				Enable_SI => '1',
+				Input_SI  => BAFilterTSLookupMapReg_DN,
+				Output_SO => BAFilterTSLookupMapReg_DP);
+
+		baFilter2 : process(BAFilterTSLookupInDataReg_D, BAFilterTSLookupInValidReg_S, TimestampBuffer_D, BAFilterTSLookupMapReg_DP, DVSAERConfigReg_D, TimestampMap0_DP, TimestampMap10_DP, TimestampMap11_DP, TimestampMap12_DP, TimestampMap13_DP, TimestampMap14_DP, TimestampMap15_DP, TimestampMap1_DP, TimestampMap2_DP, TimestampMap3_DP, TimestampMap4_DP, TimestampMap5_DP, TimestampMap6_DP, TimestampMap7_DP, TimestampMap8_DP, TimestampMap9_DP)
+			variable TimestampResult_D : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0) := (others => '0');
+		begin
+			BAFilterOutDataReg_D  <= BAFilterTSLookupInDataReg_D;
+			BAFilterOutValidReg_S <= BAFilterTSLookupInValidReg_S;
+
+			if DVSAERConfigReg_D.FilterBackgroundActivity_S = '1' and BAFilterTSLookupInValidReg_S = '1' and BAFilterTSLookupInDataReg_D(EVENT_WIDTH - 2) = '1' then
+				-- This is a valid column address event, which means that in the previous BAFilter stage,
+				-- the various timestamp maps were updated and one was selected for reading, based on
+				-- which we now do the actual background activity filtering.
+				case BAFilterTSLookupMapReg_DP is
+					when "0000" =>
+						TimestampResult_D := TimestampMap0_DP;
+
+					when "0001" =>
+						TimestampResult_D := TimestampMap1_DP;
+
+					when "0010" =>
+						TimestampResult_D := TimestampMap2_DP;
+
+					when "0011" =>
+						TimestampResult_D := TimestampMap3_DP;
+
+					when "0100" =>
+						TimestampResult_D := TimestampMap4_DP;
+
+					when "0101" =>
+						TimestampResult_D := TimestampMap5_DP;
+
+					when "0110" =>
+						TimestampResult_D := TimestampMap6_DP;
+
+					when "0111" =>
+						TimestampResult_D := TimestampMap7_DP;
+
+					when "1000" =>
+						TimestampResult_D := TimestampMap8_DP;
+
+					when "1001" =>
+						TimestampResult_D := TimestampMap9_DP;
+
+					when "1010" =>
+						TimestampResult_D := TimestampMap10_DP;
+
+					when "1011" =>
+						TimestampResult_D := TimestampMap11_DP;
+
+					when "1100" =>
+						TimestampResult_D := TimestampMap12_DP;
+
+					when "1101" =>
+						TimestampResult_D := TimestampMap13_DP;
+
+					when "1110" =>
+						TimestampResult_D := TimestampMap14_DP;
+
+					when "1111" =>
+						TimestampResult_D := TimestampMap15_DP;
+
+					when others => null;
+				end case;
+
+				-- And now filter.
+				if (TimestampBuffer_D - TimestampResult_D) >= DVSAERConfigReg_D.FilterBackgroundActivityDeltaTime_D then
+					BAFilterOutValidReg_S <= '0';
+				end if;
+			end if;
+		end process baFilter2;
 
 		TSMap0 : entity work.BlockRAM
 			generic map(
@@ -1041,20 +1152,6 @@ begin
 				Data_DI           => std_logic_vector(TimestampMap15_DN),
 				unsigned(Data_DO) => TimestampMap15_DP);
 
-		baFilterTSCounter : entity work.ContinuousCounter
-			generic map(
-				SIZE              => DVS_FILTER_BA_DELTAT_WIDTH,
-				RESET_ON_OVERFLOW => true,
-				GENERATE_OVERFLOW => false)
-			port map(
-				Clock_CI     => Clock_CI,
-				Reset_RI     => Reset_RI,
-				Clear_SI     => not DVSAERConfigReg_D.Run_S,
-				Enable_SI    => TimestampEnable_S,
-				DataLimit_DI => (others => '1'),
-				Overflow_SO  => open,
-				Data_DO      => Timestamp_D);
-
 		baFilterTSTick : entity work.ContinuousCounter
 			generic map(
 				SIZE              => TS_TICK_SIZE,
@@ -1066,8 +1163,32 @@ begin
 				Clear_SI     => not DVSAERConfigReg_D.Run_S,
 				Enable_SI    => '1',
 				DataLimit_DI => to_unsigned(TS_TICK, TS_TICK_SIZE),
-				Overflow_SO  => TimestampEnable_S,
+				Overflow_SO  => TimestampTick_S,
 				Data_DO      => open);
+
+		baFilterTSCounter : entity work.ContinuousCounter
+			generic map(
+				SIZE              => DVS_FILTER_BA_DELTAT_WIDTH,
+				RESET_ON_OVERFLOW => true,
+				GENERATE_OVERFLOW => false)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Clear_SI     => not DVSAERConfigReg_D.Run_S,
+				Enable_SI    => TimestampTick_S,
+				DataLimit_DI => (others => '1'),
+				Overflow_SO  => open,
+				Data_DO      => Timestamp_D);
+
+		baFilterTSBuffer : entity work.SimpleRegister
+			generic map(
+				SIZE => DVS_FILTER_BA_DELTAT_WIDTH)
+			port map(
+				Clock_CI            => Clock_CI,
+				Reset_RI            => Reset_RI,
+				Enable_SI           => '1',
+				Input_SI            => std_logic_vector(Timestamp_D),
+				unsigned(Output_SO) => TimestampBuffer_D);
 
 		baFilterLastRowAddressRegister : entity work.SimpleRegister
 			generic map(
