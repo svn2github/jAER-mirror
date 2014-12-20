@@ -5,8 +5,8 @@ use work.DVSAERConfigRecords.all;
 
 entity DVSAERSPIConfig is
 	generic(
-		ENABLE_PIXEL_FILTERING               : boolean := false;
-		ENABLE_BACKGROUND_ACTIVITY_FILTERING : boolean := false);
+		ENABLE_PIXEL_FILTERING : boolean := false;
+		ENABLE_BA_FILTERING    : boolean := false);
 	port(
 		Clock_CI                   : in  std_logic;
 		Reset_RI                   : in  std_logic;
@@ -163,13 +163,13 @@ begin
 				end if;
 
 			when DVSAERCONFIG_PARAM_ADDRESSES.FilterBackgroundActivity_S =>
-				if ENABLE_BACKGROUND_ACTIVITY_FILTERING = true then
+				if ENABLE_BA_FILTERING = true then
 					DVSAERConfigReg_DN.FilterBackgroundActivity_S <= DVSAERInput_DP(0);
 					DVSAEROutput_DN(0)                            <= DVSAERConfigReg_DP.FilterBackgroundActivity_S;
 				end if;
 
 			when DVSAERCONFIG_PARAM_ADDRESSES.FilterBackgroundActivityDeltaTime_D =>
-				if ENABLE_BACKGROUND_ACTIVITY_FILTERING = true then
+				if ENABLE_BA_FILTERING = true then
 					DVSAERConfigReg_DN.FilterBackgroundActivityDeltaTime_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'range));
 					DVSAEROutput_DN(tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterBackgroundActivityDeltaTime_D);
 				end if;
