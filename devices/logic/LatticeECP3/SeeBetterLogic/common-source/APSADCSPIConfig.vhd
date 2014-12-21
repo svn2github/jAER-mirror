@@ -5,6 +5,8 @@ use work.APSADCConfigRecords.all;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 
 entity APSADCSPIConfig is
+	generic(
+		ENABLE_QUAD_ROI : boolean := false);
 	port(
 		Clock_CI                   : in  std_logic;
 		Reset_RI                   : in  std_logic;
@@ -51,21 +53,21 @@ begin
 				end if;
 				APSADCOutput_DN(0) <= APSADCConfigReg_DP.GlobalShutter_S;
 
-			when APSADCCONFIG_PARAM_ADDRESSES.StartColumn_D =>
-				APSADCConfigReg_DN.StartColumn_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartColumn_D'range));
-				APSADCOutput_DN(tAPSADCConfig.StartColumn_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartColumn_D);
+			when APSADCCONFIG_PARAM_ADDRESSES.StartColumn0_D =>
+				APSADCConfigReg_DN.StartColumn0_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartColumn0_D'range));
+				APSADCOutput_DN(tAPSADCConfig.StartColumn0_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartColumn0_D);
 
-			when APSADCCONFIG_PARAM_ADDRESSES.StartRow_D =>
-				APSADCConfigReg_DN.StartRow_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartRow_D'range));
-				APSADCOutput_DN(tAPSADCConfig.StartRow_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartRow_D);
+			when APSADCCONFIG_PARAM_ADDRESSES.StartRow0_D =>
+				APSADCConfigReg_DN.StartRow0_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartRow0_D'range));
+				APSADCOutput_DN(tAPSADCConfig.StartRow0_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartRow0_D);
 
-			when APSADCCONFIG_PARAM_ADDRESSES.EndColumn_D =>
-				APSADCConfigReg_DN.EndColumn_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndColumn_D'range));
-				APSADCOutput_DN(tAPSADCConfig.EndColumn_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndColumn_D);
+			when APSADCCONFIG_PARAM_ADDRESSES.EndColumn0_D =>
+				APSADCConfigReg_DN.EndColumn0_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndColumn0_D'range));
+				APSADCOutput_DN(tAPSADCConfig.EndColumn0_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndColumn0_D);
 
-			when APSADCCONFIG_PARAM_ADDRESSES.EndRow_D =>
-				APSADCConfigReg_DN.EndRow_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndRow_D'range));
-				APSADCOutput_DN(tAPSADCConfig.EndRow_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndRow_D);
+			when APSADCCONFIG_PARAM_ADDRESSES.EndRow0_D =>
+				APSADCConfigReg_DN.EndRow0_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndRow0_D'range));
+				APSADCOutput_DN(tAPSADCConfig.EndRow0_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndRow0_D);
 
 			when APSADCCONFIG_PARAM_ADDRESSES.Exposure_D =>
 				APSADCConfigReg_DN.Exposure_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.Exposure_D'range));
@@ -98,6 +100,78 @@ begin
 			when APSADCCONFIG_PARAM_ADDRESSES.WaitOnTransferStall_S =>
 				APSADCConfigReg_DN.WaitOnTransferStall_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)                       <= APSADCConfigReg_DP.WaitOnTransferStall_S;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.StartColumn1_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.StartColumn1_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartColumn1_D'range));
+					APSADCOutput_DN(tAPSADCConfig.StartColumn1_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartColumn1_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.StartRow1_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.StartRow1_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartRow1_D'range));
+					APSADCOutput_DN(tAPSADCConfig.StartRow1_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartRow1_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.EndColumn1_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.EndColumn1_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndColumn1_D'range));
+					APSADCOutput_DN(tAPSADCConfig.EndColumn1_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndColumn1_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.EndRow1_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.EndRow1_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndRow1_D'range));
+					APSADCOutput_DN(tAPSADCConfig.EndRow1_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndRow1_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.StartColumn2_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.StartColumn2_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartColumn2_D'range));
+					APSADCOutput_DN(tAPSADCConfig.StartColumn2_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartColumn2_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.StartRow2_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.StartRow2_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartRow2_D'range));
+					APSADCOutput_DN(tAPSADCConfig.StartRow2_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartRow2_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.EndColumn2_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.EndColumn2_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndColumn2_D'range));
+					APSADCOutput_DN(tAPSADCConfig.EndColumn2_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndColumn2_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.EndRow2_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.EndRow2_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndRow2_D'range));
+					APSADCOutput_DN(tAPSADCConfig.EndRow2_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndRow2_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.StartColumn3_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.StartColumn3_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartColumn3_D'range));
+					APSADCOutput_DN(tAPSADCConfig.StartColumn3_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartColumn3_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.StartRow3_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.StartRow3_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartRow3_D'range));
+					APSADCOutput_DN(tAPSADCConfig.StartRow3_D'range) <= std_logic_vector(APSADCConfigReg_DP.StartRow3_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.EndColumn3_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.EndColumn3_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndColumn3_D'range));
+					APSADCOutput_DN(tAPSADCConfig.EndColumn3_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndColumn3_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.EndRow3_D =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.EndRow3_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndRow3_D'range));
+					APSADCOutput_DN(tAPSADCConfig.EndRow3_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndRow3_D);
+				end if;
 
 			when others => null;
 		end case;

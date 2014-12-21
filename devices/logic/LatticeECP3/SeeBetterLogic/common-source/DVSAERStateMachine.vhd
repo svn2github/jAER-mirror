@@ -766,15 +766,15 @@ begin
 					TimestampMap14Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 					TimestampMap15Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 
-					if Column0_S then
-						if Row0_S then
+					if Column0_S = true then
+						if Row0_S = true then
 							-- Left/Down Corner
 							TimestampMap3Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
 							TimestampMap7Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
 							TimestampMap12Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 							TimestampMap13Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 							TimestampMap15Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
-						elsif Row3_S then
+						elsif Row3_S = true then
 							-- Left/Up Corner
 							TimestampMap0Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 							TimestampMap1Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
@@ -788,15 +788,15 @@ begin
 							TimestampMap11Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
 							TimestampMap15Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
 						end if;
-					elsif Column3_S then
-						if Row0_S then
+					elsif Column3_S = true then
+						if Row0_S = true then
 							-- Right/Down Corner
 							TimestampMap0Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
 							TimestampMap4Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
 							TimestampMap12Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
 							TimestampMap14Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 							TimestampMap15Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-						elsif Row3_S then
+						elsif Row3_S = true then
 							-- Right/Up Corner
 							TimestampMap0Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
 							TimestampMap2Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
@@ -811,13 +811,13 @@ begin
 							TimestampMap12Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
 						end if;
 					else                -- Columns 1/2
-						if Row0_S then
+						if Row0_S = true then
 							-- Down Border
 							TimestampMap12Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 							TimestampMap13Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 							TimestampMap14Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 							TimestampMap15Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-						elsif Row3_S then
+						elsif Row3_S = true then
 							-- Up Border
 							TimestampMap0Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
 							TimestampMap1Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);

@@ -40,6 +40,8 @@ use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 -- advantages of ROI stated above, but is unavoidable with the current scheme.
 
 entity APSADCStateMachine is
+	generic(
+		ENABLE_QUAD_ROI : boolean := false);
 	port(
 		Clock_CI               : in  std_logic; -- This clock must be 30MHz, use PLL to generate.
 		Reset_RI               : in  std_logic; -- This reset must be synchronized to the above clock.
@@ -145,9 +147,6 @@ architecture Behavioral of APSADCStateMachine is
 	signal APSChipColModeReg_DP, APSChipColModeReg_DN   : std_logic_vector(1 downto 0);
 	signal APSChipTXGateReg_SP, APSChipTXGateReg_SN     : std_logic;
 	signal APSADCOutputEnableReg_SB, APSADCStandbyReg_S : std_logic;
-
-	-- Pad ADC value output with zeros.
-	constant VAL_OUT_ZERO_PAD : std_logic_vector(EVENT_DATA_WIDTH_MAX - APS_ADC_BUS_WIDTH - 1 downto 0) := (others => '0');
 
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
@@ -647,12 +646,54 @@ begin
 		end case;
 	end process columnMainStateMachine;
 
-	-- Concurrently calculate if the current row has to be read out or not.
-	-- If not (like with ROI), we can just fast jump parts of that row.
-	CurrentColumnAValid_S <= '1' when (ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn_D) else '0';
-	CurrentColumnBValid_S <= '1' when (ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn_D) else '0';
+	apsStandardROI : if ENABLE_QUAD_ROI = false generate
+	begin
+		-- Concurrently calculate if the current row has to be read out or not.
+		-- If not (like with ROI), we can just fast jump parts of that row.
+		CurrentColumnAValid_S <= '1' when (ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn0_D) else '0';
+		CurrentColumnBValid_S <= '1' when (ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn0_D) else '0';
 
-	CurrentRowValid_S <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow_D) else '0';
+		CurrentRowValid_S <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow0_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow0_D) else '0';
+	end generate apsStandardROI;
+
+	apsQuadROI : if ENABLE_QUAD_ROI = true generate
+		signal ColumnA0Valid_S : boolean := false;
+		signal ColumnA1Valid_S : boolean := false;
+		signal ColumnA2Valid_S : boolean := false;
+		signal ColumnA3Valid_S : boolean := false;
+
+		signal ColumnB0Valid_S : boolean := false;
+		signal ColumnB1Valid_S : boolean := false;
+		signal ColumnB2Valid_S : boolean := false;
+		signal ColumnB3Valid_S : boolean := false;
+
+		signal Row0Valid_S : boolean := false;
+		signal Row1Valid_S : boolean := false;
+		signal Row2Valid_S : boolean := false;
+		signal Row3Valid_S : boolean := false;
+	begin
+		-- Concurrently calculate if the current row has to be read out or not.
+		-- If not (like with ROI), we can just fast jump parts of that row.
+		ColumnA0Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn0_D;
+		ColumnB0Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn0_D;
+		Row0Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow0_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow0_D;
+
+		ColumnA1Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn1_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn1_D;
+		ColumnB1Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn1_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn1_D;
+		Row1Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow1_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow1_D;
+
+		ColumnA2Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn2_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn2_D;
+		ColumnB2Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn2_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn2_D;
+		Row2Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow2_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow2_D;
+
+		ColumnA3Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn3_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn3_D;
+		ColumnB3Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn3_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn3_D;
+		Row3Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow3_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow3_D;
+
+		CurrentColumnAValid_S <= '1' when (ColumnA0Valid_S or ColumnA1Valid_S or ColumnA2Valid_S or ColumnA3Valid_S) else '0';
+		CurrentColumnBValid_S <= '1' when (ColumnB0Valid_S or ColumnB1Valid_S or ColumnB2Valid_S or ColumnB3Valid_S) else '0';
+		CurrentRowValid_S     <= '1' when (Row0Valid_S or Row1Valid_S or Row2Valid_S or Row3Valid_S) else '0';
+	end generate apsQuadROI;
 
 	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, SettleTimesDone_S, RowReadPosition_D)
 	begin
@@ -757,12 +798,9 @@ begin
 			when stRowWriteEvent =>
 				-- Write event only if FIFO has place, else wait.
 				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-					-- This is only a 10-bit ADC, so we pad with two zeros.
-					if APS_ADC_BUS_WIDTH = EVENT_DATA_WIDTH_MAX then
-						OutFifoDataRegRow_D <= EVENT_CODE_ADC_SAMPLE & APSADCData_DI;
-					else
-						OutFifoDataRegRow_D <= EVENT_CODE_ADC_SAMPLE & VAL_OUT_ZERO_PAD & APSADCData_DI;
-					end if;
+					OutFifoDataRegRow_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
+					OutFifoDataRegRow_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= APSADCData_DI;
+
 					OutFifoDataRegRowEnable_S <= '1';
 					OutFifoWriteRegRow_S      <= '1';
 				end if;
