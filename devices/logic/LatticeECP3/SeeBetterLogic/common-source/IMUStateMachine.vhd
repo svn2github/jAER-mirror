@@ -106,6 +106,10 @@ architecture Behavioral of IMUStateMachine is
 	signal IMUClockInt_SP, IMUClockInt_SN : std_logic;
 	signal IMUDataInt_SP, IMUDataInt_SN   : std_logic;
 
+	-- Register outputs to FIFO.
+	signal OutFifoWriteReg_S : std_logic;
+	signal OutFifoDataReg_D  : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+
 	-- Register configuration inputs.
 	signal IMUConfigReg_D : tIMUConfig;
 
@@ -454,8 +458,8 @@ begin
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
-		OutFifoControl_SO.Write_S <= '0';
-		OutFifoData_DO            <= (others => '0');
+		OutFifoWriteReg_S <= '0';
+		OutFifoDataReg_D  <= (others => '0');
 
 		I2CStartTransaction_SN <= '0';
 		I2CReadTransaction_SN  <= '0';
@@ -647,98 +651,98 @@ begin
 				end if;
 
 			when stWriteEventStart =>
-				OutFifoData_DO            <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_IMU_START6;
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent0;
+				OutFifoDataReg_D  <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_IMU_START6;
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent0;
 
 			when stWriteEvent0 =>
 				-- Upper 8 bits of Accel X.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(111 downto 104);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent1;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(111 downto 104);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent1;
 
 			when stWriteEvent1 =>
 				-- Lower 8 bits of Accel X.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(103 downto 96);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent2;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(103 downto 96);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent2;
 
 			when stWriteEvent2 =>
 				-- Upper 8 bits of Accel Y.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(95 downto 88);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent3;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(95 downto 88);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent3;
 
 			when stWriteEvent3 =>
 				-- Lower 8 bits of Accel Y.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(87 downto 80);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent4;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(87 downto 80);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent4;
 
 			when stWriteEvent4 =>
 				--- Upper 8 bits of Accel Z.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(79 downto 72);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent5;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(79 downto 72);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent5;
 
 			when stWriteEvent5 =>
 				-- Lower 8 bits of Accel Z.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(71 downto 64);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent6;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(71 downto 64);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent6;
 
 			when stWriteEvent6 =>
 				-- Upper 8 bits of Temperature.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(63 downto 56);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent7;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(63 downto 56);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent7;
 
 			when stWriteEvent7 =>
 				-- Lower 8 bits of Temperature.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(55 downto 48);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent8;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(55 downto 48);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent8;
 
 			when stWriteEvent8 =>
 				--- Upper 8 bits of Gyro X.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(47 downto 40);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent9;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(47 downto 40);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent9;
 
 			when stWriteEvent9 =>
 				-- Lower 8 bits of Gyro X.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(39 downto 32);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent10;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(39 downto 32);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent10;
 
 			when stWriteEvent10 =>
 				--- Upper 8 bits of Gyro Y.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(31 downto 24);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent11;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(31 downto 24);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent11;
 
 			when stWriteEvent11 =>
 				-- Lower 8 bits of Gyro Y.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(23 downto 16);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent12;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(23 downto 16);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent12;
 
 			when stWriteEvent12 =>
 				-- Upper 8 bits of Gyro Y.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(15 downto 8);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEvent13;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(15 downto 8);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEvent13;
 
 			when stWriteEvent13 =>
 				-- Lower 8 bits of Gyro Y.
-				OutFifoData_DO            <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(7 downto 0);
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stWriteEventEnd;
+				OutFifoDataReg_D  <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(7 downto 0);
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEventEnd;
 
 			when stWriteEventEnd =>
-				OutFifoData_DO            <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_IMU_END;
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stDoneAcknowledge;
+				OutFifoDataReg_D  <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_IMU_END;
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stDoneAcknowledge;
 
 			when stDoneAcknowledge =>
 				-- Deassert transaction, and wait for I2C Done to also go back low, which
@@ -757,9 +761,15 @@ begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
 
+			OutFifoControl_SO.Write_S <= '0';
+			OutFifoData_DO            <= (others => '0');
+
 			IMUConfigReg_D <= tIMUConfigDefault;
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
+
+			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
+			OutFifoData_DO            <= OutFifoDataReg_D;
 
 			IMUConfigReg_D <= IMUConfig_DI;
 		end if;
