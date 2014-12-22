@@ -32,14 +32,6 @@ entity ExtInputStateMachine is
 end entity ExtInputStateMachine;
 
 architecture Behavioral of ExtInputStateMachine is
-	attribute syn_enum_encoding : string;
-
-	type tState is (stIdle, stWriteRisingEdgeEvent, stWriteFallingEdgeEvent, stWritePulseEvent);
-	attribute syn_enum_encoding of tState : type is "onehot";
-
-	-- present and next state
-	signal State_DP, State_DN : tState;
-
 	-- Number of cycles to get a 100 ns time slice at current logic frequency.
 	constant INTERNAL_TIME_CYCLES      : integer := LOGIC_CLOCK_FREQ / 10;
 	constant INTERNAL_TIME_CYCLES_SIZE : integer := integer(ceil(log2(real(INTERNAL_TIME_CYCLES + 1))));
@@ -53,60 +45,85 @@ architecture Behavioral of ExtInputStateMachine is
 	signal FallingEdgeDetected_S : std_logic;
 	signal PulseDetected_S       : std_logic;
 
+	signal BufferRisingEdgeClear_S, BufferRisingEdgeOutput_S   : std_logic;
+	signal BufferFallingEdgeClear_S, BufferFallingEdgeOutput_S : std_logic;
+	signal BufferPulseClear_S, BufferPulseOutput_S             : std_logic;
+
+	-- Register outputs to FIFO.
+	signal OutFifoWriteReg_S : std_logic;
+	signal OutFifoDataReg_D  : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+
 	-- Register configuration inputs.
 	signal ExtInputConfigReg_D : tExtInputConfig;
 begin
-	extInputDetectorLogic : process(State_DP, OutFifoControl_SI, ExtInputConfigReg_D, FallingEdgeDetected_S, PulseDetected_S, RisingEdgeDetected_S)
+	extInputDetectorLogic : process(OutFifoControl_SI, BufferRisingEdgeOutput_S, BufferFallingEdgeOutput_S, BufferPulseOutput_S)
 	begin
-		State_DN <= State_DP;           -- Keep current state by default.
+		OutFifoWriteReg_S <= '0';
+		OutFifoDataReg_D  <= (others => '0');
 
-		OutFifoData_DO            <= (others => '0');
-		OutFifoControl_SO.Write_S <= '0';
+		BufferRisingEdgeClear_S  <= '0';
+		BufferFallingEdgeClear_S <= '0';
+		BufferPulseClear_S       <= '0';
 
-		case State_DP is
-			when stIdle =>
-				-- Only exit idle state if External Input data producer is active and FIFO has space.
-				if ExtInputConfigReg_D.RunDetector_S = '1' and OutFifoControl_SI.Full_S = '0' then
-					-- TODO: verify what happens if/when multiple fire together.
-					if ExtInputConfigReg_D.DetectRisingEdges_S = '1' and RisingEdgeDetected_S = '1' then
-						State_DN <= stWriteRisingEdgeEvent;
-					end if;
-					if ExtInputConfigReg_D.DetectFallingEdges_S = '1' and FallingEdgeDetected_S = '1' then
-						State_DN <= stWriteFallingEdgeEvent;
-					end if;
-					if ExtInputConfigReg_D.DetectPulses_S = '1' and PulseDetected_S = '1' then
-						State_DN <= stWritePulseEvent;
-					end if;
-				end if;
+		-- Check that there is space for at least two elements (AlmostFull flag). This is needed because
+		-- registering the FIFO outputs puts a 1 cycle delay on writing to the FIFO, which means the
+		-- flags also get updated 1 cycle late. We work around that by checking for a flag that tells us
+		-- if two elements would fit, instead of just one.
+		if OutFifoControl_SI.AlmostFull_S = '0' then
+			if BufferRisingEdgeOutput_S = '1' then
+				BufferRisingEdgeClear_S <= '1';
 
-			when stWriteRisingEdgeEvent =>
-				OutFifoData_DO            <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_EXT_INPUT_RISING;
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stIdle;
+				OutFifoWriteReg_S <= '1';
+				OutFifoDataReg_D  <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_EXT_INPUT_RISING;
+			elsif BufferFallingEdgeOutput_S = '1' then
+				BufferFallingEdgeClear_S <= '1';
 
-			when stWriteFallingEdgeEvent =>
-				OutFifoData_DO            <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_EXT_INPUT_FALLING;
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stIdle;
+				OutFifoWriteReg_S <= '1';
+				OutFifoDataReg_D  <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_EXT_INPUT_FALLING;
+			elsif BufferPulseOutput_S = '1' then
+				BufferPulseClear_S <= '1';
 
-			when stWritePulseEvent =>
-				OutFifoData_DO            <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_EXT_INPUT_PULSE;
-				OutFifoControl_SO.Write_S <= '1';
-				State_DN                  <= stIdle;
-
-			when others => null;
-		end case;
+				OutFifoWriteReg_S <= '1';
+				OutFifoDataReg_D  <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_EXT_INPUT_PULSE;
+			end if;
+		end if;
 	end process extInputDetectorLogic;
+
+	bufferRisindEdge : entity work.BufferClear
+		port map(
+			Clock_CI        => Clock_CI,
+			Reset_RI        => Reset_RI,
+			Clear_SI        => BufferRisingEdgeClear_S,
+			InputSignal_SI  => ExtInputConfigReg_D.RunDetector_S and ExtInputConfigReg_D.DetectRisingEdges_S and RisingEdgeDetected_S,
+			OutputSignal_SO => BufferRisingEdgeOutput_S);
+
+	bufferFallingEdge : entity work.BufferClear
+		port map(
+			Clock_CI        => Clock_CI,
+			Reset_RI        => Reset_RI,
+			Clear_SI        => BufferFallingEdgeClear_S,
+			InputSignal_SI  => ExtInputConfigReg_D.RunDetector_S and ExtInputConfigReg_D.DetectFallingEdges_S and FallingEdgeDetected_S,
+			OutputSignal_SO => BufferFallingEdgeOutput_S);
+
+	bufferPulse : entity work.BufferClear
+		port map(
+			Clock_CI        => Clock_CI,
+			Reset_RI        => Reset_RI,
+			Clear_SI        => BufferPulseClear_S,
+			InputSignal_SI  => ExtInputConfigReg_D.RunDetector_S and ExtInputConfigReg_D.DetectPulses_S and PulseDetected_S,
+			OutputSignal_SO => BufferPulseOutput_S);
 
 	-- Change state on clock edge (synchronous).
 	registerUpdate : process(Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
-			State_DP <= stIdle;
+			OutFifoControl_SO.Write_S <= '0';
+			OutFifoData_DO            <= (others => '0');
 
 			ExtInputConfigReg_D <= tExtInputConfigDefault;
 		elsif rising_edge(Clock_CI) then
-			State_DP <= State_DN;
+			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
+			OutFifoData_DO            <= OutFifoDataReg_D;
 
 			ExtInputConfigReg_D <= ExtInputConfig_DI;
 		end if;
