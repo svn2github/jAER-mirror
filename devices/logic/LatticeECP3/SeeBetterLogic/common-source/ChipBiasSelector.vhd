@@ -32,8 +32,8 @@ end entity ChipBiasSelector;
 architecture Structural of ChipBiasSelector is
 begin
 	davis128ChipBias : if CHIP_IDENTIFIER = 3 generate
-		signal DAVIS128BiasConfig_D : tDAVIS128BiasConfig;
-		signal DAVIS128ChipConfig_D : tDAVIS128ChipConfig;
+		signal DAVIS128BiasConfig_D, DAVIS128BiasConfigReg_D : tDAVIS128BiasConfig;
+		signal DAVIS128ChipConfig_D, DAVIS128ChipConfigReg_D : tDAVIS128ChipConfig;
 	begin
 		davis128ChipBiasSM : entity work.DAVIS128StateMachine
 			port map(
@@ -44,8 +44,19 @@ begin
 				ChipBiasClock_CBO      => ChipBiasClock_CBO,
 				ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
 				ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
-				BiasConfig_DI          => DAVIS128BiasConfig_D,
-				ChipConfig_DI          => DAVIS128ChipConfig_D);
+				BiasConfig_DI          => DAVIS128BiasConfigReg_D,
+				ChipConfig_DI          => DAVIS128ChipConfigReg_D);
+
+		davis128ConfigRegisters : process(Clock_CI, Reset_RI) is
+		begin
+			if Reset_RI = '1' then
+				DAVIS128BiasConfigReg_D <= tDAVIS128BiasConfigDefault;
+				DAVIS128ChipConfigReg_D <= tDAVIS128ChipConfigDefault;
+			elsif rising_edge(Clock_CI) then
+				DAVIS128BiasConfigReg_D <= DAVIS128BiasConfig_D;
+				DAVIS128ChipConfigReg_D <= DAVIS128ChipConfig_D;
+			end if;
+		end process davis128ConfigRegisters;
 
 		davis128ChipBiasSPIConfig : entity work.DAVIS128SPIConfig
 			port map(
@@ -62,8 +73,8 @@ begin
 	end generate davis128ChipBias;
 
 	davis240ChipBias : if CHIP_IDENTIFIER = 0 or CHIP_IDENTIFIER = 1 or CHIP_IDENTIFIER = 2 generate
-		signal DAVIS240BiasConfig_D : tDAVIS240BiasConfig;
-		signal DAVIS240ChipConfig_D : tDAVIS240ChipConfig;
+		signal DAVIS240BiasConfig_D, DAVIS240BiasConfigReg_D : tDAVIS240BiasConfig;
+		signal DAVIS240ChipConfig_D, DAVIS240ChipConfigReg_D : tDAVIS240ChipConfig;
 	begin
 		davis240ChipBiasSM : entity work.DAVIS240StateMachine
 			port map(
@@ -74,8 +85,19 @@ begin
 				ChipBiasClock_CBO      => ChipBiasClock_CBO,
 				ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
 				ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
-				BiasConfig_DI          => DAVIS240BiasConfig_D,
-				ChipConfig_DI          => DAVIS240ChipConfig_D);
+				BiasConfig_DI          => DAVIS240BiasConfigReg_D,
+				ChipConfig_DI          => DAVIS240ChipConfigReg_D);
+
+		davis240ConfigRegisters : process(Clock_CI, Reset_RI) is
+		begin
+			if Reset_RI = '1' then
+				DAVIS240BiasConfigReg_D <= tDAVIS240BiasConfigDefault;
+				DAVIS240ChipConfigReg_D <= tDAVIS240ChipConfigDefault;
+			elsif rising_edge(Clock_CI) then
+				DAVIS240BiasConfigReg_D <= DAVIS240BiasConfig_D;
+				DAVIS240ChipConfigReg_D <= DAVIS240ChipConfig_D;
+			end if;
+		end process davis240ConfigRegisters;
 
 		davis240ChipBiasSPIConfig : entity work.DAVIS240SPIConfig
 			port map(
@@ -93,8 +115,8 @@ begin
 
 	-- DAVIS640 uses this too, since it has the same biases and chip config chain as DAVIS346.
 	davis346ChipBias : if CHIP_IDENTIFIER = 4 or CHIP_IDENTIFIER = 5 or CHIP_IDENTIFIER = 6 generate
-		signal DAVIS128BiasConfig_D : tDAVIS128BiasConfig;
-		signal DAVIS346ChipConfig_D : tDAVIS346ChipConfig;
+		signal DAVIS128BiasConfig_D, DAVIS128BiasConfigReg_D : tDAVIS128BiasConfig;
+		signal DAVIS346ChipConfig_D, DAVIS346ChipConfigReg_D : tDAVIS346ChipConfig;
 	begin
 		davis346ChipBiasSM : entity work.DAVIS346StateMachine
 			port map(
@@ -105,8 +127,19 @@ begin
 				ChipBiasClock_CBO      => ChipBiasClock_CBO,
 				ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
 				ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
-				BiasConfig_DI          => DAVIS128BiasConfig_D,
-				ChipConfig_DI          => DAVIS346ChipConfig_D);
+				BiasConfig_DI          => DAVIS128BiasConfigReg_D,
+				ChipConfig_DI          => DAVIS346ChipConfigReg_D);
+
+		davis346ConfigRegisters : process(Clock_CI, Reset_RI) is
+		begin
+			if Reset_RI = '1' then
+				DAVIS128BiasConfigReg_D <= tDAVIS128BiasConfigDefault;
+				DAVIS346ChipConfigReg_D <= tDAVIS346ChipConfigDefault;
+			elsif rising_edge(Clock_CI) then
+				DAVIS128BiasConfigReg_D <= DAVIS128BiasConfig_D;
+				DAVIS346ChipConfigReg_D <= DAVIS346ChipConfig_D;
+			end if;
+		end process davis346ConfigRegisters;
 
 		davis346ChipBiasSPIConfig : entity work.DAVIS346SPIConfig
 			port map(
@@ -123,8 +156,8 @@ begin
 	end generate davis346ChipBias;
 
 	davisRGBChipBias : if CHIP_IDENTIFIER = 7 generate
-		signal DAVISrgbBiasConfig_D : tDAVISrgbBiasConfig;
-		signal DAVISrgbChipConfig_D : tDAVISrgbChipConfig;
+		signal DAVISrgbBiasConfig_D, DAVISrgbBiasConfigReg_D : tDAVISrgbBiasConfig;
+		signal DAVISrgbChipConfig_D, DAVISrgbChipConfigReg_D : tDAVISrgbChipConfig;
 	begin
 		davisRGBChipBiasSM : entity work.DAVISrgbStateMachine
 			port map(
@@ -135,8 +168,19 @@ begin
 				ChipBiasClock_CBO      => ChipBiasClock_CBO,
 				ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
 				ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
-				BiasConfig_DI          => DAVISrgbBiasConfig_D,
-				ChipConfig_DI          => DAVISrgbChipConfig_D);
+				BiasConfig_DI          => DAVISrgbBiasConfigReg_D,
+				ChipConfig_DI          => DAVISrgbChipConfigReg_D);
+
+		davisRGBConfigRegisters : process(Clock_CI, Reset_RI) is
+		begin
+			if Reset_RI = '1' then
+				DAVISrgbBiasConfigReg_D <= tDAVISrgbBiasConfigDefault;
+				DAVISrgbChipConfigReg_D <= tDAVISrgbChipConfigDefault;
+			elsif rising_edge(Clock_CI) then
+				DAVISrgbBiasConfigReg_D <= DAVISrgbBiasConfig_D;
+				DAVISrgbChipConfigReg_D <= DAVISrgbChipConfig_D;
+			end if;
+		end process davisRGBConfigRegisters;
 
 		davisRGBChipBiasSPIConfig : entity work.DAVISrgbSPIConfig
 			port map(
