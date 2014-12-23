@@ -157,6 +157,7 @@ begin
 		-- Generator signal.
 		signal GeneratedPulse_S    : std_logic;
 		signal ExtInputOut_S       : std_logic;
+		signal ExtInputOutBuffer_S : std_logic;
 		signal ExtInputSignalOut_S : std_logic;
 
 		-- Generator configuration signals.
@@ -180,8 +181,17 @@ begin
 				Zero_SI          => not ExtInputConfigReg_D.RunGenerator_S or ExtInputConfigReg_D.GenerateUseCustomSignal_S,
 				PulseOut_SO      => GeneratedPulse_S);
 
-		ExtInputOut_S       <= CustomOutputSignal_SI when (ExtInputConfigReg_D.GenerateUseCustomSignal_S = '1') else GeneratedPulse_S;
-		ExtInputSignalOut_S <= ExtInputOut_S when (ExtInputConfigReg_D.RunGenerator_S = '1') else ExtInputSignal_SI;
+		ExtInputOut_S <= CustomOutputSignal_SI when (ExtInputConfigReg_D.GenerateUseCustomSignal_S = '1') else GeneratedPulse_S;
+
+		extInputOutBuffer : entity work.SimpleRegister
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => ExtInputOut_S,
+				Output_SO(0) => ExtInputOutBuffer_S);
+
+		ExtInputSignalOut_S <= ExtInputOutBuffer_S when (ExtInputConfigReg_D.RunGenerator_S = '1') else ExtInputSignal_SI;
 
 		-- Register output to meet timing specifications.
 		extInputSignalOutBuffer : entity work.SimpleRegister
