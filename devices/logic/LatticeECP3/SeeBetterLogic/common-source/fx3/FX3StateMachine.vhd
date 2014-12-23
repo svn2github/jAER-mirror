@@ -28,9 +28,6 @@ entity FX3Statemachine is
 		InFifoControl_SI            : in  tFromFifoReadSide;
 		InFifoControl_SO            : out tToFifoReadSide;
 
-		-- Signal when really running or not (used for upstream FIFO resets).
-		FX3Running_SO               : out std_logic;
-
 		-- Configuration input
 		FX3Config_DI                : in  tFX3Config);
 end FX3Statemachine;
@@ -70,7 +67,6 @@ architecture Behavioral of FX3Statemachine is
 	-- register outputs for better behavior
 	signal USBFifoWriteReg_SB, USBFifoPktEndReg_SB : std_logic;
 	signal USBFifoAddressReg_D                     : std_logic_vector(1 downto 0);
-	signal FX3RunningReg_S                         : std_logic;
 
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
@@ -117,8 +113,6 @@ begin
 
 		InFifoControl_SO.Read_S <= '0'; -- Don't read from input FIFO until we know we can write.
 
-		FX3RunningReg_S <= '1';
-
 		case State_DP is
 			when stIdle0 =>
 				if FX3ConfigReg_D.Run_S = '1' then
@@ -130,7 +124,10 @@ begin
 						end if;
 					end if;
 				else
-					FX3RunningReg_S <= '0';
+					-- If not running, just drain the FIFO.
+					if InFifoControl_SI.Empty_S = '0' then
+						InFifoControl_SO.Read_S <= '1';
+					end if;
 				end if;
 
 			when stPrepareEarlyPacket0 =>
@@ -216,7 +213,10 @@ begin
 						end if;
 					end if;
 				else
-					FX3RunningReg_S <= '0';
+					-- If not running, just drain the FIFO.
+					if InFifoControl_SI.Empty_S = '0' then
+						InFifoControl_SO.Read_S <= '1';
+					end if;
 				end if;
 
 			when stPrepareEarlyPacket1 =>
@@ -311,8 +311,6 @@ begin
 			USBFifoPktEnd_SBO <= '1';
 			USBFifoAddress_DO <= USB_THREAD0;
 
-			FX3Running_SO <= tFX3ConfigDefault.Run_S;
-
 			-- USB config from another clock domain.
 			FX3ConfigReg_D     <= tFX3ConfigDefault;
 			FX3ConfigSyncReg_D <= tFX3ConfigDefault;
@@ -321,8 +319,6 @@ begin
 			USBFifoWrite_SBO  <= USBFifoWriteReg_SB;
 			USBFifoPktEnd_SBO <= USBFifoPktEndReg_SB;
 			USBFifoAddress_DO <= USBFifoAddressReg_D;
-
-			FX3Running_SO <= FX3RunningReg_S;
 
 			-- USB config from another clock domain.
 			FX3ConfigReg_D     <= FX3ConfigSyncReg_D;

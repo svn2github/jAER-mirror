@@ -25,9 +25,6 @@ entity FX2Statemachine is
 		InFifoControl_SI        : in  tFromFifoReadSide;
 		InFifoControl_SO        : out tToFifoReadSide;
 
-		-- Signal when really running or not (used for upstream FIFO resets).
-		FX2Running_SO           : out std_logic;
-
 		-- Configuration input
 		FX2Config_DI            : in  tFX2Config);
 end FX2Statemachine;
@@ -59,7 +56,6 @@ architecture Behavioral of FX2Statemachine is
 
 	-- register outputs for better behavior
 	signal USBFifoWriteReg_SB, USBFifoPktEndReg_SB : std_logic;
-	signal FX2RunningReg_S                         : std_logic;
 
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
@@ -105,8 +101,6 @@ begin
 
 		InFifoControl_SO.Read_S <= '0'; -- Don't read from input FIFO until we know we can write.
 
-		FX2RunningReg_S <= '1';
-
 		case State_DP is
 			-- We wait for two clock cycles here, to leave time for the EP2Full
 			-- Flag to clear the USB Synchronizer (which adds a two-cycle delay).
@@ -132,7 +126,10 @@ begin
 						end if;
 					end if;
 				else
-					FX2RunningReg_S <= '0';
+					-- If not running, just drain the FIFO.
+					if InFifoControl_SI.Empty_S = '0' then
+						InFifoControl_SO.Read_S <= '1';
+					end if;
 				end if;
 
 			when stPrepareEarlyPacket =>
@@ -213,8 +210,6 @@ begin
 			USBFifoWrite_SBO  <= '1';
 			USBFifoPktEnd_SBO <= '1';
 
-			FX2Running_SO <= tFX2ConfigDefault.Run_S;
-
 			-- USB config from another clock domain.
 			FX2ConfigReg_D     <= tFX2ConfigDefault;
 			FX2ConfigSyncReg_D <= tFX2ConfigDefault;
@@ -222,8 +217,6 @@ begin
 			State_DP          <= State_DN;
 			USBFifoWrite_SBO  <= USBFifoWriteReg_SB;
 			USBFifoPktEnd_SBO <= USBFifoPktEndReg_SB;
-
-			FX2Running_SO <= FX2RunningReg_S;
 
 			-- USB config from another clock domain.
 			FX2ConfigReg_D     <= FX2ConfigSyncReg_D;
