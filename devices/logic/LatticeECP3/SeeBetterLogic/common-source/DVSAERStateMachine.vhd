@@ -865,66 +865,63 @@ begin
 			BAFilterOutDataReg_D  <= BAFilterTSLookupInDataReg_D;
 			BAFilterOutValidReg_S <= BAFilterTSLookupInValidReg_S;
 
-			if DVSAERConfigReg_D.FilterBackgroundActivity_S = '1' and BAFilterTSLookupInValidReg_S = '1' and BAFilterTSLookupInDataReg_D(EVENT_WIDTH - 2) = '1' then
+			case BAFilterTSLookupMapReg_DP is
+				when "0000" =>
+					TimestampResult_D := TimestampMap0_DP;
+
+				when "0001" =>
+					TimestampResult_D := TimestampMap1_DP;
+
+				when "0010" =>
+					TimestampResult_D := TimestampMap2_DP;
+
+				when "0011" =>
+					TimestampResult_D := TimestampMap3_DP;
+
+				when "0100" =>
+					TimestampResult_D := TimestampMap4_DP;
+
+				when "0101" =>
+					TimestampResult_D := TimestampMap5_DP;
+
+				when "0110" =>
+					TimestampResult_D := TimestampMap6_DP;
+
+				when "0111" =>
+					TimestampResult_D := TimestampMap7_DP;
+
+				when "1000" =>
+					TimestampResult_D := TimestampMap8_DP;
+
+				when "1001" =>
+					TimestampResult_D := TimestampMap9_DP;
+
+				when "1010" =>
+					TimestampResult_D := TimestampMap10_DP;
+
+				when "1011" =>
+					TimestampResult_D := TimestampMap11_DP;
+
+				when "1100" =>
+					TimestampResult_D := TimestampMap12_DP;
+
+				when "1101" =>
+					TimestampResult_D := TimestampMap13_DP;
+
+				when "1110" =>
+					TimestampResult_D := TimestampMap14_DP;
+
+				when "1111" =>
+					TimestampResult_D := TimestampMap15_DP;
+
+				when others => null;
+			end case;
+
+			if BAFilterTSLookupInValidReg_S = '1' and BAFilterTSLookupInDataReg_D(EVENT_WIDTH - 2) = '1' and DVSAERConfigReg_D.FilterBackgroundActivity_S = '1' and (TimestampBuffer_D - TimestampResult_D) >= DVSAERConfigReg_D.FilterBackgroundActivityDeltaTime_D then
 				-- This is a valid column address event, which means that in the previous BAFilter stage,
 				-- the various timestamp maps were updated and one was selected for reading, based on
 				-- which we now do the actual background activity filtering.
-				case BAFilterTSLookupMapReg_DP is
-					when "0000" =>
-						TimestampResult_D := TimestampMap0_DP;
-
-					when "0001" =>
-						TimestampResult_D := TimestampMap1_DP;
-
-					when "0010" =>
-						TimestampResult_D := TimestampMap2_DP;
-
-					when "0011" =>
-						TimestampResult_D := TimestampMap3_DP;
-
-					when "0100" =>
-						TimestampResult_D := TimestampMap4_DP;
-
-					when "0101" =>
-						TimestampResult_D := TimestampMap5_DP;
-
-					when "0110" =>
-						TimestampResult_D := TimestampMap6_DP;
-
-					when "0111" =>
-						TimestampResult_D := TimestampMap7_DP;
-
-					when "1000" =>
-						TimestampResult_D := TimestampMap8_DP;
-
-					when "1001" =>
-						TimestampResult_D := TimestampMap9_DP;
-
-					when "1010" =>
-						TimestampResult_D := TimestampMap10_DP;
-
-					when "1011" =>
-						TimestampResult_D := TimestampMap11_DP;
-
-					when "1100" =>
-						TimestampResult_D := TimestampMap12_DP;
-
-					when "1101" =>
-						TimestampResult_D := TimestampMap13_DP;
-
-					when "1110" =>
-						TimestampResult_D := TimestampMap14_DP;
-
-					when "1111" =>
-						TimestampResult_D := TimestampMap15_DP;
-
-					when others => null;
-				end case;
-
-				-- And now filter.
-				if (TimestampBuffer_D - TimestampResult_D) >= DVSAERConfigReg_D.FilterBackgroundActivityDeltaTime_D then
-					BAFilterOutValidReg_S <= '0';
-				end if;
+				BAFilterOutValidReg_S <= '0';
 			end if;
 		end process baFilter2;
 
