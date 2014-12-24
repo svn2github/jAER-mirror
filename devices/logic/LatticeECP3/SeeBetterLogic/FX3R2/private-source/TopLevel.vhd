@@ -92,8 +92,6 @@ architecture Structural of TopLevel is
 	signal SyncOutSwitchSync_S, SyncInClockSync_C, SyncInSwitchSync_S, SyncInSignalSync_S                         : std_logic;
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D                                                   : std_logic;
 
-	signal FXUSBRunning_S, MultiplexerRunning_S, MultiplexerRunningADC_S : std_logic;
-
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
 	signal LogicUSBFifoDataIn_D     : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
@@ -135,12 +133,12 @@ architecture Structural of TopLevel is
 	signal SystemInfoConfigParamOutput_D  : std_logic_vector(31 downto 0);
 	signal FX3ConfigParamOutput_D         : std_logic_vector(31 downto 0);
 
-	signal MultiplexerConfig_D : tMultiplexerConfig;
-	signal DVSAERConfig_D      : tDVSAERConfig;
-	signal APSADCConfig_D      : tAPSADCConfig;
-	signal IMUConfig_D         : tIMUConfig;
-	signal ExtInputConfig_D    : tExtInputConfig;
-	signal FX3Config_D         : tFX3Config;
+	signal MultiplexerConfig_D, MultiplexerConfigReg_D, MultiplexerConfigReg2_D : tMultiplexerConfig;
+	signal DVSAERConfig_D, DVSAERConfigReg_D, DVSAERConfigReg2_D                : tDVSAERConfig;
+	signal APSADCConfig_D, APSADCConfigReg_D, APSADCConfigReg2_D                : tAPSADCConfig;
+	signal IMUConfig_D, IMUConfigReg_D, IMUConfigReg2_D                         : tIMUConfig;
+	signal ExtInputConfig_D, ExtInputConfigReg_D, ExtInputConfigReg2_D          : tExtInputConfig;
+	signal FX3Config_D, FX3ConfigReg_D, FX3ConfigReg2_D                         : tFX3Config;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
@@ -285,8 +283,7 @@ begin
 			USBFifoAddress_DO           => USBFifoAddress_DO,
 			InFifoControl_SI            => LogicUSBFifoControlOut_S.ReadSide,
 			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide,
-			FX3Running_SO               => FXUSBRunning_S,
-			FX3Config_DI                => FX3Config_D);
+			FX3Config_DI                => FX3ConfigReg2_D);
 
 	fx3SPIConfig : entity work.FX3SPIConfig
 		port map(
@@ -309,7 +306,7 @@ begin
 			FULL_FLAG         => USBLOGIC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => USBLOGIC_FIFO_SIZE - USBLOGIC_FIFO_ALMOST_FULL_SIZE)
 		port map(
-			Reset_RI       => LogicReset_R or not FXUSBRunning_S,
+			Reset_RI       => LogicReset_R,
 			WrClock_CI     => LogicClock_C,
 			RdClock_CI     => USBClock_CI,
 			FifoControl_SI => LogicUSBFifoControlIn_S,
@@ -338,8 +335,7 @@ begin
 			ExtInputFifoControl_SI => ExtInputFifoControlOut_S.ReadSide,
 			ExtInputFifoControl_SO => ExtInputFifoControlIn_S.ReadSide,
 			ExtInputFifoData_DI    => ExtInputFifoDataOut_D,
-			MultiplexerRunning_SO  => MultiplexerRunning_S,
-			MultiplexerConfig_DI   => MultiplexerConfig_D);
+			MultiplexerConfig_DI   => MultiplexerConfigReg2_D);
 
 	multiplexerSPIConfig : entity work.MultiplexerSPIConfig
 		port map(
@@ -362,7 +358,7 @@ begin
 			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R or not MultiplexerRunning_S,
+			Reset_RI       => LogicReset_R,
 			FifoControl_SI => DVSAERFifoControlIn_S,
 			FifoControl_SO => DVSAERFifoControlOut_S,
 			FifoData_DI    => DVSAERFifoDataIn_D,
@@ -373,8 +369,8 @@ begin
 			FLIP_COLUMN_ADDRESS        => true,
 			ENABLE_PIXEL_FILTERING     => true,
 			ENABLE_BA_FILTERING        => true,
-			BA_FILTER_SUBSAMPLE_COLUMN => 1,
-			BA_FILTER_SUBSAMPLE_ROW    => 1)
+			BA_FILTER_SUBSAMPLE_COLUMN => 2,
+			BA_FILTER_SUBSAMPLE_ROW    => 2)
 		port map(
 			Clock_CI          => LogicClock_C,
 			Reset_RI          => LogicReset_R,
@@ -385,7 +381,7 @@ begin
 			DVSAERReq_SBI     => DVSAERReqSync_SB,
 			DVSAERAck_SBO     => DVSAERAck_SBO,
 			DVSAERReset_SBO   => DVSAERReset_SBO,
-			DVSAERConfig_DI   => DVSAERConfig_D);
+			DVSAERConfig_DI   => DVSAERConfigReg2_D);
 
 	dvsaerSPIConfig : entity work.DVSAERSPIConfig
 		generic map(
@@ -411,23 +407,13 @@ begin
 			FULL_FLAG         => APSADC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE)
 		port map(
-			Reset_RI       => ADCReset_R or not MultiplexerRunningADC_S,
+			Reset_RI       => ADCReset_R,
 			WrClock_CI     => ADCClock_C,
 			RdClock_CI     => LogicClock_C,
 			FifoControl_SI => APSADCFifoControlIn_S,
 			FifoControl_SO => APSADCFifoControlOut_S,
 			FifoData_DI    => APSADCFifoDataIn_D,
 			FifoData_DO    => APSADCFifoDataOut_D);
-
-	apsAdcFifoResetRegister : entity work.SimpleRegister
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI     => LogicClock_C,
-			Reset_RI     => LogicReset_R,
-			Enable_SI    => '1',
-			Input_SI(0)  => MultiplexerRunning_S,
-			Output_SO(0) => MultiplexerRunningADC_S);
 
 	apsAdcSM : entity work.APSADCStateMachine
 		generic map(
@@ -448,7 +434,7 @@ begin
 			APSADCClock_CO         => APSADCClock_CO,
 			APSADCOutputEnable_SBO => APSADCOutputEnable_SBO,
 			APSADCStandby_SO       => APSADCStandby_SO,
-			APSADCConfig_DI        => APSADCConfig_D);
+			APSADCConfig_DI        => APSADCConfigReg2_D);
 
 	apsadcSPIConfig : entity work.APSADCSPIConfig
 		generic map(
@@ -473,7 +459,7 @@ begin
 			ALMOST_FULL_FLAG  => IMU_FIFO_SIZE - IMU_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R or not MultiplexerRunning_S,
+			Reset_RI       => LogicReset_R,
 			FifoControl_SI => IMUFifoControlIn_S,
 			FifoControl_SO => IMUFifoControlOut_S,
 			FifoData_DI    => IMUFifoDataIn_D,
@@ -489,7 +475,7 @@ begin
 			IMUClock_CZO      => IMUClock_CZO,
 			IMUData_DZIO      => IMUData_DZIO,
 			IMUInterrupt_SI   => IMUInterruptSync_S,
-			IMUConfig_DI      => IMUConfig_D);
+			IMUConfig_DI      => IMUConfigReg2_D);
 
 	imuSPIConfig : entity work.IMUSPIConfig
 		port map(
@@ -512,7 +498,7 @@ begin
 			ALMOST_FULL_FLAG  => EXT_INPUT_FIFO_SIZE - EXT_INPUT_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R or not MultiplexerRunning_S,
+			Reset_RI       => LogicReset_R,
 			FifoControl_SI => ExtInputFifoControlIn_S,
 			FifoControl_SO => ExtInputFifoControlOut_S,
 			FifoData_DI    => ExtInputFifoDataIn_D,
@@ -528,7 +514,7 @@ begin
 			ExtInputSignal_SI     => SyncInSignalSync_S,
 			CustomOutputSignal_SI => '1',
 			ExtInputSignal_SO     => SyncOutSignal_SO,
-			ExtInputConfig_DI     => ExtInputConfig_D);
+			ExtInputConfig_DI     => ExtInputConfigReg2_D);
 
 	extInputSPIConfig : entity work.ExtInputSPIConfig
 		port map(
@@ -547,6 +533,39 @@ begin
 			Reset_RI                       => LogicReset_R,
 			ConfigParamAddress_DI          => ConfigParamAddress_D,
 			SystemInfoConfigParamOutput_DO => SystemInfoConfigParamOutput_D);
+
+	configRegisters : process(LogicClock_C, LogicReset_R) is
+	begin
+		if LogicReset_R = '1' then
+			MultiplexerConfigReg2_D <= tMultiplexerConfigDefault;
+			DVSAERConfigReg2_D      <= tDVSAERConfigDefault;
+			APSADCConfigReg2_D      <= tAPSADCConfigDefault;
+			IMUConfigReg2_D         <= tIMUConfigDefault;
+			ExtInputConfigReg2_D    <= tExtInputConfigDefault;
+			FX3ConfigReg2_D         <= tFX3ConfigDefault;
+
+			MultiplexerConfigReg_D <= tMultiplexerConfigDefault;
+			DVSAERConfigReg_D      <= tDVSAERConfigDefault;
+			APSADCConfigReg_D      <= tAPSADCConfigDefault;
+			IMUConfigReg_D         <= tIMUConfigDefault;
+			ExtInputConfigReg_D    <= tExtInputConfigDefault;
+			FX3ConfigReg_D         <= tFX3ConfigDefault;
+		elsif rising_edge(LogicClock_C) then
+			MultiplexerConfigReg2_D <= MultiplexerConfigReg_D;
+			DVSAERConfigReg2_D      <= DVSAERConfigReg_D;
+			APSADCConfigReg2_D      <= APSADCConfigReg_D;
+			IMUConfigReg2_D         <= IMUConfigReg_D;
+			ExtInputConfigReg2_D    <= ExtInputConfigReg_D;
+			FX3ConfigReg2_D         <= FX3ConfigReg_D;
+
+			MultiplexerConfigReg_D <= MultiplexerConfig_D;
+			DVSAERConfigReg_D      <= DVSAERConfig_D;
+			APSADCConfigReg_D      <= APSADCConfig_D;
+			IMUConfigReg_D         <= IMUConfig_D;
+			ExtInputConfigReg_D    <= ExtInputConfig_D;
+			FX3ConfigReg_D         <= FX3Config_D;
+		end if;
+	end process configRegisters;
 
 	spiConfiguration : entity work.SPIConfig
 		port map(
