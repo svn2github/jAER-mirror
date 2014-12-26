@@ -27,7 +27,7 @@ begin
 			pmi_addr_width   => ADDRESS_WIDTH,
 			pmi_data_width   => DATA_WIDTH,
 			pmi_regmode      => "noreg",
-			pmi_gsr          => "disable",
+			pmi_gsr          => "enable",
 			pmi_resetmode    => "async",
 			pmi_optimization => "speed",
 			pmi_write_mode   => "normal",
