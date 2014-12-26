@@ -369,8 +369,8 @@ begin
 			FLIP_COLUMN_ADDRESS        => true,
 			ENABLE_PIXEL_FILTERING     => true,
 			ENABLE_BA_FILTERING        => true,
-			BA_FILTER_SUBSAMPLE_COLUMN => 2,
-			BA_FILTER_SUBSAMPLE_ROW    => 2)
+			BA_FILTER_SUBSAMPLE_COLUMN => 1,
+			BA_FILTER_SUBSAMPLE_ROW    => 1)
 		port map(
 			Clock_CI          => LogicClock_C,
 			Reset_RI          => LogicReset_R,
