@@ -104,7 +104,6 @@ begin
 			USBFifoPktEnd_SBO       => USBFifoPktEnd_SBO,
 			InFifoControl_SI        => LogicUSBFifoControlOut_S.ReadSide,
 			InFifoControl_SO        => LogicUSBFifoControlIn_S.ReadSide,
-			FX2Running_SO           => open,
 			FX2Config_DI            => tFX2ConfigDefault);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.

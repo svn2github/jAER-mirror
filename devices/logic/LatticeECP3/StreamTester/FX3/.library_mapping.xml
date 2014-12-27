@@ -9,8 +9,7 @@
   <Mappings Location="common-source/APSADCSPIConfig.vhd" Library="not mapped"/>
   <Mappings Location="common-source/APSADCStateMachine.vhd" Library="not mapped"/>
   <Mappings Location="common-source/ChipBiasConfigRecords.vhd" Library="not mapped"/>
-  <Mappings Location="common-source/ChipBiasSPIConfig.vhd" Library="not mapped"/>
-  <Mappings Location="common-source/ChipBiasStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ChipBiasSelector.vhd" Library="not mapped"/>
   <Mappings Location="common-source/DVSAERConfigRecords.vhd" Library="not mapped"/>
   <Mappings Location="common-source/DVSAERSPIConfig.vhd" Library="not mapped"/>
   <Mappings Location="common-source/DVSAERStateMachine.vhd" Library="not mapped"/>
@@ -29,6 +28,7 @@
   <Mappings Location="common-source/SystemInfoSPIConfig.vhd" Library="not mapped"/>
   <Mappings Location="common-source/TimestampGenerator.vhd" Library="not mapped"/>
   <Mappings Location="common-source/TimestampSynchronizer.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs" Library="not mapped"/>
   <Mappings Location="Common Libraries/STD" Library="std"/>
   <Mappings Location="" Library="work"/>
 </com.sigasi.hdt.shared.librarymapping.model:LibraryMappings>
