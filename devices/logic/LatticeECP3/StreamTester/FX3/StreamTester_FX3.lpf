@@ -18,7 +18,7 @@ FREQUENCY PORT "USBClock_CI" 80.0 MHz ;
 FREQUENCY NET "USBClock_CI_c" 80.0 MHz ;
 USE SECONDARY NET "USBClock_CI_c" ;
 
-FREQUENCY NET "LogicClock_C" 160.0 MHz ;
+FREQUENCY NET "LogicClock_C" 120.0 MHz ;
 USE PRIMARY NET "LogicClock_C" ;
 
 // FX3 controls
