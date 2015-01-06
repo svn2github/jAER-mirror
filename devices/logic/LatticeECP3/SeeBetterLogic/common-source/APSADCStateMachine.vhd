@@ -71,7 +71,7 @@ architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
 	type tColumnState is (stIdle, stWaitADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stRSFeedTick, stRSReset, stRSSwitchToReadA, stRSReadA, stRSSwitchToReadB, stRSReadB, stGSReset, stGSReadA, stGSReadB, stGSSwitchToReadA,
-		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSReadAFeedTick, stGSReadBFeedTick, stGSColSRFeedB1, stGSColSRFeedB1Tick, stGSColSRFeedB0, stGSColSRFeedB0Tick);
+		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSReadAFeedTick, stGSReadBFeedTick, stGSColSRFeedB1, stGSColSRFeedB1Tick, stGSColSRFeedB0, stGSColSRFeedB0Tick, stGSSwitchToExposure);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -360,15 +360,17 @@ begin
 				APSChipColSRClockReg_S <= '1';
 				APSChipColSRInReg_S    <= '1';
 
+				-- RS: open APS TXGate before first reset.
+				-- Opening it "again" when feeding in B has no impact.
+				-- GS: TXGate must be open during reset, or the APS
+				-- voltage won't go back up to high as expected.
+				APSChipTXGateReg_SN <= '1';
+
 				if CHIP_HAS_GLOBAL_SHUTTER = '1' and APSADCConfigReg_D.GlobalShutter_S = '1' then
 					-- Only switch to global shutter on chips supporting it.
 					ColState_DN <= stGSReset;
 				else
 					ColState_DN <= stRSReset;
-
-					-- RS: open APS TXGate before first reset.
-					-- Opening it "again" when feeding in B has no impact.
-					APSChipTXGateReg_SN <= '1';
 				end if;
 
 			when stRSFeedTick =>
@@ -489,16 +491,11 @@ begin
 				-- Do reset.
 				APSChipColModeReg_DN <= COLMODE_RESETA;
 
-				-- Open TXGate if requested during reset.
-				if APSADCConfigReg_D.GSTXGateOpenReset_S = '1' then
-					APSChipTXGateReg_SN <= '1';
-				end if;
-
 				if ResetTimeDone_S = '1' then
 					if APSADCConfigReg_D.ResetRead_S = '1' then
 						ColState_DN <= stGSSwitchToReadA;
 					else
-						ColState_DN <= stGSStartExposure;
+						ColState_DN <= stGSSwitchToExposure;
 					end if;
 				end if;
 
@@ -537,6 +534,14 @@ begin
 				else
 					ColState_DN <= stGSSwitchToReadA;
 				end if;
+
+			when stGSSwitchToExposure =>
+				-- When not doing any reset read, we need this state to clock in
+				-- one zero into the column SR, so that the B pattern is present.
+				APSChipColSRClockReg_S <= '1';
+				APSChipColSRInReg_S    <= '0';
+
+				ColState_DN <= stGSStartExposure;
 
 			when stGSStartExposure =>
 				APSChipColModeReg_DN <= COLMODE_NULL;

@@ -21,7 +21,6 @@ package APSADCConfigRecords is
 		ResetSettle_D         : unsigned(7 downto 0);
 		ColumnSettle_D        : unsigned(7 downto 0);
 		RowSettle_D           : unsigned(7 downto 0);
-		GSTXGateOpenReset_S   : unsigned(7 downto 0);
 		ResetRead_S           : unsigned(7 downto 0);
 		WaitOnTransferStall_S : unsigned(7 downto 0);
 		StartColumn1_D        : unsigned(7 downto 0);
@@ -51,7 +50,7 @@ package APSADCConfigRecords is
 		ResetSettle_D         => to_unsigned(9, 8),
 		ColumnSettle_D        => to_unsigned(10, 8),
 		RowSettle_D           => to_unsigned(11, 8),
-		GSTXGateOpenReset_S   => to_unsigned(12, 8),
+		-- 12 is unused, left over from tests.
 		ResetRead_S           => to_unsigned(13, 8),
 		WaitOnTransferStall_S => to_unsigned(14, 8),
 		StartColumn1_D        => to_unsigned(15, 8),
@@ -84,7 +83,6 @@ package APSADCConfigRecords is
 		ResetSettle_D         : unsigned(RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 255 cycles
 		ColumnSettle_D        : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 63 cycles
 		RowSettle_D           : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 63 cycles
-		GSTXGateOpenReset_S   : std_logic; -- GS: is the TXGate open during reset too?
 		ResetRead_S           : std_logic; -- Wether to do the reset read or not.
 		WaitOnTransferStall_S : std_logic; -- Wether to wait when the FIFOs are full or not.
 		StartColumn1_D        : unsigned(CHIP_APS_SIZE_COLUMNS'range);
@@ -114,7 +112,6 @@ package APSADCConfigRecords is
 		ResetSettle_D         => to_unsigned(10, RESETTIME_SIZE),
 		ColumnSettle_D        => to_unsigned(10, SETTLETIMES_SIZE),
 		RowSettle_D           => to_unsigned(10, SETTLETIMES_SIZE),
-		GSTXGateOpenReset_S   => '1',
 		ResetRead_S           => '1',
 		WaitOnTransferStall_S => '0',
 		StartColumn1_D        => CHIP_APS_SIZE_COLUMNS,
