@@ -110,7 +110,7 @@ package APSADCConfigRecords is
 		Exposure_D            => to_unsigned(60000, EXPOSUREDELAY_SIZE),
 		FrameDelay_D          => to_unsigned(6000, EXPOSUREDELAY_SIZE),
 		ResetSettle_D         => to_unsigned(10, RESETTIME_SIZE),
-		ColumnSettle_D        => to_unsigned(10, SETTLETIMES_SIZE),
+		ColumnSettle_D        => to_unsigned(30, SETTLETIMES_SIZE),
 		RowSettle_D           => to_unsigned(10, SETTLETIMES_SIZE),
 		ResetRead_S           => '1',
 		WaitOnTransferStall_S => '0',

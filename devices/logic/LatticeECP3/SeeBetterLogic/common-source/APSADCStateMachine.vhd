@@ -77,7 +77,7 @@ architecture Behavioral of APSADCStateMachine is
 	-- present and next state
 	signal ColState_DP, ColState_DN : tColumnState;
 
-	type tRowState is (stIdle, stRowDone, stRowSRInit, stRowSRInitTick, stRowSRFeedTick, stColSettleWait, stRowSettleWait, stRowWriteEvent, stRowFastJump);
+	type tRowState is (stIdle, stRowDone, stRowStart, stRowSRFeedInit, stRowSRFeedInitTick, stRowSRFeedTick, stColSettleWait, stRowSettleWait, stRowWriteEvent, stRowFastJump);
 	attribute syn_enum_encoding of tRowState : type is "onehot";
 
 	-- present and next state
@@ -726,17 +726,32 @@ begin
 			when stIdle =>
 				-- Wait until the main column state machine signals us to do a row read.
 				if RowReadStart_SP = '1' then
-					RowState_DN <= stColSettleWait;
+					RowState_DN <= stRowSRFeedInit;
 				end if;
 
-				-- Setup proper source for column settle time (used in next state).
+			when stRowSRFeedInit =>
+				-- We first feed in the row register pattern, since the column settle time
+				-- has to pass _after_ the first row has been selected.
+				APSChipRowSRClockReg_S <= '0';
+				APSChipRowSRInReg_S    <= '1';
+
+				RowState_DN <= stRowSRFeedInitTick;
+
+			when stRowSRFeedInitTick =>
+				APSChipRowSRClockReg_S <= '1';
+				APSChipRowSRInReg_S    <= '1';
+
+				RowState_DN <= stColSettleWait;
+
+				-- Setup proper source for column settle time (used in stColSettleWait state).
 				SettleTimesLimit_D <= APSADCConfigReg_D.ColumnSettle_D;
 
 			when stColSettleWait =>
-				-- Wait for the column selection to be valid. We do this here so we don't have to duplicate
-				-- this code in every column state inside the main column state machine.
+				-- Additional wait for the column selection to be valid, once both the colum and
+				-- the current row pattern have been shifted in. We do this here, because the row
+				-- pattern also has to have been shifted in for this to be effective.
 				if SettleTimesDone_S = '1' then
-					RowState_DN <= stRowSRInit;
+					RowState_DN <= stRowStart;
 				end if;
 
 				SettleTimesCount_S <= '1';
@@ -744,10 +759,7 @@ begin
 				-- Keep proper source for column settle time selected while counting it.
 				SettleTimesLimit_D <= APSADCConfigReg_D.ColumnSettle_D;
 
-			when stRowSRInit =>
-				APSChipRowSRClockReg_S <= '0';
-				APSChipRowSRInReg_S    <= '1';
-
+			when stRowStart =>
 				-- Write event only if FIFO has place, else wait.
 				-- If fake read (COLMODE_NULL), don't write anything.
 				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
@@ -761,17 +773,12 @@ begin
 				end if;
 
 				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-					RowState_DN <= stRowSRInitTick;
-				end if;
-
-			when stRowSRInitTick =>
-				APSChipRowSRClockReg_S <= '1';
-				APSChipRowSRInReg_S    <= '1';
-
-				if CurrentRowValid_S = '1' then
-					RowState_DN <= stRowSettleWait;
-				else
-					RowState_DN <= stRowFastJump;
+					-- Same decision to do here as in stRowSRFeedTick.
+					if CurrentRowValid_S = '1' then
+						RowState_DN <= stRowSettleWait;
+					else
+						RowState_DN <= stRowFastJump;
+					end if;
 				end if;
 
 			when stRowSRFeedTick =>
