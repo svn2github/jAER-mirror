@@ -4,6 +4,7 @@ use ieee.numeric_std.all;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
+use work.Settings.ADC_CLOCK_FREQ;
 
 package APSADCConfigRecords is
 	constant APSADCCONFIG_MODULE_ADDRESS : unsigned(6 downto 0) := to_unsigned(2, 7);
@@ -66,18 +67,18 @@ package APSADCConfigRecords is
 		EndColumn3_D          => to_unsigned(25, 8),
 		EndRow3_D             => to_unsigned(26, 8));
 
-	constant EXPOSUREDELAY_SIZE : integer := 26;
-	constant RESETTIME_SIZE     : integer := 8;
-	constant SETTLETIMES_SIZE   : integer := 6;
+	constant EXPOSUREDELAY_SIZE : integer := 26; -- Up to about two seconds.
+	constant RESETTIME_SIZE     : integer := 7;
+	constant SETTLETIMES_SIZE   : integer := 9;
 
 	type tAPSADCConfig is record
 		Run_S                 : std_logic;
 		ForceADCRunning_S     : std_logic; -- Force ADC to be always on, for quick resume.
 		GlobalShutter_S       : std_logic; -- enable global shutter instead of rolling shutter
-		StartColumn0_D         : unsigned(CHIP_APS_SIZE_COLUMNS'range);
-		StartRow0_D            : unsigned(CHIP_APS_SIZE_ROWS'range);
-		EndColumn0_D           : unsigned(CHIP_APS_SIZE_COLUMNS'range);
-		EndRow0_D              : unsigned(CHIP_APS_SIZE_ROWS'range);
+		StartColumn0_D        : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+		StartRow0_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
+		EndColumn0_D          : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+		EndRow0_D             : unsigned(CHIP_APS_SIZE_ROWS'range);
 		Exposure_D            : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in microseconds, up to 1 second
 		FrameDelay_D          : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in microseconds, up to 1 second
 		ResetSettle_D         : unsigned(RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 255 cycles
@@ -103,12 +104,12 @@ package APSADCConfigRecords is
 		Run_S                 => '0',
 		ForceADCRunning_S     => '0',
 		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,
-		StartColumn0_D         => to_unsigned(0, CHIP_APS_SIZE_COLUMNS'length),
-		StartRow0_D            => to_unsigned(0, CHIP_APS_SIZE_ROWS'length),
-		EndColumn0_D           => CHIP_APS_SIZE_COLUMNS - 1,
-		EndRow0_D              => CHIP_APS_SIZE_ROWS - 1,
-		Exposure_D            => to_unsigned(60000, EXPOSUREDELAY_SIZE),
-		FrameDelay_D          => to_unsigned(6000, EXPOSUREDELAY_SIZE),
+		StartColumn0_D        => to_unsigned(0, CHIP_APS_SIZE_COLUMNS'length),
+		StartRow0_D           => to_unsigned(0, CHIP_APS_SIZE_ROWS'length),
+		EndColumn0_D          => CHIP_APS_SIZE_COLUMNS - 1,
+		EndRow0_D             => CHIP_APS_SIZE_ROWS - 1,
+		Exposure_D            => to_unsigned(2000 * ADC_CLOCK_FREQ, EXPOSUREDELAY_SIZE),
+		FrameDelay_D          => to_unsigned(200 * ADC_CLOCK_FREQ, EXPOSUREDELAY_SIZE),
 		ResetSettle_D         => to_unsigned(10, RESETTIME_SIZE),
 		ColumnSettle_D        => to_unsigned(30, SETTLETIMES_SIZE),
 		RowSettle_D           => to_unsigned(10, SETTLETIMES_SIZE),
