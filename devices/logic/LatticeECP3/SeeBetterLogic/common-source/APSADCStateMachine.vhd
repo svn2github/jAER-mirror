@@ -433,7 +433,7 @@ begin
 				ColState_DN     <= stRSReadA;
 
 			when stRSReadA =>
-				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS then
+				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS or CurrentColumnAValid_S = '0' then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 				else
 					-- Do column read A.
@@ -454,7 +454,7 @@ begin
 				ColState_DN     <= stRSReadB;
 
 			when stRSReadB =>
-				if ReadBSRStatus_DP /= RBSTAT_NORMAL then
+				if ReadBSRStatus_DP /= RBSTAT_NORMAL or CurrentColumnBValid_S = '0' then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 				else
 					-- Do column read B.
@@ -463,6 +463,8 @@ begin
 
 				-- Wait for the Row SM to complete its readout.
 				if RowReadDone_SP = '1' then
+					APSChipColModeReg_DN <= COLMODE_NULL;
+
 					-- If exposure time hasn't expired or we haven't yet even shifted in one
 					-- 0 into the column SR, we first do that.
 					if ExposureDelayDone_S = '1' and ReadBSRStatus_DP /= RBSTAT_NEED_ZERO_ONE then
