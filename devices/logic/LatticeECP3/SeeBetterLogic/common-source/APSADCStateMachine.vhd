@@ -404,6 +404,8 @@ begin
 				end if;
 
 				if ResetTimeDone_S = '1' then
+					APSChipColModeReg_DN <= COLMODE_NULL;
+
 					-- Support not doing the reset read. Halves the traffic and time
 					-- requirements, at the expense of image quality.
 					if APSADCConfigReg_D.ResetRead_S = '1' then
@@ -442,6 +444,8 @@ begin
 
 				-- Wait for the Row SM to complete its readout.
 				if RowReadDone_SP = '1' then
+					APSChipColModeReg_DN <= COLMODE_NULL;
+
 					ColState_DN              <= stRSSwitchToReadB;
 					ColumnReadAPositionInc_S <= '1';
 				end if;

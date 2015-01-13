@@ -69,7 +69,7 @@ package APSADCConfigRecords is
 
 	constant EXPOSUREDELAY_SIZE : integer := 26; -- Up to about two seconds.
 	constant RESETTIME_SIZE     : integer := 7;
-	constant SETTLETIMES_SIZE   : integer := 9;
+	constant SETTLETIMES_SIZE   : integer := 8;
 
 	type tAPSADCConfig is record
 		Run_S                 : std_logic;
