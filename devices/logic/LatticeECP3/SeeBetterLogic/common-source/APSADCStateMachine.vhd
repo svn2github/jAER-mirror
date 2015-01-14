@@ -71,7 +71,7 @@ architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
 	type tColumnState is (stIdle, stWaitADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stRSFeedTick, stRSReset, stRSSwitchToReadA, stRSReadA, stRSSwitchToReadB, stRSReadB, stGSReset, stGSReadA, stGSReadB, stGSSwitchToReadA,
-		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSReadAFeedTick, stGSReadBFeedTick, stGSColSRFeedB1, stGSColSRFeedB1Tick, stGSColSRFeedB0, stGSColSRFeedB0Tick, stGSSwitchToExposure);
+		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSReadAFeedTick, stGSReadBFeedTick, stGSColSRFeedB1, stGSColSRFeedB1Tick, stGSColSRFeedB0, stGSColSRFeedB0Tick, stGSSwitchToExposure, stRSSwitchToReset, stGSSwitchToReset, stRSPrepareFeedTick);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -135,6 +135,10 @@ architecture Behavioral of APSADCStateMachine is
 	-- Check column and row validity. Used for faster ROI.
 	signal CurrentColumnAValid_S, CurrentColumnBValid_S : std_logic;
 	signal CurrentRowValid_S                            : std_logic;
+
+	-- Lengthen the NULL states between different, active column states.
+	signal NullCounter_DP, NullCounter_DN : unsigned(4 downto 0);
+	constant NULL_COUNTER_LIMIT           : integer := 31;
 
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S, OutFifoWriteRegCol_S, OutFifoWriteRegRow_S                : std_logic;
@@ -289,6 +293,8 @@ begin
 		-- Keep value by default.
 		ReadBSRStatus_DN <= ReadBSRStatus_DP;
 
+		NullCounter_DN <= (others => '0');
+
 		-- Only update configuration when in Idle state. Doing so while the frame is being read out
 		-- would cause different timing, exposure and read out types, resulting in corrupted frames.
 		APSADCConfigRegEnable_S <= '0';
@@ -368,9 +374,19 @@ begin
 
 				if CHIP_HAS_GLOBAL_SHUTTER = '1' and APSADCConfigReg_D.GlobalShutter_S = '1' then
 					-- Only switch to global shutter on chips supporting it.
-					ColState_DN <= stGSReset;
+					ColState_DN <= stGSSwitchToReset;
 				else
-					ColState_DN <= stRSReset;
+					ColState_DN <= stRSSwitchToReset;
+				end if;
+
+			when stRSPrepareFeedTick =>
+				-- Ensure we go through another NULL state.
+				APSChipColModeReg_DN <= COLMODE_NULL;
+
+				if NullCounter_DP = NULL_COUNTER_LIMIT then
+					ColState_DN <= stRSFeedTick;
+				else
+					NullCounter_DN <= NullCounter_DP + 1;
 				end if;
 
 			when stRSFeedTick =>
@@ -392,7 +408,17 @@ begin
 					-- Reset ReadB status to initial (need at least a zero), for next frame.
 					ReadBSRStatus_DN <= RBSTAT_NEED_ZERO_ONE;
 				else
+					ColState_DN <= stRSSwitchToReset;
+				end if;
+
+			when stRSSwitchToReset =>
+				-- Ensure we go through another NULL state.
+				APSChipColModeReg_DN <= COLMODE_NULL;
+
+				if NullCounter_DP = NULL_COUNTER_LIMIT then
 					ColState_DN <= stRSReset;
+				else
+					NullCounter_DN <= NullCounter_DP + 1;
 				end if;
 
 			when stRSReset =>
@@ -430,9 +456,13 @@ begin
 			when stRSSwitchToReadA =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
-				-- Start off the Row SM.
-				RowReadStart_SN <= '1';
-				ColState_DN     <= stRSReadA;
+				if NullCounter_DP = NULL_COUNTER_LIMIT then
+					-- Start off the Row SM.
+					RowReadStart_SN <= '1';
+					ColState_DN     <= stRSReadA;
+				else
+					NullCounter_DN <= NullCounter_DP + 1;
+				end if;
 
 			when stRSReadA =>
 				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS or CurrentColumnAValid_S = '0' then
@@ -453,9 +483,13 @@ begin
 			when stRSSwitchToReadB =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
-				-- Start off the Row SM.
-				RowReadStart_SN <= '1';
-				ColState_DN     <= stRSReadB;
+				if NullCounter_DP = NULL_COUNTER_LIMIT then
+					-- Start off the Row SM.
+					RowReadStart_SN <= '1';
+					ColState_DN     <= stRSReadB;
+				else
+					NullCounter_DN <= NullCounter_DP + 1;
+				end if;
 
 			when stRSReadB =>
 				if ReadBSRStatus_DP /= RBSTAT_NORMAL or CurrentColumnBValid_S = '0' then
@@ -480,24 +514,32 @@ begin
 						elsif ReadBSRStatus_DP = RBSTAT_NEED_ZERO_TWO then
 							-- Shift in the second 0 (the one after the 1) that is needed
 							-- for a B read of the very first column to work.
-							ColState_DN      <= stRSFeedTick;
+							ColState_DN      <= stRSPrepareFeedTick;
 							ReadBSRStatus_DN <= RBSTAT_NORMAL;
 						else
 							-- Finally, B reads are happening, their position is increasing.
-							ColState_DN              <= stRSFeedTick;
+							ColState_DN              <= stRSPrepareFeedTick;
 							ColumnReadBPositionInc_S <= '1';
 						end if;
 					else
 						-- Just shift in a zero.
-						ColState_DN <= stRSFeedTick;
+						ColState_DN <= stRSPrepareFeedTick;
 					end if;
 				end if;
+
+			when stGSSwitchToReset =>
+				-- Ensure we go through another NULL state.
+				APSChipColModeReg_DN <= COLMODE_NULL;
+
+				ColState_DN <= stGSReset;
 
 			when stGSReset =>
 				-- Do reset.
 				APSChipColModeReg_DN <= COLMODE_RESETA;
 
 				if ResetTimeDone_S = '1' then
+					APSChipColModeReg_DN <= COLMODE_NULL;
+
 					if APSADCConfigReg_D.ResetRead_S = '1' then
 						ColState_DN <= stGSSwitchToReadA;
 					else
@@ -526,6 +568,8 @@ begin
 				APSChipColModeReg_DN <= COLMODE_READA;
 
 				if RowReadDone_SP = '1' then
+					APSChipColModeReg_DN <= COLMODE_NULL;
+
 					ColState_DN              <= stGSReadAFeedTick;
 					ColumnReadAPositionInc_S <= '1';
 				end if;
@@ -608,6 +652,8 @@ begin
 				APSChipColModeReg_DN <= COLMODE_READB;
 
 				if RowReadDone_SP = '1' then
+					APSChipColModeReg_DN <= COLMODE_NULL;
+
 					ColState_DN              <= stGSReadBFeedTick;
 					ColumnReadBPositionInc_S <= '1';
 				end if;
@@ -879,6 +925,8 @@ begin
 
 			ReadBSRStatus_DP <= RBSTAT_NEED_ZERO_ONE;
 
+			NullCounter_DP <= (others => '0');
+
 			OutFifoControl_SO.Write_S <= '0';
 
 			APSChipRowSRClock_SO <= '0';
@@ -904,6 +952,8 @@ begin
 			RowReadDone_SP  <= RowReadDone_SN;
 
 			ReadBSRStatus_DP <= ReadBSRStatus_DN;
+
+			NullCounter_DP <= NullCounter_DN;
 
 			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
 
