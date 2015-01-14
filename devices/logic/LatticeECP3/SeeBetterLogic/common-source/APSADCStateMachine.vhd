@@ -97,13 +97,18 @@ architecture Behavioral of APSADCStateMachine is
 	signal ADCStartupCount_S, ADCStartupDone_S : std_logic;
 
 	-- Use one counter for both exposure and frame delay times, they cannot happen at the same time.
+	-- Both also happen only inside the Column SM.
 	signal ExposureDelayClear_S, ExposureDelayDone_S : std_logic;
 	signal ExposureDelayLimit_D                      : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0);
 
-	-- Reset time counter (bigger to allow for long resets if needed).
+	-- Reset time counter (make bigger to allow for long resets if needed).
 	signal ResetTimeCount_S, ResetTimeDone_S : std_logic;
 
+	-- Lengthen the NULL states between different, active column states.
+	signal NullTimeCount_S, NullTimeDone_S : std_logic;
+
 	-- Use one counter for both column and row settle times, they cannot happen at the same time.
+	-- Both also happen only inside the Row SM.
 	signal SettleTimesCount_S, SettleTimesDone_S : std_logic;
 	signal SettleTimesLimit_D                    : unsigned(SETTLETIMES_SIZE - 1 downto 0);
 
@@ -135,10 +140,6 @@ architecture Behavioral of APSADCStateMachine is
 	-- Check column and row validity. Used for faster ROI.
 	signal CurrentColumnAValid_S, CurrentColumnBValid_S : std_logic;
 	signal CurrentRowValid_S                            : std_logic;
-
-	-- Lengthen the NULL states between different, active column states.
-	signal NullCounter_DP, NullCounter_DN : unsigned(4 downto 0);
-	constant NULL_COUNTER_LIMIT           : integer := 31;
 
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S, OutFifoWriteRegCol_S, OutFifoWriteRegRow_S                : std_logic;
@@ -227,6 +228,18 @@ begin
 			Overflow_SO  => open,
 			Data_DO      => RowReadPosition_D);
 
+	nullTimeCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => NULLTIME_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => NullTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.NullSettle_D,
+			Overflow_SO  => NullTimeDone_S,
+			Data_DO      => open);
+
 	resetTimeCounter : entity work.ContinuousCounter
 		generic map(
 			SIZE => RESETTIME_SIZE)
@@ -251,7 +264,7 @@ begin
 			Overflow_SO  => SettleTimesDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, RowReadDone_SP, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S)
+	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, RowReadDone_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -287,13 +300,14 @@ begin
 		-- Reset time counter.
 		ResetTimeCount_S <= '0';
 
+		-- Null time counter.
+		NullTimeCount_S <= '0';
+
 		-- Row SM communication.
 		RowReadStart_SN <= '0';
 
 		-- Keep value by default.
 		ReadBSRStatus_DN <= ReadBSRStatus_DP;
-
-		NullCounter_DN <= (others => '0');
 
 		-- Only update configuration when in Idle state. Doing so while the frame is being read out
 		-- would cause different timing, exposure and read out types, resulting in corrupted frames.
@@ -383,11 +397,11 @@ begin
 				-- Ensure we go through another NULL state.
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
-				if NullCounter_DP = NULL_COUNTER_LIMIT then
+				if NullTimeDone_S = '1' then
 					ColState_DN <= stRSFeedTick;
-				else
-					NullCounter_DN <= NullCounter_DP + 1;
 				end if;
+
+				NullTimeCount_S <= '1';
 
 			when stRSFeedTick =>
 				APSChipColSRClockReg_S <= '1';
@@ -415,11 +429,11 @@ begin
 				-- Ensure we go through another NULL state.
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
-				if NullCounter_DP = NULL_COUNTER_LIMIT then
+				if NullTimeDone_S = '1' then
 					ColState_DN <= stRSReset;
-				else
-					NullCounter_DN <= NullCounter_DP + 1;
 				end if;
+
+				NullTimeCount_S <= '1';
 
 			when stRSReset =>
 				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS then
@@ -456,13 +470,13 @@ begin
 			when stRSSwitchToReadA =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
-				if NullCounter_DP = NULL_COUNTER_LIMIT then
+				if NullTimeDone_S = '1' then
 					-- Start off the Row SM.
 					RowReadStart_SN <= '1';
 					ColState_DN     <= stRSReadA;
-				else
-					NullCounter_DN <= NullCounter_DP + 1;
 				end if;
+
+				NullTimeCount_S <= '1';
 
 			when stRSReadA =>
 				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS or CurrentColumnAValid_S = '0' then
@@ -483,13 +497,13 @@ begin
 			when stRSSwitchToReadB =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
-				if NullCounter_DP = NULL_COUNTER_LIMIT then
+				if NullTimeDone_S = '1' then
 					-- Start off the Row SM.
 					RowReadStart_SN <= '1';
 					ColState_DN     <= stRSReadB;
-				else
-					NullCounter_DN <= NullCounter_DP + 1;
 				end if;
+
+				NullTimeCount_S <= '1';
 
 			when stRSReadB =>
 				if ReadBSRStatus_DP /= RBSTAT_NORMAL or CurrentColumnBValid_S = '0' then
@@ -925,8 +939,6 @@ begin
 
 			ReadBSRStatus_DP <= RBSTAT_NEED_ZERO_ONE;
 
-			NullCounter_DP <= (others => '0');
-
 			OutFifoControl_SO.Write_S <= '0';
 
 			APSChipRowSRClock_SO <= '0';
@@ -952,8 +964,6 @@ begin
 			RowReadDone_SP  <= RowReadDone_SN;
 
 			ReadBSRStatus_DP <= ReadBSRStatus_DN;
-
-			NullCounter_DP <= NullCounter_DN;
 
 			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
 

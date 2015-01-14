@@ -22,6 +22,7 @@ package APSADCConfigRecords is
 		ResetSettle_D         : unsigned(7 downto 0);
 		ColumnSettle_D        : unsigned(7 downto 0);
 		RowSettle_D           : unsigned(7 downto 0);
+		NullSettle_D          : unsigned(7 downto 0);
 		ResetRead_S           : unsigned(7 downto 0);
 		WaitOnTransferStall_S : unsigned(7 downto 0);
 		StartColumn1_D        : unsigned(7 downto 0);
@@ -51,7 +52,7 @@ package APSADCConfigRecords is
 		ResetSettle_D         => to_unsigned(9, 8),
 		ColumnSettle_D        => to_unsigned(10, 8),
 		RowSettle_D           => to_unsigned(11, 8),
-		-- 12 is unused, left over from tests.
+		NullSettle_D          => to_unsigned(12, 8),
 		ResetRead_S           => to_unsigned(13, 8),
 		WaitOnTransferStall_S => to_unsigned(14, 8),
 		StartColumn1_D        => to_unsigned(15, 8),
@@ -67,25 +68,27 @@ package APSADCConfigRecords is
 		EndColumn3_D          => to_unsigned(25, 8),
 		EndRow3_D             => to_unsigned(26, 8));
 
-	constant EXPOSUREDELAY_SIZE : integer := 26; -- Up to about two seconds.
-	constant RESETTIME_SIZE     : integer := 7;
-	constant SETTLETIMES_SIZE   : integer := 8;
+	constant EXPOSUREDELAY_SIZE : integer := 25; -- Up to about one second.
+	constant NULLTIME_SIZE      : integer := 5; -- Up to about one microsecond.
+	constant RESETTIME_SIZE     : integer := 7; -- Up to about four microseconds.
+	constant SETTLETIMES_SIZE   : integer := 7; -- Up to about four microseconds.
 
 	type tAPSADCConfig is record
 		Run_S                 : std_logic;
 		ForceADCRunning_S     : std_logic; -- Force ADC to be always on, for quick resume.
-		GlobalShutter_S       : std_logic; -- enable global shutter instead of rolling shutter
+		GlobalShutter_S       : std_logic; -- Enable global shutter instead of rolling shutter.
 		StartColumn0_D        : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		StartRow0_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
 		EndColumn0_D          : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		EndRow0_D             : unsigned(CHIP_APS_SIZE_ROWS'range);
-		Exposure_D            : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in microseconds, up to 1 second
-		FrameDelay_D          : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in microseconds, up to 1 second
-		ResetSettle_D         : unsigned(RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 255 cycles
-		ColumnSettle_D        : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 63 cycles
-		RowSettle_D           : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz, up to 63 cycles
+		Exposure_D            : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in cycles at 30MHz
+		FrameDelay_D          : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in cycles at 30MHz
+		ResetSettle_D         : unsigned(RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
+		ColumnSettle_D        : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHzes
+		RowSettle_D           : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz
+		NullSettle_D          : unsigned(NULLTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
 		ResetRead_S           : std_logic; -- Wether to do the reset read or not.
-		WaitOnTransferStall_S : std_logic; -- Wether to wait when the FIFOs are full or not.
+		WaitOnTransferStall_S : std_logic; -- Wether to wait when the FIFO is full or not.
 		StartColumn1_D        : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		StartRow1_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
 		EndColumn1_D          : unsigned(CHIP_APS_SIZE_COLUMNS'range);
@@ -113,6 +116,7 @@ package APSADCConfigRecords is
 		ResetSettle_D         => to_unsigned(10, RESETTIME_SIZE),
 		ColumnSettle_D        => to_unsigned(30, SETTLETIMES_SIZE),
 		RowSettle_D           => to_unsigned(10, SETTLETIMES_SIZE),
+		NullSettle_D          => to_unsigned(10, NULLTIME_SIZE),
 		ResetRead_S           => '1',
 		WaitOnTransferStall_S => '0',
 		StartColumn1_D        => CHIP_APS_SIZE_COLUMNS,

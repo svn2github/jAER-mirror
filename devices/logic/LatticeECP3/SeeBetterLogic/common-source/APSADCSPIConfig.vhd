@@ -89,6 +89,10 @@ begin
 				APSADCConfigReg_DN.RowSettle_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.RowSettle_D'range));
 				APSADCOutput_DN(tAPSADCConfig.RowSettle_D'range) <= std_logic_vector(APSADCConfigReg_DP.RowSettle_D);
 
+			when APSADCCONFIG_PARAM_ADDRESSES.NullSettle_D =>
+				APSADCConfigReg_DN.NullSettle_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.NullSettle_D'range));
+				APSADCOutput_DN(tAPSADCConfig.NullSettle_D'range) <= std_logic_vector(APSADCConfigReg_DP.NullSettle_D);
+
 			when APSADCCONFIG_PARAM_ADDRESSES.ResetRead_S =>
 				APSADCConfigReg_DN.ResetRead_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)             <= APSADCConfigReg_DP.ResetRead_S;
