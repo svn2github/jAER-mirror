@@ -134,9 +134,10 @@ begin
 	-- device and host re-synchronize on zero.
 	tsOverflowBuffer : entity work.ContinuousCounter
 		generic map(
-			SIZE             => OVERFLOW_WIDTH,
-			SHORT_OVERFLOW   => true,
-			OVERFLOW_AT_ZERO => true)
+			SIZE                => OVERFLOW_WIDTH,
+			SHORT_OVERFLOW      => true,
+			OVERFLOW_AT_ZERO    => true,
+			OVERFLOW_OUT_BUFFER => true)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,

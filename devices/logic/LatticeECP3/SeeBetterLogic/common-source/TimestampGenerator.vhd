@@ -23,9 +23,10 @@ architecture Structural of TimestampGenerator is
 begin
 	timestampGenerator : entity work.ContinuousCounter
 		generic map(
-			SIZE             => TIMESTAMP_WIDTH,
-			SHORT_OVERFLOW   => true,
-			OVERFLOW_AT_ZERO => true)
+			SIZE                => TIMESTAMP_WIDTH,
+			SHORT_OVERFLOW      => true,
+			OVERFLOW_AT_ZERO    => true,
+			OVERFLOW_OUT_BUFFER => true)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,

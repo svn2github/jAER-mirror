@@ -1,9 +1,10 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use work.Settings.DEVICE_FAMILY;
 
 -- Variable width counter that just cycles thorugh all binary values,
--- incrementing by one each time its enable signal is assered,
+-- incrementing by one each time its enable signal is asserted,
 -- until it hits a configurable limit. This limit is provided by the
 -- DataLimit_DI input, if not needed, just keep it at all ones. The
 -- limit can change during operation. When it is hit, the counter
@@ -24,11 +25,12 @@ use ieee.numeric_std.all;
 -- size ceil(log2(N+1)) and the limit will have to be N.
 entity ContinuousCounter is
 	generic(
-		SIZE              : integer;
-		RESET_ON_OVERFLOW : boolean := true;
-		GENERATE_OVERFLOW : boolean := true;
-		SHORT_OVERFLOW    : boolean := false;
-		OVERFLOW_AT_ZERO  : boolean := false);
+		SIZE                : integer;
+		RESET_ON_OVERFLOW   : boolean := true;
+		GENERATE_OVERFLOW   : boolean := true;
+		SHORT_OVERFLOW      : boolean := false;
+		OVERFLOW_AT_ZERO    : boolean := false;
+		OVERFLOW_OUT_BUFFER : boolean := (DEVICE_FAMILY /= "XO"));
 	port(
 		Clock_CI     : in  std_logic;
 		Reset_RI     : in  std_logic;
@@ -57,7 +59,7 @@ begin
 				if RESET_ON_OVERFLOW then
 					Count_DN <= (others => '0');
 				else
-					Count_DN <= DataLimit_DI;
+					Count_DN <= Count_DP;
 				end if;
 			end if;
 		elsif Clear_SI = '1' and Enable_SI = '1' then
@@ -81,62 +83,122 @@ begin
 	Data_DO <= Count_DP;
 
 	overflowLogicProcesses : if GENERATE_OVERFLOW = true generate
-		signal Overflow_S, OverflowBuffer_S : std_logic;
+		signal Overflow_S : std_logic;
 	begin
-		overflowLogic : process(Count_DP, Clear_SI, Enable_SI, DataLimit_DI)
+		overflowOutputBuffered : if OVERFLOW_OUT_BUFFER = true generate
+			signal OverflowBuffer_SP, OverflowBuffer_SN : std_logic;
 		begin
-			-- Determine overflow flag one cycle in advance, so that registering it
-			-- at the output doesn't add more latency, since we want it to be
-			-- asserted together with the limit value, on the cycle _before_ the
-			-- buffer switches back to zero.
-			Overflow_S <= '0';
+			overflowPredictLogic : process(Count_DP, Clear_SI, Enable_SI, DataLimit_DI)
+			begin
+				-- Determine overflow flag one cycle in advance, so that registering it
+				-- at the output doesn't add more latency, since we want it to be
+				-- asserted together with the limit value, on the cycle _before_ the
+				-- buffer switches back to zero.
+				Overflow_S <= '0';
 
-			if not OVERFLOW_AT_ZERO then
-				if Count_DP = (DataLimit_DI - 1) and Clear_SI = '0' and Enable_SI = '1' then
-					Overflow_S <= '1';
-				elsif not SHORT_OVERFLOW and Count_DP >= DataLimit_DI then
-					if Clear_SI = '0' and Enable_SI = '0' then
+				if not OVERFLOW_AT_ZERO then
+					if Count_DP = (DataLimit_DI - 1) and Clear_SI = '0' and Enable_SI = '1' then
 						Overflow_S <= '1';
-					elsif Clear_SI = '0' and Enable_SI = '1' and not RESET_ON_OVERFLOW then
-						Overflow_S <= '1';
-					elsif Clear_SI = '1' and Enable_SI = '1' and DataLimit_DI = 1 then
-						-- In this case, the next number is one, not zero. Since the
-						-- minimum DataLimit_DI is one, it could be we're resetting
-						-- directly into a value that produces the overflow flag, so we
-						-- need to keep that in mind and check for it.
+					end if;
+
+					if not SHORT_OVERFLOW and Count_DP >= DataLimit_DI then
+						if Clear_SI = '0' and Enable_SI = '0' then
+							Overflow_S <= '1';
+						end if;
+
+						if Clear_SI = '0' and Enable_SI = '1' and not RESET_ON_OVERFLOW then
+							Overflow_S <= '1';
+						end if;
+
+						if Clear_SI = '1' and Enable_SI = '0' and DataLimit_DI = 0 then
+							-- In this case, the next number zero. Since the minimum
+							-- DataLimit_DI is also zero, it could be we're resetting
+							-- directly into a value that produces the overflow flag, so we
+							-- need to keep that in mind and check for it.
+							Overflow_S <= '1';
+						end if;
+
+						if Clear_SI = '1' and Enable_SI = '1' and DataLimit_DI = 1 then
+							-- In this case, the next number is one, not zero. Since the
+							-- minimum DataLimit_DI is one, it could be we're resetting
+							-- directly into a value that produces the overflow flag, so we
+							-- need to keep that in mind and check for it.
+							Overflow_S <= '1';
+						end if;
+					end if;
+				else
+					-- This only ever makes sense if we also reset on overflow, since that's
+					-- the only case where we overflow into zero automatically (with Enable_SI).
+					assert (RESET_ON_OVERFLOW) report "OVERFLOW_AT_ZERO requires RESET_ON_OVERFLOW enabled." severity FAILURE;
+
+					-- Disabling SHORT_OVERFLOW is not supported in OVERFLOW_AT_ZERO mode.
+					-- It will always generate a short overflow signal.
+					-- Doing so reliably would increase complexity and resource
+					-- consumption to keep and check additional state, and no user of this
+					-- module needs this functionality currently.
+					assert (SHORT_OVERFLOW) report "OVERFLOW_AT_ZERO requires SHORT_OVERFLOW enabled." severity FAILURE;
+
+					if Count_DP >= DataLimit_DI and Clear_SI = '0' and Enable_SI = '1' then
 						Overflow_S <= '1';
 					end if;
 				end if;
-			else
-				-- This only ever makes sense if we also reset on overflow, since that's
-				-- the only case where we overflow into zero automatically (with Enable_SI).
-				assert (RESET_ON_OVERFLOW) report "OVERFLOW_AT_ZERO requires RESET_ON_OVERFLOW enabled." severity FAILURE;
+			end process overflowPredictLogic;
 
-				-- Disabling SHORT_OVERFLOW is not supported in OVERFLOW_AT_ZERO mode.
-				-- It will always generate a short overflow signal.
-				-- Doing so reliably would increase complexity and resource
-				-- consumption to keep and check additional state, and no user of this
-				-- module needs this functionality currently.
-				assert (SHORT_OVERFLOW) report "OVERFLOW_AT_ZERO requires SHORT_OVERFLOW enabled." severity FAILURE;
+			OverflowBuffer_SN <= Overflow_S;
 
-				if Count_DP >= DataLimit_DI and Clear_SI = '0' and Enable_SI = '1' then
-					Overflow_S <= '1';
+			-- Change state on clock edge (synchronous).
+			overflowRegisterUpdate : process(Clock_CI, Reset_RI)
+			begin
+				if Reset_RI = '1' then  -- asynchronous reset (active-high for FPGAs)
+					OverflowBuffer_SP <= '0';
+				elsif rising_edge(Clock_CI) then
+					OverflowBuffer_SP <= OverflowBuffer_SN;
 				end if;
-			end if;
-		end process overflowLogic;
+			end process overflowRegisterUpdate;
 
-		-- Change state on clock edge (synchronous).
-		overflowRegisterUpdate : process(Clock_CI, Reset_RI)
+			-- Output overflow (from register).
+			Overflow_SO <= OverflowBuffer_SP;
+		end generate overflowOutputBuffered;
+
+		overflowOutputNoBuffer : if OVERFLOW_OUT_BUFFER = false generate
 		begin
-			if Reset_RI = '1' then      -- asynchronous reset (active-high for FPGAs)
-				OverflowBuffer_S <= '0';
-			elsif rising_edge(Clock_CI) then
-				OverflowBuffer_S <= Overflow_S;
-			end if;
-		end process overflowRegisterUpdate;
+			overflowDirectLogic : process(Count_DP, DataLimit_DI)
+			begin
+				Overflow_S <= '0';
 
-		-- Output overflow (from register).
-		Overflow_SO <= OverflowBuffer_S;
+				if not OVERFLOW_AT_ZERO then
+					-- It is impossible to implement SHORT_OVERFLOW when not having any kind of output
+					-- buffer for the overflow signal that delays it. It would require another register to
+					-- buffer the signal, which is exactly what we don't want here. So let's just leave it
+					-- as unsupported for now. Might be reevaluated if anyone ever needs this combination.
+					assert (not SHORT_OVERFLOW) report "SHORT_OVERFLOW is not supported with OVERFLOW_OUT_BUFFER disabled." severity FAILURE;
+
+					if Count_DP >= DataLimit_DI then
+						Overflow_S <= '1';
+					end if;
+				else
+					-- This only ever makes sense if we also reset on overflow, since that's
+					-- the only case where we overflow into zero automatically (with Enable_SI).
+					assert (RESET_ON_OVERFLOW) report "OVERFLOW_AT_ZERO requires RESET_ON_OVERFLOW enabled." severity FAILURE;
+
+					-- Disabling SHORT_OVERFLOW is not supported in OVERFLOW_AT_ZERO mode.
+					-- It will always generate a short overflow signal.
+					-- Doing so reliably would increase complexity and resource
+					-- consumption to keep and check additional state, and no user of this
+					-- module needs this functionality currently.
+					assert (SHORT_OVERFLOW) report "OVERFLOW_AT_ZERO requires SHORT_OVERFLOW enabled." severity FAILURE;
+
+					-- It is impossible to implement OVERFLOW_AT_ZERO when not having any kind of output
+					-- buffer for the overflow signal that delays it. It would require another register to
+					-- buffer the signal, which is exactly what we don't want here. So let's just leave it
+					-- as unsupported for now. Might be reevaluated if anyone ever needs this combination.
+					assert (not OVERFLOW_AT_ZERO) report "OVERFLOW_AT_ZERO is not supported with OVERFLOW_OUT_BUFFER disabled." severity FAILURE;
+				end if;
+			end process overflowDirectLogic;
+
+			-- Output overflow (directly).
+			Overflow_SO <= Overflow_S;
+		end generate overflowOutputNoBuffer;
 	end generate overflowLogicProcesses;
 
 	overflowLogicDisabled : if GENERATE_OVERFLOW = false generate
