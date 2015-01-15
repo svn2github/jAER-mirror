@@ -1151,9 +1151,7 @@ begin
 
 		baFilterTSTick : entity work.ContinuousCounter
 			generic map(
-				SIZE              => TS_TICK_SIZE,
-				RESET_ON_OVERFLOW => true,
-				GENERATE_OVERFLOW => true)
+				SIZE => TS_TICK_SIZE)
 			port map(
 				Clock_CI     => Clock_CI,
 				Reset_RI     => Reset_RI,
@@ -1166,7 +1164,6 @@ begin
 		baFilterTSCounter : entity work.ContinuousCounter
 			generic map(
 				SIZE              => DVS_FILTER_BA_DELTAT_WIDTH,
-				RESET_ON_OVERFLOW => true,
 				GENERATE_OVERFLOW => false)
 			port map(
 				Clock_CI     => Clock_CI,
