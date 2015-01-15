@@ -3,7 +3,7 @@
     <Options/>
     <Implementation title="SeeBetterLogic_FX3" dir="SeeBetterLogic_FX3" description="SeeBetterLogic_FX3" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="latch3" top="TopLevel"/>
-        <Source name="C:/lscc/diamond/3.3_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
+        <Source name="C:/lscc/diamond/3.4_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/ext/FIFORecords.vhd" type="VHDL" type_short="VHDL">
