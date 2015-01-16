@@ -97,8 +97,10 @@ begin
 				Overflow_S <= '0';
 
 				if not OVERFLOW_AT_ZERO then
-					if Count_DP = (DataLimit_DI - 1) and Clear_SI = '0' and Enable_SI = '1' then
-						Overflow_S <= '1';
+					if Count_DP = (DataLimit_DI - 1) then
+						if Clear_SI = '0' and Enable_SI = '1' then
+							Overflow_S <= '1';
+						end if;
 					end if;
 
 					if not SHORT_OVERFLOW and Count_DP >= DataLimit_DI then
@@ -107,6 +109,12 @@ begin
 						end if;
 
 						if Clear_SI = '0' and Enable_SI = '1' and not RESET_ON_OVERFLOW then
+							Overflow_S <= '1';
+						end if;
+
+						if Clear_SI = '0' and Enable_SI = '1' and RESET_ON_OVERFLOW and DataLimit_DI = 0 then
+							-- If we're resetting into zero, and zero is the limit, overflow
+							-- will be signalled.
 							Overflow_S <= '1';
 						end if;
 
