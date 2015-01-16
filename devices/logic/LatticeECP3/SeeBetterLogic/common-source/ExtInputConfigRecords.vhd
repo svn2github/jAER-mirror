@@ -7,7 +7,7 @@ package ExtInputConfigRecords is
 
 	-- Pulse lengths are in 100 ns time-slices. Since we want to support up to 1Hz signals,
 	-- we need this value to go up to 10 million => 24 bits are needed (16 million).
-	constant MAX_TIME_SIZE : integer := 24;
+	constant EXTINPUT_MAX_TIME_SIZE : integer := 24;
 
 	type tExtInputConfigParamAddresses is record
 		RunDetector_S             : unsigned(7 downto 0);
@@ -42,12 +42,12 @@ package ExtInputConfigRecords is
 		DetectFallingEdges_S      : std_logic;
 		DetectPulses_S            : std_logic;
 		DetectPulsePolarity_S     : std_logic;
-		DetectPulseLength_D       : unsigned(MAX_TIME_SIZE - 1 downto 0);
+		DetectPulseLength_D       : unsigned(EXTINPUT_MAX_TIME_SIZE - 1 downto 0);
 		RunGenerator_S            : std_logic;
 		GenerateUseCustomSignal_S : std_logic;
 		GeneratePulsePolarity_S   : std_logic;
-		GeneratePulseInterval_D   : unsigned(MAX_TIME_SIZE - 1 downto 0);
-		GeneratePulseLength_D     : unsigned(MAX_TIME_SIZE - 1 downto 0);
+		GeneratePulseInterval_D   : unsigned(EXTINPUT_MAX_TIME_SIZE - 1 downto 0);
+		GeneratePulseLength_D     : unsigned(EXTINPUT_MAX_TIME_SIZE - 1 downto 0);
 	end record tExtInputConfig;
 
 	constant tExtInputConfigDefault : tExtInputConfig := (
@@ -56,10 +56,10 @@ package ExtInputConfigRecords is
 		DetectFallingEdges_S      => '0',
 		DetectPulses_S            => '1',
 		DetectPulsePolarity_S     => '1',
-		DetectPulseLength_D       => to_unsigned(10, MAX_TIME_SIZE),
+		DetectPulseLength_D       => to_unsigned(10, EXTINPUT_MAX_TIME_SIZE),
 		RunGenerator_S            => '0',
 		GenerateUseCustomSignal_S => '0',
 		GeneratePulsePolarity_S   => '1',
-		GeneratePulseInterval_D   => to_unsigned(10, MAX_TIME_SIZE),
-		GeneratePulseLength_D     => to_unsigned(5, MAX_TIME_SIZE));
+		GeneratePulseInterval_D   => to_unsigned(10, EXTINPUT_MAX_TIME_SIZE),
+		GeneratePulseLength_D     => to_unsigned(5, EXTINPUT_MAX_TIME_SIZE));
 end package ExtInputConfigRecords;

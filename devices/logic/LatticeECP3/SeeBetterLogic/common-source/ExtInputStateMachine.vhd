@@ -37,7 +37,7 @@ architecture Behavioral of ExtInputStateMachine is
 	constant INTERNAL_TIME_CYCLES_SIZE : integer := integer(ceil(log2(real(INTERNAL_TIME_CYCLES + 1))));
 
 	-- Multiply configuration input with number of cycles needed to attain right timing.
-	constant EXTERNAL_CYCLES_SIZE : integer := MAX_TIME_SIZE + INTERNAL_TIME_CYCLES_SIZE;
+	constant EXTERNAL_CYCLES_SIZE : integer := EXTINPUT_MAX_TIME_SIZE + INTERNAL_TIME_CYCLES_SIZE;
 	signal DetectPulseLength_D    : unsigned(EXTERNAL_CYCLES_SIZE - 1 downto 0);
 
 	-- Detector signals.
