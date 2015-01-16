@@ -32,7 +32,7 @@ architecture Behavioral of IMUStateMachine is
 
 	type tState is (stIdle, stAckAndLoadSampleRateDivider, stAckAndLoadDigitalLowPassFilter, stAckAndLoadAccelFullScale, stAckAndLoadGyroFullScale, stWriteConfigRegister, stPrepareReadDataRegister, stReadDataRegister, stWriteEventStart, stWriteEvent0, stWriteEvent1, stWriteEvent2, stWriteEvent3,
 		            stWriteEvent4, stWriteEvent5, stWriteEvent6, stWriteEvent7, stWriteEvent8, stWriteEvent9, stWriteEvent10, stWriteEvent11, stWriteEvent12, stWriteEvent13, stWriteEventEnd, stAckAndLoadLPCycleTempStandby, stAckAndLoadLPWakeupAccelStandbyGyroStandby, stAckAndLoadInterruptConfig,
-		            stAckAndLoadInterruptEnable, stDoneAcknowledge);
+		            stAckAndLoadInterruptEnable, stDoneAcknowledge, stVerifyScaleNoChange, stWriteEventScale);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
@@ -105,6 +105,10 @@ architecture Behavioral of IMUStateMachine is
 
 	signal IMUClockInt_SP, IMUClockInt_SN : std_logic;
 	signal IMUDataInt_SP, IMUDataInt_SN   : std_logic;
+
+	-- Register scale information for sending after read done.
+	signal ScaleRegEnable_S : std_logic;
+	signal ScaleReg_D       : std_logic_vector(3 downto 0);
 
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S : std_logic;
@@ -467,6 +471,8 @@ begin
 		I2CWriteSRInput_D   <= (others => '0');
 		I2CWriteSRModeExt_S <= SHIFTREGISTER_MODE_DO_NOTHING;
 
+		ScaleRegEnable_S <= '0';
+
 		RunSent_S                      <= '0';
 		LPCycleTempStandbySent_S       <= '0';
 		LPWakeupAccelGyroStandbySent_S <= '0';
@@ -492,7 +498,8 @@ begin
 				else
 					if RunDelayed_S = '1' then
 						if IMUInterrupt_SI = '1' and OutFifoControl_SI.AlmostFull_S = '0' then
-							State_DN <= stPrepareReadDataRegister;
+							State_DN         <= stVerifyScaleNoChange;
+							ScaleRegEnable_S <= '1';
 						end if;
 
 						if InterruptConfigChanged_S = '1' then
@@ -626,6 +633,19 @@ begin
 					State_DN <= stDoneAcknowledge;
 				end if;
 
+			when stVerifyScaleNoChange =>
+				-- Check that the accel and gyro full scale settings didn't change since we
+				-- actually saved them in the stIdle state. It is possible that they changed
+				-- just as we saved them, so we'd have saved the new values, but those haven't
+				-- yet been sent to the IMU chip, since the Changed_S signals trigger one cycle
+				-- later. So we verify again here, and eventually go back to stIdle if needed
+				-- to ensure the device has the right values.
+				if AccelFullScaleChanged_S = '1' or GyroFullScaleChanged_S = '1' then
+					State_DN <= stIdle;
+				else
+					State_DN <= stPrepareReadDataRegister;
+				end if;
+
 			when stPrepareReadDataRegister =>
 				I2CWriteSRInput_D(23 downto 16) <= I2C_ADDRESS & '0';
 				I2CWriteSRInput_D(15 downto 8)  <= std_logic_vector(I2C_REGISTER_ADDRESSES.Data);
@@ -652,6 +672,11 @@ begin
 
 			when stWriteEventStart =>
 				OutFifoDataReg_D  <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_IMU_START6;
+				OutFifoWriteReg_S <= '1';
+				State_DN          <= stWriteEventScale;
+
+			when stWriteEventScale =>
+				OutFifoDataReg_D  <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_IMU_SCALE_CONFIG & ScaleReg_D;
 				OutFifoWriteReg_S <= '1';
 				State_DN          <= stWriteEvent0;
 
@@ -774,6 +799,23 @@ begin
 			IMUConfigReg_D <= IMUConfig_DI;
 		end if;
 	end process imuRegisterUpdate;
+
+	-- Remember the values of the accelerometer and gyroscope full scale settings.
+	-- This is updated when entering the read data state, so that when writing out the
+	-- sample that was just read from the device, we can also give the precise values
+	-- for those two scales, which do impact how the sample is interpreted on the host.
+	-- The value is remembered at the start of the sample read procedure, to ensure that
+	-- it reflects the actual reality of the IMU device configuration, and not some later
+	-- state that can change while the read is still in progress.
+	scaleRegister : entity work.SimpleRegister
+		generic map(
+			SIZE => 4)
+		port map(
+			Clock_CI             => Clock_CI,
+			Reset_RI             => Reset_RI,
+			Enable_SI            => ScaleRegEnable_S,
+			Input_SI(3 downto 0) => std_logic_vector(IMUConfigReg_D.AccelFullScale_D) & std_logic_vector(IMUConfigReg_D.GyroFullScale_D),
+			Output_SO            => ScaleReg_D);
 
 	-- Delay the Run_S signal by one clock cycle to be in sync with the RunChanged_S signal.
 	-- This avoids taking the wrong branch too early in stIdle.
