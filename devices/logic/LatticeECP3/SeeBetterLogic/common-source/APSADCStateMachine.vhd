@@ -70,8 +70,8 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tColumnState is (stIdle, stWaitADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA, stColSRFeedATick, stColSRFeedB, stColSRFeedBTick, stRSFeedTick, stRSReset, stRSSwitchToReadA, stRSReadA, stRSSwitchToReadB, stRSReadB, stGSReset, stGSReadA, stGSReadB, stGSSwitchToReadA,
-		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSReadAFeedTick, stGSReadBFeedTick, stGSColSRFeedB1, stGSColSRFeedB1Tick, stGSColSRFeedB0, stGSColSRFeedB0Tick, stGSSwitchToExposure, stRSSwitchToReset, stGSSwitchToReset, stRSPrepareFeedTick);
+	type tColumnState is (stIdle, stWaitADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA0, stColSRFeedA0Tick, stColSRFeedA1, stColSRFeedA1Tick, stRSFeedTick, stRSReset, stRSSwitchToReadA, stRSReadA, stRSSwitchToReadB, stRSReadB, stGSReset, stGSReadA, stGSReadB, stGSSwitchToReadA,
+		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSReadAFeedTick, stGSReadBFeedTick, stGSColSRFeedB1, stGSColSRFeedB1Tick, stGSColSRFeedB0, stGSColSRFeedB0Tick, stGSSwitchToExposure, stRSSwitchToReset, stGSSwitchToReset, stRSPrepareFeedTick, stRSColSRFeedB, stRSColSRFeedBTick);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -389,28 +389,28 @@ begin
 					OutFifoDataRegColEnable_S <= '1';
 					OutFifoWriteRegCol_S      <= '1';
 
-					ColState_DN <= stColSRFeedA;
+					ColState_DN <= stColSRFeedA0;
 				end if;
 
-			when stColSRFeedA =>
+			when stColSRFeedA0 =>
 				APSChipColSRClockReg_S <= '0';
 				APSChipColSRInReg_S    <= '1';
 
-				ColState_DN <= stColSRFeedATick;
+				ColState_DN <= stColSRFeedA0Tick;
 
-			when stColSRFeedATick =>
+			when stColSRFeedA0Tick =>
 				APSChipColSRClockReg_S <= '1';
 				APSChipColSRInReg_S    <= '1';
 
-				ColState_DN <= stColSRFeedB;
+				ColState_DN <= stColSRFeedA1;
 
-			when stColSRFeedB =>
+			when stColSRFeedA1 =>
 				APSChipColSRClockReg_S <= '0';
 				APSChipColSRInReg_S    <= '1';
 
-				ColState_DN <= stColSRFeedBTick;
+				ColState_DN <= stColSRFeedA1Tick;
 
-			when stColSRFeedBTick =>
+			when stColSRFeedA1Tick =>
 				APSChipColSRClockReg_S <= '1';
 				APSChipColSRInReg_S    <= '1';
 
@@ -426,6 +426,18 @@ begin
 				else
 					ColState_DN <= stRSSwitchToReset;
 				end if;
+
+			when stRSColSRFeedB =>
+				APSChipColSRClockReg_S <= '0';
+				APSChipColSRInReg_S    <= '1';
+
+				ColState_DN <= stRSColSRFeedBTick;
+
+			when stRSColSRFeedBTick =>
+				APSChipColSRClockReg_S <= '1';
+				APSChipColSRInReg_S    <= '1';
+
+				ColState_DN <= stRSSwitchToReset;
 
 			when stRSPrepareFeedTick =>
 				-- Ensure we go through another NULL state.
@@ -557,7 +569,7 @@ begin
 						if ReadBSRStatus_DP = RBSTAT_NEED_ONE then
 							-- If the 1 that represents the B read hasn't yet been shifted
 							-- in, do so now.
-							ColState_DN      <= stColSRFeedB;
+							ColState_DN      <= stRSColSRFeedB;
 							ReadBSRStatus_DN <= RBSTAT_NEED_ZERO_TWO;
 						elsif ReadBSRStatus_DP = RBSTAT_NEED_ZERO_TWO then
 							-- Shift in the second 0 (the one after the 1) that is needed
@@ -579,7 +591,11 @@ begin
 				-- Ensure we go through another NULL state.
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
-				ColState_DN <= stGSReset;
+				if NullTimeDone_S = '1' then
+					ColState_DN <= stGSReset;
+				end if;
+
+				NullTimeCount_S <= '1';
 
 			when stGSReset =>
 				-- Do reset.
