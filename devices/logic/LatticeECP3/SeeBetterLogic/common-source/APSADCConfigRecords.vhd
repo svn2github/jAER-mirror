@@ -68,10 +68,10 @@ package APSADCConfigRecords is
 		EndColumn3_D          => to_unsigned(25, 8),
 		EndRow3_D             => to_unsigned(26, 8));
 
-	constant EXPOSUREDELAY_SIZE : integer := 25; -- Up to about one second.
-	constant NULLTIME_SIZE      : integer := 5; -- Up to about one microsecond.
-	constant RESETTIME_SIZE     : integer := 7; -- Up to about four microseconds.
-	constant SETTLETIMES_SIZE   : integer := 7; -- Up to about four microseconds.
+	constant APS_EXPOSUREDELAY_SIZE : integer := 25; -- Up to about one second.
+	constant APS_NULLTIME_SIZE      : integer := 5; -- Up to about one microsecond.
+	constant APS_RESETTIME_SIZE     : integer := 7; -- Up to about four microseconds.
+	constant APS_SETTLETIMES_SIZE   : integer := 7; -- Up to about four microseconds.
 
 	type tAPSADCConfig is record
 		Run_S                 : std_logic;
@@ -81,12 +81,12 @@ package APSADCConfigRecords is
 		StartRow0_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
 		EndColumn0_D          : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		EndRow0_D             : unsigned(CHIP_APS_SIZE_ROWS'range);
-		Exposure_D            : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in cycles at 30MHz
-		FrameDelay_D          : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0); -- in cycles at 30MHz
-		ResetSettle_D         : unsigned(RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
-		ColumnSettle_D        : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHzes
-		RowSettle_D           : unsigned(SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz
-		NullSettle_D          : unsigned(NULLTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
+		Exposure_D            : unsigned(APS_EXPOSUREDELAY_SIZE - 1 downto 0); -- in cycles at 30MHz
+		FrameDelay_D          : unsigned(APS_EXPOSUREDELAY_SIZE - 1 downto 0); -- in cycles at 30MHz
+		ResetSettle_D         : unsigned(APS_RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
+		ColumnSettle_D        : unsigned(APS_SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHzes
+		RowSettle_D           : unsigned(APS_SETTLETIMES_SIZE - 1 downto 0); -- in cycles at 30MHz
+		NullSettle_D          : unsigned(APS_NULLTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
 		ResetRead_S           : std_logic; -- Wether to do the reset read or not.
 		WaitOnTransferStall_S : std_logic; -- Wether to wait when the FIFO is full or not.
 		StartColumn1_D        : unsigned(CHIP_APS_SIZE_COLUMNS'range);
@@ -111,12 +111,12 @@ package APSADCConfigRecords is
 		StartRow0_D           => to_unsigned(0, CHIP_APS_SIZE_ROWS'length),
 		EndColumn0_D          => CHIP_APS_SIZE_COLUMNS - 1,
 		EndRow0_D             => CHIP_APS_SIZE_ROWS - 1,
-		Exposure_D            => to_unsigned(2000 * ADC_CLOCK_FREQ, EXPOSUREDELAY_SIZE),
-		FrameDelay_D          => to_unsigned(200 * ADC_CLOCK_FREQ, EXPOSUREDELAY_SIZE),
-		ResetSettle_D         => to_unsigned(10, RESETTIME_SIZE),
-		ColumnSettle_D        => to_unsigned(30, SETTLETIMES_SIZE),
-		RowSettle_D           => to_unsigned(10, SETTLETIMES_SIZE),
-		NullSettle_D          => to_unsigned(10, NULLTIME_SIZE),
+		Exposure_D            => to_unsigned(2000 * ADC_CLOCK_FREQ, APS_EXPOSUREDELAY_SIZE),
+		FrameDelay_D          => to_unsigned(200 * ADC_CLOCK_FREQ, APS_EXPOSUREDELAY_SIZE),
+		ResetSettle_D         => to_unsigned(10, APS_RESETTIME_SIZE),
+		ColumnSettle_D        => to_unsigned(30, APS_SETTLETIMES_SIZE),
+		RowSettle_D           => to_unsigned(10, APS_SETTLETIMES_SIZE),
+		NullSettle_D          => to_unsigned(10, APS_NULLTIME_SIZE),
 		ResetRead_S           => '1',
 		WaitOnTransferStall_S => '0',
 		StartColumn1_D        => CHIP_APS_SIZE_COLUMNS,

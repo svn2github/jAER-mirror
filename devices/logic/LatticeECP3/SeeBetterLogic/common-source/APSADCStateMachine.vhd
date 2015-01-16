@@ -99,7 +99,7 @@ architecture Behavioral of APSADCStateMachine is
 	-- Use one counter for both exposure and frame delay times, they cannot happen at the same time.
 	-- Both also happen only inside the Column SM.
 	signal ExposureDelayClear_S, ExposureDelayDone_S : std_logic;
-	signal ExposureDelayLimit_D                      : unsigned(EXPOSUREDELAY_SIZE - 1 downto 0);
+	signal ExposureDelayLimit_D                      : unsigned(APS_EXPOSUREDELAY_SIZE - 1 downto 0);
 
 	-- Reset time counter (make bigger to allow for long resets if needed).
 	signal ResetTimeCount_S, ResetTimeDone_S : std_logic;
@@ -110,7 +110,7 @@ architecture Behavioral of APSADCStateMachine is
 	-- Use one counter for both column and row settle times, they cannot happen at the same time.
 	-- Both also happen only inside the Row SM.
 	signal SettleTimesCount_S, SettleTimesDone_S : std_logic;
-	signal SettleTimesLimit_D                    : unsigned(SETTLETIMES_SIZE - 1 downto 0);
+	signal SettleTimesLimit_D                    : unsigned(APS_SETTLETIMES_SIZE - 1 downto 0);
 
 	-- Column and row read counters.
 	signal ColumnReadAPositionZero_S, ColumnReadAPositionInc_S : std_logic;
@@ -175,7 +175,7 @@ begin
 
 	exposureDelayCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE              => EXPOSUREDELAY_SIZE,
+			SIZE              => APS_EXPOSUREDELAY_SIZE,
 			RESET_ON_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
@@ -230,7 +230,7 @@ begin
 
 	nullTimeCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => NULLTIME_SIZE)
+			SIZE => APS_NULLTIME_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -242,7 +242,7 @@ begin
 
 	resetTimeCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => RESETTIME_SIZE)
+			SIZE => APS_RESETTIME_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -254,7 +254,8 @@ begin
 
 	settleTimesCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => SETTLETIMES_SIZE)
+			SIZE                => APS_SETTLETIMES_SIZE,
+			OVERFLOW_OUT_BUFFER => false)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -287,7 +288,6 @@ begin
 		APSChipColModeReg_DN <= COLMODE_NULL;
 		APSChipTXGateReg_SN  <= APSChipTXGateReg_SP;
 
-		-- By default keep exposure/frame delay counter cleared and inactive.
 		ExposureDelayClear_S <= '0';
 		ExposureDelayLimit_D <= APSADCConfigReg_D.Exposure_D;
 
@@ -782,7 +782,7 @@ begin
 		RowReadPositionInc_S  <= '0';
 
 		-- Settle times counter. By default count row settle time.
-		SettleTimesLimit_D <= APSADCConfigReg_D.RowSettle_D;
+		SettleTimesLimit_D <= (others => '1');
 		SettleTimesCount_S <= '0';
 
 		-- Column SM communication.
@@ -809,10 +809,10 @@ begin
 
 				RowState_DN <= stColSettleWait;
 
-				-- Setup proper source for column settle time (used in stColSettleWait state).
+			when stColSettleWait =>
+				-- Select proper source for column settle time.
 				SettleTimesLimit_D <= APSADCConfigReg_D.ColumnSettle_D;
 
-			when stColSettleWait =>
 				-- Additional wait for the column selection to be valid, once both the colum and
 				-- the current row pattern have been shifted in. We do this here, because the row
 				-- pattern also has to have been shifted in for this to be effective.
@@ -821,9 +821,6 @@ begin
 				end if;
 
 				SettleTimesCount_S <= '1';
-
-				-- Keep proper source for column settle time selected while counting it.
-				SettleTimesLimit_D <= APSADCConfigReg_D.ColumnSettle_D;
 
 			when stRowStart =>
 				-- Write event only if FIFO has place, else wait.
@@ -866,6 +863,8 @@ begin
 				end if;
 
 			when stRowSettleWait =>
+				SettleTimesLimit_D <= APSADCConfigReg_D.RowSettle_D;
+
 				-- Wait for the row selection to be valid.
 				if SettleTimesDone_S = '1' then
 					RowState_DN <= stRowWriteEvent;
