@@ -71,7 +71,7 @@ architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
 	type tColumnState is (stIdle, stWaitADCStartup, stStartFrame, stEndFrame, stWaitFrameDelay, stColSRFeedA0, stColSRFeedA0Tick, stColSRFeedA1, stColSRFeedA1Tick, stRSFeedTick, stRSReset, stRSSwitchToReadA, stRSReadA, stRSSwitchToReadB, stRSReadB, stGSReset, stGSReadA, stGSReadB, stGSSwitchToReadA,
-		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSReadAFeedTick, stGSReadBFeedTick, stGSColSRFeedB1, stGSColSRFeedB1Tick, stGSColSRFeedB0, stGSColSRFeedB0Tick, stGSSwitchToExposure, stRSSwitchToReset, stGSSwitchToReset, stRSPrepareFeedTick, stRSColSRFeedB, stRSColSRFeedBTick);
+		                  stGSSwitchToReadB, stGSStartExposure, stGSEndExposure, stGSReadAFeedTick, stGSReadBFeedTick, stGSColSRFeedB1, stGSColSRFeedB1Tick, stGSColSRFeedB0, stGSColSRFeedB0Tick, stGSSwitchToExposure, stRSSwitchToReset, stGSSwitchToReset, stRSColSRFeedB, stRSColSRFeedBTick, stGSResetClose);
 	attribute syn_enum_encoding of tColumnState : type is "onehot";
 
 	-- present and next state
@@ -415,7 +415,6 @@ begin
 				APSChipColSRInReg_S    <= '1';
 
 				-- RS: open APS TXGate before first reset.
-				-- Opening it "again" when feeding in B has no impact.
 				-- GS: TXGate must be open during reset, or the APS
 				-- voltage won't go back up to high as expected.
 				APSChipTXGateReg_SN <= '1';
@@ -438,16 +437,6 @@ begin
 				APSChipColSRInReg_S    <= '1';
 
 				ColState_DN <= stRSSwitchToReset;
-
-			when stRSPrepareFeedTick =>
-				-- Ensure we go through another NULL state.
-				APSChipColModeReg_DN <= COLMODE_NULL;
-
-				if NullTimeDone_S = '1' then
-					ColState_DN <= stRSFeedTick;
-				end if;
-
-				NullTimeCount_S <= '1';
 
 			when stRSFeedTick =>
 				APSChipColSRClockReg_S <= '1';
@@ -574,16 +563,16 @@ begin
 						elsif ReadBSRStatus_DP = RBSTAT_NEED_ZERO_TWO then
 							-- Shift in the second 0 (the one after the 1) that is needed
 							-- for a B read of the very first column to work.
-							ColState_DN      <= stRSPrepareFeedTick;
+							ColState_DN      <= stRSFeedTick;
 							ReadBSRStatus_DN <= RBSTAT_NORMAL;
 						else
 							-- Finally, B reads are happening, their position is increasing.
-							ColState_DN              <= stRSPrepareFeedTick;
+							ColState_DN              <= stRSFeedTick;
 							ColumnReadBPositionInc_S <= '1';
 						end if;
 					else
 						-- Just shift in a zero.
-						ColState_DN <= stRSPrepareFeedTick;
+						ColState_DN <= stRSFeedTick;
 					end if;
 				end if;
 
@@ -604,6 +593,18 @@ begin
 				if ResetTimeDone_S = '1' then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 
+					-- Close TXGate again after reset.
+					APSChipTXGateReg_SN <= '0';
+
+					ColState_DN <= stGSResetClose;
+				end if;
+
+				ResetTimeCount_S <= '1';
+
+			when stGSResetClose =>
+				APSChipColModeReg_DN <= COLMODE_NULL;
+
+				if NullTimeDone_S = '1' then
 					if APSADCConfigReg_D.ResetRead_S = '1' then
 						ColState_DN <= stGSSwitchToReadA;
 					else
@@ -611,13 +612,10 @@ begin
 					end if;
 				end if;
 
-				ResetTimeCount_S <= '1';
+				NullTimeCount_S <= '1';
 
 			when stGSSwitchToReadA =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
-
-				-- Close TXGate again after reset.
-				APSChipTXGateReg_SN <= '0';
 
 				if CurrentColumnAValid_S = '1' then
 					-- Start off the Row SM.
