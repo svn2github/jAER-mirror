@@ -96,10 +96,11 @@ architecture Behavioral of APSADCStateMachine is
 
 	signal ADCStartupCount_S, ADCStartupDone_S : std_logic;
 
-	-- Use one counter for both exposure and frame delay times, they cannot happen at the same time.
-	-- Both also happen only inside the Column SM.
-	signal ExposureDelayClear_S, ExposureDelayDone_S : std_logic;
-	signal ExposureDelayLimit_D                      : unsigned(APS_EXPOSUREDELAY_SIZE - 1 downto 0);
+	-- Exposure time counter.
+	signal ExposureClear_S, ExposureDone_S : std_logic;
+
+	-- Frame delay (between consecutive frames) counter.
+	signal FrameDelayCount_S, FrameDelayDone_S : std_logic;
 
 	-- Reset time counter (make bigger to allow for long resets if needed).
 	signal ResetTimeCount_S, ResetTimeDone_S : std_logic;
@@ -107,10 +108,11 @@ architecture Behavioral of APSADCStateMachine is
 	-- Lengthen the NULL states between different, active column states.
 	signal NullTimeCount_S, NullTimeDone_S : std_logic;
 
-	-- Use one counter for both column and row settle times, they cannot happen at the same time.
-	-- Both also happen only inside the Row SM.
-	signal SettleTimesCount_S, SettleTimesDone_S : std_logic;
-	signal SettleTimesLimit_D                    : unsigned(APS_SETTLETIMES_SIZE - 1 downto 0);
+	-- Column settle time (before first row is read, like an additional offset).
+	signal ColSettleTimeCount_S, ColSettleTimeDone_S : std_logic;
+
+	-- Row settle time counter.
+	signal RowSettleTimeCount_S, RowSettleTimeDone_S : std_logic;
 
 	-- Column and row read counters.
 	signal ColumnReadAPositionZero_S, ColumnReadAPositionInc_S : std_logic;
@@ -173,19 +175,6 @@ begin
 			Overflow_SO  => ADCStartupDone_S,
 			Data_DO      => open);
 
-	exposureDelayCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE              => APS_EXPOSUREDELAY_SIZE,
-			RESET_ON_OVERFLOW => false)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => ExposureDelayClear_S,
-			Enable_SI    => '1',
-			DataLimit_DI => ExposureDelayLimit_D,
-			Overflow_SO  => ExposureDelayDone_S,
-			Data_DO      => open);
-
 	colReadAPosition : entity work.ContinuousCounter
 		generic map(
 			SIZE              => CHIP_APS_SIZE_COLUMNS'length,
@@ -228,6 +217,31 @@ begin
 			Overflow_SO  => open,
 			Data_DO      => RowReadPosition_D);
 
+	exposureCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE              => APS_EXPOSURE_SIZE,
+			RESET_ON_OVERFLOW => false)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => ExposureClear_S,
+			Enable_SI    => '1',
+			DataLimit_DI => APSADCConfigReg_D.Exposure_D,
+			Overflow_SO  => ExposureDone_S,
+			Data_DO      => open);
+
+	frameDelayCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_FRAMEDELAY_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => FrameDelayCount_S,
+			DataLimit_DI => APSADCConfigReg_D.FrameDelay_D,
+			Overflow_SO  => FrameDelayDone_S,
+			Data_DO      => open);
+
 	nullTimeCounter : entity work.ContinuousCounter
 		generic map(
 			SIZE => APS_NULLTIME_SIZE)
@@ -252,20 +266,31 @@ begin
 			Overflow_SO  => ResetTimeDone_S,
 			Data_DO      => open);
 
-	settleTimesCounter : entity work.ContinuousCounter
+	columnSettleTimeCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE                => APS_SETTLETIMES_SIZE,
-			OVERFLOW_OUT_BUFFER => false)
+			SIZE => APS_COLSETTLETIME_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
-			Enable_SI    => SettleTimesCount_S,
-			DataLimit_DI => SettleTimesLimit_D,
-			Overflow_SO  => SettleTimesDone_S,
+			Enable_SI    => ColSettleTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.ColumnSettle_D,
+			Overflow_SO  => ColSettleTimeDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, ExposureDelayDone_S, RowReadDone_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S)
+	rowSettleTimeCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_ROWSETTLETIME_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => RowSettleTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.RowSettle_D,
+			Overflow_SO  => RowSettleTimeDone_S,
+			Data_DO      => open);
+
+	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, RowReadDone_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S, ExposureDone_S, FrameDelayDone_S)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -288,8 +313,9 @@ begin
 		APSChipColModeReg_DN <= COLMODE_NULL;
 		APSChipTXGateReg_SN  <= APSChipTXGateReg_SP;
 
-		ExposureDelayClear_S <= '0';
-		ExposureDelayLimit_D <= APSADCConfigReg_D.Exposure_D;
+		ExposureClear_S <= '0';
+
+		FrameDelayCount_S <= '0';
 
 		-- Colum counters.
 		ColumnReadAPositionZero_S <= '0';
@@ -461,7 +487,7 @@ begin
 					-- If this is the first A reset, we start exposure.
 					-- Exposure starts right as reset is released.
 					if ColumnReadAPosition_D = 0 then
-						ExposureDelayClear_S <= '1';
+						ExposureClear_S <= '1';
 					end if;
 				end if;
 
@@ -519,7 +545,7 @@ begin
 
 					-- If exposure time hasn't expired or we haven't yet even shifted in one
 					-- 0 into the column SR, we first do that.
-					if ExposureDelayDone_S = '1' and ReadBSRStatus_DP /= RBSTAT_NEED_ZERO_ONE then
+					if ExposureDone_S = '1' and ReadBSRStatus_DP /= RBSTAT_NEED_ZERO_ONE then
 						if ReadBSRStatus_DP = RBSTAT_NEED_ONE then
 							-- If the 1 that represents the B read hasn't yet been shifted
 							-- in, do so now.
@@ -614,13 +640,13 @@ begin
 				APSChipTXGateReg_SN <= '1';
 
 				-- Start exposure.
-				ExposureDelayClear_S <= '1';
-				ColState_DN          <= stGSEndExposure;
+				ExposureClear_S <= '1';
+				ColState_DN     <= stGSEndExposure;
 
 			when stGSEndExposure =>
 				APSChipColModeReg_DN <= COLMODE_NULL;
 
-				if ExposureDelayDone_S = '1' then
+				if ExposureDone_S = '1' then
 					-- Exposure completed, close TXGate and shift in read pattern.
 					APSChipTXGateReg_SN <= '0';
 					ColState_DN         <= stGSColSRFeedB1;
@@ -684,10 +710,6 @@ begin
 				end if;
 
 			when stEndFrame =>
-				-- Setup exposureDelay counter to count frame delay instead of exposure.
-				ExposureDelayLimit_D <= APSADCConfigReg_D.FrameDelay_D;
-				ExposureDelayClear_S <= '1';
-
 				-- Zero column counters too.
 				ColumnReadAPositionZero_S <= '1';
 				ColumnReadBPositionZero_S <= '1';
@@ -704,14 +726,14 @@ begin
 
 			when stWaitFrameDelay =>
 				-- Wait until enough time has passed between frames.
-				ExposureDelayLimit_D <= APSADCConfigReg_D.FrameDelay_D;
-
-				if ExposureDelayDone_S = '1' then
+				if FrameDelayDone_S = '1' then
 					ColState_DN <= stIdle;
 
 					-- Ensure config reg is up-to-date when entering Idle state.
 					APSADCConfigRegEnable_S <= '1';
 				end if;
+
+				FrameDelayCount_S <= '1';
 
 			when others => null;
 		end case;
@@ -766,7 +788,7 @@ begin
 		CurrentRowValid_S     <= '1' when (Row0Valid_S or Row1Valid_S or Row2Valid_S or Row3Valid_S) else '0';
 	end generate apsQuadROI;
 
-	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, SettleTimesDone_S, RowReadPosition_D)
+	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
 	begin
 		RowState_DN <= RowState_DP;
 
@@ -781,9 +803,9 @@ begin
 		RowReadPositionZero_S <= '0';
 		RowReadPositionInc_S  <= '0';
 
-		-- Settle times counter. By default count row settle time.
-		SettleTimesLimit_D <= (others => '1');
-		SettleTimesCount_S <= '0';
+		-- Settle times counters (column and row).
+		ColSettleTimeCount_S <= '0';
+		RowSettleTimeCount_S <= '0';
 
 		-- Column SM communication.
 		RowReadDone_SN <= '0';
@@ -810,17 +832,14 @@ begin
 				RowState_DN <= stColSettleWait;
 
 			when stColSettleWait =>
-				-- Select proper source for column settle time.
-				SettleTimesLimit_D <= APSADCConfigReg_D.ColumnSettle_D;
-
 				-- Additional wait for the column selection to be valid, once both the colum and
 				-- the current row pattern have been shifted in. We do this here, because the row
 				-- pattern also has to have been shifted in for this to be effective.
-				if SettleTimesDone_S = '1' then
+				if ColSettleTimeDone_S = '1' then
 					RowState_DN <= stRowStart;
 				end if;
 
-				SettleTimesCount_S <= '1';
+				ColSettleTimeCount_S <= '1';
 
 			when stRowStart =>
 				-- Write event only if FIFO has place, else wait.
@@ -863,14 +882,12 @@ begin
 				end if;
 
 			when stRowSettleWait =>
-				SettleTimesLimit_D <= APSADCConfigReg_D.RowSettle_D;
-
 				-- Wait for the row selection to be valid.
-				if SettleTimesDone_S = '1' then
+				if RowSettleTimeDone_S = '1' then
 					RowState_DN <= stRowWriteEvent;
 				end if;
 
-				SettleTimesCount_S <= '1';
+				RowSettleTimeCount_S <= '1';
 
 			when stRowWriteEvent =>
 				-- Write event only if FIFO has place, else wait.
