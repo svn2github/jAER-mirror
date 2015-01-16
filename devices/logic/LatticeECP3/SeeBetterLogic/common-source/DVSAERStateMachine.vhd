@@ -49,7 +49,8 @@ architecture Behavioral of DVSAERStateMachine is
 	signal State_DP, State_DN : tState;
 
 	-- Counter to influence acknowledge delays.
-	signal AckCounter_DP, AckCounter_DN : unsigned(DVS_AER_ACK_COUNTER_WIDTH - 1 downto 0);
+	signal AckCount_S, AckDone_S : std_logic;
+	signal AckLimit_D            : unsigned(DVS_AER_ACK_COUNTER_WIDTH - 1 downto 0);
 
 	-- Remember if what we're working on right now is an X or Y address.
 	signal DVSIsRowAddress_SP, DVSIsRowAddress_SN : std_logic;
@@ -82,7 +83,19 @@ architecture Behavioral of DVSAERStateMachine is
 	signal BAFilterOutDataReg_D  : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 	signal BAFilterOutValidReg_S : std_logic;
 begin
-	dvsHandleAERComb : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, AckCounter_DP, DVSIsRowAddress_SP, DVSAERConfigReg_D)
+	aerAckCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE                => DVS_AER_ACK_COUNTER_WIDTH,
+			OVERFLOW_OUT_BUFFER => false)
+		port map(Clock_CI     => Clock_CI,
+			     Reset_RI     => Reset_RI,
+			     Clear_SI     => '0',
+			     Enable_SI    => AckCount_S,
+			     DataLimit_DI => AckLimit_D,
+			     Overflow_SO  => AckDone_S,
+			     Data_DO      => open);
+
+	dvsHandleAERComb : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, DVSIsRowAddress_SP, DVSAERConfigReg_D, AckDone_S)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
@@ -95,7 +108,7 @@ begin
 		DVSAERAckReg_SB   <= '1';       -- No AER ACK by default.
 		DVSAERResetReg_SB <= '1';       -- Keep DVS out of reset by default, so we don't have to repeat this in every state.
 
-		AckCounter_DN <= (others => '0');
+		AckLimit_D <= (others => '1');
 
 		case State_DP is
 			when stIdle =>
@@ -148,8 +161,10 @@ begin
 				end if;
 
 			when stAERHandleRow =>
+				AckLimit_D <= DVSAERConfigReg_D.AckDelayRow_D;
+
 				-- We might need to delay the ACK.
-				if AckCounter_DP >= DVSAERConfigReg_D.AckDelayRow_D then
+				if AckDone_S = '1' then
 					-- Row address (Y).
 					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_Y_ADDR;
 
@@ -168,26 +183,30 @@ begin
 
 					DVSAERAckReg_SB <= '0';
 					State_DN        <= stAERAckRow;
-				else
-					AckCounter_DN <= AckCounter_DP + 1;
 				end if;
 
+				AckCount_S <= '1';
+
 			when stAERAckRow =>
+				AckLimit_D <= DVSAERConfigReg_D.AckExtensionRow_D;
+
 				DVSAERAckReg_SB <= '0';
 
 				if DVSAERReq_SBI = '1' then
 					-- We might need to extend the ACK period.
-					if AckCounter_DP >= DVSAERConfigReg_D.AckExtensionRow_D then
+					if AckDone_S = '1' then
 						DVSAERAckReg_SB <= '1';
 						State_DN        <= stIdle;
-					else
-						AckCounter_DN <= AckCounter_DP + 1;
 					end if;
+
+					AckCount_S <= '1';
 				end if;
 
 			when stAERHandleCol =>
+				AckLimit_D <= DVSAERConfigReg_D.AckDelayColumn_D;
+
 				-- We might need to delay the ACK.
-				if AckCounter_DP >= DVSAERConfigReg_D.AckDelayColumn_D then
+				if AckDone_S = '1' then
 					-- Column address (X).
 					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR & DVSAERData_DI(0);
 
@@ -203,21 +222,23 @@ begin
 
 					DVSAERAckReg_SB <= '0';
 					State_DN        <= stAERAckCol;
-				else
-					AckCounter_DN <= AckCounter_DP + 1;
 				end if;
 
+				AckCount_S <= '1';
+
 			when stAERAckCol =>
+				AckLimit_D <= DVSAERConfigReg_D.AckExtensionColumn_D;
+
 				DVSAERAckReg_SB <= '0';
 
 				if DVSAERReq_SBI = '1' then
 					-- We might need to extend the ACK period.
-					if AckCounter_DP >= DVSAERConfigReg_D.AckExtensionColumn_D then
+					if AckDone_S = '1' then
 						DVSAERAckReg_SB <= '1';
 						State_DN        <= stIdle;
-					else
-						AckCounter_DN <= AckCounter_DP + 1;
 					end if;
+
+					AckCount_S <= '1';
 				end if;
 
 			when others => null;
@@ -232,8 +253,6 @@ begin
 
 			DVSIsRowAddress_SP <= '0';
 
-			AckCounter_DP <= (others => '0');
-
 			DVSAERAck_SBO   <= '1';
 			DVSAERReset_SBO <= '0';
 
@@ -242,8 +261,6 @@ begin
 			State_DP <= State_DN;
 
 			DVSIsRowAddress_SP <= DVSIsRowAddress_SN;
-
-			AckCounter_DP <= AckCounter_DN;
 
 			DVSAERAck_SBO   <= DVSAERAckReg_SB;
 			DVSAERReset_SBO <= DVSAERResetReg_SB;
