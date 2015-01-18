@@ -115,7 +115,7 @@ begin
 				-- Only exit idle state if DVS data producer is active.
 				if DVSAERConfigReg_D.Run_S = '1' then
 					if DVSAERReq_SBI = '0' then
-						if OutFifoControl_SI.Full_S = '0' then
+						if OutFifoControl_SI.AlmostFull_S = '0' then
 							-- Got a request on the AER bus, let's get the data.
 							-- We do have space in the output FIFO for it.
 							State_DN <= stDifferentiateRowCol;
@@ -137,7 +137,7 @@ begin
 
 				-- Only go back to idle when FIFO has space again, and when
 				-- the sender is not requesting (to avoid AER races).
-				if OutFifoControl_SI.Full_S = '0' and DVSAERReq_SBI = '1' then
+				if OutFifoControl_SI.AlmostFull_S = '0' and DVSAERReq_SBI = '1' then
 					State_DN <= stIdle;
 				end if;
 
