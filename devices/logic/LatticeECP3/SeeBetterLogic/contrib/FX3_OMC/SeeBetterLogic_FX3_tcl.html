@@ -1,148 +1,0 @@
-<HTML>
-<HEAD><TITLE>Lattice TCL Log</TITLE>
-<STYLE TYPE="text/css">
-<!--
- body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
--->
-</STYLE>
-</HEAD>
-<PRE><A name="pn140929150612"></A><B><U><big>pn140929150612</big></U></B>
-#Start recording tcl command: 9/25/2014 15:50:08
-#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
-prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
-#Stop recording: 9/29/2014 15:06:12
-
-
-
-<A name="pn141013112550"></A><B><U><big>pn141013112550</big></U></B>
-#Start recording tcl command: 10/13/2014 10:58:22
-#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
-prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
-prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/Reveal_OMC.rvl"
-prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
-#Stop recording: 10/13/2014 11:25:50
-
-
-
-<A name="pn141013112924"></A><B><U><big>pn141013112924</big></U></B>
-#Start recording tcl command: 10/13/2014 11:26:06
-#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
-prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
-#Stop recording: 10/13/2014 11:29:24
-
-
-
-<A name="pn141013114906"></A><B><U><big>pn141013114906</big></U></B>
-#Start recording tcl command: 10/13/2014 11:31:04
-#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
-prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
-prj_strgy set_value -strategy Strategy1 syn_vhdl2008=False
-prj_strgy set_value -strategy Strategy1 syn_vhdl2008=True
-prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/Reveal_OMC.rvl"
-prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/OMC/OMC.spf"
-prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
-prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
-#Stop recording: 10/13/2014 11:49:06
-
-
-
-<A name="pn141013115004"></A><B><U><big>pn141013115004</big></U></B>
-#Start recording tcl command: 10/13/2014 11:49:17
-#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
-prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
-prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
-prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/Reveal_OMC.rvl"
-prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/OMC/OMC.spf"
-#Stop recording: 10/13/2014 11:50:04
-
-
-
-<A name="pn141013135334"></A><B><U><big>pn141013135334</big></U></B>
-#Start recording tcl command: 10/13/2014 11:50:18
-#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
-prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
-prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
-launch_synplify_prj SeeBetterLogic_FX3
-launch_synplify_prj SeeBetterLogic_FX3
-prj_strgy set_value -strategy Strategy1 syn_export_setting=Yes
-launch_synplify_prj SeeBetterLogic_FX3
-prj_run Map -impl SeeBetterLogic_FX3
-prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
-#Stop recording: 10/13/2014 13:53:34
-
-
-
-<A name="pn141013140229"></A><B><U><big>pn141013140229</big></U></B>
-#Start recording tcl command: 10/13/2014 13:56:34
-#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
-prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
-prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
-launch_synplify_prj SeeBetterLogic_FX3
-#Stop recording: 10/13/2014 14:02:29
-
-
-
-<A name="pn141013141350"></A><B><U><big>pn141013141350</big></U></B>
-#Start recording tcl command: 10/13/2014 14:05:41
-#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
-prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
-prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
-prj_project save
-prj_project close
-#Stop recording: 10/13/2014 14:13:50
-
-
-
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-</PRE></FONT>
-</BODY>
-</HTML>
