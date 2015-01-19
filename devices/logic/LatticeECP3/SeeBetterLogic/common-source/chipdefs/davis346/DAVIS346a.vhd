@@ -8,11 +8,11 @@ package DAVIS346a is
 	constant CHIP_HAS_GLOBAL_SHUTTER : std_logic := '1';
 	constant CHIP_HAS_INTEGRATED_ADC : std_logic := '1';
 
-	constant CHIP_APS_SIZE_COLUMNS : unsigned(8 downto 0) := to_unsigned(346, 9);
-	constant CHIP_APS_SIZE_ROWS    : unsigned(7 downto 0) := to_unsigned(240, 8);
+	constant CHIP_APS_SIZE_ROWS    : unsigned(8 downto 0) := to_unsigned(346, 9);
+	constant CHIP_APS_SIZE_COLUMNS : unsigned(7 downto 0) := to_unsigned(240, 8);
 
-	constant CHIP_DVS_SIZE_COLUMNS : unsigned(8 downto 0) := to_unsigned(346, 9);
-	constant CHIP_DVS_SIZE_ROWS    : unsigned(7 downto 0) := to_unsigned(240, 8);
+	constant CHIP_DVS_SIZE_ROWS    : unsigned(8 downto 0) := to_unsigned(346, 9);
+	constant CHIP_DVS_SIZE_COLUMNS : unsigned(7 downto 0) := to_unsigned(240, 8);
 
 	constant DVS_AER_BUS_WIDTH : integer := 10;
 	constant APS_ADC_BUS_WIDTH : integer := 10;
