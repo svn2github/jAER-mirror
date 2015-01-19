@@ -3,8 +3,14 @@
   <Mappings Location="Common Libraries/IEEE" Library="ieee"/>
   <Mappings Location="Common Libraries/IEEE Synopsys" Library="ieee"/>
   <Mappings Location="Common Libraries" Library="not mapped"/>
+  <Mappings Location="SeeBetterLogic_FX3R2_DAVIS240a" Library="not mapped"/>
+  <Mappings Location="SeeBetterLogic_FX3R2_DAVIS240a_tcr.dir" Library="not mapped"/>
   <Mappings Location="SeeBetterLogic_FX3R2_DAVIS240b" Library="not mapped"/>
   <Mappings Location="SeeBetterLogic_FX3R2_DAVIS240b_tcr.dir" Library="not mapped"/>
+  <Mappings Location="private-source/Settings_DAVIS240b.vhd" Library="not mapped"/>
+  <Mappings Location="SeeBetterLogic_FX3R2_DAVIS240c" Library="not mapped"/>
+  <Mappings Location="SeeBetterLogic_FX3R2_DAVIS240c_tcr.dir" Library="not mapped"/>
+  <Mappings Location="private-source/Settings_DAVIS240c.vhd" Library="not mapped"/>
   <Mappings Location="Common Libraries/STD" Library="std"/>
   <Mappings Location="" Library="work"/>
 </com.sigasi.hdt.shared.librarymapping.model:LibraryMappings>
