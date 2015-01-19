@@ -141,9 +141,6 @@
         <Source name="../common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/chipdefs/davis240/DAVIS240a.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
         <Source name="../common-source/chipdefs/davis240/DAVIS240b.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
