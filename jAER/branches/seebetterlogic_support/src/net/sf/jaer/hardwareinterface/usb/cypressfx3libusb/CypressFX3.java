@@ -5,7 +5,6 @@
  */
 package net.sf.jaer.hardwareinterface.usb.cypressfx3libusb;
 
-import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.nio.ByteBuffer;
@@ -17,8 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-
-import javax.swing.ProgressMonitor;
 
 import li.longi.USBTransferThread.RestrictedTransfer;
 import li.longi.USBTransferThread.RestrictedTransferCallback;
@@ -390,35 +387,6 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 	}
 
 	/**
-	 * size of control transfer data packets. Actually vendor request allows for
-	 * larger data buffer, but windows limits
-	 * largest xfer to 4096. Here we limit largest
-	 * to size of buffer for control xfers.
-	 */
-	public final int MAX_CONTROL_XFER_SIZE = 64; // max control xfer size
-
-	/**
-	 * Returns a new ProgressMonitor with the AEViewer of this chip as the
-	 * parent component.
-	 *
-	 * @param message
-	 *            message at top of monitor
-	 * @param start
-	 *            start value
-	 * @param end
-	 *            value
-	 * @return the ProgressMonitor
-	 */
-	protected ProgressMonitor makeProgressMonitor(final String message, final int start, final int end) {
-		Component c = null;
-		if ((getChip() != null) && (getChip().getAeViewer() != null)) {
-			c = getChip().getAeViewer();
-		}
-		return new ProgressMonitor(c, message, "", start, end);
-
-	}
-
-	/**
 	 * adds a listener for new events captured from the device.
 	 * Actually gets called whenever someone looks for new events and there are
 	 * some using
@@ -454,12 +422,7 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 			"This method should not be called - the CypressFX3 subclass should override startAEReader. Probably this is a blank device that requires programming.");
 	}
 
-	long lastTimeEventCaptured = System.currentTimeMillis(); // used for timer
-																// to restart IN
-																// transfers, in
-																// case another
-
-	// connection, e.g. biasgen, has disabled them
+	long lastTimeEventCaptured = System.currentTimeMillis();
 
 	/**
 	 * Gets available events from driver. {@link HardwareInterfaceException} is
@@ -715,20 +678,9 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 	}
 
 	protected synchronized void enableINEndpoint() throws HardwareInterfaceException {
-		// start getting events by sending vendor request 0xb3 to control
-		// endpoint 0
-		// documented in firmware FX2_to_extFIFO.c
-		// System.out.println("USBAEMonitor.enableINEndpoint()");
-		// make vendor request structure and populate it
 		if (deviceHandle == null) {
 			CypressFX3.log.warning("CypressFX3.enableINEndpoint(): null USBIO device");
 			return;
-		}
-
-		// Set delays to minimum for small board cameras (they are slower).
-		if (getPID() == (short) 0x841B) {
-			spiConfigSend(FPGA_DVS, (short) 1, 14);
-			spiConfigSend(FPGA_DVS, (short) 3, 1);
 		}
 
 		spiConfigSend(FPGA_USB, (short) 0, 1);
@@ -1044,8 +996,6 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 		/** size of CypressFX3 USB fifo's in bytes. */
 		public static final int CYPRESS_FIFO_SIZE = 512;
-		/** the default number of USB read buffers used in the reader */
-		public static final int CYPRESS_NUM_BUFFERS = 2;
 
 		@Override
 		public int getFifoSize() {
@@ -1448,8 +1398,8 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 				.warning("Device is not operating at USB 2.0 High Speed, performance will be limited to about 300 keps");
 		}
 
-		// start the thread that listens for device status information (e.g.
-		// timestamp reset), only on devices that support it.
+		// start the thread that listens for device status information.
+		// This is only preset on FX3 devices.
 		if (getPID() == DAViSFX3HardwareInterface.PID) {
 			asyncStatusThread = new AsyncStatusThread(this);
 			asyncStatusThread.startThread();
