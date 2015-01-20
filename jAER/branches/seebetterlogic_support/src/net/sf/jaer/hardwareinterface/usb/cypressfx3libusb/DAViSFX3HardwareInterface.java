@@ -234,6 +234,8 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 											}
 										}
 
+										apsTimestamp = currentTimestamp;
+
 										break;
 
 									case 11: // APS Reset Column Start
@@ -241,6 +243,7 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 
 										apsCurrentReadoutType = APS_READOUT_RESET;
 										apsCountY[apsCurrentReadoutType] = 0;
+										apsTimestamp = currentTimestamp;
 
 										break;
 
@@ -249,6 +252,7 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 
 										apsCurrentReadoutType = APS_READOUT_SIGNAL;
 										apsCountY[apsCurrentReadoutType] = 0;
+										apsTimestamp = currentTimestamp;
 
 										break;
 
@@ -262,6 +266,7 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 										}
 
 										apsCountX[apsCurrentReadoutType]++;
+										apsTimestamp = currentTimestamp;
 
 										break;
 

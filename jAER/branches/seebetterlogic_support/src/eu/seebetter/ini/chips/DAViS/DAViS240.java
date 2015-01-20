@@ -202,7 +202,7 @@ public class DAViS240 extends ApsDvsChip implements RemoteControlled, Observer {
             Logger.getLogger(DAViS240.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     public void setADCEnabled(boolean adcEnabled) {
         config.apsReadoutControl.setAdcEnabled(adcEnabled);
@@ -346,7 +346,14 @@ public class DAViS240 extends ApsDvsChip implements RemoteControlled, Observer {
                         e.timestamp = (timestamps[i]);
                         e.polarity = (data & POLMASK) == POLMASK ? ApsDvsEvent.Polarity.On : ApsDvsEvent.Polarity.Off;
                         e.type = (byte) ((data & POLMASK) == POLMASK ? 1 : 0);
-                        e.x = (short) (sx1 - ((data & XMASK) >>> XSHIFT));
+                        if ((getHardwareInterface() != null)
+                			&& (getHardwareInterface() instanceof net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3)) {
+                        	// New logic already rights the address in FPGA.
+                        	e.x = (short) ((data & XMASK) >>> XSHIFT);
+                        }
+                        else {
+                        	e.x = (short) (sx1 - ((data & XMASK) >>> XSHIFT));
+                        }
                         e.y = (short) ((data & YMASK) >>> YSHIFT);
                         e.setIsDVS(true);
                         //System.out.println(data);
@@ -769,7 +776,8 @@ public class DAViS240 extends ApsDvsChip implements RemoteControlled, Observer {
         return frameExposureStartTimestampUs;
     }
 
-    public int getFrameExposureEndTimestampUs() {
+    @Override
+	public int getFrameExposureEndTimestampUs() {
         return frameExposureEndTimestampUs;
     }
 

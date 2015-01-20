@@ -326,9 +326,17 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 
 	protected boolean sendAIPot(AddressedIPot pot) throws HardwareInterfaceException {
 		byte[] bytes = pot.getBinaryRepresentation();
+
+		if ((getHardwareInterface() != null)
+			&& (getHardwareInterface() instanceof net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3)
+			&& (pot instanceof AddressedIPotCF)) {
+			bytes = ((AddressedIPotCF) pot).getCleanBinaryRepresentation();
+		}
+
 		if (bytes == null) {
 			return false; // not ready yet, called by super
 		}
+
 		String hex = String.format("%02X%02X%02X", bytes[2], bytes[1], bytes[0]);
 		// log.info("Send AIPot for "+pot.getName()+" with value "+hex);
 		sendFx2ConfigCommand(CMD_AIPOT, 0, bytes); // the usual packing of ipots
