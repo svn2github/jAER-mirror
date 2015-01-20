@@ -179,15 +179,14 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 									case 7: // IMU End
 										CypressFX3.log.fine("IMU End event received.");
 
-										if (imuCount == (2 * IMU_DATA_LENGTH)) {
+										if (imuCount == ((2 * IMU_DATA_LENGTH) + 1)) {
 											// Check for buffer space is done inside writeToPacket().
 											final IMUSample imuSample = new IMUSample(imuTimestamp, imuEvents);
 											eventCounter += imuSample.writeToPacket(buffer, eventCounter);
 										}
 										else {
-											// TODO:
-											// CypressFX3.log.info("IMU End: failed to validate IMU sample count ("
-											// + imuCount + "), discarding samples.");
+											CypressFX3.log.info("IMU End: failed to validate IMU sample count ("
+												+ imuCount + "), discarding samples.");
 										}
 										break;
 
@@ -309,8 +308,10 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 												.info("IMU Scale Config: previous IMU start event missed, attempting recovery.");
 										}
 
-										// TODO: this is ignored for now.
-										// Accel/Gyro Scale is not taken into consideration at this point.
+										// Increase IMU count by one, to a total of one (0+1=1).
+										// This way we can recover from the above error of missing start, and we can
+										// later discover if the IMU Scale Config event actually arrived itself.
+										imuCount = 1;
 
 										break;
 
@@ -397,7 +398,62 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 
 								switch (misc8Code) {
 									case 0:
-										// TODO: ignore for now.
+										// Detect missing IMU end events.
+										if (imuCount >= ((2 * IMU_DATA_LENGTH) + 1)) {
+											CypressFX3.log
+												.info("IMU data: IMU samples count is at maximum, discarding further samples.");
+											break;
+										}
+
+										// IMU data event.
+										switch (imuCount) {
+											case 0:
+												CypressFX3.log
+													.severe("IMU data: missing IMU Scale Config event. Parsing of IMU events will still be attempted, but be aware that Accel/Gyro scale conversions may be inaccurate.");
+												imuCount = 1;
+												// Fall through to next case, as if imuCount was equal to 1.
+
+											case 1:
+											case 3:
+											case 5:
+											case 7:
+											case 9:
+											case 11:
+											case 13:
+												imuTmpData = misc8Data;
+												break;
+
+											case 2: // Accel X
+												imuEvents[0] = (short) ((imuTmpData << 8) | misc8Data);
+												break;
+
+											case 4: // Accel Y
+												imuEvents[1] = (short) ((imuTmpData << 8) | misc8Data);
+												break;
+
+											case 6: // Accel Z
+												imuEvents[2] = (short) ((imuTmpData << 8) | misc8Data);
+												break;
+
+											case 8: // Temperature
+												imuEvents[3] = (short) ((imuTmpData << 8) | misc8Data);
+												break;
+
+											case 10: // Gyro X
+												imuEvents[4] = (short) ((imuTmpData << 8) | misc8Data);
+												break;
+
+											case 12: // Gyro Y
+												imuEvents[5] = (short) ((imuTmpData << 8) | misc8Data);
+												break;
+
+											case 14: // Gyro Z
+												imuEvents[6] = (short) ((imuTmpData << 8) | misc8Data);
+												break;
+										}
+
+										imuCount++;
+
 										break;
 
 									default:
