@@ -67,9 +67,6 @@ import ch.unizh.ini.jaer.config.onchip.OutputMux;
  * @author Christian/Tobi
  */
 public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, ApsDvsTweaks, HasPreference {
-	// Clock cycles per microsecond for ADC logic. It's running at 30MHz.
-	private static final int ADC_CLOCK_FREQ_CYCLES = 30;
-
 	protected ShiftedSourceBiasCF ssn, ssp;
 	JPanel configPanel;
 	JTabbedPane configTabbedPane;
@@ -970,9 +967,9 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 			tooltipSupport.setPropertyTooltip("adcEnabled", runAdc.getDescription());
 			tooltipSupport.setPropertyTooltip("rowSettleCC", rowSettle.getDescription());
 			tooltipSupport.setPropertyTooltip("colSettleCC", colSettle.getDescription());
-			tooltipSupport.setPropertyTooltip("exposureDelayCC", exposure.getDescription());
+			tooltipSupport.setPropertyTooltip("exposureDelayUS", exposure.getDescription());
 			tooltipSupport.setPropertyTooltip("resSettleCC", resSettle.getDescription());
-			tooltipSupport.setPropertyTooltip("frameDelayCC", frameDelay.getDescription());
+			tooltipSupport.setPropertyTooltip("frameDelayUS", frameDelay.getDescription());
 
 			nullSettle.addObserver(this);
 			tooltipSupport.setPropertyTooltip("nullSettleCC", nullSettle.getDescription());
@@ -1033,11 +1030,11 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 			resSettle.set(cc);
 		}
 
-		public void setFrameDelayCC(int cc) {
+		public void setFrameDelayUS(int cc) {
 			frameDelay.set(cc);
 		}
 
-		public void setExposureDelayCC(int cc) {
+		public void setExposureDelayUS(int cc) {
 			exposure.set(cc);
 		}
 
@@ -1057,11 +1054,11 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 			return resSettle.get();
 		}
 
-		public int getFrameDelayCC() {
+		public int getFrameDelayUS() {
 			return frameDelay.get();
 		}
 
-		public int getExposureDelayCC() {
+		public int getExposureDelayUS() {
 			return exposure.get();
 		}
 
@@ -1815,29 +1812,25 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 
 	@Override
 	public void setFrameDelayMs(int ms) {
-		int fd = ms * 1000 * ADC_CLOCK_FREQ_CYCLES;
-		// frame delay config register is in clock cycles
+		int fd = ms * 1000;
 		frameDelay.set(fd);
 	}
 
 	@Override
 	public int getFrameDelayMs() {
-		int fd = frameDelay.get() / (1000 * ADC_CLOCK_FREQ_CYCLES);
+		int fd = frameDelay.get() / 1000;
 		return fd;
 	}
 
 	@Override
 	public void setExposureDelayMs(int ms) {
-		int exp = ms * 1000 * ADC_CLOCK_FREQ_CYCLES;
-		if (exp <= 0) {
-			exp = 1;
-		}
+		int exp = ms * 1000;
 		exposure.set(exp);
 	}
 
 	@Override
 	public int getExposureDelayMs() {
-		int ed = exposure.get() / (1000 * ADC_CLOCK_FREQ_CYCLES);
+		int ed = exposure.get() / 1000;
 		return ed;
 	}
 

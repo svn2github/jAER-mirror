@@ -75,6 +75,9 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 	public static final byte VR_CHIP_BIAS = (byte) 0xC0;
 	public static final byte VR_CHIP_DIAG = (byte) 0xC1;
 
+	// Clock cycles per microsecond for ADC logic. It's running at 30MHz.
+	private static final int ADC_CLOCK_FREQ_CYCLES = 30;
+
 	/** Command sent to firmware by vendor request */
 	public class Fx2ConfigCmd {
 		short code;
@@ -148,8 +151,9 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 				// Break down the big shift register, and send the right configuration commands via SPI.
 				ByteBuffer buf = ByteBuffer.wrap(bytes);
 
-				// Exposure
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 7, buf.getShort(16));
+				// Exposure (in cycles, from us)
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 7, buf.getShort(16)
+					* ADC_CLOCK_FREQ_CYCLES);
 
 				// ColSettle
 				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 10, buf.getShort(14));
@@ -160,8 +164,9 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 				// ResSettle
 				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 9, buf.getShort(10));
 
-				// Frame Delay
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 8, buf.getShort(8));
+				// Frame Delay (in cycles, from us)
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 8, buf.getShort(8)
+					* ADC_CLOCK_FREQ_CYCLES);
 
 				// IMU Run
 				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 0, buf.get(7) & 0x01);
