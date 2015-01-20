@@ -313,7 +313,6 @@ public class DAViS240 extends ApsDvsChip implements RemoteControlled, Observer {
 							imuSample.imuSampleEvent = true;
 							outItr.writeToNextOutput(imuSample); // also write the event out to the next output event
 																	// slot
-							// System.out.println("at position "+(out.size-1)+" put "+imuSample);
 							continue;
 						}
 						catch (IMUSample.IncompleteIMUSampleException ex) {
@@ -454,6 +453,7 @@ public class DAViS240 extends ApsDvsChip implements RemoteControlled, Observer {
 		private ApsDvsEvent nextApsDvsEvent(OutputEventIterator outItr) {
 			ApsDvsEvent e = (ApsDvsEvent) outItr.nextOutput();
 			e.special = false;
+			e.adcSample = -1;
 			if (e instanceof IMUSample) {
 				((IMUSample) e).imuSampleEvent = false;
 			}
@@ -581,7 +581,8 @@ public class DAViS240 extends ApsDvsChip implements RemoteControlled, Observer {
 		private static final int FONTSIZE = 10;
 		private static final int FRAME_COUNTER_BAR_LENGTH_FRAMES = 10;
 
-		private TextRenderer exposureRenderer = null;
+		private TextRenderer exposureRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, FONTSIZE), true,
+			true);
 
 		public DAViS240DisplayMethod(DAViS240 chip) {
 			super(chip.getCanvas());
@@ -590,10 +591,6 @@ public class DAViS240 extends ApsDvsChip implements RemoteControlled, Observer {
 		@Override
 		public void display(GLAutoDrawable drawable) {
 			getCanvas().setBorderSpacePixels(50);
-			if (exposureRenderer == null) {
-				exposureRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, FONTSIZE), true, true);
-				exposureRenderer.setColor(1, 1, 1, 1);
-			}
 
 			super.display(drawable);
 

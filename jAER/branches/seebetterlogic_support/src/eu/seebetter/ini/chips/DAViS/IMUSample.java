@@ -262,6 +262,7 @@ public class IMUSample extends ApsDvsEvent {
 		}
 		sample.timestampUs = packet.timestamps[start]; // assume all have same
 														// timestamp
+		sample.timestamp = packet.timestamps[start]; // also set the standard timestamp field
 		int offset = 0;
 		for (int code = startingCode; code < IMUSampleType.values().length; code++) {
 			if ((start + offset) >= packet.getNumEvents()) {
