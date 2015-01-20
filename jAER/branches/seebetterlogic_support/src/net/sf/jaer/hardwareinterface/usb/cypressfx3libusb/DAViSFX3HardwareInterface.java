@@ -335,7 +335,7 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 
 									buffer.getAddresses()[eventCounter] = ((dvsLastY << ApsDvsChip.YSHIFT) & ApsDvsChip.YMASK);
 									buffer.getTimestamps()[eventCounter++] = dvsTimestamp;
-									CypressFX3.log.info("DVS: row-only event received for address Y=" + dvsLastY + ".");
+									CypressFX3.log.fine("DVS: row-only event received for address Y=" + dvsLastY + ".");
 								}
 
 								dvsLastY = data;
