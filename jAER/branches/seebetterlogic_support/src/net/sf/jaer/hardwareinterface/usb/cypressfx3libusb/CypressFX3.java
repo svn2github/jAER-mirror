@@ -184,7 +184,7 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * @see AEReader
 	 * @see #setAEBufferSize
 	 */
-	public static final int AE_BUFFER_SIZE = 100000; // should handle 5Meps at
+	public static final int AE_BUFFER_SIZE = 1000000; // should handle 5Meps at
 														// 30FPS
 	/**
 	 * this is the size of the AEPacketRaw that are part of AEPacketRawPool that
