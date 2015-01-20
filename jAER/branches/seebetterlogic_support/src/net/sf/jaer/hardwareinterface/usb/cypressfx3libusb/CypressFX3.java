@@ -683,6 +683,12 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 			return;
 		}
 
+		// Slow down DVS ACK for rows on small boards.
+		if (getPID() == (short) 0x841B) {
+			spiConfigSend(FPGA_DVS, (short) 1, 14);
+			spiConfigSend(FPGA_DVS, (short) 3, 4);
+		}
+
 		spiConfigSend(FPGA_USB, (short) 0, 1);
 
 		spiConfigSend(FPGA_MUX, (short) 1, 1);

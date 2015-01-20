@@ -108,12 +108,13 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 		if (bytes == null) {
 			bytes = emptyByteArray;
 		}
-
-		// NullSettle is only understood by SeeBetterLogic new logic devices. So we chop it off when talking
-		// to old devices based on the old logic.
-		if ((getHardwareInterface() != null) && !(getHardwareInterface() instanceof CypressFX3)) {
-			if (cmd == CMD_CPLD_CONFIG) {
-				bytes = Arrays.copyOfRange(bytes, 0, 16);
+		else {
+			// NullSettle is only understood by SeeBetterLogic new logic devices. So we chop it off when talking
+			// to old devices based on the old logic.
+			if ((getHardwareInterface() != null) && !(getHardwareInterface() instanceof CypressFX3)) {
+				if ((cmd == CMD_CPLD_CONFIG) && (bytes.length == 18)) {
+					bytes = Arrays.copyOfRange(bytes, 0, 16);
+				}
 			}
 		}
 
@@ -148,41 +149,41 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 				ByteBuffer buf = ByteBuffer.wrap(bytes);
 
 				// Exposure
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 7, buf.getShort(0));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 7, buf.getShort(16));
 
 				// ColSettle
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 10, buf.getShort(2));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 10, buf.getShort(14));
 
 				// RowSettle
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 11, buf.getShort(4));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 11, buf.getShort(12));
 
 				// ResSettle
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 9, buf.getShort(6));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 9, buf.getShort(10));
 
 				// Frame Delay
 				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 8, buf.getShort(8));
 
 				// IMU Run
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 0, buf.get(10) & 0x01);
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 0, buf.get(7) & 0x01);
 
 				// RS/GS
 				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 2,
-					((buf.get(10) & 0x02) != 0) ? (0) : (1));
+					((buf.get(7) & 0x02) != 0) ? (0) : (1));
 
 				// IMU DLPF
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 7, buf.get(12));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 7, buf.get(5));
 
 				// IMU SampleRateDivider
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 6, buf.get(13));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 6, buf.get(4));
 
 				// IMU Gyro Scale
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 9, buf.get(14));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 9, buf.get(3));
 
 				// IMU Accel Scale
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 8, buf.get(15));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 8, buf.get(2));
 
 				// NulLSettle
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 12, buf.getShort(16));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 12, buf.getShort(0));
 			}
 
 			// Send single port changes (control signals on/off).
