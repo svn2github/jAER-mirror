@@ -49,19 +49,16 @@ import org.usb4java.LibUsb;
  * normally be constructed but rather a subclass that overrides
  * the AEReader should be used.
  * <p>
- * In this class, you can also set the size of the host buffer with
- * {@link #setAEBufferSize}, giving you more time between calls to process the
- * events.
+ * In this class, you can also set the size of the host buffer with {@link #setAEBufferSize}, giving you more time
+ * between calls to process the events.
  * <p>
- * On the device, a timer sends all available events approximately every 10ms --
- * you don't need to wait for a fixed size buffer to be captured to be available
- * to the host. But if events come quickly enough, new events can be available
+ * On the device, a timer sends all available events approximately every 10ms -- you don't need to wait for a fixed size
+ * buffer to be captured to be available to the host. But if events come quickly enough, new events can be available
  * much faster than this.
  * <p>
- * You can also request at any time an early transfer of events with
- * {@link #requestEarlyTransfer}. This will send a vendor request to the device
- * to immediately transfer available events, but they won't be available to the
- * host for a little while, depending on USBIOInterface and driver latency.
+ * You can also request at any time an early transfer of events with {@link #requestEarlyTransfer}. This will send a
+ * vendor request to the device to immediately transfer available events, but they won't be available to the host for a
+ * little while, depending on USBIOInterface and driver latency.
  * <p>
  * See the main() method for an example of use.
  * <p>
@@ -181,8 +178,7 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * default size of AE buffer for user processes. This is the buffer that is
 	 * written by the hardware capture thread
 	 * that holds events
-	 * that have not yet been transferred via
-	 * {@link #acquireAvailableEventsFromDriver} to another thread
+	 * that have not yet been transferred via {@link #acquireAvailableEventsFromDriver} to another thread
 	 *
 	 * @see #acquireAvailableEventsFromDriver
 	 * @see AEReader
@@ -434,8 +430,7 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * @param listener
 	 *            the listener. It is called with a PropertyChangeEvent when new
 	 *            events
-	 *            are received by a call to
-	 *            {@link #acquireAvailableEventsFromDriver}.
+	 *            are received by a call to {@link #acquireAvailableEventsFromDriver}.
 	 *            These events may be accessed by calling {@link #getEvents}.
 	 */
 	@Override
@@ -473,8 +468,8 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * <p>
 	 * This method also starts event acquisition if it is not running already.
 	 *
-	 * Not thread safe but does use the thread-safe swap() method of
-	 * AEPacketRawPool to swap data with the acquisition thread.
+	 * Not thread safe but does use the thread-safe swap() method of AEPacketRawPool to swap data with the acquisition
+	 * thread.
 	 *
 	 * @return packet of events acquired.
 	 * @throws HardwareInterfaceException
@@ -577,8 +572,7 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 	}
 
 	/**
-	 * Returns the number of events acquired by the last call to
-	 * {@link #acquireAvailableEventsFromDriver }
+	 * Returns the number of events acquired by the last call to {@link #acquireAvailableEventsFromDriver }
 	 *
 	 * @return number of events acquired
 	 */
@@ -605,19 +599,8 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 		}
 
 		try {
-			final byte[] configBytes = new byte[4];
-
-			configBytes[0] = 0x00;
-			configBytes[1] = 0x00;
-			configBytes[2] = 0x00;
-			configBytes[3] = 0x01;
-			sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x00, (short) 0x02, configBytes);
-
-			configBytes[0] = 0x00;
-			configBytes[1] = 0x00;
-			configBytes[2] = 0x00;
-			configBytes[3] = 0x00;
-			sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x00, (short) 0x02, configBytes);
+			spiConfigSend(FPGA_MUX, (short) 2, 1);
+			spiConfigSend(FPGA_MUX, (short) 2, 0);
 		}
 		catch (final HardwareInterfaceException e) {
 			CypressFX3.log.warning("CypressFX3.resetTimestamps: couldn't send vendor request to reset timestamps");
@@ -625,15 +608,13 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 	}
 
 	/**
-	 * Is true if an overrun occured in the driver (>
-	 * <code> AE_BUFFER_SIZE</code> events) during the period before the
+	 * Is true if an overrun occured in the driver (> <code> AE_BUFFER_SIZE</code> events) during the period before the
 	 * last time {@link #acquireAvailableEventsFromDriver } was called. This flag
 	 * is cleared by {@link #acquireAvailableEventsFromDriver}, so you need to
 	 * check it before you acquire the events.
 	 * <p>
-	 * If there is an overrun, the events grabbed are the most ancient; events
-	 * after the overrun are discarded. The timestamps continue on but will
-	 * probably be lagged behind what they should be.
+	 * If there is an overrun, the events grabbed are the most ancient; events after the overrun are discarded. The
+	 * timestamps continue on but will probably be lagged behind what they should be.
 	 *
 	 * @return true if there was an overrun.
 	 */
@@ -714,6 +695,25 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 		}
 	}
 
+	public final static short FPGA_MUX = 0;
+	public final static short FPGA_DVS = 1;
+	public final static short FPGA_APS = 2;
+	public final static short FPGA_IMU = 3;
+	public final static short FPGA_EXTINPUT = 4;
+	public final static short FPGA_USB = 9;
+
+	public synchronized void spiConfigSend(short moduleAddr, short paramAddr, int param)
+		throws HardwareInterfaceException {
+		final byte[] configBytes = new byte[4];
+
+		configBytes[0] = (byte) ((param >>> 24) & 0x00FF);
+		configBytes[1] = (byte) ((param >>> 16) & 0x00FF);
+		configBytes[2] = (byte) ((param >>> 8) & 0x00FF);
+		configBytes[3] = (byte) ((param >>> 0) & 0x00FF);
+
+		sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, moduleAddr, paramAddr, configBytes);
+	}
+
 	protected synchronized void enableINEndpoint() throws HardwareInterfaceException {
 		// start getting events by sending vendor request 0xb3 to control
 		// endpoint 0
@@ -725,64 +725,24 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 			return;
 		}
 
-		final byte[] configBytes = new byte[4];
-
-		configBytes[0] = 0x00;
-		configBytes[1] = 0x00;
-		configBytes[2] = 0x00;
-		configBytes[3] = 0x01;
-		sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x00, (short) 0x00, configBytes);
-
-		configBytes[0] = 0x00;
-		configBytes[1] = 0x00;
-		configBytes[2] = 0x00;
-		configBytes[3] = 0x01;
-		sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x00, (short) 0x01, configBytes);
-
 		// Set delays to minimum for small board cameras (they are slower).
 		if (getPID() == (short) 0x841B) {
-			configBytes[0] = 0x00;
-			configBytes[1] = 0x00;
-			configBytes[2] = 0x00;
-			configBytes[3] = 0x06;
-			sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x01, (short) 0x01, configBytes);
-
-			configBytes[0] = 0x00;
-			configBytes[1] = 0x00;
-			configBytes[2] = 0x00;
-			configBytes[3] = 0x01;
-			sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x01, (short) 0x02, configBytes);
+			spiConfigSend(FPGA_DVS, (short) 1, 14);
+			spiConfigSend(FPGA_DVS, (short) 3, 1);
 		}
 
-		configBytes[0] = 0x00;
-		configBytes[1] = 0x00;
-		configBytes[2] = 0x00;
-		configBytes[3] = 0x01;
-		sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x01, (short) 0x00, configBytes);
+		spiConfigSend(FPGA_USB, (short) 0, 1);
 
-		configBytes[0] = 0x00;
-		configBytes[1] = 0x00;
-		configBytes[2] = 0x00;
-		configBytes[3] = 0x01; // Global shutter.
-		sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x02, (short) 2, configBytes);
+		spiConfigSend(FPGA_MUX, (short) 1, 1);
+		spiConfigSend(FPGA_MUX, (short) 0, 1);
 
-		configBytes[0] = 0x00;
-		configBytes[1] = 0x00;
-		configBytes[2] = 0x00;
-		configBytes[3] = 0x01; // Wait on transfer stall.
-		sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x02, (short) 14, configBytes);
+		spiConfigSend(FPGA_DVS, (short) 0, 1);
 
-		configBytes[0] = 0x00;
-		configBytes[1] = 0x00;
-		configBytes[2] = 0x00;
-		configBytes[3] = 0x00; // Disabled for now.
-		sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x02, (short) 0x00, configBytes);
+		spiConfigSend(FPGA_APS, (short) 0, 1);
 
-		configBytes[0] = 0x00;
-		configBytes[1] = 0x00;
-		configBytes[2] = 0x00;
-		configBytes[3] = 0x01;
-		sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x03, (short) 0x00, configBytes);
+		spiConfigSend(FPGA_IMU, (short) 0, 1);
+
+		spiConfigSend(FPGA_EXTINPUT, (short) 0, 1);
 
 		inEndpointEnabled = true;
 	}
@@ -794,37 +754,15 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 */
 	protected synchronized void disableINEndpoint() {
 		try {
-			final byte[] configBytes = new byte[4];
-
-			configBytes[0] = 0x00;
-			configBytes[1] = 0x00;
-			configBytes[2] = 0x00;
-			configBytes[3] = 0x00;
-			sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x03, (short) 0x00, configBytes);
-
-			configBytes[0] = 0x00;
-			configBytes[1] = 0x00;
-			configBytes[2] = 0x00;
-			configBytes[3] = 0x00;
-			sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x02, (short) 0x00, configBytes);
-
-			configBytes[0] = 0x00;
-			configBytes[1] = 0x00;
-			configBytes[2] = 0x00;
-			configBytes[3] = 0x00;
-			sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x01, (short) 0x00, configBytes);
-
-			configBytes[0] = 0x00;
-			configBytes[1] = 0x00;
-			configBytes[2] = 0x00;
-			configBytes[3] = 0x00;
-			sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x00, (short) 0x01, configBytes);
-
-			configBytes[0] = 0x00;
-			configBytes[1] = 0x00;
-			configBytes[2] = 0x00;
-			configBytes[3] = 0x00;
-			sendVendorRequest(CypressFX3.VR_FPGA_CONFIG, (short) 0x00, (short) 0x00, configBytes);
+			spiConfigSend(FPGA_EXTINPUT, (short) 0, 0);
+			spiConfigSend(FPGA_IMU, (short) 0, 0);
+			spiConfigSend(FPGA_APS, (short) 1, 0); // Ensure ADC turns off.
+			spiConfigSend(FPGA_APS, (short) 0, 0);
+			spiConfigSend(FPGA_DVS, (short) 0, 0);
+			spiConfigSend(FPGA_MUX, (short) 3, 0); // Ensure chip turns off.
+			spiConfigSend(FPGA_MUX, (short) 1, 0); // Turn off timestamp too.
+			spiConfigSend(FPGA_MUX, (short) 0, 0);
+			spiConfigSend(FPGA_USB, (short) 0, 0);
 		}
 		catch (final HardwareInterfaceException e) {
 			CypressFX3.log
@@ -1153,10 +1091,9 @@ public class CypressFX3 implements AEMonitorInterface, ReaderBufferControl, USBI
 		 * used for motor control or other purposes.
 		 * </strong>
 		 * <p>
-		 * TODO: at present this processing is redundant in that the most
-		 * recently captured events are copied to a different AEPacketRaw,
-		 * extracted to an EventPacket, and then processed. This effort is
-		 * duplicated later in rendering. This should be fixed somehow.
+		 * TODO: at present this processing is redundant in that the most recently captured events are copied to a
+		 * different AEPacketRaw, extracted to an EventPacket, and then processed. This effort is duplicated later in
+		 * rendering. This should be fixed somehow.
 		 *
 		 * @param addresses
 		 *            the raw input addresses; these are filtered in place
