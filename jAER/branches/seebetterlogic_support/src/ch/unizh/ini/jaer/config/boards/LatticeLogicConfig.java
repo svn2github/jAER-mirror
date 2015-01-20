@@ -113,7 +113,7 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 			// to old devices based on the old logic.
 			if ((getHardwareInterface() != null) && !(getHardwareInterface() instanceof CypressFX3)) {
 				if ((cmd == CMD_CPLD_CONFIG) && (bytes.length == 18)) {
-					bytes = Arrays.copyOfRange(bytes, 0, 16);
+					bytes = Arrays.copyOfRange(bytes, 2, 18);
 				}
 			}
 		}
