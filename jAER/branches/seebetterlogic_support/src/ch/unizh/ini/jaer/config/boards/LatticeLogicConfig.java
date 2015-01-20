@@ -38,7 +38,6 @@ import ch.unizh.ini.jaer.config.onchip.ChipConfigChain;
  * @author Christian
  */
 public class LatticeLogicConfig extends Biasgen implements HasPreference {
-
 	public AEChip chip;
 	public ChipConfigChain chipConfigChain = null;
 	protected ShiftedSourceBiasCF[] ssBiases = new ShiftedSourceBiasCF[2];
@@ -68,11 +67,15 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 	 */
 	protected ArrayList<PortBit> portBits = new ArrayList();
 
+	// Old logic.
 	public static final byte VR_WRITE_CONFIG = (byte) 0xB8;
+
+	// New SeeBetterLogic.
+	public static final byte VR_CHIP_BIAS = (byte) 0xC0;
+	public static final byte VR_CHIP_DIAG = (byte) 0xC1;
 
 	/** Command sent to firmware by vendor request */
 	public class Fx2ConfigCmd {
-
 		short code;
 		String name;
 
@@ -119,19 +122,16 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 		}
 
 		// Support FX3 firmware with its own special Vendor Request.
-		if ((getHardwareInterface() != null)
-			&& (getHardwareInterface() instanceof CypressFX3)) {
+		if ((getHardwareInterface() != null) && (getHardwareInterface() instanceof CypressFX3)) {
 			// Send biases to chip (addressed ones, AIPOT).
 			if (cmd == CMD_AIPOT) {
-				((CypressFX3) getHardwareInterface())
-					.sendVendorRequest((byte) 0xC0, (short) (bytes[0] & 0xFFFF), (short) 0,
-						Arrays.copyOfRange(bytes, 1, 3));
+				((CypressFX3) getHardwareInterface()).sendVendorRequest(VR_CHIP_BIAS, (short) (bytes[0] & 0xFFFF),
+					(short) 0, Arrays.copyOfRange(bytes, 1, 3));
 			}
 
 			// Send chip shift register (diagnostic).
 			if (cmd == CMD_CHIP_CONFIG) {
-				((CypressFX3) getHardwareInterface())
-					.sendVendorRequest((byte) 0xC1, (short) 0, (short) 0, bytes);
+				((CypressFX3) getHardwareInterface()).sendVendorRequest(VR_CHIP_DIAG, (short) 0, (short) 0, bytes);
 			}
 
 			// Send FPGA shift register for configuration.
@@ -384,20 +384,15 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 	}
 
 	public boolean sendOnChipConfigChain() throws HardwareInterfaceException {
-
 		String onChipConfigBits = chipConfigChain.getBitString();
 		byte[] onChipConfigBytes = bitString2Bytes(onChipConfigBits);
 		if (onChipConfigBits == null) {
 			return false;
 		}
-		else {
-			// BigInteger bi = new BigInteger(onChipConfigBits);
-			// System.out.println("Send on chip config (length "+onChipConfigBits.length+" bytes): "+String.format("%0"+(onChipConfigBits.length<<1)+"X",
-			// bi));
-			log.info("Send on chip config: " + onChipConfigBits);
-			sendFx2ConfigCommand(CMD_CHIP_CONFIG, 0, onChipConfigBytes);
-			return true;
-		}
+
+		log.info("Send on chip config: " + onChipConfigBits);
+		sendFx2ConfigCommand(CMD_CHIP_CONFIG, 0, onChipConfigBytes);
+		return true;
 	}
 
 	/*************************** General *************************/
@@ -454,7 +449,6 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 	 */
 	@Override
 	public void sendConfiguration(Biasgen biasgen) throws HardwareInterfaceException {
-
 		if (isBatchEditOccurring()) {
 			log.info("batch edit occurring, not sending configuration yet");
 			return;
@@ -464,11 +458,10 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 		if (!sendOnChipConfig()) {
 			return;
 		}
+
 		sendFx2Config();
 		sendDACconfig();
 		sendCPLDConfig();
-		sendCPLDConfig();
-
 	}
 
 	@Override
@@ -527,5 +520,4 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 			}
 		}
 	}
-
 }
