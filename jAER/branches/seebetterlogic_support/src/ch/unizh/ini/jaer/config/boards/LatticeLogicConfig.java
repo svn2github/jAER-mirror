@@ -23,6 +23,7 @@ import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.chip.Chip;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
+import net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3;
 import ch.unizh.ini.jaer.config.AbstractConfigValue;
 import ch.unizh.ini.jaer.config.cpld.CPLDConfigValue;
 import ch.unizh.ini.jaer.config.cpld.CPLDShiftRegister;
@@ -119,17 +120,17 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 
 		// Support FX3 firmware with its own special Vendor Request.
 		if ((getHardwareInterface() != null)
-			&& (getHardwareInterface() instanceof net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3)) {
+			&& (getHardwareInterface() instanceof CypressFX3)) {
 			// Send biases to chip (addressed ones, AIPOT).
 			if (cmd == CMD_AIPOT) {
-				((net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3) getHardwareInterface())
+				((CypressFX3) getHardwareInterface())
 					.sendVendorRequest((byte) 0xC0, (short) (bytes[0] & 0xFFFF), (short) 0,
 						Arrays.copyOfRange(bytes, 1, 3));
 			}
 
 			// Send chip shift register (diagnostic).
 			if (cmd == CMD_CHIP_CONFIG) {
-				((net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3) getHardwareInterface())
+				((CypressFX3) getHardwareInterface())
 					.sendVendorRequest((byte) 0xC1, (short) 0, (short) 0, bytes);
 			}
 

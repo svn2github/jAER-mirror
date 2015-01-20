@@ -570,7 +570,7 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 			// Translate Row-only Events is now in the logic.
 			try {
 				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_DVS, (short) 6,
-					(translateRowOnlyEvents) ? (1) : (0));
+					(translateRowOnlyEvents) ? (0) : (1));
 			}
 			catch (HardwareInterfaceException e) {
 				// TODO Auto-generated catch block
@@ -1047,6 +1047,10 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 			exposure.set(cc);
 		}
 
+		public void setNullSettleCC(int cc) {
+			nullSettle.set(cc);
+		}
+
 		public int getColSettleCC() {
 			return colSettle.get();
 		}
@@ -1065,6 +1069,10 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 
 		public int getExposureDelayCC() {
 			return exposure.get();
+		}
+
+		public int getNullSettleCC() {
+			return nullSettle.get();
 		}
 
 		@Override
