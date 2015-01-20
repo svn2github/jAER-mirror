@@ -184,10 +184,7 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 		addConfigValue(rowSettle);
 		addConfigValue(colSettle);
 		addConfigValue(frameDelay);
-		if ((getHardwareInterface() != null)
-			&& (getHardwareInterface() instanceof net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3)) {
-			addConfigValue(nullSettle);
-		}
+		addConfigValue(nullSettle);
 
 		addConfigValue(miscControlBits);
 
@@ -977,11 +974,8 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 			tooltipSupport.setPropertyTooltip("resSettleCC", resSettle.getDescription());
 			tooltipSupport.setPropertyTooltip("frameDelayCC", frameDelay.getDescription());
 
-			if ((getHardwareInterface() != null)
-				&& (getHardwareInterface() instanceof net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3)) {
-				nullSettle.addObserver(this);
-				tooltipSupport.setPropertyTooltip("nullSettleCC", nullSettle.getDescription());
-			}
+			nullSettle.addObserver(this);
+			tooltipSupport.setPropertyTooltip("nullSettleCC", nullSettle.getDescription());
 
 			tooltipSupport
 				.setPropertyTooltip(

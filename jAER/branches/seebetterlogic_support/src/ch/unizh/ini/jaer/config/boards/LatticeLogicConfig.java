@@ -108,8 +108,15 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 		if (bytes == null) {
 			bytes = emptyByteArray;
 		}
-		// log.info(String.format("sending command vendor request cmd=%d, index=%d, and %d bytes",
-		// cmd, index, bytes.length));
+
+		// NullSettle is only understood by SeeBetterLogic new logic devices. So we chop it off when talking
+		// to old devices based on the old logic.
+		if ((getHardwareInterface() != null) && !(getHardwareInterface() instanceof CypressFX3)) {
+			if (cmd == CMD_CPLD_CONFIG) {
+				bytes = Arrays.copyOfRange(bytes, 0, 16);
+			}
+		}
+
 		if ((getHardwareInterface() != null) && (getHardwareInterface() instanceof CypressFX2)) {
 			((CypressFX2) getHardwareInterface()).sendVendorRequest(VR_WRITE_CONFIG, (short) (0xffff & cmd.code),
 				(short) (0xffff & index), bytes); // & to prevent sign extension
