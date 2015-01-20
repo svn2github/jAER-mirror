@@ -4,6 +4,7 @@
  */
 package ch.unizh.ini.jaer.config.boards;
 
+import java.nio.ByteBuffer;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -136,7 +137,45 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 
 			// Send FPGA shift register for configuration.
 			if (cmd == CMD_CPLD_CONFIG) {
-				// DO NOTHING.
+				// Break down the big shift register, and send the right configuration commands via SPI.
+				ByteBuffer buf = ByteBuffer.wrap(bytes);
+
+				// Exposure
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 7, buf.getShort(0));
+
+				// ColSettle
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 10, buf.getShort(2));
+
+				// RowSettle
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 11, buf.getShort(4));
+
+				// ResSettle
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 9, buf.getShort(6));
+
+				// Frame Delay
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 8, buf.getShort(8));
+
+				// IMU Run
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 0, buf.get(10) & 0x01);
+
+				// RS/GS
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 2,
+					((buf.get(10) & 0x02) != 0) ? (0) : (1));
+
+				// IMU DLPF
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 7, buf.get(12));
+
+				// IMU SampleRateDivider
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 6, buf.get(13));
+
+				// IMU Gyro Scale
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 9, buf.get(14));
+
+				// IMU Accel Scale
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 8, buf.get(15));
+
+				// NulLSettle
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 12, buf.getShort(16));
 			}
 
 			// Send single port changes (control signals on/off).

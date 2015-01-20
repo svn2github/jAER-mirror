@@ -751,7 +751,7 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 			if ((dlpf < 0) || (dlpf > 6)) {
 				throw new IllegalArgumentException("dlpf=" + dlpf + " is outside allowed range 0-6");
 			}
-			int old = imu2SamplerateDividerConfig.get() & 7;
+			int old = imu1DLPFConfig.get() & 7;
 			int oldval = imu1DLPFConfig.get();
 			int newval = (oldval & (~7)) | (dlpf);
 			imu1DLPFConfig.set(newval);
@@ -777,7 +777,7 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 		}
 
 		public int getSampleRateDivider() {
-			return imu1DLPFConfig.get();
+			return imu2SamplerateDividerConfig.get();
 		}
 
 		public ImuGyroScale getGyroScale() {
