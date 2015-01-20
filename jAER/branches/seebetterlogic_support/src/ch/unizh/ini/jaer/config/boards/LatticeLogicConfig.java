@@ -141,7 +141,26 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 
 			// Send single port changes (control signals on/off).
 			if (cmd == CMD_SETBIT) {
-				// DO NOTHING.
+				// runCpld
+				if (index == 8) {
+					((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_MUX, (short) 0, bytes[0]);
+				}
+
+				// runAdc
+				if (index == 257) {
+					((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 0, bytes[0]);
+				}
+
+				// powerDown
+				if (index == 772) {
+					((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_MUX, (short) 3,
+						(bytes[0] != 0) ? (0) : (1));
+				}
+
+				// nChipReset
+				if (index == 776) {
+					((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_DVS, (short) 0, bytes[0]);
+				}
 			}
 
 			// All other request types are unsupported (SCANNER, VDAC, ...).
