@@ -66,11 +66,9 @@ import ch.unizh.ini.jaer.config.onchip.OutputMux;
  * @author Christian/Tobi
  */
 public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, ApsDvsTweaks, HasPreference {
+	// Clock cycles per microsecond for ADC logic. It's running at 30MHz.
+	private static final int ADC_CLOCK_FREQ_CYCLES = 30;
 
-	private static final float EXPOSURE_CONTROL_CLOCK_FREQ_HZ = 30000000 / 1025; // this is actual clock freq in Hz of
-																					// clock that controls timing of
-																					// inter-frame delay and exposure
-																					// delay
 	protected ShiftedSourceBiasCF ssn, ssp;
 	JPanel configPanel;
 	JTabbedPane configTabbedPane;
@@ -78,9 +76,6 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 	// portA
 	protected PortBit runCpld = new PortBit(chip, "a3", "runCpld",
 		"(A3) Set high to run CPLD which enables event capture, low to hold logic in reset", true);
-	// incorrect, same as syncTimestampMaster!!! (tobi) protected PortBit extTrigger = new PortBit(chip, "a1",
-	// "extTrigger", "(A1) External trigger to debug APS statemachine", false);
-	// portC
 	protected PortBit runAdc = new PortBit(chip, "c0", "runAdc",
 		"(C0) High to run ADC. Bound together with adcEnabled.", true);
 	// portE
@@ -91,13 +86,7 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 		"(E2) High to disable master bias and tie biases to default rails", false);
 	protected PortBit nChipReset = new PortBit(chip, "e3", "nChipReset",
 		"(E3) Low to reset AER circuits and hold pixels in reset, High to run", true); // shouldn't need to manipulate
-																						// from host
-	protected PortBit syncTimestampMasterEnabled = new PortBit(
-		chip,
-		"a1",
-		"syncTimestampMaster",
-		"<html> (A1) High to make this camera timestamp master or to enable external<br>specical external input events to be injected into the event stream on detected edges on the IN pin<p>An external input event is detected on the falling edge of the IN input pin.",
-		true);
+
 	// *********** CPLD *********************
 	// CPLD shift register contents specified here by CPLDInt and CPLDBit
 	protected CPLDInt exposure = new CPLDInt(
@@ -185,9 +174,6 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 		addConfigValue(powerDown);
 		addConfigValue(runAdc);
 		addConfigValue(runCpld);
-		// addConfigValue(extTrigger); // unused now, and specified as fx2 port A1, same as syncTimestampMaster pin,
-		// which is connected to H1 on CPLD
-		addConfigValue(syncTimestampMasterEnabled);
 
 		// cpld shift register stuff
 		addConfigValue(exposure);
@@ -281,10 +267,6 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 		catch (HardwareInterfaceException ex) {
 			Logger.getLogger(DAViS240.class.getName()).log(Level.SEVERE, null, ex);
 		}
-
-		syncTimestampMasterEnabled.set(true); // normally set this true despite preference value because slave mode
-												// should be set by user or by plug insertion to slave input 3.5mm plug
-
 	}
 
 	@Override
@@ -1822,23 +1804,20 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 
 	@Override
 	public void setFrameDelayMs(int ms) {
-		int fd = Math.round(ms * EXPOSURE_CONTROL_CLOCK_FREQ_HZ * 1e-3f);
-		// frame delay config register is in clock cycles, to to go from ms to clock cycles do
-		// ms*(clockcycles/sec)*(sec/1000ms)
+		int fd = ms * 1000 * ADC_CLOCK_FREQ_CYCLES;
+		// frame delay config register is in clock cycles
 		frameDelay.set(fd);
 	}
 
 	@Override
 	public int getFrameDelayMs() {
-		// to get frame delay in ms from register value,
-		// multiply frame delay register value frameDelay in cycles by the ms per clock cycle
-		int fd = Math.round(frameDelay.get() / (1e-3f * EXPOSURE_CONTROL_CLOCK_FREQ_HZ));
+		int fd = frameDelay.get() / (1000 * ADC_CLOCK_FREQ_CYCLES);
 		return fd;
 	}
 
 	@Override
 	public void setExposureDelayMs(int ms) {
-		int exp = Math.round(ms * EXPOSURE_CONTROL_CLOCK_FREQ_HZ * 1e-3f);
+		int exp = ms * 1000 * ADC_CLOCK_FREQ_CYCLES;
 		if (exp <= 0) {
 			exp = 1;
 		}
@@ -1847,7 +1826,7 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 
 	@Override
 	public int getExposureDelayMs() {
-		int ed = Math.round(exposure.get() / (1e-3f * EXPOSURE_CONTROL_CLOCK_FREQ_HZ));
+		int ed = exposure.get() / (1000 * ADC_CLOCK_FREQ_CYCLES);
 		return ed;
 	}
 
