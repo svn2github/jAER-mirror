@@ -43,6 +43,7 @@ import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.chip.Chip;
 import net.sf.jaer.config.ApsDvsConfig;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3;
 import net.sf.jaer.util.HasPropertyTooltips;
 import net.sf.jaer.util.ParameterControlPanel;
 import net.sf.jaer.util.PropertyTooltipSupport;
@@ -145,6 +146,8 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 		"8=500 deg/s, 65.5 LSB per deg/s ", (byte) 8); // GYRO_CONFIG:
 	protected CPLDByte imu4AccelConfig = new CPLDByte(chip, 127, 120, "imu4_ACCEL_CONFIG",
 		"ACCEL_CONFIG: Bits 4:3 code AFS_SEL. 8=4g, 8192 LSB per g", (byte) 8); // ACCEL_CONFIG:
+	protected CPLDInt nullSettle = new CPLDInt(chip, 143, 128, "nullSettle",
+		"time to remain in NULL state between columns", 0);
 	// DVSTweaks
 	private AddressedIPotCF diffOn, diffOff, refr, pr, sf, diff;
 	// graphic options for rendering
@@ -181,6 +184,10 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 		addConfigValue(rowSettle);
 		addConfigValue(colSettle);
 		addConfigValue(frameDelay);
+		if ((getHardwareInterface() != null)
+			&& (getHardwareInterface() instanceof net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3)) {
+			addConfigValue(nullSettle);
+		}
 
 		addConfigValue(miscControlBits);
 
@@ -375,7 +382,6 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 			configPanel.add(userFriendlyControls, BorderLayout.EAST);
 		}
 		else {
-
 			// user friendly control panel
 			configTabbedPane.add("<html><strong><font color=\"red\">User-Friendly Controls", userFriendlyControls);
 		}
@@ -559,6 +565,18 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 		this.translateRowOnlyEvents = translateRowOnlyEvents;
 		getSupport().firePropertyChange(ApsDvsConfig.PROPERTY_TRANSLATE_ROW_ONLY_EVENTS, old,
 			this.translateRowOnlyEvents);
+
+		if ((getHardwareInterface() != null) && (getHardwareInterface() instanceof CypressFX3)) {
+			// Translate Row-only Events is now in the logic.
+			try {
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_DVS, (short) 6,
+					(translateRowOnlyEvents) ? (1) : (0));
+			}
+			catch (HardwareInterfaceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -630,7 +648,6 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 	 * see PS-MPU-6100A
 	 */
 	public enum ImuGyroScale {
-
 		GyroFullScaleDegPerSec250(250, 0, 131),
 		GyroFullScaleDegPerSec500(500, 1, 63.5f),
 		GyroFullScaleDegPerSec1000(1000, 2, 32.8f),
@@ -654,14 +671,12 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 			}
 			return s;
 		}
-
 	}
 
 	/**
 	 * see PS-MPU-6100A
 	 */
 	public enum ImuAccelScale {
-
 		ImuAccelScaleG2(2, 0, 16384),
 		ImuAccelScaleG4(4, 1, 8192),
 		ImuAccelScaleG8(8, 2, 4096),
@@ -691,7 +706,6 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 	 * IMU control of Invensense IMU-6100A, encapsulated here.
 	 */
 	public class ImuControl extends Observable implements HasPropertyTooltips, HasPreference, PreferenceChangeListener {
-
 		PropertyTooltipSupport tooltipSupport = new PropertyTooltipSupport();
 		private ImuGyroScale imuGyroScale;
 		private ImuAccelScale imuAccelScale;
@@ -946,8 +960,6 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 	 * Controls the APS intensity readout by wrapping the relevant bits
 	 */
 	public class ApsReadoutControl extends Observable implements Observer, HasPropertyTooltips {
-
-		public final String EVENT_TESTPIXEL = "testpixelEnabled";
 		PropertyTooltipSupport tooltipSupport = new PropertyTooltipSupport();
 
 		public ApsReadoutControl() {
@@ -964,6 +976,13 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 			tooltipSupport.setPropertyTooltip("exposureDelayCC", exposure.getDescription());
 			tooltipSupport.setPropertyTooltip("resSettleCC", resSettle.getDescription());
 			tooltipSupport.setPropertyTooltip("frameDelayCC", frameDelay.getDescription());
+
+			if ((getHardwareInterface() != null)
+				&& (getHardwareInterface() instanceof net.sf.jaer.hardwareinterface.usb.cypressfx3libusb.CypressFX3)) {
+				nullSettle.addObserver(this);
+				tooltipSupport.setPropertyTooltip("nullSettleCC", nullSettle.getDescription());
+			}
+
 			tooltipSupport
 				.setPropertyTooltip(
 					"globalShutterMode",
@@ -999,16 +1018,8 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 															// shutter mode
 			miscControlBits.set(newval);
 
-			try {
-				Thread.sleep(100);
-			}
-			catch (InterruptedException e) {
-			}// TODO fix firmware/logic to deal with sequential VRs
-
-			// FIXME: Currently also rolling shutter mode, with the rolling shutter logic, needs
-			// the globalShutter bit in the chip config chain to be 1, so as to get a good image.
-			// It is unclear why this is, chip internals will need to be explored.
-			((DAViS240ChipConfigChain) chipConfigChain).globalShutter.set(true);
+			// Update chip config chain.
+			((DAViS240ChipConfigChain) chipConfigChain).globalShutter.set(yes);
 
 			getSupport().firePropertyChange(ApsDvsConfig.PROPERTY_GLOBAL_SHUTTER_MODE_ENABLED, oldbool, yes);
 
@@ -1070,7 +1081,6 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 	}
 
 	public class VideoControl extends Observable implements Observer, HasPreference, HasPropertyTooltips {
-
 		private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 		public boolean displayEvents = chip.getPrefs().getBoolean("VideoControl.displayEvents", true);
 		public boolean displayFrames = chip.getPrefs().getBoolean("VideoControl.displayFrames", true);
@@ -1397,7 +1407,6 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 	 * @return array of bytes to send
 	 */
 	public class DAViS240ChipConfigChain extends ChipConfigChain {
-
 		// Config Bits
 		OnchipConfigBit resetCalib = new OnchipConfigBit(chip, "resetCalib", 0,
 			"turns the bias generator integrate and fire calibration neuron off", true),
