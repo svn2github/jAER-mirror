@@ -91,6 +91,7 @@ architecture Structural of TopLevel is
 	signal DVSAERReqSync_SB, IMUInterruptSync_S                                                                   : std_logic;
 	signal SyncOutSwitchSync_S, SyncInClockSync_C, SyncInSwitchSync_S, SyncInSignalSync_S                         : std_logic;
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D                                                   : std_logic;
+	signal DeviceIsMaster_S                                                                                       : std_logic;
 
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
@@ -320,6 +321,7 @@ begin
 			Reset_RI               => LogicReset_R,
 			SyncInClock_CI         => SyncInClockSync_C,
 			SyncOutClock_CO        => SyncOutClock_CO,
+			DeviceIsMaster_SO      => DeviceIsMaster_S,
 			OutFifoControl_SI      => LogicUSBFifoControlOut_S.WriteSide,
 			OutFifoControl_SO      => LogicUSBFifoControlIn_S.WriteSide,
 			OutFifoData_DO         => LogicUSBFifoDataIn_D,
@@ -531,6 +533,7 @@ begin
 		port map(
 			Clock_CI                       => LogicClock_C,
 			Reset_RI                       => LogicReset_R,
+			DeviceIsMaster_SI              => DeviceIsMaster_S,
 			ConfigParamAddress_DI          => ConfigParamAddress_D,
 			SystemInfoConfigParamOutput_DO => SystemInfoConfigParamOutput_D);
 

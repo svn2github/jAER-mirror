@@ -14,6 +14,7 @@ package SystemInfoConfigRecords is
 		ChipDVSSizeRows_D      : unsigned(7 downto 0);
 		ChipHasGlobalShutter_S : unsigned(7 downto 0);
 		ChipHasIntegratedADC_S : unsigned(7 downto 0);
+		DeviceIsMaster_S       : unsigned(7 downto 0);
 	end record tSystemInfoConfigParamAddresses;
 
 	constant SYSTEMINFOCONFIG_PARAM_ADDRESSES : tSystemInfoConfigParamAddresses := (
@@ -24,5 +25,6 @@ package SystemInfoConfigRecords is
 		ChipDVSSizeColumns_D   => to_unsigned(4, 8),
 		ChipDVSSizeRows_D      => to_unsigned(5, 8),
 		ChipHasGlobalShutter_S => to_unsigned(6, 8),
-		ChipHasIntegratedADC_S => to_unsigned(7, 8));
+		ChipHasIntegratedADC_S => to_unsigned(7, 8),
+		DeviceIsMaster_S       => to_unsigned(8, 8));
 end package SystemInfoConfigRecords;

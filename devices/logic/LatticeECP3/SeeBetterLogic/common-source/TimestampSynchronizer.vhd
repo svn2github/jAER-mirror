@@ -13,6 +13,8 @@ entity TimestampSynchronizer is
 		SyncInClock_CI    : in  std_logic;
 		SyncOutClock_CO   : out std_logic;
 
+		DeviceIsMaster_SO : out std_logic;
+
 		TimestampRun_SI   : in  std_logic;
 		TimestampReset_SI : in  std_logic;
 
@@ -49,7 +51,8 @@ architecture Behavioral of TimestampSynchronizer is
 	signal Confirm_DP, Confirm_DN : unsigned(CONFIRM_SIZE - 1 downto 0);
 
 	-- Register outputs.
-	signal SyncOutClockReg_C : std_logic;
+	signal SyncOutClockReg_C   : std_logic;
+	signal DeviceIsMasterReg_S : std_logic;
 begin
 	tsSynchronizer : process(State_DP, Divider_DP, Counter_DP, Confirm_DP, SyncInClock_CI, TimestampRun_SI, TimestampReset_SI)
 	begin
@@ -60,6 +63,8 @@ begin
 		Confirm_DN <= (others => '0');
 
 		SyncOutClockReg_C <= '0';
+
+		DeviceIsMasterReg_S <= '1';
 
 		TimestampReset_SO <= '0';
 		TimestampInc_SO   <= '0';
@@ -119,6 +124,8 @@ begin
 				end if;
 
 			when stRunSlave =>
+				DeviceIsMasterReg_S <= '0';
+
 				SyncOutClockReg_C <= SyncInClock_CI;
 				TimestampReset_SO <= TimestampReset_SI;
 
@@ -138,6 +145,8 @@ begin
 				end if;
 
 			when stSlaveWaitEdge =>
+				DeviceIsMasterReg_S <= '0';
+
 				SyncOutClockReg_C <= SyncInClock_CI;
 				TimestampReset_SO <= TimestampReset_SI;
 
@@ -159,6 +168,8 @@ begin
 				end if;
 
 			when stStlaveWaitReset =>
+				DeviceIsMasterReg_S <= '0';
+
 				SyncOutClockReg_C <= SyncInClock_CI;
 
 				Counter_DN <= Counter_DP + 1;
@@ -193,6 +204,8 @@ begin
 			Confirm_DP <= (others => '0');
 
 			SyncOutClock_CO <= '0';
+
+			DeviceIsMaster_SO <= '1';
 		elsif rising_edge(Clock_CI) then -- rising clock edge
 			State_DP <= State_DN;
 
@@ -201,6 +214,8 @@ begin
 			Confirm_DP <= Confirm_DN;
 
 			SyncOutClock_CO <= SyncOutClockReg_C;
+
+			DeviceIsMaster_SO <= DeviceIsMasterReg_S;
 		end if;
 	end process registerUpdate;
 end architecture Behavioral;

@@ -14,6 +14,8 @@ entity MultiplexerStateMachine is
 		SyncInClock_CI         : in  std_logic;
 		SyncOutClock_CO        : out std_logic;
 
+		DeviceIsMaster_SO      : out std_logic;
+
 		-- Fifo output (to USB)
 		OutFifoControl_SI      : in  tFromFifoWriteSide;
 		OutFifoControl_SO      : out tToFifoWriteSide;
@@ -84,6 +86,7 @@ begin
 			Reset_RI          => Reset_RI,
 			SyncInClock_CI    => SyncInClock_CI,
 			SyncOutClock_CO   => SyncOutClock_CO,
+			DeviceIsMaster_SO => DeviceIsMaster_SO,
 			TimestampRun_SI   => MultiplexerConfigReg_D.TimestampRun_S,
 			TimestampReset_SI => TimestampResetExternalDetected_S or TimestampOverflowBufferOverflow_S,
 			TimestampInc_SO   => TimestampInc_S,

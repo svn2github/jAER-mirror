@@ -9,6 +9,9 @@ entity SystemInfoSPIConfig is
 		Clock_CI                       : in  std_logic;
 		Reset_RI                       : in  std_logic;
 
+		-- Master/Slave information from TS Synchronizer.
+		DeviceIsMaster_SI              : in  std_logic;
+
 		-- SPI configuration inputs and outputs. Read-only here.
 		ConfigParamAddress_DI          : in  unsigned(7 downto 0);
 		SystemInfoConfigParamOutput_DO : out std_logic_vector(31 downto 0));
@@ -16,10 +19,11 @@ end entity SystemInfoSPIConfig;
 
 architecture Behavioral of SystemInfoSPIConfig is
 	signal SystemInfoOutput_DP, SystemInfoOutput_DN : std_logic_vector(31 downto 0);
+	signal DeviceIsMasterBuffer_S                   : std_logic;
 begin
 	SystemInfoConfigParamOutput_DO <= SystemInfoOutput_DP;
 
-	systemInfoIO : process(ConfigParamAddress_DI)
+	systemInfoIO : process(ConfigParamAddress_DI, DeviceIsMasterBuffer_S)
 	begin
 		SystemInfoOutput_DN <= (others => '0');
 
@@ -48,6 +52,9 @@ begin
 			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipHasIntegratedADC_S =>
 				SystemInfoOutput_DN(0) <= CHIP_HAS_INTEGRATED_ADC;
 
+			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.DeviceIsMaster_S =>
+				SystemInfoOutput_DN(0) <= DeviceIsMasterBuffer_S;
+
 			when others => null;
 		end case;
 	end process systemInfoIO;
@@ -60,4 +67,14 @@ begin
 			SystemInfoOutput_DP <= SystemInfoOutput_DN;
 		end if;
 	end process systemInfoUpdate;
+
+	deviceIsMasterBuffer : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Enable_SI    => '1',
+			Input_SI(0)  => DeviceIsMaster_SI,
+			Output_SO(0) => DeviceIsMasterBuffer_S);
 end architecture Behavioral;
