@@ -116,21 +116,11 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 					b.limit(b.limit() & ~0x01);
 				}
 
-				final int[] addresses = buffer.getAddresses();
-				final int[] timestamps = buffer.getTimestamps();
-
 				buffer.lastCaptureIndex = eventCounter;
 
 				final ShortBuffer sBuf = b.order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
 
 				for (int i = 0; i < sBuf.limit(); i++) {
-					if ((eventCounter >= aeBufferSize) || (buffer.overrunOccuredFlag)) {
-						buffer.overrunOccuredFlag = true;
-
-						// Throw away the rest on buffer overrun.
-						continue;
-					}
-
 					final short event = sBuf.get(i);
 
 					// Check if timestamp
@@ -171,8 +161,11 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 									case 4: // External input (pulse)
 										CypressFX3.log.fine("External input event received.");
 
-										addresses[eventCounter] = ApsDvsChip.EXTERNAL_INPUT_EVENT_ADDR;
-										timestamps[eventCounter++] = currentTimestamp;
+										// Check that the buffer has space for this event. Enlarge if needed.
+										buffer.ensureCapacity(eventCounter + 1);
+
+										buffer.getAddresses()[eventCounter] = ApsDvsChip.EXTERNAL_INPUT_EVENT_ADDR;
+										buffer.getTimestamps()[eventCounter++] = currentTimestamp;
 										break;
 
 									case 5: // IMU Start (6 axes)
@@ -187,12 +180,14 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 										CypressFX3.log.fine("IMU End event received.");
 
 										if (imuCount == (2 * IMU_DATA_LENGTH)) {
+											// Check for buffer space is done inside writeToPacket().
 											final IMUSample imuSample = new IMUSample(imuTimestamp, imuEvents);
 											eventCounter += imuSample.writeToPacket(buffer, eventCounter);
 										}
 										else {
-											// TODO: CypressFX3.log.info("IMU End: failed to validate IMU sample count ("
-											//	+ imuCount + "), discarding samples.");
+											// TODO:
+											// CypressFX3.log.info("IMU End: failed to validate IMU sample count ("
+											// + imuCount + "), discarding samples.");
 										}
 										break;
 
@@ -334,8 +329,11 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 								}
 
 								if (dvsGotY) {
-									addresses[eventCounter] = ((dvsLastY << ApsDvsChip.YSHIFT) & ApsDvsChip.YMASK);
-									timestamps[eventCounter++] = dvsTimestamp;
+									// Check that the buffer has space for this event. Enlarge if needed.
+									buffer.ensureCapacity(eventCounter + 1);
+
+									buffer.getAddresses()[eventCounter] = ((dvsLastY << ApsDvsChip.YSHIFT) & ApsDvsChip.YMASK);
+									buffer.getTimestamps()[eventCounter++] = dvsTimestamp;
 									CypressFX3.log.info("DVS: row-only event received for address Y=" + dvsLastY + ".");
 								}
 
@@ -354,10 +352,13 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 									break; // Skip invalid event.
 								}
 
-								addresses[eventCounter] = ((dvsLastY << ApsDvsChip.YSHIFT) & ApsDvsChip.YMASK)
+								// Check that the buffer has space for this event. Enlarge if needed.
+								buffer.ensureCapacity(eventCounter + 1);
+
+								buffer.getAddresses()[eventCounter] = ((dvsLastY << ApsDvsChip.YSHIFT) & ApsDvsChip.YMASK)
 									| ((data << ApsDvsChip.XSHIFT) & ApsDvsChip.XMASK)
 									| (((code & 0x01) << ApsDvsChip.POLSHIFT) & ApsDvsChip.POLMASK);
-								timestamps[eventCounter++] = dvsTimestamp;
+								buffer.getTimestamps()[eventCounter++] = dvsTimestamp;
 
 								dvsGotY = false;
 
@@ -377,12 +378,15 @@ public class DAViSFX3HardwareInterface extends CypressFX3Biasgen {
 
 								apsCountY[apsCurrentReadoutType]++;
 
-								addresses[eventCounter] = ApsDvsChip.ADDRESS_TYPE_APS
+								// Check that the buffer has space for this event. Enlarge if needed.
+								buffer.ensureCapacity(eventCounter + 1);
+
+								buffer.getAddresses()[eventCounter] = ApsDvsChip.ADDRESS_TYPE_APS
 									| ((yPos << ApsDvsChip.YSHIFT) & ApsDvsChip.YMASK)
 									| ((xPos << ApsDvsChip.XSHIFT) & ApsDvsChip.XMASK)
 									| ((apsCurrentReadoutType << ApsDvsChip.ADC_READCYCLE_SHIFT) & ApsDvsChip.ADC_READCYCLE_MASK)
 									| (data & ApsDvsChip.ADC_DATA_MASK);
-								timestamps[eventCounter++] = apsTimestamp;
+								buffer.getTimestamps()[eventCounter++] = apsTimestamp;
 
 								break;
 
