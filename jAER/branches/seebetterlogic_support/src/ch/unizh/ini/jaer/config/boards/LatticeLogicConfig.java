@@ -176,16 +176,18 @@ public class LatticeLogicConfig extends Biasgen implements HasPreference {
 					((buf.get(7) & 0x02) != 0) ? (0) : (1));
 
 				// IMU DLPF
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 7, buf.get(5));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 7, buf.get(5) & 0x07);
 
 				// IMU SampleRateDivider
 				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 6, buf.get(4));
 
 				// IMU Gyro Scale
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 9, buf.get(3));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 9,
+					(buf.get(3) >> 3) & 0x03);
 
 				// IMU Accel Scale
-				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 8, buf.get(2));
+				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_IMU, (short) 8,
+					(buf.get(2) >> 3) & 0x03);
 
 				// NulLSettle
 				((CypressFX3) getHardwareInterface()).spiConfigSend(CypressFX3.FPGA_APS, (short) 12, buf.getShort(0));

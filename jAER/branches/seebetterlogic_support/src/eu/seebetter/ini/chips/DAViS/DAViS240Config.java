@@ -781,7 +781,7 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 		public void setGyroScale(ImuGyroScale scale) {
 			ImuGyroScale old = this.imuGyroScale;
 			this.imuGyroScale = scale;
-			setFS_SEL(scale.fs_sel);
+			setFS_SEL(imuGyroScale.fs_sel);
 			IMUSample.setFullScaleGyroDegPerSec(imuGyroScale.fullScaleDegPerSec);
 			IMUSample.setGyroSensitivityScaleFactorDegPerSecPerLsb(1 / imuGyroScale.scaleFactorLsbPerDegPerSec);
 			getSupport().firePropertyChange(PROPERTY_IMU_GYRO_SCALE_CHANGED, old, this.imuGyroScale);
@@ -798,9 +798,9 @@ public class DAViS240Config extends LatticeLogicConfig implements ApsDvsConfig, 
 		 * @param imuAccelScale
 		 *            the imuAccelScale to set
 		 */
-		public void setAccelScale(ImuAccelScale imuAccelScale) {
+		public void setAccelScale(ImuAccelScale scale) {
 			ImuAccelScale old = this.imuAccelScale;
-			this.imuAccelScale = imuAccelScale;
+			this.imuAccelScale = scale;
 			setAFS_SEL(imuAccelScale.afs_sel);
 			IMUSample.setFullScaleAccelG(imuAccelScale.fullScaleG);
 			IMUSample.setAccelSensitivityScaleFactorGPerLsb(1 / imuAccelScale.scaleFactorLsbPerG);
