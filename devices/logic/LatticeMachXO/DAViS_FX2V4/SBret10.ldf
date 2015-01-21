@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BaliProject version="3.2" title="SBret10" device="LCMXO2280C-3FT256C" default_implementation="SBret10">
     <Options/>
-    <Implementation title="SBret10" dir="SBret10" description="SBret10" synthesis="synplify" default_strategy="Timing">
+    <Implementation title="SBret10" dir="SBret10" description="SBret10" synthesis="synplify" default_strategy="Str1">
         <Options def_top="ADCStateMachine_tb" top="USBAER_top_level"/>
         <Source name="sourcecode/wordRegister.vhd" type="VHDL" type_short="VHDL">
             <Options/>
@@ -106,4 +106,5 @@
             <Options/>
         </Source>
     </Implementation>
+    <Strategy name="Str1" file="Str1.sty"/>
 </BaliProject>

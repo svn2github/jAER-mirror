@@ -124,8 +124,8 @@ begin
 	ADCStateOutputLEDxSO <= StartPixelxS;
 	--ADCStateOutputLEDxSO <= '1' when StateColxDP = stIdle and StateRowxDP = stIdle else '0'
 
-	FramePeriodxD <= "0" & unsigned(FramePeriodxDI) & "000000000"; -- circa 9 microseconds at 60MHz
-	ExposurexD    <= "0" & unsigned(ExposurexDI) & "000000000"; -- circa 9 microseconds at 60MHz
+	FramePeriodxD <= "00000" & unsigned(FramePeriodxDI) & "00000"; -- circa 1 microsecond at 30MHz
+	ExposurexD    <= "00000" & unsigned(ExposurexDI) & "00000"; -- circa 1 microsecond at 30MHz
 
 	CDVSTestApsTxGatexSO <= not TxGatexE;
 
