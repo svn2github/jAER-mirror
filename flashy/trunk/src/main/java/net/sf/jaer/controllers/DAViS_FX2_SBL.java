@@ -580,6 +580,8 @@ public class DAViS_FX2_SBL extends Controller {
 
 			updateProgress(100, 100);
 
+			done();
+
 			return 0;
 		}
 	};

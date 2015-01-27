@@ -272,6 +272,8 @@ public class DAViS_FX3_SBL extends Controller {
 
 							updateProgress(100, 100);
 
+							done();
+
 							return 0;
 						}
 					};
