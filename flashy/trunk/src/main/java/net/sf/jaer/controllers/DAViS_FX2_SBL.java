@@ -144,13 +144,11 @@ public class DAViS_FX2_SBL extends Controller {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent arg0) {
-					try {
-						eraseROM();
-					}
-					catch (final Exception e) {
-						GUISupport.showDialogException(e);
-						return;
-					}
+					GUISupport.showDialogProgress(eraseROMTask);
+
+					final Thread t = new Thread(eraseROMTask);
+					t.setDaemon(true);
+					t.start();
 				}
 			});
 
@@ -316,7 +314,14 @@ public class DAViS_FX2_SBL extends Controller {
 		}
 
 		// Write FX2 firmware.
-		byteBufferToROM(fw, DAViS_FX2_SBL.FIRMWARE_START_ADDRESS, DAViS_FX2_SBL.FIRMWARE_MAX_SIZE);
+		final ByteBufferToRomTask firmwareToROMTask = new ByteBufferToRomTask(fw, DAViS_FX2_SBL.FIRMWARE_START_ADDRESS,
+			DAViS_FX2_SBL.FIRMWARE_MAX_SIZE);
+
+		GUISupport.showDialogProgress(firmwareToROMTask);
+
+		final Thread t = new Thread(firmwareToROMTask);
+		t.setDaemon(true);
+		t.start();
 	}
 
 	private void serialNumberToROM(final byte[] sNumArray) throws Exception {
@@ -340,54 +345,105 @@ public class DAViS_FX2_SBL extends Controller {
 		sNum.position(0); // Reset position to initial value.
 
 		// Write FX2 serial number.
-		byteBufferToROM(sNum, DAViS_FX2_SBL.SNUM_START_ADDRESS, DAViS_FX2_SBL.SNUM_MAX_SIZE);
+		final ByteBufferToRomTask serialNumberToROMTask = new ByteBufferToRomTask(sNum,
+			DAViS_FX2_SBL.SNUM_START_ADDRESS, DAViS_FX2_SBL.SNUM_MAX_SIZE);
+
+		final Thread t = new Thread(serialNumberToROMTask);
+		t.setDaemon(true);
+		t.start();
 	}
 
-	private void byteBufferToROM(final ByteBuffer data, final int startAddress, final int maxSize) throws Exception {
-		// Check data size.
-		int dataLength = data.limit();
-		if (dataLength > maxSize) {
-			throw new Exception("Size of data to write exceeds limits!");
+	private class ByteBufferToRomTask extends Task<Void> {
+		private final ByteBuffer data;
+		private final int startAddress;
+		private final int maxSize;
+
+		public ByteBufferToRomTask(final ByteBuffer data, final int startAddress, final int maxSize) {
+			this.data = data;
+			this.startAddress = startAddress;
+			this.maxSize = maxSize;
 		}
 
-		// Send out the actual data to the EEPROM, in 4 KB chunks.
-		int dataOffset = 0;
+		@Override
+		protected Void call() throws Exception {
+			updateProgress(0, 100);
 
-		while (dataLength > 0) {
-			int localDataLength = DAViS_FX2_SBL.MAX_TRANSFER_SIZE;
-			if (localDataLength > dataLength) {
-				localDataLength = dataLength;
+			// Check data size.
+			int dataLength = data.limit();
+			if (dataLength > maxSize) {
+				throw new Exception("Size of data to write exceeds limits!");
 			}
 
-			final ByteBuffer dataChunk = BufferUtils.slice(data, dataOffset, localDataLength);
+			// Support progress counter (98% allocated to app).
+			updateProgress(2, 100);
+			final double progressPerKB = 98.0 / (dataLength / 1024.0);
 
-			// Just wValue is enough for the address (16 bit), since the EEPROM
-			// is just 32KB at the most.
-			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_EEPROM, (short) ((startAddress + dataOffset) & 0xFFFF),
-				(short) 0, dataChunk);
+			// Send out the actual data to the EEPROM, in 4 KB chunks.
+			int dataOffset = 0;
 
-			dataLength -= localDataLength;
-			dataOffset += localDataLength;
+			while (dataLength > 0) {
+				int localDataLength = DAViS_FX2_SBL.MAX_TRANSFER_SIZE;
+				if (localDataLength > dataLength) {
+					localDataLength = dataLength;
+				}
+
+				final ByteBuffer dataChunk = BufferUtils.slice(data, dataOffset, localDataLength);
+
+				// Just wValue is enough for the address (16 bit), since the
+				// EEPROM is just 32KB at the most.
+				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_EEPROM, (short) ((startAddress + dataOffset) & 0xFFFF),
+					(short) 0, dataChunk);
+
+				dataLength -= localDataLength;
+				dataOffset += localDataLength;
+
+				// Update progress based on index (reached length).
+				updateProgress((long) (((dataOffset / 1024.0) * progressPerKB) + 2.0), 100);
+			}
+
+			updateProgress(100, 100);
+
+			done();
+
+			return null;
 		}
 	}
 
-	private void eraseROM() throws Exception {
-		// Generate empty ByteBuffer (all zeros) to send to EEPROM.
-		final ByteBuffer eraser = BufferUtils.allocateByteBuffer(DAViS_FX2_SBL.MAX_TRANSFER_SIZE);
-		eraser.put(new byte[DAViS_FX2_SBL.MAX_TRANSFER_SIZE]);
-		eraser.position(0); // Reset position to initial value.
+	private final Task<Void> eraseROMTask = new Task<Void>() {
+		@Override
+		protected Void call() throws Exception {
+			updateProgress(0, 100);
 
-		// Send out the actual data to the FX2 EEPROM, in 4 KB chunks.
-		int fwLength = DAViS_FX2_SBL.EEPROM_MAX_SIZE;
-		int fwOffset = 0;
+			// Generate empty ByteBuffer (all zeros) to send to EEPROM.
+			final ByteBuffer eraser = BufferUtils.allocateByteBuffer(DAViS_FX2_SBL.MAX_TRANSFER_SIZE);
+			eraser.put(new byte[DAViS_FX2_SBL.MAX_TRANSFER_SIZE]);
+			eraser.position(0); // Reset position to initial value.
 
-		while (fwLength > 0) {
-			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_EEPROM, (short) (fwOffset & 0xFFFF), (short) 0, eraser);
+			// Send out the actual data to the FX2 EEPROM, in 4 KB chunks.
+			int fwLength = DAViS_FX2_SBL.EEPROM_MAX_SIZE;
+			int fwOffset = 0;
 
-			fwLength -= DAViS_FX2_SBL.MAX_TRANSFER_SIZE;
-			fwOffset += DAViS_FX2_SBL.MAX_TRANSFER_SIZE;
+			// Support progress counter (98% allocated to app).
+			updateProgress(2, 100);
+			final double progressPerKB = 98.0 / (fwLength / 1024.0);
+
+			while (fwLength > 0) {
+				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_EEPROM, (short) (fwOffset & 0xFFFF), (short) 0, eraser);
+
+				fwLength -= DAViS_FX2_SBL.MAX_TRANSFER_SIZE;
+				fwOffset += DAViS_FX2_SBL.MAX_TRANSFER_SIZE;
+
+				// Update progress based on index (reached length).
+				updateProgress((long) (((fwOffset / 1024.0) * progressPerKB) + 2.0), 100);
+			}
+
+			updateProgress(100, 100);
+
+			done();
+
+			return null;
 		}
-	}
+	};
 
 	/* XSVF instruction encoding, from Xilinx */
 	private static final byte XCOMPLETE = (byte) 0;
@@ -415,17 +471,15 @@ public class DAViS_FX2_SBL extends Controller {
 	private static final byte XCOMMENT = (byte) 22; /* 4.14 */
 	private static final byte XWAIT = (byte) 23; /* 5.00 */
 
-	private final Task<Integer> logicToROMTask = new Task<Integer>() {
+	private final Task<Void> logicToROMTask = new Task<Void>() {
 		@Override
-		protected Integer call() throws Exception {
+		protected Void call() throws Exception {
 			updateProgress(0, 100);
 
 			try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
 				final FileChannel fwInChannel = fwFile.getChannel()) {
 				final MappedByteBuffer logic = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
 				logic.load();
-
-				updateProgress(2, 100);
 
 				// Configure CPLD directly (0xBE vendor request).
 				// Check data size.
@@ -434,8 +488,9 @@ public class DAViS_FX2_SBL extends Controller {
 					throw new Exception("Size of data to send too small!");
 				}
 
-				// Support progress counter (96% allocated to app).
-				final double progressPerKB = 96.0 / (logicLength / 1024.0);
+				// Support progress counter (98% allocated to app).
+				updateProgress(2, 100);
+				final double progressPerKB = 98.0 / (logicLength / 1024.0);
 
 				int commandLength = 1, index = 0, length = 0;
 
@@ -572,8 +627,6 @@ public class DAViS_FX2_SBL extends Controller {
 				// Done, send XCOMPLETE.
 				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, DAViS_FX2_SBL.XCOMPLETE, (short) 0, null);
 
-				updateProgress(98, 100);
-
 				// Cleanup ByteBuffer.
 				logic.clear();
 			}
@@ -582,7 +635,7 @@ public class DAViS_FX2_SBL extends Controller {
 
 			done();
 
-			return 0;
+			return null;
 		}
 	};
 

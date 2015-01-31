@@ -145,13 +145,11 @@ public class DAViS_FX3_SBL extends Controller {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent arg0) {
-					try {
-						eraseROM();
-					}
-					catch (final Exception e) {
-						GUISupport.showDialogException(e);
-						return;
-					}
+					GUISupport.showDialogProgress(eraseROMTask);
+
+					final Thread t = new Thread(eraseROMTask);
+					t.setDaemon(true);
+					t.start();
 				}
 			});
 
@@ -249,38 +247,9 @@ public class DAViS_FX3_SBL extends Controller {
 						return;
 					}
 
-					final Task<Integer> worker = new Task<Integer>() {
-						@Override
-						protected Integer call() throws Exception {
-							updateProgress(0, 100);
+					GUISupport.showDialogProgress(logicToFPGATask);
 
-							try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
-								final FileChannel fwInChannel = fwFile.getChannel()) {
-								final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
-								buf.load();
-
-								updateProgress(2, 100);
-
-								// Load file to FPGA.
-								logicToFPGA(buf);
-
-								updateProgress(98, 100);
-
-								// Cleanup ByteBuffer.
-								buf.clear();
-							}
-
-							updateProgress(100, 100);
-
-							done();
-
-							return 0;
-						}
-					};
-
-					GUISupport.showDialogProgress(worker);
-
-					final Thread t = new Thread(worker);
+					final Thread t = new Thread(logicToFPGATask);
 					t.setDaemon(true);
 					t.start();
 				}
@@ -358,16 +327,16 @@ public class DAViS_FX3_SBL extends Controller {
 
 	private static final int MAX_TRANSFER_SIZE = 4096;
 
-	private static final int FLASH_MAX_SIZE = 1024 * 1024;
+	private static final int FLASH_MAX_SIZE = 8 * 1024 * 1024;
 
 	private static final int FIRMWARE_START_ADDRESS = 0;
 	private static final int FIRMWARE_MAX_SIZE = 192 * 1024;
 
 	private static final int LOGIC_START_ADDRESS = DAViS_FX3_SBL.FIRMWARE_MAX_SIZE;
-	private static final int LOGIC_MAX_SIZE = 576 * 1024;
+	private static final int LOGIC_MAX_SIZE = 2880 * 1024;
 
 	private static final int DATA_START_ADDRESS = DAViS_FX3_SBL.FIRMWARE_MAX_SIZE + DAViS_FX3_SBL.LOGIC_MAX_SIZE;
-	// private static final int DATA_MAX_SIZE = 256 * 1024;
+	// private static final int DATA_MAX_SIZE = 5120 * 1024;
 	private static final int DATA_HEADER_SIZE = 8;
 
 	private static final int SNUM_START_ADDRESS = DAViS_FX3_SBL.DATA_START_ADDRESS;
@@ -390,7 +359,14 @@ public class DAViS_FX3_SBL extends Controller {
 		data.put(2, (byte) 0x20);
 
 		// Write FX3 firmware.
-		byteBufferToROM(data, DAViS_FX3_SBL.FIRMWARE_START_ADDRESS, DAViS_FX3_SBL.FIRMWARE_MAX_SIZE);
+		final ByteBufferToRomTask firmwareToROMTask = new ByteBufferToRomTask(data,
+			DAViS_FX3_SBL.FIRMWARE_START_ADDRESS, DAViS_FX3_SBL.FIRMWARE_MAX_SIZE);
+
+		GUISupport.showDialogProgress(firmwareToROMTask);
+
+		final Thread t = new Thread(firmwareToROMTask);
+		t.setDaemon(true);
+		t.start();
 	}
 
 	private void serialNumberToROM(final byte[] sNumArray) throws Exception {
@@ -423,8 +399,12 @@ public class DAViS_FX3_SBL extends Controller {
 		sNum.position(0); // Reset position to initial value.
 
 		// Write FX3 serial number.
-		byteBufferToROM(sNum, DAViS_FX3_SBL.SNUM_START_ADDRESS, DAViS_FX3_SBL.DATA_HEADER_SIZE
-			+ DAViS_FX3_SBL.SNUM_MAX_SIZE);
+		final ByteBufferToRomTask serialNumberToROMTask = new ByteBufferToRomTask(sNum,
+			DAViS_FX3_SBL.SNUM_START_ADDRESS, DAViS_FX3_SBL.DATA_HEADER_SIZE + DAViS_FX3_SBL.SNUM_MAX_SIZE);
+
+		final Thread t = new Thread(serialNumberToROMTask);
+		t.setDaemon(true);
+		t.start();
 	}
 
 	private void logicToROM(final ByteBuffer logic) throws Exception {
@@ -444,95 +424,181 @@ public class DAViS_FX3_SBL extends Controller {
 		data.position(0); // Reset position to initial value.
 
 		// Write preamble and FPGA logic bitstream together.
-		byteBufferToROM(data, DAViS_FX3_SBL.LOGIC_START_ADDRESS, DAViS_FX3_SBL.LOGIC_MAX_SIZE);
+		final ByteBufferToRomTask logicToROMTask = new ByteBufferToRomTask(data, DAViS_FX3_SBL.LOGIC_START_ADDRESS,
+			DAViS_FX3_SBL.LOGIC_MAX_SIZE);
+
+		GUISupport.showDialogProgress(logicToROMTask);
+
+		final Thread t = new Thread(logicToROMTask);
+		t.setDaemon(true);
+		t.start();
 	}
 
-	private void byteBufferToROM(final ByteBuffer data, final int startAddress, final int maxSize) throws Exception {
-		// Check data size.
-		int dataLength = data.limit();
-		if (dataLength > maxSize) {
-			throw new Exception("Size of data to write exceeds limits!");
+	private class ByteBufferToRomTask extends Task<Void> {
+		private final ByteBuffer data;
+		private final int startAddress;
+		private final int maxSize;
+
+		public ByteBufferToRomTask(final ByteBuffer data, final int startAddress, final int maxSize) {
+			this.data = data;
+			this.startAddress = startAddress;
+			this.maxSize = maxSize;
 		}
 
-		// A Flash chip on SPI address 0 is our destination.
-		usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_CONFIG, (short) 0, (short) 0, null);
+		@Override
+		protected Void call() throws Exception {
+			updateProgress(0, 100);
 
-		// First erase the required blocks on the Flash memory, 64KB at a time.
-		for (int i = startAddress; i < (startAddress + dataLength); i += (64 * 1024)) {
-			usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF),
-				(short) (i & 0xFFFF), null);
-		}
-
-		// And then we send out the actual data, in 4 KB chunks.
-		int dataOffset = 0;
-
-		while (dataLength > 0) {
-			int localDataLength = DAViS_FX3_SBL.MAX_TRANSFER_SIZE;
-			if (localDataLength > dataLength) {
-				localDataLength = dataLength;
+			// Check data size.
+			int dataLength = data.limit();
+			if (dataLength > maxSize) {
+				throw new Exception("Size of data to write exceeds limits!");
 			}
 
-			final ByteBuffer dataChunk = BufferUtils.slice(data, dataOffset, localDataLength);
+			// A Flash chip on SPI address 0 is our destination.
+			usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_CONFIG, (short) 0, (short) 0, null);
 
-			usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_TRANSFER,
-				(short) (((startAddress + dataOffset) >>> 16) & 0xFFFF),
-				(short) ((startAddress + dataOffset) & 0xFFFF), dataChunk);
+			// Support progress counter.
+			updateProgress(2, 100);
 
-			dataLength -= localDataLength;
-			dataOffset += localDataLength;
+			// First erase the required blocks on the Flash memory, 64KB at a
+			// time.
+			for (int i = startAddress; i < (startAddress + dataLength); i += (64 * 1024)) {
+				usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF),
+					(short) (i & 0xFFFF), null);
+			}
+
+			// Support progress counter (94% allocated to app).
+			updateProgress(6, 100);
+			final double progressPerKB = 94.0 / (dataLength / 1024.0);
+
+			// And then we send out the actual data, in 4 KB chunks.
+			int dataOffset = 0;
+
+			while (dataLength > 0) {
+				int localDataLength = DAViS_FX3_SBL.MAX_TRANSFER_SIZE;
+				if (localDataLength > dataLength) {
+					localDataLength = dataLength;
+				}
+
+				final ByteBuffer dataChunk = BufferUtils.slice(data, dataOffset, localDataLength);
+
+				usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_TRANSFER,
+					(short) (((startAddress + dataOffset) >>> 16) & 0xFFFF),
+					(short) ((startAddress + dataOffset) & 0xFFFF), dataChunk);
+
+				dataLength -= localDataLength;
+				dataOffset += localDataLength;
+
+				// Update progress based on index (reached length).
+				updateProgress((long) (((dataOffset / 1024.0) * progressPerKB) + 6.0), 100);
+			}
+
+			updateProgress(100, 100);
+
+			done();
+
+			return null;
 		}
 	}
 
-	private void eraseROM() throws Exception {
-		// A Flash chip on SPI address 0 is our destination.
-		usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_CONFIG, (short) 0, (short) 0, null);
+	private final Task<Void> eraseROMTask = new Task<Void>() {
+		@Override
+		protected Void call() throws Exception {
+			updateProgress(0, 100);
 
-		// First erase the required blocks on the Flash memory, 64KB at a time.
-		for (int i = 0; i < DAViS_FX3_SBL.FLASH_MAX_SIZE; i += (64 * 1024)) {
-			usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF),
-				(short) (i & 0xFFFF), null);
+			// A Flash chip on SPI address 0 is our destination.
+			usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_CONFIG, (short) 0, (short) 0, null);
+
+			// Support progress counter (98% allocated to app).
+			updateProgress(2, 100);
+			final double progressPerKB = 98.0 / (DAViS_FX3_SBL.FLASH_MAX_SIZE / 1024.0);
+
+			// First erase the required blocks on the Flash memory, 64KB at a
+			// time.
+			for (int i = 0; i < DAViS_FX3_SBL.FLASH_MAX_SIZE; i += (64 * 1024)) {
+				usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF),
+					(short) (i & 0xFFFF), null);
+
+				// Update progress based on index (reached length).
+				updateProgress((long) (((i / 1024.0) * progressPerKB) + 2.0), 100);
+			}
+
+			updateProgress(100, 100);
+
+			done();
+
+			return null;
 		}
-	}
+	};
 
-	private void logicToFPGA(final ByteBuffer logic) throws Exception {
-		// Configure FPGA directly (0xBE vendor request).
-		// Check data size.
-		int logicLength = logic.limit();
-		if (logicLength > DAViS_FX3_SBL.LOGIC_MAX_SIZE) {
-			throw new Exception("Size of data to send exceeds limits!");
+	private final Task<Void> logicToFPGATask = new Task<Void>() {
+		@Override
+		protected Void call() throws Exception {
+			updateProgress(0, 100);
+
+			try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
+				final FileChannel fwInChannel = fwFile.getChannel()) {
+				final MappedByteBuffer logic = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
+				logic.load();
+
+				// Configure FPGA directly (0xBE vendor request).
+				// Check data size.
+				int logicLength = logic.limit();
+				if (logicLength > DAViS_FX3_SBL.LOGIC_MAX_SIZE) {
+					throw new Exception("Size of data to send exceeds limits!");
+				}
+				if (logicLength < DAViS_FX3_SBL.MAX_TRANSFER_SIZE) {
+					throw new Exception("Size of data to send too small!");
+				}
+
+				// Initialize FPGA configuration.
+				usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_FPGA_UPLOAD, (short) 0, (short) 0, null);
+
+				// Then send the first chunk, which also enables writing.
+				int logicOffset = 0;
+
+				ByteBuffer logicChunk = BufferUtils.slice(logic, logicOffset, DAViS_FX3_SBL.MAX_TRANSFER_SIZE);
+
+				usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_FPGA_UPLOAD, (short) 1, (short) 0, logicChunk);
+
+				logicLength -= DAViS_FX3_SBL.MAX_TRANSFER_SIZE;
+				logicOffset += DAViS_FX3_SBL.MAX_TRANSFER_SIZE;
+
+				// Support progress counter (98% allocated to app).
+				updateProgress(2, 100);
+				final double progressPerKB = 98.0 / (logicLength / 1024.0);
+
+				// And then we send out the actual data, in 4 KB chunks.
+				while (logicLength > DAViS_FX3_SBL.MAX_TRANSFER_SIZE) {
+					logicChunk = BufferUtils.slice(logic, logicOffset, DAViS_FX3_SBL.MAX_TRANSFER_SIZE);
+
+					usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_FPGA_UPLOAD, (short) 2, (short) 0, logicChunk);
+
+					logicLength -= DAViS_FX3_SBL.MAX_TRANSFER_SIZE;
+					logicOffset += DAViS_FX3_SBL.MAX_TRANSFER_SIZE;
+
+					// Update progress based on index (reached length).
+					updateProgress((long) (((logicOffset / 1024.0) * progressPerKB) + 2.0), 100);
+				}
+
+				// Finally, we send out the last chunk of data and disable
+				// writing.
+				logicChunk = BufferUtils.slice(logic, logicOffset, logicLength);
+
+				usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_FPGA_UPLOAD, (short) 3, (short) 0, logicChunk);
+
+				// Cleanup ByteBuffer.
+				logic.clear();
+			}
+
+			updateProgress(100, 100);
+
+			done();
+
+			return null;
 		}
-		if (logicLength < DAViS_FX3_SBL.MAX_TRANSFER_SIZE) {
-			throw new Exception("Size of data to send too small!");
-		}
-
-		// Initialize FPGA configuration.
-		usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_FPGA_UPLOAD, (short) 0, (short) 0, null);
-
-		// Then send the first chunk, which also enables writing.
-		int logicOffset = 0;
-
-		ByteBuffer logicChunk = BufferUtils.slice(logic, logicOffset, DAViS_FX3_SBL.MAX_TRANSFER_SIZE);
-
-		usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_FPGA_UPLOAD, (short) 1, (short) 0, logicChunk);
-
-		logicLength -= DAViS_FX3_SBL.MAX_TRANSFER_SIZE;
-		logicOffset += DAViS_FX3_SBL.MAX_TRANSFER_SIZE;
-
-		// And then we send out the actual data, in 4 KB chunks.
-		while (logicLength > DAViS_FX3_SBL.MAX_TRANSFER_SIZE) {
-			logicChunk = BufferUtils.slice(logic, logicOffset, DAViS_FX3_SBL.MAX_TRANSFER_SIZE);
-
-			usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_FPGA_UPLOAD, (short) 2, (short) 0, logicChunk);
-
-			logicLength -= DAViS_FX3_SBL.MAX_TRANSFER_SIZE;
-			logicOffset += DAViS_FX3_SBL.MAX_TRANSFER_SIZE;
-		}
-
-		// Finally, we send out the last chunk of data and disable writing.
-		logicChunk = BufferUtils.slice(logic, logicOffset, logicLength);
-
-		usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_FPGA_UPLOAD, (short) 3, (short) 0, logicChunk);
-	}
+	};
 
 	private int expData = 0;
 	private final boolean fullDebug = false;
