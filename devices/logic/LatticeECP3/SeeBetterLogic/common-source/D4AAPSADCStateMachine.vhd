@@ -80,13 +80,13 @@ architecture Behavioral of D4AAPSADCStateMachine is
 	-- present and next state
 	signal PixelState_DP, PixelState_DN : tPixelState;
 
-	type tRowSRState is (stIdle, stRSExposureStart, stRSExposureEnd, stGSReadout);
+	type tRowSRState is (stIdle, stRSExposureStart0, stRSExposureStart1, stRSExposureStart2, stRSExposure, stRSExposureEnd, stRSReadout, stGSReadout0, stGSReadout1);
 	attribute syn_enum_encoding of tRowSRState : type is "onehot";
 
 	-- present and next state
 	signal RowSRState_DP, RowSRState_DN : tRowSRState;
 	
-	type tChipADCState is (stIdle, stSettle, stConvert, stScan);
+	type tChipADCState is (stIdle, stSettle, stSample, stConvert, stScan);
 	attribute syn_enum_encoding of tChipADCState : type is "onehot";
 
 	-- present and next state
@@ -480,6 +480,7 @@ begin
 			when stGSReadoutStart =>
 				APSGSReg_SB <= '1';
 				RowReadPositionInc_S <= '1';
+				GSReadoutStart_S <= '1';
 				
 				if APSRowSRClockReg_C = '1' then
 					PixelState_DN <= stGSSample1;
@@ -548,60 +549,11 @@ begin
 				end if;
 				
 		end case;
-	end process columnMainStateMachine;
+	end process PixelStateMachine;
 
-	apsStandardROI : if ENABLE_QUAD_ROI = false generate
+	RowSRStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
 	begin
-		-- Concurrently calculate if the current row has to be read out or not.
-		-- If not (like with ROI), we can just fast jump parts of that row.
-		CurrentColumnAValid_S <= '1' when (ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn0_D) else '0';
-		CurrentColumnBValid_S <= '1' when (ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn0_D) else '0';
-
-		CurrentRowValid_S <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow0_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow0_D) else '0';
-	end generate apsStandardROI;
-
-	apsQuadROI : if ENABLE_QUAD_ROI = true generate
-		signal ColumnA0Valid_S : boolean := false;
-		signal ColumnA1Valid_S : boolean := false;
-		signal ColumnA2Valid_S : boolean := false;
-		signal ColumnA3Valid_S : boolean := false;
-
-		signal ColumnB0Valid_S : boolean := false;
-		signal ColumnB1Valid_S : boolean := false;
-		signal ColumnB2Valid_S : boolean := false;
-		signal ColumnB3Valid_S : boolean := false;
-
-		signal Row0Valid_S : boolean := false;
-		signal Row1Valid_S : boolean := false;
-		signal Row2Valid_S : boolean := false;
-		signal Row3Valid_S : boolean := false;
-	begin
-		-- Concurrently calculate if the current row has to be read out or not.
-		-- If not (like with ROI), we can just fast jump parts of that row.
-		ColumnA0Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn0_D;
-		ColumnB0Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn0_D;
-		Row0Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow0_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow0_D;
-
-		ColumnA1Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn1_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn1_D;
-		ColumnB1Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn1_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn1_D;
-		Row1Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow1_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow1_D;
-
-		ColumnA2Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn2_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn2_D;
-		ColumnB2Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn2_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn2_D;
-		Row2Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow2_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow2_D;
-
-		ColumnA3Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn3_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn3_D;
-		ColumnB3Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn3_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn3_D;
-		Row3Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow3_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow3_D;
-
-		CurrentColumnAValid_S <= '1' when (ColumnA0Valid_S or ColumnA1Valid_S or ColumnA2Valid_S or ColumnA3Valid_S) else '0';
-		CurrentColumnBValid_S <= '1' when (ColumnB0Valid_S or ColumnB1Valid_S or ColumnB2Valid_S or ColumnB3Valid_S) else '0';
-		CurrentRowValid_S     <= '1' when (Row0Valid_S or Row1Valid_S or Row2Valid_S or Row3Valid_S) else '0';
-	end generate apsQuadROI;
-
-	rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
-	begin
-		RowState_DN <= RowState_DP;
+		RowSRState_DN <= RowSRState_DP;
 
 		OutFifoWriteRegRow_S      <= '0';
 		OutFifoDataRegRowEnable_S <= '0';
@@ -621,121 +573,107 @@ begin
 		-- Column SM communication.
 		RowReadDone_SN <= '0';
 
-		case RowState_DP is
+		case RowSRState_DP is
 			when stIdle =>
-				-- Wait until the main column state machine signals us to do a row read.
-				if RowReadStart_SP = '1' then
-					RowState_DN <= stRowSRFeedInit;
+				APSRowSRInReg_S <= '0';
+				
+				if APSADCConfigReg_D.GlobalShutter_S = '0' and APSFrameInitiate_S = '1' then
+					RowSRState_DN <= stRSExposureStart0;
+				else if APSADCConfigReg_D.GlobalShutter_S = '1' and GSReadoutStart_S = '1' then
+					RowSRState_DN <= stGSReadout0;
 				end if;
 
-			when stRowSRFeedInit =>
-				-- We first feed in the row register pattern, since the column settle time
-				-- has to pass _after_ the first row has been selected.
-				APSChipRowSRClockReg_S <= '0';
-				APSChipRowSRInReg_S    <= '1';
+			when stRSExposureStart0 =>
+				APSRowSRInReg_S <= '1';
 
-				RowState_DN <= stRowSRFeedInitTick;
+				RowSRState_DN <= stRSExposureStart1;
 
-			when stRowSRFeedInitTick =>
-				APSChipRowSRClockReg_S <= '1';
-				APSChipRowSRInReg_S    <= '1';
+			when stRSExposureStart1 =>
+				APSRowSRInReg_S <= '1';
 
-				RowState_DN <= stColSettleWait;
+				RowSRState_DN <= stRSExposureStart2;
 
-			when stColSettleWait =>
-				-- Additional wait for the column selection to be valid, once both the colum and
-				-- the current row pattern have been shifted in. We do this here, because the row
-				-- pattern also has to have been shifted in for this to be effective.
-				if ColSettleTimeDone_S = '1' then
-					RowState_DN <= stRowStart;
+			when stRSExposureStart2 =>
+				APSRowSRInReg_S <= '1';
+
+				RowSRState_DN <= stRSExposure;
+				
+			when stRSExposure =>
+				APSRowSRInReg_S <= '0';
+				RSExposureTimeCount_S <= '1';
+				
+				if RSExposureTimeDone_S <= '1' then
+					RowSRState_DN <= stRSExposureEnd;
 				end if;
-
-				ColSettleTimeCount_S <= '1';
-
-			when stRowStart =>
-				-- Write event only if FIFO has place, else wait.
-				-- If fake read (COLMODE_NULL), don't write anything.
-				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-					if APSChipColModeReg_DP = COLMODE_READA then
-						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
-					else
-						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL;
-					end if;
-					OutFifoDataRegRowEnable_S <= '1';
-					OutFifoWriteRegRow_S      <= '1';
-				end if;
-
-				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-					-- Same decision to do here as in stRowSRFeedTick.
-					if CurrentRowValid_S = '1' then
-						RowState_DN <= stRowSettleWait;
-					else
-						RowState_DN <= stRowFastJump;
-					end if;
-				end if;
-
-			when stRowSRFeedTick =>
-				APSChipRowSRClockReg_S <= '1';
-				APSChipRowSRInReg_S    <= '0';
-
-				-- Check if we're done. This means that we just clock the 1 in the RowSR out,
-				-- leaving it clean at only zeros. Further, the row read position is at the
-				-- maximum, so we can detect that, zero it and exit.
+				
+			when stRSExposureEnd =>
+				APSRowSRInReg_S <= '1';
+				RSExposureTimeCount_S <= '0';
+				
+				RowSRState_DN <= stRSReadout;
+				
+			when stRSReadout =>
+				APSRowSRInReg_S <= '0';
+				
 				if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
-					RowState_DN           <= stRowDone;
-					RowReadPositionZero_S <= '1';
-				else
-					if CurrentRowValid_S = '1' then
-						RowState_DN <= stRowSettleWait;
-					else
-						RowState_DN <= stRowFastJump;
-					end if;
+					RowSRState_DN <= stIdle;
+				end if;
+					
+			when stGSReadout0 =>
+				APSRowSRInReg_S <= '1';
+				
+				RowSRState_DN <= stGSReadout1;
+				
+			when stGSReadout1 =>
+				APSRowSRInReg_S <= '0';
+				
+				if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
+					RowSRState_DN <= stIdle;
 				end if;
 
-			when stRowSettleWait =>
-				-- Wait for the row selection to be valid.
-				if RowSettleTimeDone_S = '1' then
-					RowState_DN <= stRowWriteEvent;
-				end if;
-
-				RowSettleTimeCount_S <= '1';
-
-			when stRowWriteEvent =>
-				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-					OutFifoDataRegRow_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
-					OutFifoDataRegRow_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= APSADCData_DI;
-
-					OutFifoDataRegRowEnable_S <= '1';
-					OutFifoWriteRegRow_S      <= '1';
-				end if;
-
-				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-					RowState_DN          <= stRowSRFeedTick;
-					RowReadPositionInc_S <= '1';
-				end if;
-
-			when stRowFastJump =>
-				RowState_DN          <= stRowSRFeedTick;
-				RowReadPositionInc_S <= '1';
-
-			when stRowDone =>
-				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-					OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
-					OutFifoDataRegRowEnable_S <= '1';
-					OutFifoWriteRegRow_S      <= '1';
-				end if;
-
-				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-					RowState_DN    <= stIdle;
-					RowReadDone_SN <= '1';
-				end if;
-
-			when others => null;
 		end case;
-	end process rowReadStateMachine;
+	end process RowSRStateMachine;
+	
+	ChipADCStateMachine : process()
+	begin
+		ChipADCState_DN <= ChipADCState_DP;
+		
+		case ChipADCState_DP is
+			when stIdle =>
+				ChipADCRampClearReg_S <= '1';
+				ChipADCRampBitInReg_S <= '0';
+				ChipADCRampClockReg_C <= '0';
+				ChipADCSampleReg_S <= '1';
+				
+				if ChipADCSample_S = '1' then
+					ChipADCState_DN <= stSettle;
+				end if;
+			
+			when stSettle =>
+				ChipADCSettleTimeCount_S <= '1';
+				
+				if ChipADCSettleTimeDone_S = '1' then
+					ChipADCState_DN <= stSample;
+				end if;
+			
+			when stSample =>
+				ChipADCSampleReg_S <= '0';
+				ChipADCRampClearReg_S <= '0';
+				ChipADCRampBitInReg_S <= '1';
+				
+				ChipADCState_DN <= stConvert;
+				
+			when stConvert =>
+				ChipADCRampBitInReg_S <= '0';
+				ChipADCRampCount_S <= '1';
+				
+				if ChipADCRampDone_S = '1' then
+					ChipADCState_DN <= stIdle;
+				end if;
 
+		end case;
+	end process ChipADCStateMachine;
+	
 	-- FIFO output can be driven by both the column or the row state machines.
 	-- Care must be taken to never have both at the same time output meaningful data.
 	OutFifoWriteReg_S      <= OutFifoWriteRegCol_S or OutFifoWriteRegRow_S;
