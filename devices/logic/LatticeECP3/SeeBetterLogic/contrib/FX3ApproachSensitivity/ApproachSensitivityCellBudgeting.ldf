@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="ApproachSensitivity" device="LFE3-17EA-6FTN256C" default_implementation="ApproachSensitivity">
+    <Options/>
+    <Implementation title="ApproachSensitivity" dir="ApproachSensitivity" description="ApproachSensitivity" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="ApproachCell"/>
+        <Source name="ApproachSensitivity/source/ApproachCellBudgeting.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="ApproachCell"/>
+        </Source>
+        <Source name="ApproachSensitivity.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="ApproachSensitivity1.sty"/>
+</BaliProject>
