@@ -1,0 +1,118 @@
+Selecting top level module ALU54A
+@N: CG364 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13523:7:13523:12|Synthesizing module ALU54A
+
+@W: CG532 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13713:0:13713:6|Initial statement will only initialize memories through the usage of $readmemh and $readmemb. Everything else is ignored
+@W: CG296 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15066:14:15066:91|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15076:27:15076:40|Referenced variable rnd_pattern_m1 is not in sensitivity list
+@W: CG290 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15075:27:15075:37|Referenced variable rnd_pattern is not in sensitivity list
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13632:8:13632:23|No assignment to input_c_clk_sig0
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13633:8:13633:23|No assignment to input_c_clk_sig1
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13634:8:13634:22|No assignment to output0_clk_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13635:8:13635:22|No assignment to output1_clk_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13636:8:13636:19|No assignment to flag_clk_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13637:8:13637:25|No assignment to opcodein_0_clk_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13638:8:13638:25|No assignment to opcodein_1_clk_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13639:8:13639:26|No assignment to opcodeop0_0_clk_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13640:8:13640:26|No assignment to opcodeop0_1_clk_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13641:8:13641:26|No assignment to opcodeop1_0_clk_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13641:29:13641:46|No assignment to opcodeop1_0_ce_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13641:49:13641:67|No assignment to opcodeop1_0_rst_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13642:8:13642:26|No assignment to opcodeop1_1_clk_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13642:29:13642:46|No assignment to opcodeop1_1_ce_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13642:49:13642:67|No assignment to opcodeop1_1_rst_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13661:15:13661:24|No assignment to mask01_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13662:15:13662:23|No assignment to mcpat_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13663:15:13663:25|No assignment to maskpat_sig
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13664:15:13664:25|No assignment to rnd_pattern
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13665:16:13665:26|No assignment to mask01_sig0
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13666:16:13666:25|No assignment to mcpat_sig0
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13667:16:13667:27|No assignment to maskpat_sig0
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13668:16:13668:27|No assignment to rnd_pattern0
+@W: CG133 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13669:12:13669:12|No assignment to i
+@W: CG360 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14096:9:14096:15|No assignment to wire PUR_sig
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15276:4:15276:9|Pruning register eqz_sync 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15276:4:15276:9|Pruning register eqzm_sync 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15276:4:15276:9|Pruning register eqom_sync 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15276:4:15276:9|Pruning register eqpatb_sync 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15276:4:15276:9|Pruning register eqpat_sync 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15276:4:15276:9|Pruning register over_sync 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15276:4:15276:9|Pruning register under_sync 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15276:4:15276:9|Pruning register overunder_sync 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15250:4:15250:9|Pruning register eqz_async 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15250:4:15250:9|Pruning register eqzm_async 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15250:4:15250:9|Pruning register eqom_async 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15250:4:15250:9|Pruning register eqpatb_async 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15250:4:15250:9|Pruning register eqpat_async 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15250:4:15250:9|Pruning register over_async 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15250:4:15250:9|Pruning register under_async 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15250:4:15250:9|Pruning register overunder_async 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15156:4:15156:9|Pruning register r_out_msb_sync[53:18] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15144:4:15144:9|Pruning register r_out_msb_async[53:18] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15120:4:15120:9|Pruning register r_out_lsb_sync[17:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15108:4:15108:9|Pruning register r_out_lsb_async[17:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14795:4:14795:9|Pruning register op10_sig_1_sync[2:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14783:4:14783:9|Pruning register op10_sig_1_async[2:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14771:4:14771:9|Pruning register op7_sig_1_sync 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14759:4:14759:9|Pruning register op7_sig_1_async 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14747:4:14747:9|Pruning register opin_sig_1_sync[6:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14735:4:14735:9|Pruning register opin_sig_1_async[6:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14657:4:14657:9|Pruning register op10_sig_0_sync[2:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14645:4:14645:9|Pruning register op10_sig_0_async[2:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14633:4:14633:9|Pruning register op7_sig_0_sync 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14621:4:14621:9|Pruning register op7_sig_0_async 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14609:4:14609:9|Pruning register opin_sig_0_sync[6:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14597:4:14597:9|Pruning register opin_sig_0_async[6:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14585:4:14585:9|Pruning register c_sig_sync1[26:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14573:4:14573:9|Pruning register c_sig_async1[26:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14561:4:14561:9|Pruning register c_sig_sync0[26:0] 
+
+@W: CL169 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":14549:4:14549:9|Pruning register c_sig_async0[26:0] 
+
+@W: CL118 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":15082:7:15082:10|Latch generated from always block for signal r_out[53:0]; possible missing assignment in an if or case statement.
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:6:13549:8|Input CE0 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:10:13549:12|Input CE1 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:14:13549:16|Input CE2 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:18:13549:20|Input CE3 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:22:13549:25|Input CLK0 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:27:13549:30|Input CLK1 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:32:13549:35|Input CLK2 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:37:13549:40|Input CLK3 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:42:13549:45|Input RST0 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:47:13549:50|Input RST1 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:52:13549:55|Input RST2 is unused
+@W: CL159 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\syntmp\ALU54A.v":13549:57:13549:60|Input RST3 is unused

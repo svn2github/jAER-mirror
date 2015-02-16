@@ -1,0 +1,64 @@
+Synopsys Lattice Technology Pre-mapping, Version maplat, Build 1062R, Built Nov 13 2014 09:43:00
+Copyright (C) 1994-2014, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use, reproduction, or distribution of this software is strictly prohibited.
+Product Version J-2014.09L
+
+Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 100MB)
+
+@L: E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\impl1_scck.rpt 
+Printing clock  summary report in "E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\impl1_scck.rpt" file 
+@N: MF248 |Running in 64-bit mode.
+@N: MF666 |Clock conversion enabled 
+
+Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 100MB peak: 102MB)
+
+
+Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 100MB peak: 102MB)
+
+
+Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 112MB peak: 112MB)
+
+
+Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 112MB peak: 114MB)
+
+@W: FX474 |User-specified initial value defined for some sequential elements which can prevent optimum synthesis results from being achieved. 
+@W: MT462 :"e:\code\devices\logic\latticeecp3\seebetterlogic\contrib\fx3approachsensitivity\approachsensitivity\source\approachcellbudgeting.vhd":87:58:87:58|Net un1_State_DP_3[0] appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"e:\code\devices\logic\latticeecp3\seebetterlogic\contrib\fx3approachsensitivity\approachsensitivity\source\approachcellbudgeting.vhd":87:58:87:58|Net un1_State_DP_7[0] appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"e:\code\devices\logic\latticeecp3\seebetterlogic\contrib\fx3approachsensitivity\approachsensitivity\source\approachcellbudgeting.vhd":87:58:87:58|Net un1_State_DP_8[0] appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"e:\code\devices\logic\latticeecp3\seebetterlogic\contrib\fx3approachsensitivity\approachsensitivity\source\approachcellbudgeting.vhd":87:58:87:58|Net un1_State_DP_4[0] appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"e:\code\devices\logic\latticeecp3\seebetterlogic\contrib\fx3approachsensitivity\approachsensitivity\source\approachcellbudgeting.vhd":98:3:98:6|Net un1_State_DP_6 appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"e:\code\devices\logic\latticeecp3\seebetterlogic\contrib\fx3approachsensitivity\approachsensitivity\source\approachcellbudgeting.vhd":98:3:98:6|Net un1_State_DP_10 appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"e:\code\devices\logic\latticeecp3\seebetterlogic\contrib\fx3approachsensitivity\approachsensitivity\source\approachcellbudgeting.vhd":98:3:98:6|Net un1_State_DP_9 appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"e:\code\devices\logic\latticeecp3\seebetterlogic\contrib\fx3approachsensitivity\approachsensitivity\source\approachcellbudgeting.vhd":98:3:98:6|Net un1_State_DP_5 appears to be an unidentified clock source. Assuming default frequency. 
+ICG Latch Removal Summary:
+Number of ICG latches removed:	0
+Number of ICG latches not removed:	0
+syn_allowed_resources : blockrams=38  set on top level netlist ApproachCell
+
+Finished netlist restructuring (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 139MB peak: 141MB)
+
+
+
+@S |Clock Summary
+****************
+
+Start                                      Requested     Requested     Clock                                    Clock                
+Clock                                      Frequency     Period        Type                                     Group                
+-------------------------------------------------------------------------------------------------------------------------------------
+ApproachCell|Clock_CI                      1.0 MHz       1000.000      inferred                                 Autoconstr_clkgroup_0
+ApproachCell|State_DP_derived_clock[1]     1.0 MHz       1000.000      derived (from ApproachCell|Clock_CI)     Autoconstr_clkgroup_0
+ApproachCell|State_DP_derived_clock[2]     1.0 MHz       1000.000      derived (from ApproachCell|Clock_CI)     Autoconstr_clkgroup_0
+ApproachCell|State_DP_derived_clock[3]     1.0 MHz       1000.000      derived (from ApproachCell|Clock_CI)     Autoconstr_clkgroup_0
+System                                     1.0 MHz       1000.000      system                                   system_clkgroup      
+=====================================================================================================================================
+
+@W: MT531 :"e:\code\devices\logic\latticeecp3\seebetterlogic\contrib\fx3approachsensitivity\approachsensitivity\source\approachcellbudgeting.vhd":98:3:98:6|Found signal identified as System clock which controls 128 sequential elements including Voff_7_7[31].  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. 
+@W: MT529 :"e:\code\devices\logic\latticeecp3\seebetterlogic\contrib\fx3approachsensitivity\approachsensitivity\source\approachcellbudgeting.vhd":265:2:265:3|Found inferred clock ApproachCell|Clock_CI which controls 324 sequential elements including Timestamp[0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+
+Pre-mapping successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 77MB peak: 141MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Feb 16 17:02:47 2015
+
+###########################################################]

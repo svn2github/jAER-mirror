@@ -1,0 +1,34 @@
+NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
+NOTE All Rights Reserved *
+NOTE DATE CREATED: Mon Feb 16 17:01:09 2015 *
+NOTE DESIGN NAME: ApproachCell *
+NOTE DEVICE NAME: LFE3-17EA-6FTBGA256 *
+NOTE PIN ASSIGNMENTS *
+NOTE PINS AC_Fire_O : L13 : out *
+NOTE PINS Clock_CI : D9 : in *
+NOTE PINS surroundSuppressionEnabled_I : K14 : in *
+NOTE PINS CounterOut_I[12] : R15 : in *
+NOTE PINS CounterOut_I[11] : L15 : in *
+NOTE PINS CounterOut_I[10] : N16 : in *
+NOTE PINS CounterOut_I[9] : L16 : in *
+NOTE PINS CounterOut_I[8] : M14 : in *
+NOTE PINS CounterOut_I[7] : N14 : in *
+NOTE PINS CounterOut_I[6] : N15 : in *
+NOTE PINS CounterOut_I[5] : P16 : in *
+NOTE PINS CounterOut_I[4] : M16 : in *
+NOTE PINS CounterOut_I[3] : K16 : in *
+NOTE PINS CounterOut_I[2] : P15 : in *
+NOTE PINS CounterOut_I[1] : R16 : in *
+NOTE PINS CounterOut_I[0] : K15 : in *
+NOTE PINS DecayEnable_I : J16 : in *
+NOTE PINS EventPolarity_I : L14 : in *
+NOTE PINS EventYAddr_I[4] : A11 : in *
+NOTE PINS EventYAddr_I[3] : C10 : in *
+NOTE PINS EventYAddr_I[2] : B11 : in *
+NOTE PINS EventXAddr_I[4] : B10 : in *
+NOTE PINS EventXAddr_I[3] : H16 : in *
+NOTE PINS EventXAddr_I[2] : C11 : in *
+NOTE PINS DVSEvent_I : K13 : in *
+NOTE PINS Reset_RI : J15 : in *
+NOTE CONFIGURATION MODE: SPI *
+NOTE COMPRESSION: off *

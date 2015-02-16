@@ -1,0 +1,8 @@
+C:\lscc\diamond\3.4_x64\synpbase\bin64\c_hdl.exe  -osyn  E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\synwork\impl1_comp.srs  -hdllog  E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\synlog\impl1_compiler.srr  -encrypt  -mp  1  -vhdl  -prodtype  synplify_pro  -dspmac -fixsmult -infer_seqShift -nram -divnmod -nostructver  -encrypt  -pro  -dmgen  E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\dm  -lite -ui -fid2 -ram -sharing on -ll 2000 -autosm  -ignore_undefined_lib  -lib work C:\lscc\diamond\3.4_x64\cae_library\synthesis\vhdl\ecp3.vhd -lib work E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\ApproachSensitivity\source\ApproachCellBudgeting.vhd 
+rc:0 success:1
+E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\synwork\impl1_comp.srs|o|1424102565|8972
+E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\synlog\impl1_compiler.srr|o|1424102565|120325
+C:\lscc\diamond\3.4_x64\cae_library\synthesis\vhdl\ecp3.vhd|i|1376989326|196741
+E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\ApproachSensitivity\source\ApproachCellBudgeting.vhd|i|1424102035|10845
+C:\lscc\diamond\3.4_x64\synpbase\bin\c_hdl.exe|i|1415613614|1018368
+C:\lscc\diamond\3.4_x64\synpbase\bin64\c_hdl.exe|i|1415613804|4251648

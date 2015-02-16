@@ -1,0 +1,7 @@
+C:\lscc\diamond\3.4_x64\synpbase\bin64\syn_nfilter.exe  -link  -multisrs  E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\synwork\impl1_comp.srs  -osyn  E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\synwork\impl1_mult.srs  -log  E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\synlog\impl1_multi_srs_gen.srr 
+rc:0 success:1
+E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\synwork\impl1_comp.srs|i|1424102565|8972
+E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\synwork\impl1_mult.srs|o|1424102567|9116
+E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\impl1\synlog\impl1_multi_srs_gen.srr|o|1424102567|832
+C:\lscc\diamond\3.4_x64\synpbase\bin\syn_nfilter.exe|i|1415613706|2752000
+C:\lscc\diamond\3.4_x64\synpbase\bin64\syn_nfilter.exe|i|1415613894|6354432

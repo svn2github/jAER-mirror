@@ -1,0 +1,27 @@
+----------------------------------------------------------------------
+Report for cell ApproachCell.behavioral
+
+Register bits: 279 of 17280 (2%)
+PIC Latch:       0
+I/O cells:       26
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                             ALU54A        1       100.0
+                              CCU2C      200       100.0
+                            FD1P3AX      192       100.0
+                            FD1P3DX        1       100.0
+                            FD1P3IX       64       100.0
+                            FD1S3BX        1       100.0
+                            FD1S3DX        8       100.0
+                                GSR        1       100.0
+                                 IB       25       100.0
+                           IFS1P3DX       13       100.0
+                                INV        1       100.0
+                         MULT18X18C        2       100.0
+                                 OB        1       100.0
+                           ORCALUT4      666       100.0
+                                PUR        1       100.0
+                                VHI        1       100.0
+                                VLO        1       100.0
+                            
+                         TOTAL          1179           

@@ -1,0 +1,22 @@
+
+fsm_encoding {924922491} onehot
+
+fsm_state_encoding {924922491} stidle {000000001}
+
+fsm_state_encoding {924922491} stdecay {000000010}
+
+fsm_state_encoding {924922491} stcheckpolarity {000000100}
+
+fsm_state_encoding {924922491} stonevent {000001000}
+
+fsm_state_encoding {924922491} stoffevent {000010000}
+
+fsm_state_encoding {924922491} stcomputeinputtoac {000100000}
+
+fsm_state_encoding {924922491} stcomputesynapticinput {001000000}
+
+fsm_state_encoding {924922491} stcomputemembranestate {010000000}
+
+fsm_state_encoding {924922491} stcomparetoifthreshold {100000000}
+
+fsm_registers {924922491} {State_DP[0]}  {State_DP[1]}  {State_DP[2]}  {State_DP[3]}  {State_DP[4]}  {State_DP[5]}  {State_DP[6]}  {State_DP[7]}  {State_DP[8]} 

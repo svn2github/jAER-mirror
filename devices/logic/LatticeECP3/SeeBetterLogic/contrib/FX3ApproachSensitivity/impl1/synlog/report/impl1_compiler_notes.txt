@@ -1,0 +1,11 @@
+@N|Running in 64-bit mode
+@N|Running in 64-bit mode
+@N: CD720 :"C:\lscc\diamond\3.4_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\ApproachSensitivity\source\ApproachCellBudgeting.vhd":11:7:11:18|Top entity is set to ApproachCell.
+@N: CD630 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\ApproachSensitivity\source\ApproachCellBudgeting.vhd":11:7:11:18|Synthesizing work.approachcell.behavioral 
+@N: CD231 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\ApproachSensitivity\source\ApproachCellBudgeting.vhd":49:12:49:13|Using onehot encoding for type state (stidle="100000000")
+@N: CL201 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\ApproachSensitivity\source\ApproachCellBudgeting.vhd":249:2:249:3|Trying to extract state machine for register State_DP
+@N|Running in 64-bit mode
+@N: NF107 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\ApproachSensitivity\source\ApproachCellBudgeting.vhd":11:7:11:18|Selected library: work cell: ApproachCell view behavioral as top level
+@N: NF107 :"E:\code\devices\logic\LatticeECP3\SeeBetterLogic\contrib\FX3ApproachSensitivity\ApproachSensitivity\source\ApproachCellBudgeting.vhd":11:7:11:18|Selected library: work cell: ApproachCell view behavioral as top level
+
