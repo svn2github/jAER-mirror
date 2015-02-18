@@ -60,4 +60,6 @@ package Settings is
 
 	constant DVS_AER_BUS_WIDTH : integer := DVS_AER_BUS_WIDTH;
 	constant APS_ADC_BUS_WIDTH : integer := APS_ADC_BUS_WIDTH;
+
+	constant CHIP_IS_FLIPPED : boolean := true;
 end Settings;
