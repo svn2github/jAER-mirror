@@ -76,19 +76,16 @@ architecture Behavioral of D4AAPSADCStateMachine is
 
 	type tPixelState is (stRSIdle, stRSRowSettle, stRSSample1, stRSChargeTransfer, stRSSample2, stRSCpReset, stRSCpSettle, stRSSample3, stGSIdle, stGSPDReset, stGSExposureStart, stGSChargeTransfer, stGSExposureEnd, stGSSwitchToReadout, stGSReadoutStart, stGSSample1, stGSFDReset, stGSSample2, stGSCpResetFD, stGSCpResetSettle, stGSSample3, stGSCurrentRowEnd);
 	attribute syn_enum_encoding of tPixelState : type is "onehot";
-
 	-- present and next state
 	signal PixelState_DP, PixelState_DN : tPixelState;
 
 	type tRowSRState is (stIdle, stRSExposureStart0, stRSExposureStart1, stRSExposureStart2, stRSExposure, stRSExposureEnd, stRSReadout, stGSReadout0, stGSReadout1);
 	attribute syn_enum_encoding of tRowSRState : type is "onehot";
-
 	-- present and next state
 	signal RowSRState_DP, RowSRState_DN : tRowSRState;
 	
 	type tChipADCState is (stIdle, stSettle, stSample, stConvert, stScan);
 	attribute syn_enum_encoding of tChipADCState : type is "onehot";
-
 	-- present and next state
 	signal ChipADCState_DP, ChipADCState_DN : tChipADCState;
 
@@ -101,7 +98,7 @@ architecture Behavioral of D4AAPSADCStateMachine is
 	constant COLMODE_RESETA : std_logic_vector(1 downto 0) := "11";
 
 	-- Take note if the ADC is running already or not. If not, it has to be started.
-	signal ADCRunning_SP, ADCRunning_SN : std_logic;
+	signal ChipADCSample_S, ChipADCSampleDone_S : std_logic;
 
 	signal ADCStartupCount_S, ADCStartupDone_S : std_logic;
 
@@ -121,7 +118,7 @@ architecture Behavioral of D4AAPSADCStateMachine is
 	signal ColSettleTimeCount_S, ColSettleTimeDone_S : std_logic;
 
 	-- Row settle time counter.
-	signal RowSettleTimeCount_S, RowSettleTimeDone_S : std_logic;
+	signal RSRowSettleTimeCount_S, RSRowSettleTimeDone_S : std_logic;
 
 	-- Column and row read counters.
 	signal ColumnReadAPositionZero_S, ColumnReadAPositionInc_S : std_logic;
@@ -171,18 +168,6 @@ architecture Behavioral of D4AAPSADCStateMachine is
 begin
 	-- Forward 30MHz clock directly to external ADC.
 	APSADCClock_CO <= Clock_CI;
-
-	adcStartupCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => ADC_STARTUP_CYCLES_SIZE)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => ADCStartupCount_S,
-			DataLimit_DI => to_unsigned(ADC_STARTUP_CYCLES - 1, ADC_STARTUP_CYCLES_SIZE),
-			Overflow_SO  => ADCStartupDone_S,
-			Data_DO      => open);
 
 	colReadAPosition : entity work.ContinuousCounter
 		generic map(
@@ -299,28 +284,13 @@ begin
 			Overflow_SO  => RSRowSettleTimeDone_S,
 			Data_DO      => open);
 
-	PixelStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, RowReadDone_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S, ExposureDone_S, FrameDelayDone_S)
+	PixelStateMachine : process(PixelState_DP, APSRowSRClockReg_C, RSRowSettleTimeDone_S, ChipADCSampleDone_S)
 	begin
 		PixelState_DN <= PixelState_DP;     -- Keep current state by default.
 
 		OutFifoWriteRegCol_S      <= '0';
 		OutFifoDataRegColEnable_S <= '0';
 		OutFifoDataRegCol_D       <= (others => '0');
-
-		ADCRunning_SN     <= ADCRunning_SP;
-		ADCStartupCount_S <= '0';
-
-		-- Keep ADC powered and OE by default, the Idle (start) state will
-		-- then negotiate the necessary settings, and when we're out of Idle,
-		-- they are always on anyway.
-		APSADCOutputEnableReg_SB <= '0';
-		APSADCStandbyReg_S       <= '0';
-
-		APSChipColSRClockReg_S <= '0';
-		APSChipColSRInReg_S    <= '0';
-
-		APSChipColModeReg_DN <= COLMODE_NULL;
-		APSChipTXGateReg_SN  <= APSChipTXGateReg_SP;
 
 		ExposureClear_S <= '0';
 
@@ -644,6 +614,7 @@ begin
 				ChipADCRampBitInReg_S <= '0';
 				ChipADCRampClockReg_C <= '0';
 				ChipADCSampleReg_S <= '1';
+				ChipADCSampleDone_S <= '0';
 				
 				if ChipADCSample_S = '1' then
 					ChipADCState_DN <= stSettle;
@@ -664,6 +635,8 @@ begin
 				ChipADCState_DN <= stConvert;
 				
 			when stConvert =>
+				ChipADCSample_S <= '0';
+				ChipADCSampleDone_S <= '1';
 				ChipADCRampBitInReg_S <= '0';
 				ChipADCRampCount_S <= '1';
 				
