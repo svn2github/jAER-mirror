@@ -145,7 +145,7 @@ public class UsbDevice {
 	 * Sends a vendor request with data (including special bits). This is a
 	 * blocking method.
 	 *
-	 * @param requestType
+	 * @param request
 	 *            the vendor requestType byte (used for special cases, usually
 	 *            0)
 	 * @param request
@@ -157,6 +157,7 @@ public class UsbDevice {
 	 * @param dataBuffer
 	 *            the data which is to be transmitted to the device (null means
 	 *            no data)
+         * @throws Exception on any exception
 	 */
 	synchronized public void sendVendorRequest(final byte request, final short value, final short index,
 		ByteBuffer dataBuffer) throws Exception {
@@ -196,6 +197,8 @@ public class UsbDevice {
 	 *            amount of data to receive, determines size of returned buffer
 	 *            (must be greater than 0)
 	 * @return a buffer containing the data requested from the device
+         * 
+         * @throws Exception on any exception
 	 */
 	synchronized public ByteBuffer sendVendorRequestIN(final byte request, final short value, final short index,
 		final int dataLength) throws Exception {
