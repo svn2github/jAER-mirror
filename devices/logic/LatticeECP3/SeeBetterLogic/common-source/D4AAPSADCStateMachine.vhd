@@ -100,17 +100,16 @@ architecture Behavioral of D4AAPSADCStateMachine is
 	-- Take note if the ADC is running already or not. If not, it has to be started.
 	signal ChipADCSample_S, ChipADCSampleDone_S : std_logic;
 
-	signal ADCStartupCount_S, ADCStartupDone_S : std_logic;
-
 	-- Exposure time counter.
-	signal ExposureClear_S, ExposureDone_S : std_logic;
+	signal ExposureTimeCount_S, ExposureTimeDone_S : std_logic;
 
-	-- Frame delay (between consecutive frames) counter.
-	signal FrameDelayCount_S, FrameDelayDone_S : std_logic;
+	-- Transfer time counter.
+	signal TransferTimeCount_S, TransferTimeDone_S : std_logic;
 
 	-- Reset time counter (make bigger to allow for long resets if needed).
-	signal ResetTimeCount_S, ResetTimeDone_S : std_logic;
-
+	signal RSCpResetTimeCount_S, RSCpResetTimeDone_S : std_logic;
+	signal RSCpSettleTimeCount_S, RSCpSettleTimeDone_S : std_logic;
+	
 	-- Lengthen the NULL states between different, active column states.
 	signal NullTimeCount_S, NullTimeDone_S : std_logic;
 
@@ -211,65 +210,53 @@ begin
 			Overflow_SO  => open,
 			Data_DO      => RowReadPosition_D);
 
-	exposureCounter : entity work.ContinuousCounter
+	ExposureTimeCounter : entity work.ContinuousCounter
 		generic map(
 			SIZE              => APS_EXPOSURE_SIZE,
 			RESET_ON_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
-			Clear_SI     => ExposureClear_S,
-			Enable_SI    => '1',
+			Clear_SI     => '0',
+			Enable_SI    => ExposureTimeCount_S,
 			DataLimit_DI => APSADCConfigReg_D.Exposure_D,
-			Overflow_SO  => ExposureDone_S,
+			Overflow_SO  => ExposureTimeDone_S,
 			Data_DO      => open);
 
-	frameDelayCounter : entity work.ContinuousCounter
+	RSCpResetTimeCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => APS_FRAMEDELAY_SIZE)
+			SIZE => APS_RSCPRESETTIME_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
-			Enable_SI    => FrameDelayCount_S,
-			DataLimit_DI => APSADCConfigReg_D.FrameDelay_D,
-			Overflow_SO  => FrameDelayDone_S,
+			Enable_SI    => RSCpResetTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.RSCpReset_D,
+			Overflow_SO  => RSCpResetTimeDone_S,
 			Data_DO      => open);
-
-	nullTimeCounter : entity work.ContinuousCounter
+	
+	RSCpSettleTimeCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => APS_NULLTIME_SIZE)
+			SIZE => APS_RSCPSETTLETIME_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
-			Enable_SI    => NullTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.NullSettle_D,
-			Overflow_SO  => NullTimeDone_S,
+			Enable_SI    => RSCpSettleTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.RSCpSettle_D,
+			Overflow_SO  => RSCpSettleTimeDone_S,
 			Data_DO      => open);
 
-	resetTimeCounter : entity work.ContinuousCounter
+	TransferTimeCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => APS_RESETTIME_SIZE)
+			SIZE => APS_TRANSFERTIME_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
-			Enable_SI    => ResetTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.ResetSettle_D,
-			Overflow_SO  => ResetTimeDone_S,
-			Data_DO      => open);
-
-	columnSettleTimeCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => APS_COLSETTLETIME_SIZE)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => ColSettleTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.ColumnSettle_D,
-			Overflow_SO  => ColSettleTimeDone_S,
+			Enable_SI    => TransferTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.Transfer_D,
+			Overflow_SO  => TransferTimeDone_S,
 			Data_DO      => open);
 
 	RSRowSettleTimeCounter : entity work.ContinuousCounter
@@ -284,7 +271,7 @@ begin
 			Overflow_SO  => RSRowSettleTimeDone_S,
 			Data_DO      => open);
 
-	PixelStateMachine : process(PixelState_DP, APSRowSRClockReg_C, RSRowSettleTimeDone_S, ChipADCSampleDone_S)
+	PixelStateMachine : process(PixelState_DP, APSRowSRClockReg_C, RSRowSettleTimeDone_S, ChipADCSampleDone_S, ExposureTimeDone_S)
 	begin
 		PixelState_DN <= PixelState_DP;     -- Keep current state by default.
 
@@ -292,27 +279,27 @@ begin
 		OutFifoDataRegColEnable_S <= '0';
 		OutFifoDataRegCol_D       <= (others => '0');
 
-		ExposureClear_S <= '0';
-
-		FrameDelayCount_S <= '0';
+		ExposureTimeCount_S <= '0';
+		RSRowSettleTimeCount_S <= '0';
+		ChipADCSample_S <= '0';
+		TransferTimeCount_S <= '0';
+		RSCpResetTimeCount_S <= '0';
+		RSCpSettleTimeCount_S <= '0';
 
 		-- Colum counters.
-		ColumnReadAPositionZero_S <= '0';
-		ColumnReadAPositionInc_S  <= '0';
-		ColumnReadBPositionZero_S <= '0';
-		ColumnReadBPositionInc_S  <= '0';
+		
 
 		-- Reset time counter.
-		ResetTimeCount_S <= '0';
+		
 
 		-- Null time counter.
-		NullTimeCount_S <= '0';
+		
 
 		-- Row SM communication.
-		RowReadStart_SN <= '0';
+		
 
 		-- Keep value by default.
-		ReadBSRStatus_DN <= ReadBSRStatus_DP;
+		
 
 		-- Only update configuration when in Idle state. Doing so while the frame is being read out
 		-- would cause different timing, exposure and read out types, resulting in corrupted frames.
@@ -351,14 +338,14 @@ begin
 			when stRSChargeTransfer =>
 				ChipADCSample_S <= '0';
 				APSTXReg_S <= '1';
-				RSTransferTimeCount_S <= '1';
+				TransferTimeCount_S <= '1';
 
-				if RSTransferTimeDone_S = '1' then
+				if TransferTimeDone_S = '1' then
 					PixelState_DN <= stRSSample2;
 				end if;
 
 			when stRSSample2 =>
-				RSTransferTimeCount_S <= '0';
+				TransferTimeCount_S <= '0';
 				APSTXReg_S <= '0';
 				ChipADCSample_S <= '1';
 				
@@ -417,24 +404,24 @@ begin
 			when stGSExposureStart =>
 				GSPDResetTimeCount_S <= '0';
 				APSOVGReg_S <= '0';
-				GSExposureTimeCount_S <= '1';
+				ExposureTimeCount_S <= '1';
 				
-				if GSExposureTimeDone_S = '1' then
+				if ExposureTimeDone_S = '1' then
 					PixelState_DN <= stGSChargeTransfer;
 				end if;
 				
 			when stGSChargeTransfer =>
-				GSExposureTimeCount_S <= '0';
+				ExposureTimeCount_S <= '0';
 				APSRSTReg_S <= '0';
 				APSTXReg_S <= '1';
-				GSTransferTimeCount_S <= '1';
+				TransferTimeCount_S <= '1';
 				
-				if GSTransferTimeDone_S = '1' then
+				if TransferTimeDone_S = '1' then
 					PixelState_DN <= stGSExposureEnd;
 				end if;
 				
 			when stGSExposureEnd =>
-				GSTransferTimeCount_S <= '0';
+				TransferTimeCount_S <= '0';
 				APSTXReg_S <= '0';
 				GSTXFallTimeCount_S <= '1';
 				
@@ -570,15 +557,15 @@ begin
 				
 			when stRSExposure =>
 				APSRowSRInReg_S <= '0';
-				RSExposureTimeCount_S <= '1';
+				ExposureTimeCount_S <= '1';
 				
-				if RSExposureTimeDone_S <= '1' then
+				if ExposureTimeDone_S <= '1' then
 					RowSRState_DN <= stRSExposureEnd;
 				end if;
 				
 			when stRSExposureEnd =>
 				APSRowSRInReg_S <= '1';
-				RSExposureTimeCount_S <= '0';
+				ExposureTimeCount_S <= '0';
 				
 				RowSRState_DN <= stRSReadout;
 				
