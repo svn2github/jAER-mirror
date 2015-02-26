@@ -146,9 +146,6 @@ public class UsbDevice {
 	 * blocking method.
 	 *
 	 * @param request
-	 *            the vendor requestType byte (used for special cases, usually
-	 *            0)
-	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
 	 *            the value of the request (bValue USB field)
@@ -157,7 +154,9 @@ public class UsbDevice {
 	 * @param dataBuffer
 	 *            the data which is to be transmitted to the device (null means
 	 *            no data)
-         * @throws Exception on any exception
+	 *
+	 * @throws Exception
+	 *             on any exception
 	 */
 	synchronized public void sendVendorRequest(final byte request, final short value, final short index,
 		ByteBuffer dataBuffer) throws Exception {
@@ -196,9 +195,11 @@ public class UsbDevice {
 	 * @param dataLength
 	 *            amount of data to receive, determines size of returned buffer
 	 *            (must be greater than 0)
+	 *
 	 * @return a buffer containing the data requested from the device
-         * 
-         * @throws Exception on any exception
+	 *
+	 * @throws Exception
+	 *             on any exception
 	 */
 	synchronized public ByteBuffer sendVendorRequestIN(final byte request, final short value, final short index,
 		final int dataLength) throws Exception {
@@ -224,10 +225,8 @@ public class UsbDevice {
 			throw new Exception("Wrong number of bytes transferred, wanted: " + dataLength + ", got: " + status);
 		}
 
-		// Update ByteBuffer internal limit to show how much was successfully
-		// read.
-		// usb4java never touches the ByteBuffer's internals by design, so we do
-		// it here.
+		// Update ByteBuffer internal limit to show how much was successfully read.
+		// usb4java never touches the ByteBuffer's internals by design, so we do it here.
 		dataBuffer.limit(dataLength);
 
 		return (dataBuffer);
