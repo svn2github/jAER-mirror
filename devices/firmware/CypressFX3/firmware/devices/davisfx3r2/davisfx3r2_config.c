@@ -40,8 +40,8 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 #define FPGA_RESET 50
 
 // Memory and device addresses.
-#define SNUM_MEMORY_ADDRESS 0x330000
-#define FPGA_MEMORY_ADDRESS 0x030000
+#define SNUM_MEMORY_ADDRESS 0x00300000
+#define FPGA_MEMORY_ADDRESS 0x00030000
 #define FPGA_SPI_ADDRESS 57
 #define FCONFIG_SPI_ADDRESS 52
 
