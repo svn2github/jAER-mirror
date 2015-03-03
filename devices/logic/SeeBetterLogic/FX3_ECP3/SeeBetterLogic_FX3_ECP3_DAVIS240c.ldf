@@ -141,28 +141,46 @@
         <Source name="../common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/chipdefs/davis240/DAVIS240c.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/ChipBiasSelector.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/ChipBiasConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/chipdefs/davis240/DAVIS240c.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/chipdefs/davis128/DAVIS128StateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/chipdefs/davis240/DAVIS240ConfigRecords.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis240/DAVIS240SPIConfig.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis240/DAVIS240StateMachine.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/chipdefs/davis128/DAVIS128SPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/chipdefs/davis128/DAVIS128ConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/chipdefs/davis240/DAVIS240StateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/chipdefs/davis240/DAVIS240SPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/chipdefs/davis240/DAVIS240ConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/chipdefs/davis346/DAVIS346StateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/chipdefs/davis346/DAVIS346SPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/chipdefs/davis346/DAVIS346ConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/chipdefs/davisRGB/DAVISrgbStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/chipdefs/davisRGB/DAVISrgbSPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/chipdefs/davisRGB/DAVISrgbConfigRecords.vhd" type="VHDL" type_short="VHDL">
