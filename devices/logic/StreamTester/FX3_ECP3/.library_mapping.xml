@@ -3,8 +3,8 @@
   <Mappings Location="Common Libraries/IEEE" Library="ieee"/>
   <Mappings Location="Common Libraries/IEEE Synopsys" Library="ieee"/>
   <Mappings Location="Common Libraries" Library="not mapped"/>
-  <Mappings Location="StreamTester_FX3R2" Library="not mapped"/>
-  <Mappings Location="StreamTester_FX3R2_tcr.dir" Library="not mapped"/>
+  <Mappings Location="StreamTester_FX3_ECP3" Library="not mapped"/>
+  <Mappings Location="StreamTester_FX3_ECP3_tcr.dir" Library="not mapped"/>
   <Mappings Location="common-source/APSADCConfigRecords.vhd" Library="not mapped"/>
   <Mappings Location="common-source/APSADCSPIConfig.vhd" Library="not mapped"/>
   <Mappings Location="common-source/APSADCStateMachine.vhd" Library="not mapped"/>
