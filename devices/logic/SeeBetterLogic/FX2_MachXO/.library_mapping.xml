@@ -8,6 +8,9 @@
   <Mappings Location="SeeBetterLogic_FX2_MachXO_DAVIS240b" Library="not mapped"/>
   <Mappings Location="SeeBetterLogic_FX2_MachXO_DAVIS240b_tcr.dir" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVIS240b.vhd" Library="not mapped"/>
+  <Mappings Location="SeeBetterLogic_FX2_MachXO_DAVIS240c" Library="not mapped"/>
+  <Mappings Location="SeeBetterLogic_FX2_MachXO_DAVIS240c_tcr.dir" Library="not mapped"/>
+  <Mappings Location="private-source/Settings_DAVIS240c.vhd" Library="not mapped"/>
   <Mappings Location="Common Libraries/STD" Library="std"/>
   <Mappings Location="" Library="work"/>
 </com.sigasi.hdt.shared.librarymapping.model:LibraryMappings>
