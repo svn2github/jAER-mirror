@@ -9,10 +9,10 @@ optionList=Operation;Write Header and Comments;Rev D Standard SVF;RUNTEST from R
 valueList=FLASH Erase,Program,Verify;Off;Off;On;Off;On;On;8
 
 [Input File Info]
-inputFileList=E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX2/SeeBetterLogic_FX2_DAVIS240a/SeeBetterLogic_FX2_DAVIS240a_SeeBetterLogic_FX2_DAVIS240a.jed
+inputFileList=E:/JAER_SVN/devices/logic/SeeBetterLogic/FX2_MachXO/SeeBetterLogic_FX2_MachXO_DAVIS240a/SeeBetterLogic_FX2_MachXO_DAVIS240a_SeeBetterLogic_FX2_MachXO_DAVIS240a.jed
 familyList=MachXO
 deviceList=LCMXO2280C
-outputFileList=E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX2/SeeBetterLogic_FX2_DAVIS240a/SeeBetterLogic_FX2_DAVIS240a.svf
+outputFileList=E:/JAER_SVN/devices/logic/SeeBetterLogic/FX2_MachXO/SeeBetterLogic_FX2_MachXO_DAVIS240a/SeeBetterLogic_FX2_MachXO_DAVIS240a.svf
 
 [Command Line]
-Command="C:/lscc/diamond/3.2_x64/bin/nt64/ddtcmd" -oft -svfsingle -if "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX2/SeeBetterLogic_FX2_DAVIS240a/SeeBetterLogic_FX2_DAVIS240a_SeeBetterLogic_FX2_DAVIS240a.jed" -dev LCMXO2280C -op "FLASH Erase,Program,Verify" -nocomments -runtest -reset -maxdata 8 -of "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX2/SeeBetterLogic_FX2_DAVIS240a/SeeBetterLogic_FX2_DAVIS240a.svf"
+Command="C:/lscc/diamond/3.2_x64/bin/nt64/ddtcmd" -oft -svfsingle -if "E:/JAER_SVN/devices/logic/SeeBetterLogic/FX2_MachXO/SeeBetterLogic_FX2_MachXO_DAVIS240a/SeeBetterLogic_FX2_MachXO_DAVIS240a_SeeBetterLogic_FX2_MachXO_DAVIS240a.jed" -dev LCMXO2280C -op "FLASH Erase,Program,Verify" -nocomments -runtest -reset -maxdata 8 -of "E:/JAER_SVN/devices/logic/SeeBetterLogic/FX2_MachXO/SeeBetterLogic_FX2_MachXO_DAVIS240a/SeeBetterLogic_FX2_MachXO_DAVIS240a.svf"
