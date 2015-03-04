@@ -369,8 +369,8 @@ begin
 	dvsAerSM : entity work.DVSAERStateMachine
 		generic map(
 			FLIP_COLUMN_ADDRESS        => true,
-			ENABLE_PIXEL_FILTERING     => true,
-			ENABLE_BA_FILTERING        => true,
+			ENABLE_PIXEL_FILTERING     => false,
+			ENABLE_BA_FILTERING        => false,
 			BA_FILTER_SUBSAMPLE_COLUMN => 1,
 			BA_FILTER_SUBSAMPLE_ROW    => 1)
 		port map(
@@ -387,8 +387,8 @@ begin
 
 	dvsaerSPIConfig : entity work.DVSAERSPIConfig
 		generic map(
-			ENABLE_PIXEL_FILTERING => true,
-			ENABLE_BA_FILTERING    => true)
+			ENABLE_PIXEL_FILTERING => false,
+			ENABLE_BA_FILTERING    => false)
 		port map(
 			Clock_CI                   => LogicClock_C,
 			Reset_RI                   => LogicReset_R,
@@ -419,7 +419,7 @@ begin
 
 	apsAdcSM : entity work.APSADCStateMachine
 		generic map(
-			ENABLE_QUAD_ROI => true)
+			ENABLE_QUAD_ROI => false)
 		port map(
 			Clock_CI               => ADCClock_C,
 			Reset_RI               => ADCReset_R,
@@ -440,7 +440,7 @@ begin
 
 	apsadcSPIConfig : entity work.APSADCSPIConfig
 		generic map(
-			ENABLE_QUAD_ROI => true)
+			ENABLE_QUAD_ROI => false)
 		port map(
 			Clock_CI                   => LogicClock_C,
 			Reset_RI                   => LogicReset_R,

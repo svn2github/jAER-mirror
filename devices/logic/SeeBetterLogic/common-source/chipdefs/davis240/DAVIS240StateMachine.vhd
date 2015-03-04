@@ -32,16 +32,16 @@ architecture Behavioral of DAVIS240StateMachine is
 		            stAckAndLoadBias7, stAckAndLoadBias8, stAckAndLoadBias9, stAckAndLoadBias10, stAckAndLoadBias11, stAckAndLoadBias12, stAckAndLoadBias13,
 		            stAckAndLoadBias14, stAckAndLoadBias15, stAckAndLoadBias16, stAckAndLoadBias17, stAckAndLoadBias18, stAckAndLoadBias19, stAckAndLoadBias20,
 		            stAckAndLoadBias21, stPrepareSendBiasAddress, stSendBiasAddress, stPrepareSendBias, stSendBias, stAckAndLoadChip, stPrepareSendChip,
-		            stSendChip, stLatch);
+		            stSendChip, stLatchBias, stLatchChip);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	signal State_DP, State_DN : tState;
 
 	-- Bias clock frequency in MHz.
-	constant BIAS_CLOCK_FREQ : integer := 20;
+	constant BIAS_CLOCK_FREQ : integer := 1;
 
 	-- How long the latch should be asserted, based on bias clock frequency.
-	constant LATCH_LENGTH : integer := 2;
+	constant LATCH_LENGTH : integer := 5;
 
 	-- Calculated values in cycles.
 	constant BIAS_CLOCK_CYCLES : integer := LOGIC_CLOCK_FREQ / BIAS_CLOCK_FREQ;
@@ -633,13 +633,29 @@ begin
 						SentBitsCounterClear_S  <= '1';
 
 						-- Move to next state, this SR is fully shifted out now.
-						State_DN <= stLatch;
+						State_DN <= stLatchBias;
 					end if;
 				end if;
 
 				-- Clock data. Default clock is HIGH, so we pull it LOW during the second half of its period.
 				if WaitCyclesCounterData_D >= to_unsigned(BIAS_CLOCK_CYCLES / 2, WAIT_CYCLES_COUNTER_SIZE) then
 					ChipBiasClockReg_CB <= '0';
+				end if;
+
+			when stLatchBias =>
+				-- Default flags are fine here for bias SR.
+
+				-- Latch new config.
+				ChipBiasLatchReg_SB <= '0';
+
+				-- Keep latch active for a few cycles.
+				WaitCyclesCounterEnable_S <= '1';
+
+				if WaitCyclesCounterData_D = to_unsigned(LATCH_CYCLES - 1, WAIT_CYCLES_COUNTER_SIZE) then
+					WaitCyclesCounterEnable_S <= '0';
+					WaitCyclesCounterClear_S  <= '1';
+
+					State_DN <= stIdle;
 				end if;
 
 			when stAckAndLoadChip =>
@@ -701,12 +717,12 @@ begin
 					-- Count up one, this bit is done!
 					SentBitsCounterEnable_S <= '1';
 
-					if SentBitsCounterData_D = to_unsigned(BIAS_REG_LENGTH - 1, SENT_BITS_COUNTER_SIZE) then
+					if SentBitsCounterData_D = to_unsigned(CHIP_REG_LENGTH - 1, SENT_BITS_COUNTER_SIZE) then
 						SentBitsCounterEnable_S <= '0';
 						SentBitsCounterClear_S  <= '1';
 
 						-- Move to next state, this SR is fully shifted out now.
-						State_DN <= stLatch;
+						State_DN <= stLatchChip;
 					end if;
 				end if;
 
@@ -715,7 +731,10 @@ begin
 					ChipBiasClockReg_CB <= '0';
 				end if;
 
-			when stLatch =>
+			when stLatchChip =>
+				-- Set flags as needed for chip diag SR.
+				ChipBiasDiagSelectReg_S <= '1';
+
 				-- Latch new config.
 				ChipBiasLatchReg_SB <= '0';
 
