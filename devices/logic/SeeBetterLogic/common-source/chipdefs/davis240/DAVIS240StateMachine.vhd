@@ -32,19 +32,19 @@ architecture Behavioral of DAVIS240StateMachine is
 		            stAckAndLoadBias7, stAckAndLoadBias8, stAckAndLoadBias9, stAckAndLoadBias10, stAckAndLoadBias11, stAckAndLoadBias12, stAckAndLoadBias13,
 		            stAckAndLoadBias14, stAckAndLoadBias15, stAckAndLoadBias16, stAckAndLoadBias17, stAckAndLoadBias18, stAckAndLoadBias19, stAckAndLoadBias20,
 		            stAckAndLoadBias21, stPrepareSendBiasAddress, stSendBiasAddress, stPrepareSendBias, stSendBias, stAckAndLoadChip, stPrepareSendChip,
-		            stSendChip, stLatchBias, stLatchChip);
+		            stSendChip, stLatchBias, stLatchChip, stLatchBiasAddress);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	signal State_DP, State_DN : tState;
 
-	-- Bias clock frequency in MHz.
-	constant BIAS_CLOCK_FREQ : integer := 1;
+	-- Bias clock frequency in KHz.
+	constant BIAS_CLOCK_FREQ : integer := 100;
 
 	-- How long the latch should be asserted, based on bias clock frequency.
-	constant LATCH_LENGTH : integer := 5;
+	constant LATCH_LENGTH : integer := 10;
 
 	-- Calculated values in cycles.
-	constant BIAS_CLOCK_CYCLES : integer := LOGIC_CLOCK_FREQ / BIAS_CLOCK_FREQ;
+	constant BIAS_CLOCK_CYCLES : integer := LOGIC_CLOCK_FREQ * (1000 / BIAS_CLOCK_FREQ);
 	constant LATCH_CYCLES      : integer := BIAS_CLOCK_CYCLES * LATCH_LENGTH;
 
 	-- Calcualted length of cycles counter. Based on latch cycles, since biggest value.
@@ -587,13 +587,31 @@ begin
 						SentBitsCounterClear_S  <= '1';
 
 						-- Move to next state, this SR is fully shifted out now.
-						State_DN <= stPrepareSendBias;
+						State_DN <= stLatchBiasAddress;
 					end if;
 				end if;
 
-				-- Clock data. Default clock is HIGH, so we pull it LOW during the second half of its period.
-				if WaitCyclesCounterData_D >= to_unsigned(BIAS_CLOCK_CYCLES / 2, WAIT_CYCLES_COUNTER_SIZE) then
+				-- Clock data. Default clock is HIGH, so we pull it LOW during the middle half of its period.
+				-- This way both clock edges happen when the data is stable.
+				if WaitCyclesCounterData_D >= to_unsigned(BIAS_CLOCK_CYCLES / 4, WAIT_CYCLES_COUNTER_SIZE) and WaitCyclesCounterData_D <= to_unsigned(BIAS_CLOCK_CYCLES / 4 * 3, WAIT_CYCLES_COUNTER_SIZE) then
 					ChipBiasClockReg_CB <= '0';
+				end if;
+
+			when stLatchBiasAddress =>
+				-- Set flags as needed for bias address SR.
+				ChipBiasAddrSelectReg_SB <= '0';
+
+				-- Latch new config.
+				ChipBiasLatchReg_SB <= '0';
+
+				-- Keep latch active for a few cycles.
+				WaitCyclesCounterEnable_S <= '1';
+
+				if WaitCyclesCounterData_D = to_unsigned(LATCH_CYCLES - 1, WAIT_CYCLES_COUNTER_SIZE) then
+					WaitCyclesCounterEnable_S <= '0';
+					WaitCyclesCounterClear_S  <= '1';
+
+					State_DN <= stPrepareSendBias;
 				end if;
 
 			when stPrepareSendBias =>
@@ -637,8 +655,9 @@ begin
 					end if;
 				end if;
 
-				-- Clock data. Default clock is HIGH, so we pull it LOW during the second half of its period.
-				if WaitCyclesCounterData_D >= to_unsigned(BIAS_CLOCK_CYCLES / 2, WAIT_CYCLES_COUNTER_SIZE) then
+				-- Clock data. Default clock is HIGH, so we pull it LOW during the middle half of its period.
+				-- This way both clock edges happen when the data is stable.
+				if WaitCyclesCounterData_D >= to_unsigned(BIAS_CLOCK_CYCLES / 4, WAIT_CYCLES_COUNTER_SIZE) and WaitCyclesCounterData_D <= to_unsigned(BIAS_CLOCK_CYCLES / 4 * 3, WAIT_CYCLES_COUNTER_SIZE) then
 					ChipBiasClockReg_CB <= '0';
 				end if;
 
@@ -726,8 +745,9 @@ begin
 					end if;
 				end if;
 
-				-- Clock data. Default clock is HIGH, so we pull it LOW during the second half of its period.
-				if WaitCyclesCounterData_D >= to_unsigned(BIAS_CLOCK_CYCLES / 2, WAIT_CYCLES_COUNTER_SIZE) then
+				-- Clock data. Default clock is HIGH, so we pull it LOW during the middle half of its period.
+				-- This way both clock edges happen when the data is stable.
+				if WaitCyclesCounterData_D >= to_unsigned(BIAS_CLOCK_CYCLES / 4, WAIT_CYCLES_COUNTER_SIZE) and WaitCyclesCounterData_D <= to_unsigned(BIAS_CLOCK_CYCLES / 4 * 3, WAIT_CYCLES_COUNTER_SIZE) then
 					ChipBiasClockReg_CB <= '0';
 				end if;
 
