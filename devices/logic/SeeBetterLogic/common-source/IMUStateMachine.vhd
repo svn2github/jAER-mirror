@@ -458,7 +458,7 @@ begin
 		end case;
 	end process i2cData;
 
-	imuLogic : process(State_DP, OutFifoControl_SI, IMUConfigReg_D, IMUInterrupt_SI, I2CDone_SP, I2CError_SP, I2CReadSROutput_D, AccelFullScaleChanged_S, DigitalLowPassFilterChanged_S, GyroFullScaleChanged_S, InterruptConfigChanged_S, InterruptEnableChanged_S, LPCycleTempStandbyChanged_S, LPWakeupAccelGyroStandbyChanged_S, RunChanged_S, RunDelayed_S, SampleRateDividerChanged_S)
+	imuLogic : process(State_DP, OutFifoControl_SI, IMUConfigReg_D, IMUInterrupt_SI, I2CDone_SP, I2CError_SP, I2CReadSROutput_D, AccelFullScaleChanged_S, DigitalLowPassFilterChanged_S, GyroFullScaleChanged_S, InterruptConfigChanged_S, InterruptEnableChanged_S, LPCycleTempStandbyChanged_S, LPWakeupAccelGyroStandbyChanged_S, RunChanged_S, RunDelayed_S, SampleRateDividerChanged_S, ScaleReg_D)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 

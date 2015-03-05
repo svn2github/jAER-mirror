@@ -108,6 +108,7 @@ begin
 		DVSAERAckReg_SB   <= '1';       -- No AER ACK by default.
 		DVSAERResetReg_SB <= '1';       -- Keep DVS out of reset by default, so we don't have to repeat this in every state.
 
+		AckCount_S <= '0';
 		AckLimit_D <= (others => '1');
 
 		case State_DP is
