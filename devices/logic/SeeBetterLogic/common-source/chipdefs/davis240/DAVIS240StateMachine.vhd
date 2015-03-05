@@ -32,7 +32,7 @@ architecture Behavioral of DAVIS240StateMachine is
 		            stAckAndLoadBias7, stAckAndLoadBias8, stAckAndLoadBias9, stAckAndLoadBias10, stAckAndLoadBias11, stAckAndLoadBias12, stAckAndLoadBias13,
 		            stAckAndLoadBias14, stAckAndLoadBias15, stAckAndLoadBias16, stAckAndLoadBias17, stAckAndLoadBias18, stAckAndLoadBias19, stAckAndLoadBias20,
 		            stAckAndLoadBias21, stPrepareSendBiasAddress, stSendBiasAddress, stPrepareSendBias, stSendBias, stAckAndLoadChip, stPrepareSendChip,
-		            stSendChip, stLatchBias, stLatchChip, stLatchBiasAddress);
+		            stSendChip, stLatchBiasAddress, stLatchBias, stLatchChip);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	signal State_DP, State_DN : tState;

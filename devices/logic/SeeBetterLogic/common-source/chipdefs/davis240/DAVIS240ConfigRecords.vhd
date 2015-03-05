@@ -170,11 +170,11 @@ package DAVIS240ChipBiasConfigRecords is
 		AnalogMux1_D          => (others => '0'),
 		AnalogMux2_D          => (others => '0'),
 		BiasOutMux_D          => (others => '0'),
-		ResetCalibNeuron_S    => '0',
+		ResetCalibNeuron_S    => '1',
 		TypeNCalibNeuron_S    => '0',
-		ResetTestPixel_S      => '0',
+		ResetTestPixel_S      => '1',
 		HotPixelSuppression_S => '0',
 		AERnArow_S            => '0',
-		UseAOut_S             => '0',
+		UseAOut_S             => '1',
 		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER);
 end package DAVIS240ChipBiasConfigRecords;
