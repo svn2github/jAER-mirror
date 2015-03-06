@@ -14,8 +14,8 @@
 // Map for fast configuration lookup (the highest address possible is GPIO 57).
 static spiConfig_DeviceSpecific_Type *spiIdConfigMap[GPIO_MAX_IDENTIFIER] = { NULL }; // NULL is always an invalid pointer.
 
-// Frequency at which the SPI block operates.
-static uint32_t currentSpiFrequency = SPI_MAX_CLOCK;
+// Current configuration for the SPI block, to allow frequency adjustments as needed.
+static CyU3PSpiConfig_t currentSpiConfig;
 
 // Address of device currently used via USB VRs.
 static uint8_t currentSpiDeviceAddress = 0; // Device 0, the default device, always exists.
@@ -23,6 +23,17 @@ static uint8_t currentSpiDeviceAddress = 0; // Device 0, the default device, alw
 // Currently saved command from USB requests.
 static uint8_t currentSpiCommand[255] = { 0 };
 static uint8_t currentSpiCommandLength = 0;
+
+static uint32_t CyFxSpiClockValueForDevice(uint8_t deviceAddress) {
+	uint32_t clockValue = SPI_MAX_CLOCK;
+
+	// If the maxFrequency is lower than what the SPI block supports, use the smaller value.
+	if (spiIdConfigMap[deviceAddress] != NULL && spiIdConfigMap[deviceAddress]->maxFrequency < SPI_MAX_CLOCK) {
+		clockValue = spiIdConfigMap[deviceAddress]->maxFrequency;
+	}
+
+	return (clockValue);
+}
 
 static int CyFxSpiConfigComparator_SPICONFIG_DEVICESPECIFIC_TYPE(const void *a, const void *b) {
 	const spiConfig_DeviceSpecific_Type *aa = a;
@@ -104,13 +115,9 @@ CyU3PReturnStatus_t CyFxSpiConfigParse(uint32_t *gpioSimpleEn0, uint32_t *gpioSi
 			return (CY_U3P_ERROR_BAD_OPTION);
 		}
 
-		// Verify that maxFrequency is never 0 and update the global SPI frequency.
+		// Verify that maxFrequency is never 0.
 		if (spiConfig_DeviceSpecific[i].maxFrequency == 0) {
 			return (CY_U3P_ERROR_BAD_OPTION);
-		}
-
-		if (spiConfig_DeviceSpecific[i].maxFrequency < currentSpiFrequency) {
-			currentSpiFrequency = spiConfig_DeviceSpecific[i].maxFrequency;
 		}
 
 		// Update direct map for fast lookup of device configuration based on address.
@@ -130,19 +137,17 @@ CyU3PReturnStatus_t CyFxSpiInit(void) {
 	}
 
 	// Start the SPI master block and set the parameters for the default device (devAddr 0).
-	CyU3PSpiConfig_t spiConfig;
+	currentSpiConfig.isLsbFirst = CyFalse;
+	currentSpiConfig.cpol = CyFalse; // Clock Polarity 0 and Clock Phase 0 are called SPI Mode 0 (0, 0).
+	currentSpiConfig.cpha = CyFalse; // Another option is SPI Mode 3 (1, 1), setting both to 1.
+	currentSpiConfig.ssnPol = spiConfig_DeviceSpecific[0].SSPolarity; // Default SS0 polarity
+	currentSpiConfig.ssnCtrl = CY_U3P_SPI_SSN_CTRL_FW; // SS0 controlled by firmware
+	currentSpiConfig.leadTime = CY_U3P_SPI_SSN_LAG_LEAD_HALF_CLK;
+	currentSpiConfig.lagTime = CY_U3P_SPI_SSN_LAG_LEAD_HALF_CLK;
+	currentSpiConfig.clock = CyFxSpiClockValueForDevice(0);
+	currentSpiConfig.wordLen = 8; // 8 bits = 1 byte word-length
 
-	spiConfig.isLsbFirst = CyFalse;
-	spiConfig.cpol = CyFalse; // Clock Polarity 0 and Clock Phase 0 are called SPI Mode 0 (0, 0).
-	spiConfig.cpha = CyFalse; // Another option is SPI Mode 3 (1, 1), setting both to 1.
-	spiConfig.ssnPol = spiConfig_DeviceSpecific[0].SSPolarity; // Default SS0 polarity
-	spiConfig.ssnCtrl = CY_U3P_SPI_SSN_CTRL_FW; // SS0 controlled by firmware
-	spiConfig.leadTime = CY_U3P_SPI_SSN_LAG_LEAD_HALF_CLK;
-	spiConfig.lagTime = CY_U3P_SPI_SSN_LAG_LEAD_HALF_CLK;
-	spiConfig.clock = currentSpiFrequency;
-	spiConfig.wordLen = 8; // 8 bits = 1 byte word-length
-
-	status = CyU3PSpiSetConfig(&spiConfig, NULL);
+	status = CyU3PSpiSetConfig(&currentSpiConfig, NULL);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
@@ -198,14 +203,32 @@ static CyU3PReturnStatus_t CyFxSpiTransferConfig(uint8_t deviceAddress, uint8_t 
 		spiIdConfigMap[deviceAddress]->pageSize = pageSize;
 	}
 
-	// Update device address for subsequent USB requests.
-	currentSpiDeviceAddress = deviceAddress;
-
 	// Update command to execute for subsequent USB command requests.
 	if (cmd != NULL) {
 		memcpy(currentSpiCommand, cmd, cmdLength);
 	}
 	currentSpiCommandLength = cmdLength;
+
+	// Update device address for subsequent USB requests.
+	currentSpiDeviceAddress = deviceAddress;
+
+	// Update SPI block clock setting for maximum performance.
+	CyU3PReturnStatus_t status = CyFxSpiClockUpdateForDevice(deviceAddress);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	return (CY_U3P_SUCCESS);
+}
+
+CyU3PReturnStatus_t CyFxSpiClockUpdateForDevice(uint8_t deviceAddress) {
+	// Update SPI block clock setting for maximum performance.
+	currentSpiConfig.clock = CyFxSpiClockValueForDevice(deviceAddress);
+
+	CyU3PReturnStatus_t status = CyU3PSpiSetConfig(&currentSpiConfig, NULL);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
 
 	return (CY_U3P_SUCCESS);
 }

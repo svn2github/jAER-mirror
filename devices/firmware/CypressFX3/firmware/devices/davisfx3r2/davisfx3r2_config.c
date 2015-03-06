@@ -6,7 +6,7 @@
 
 spiConfig_DeviceSpecific_Type spiConfig_DeviceSpecific[] = {
 	{ 0, 3, 256, 8 * MEGABYTE, 104 * MEGAHERTZ, CyFalse }, /* Macronix MX25U6435F Flash Memory (8MB, 104Mhz, SS: default line, active-low) */
-	{ 52, 0, 0, 0, 20 * MEGAHERTZ, CyFalse }, /* FPGA configuration (no standard read/write support, 20Mhz, SS: GPIO 52, active-low) */
+	{ 52, 0, 0, 0, 12 * MEGAHERTZ, CyFalse }, /* FPGA configuration (no standard read/write support, 20Mhz, SS: GPIO 52, active-low) */
 	{ 57, 0, 0, 0, 33 * MEGAHERTZ, CyFalse }, /* Lattice ECP3-70EA FPGA (no standard read/write support, 33Mhz, SS: GPIO 57, active-low) */
 };
 const uint8_t spiConfig_DeviceSpecific_Length = (sizeof(spiConfig_DeviceSpecific) / sizeof(spiConfig_DeviceSpecific[0]));
@@ -116,6 +116,9 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD INIT: no payload allowed", status);
 						break;
 					}
+
+					// Update SPI clock setting for maximum performance.
+					CyFxSpiClockUpdateForDevice(FPGA_SPI_ADDRESS);
 
 					// Clock in REFRESH command to reset FPGA and wait 50 ms as per documentation.
 					cmd[0] = FPGA_CMD_REFRESH;
@@ -304,6 +307,9 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 				break;
 			}
 
+			// Update SPI clock setting for maximum performance.
+			CyFxSpiClockUpdateForDevice(FCONFIG_SPI_ADDRESS);
+
 			uint8_t cmd[2] = { 0 };
 
 			// Highest bit of first byte is zero to indicate write operation.
@@ -326,6 +332,9 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG READ: only 4 byte reads are supported", status);
 				break;
 			}
+
+			// Update SPI clock setting for maximum performance.
+			CyFxSpiClockUpdateForDevice(FCONFIG_SPI_ADDRESS);
 
 			uint8_t cmd[2] = { 0 };
 
@@ -371,6 +380,9 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
 
 	uint32_t serialNumberHeader[2];
+
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(0);
 
 	status = CyFxSpiTransfer(0, SNUM_MEMORY_ADDRESS, (uint8_t *) serialNumberHeader, 8, SPI_READ);
 	if (status != CY_U3P_SUCCESS) {
@@ -424,6 +436,9 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
 
 	uint32_t fpgaBitstreamHeader[2];
+
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(0);
 
 	status = CyFxSpiTransfer(0, FPGA_MEMORY_ADDRESS, (uint8_t *) fpgaBitstreamHeader, 8, SPI_READ);
 	if (status != CY_U3P_SUCCESS) {

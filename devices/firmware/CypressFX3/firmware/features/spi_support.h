@@ -21,6 +21,7 @@
 // Function declarations
 CyU3PReturnStatus_t CyFxSpiConfigParse(uint32_t *gpioSimpleEn0, uint32_t *gpioSimpleEn1);
 CyU3PReturnStatus_t CyFxSpiInit(void);
+CyU3PReturnStatus_t CyFxSpiClockUpdateForDevice(uint8_t deviceAddress);
 void CyFxSpiSSLineAssert(uint8_t deviceAddress);
 void CyFxSpiSSLineDeassert(uint8_t deviceAddress);
 CyU3PReturnStatus_t CyFxSpiCommand(uint8_t deviceAddress, const uint8_t *cmd, uint8_t cmdLength, uint8_t *data,
