@@ -49,6 +49,8 @@ architecture Behavioral of SPIConfig is
 
 	signal ParamOutput_DP, ParamOutput_DN : std_logic_vector(31 downto 0);
 
+	signal SPIClockEdgeDetectorReg_S : std_logic;
+
 	-- Register outputs (MISO only here).
 	signal SPIMISOReg_DZ : std_logic;
 begin
@@ -60,13 +62,18 @@ begin
 
 	-- The SPI input lines have already been synchronized to the logic clock at
 	-- this point, so we can use and sample them directly.
-	spiClockDetector : entity work.EdgeDetector
-		port map(
-			Clock_CI               => Clock_CI,
-			Reset_RI               => Reset_RI,
-			InputSignal_SI         => SPIClock_CI,
-			RisingEdgeDetected_SO  => SPIClockRisingEdges_S,
-			FallingEdgeDetected_SO => SPIClockFallingEdges_S);
+	SPIClockRisingEdges_S <= '1' when (SPIClock_CI = '1' and SPIClockEdgeDetectorReg_S = '0') else '0';
+
+	SPIClockFallingEdges_S <= '1' when (SPIClock_CI = '0' and SPIClockEdgeDetectorReg_S = '1') else '0';
+
+	spiClockEdgeDetectorReg : process(Clock_CI, Reset_RI)
+	begin
+		if Reset_RI = '1' then
+			SPIClockEdgeDetectorReg_S <= '0';
+		elsif rising_edge(Clock_CI) then
+			SPIClockEdgeDetectorReg_S <= SPIClock_CI;
+		end if;
+	end process spiClockEdgeDetectorReg;
 
 	-- We support SPI mode 0 (CPOL=0, CPHA=0). So we sample data on the rising
 	-- edge and we output data on the falling one. Of course, only if this
