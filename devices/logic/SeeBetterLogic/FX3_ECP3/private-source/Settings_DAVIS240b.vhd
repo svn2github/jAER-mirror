@@ -8,7 +8,7 @@ use work.DAVIS240b.all;
 package Settings is
 	constant DEVICE_FAMILY : string := "ECP3";
 
-	constant USB_CLOCK_FREQ         : integer := 100; -- 80 or 100 are viable settings, depending on FX3 and routing.
+	constant USB_CLOCK_FREQ         : integer := 80; -- 50, 80 or 100 are viable settings, depending on FX3 and routing.
 	constant USB_FIFO_WIDTH         : integer := 16;
 	constant USB_BURST_WRITE_LENGTH : integer := 8;
 

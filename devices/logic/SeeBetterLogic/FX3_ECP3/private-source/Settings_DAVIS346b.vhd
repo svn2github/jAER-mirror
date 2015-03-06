@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 -- Chip to be used for this logic.
-use work.DAVIS240a.all;
+use work.DAVIS346b.all;
 
 package Settings is
 	constant DEVICE_FAMILY : string := "ECP3";
