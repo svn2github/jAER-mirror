@@ -14,6 +14,6 @@ package DAVISrgb is
 	constant CHIP_DVS_SIZE_ROWS    : unsigned(8 downto 0) := to_unsigned(320, 9);
 	constant CHIP_DVS_SIZE_COLUMNS : unsigned(7 downto 0) := to_unsigned(240, 8);
 
-	constant DVS_AER_BUS_WIDTH : integer := 10;
+	constant DVS_AER_BUS_WIDTH : integer := 11;
 	constant APS_ADC_BUS_WIDTH : integer := 10;
 end package DAVISrgb;
