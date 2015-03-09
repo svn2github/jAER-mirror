@@ -2,7 +2,7 @@
 <BaliProject version="3.2" title="SeeBetterLogic_FX3_ECP3_DAVISrgb" device="LFE3-70EA-8FN484C" default_implementation="SeeBetterLogic_FX3_ECP3_DAVISrgb">
     <Options/>
     <Implementation title="SeeBetterLogic_FX3_ECP3_DAVISrgb" dir="SeeBetterLogic_FX3_ECP3_DAVISrgb" description="SeeBetterLogic_FX3_ECP3_DAVISrgb" synthesis="synplify" default_strategy="Strategy1">
-        <Options def_top="TopLevel" top="TopLevel"/>
+        <Options def_top="TopLevelRGB" top="TopLevelRGB"/>
         <Source name="C:/lscc/diamond/3.4_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -57,8 +57,8 @@
         <Source name="../common-source/support/ChangeDetector.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="private-source/TopLevel_DAVIS240.vhd" type="VHDL" type_short="VHDL">
-            <Options top_module="TopLevel"/>
+        <Source name="private-source/TopLevel_DAVISrgb.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="TopLevelRGB"/>
         </Source>
         <Source name="private-source/Settings_DAVISrgb.vhd" type="VHDL" type_short="VHDL">
             <Options/>
