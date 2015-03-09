@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 use work.Settings.CHIP_IDENTIFIER;
 use work.ChipBiasConfigRecords.all;
 use work.DAVIS128ChipBiasConfigRecords.all;
-use work.DAVIS192ChipBiasConfigRecords.all;
+use work.DAVIS208ChipBiasConfigRecords.all;
 use work.DAVIS240ChipBiasConfigRecords.all;
 use work.DAVIS346ChipBiasConfigRecords.all;
 use work.DAVISrgbChipBiasConfigRecords.all;
@@ -73,11 +73,11 @@ begin
 				ChipConfigParamOutput_DO => ChipConfigParamOutput_DO);
 	end generate davis128ChipBias;
 
-	davis192ChipBias : if CHIP_IDENTIFIER = 8 generate
-		signal DAVIS192BiasConfig_D, DAVIS192BiasConfigReg_D : tDAVIS192BiasConfig;
-		signal DAVIS192ChipConfig_D, DAVIS192ChipConfigReg_D : tDAVIS192ChipConfig;
+	davis208ChipBias : if CHIP_IDENTIFIER = 8 generate
+		signal DAVIS208BiasConfig_D, DAVIS208BiasConfigReg_D : tDAVIS208BiasConfig;
+		signal DAVIS208ChipConfig_D, DAVIS208ChipConfigReg_D : tDAVIS208ChipConfig;
 	begin
-		davis192ChipBiasSM : entity work.DAVIS192StateMachine
+		davis208ChipBiasSM : entity work.DAVIS208StateMachine
 			port map(
 				Clock_CI               => Clock_CI,
 				Reset_RI               => Reset_RI,
@@ -86,33 +86,33 @@ begin
 				ChipBiasClock_CBO      => ChipBiasClock_CBO,
 				ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
 				ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
-				BiasConfig_DI          => DAVIS192BiasConfigReg_D,
-				ChipConfig_DI          => DAVIS192ChipConfigReg_D);
+				BiasConfig_DI          => DAVIS208BiasConfigReg_D,
+				ChipConfig_DI          => DAVIS208ChipConfigReg_D);
 
-		davis192ConfigRegisters : process(Clock_CI, Reset_RI) is
+		davis208ConfigRegisters : process(Clock_CI, Reset_RI) is
 		begin
 			if Reset_RI = '1' then
-				DAVIS192BiasConfigReg_D <= tDAVIS192BiasConfigDefault;
-				DAVIS192ChipConfigReg_D <= tDAVIS192ChipConfigDefault;
+				DAVIS208BiasConfigReg_D <= tDAVIS208BiasConfigDefault;
+				DAVIS208ChipConfigReg_D <= tDAVIS208ChipConfigDefault;
 			elsif rising_edge(Clock_CI) then
-				DAVIS192BiasConfigReg_D <= DAVIS192BiasConfig_D;
-				DAVIS192ChipConfigReg_D <= DAVIS192ChipConfig_D;
+				DAVIS208BiasConfigReg_D <= DAVIS208BiasConfig_D;
+				DAVIS208ChipConfigReg_D <= DAVIS208ChipConfig_D;
 			end if;
-		end process davis192ConfigRegisters;
+		end process davis208ConfigRegisters;
 
-		davis192ChipBiasSPIConfig : entity work.DAVIS192SPIConfig
+		davis208ChipBiasSPIConfig : entity work.DAVIS208SPIConfig
 			port map(
 				Clock_CI                 => Clock_CI,
 				Reset_RI                 => Reset_RI,
-				BiasConfig_DO            => DAVIS192BiasConfig_D,
-				ChipConfig_DO            => DAVIS192ChipConfig_D,
+				BiasConfig_DO            => DAVIS208BiasConfig_D,
+				ChipConfig_DO            => DAVIS208ChipConfig_D,
 				ConfigModuleAddress_DI   => ConfigModuleAddress_DI,
 				ConfigParamAddress_DI    => ConfigParamAddress_DI,
 				ConfigParamInput_DI      => ConfigParamInput_DI,
 				ConfigLatchInput_SI      => ConfigLatchInput_SI,
 				BiasConfigParamOutput_DO => BiasConfigParamOutput_DO,
 				ChipConfigParamOutput_DO => ChipConfigParamOutput_DO);
-	end generate davis192ChipBias;
+	end generate davis208ChipBias;
 
 	davis240ChipBias : if CHIP_IDENTIFIER = 0 or CHIP_IDENTIFIER = 1 or CHIP_IDENTIFIER = 2 generate
 		signal DAVIS240BiasConfig_D, DAVIS240BiasConfigReg_D : tDAVIS240BiasConfig;

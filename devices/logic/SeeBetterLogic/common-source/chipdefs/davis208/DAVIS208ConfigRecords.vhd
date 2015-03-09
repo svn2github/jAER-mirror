@@ -4,8 +4,8 @@ use ieee.numeric_std.all;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 use work.ChipBiasConfigRecords.all;
 
-package DAVIS192ChipBiasConfigRecords is
-	type tDAVIS192BiasConfigParamAddresses is record
+package DAVIS208ChipBiasConfigRecords is
+	type tDAVIS208BiasConfigParamAddresses is record
 		ApsOverflowLevel_D : unsigned(7 downto 0);
 		ApsCas_D           : unsigned(7 downto 0);
 		AdcRefHigh_D       : unsigned(7 downto 0);
@@ -34,9 +34,9 @@ package DAVIS192ChipBiasConfigRecords is
 		BiasBuffer_D       : unsigned(7 downto 0);
 		SSP_D              : unsigned(7 downto 0);
 		SSN_D              : unsigned(7 downto 0);
-	end record tDAVIS192BiasConfigParamAddresses;
+	end record tDAVIS208BiasConfigParamAddresses;
 
-	constant DAVIS192_BIASCONFIG_PARAM_ADDRESSES : tDAVIS192BiasConfigParamAddresses := (
+	constant DAVIS208_BIASCONFIG_PARAM_ADDRESSES : tDAVIS208BiasConfigParamAddresses := (
 		ApsOverflowLevel_D => to_unsigned(0, 8),
 		ApsCas_D           => to_unsigned(1, 8),
 		AdcRefHigh_D       => to_unsigned(2, 8),
@@ -66,7 +66,7 @@ package DAVIS192ChipBiasConfigRecords is
 		SSP_D              => to_unsigned(35, 8),
 		SSN_D              => to_unsigned(36, 8));
 
-	type tDAVIS192BiasConfig is record
+	type tDAVIS208BiasConfig is record
 		ApsOverflowLevel_D : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
 		ApsCas_D           : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
 		AdcRefHigh_D       : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
@@ -95,9 +95,9 @@ package DAVIS192ChipBiasConfigRecords is
 		BiasBuffer_D       : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		SSP_D              : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
 		SSN_D              : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
-	end record tDAVIS192BiasConfig;
+	end record tDAVIS208BiasConfig;
 
-	constant tDAVIS192BiasConfigDefault : tDAVIS192BiasConfig := (
+	constant tDAVIS208BiasConfigDefault : tDAVIS208BiasConfig := (
 		ApsOverflowLevel_D => (others => '0'),
 		ApsCas_D           => (others => '0'),
 		AdcRefHigh_D       => (others => '0'),
@@ -127,7 +127,7 @@ package DAVIS192ChipBiasConfigRecords is
 		SSP_D              => (others => '0'),
 		SSN_D              => (others => '0'));
 
-	type tDAVIS192ChipConfigParamAddresses is record
+	type tDAVIS208ChipConfigParamAddresses is record
 		DigitalMux0_D         : unsigned(7 downto 0);
 		DigitalMux1_D         : unsigned(7 downto 0);
 		DigitalMux2_D         : unsigned(7 downto 0);
@@ -144,11 +144,11 @@ package DAVIS192ChipBiasConfigRecords is
 		UseAOut_S             : unsigned(7 downto 0);
 		GlobalShutter_S       : unsigned(7 downto 0);
 		SelectGrayCounter_S   : unsigned(7 downto 0);
-	end record tDAVIS192ChipConfigParamAddresses;
+	end record tDAVIS208ChipConfigParamAddresses;
 
 	-- Start with addresses 128 here, so that the MSB (bit 7) is always high. This heavily simplifies
 	-- the SPI configuration module, and clearly separates biases from chip diagnostic.
-	constant DAVIS192_CHIPCONFIG_PARAM_ADDRESSES : tDAVIS192ChipConfigParamAddresses := (
+	constant DAVIS208_CHIPCONFIG_PARAM_ADDRESSES : tDAVIS208ChipConfigParamAddresses := (
 		DigitalMux0_D         => to_unsigned(128, 8),
 		DigitalMux1_D         => to_unsigned(129, 8),
 		DigitalMux2_D         => to_unsigned(130, 8),
@@ -166,7 +166,7 @@ package DAVIS192ChipBiasConfigRecords is
 		GlobalShutter_S       => to_unsigned(142, 8),
 		SelectGrayCounter_S   => to_unsigned(143, 8));
 
-	type tDAVIS192ChipConfig is record
+	type tDAVIS208ChipConfig is record
 		DigitalMux0_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		DigitalMux1_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		DigitalMux2_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
@@ -183,12 +183,12 @@ package DAVIS192ChipBiasConfigRecords is
 		UseAOut_S             : std_logic;
 		GlobalShutter_S       : std_logic;
 		SelectGrayCounter_S   : std_logic;
-	end record tDAVIS192ChipConfig;
+	end record tDAVIS208ChipConfig;
 
 	-- Effectively used bits in chip register.
 	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 8;
 
-	constant tDAVIS192ChipConfigDefault : tDAVIS192ChipConfig := (
+	constant tDAVIS208ChipConfigDefault : tDAVIS208ChipConfig := (
 		DigitalMux0_D         => (others => '0'),
 		DigitalMux1_D         => (others => '0'),
 		DigitalMux2_D         => (others => '0'),
@@ -205,4 +205,4 @@ package DAVIS192ChipBiasConfigRecords is
 		UseAOut_S             => '1',
 		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,
 		SelectGrayCounter_S   => '0');
-end package DAVIS192ChipBiasConfigRecords;
+end package DAVIS208ChipBiasConfigRecords;

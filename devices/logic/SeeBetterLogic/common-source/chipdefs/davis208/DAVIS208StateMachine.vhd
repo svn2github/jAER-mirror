@@ -6,9 +6,9 @@ use ieee.math_real.log2;
 use work.ShiftRegisterModes.all;
 use work.Settings.LOGIC_CLOCK_FREQ;
 use work.ChipBiasConfigRecords.all;
-use work.DAVIS192ChipBiasConfigRecords.all;
+use work.DAVIS208ChipBiasConfigRecords.all;
 
-entity DAVIS192StateMachine is
+entity DAVIS208StateMachine is
 	port(
 		Clock_CI               : in  std_logic;
 		Reset_RI               : in  std_logic;
@@ -21,11 +21,11 @@ entity DAVIS192StateMachine is
 		ChipBiasLatch_SBO      : out std_logic;
 
 		-- Configuration inputs
-		BiasConfig_DI          : in  tDAVIS192BiasConfig;
-		ChipConfig_DI          : in  tDAVIS192ChipConfig);
-end entity DAVIS192StateMachine;
+		BiasConfig_DI          : in  tDAVIS208BiasConfig;
+		ChipConfig_DI          : in  tDAVIS208ChipConfig);
+end entity DAVIS208StateMachine;
 
-architecture Behavioral of DAVIS192StateMachine is
+architecture Behavioral of DAVIS208StateMachine is
 	attribute syn_enum_encoding : string;
 
 	type tState is (stIdle, stAckAndLoadBias0, stAckAndLoadBias1, stAckAndLoadBias2, stAckAndLoadBias3, stAckAndLoadBias4, stAckAndLoadBias8, stAckAndLoadBias9, stAckAndLoadBias10, stAckAndLoadBias11, stAckAndLoadBias12, stAckAndLoadBias13, stAckAndLoadBias14, stAckAndLoadBias15, stAckAndLoadBias16,
@@ -104,8 +104,8 @@ architecture Behavioral of DAVIS192StateMachine is
 	signal WaitCyclesCounterData_D                             : unsigned(WAIT_CYCLES_COUNTER_SIZE - 1 downto 0);
 
 	-- Register configuration inputs.
-	signal BiasConfigReg_D : tDAVIS192BiasConfig;
-	signal ChipConfigReg_D : tDAVIS192ChipConfig;
+	signal BiasConfigReg_D : tDAVIS208BiasConfig;
+	signal ChipConfigReg_D : tDAVIS208ChipConfig;
 
 	-- Register all outputs.
 	signal ChipBiasDiagSelectReg_S  : std_logic;
@@ -895,8 +895,8 @@ begin
 		if Reset_RI = '1' then
 			State_DP <= stIdle;
 
-			BiasConfigReg_D <= tDAVIS192BiasConfigDefault;
-			ChipConfigReg_D <= tDAVIS192ChipConfigDefault;
+			BiasConfigReg_D <= tDAVIS208BiasConfigDefault;
+			ChipConfigReg_D <= tDAVIS208ChipConfigDefault;
 
 			ChipBiasDiagSelect_SO  <= '0';
 			ChipBiasAddrSelect_SBO <= '1';

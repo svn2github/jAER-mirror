@@ -14,9 +14,9 @@
   <Mappings Location="SeeBetterLogic_FX3_ECP3_DAVIS128" Library="not mapped"/>
   <Mappings Location="SeeBetterLogic_FX3_ECP3_DAVIS128_tcr.dir" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVIS128.vhd" Library="not mapped"/>
-  <Mappings Location="SeeBetterLogic_FX3_ECP3_DAVIS192" Library="not mapped"/>
-  <Mappings Location="SeeBetterLogic_FX3_ECP3_DAVIS192_tcr.dir" Library="not mapped"/>
-  <Mappings Location="private-source/Settings_DAVIS192.vhd" Library="not mapped"/>
+  <Mappings Location="SeeBetterLogic_FX3_ECP3_DAVIS208" Library="not mapped"/>
+  <Mappings Location="SeeBetterLogic_FX3_ECP3_DAVIS208_tcr.dir" Library="not mapped"/>
+  <Mappings Location="private-source/Settings_DAVIS208.vhd" Library="not mapped"/>
   <Mappings Location="SeeBetterLogic_FX3_ECP3_DAVIS346a" Library="not mapped"/>
   <Mappings Location="SeeBetterLogic_FX3_ECP3_DAVIS346a_tcr.dir" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVIS346a.vhd" Library="not mapped"/>
