@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.2" title="SeeBetterLogic_FX3_ECP3_DAVIS346a" device="LFE3-70EA-8FN484C" default_implementation="SeeBetterLogic_FX3_ECP3_DAVIS346a">
+<BaliProject version="3.2" title="SeeBetterLogic_FX3_ECP3_DAVIS640" device="LFE3-70EA-8FN484C" default_implementation="SeeBetterLogic_FX3_ECP3_DAVIS640">
     <Options/>
-    <Implementation title="SeeBetterLogic_FX3_ECP3_DAVIS346a" dir="SeeBetterLogic_FX3_ECP3_DAVIS346a" description="SeeBetterLogic_FX3_ECP3_DAVIS346a" synthesis="synplify" default_strategy="Strategy1">
+    <Implementation title="SeeBetterLogic_FX3_ECP3_DAVIS640" dir="SeeBetterLogic_FX3_ECP3_DAVIS640" description="SeeBetterLogic_FX3_ECP3_DAVIS640" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="TopLevel" top="TopLevel"/>
         <Source name="C:/lscc/diamond/3.4_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
             <Options/>
@@ -60,7 +60,7 @@
         <Source name="private-source/TopLevel_DAVIS240.vhd" type="VHDL" type_short="VHDL">
             <Options top_module="TopLevel"/>
         </Source>
-        <Source name="private-source/Settings_DAVIS346a.vhd" type="VHDL" type_short="VHDL">
+        <Source name="private-source/Settings_DAVIS640.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
@@ -141,7 +141,7 @@
         <Source name="../common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/chipdefs/davis346/DAVIS346a.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/chipdefs/davis640/DAVIS640.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/ChipBiasSelector.vhd" type="VHDL" type_short="VHDL">
