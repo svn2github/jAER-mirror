@@ -4,6 +4,7 @@ use ieee.numeric_std.all;
 use work.Settings.CHIP_IDENTIFIER;
 use work.ChipBiasConfigRecords.all;
 use work.DAVIS128ChipBiasConfigRecords.all;
+use work.DAVIS192ChipBiasConfigRecords.all;
 use work.DAVIS240ChipBiasConfigRecords.all;
 use work.DAVIS346ChipBiasConfigRecords.all;
 use work.DAVISrgbChipBiasConfigRecords.all;
@@ -71,6 +72,47 @@ begin
 				BiasConfigParamOutput_DO => BiasConfigParamOutput_DO,
 				ChipConfigParamOutput_DO => ChipConfigParamOutput_DO);
 	end generate davis128ChipBias;
+
+	davis192ChipBias : if CHIP_IDENTIFIER = 8 generate
+		signal DAVIS192BiasConfig_D, DAVIS192BiasConfigReg_D : tDAVIS192BiasConfig;
+		signal DAVIS192ChipConfig_D, DAVIS192ChipConfigReg_D : tDAVIS192ChipConfig;
+	begin
+		davis192ChipBiasSM : entity work.DAVIS192StateMachine
+			port map(
+				Clock_CI               => Clock_CI,
+				Reset_RI               => Reset_RI,
+				ChipBiasDiagSelect_SO  => ChipBiasDiagSelect_SO,
+				ChipBiasAddrSelect_SBO => ChipBiasAddrSelect_SBO,
+				ChipBiasClock_CBO      => ChipBiasClock_CBO,
+				ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
+				ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
+				BiasConfig_DI          => DAVIS192BiasConfigReg_D,
+				ChipConfig_DI          => DAVIS192ChipConfigReg_D);
+
+		davis192ConfigRegisters : process(Clock_CI, Reset_RI) is
+		begin
+			if Reset_RI = '1' then
+				DAVIS192BiasConfigReg_D <= tDAVIS192BiasConfigDefault;
+				DAVIS192ChipConfigReg_D <= tDAVIS192ChipConfigDefault;
+			elsif rising_edge(Clock_CI) then
+				DAVIS192BiasConfigReg_D <= DAVIS192BiasConfig_D;
+				DAVIS192ChipConfigReg_D <= DAVIS192ChipConfig_D;
+			end if;
+		end process davis192ConfigRegisters;
+
+		davis192ChipBiasSPIConfig : entity work.DAVIS192SPIConfig
+			port map(
+				Clock_CI                 => Clock_CI,
+				Reset_RI                 => Reset_RI,
+				BiasConfig_DO            => DAVIS192BiasConfig_D,
+				ChipConfig_DO            => DAVIS192ChipConfig_D,
+				ConfigModuleAddress_DI   => ConfigModuleAddress_DI,
+				ConfigParamAddress_DI    => ConfigParamAddress_DI,
+				ConfigParamInput_DI      => ConfigParamInput_DI,
+				ConfigLatchInput_SI      => ConfigLatchInput_SI,
+				BiasConfigParamOutput_DO => BiasConfigParamOutput_DO,
+				ChipConfigParamOutput_DO => ChipConfigParamOutput_DO);
+	end generate davis192ChipBias;
 
 	davis240ChipBias : if CHIP_IDENTIFIER = 0 or CHIP_IDENTIFIER = 1 or CHIP_IDENTIFIER = 2 generate
 		signal DAVIS240BiasConfig_D, DAVIS240BiasConfigReg_D : tDAVIS240BiasConfig;
