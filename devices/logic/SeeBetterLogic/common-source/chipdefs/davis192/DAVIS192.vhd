@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-package DAVIS128 is
+package DAVIS192 is
 	constant CHIP_IDENTIFIER : unsigned(3 downto 0) := to_unsigned(8, 4);
 
 	constant CHIP_HAS_GLOBAL_SHUTTER : std_logic := '1';
@@ -16,4 +16,4 @@ package DAVIS128 is
 
 	constant DVS_AER_BUS_WIDTH : integer := 11;
 	constant APS_ADC_BUS_WIDTH : integer := 10;
-end package DAVIS128;
+end package DAVIS192;
