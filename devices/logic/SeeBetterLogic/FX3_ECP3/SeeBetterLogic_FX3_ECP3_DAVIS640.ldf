@@ -159,6 +159,15 @@
         <Source name="../common-source/chipdefs/davis128/DAVIS128ConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/chipdefs/davis192/DAVIS192StateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/chipdefs/davis192/DAVIS192SPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/chipdefs/davis192/DAVIS192ConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/chipdefs/davis240/DAVIS240StateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
