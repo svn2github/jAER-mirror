@@ -18,7 +18,6 @@ package DAVISrgbChipBiasConfigRecords is
 		IFThrBn_D            : unsigned(7 downto 0);
 		LocalBufBn_D         : unsigned(7 downto 0);
 		PadFollBn_D          : unsigned(7 downto 0);
-		Blk1N_D              : unsigned(7 downto 0);
 		PixInvBn_D           : unsigned(7 downto 0);
 		DiffBn_D             : unsigned(7 downto 0);
 		OnBn_D               : unsigned(7 downto 0);
@@ -27,7 +26,6 @@ package DAVISrgbChipBiasConfigRecords is
 		PrSFBp_D             : unsigned(7 downto 0);
 		RefrBp_D             : unsigned(7 downto 0);
 		ArrayBiasBufferBn_D  : unsigned(7 downto 0);
-		Blk1P_D              : unsigned(7 downto 0);
 		ArrayLogicBufferBn_D : unsigned(7 downto 0);
 		FalltimeBn_D         : unsigned(7 downto 0);
 		RisetimeBp_D         : unsigned(7 downto 0);
@@ -35,7 +33,6 @@ package DAVISrgbChipBiasConfigRecords is
 		ApsROSFBn_D          : unsigned(7 downto 0);
 		AdcCompBp_D          : unsigned(7 downto 0);
 		DACBufBp_D           : unsigned(7 downto 0);
-		Blk2P_D              : unsigned(7 downto 0);
 		LcolTimeoutBn_D      : unsigned(7 downto 0);
 		AEPdBn_D             : unsigned(7 downto 0);
 		AEPuXBp_D            : unsigned(7 downto 0);
@@ -58,7 +55,6 @@ package DAVISrgbChipBiasConfigRecords is
 		IFThrBn_D            => to_unsigned(9, 8),
 		LocalBufBn_D         => to_unsigned(10, 8),
 		PadFollBn_D          => to_unsigned(11, 8),
-		Blk1N_D              => to_unsigned(12, 8),
 		PixInvBn_D           => to_unsigned(13, 8),
 		DiffBn_D             => to_unsigned(14, 8),
 		OnBn_D               => to_unsigned(15, 8),
@@ -67,7 +63,6 @@ package DAVISrgbChipBiasConfigRecords is
 		PrSFBp_D             => to_unsigned(18, 8),
 		RefrBp_D             => to_unsigned(19, 8),
 		ArrayBiasBufferBn_D  => to_unsigned(20, 8),
-		Blk1P_D              => to_unsigned(21, 8),
 		ArrayLogicBufferBn_D => to_unsigned(22, 8),
 		FalltimeBn_D         => to_unsigned(23, 8),
 		RisetimeBp_D         => to_unsigned(24, 8),
@@ -75,7 +70,6 @@ package DAVISrgbChipBiasConfigRecords is
 		ApsROSFBn_D          => to_unsigned(26, 8),
 		AdcCompBp_D          => to_unsigned(27, 8),
 		DACBufBp_D           => to_unsigned(28, 8),
-		Blk2P_D              => to_unsigned(29, 8),
 		LcolTimeoutBn_D      => to_unsigned(30, 8),
 		AEPdBn_D             => to_unsigned(31, 8),
 		AEPuXBp_D            => to_unsigned(32, 8),
@@ -97,7 +91,6 @@ package DAVISrgbChipBiasConfigRecords is
 		IFThrBn_D            : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		LocalBufBn_D         : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		PadFollBn_D          : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
-		Blk1N_D              : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		PixInvBn_D           : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		DiffBn_D             : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		OnBn_D               : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
@@ -106,7 +99,6 @@ package DAVISrgbChipBiasConfigRecords is
 		PrSFBp_D             : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		RefrBp_D             : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		ArrayBiasBufferBn_D  : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
-		Blk1P_D              : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		ArrayLogicBufferBn_D : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		FalltimeBn_D         : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		RisetimeBp_D         : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
@@ -114,7 +106,6 @@ package DAVISrgbChipBiasConfigRecords is
 		ApsROSFBn_D          : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		AdcCompBp_D          : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		DACBufBp_D           : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
-		Blk2P_D              : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		LcolTimeoutBn_D      : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		AEPdBn_D             : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		AEPuXBp_D            : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
@@ -137,7 +128,6 @@ package DAVISrgbChipBiasConfigRecords is
 		IFThrBn_D            => (others => '0'),
 		LocalBufBn_D         => (others => '0'),
 		PadFollBn_D          => (others => '0'),
-		Blk1N_D              => (others => '0'),
 		PixInvBn_D           => (others => '0'),
 		DiffBn_D             => (others => '0'),
 		OnBn_D               => (others => '0'),
@@ -146,7 +136,6 @@ package DAVISrgbChipBiasConfigRecords is
 		PrSFBp_D             => (others => '0'),
 		RefrBp_D             => (others => '0'),
 		ArrayBiasBufferBn_D  => (others => '0'),
-		Blk1P_D              => (others => '0'),
 		ArrayLogicBufferBn_D => (others => '0'),
 		FalltimeBn_D         => (others => '0'),
 		RisetimeBp_D         => (others => '0'),
@@ -154,7 +143,6 @@ package DAVISrgbChipBiasConfigRecords is
 		ApsROSFBn_D          => (others => '0'),
 		AdcCompBp_D          => (others => '0'),
 		DACBufBp_D           => (others => '0'),
-		Blk2P_D              => (others => '0'),
 		LcolTimeoutBn_D      => (others => '0'),
 		AEPdBn_D             => (others => '0'),
 		AEPuXBp_D            => (others => '0'),

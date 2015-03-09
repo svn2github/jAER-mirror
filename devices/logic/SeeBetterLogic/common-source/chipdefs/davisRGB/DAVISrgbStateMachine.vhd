@@ -28,9 +28,9 @@ end entity DAVISrgbStateMachine;
 architecture Behavioral of DAVISrgbStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stIdle, stAckAndLoadBias0, stAckAndLoadBias1, stAckAndLoadBias2, stAckAndLoadBias3, stAckAndLoadBias4, stAckAndLoadBias5, stAckAndLoadBias6, stAckAndLoadBias7, stAckAndLoadBias8, stAckAndLoadBias9, stAckAndLoadBias10, stAckAndLoadBias11, stAckAndLoadBias12, stAckAndLoadBias13,
-		            stAckAndLoadBias14, stAckAndLoadBias15, stAckAndLoadBias16, stAckAndLoadBias17, stAckAndLoadBias18, stAckAndLoadBias19, stAckAndLoadBias20, stAckAndLoadBias21, stAckAndLoadBias22, stAckAndLoadBias23, stAckAndLoadBias24, stAckAndLoadBias25, stAckAndLoadBias26, stAckAndLoadBias27,
-		            stAckAndLoadBias28, stAckAndLoadBias29, stAckAndLoadBias30, stAckAndLoadBias31, stAckAndLoadBias32, stAckAndLoadBias33, stAckAndLoadBias34, stAckAndLoadBias35, stAckAndLoadBias36, stPrepareSendBiasAddress, stSendBiasAddress, stPrepareSendBias, stSendBias, stAckAndLoadChip, stPrepareSendChip,
+	type tState is (stIdle, stAckAndLoadBias0, stAckAndLoadBias1, stAckAndLoadBias2, stAckAndLoadBias3, stAckAndLoadBias4, stAckAndLoadBias5, stAckAndLoadBias6, stAckAndLoadBias7, stAckAndLoadBias8, stAckAndLoadBias9, stAckAndLoadBias10, stAckAndLoadBias11, stAckAndLoadBias13,
+		            stAckAndLoadBias14, stAckAndLoadBias15, stAckAndLoadBias16, stAckAndLoadBias17, stAckAndLoadBias18, stAckAndLoadBias19, stAckAndLoadBias20, stAckAndLoadBias22, stAckAndLoadBias23, stAckAndLoadBias24, stAckAndLoadBias25, stAckAndLoadBias26, stAckAndLoadBias27,
+		            stAckAndLoadBias28, stAckAndLoadBias30, stAckAndLoadBias31, stAckAndLoadBias32, stAckAndLoadBias33, stAckAndLoadBias34, stAckAndLoadBias35, stAckAndLoadBias36, stPrepareSendBiasAddress, stSendBiasAddress, stPrepareSendBias, stSendBias, stAckAndLoadChip, stPrepareSendChip,
 		            stSendChip, stLatchBiasAddress, stLatchBias, stLatchChip);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
@@ -69,7 +69,6 @@ architecture Behavioral of DAVISrgbStateMachine is
 	signal Bias9Changed_S, Bias9Sent_S   : std_logic;
 	signal Bias10Changed_S, Bias10Sent_S : std_logic;
 	signal Bias11Changed_S, Bias11Sent_S : std_logic;
-	signal Bias12Changed_S, Bias12Sent_S : std_logic;
 	signal Bias13Changed_S, Bias13Sent_S : std_logic;
 	signal Bias14Changed_S, Bias14Sent_S : std_logic;
 	signal Bias15Changed_S, Bias15Sent_S : std_logic;
@@ -78,7 +77,6 @@ architecture Behavioral of DAVISrgbStateMachine is
 	signal Bias18Changed_S, Bias18Sent_S : std_logic;
 	signal Bias19Changed_S, Bias19Sent_S : std_logic;
 	signal Bias20Changed_S, Bias20Sent_S : std_logic;
-	signal Bias21Changed_S, Bias21Sent_S : std_logic;
 	signal Bias22Changed_S, Bias22Sent_S : std_logic;
 	signal Bias23Changed_S, Bias23Sent_S : std_logic;
 	signal Bias24Changed_S, Bias24Sent_S : std_logic;
@@ -86,7 +84,6 @@ architecture Behavioral of DAVISrgbStateMachine is
 	signal Bias26Changed_S, Bias26Sent_S : std_logic;
 	signal Bias27Changed_S, Bias27Sent_S : std_logic;
 	signal Bias28Changed_S, Bias28Sent_S : std_logic;
-	signal Bias29Changed_S, Bias29Sent_S : std_logic;
 	signal Bias30Changed_S, Bias30Sent_S : std_logic;
 	signal Bias31Changed_S, Bias31Sent_S : std_logic;
 	signal Bias32Changed_S, Bias32Sent_S : std_logic;
@@ -134,7 +131,7 @@ architecture Behavioral of DAVISrgbStateMachine is
 		return '0' & not VDBIAS(6) & not VDBIAS(7) & not VDBIAS(8) & "000000" & VDBIAS(5 downto 0);
 	end function BiasGenerateVDAC;
 begin
-	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D, Bias0Changed_S, Bias10Changed_S, Bias11Changed_S, Bias12Changed_S, Bias13Changed_S, Bias14Changed_S, Bias15Changed_S, Bias16Changed_S, Bias17Changed_S, Bias18Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias22Changed_S, Bias23Changed_S, Bias24Changed_S, Bias25Changed_S, Bias26Changed_S, Bias27Changed_S, Bias28Changed_S, Bias29Changed_S, Bias2Changed_S, Bias30Changed_S, Bias31Changed_S, Bias32Changed_S, Bias33Changed_S, Bias34Changed_S, Bias35Changed_S, Bias36Changed_S, Bias3Changed_S, Bias4Changed_S, Bias5Changed_S, Bias6Changed_S, Bias7Changed_S, Bias8Changed_S, Bias9Changed_S)
+	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D, Bias0Changed_S, Bias10Changed_S, Bias11Changed_S, Bias13Changed_S, Bias14Changed_S, Bias15Changed_S, Bias16Changed_S, Bias17Changed_S, Bias18Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias22Changed_S, Bias23Changed_S, Bias24Changed_S, Bias25Changed_S, Bias26Changed_S, Bias27Changed_S, Bias28Changed_S, Bias2Changed_S, Bias30Changed_S, Bias31Changed_S, Bias32Changed_S, Bias33Changed_S, Bias34Changed_S, Bias35Changed_S, Bias36Changed_S, Bias3Changed_S, Bias4Changed_S, Bias5Changed_S, Bias6Changed_S, Bias7Changed_S, Bias8Changed_S, Bias9Changed_S)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -158,7 +155,6 @@ begin
 		Bias9Sent_S  <= '0';
 		Bias10Sent_S <= '0';
 		Bias11Sent_S <= '0';
-		Bias12Sent_S <= '0';
 		Bias13Sent_S <= '0';
 		Bias14Sent_S <= '0';
 		Bias15Sent_S <= '0';
@@ -167,7 +163,6 @@ begin
 		Bias18Sent_S <= '0';
 		Bias19Sent_S <= '0';
 		Bias20Sent_S <= '0';
-		Bias21Sent_S <= '0';
 		Bias22Sent_S <= '0';
 		Bias23Sent_S <= '0';
 		Bias24Sent_S <= '0';
@@ -175,7 +170,6 @@ begin
 		Bias26Sent_S <= '0';
 		Bias27Sent_S <= '0';
 		Bias28Sent_S <= '0';
-		Bias29Sent_S <= '0';
 		Bias30Sent_S <= '0';
 		Bias31Sent_S <= '0';
 		Bias32Sent_S <= '0';
@@ -239,9 +233,6 @@ begin
 				if Bias11Changed_S = '1' then
 					State_DN <= stAckAndLoadBias11;
 				end if;
-				if Bias12Changed_S = '1' then
-					State_DN <= stAckAndLoadBias12;
-				end if;
 				if Bias13Changed_S = '1' then
 					State_DN <= stAckAndLoadBias13;
 				end if;
@@ -266,9 +257,6 @@ begin
 				if Bias20Changed_S = '1' then
 					State_DN <= stAckAndLoadBias20;
 				end if;
-				if Bias21Changed_S = '1' then
-					State_DN <= stAckAndLoadBias21;
-				end if;
 				if Bias22Changed_S = '1' then
 					State_DN <= stAckAndLoadBias22;
 				end if;
@@ -289,9 +277,6 @@ begin
 				end if;
 				if Bias28Changed_S = '1' then
 					State_DN <= stAckAndLoadBias28;
-				end if;
-				if Bias29Changed_S = '1' then
-					State_DN <= stAckAndLoadBias29;
 				end if;
 				if Bias30Changed_S = '1' then
 					State_DN <= stAckAndLoadBias30;
@@ -487,20 +472,6 @@ begin
 
 				State_DN <= stPrepareSendBiasAddress;
 
-			when stAckAndLoadBias12 =>
-				-- Acknowledge this particular bias.
-				Bias12Sent_S <= '1';
-
-				-- Load shiftreg with current bias address.
-				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(12, BIASADDR_REG_LENGTH));
-				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.Blk1N_D);
-				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				State_DN <= stPrepareSendBiasAddress;
-
 			when stAckAndLoadBias13 =>
 				-- Acknowledge this particular bias.
 				Bias13Sent_S <= '1';
@@ -613,20 +584,6 @@ begin
 
 				State_DN <= stPrepareSendBiasAddress;
 
-			when stAckAndLoadBias21 =>
-				-- Acknowledge this particular bias.
-				Bias21Sent_S <= '1';
-
-				-- Load shiftreg with current bias address.
-				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(21, BIASADDR_REG_LENGTH));
-				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.Blk1P_D);
-				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				State_DN <= stPrepareSendBiasAddress;
-
 			when stAckAndLoadBias22 =>
 				-- Acknowledge this particular bias.
 				Bias22Sent_S <= '1';
@@ -717,20 +674,6 @@ begin
 
 				-- Load shiftreg with current bias address.
 				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(28, BIASADDR_REG_LENGTH));
-				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				-- Load shiftreg with current bias config content.
-				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.DACBufBp_D);
-				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				State_DN <= stPrepareSendBiasAddress;
-
-			when stAckAndLoadBias29 =>
-				-- Acknowledge this particular bias.
-				Bias29Sent_S <= '1';
-
-				-- Load shiftreg with current bias address.
-				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(29, BIASADDR_REG_LENGTH));
 				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load shiftreg with current bias config content.
@@ -1270,16 +1213,6 @@ begin
 			ChangeDetected_SO     => Bias11Changed_S,
 			ChangeAcknowledged_SI => Bias11Sent_S);
 
-	detectBias12Change : entity work.ChangeDetector
-		generic map(
-			SIZE => BIAS_CF_LENGTH)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.Blk1N_D,
-			ChangeDetected_SO     => Bias12Changed_S,
-			ChangeAcknowledged_SI => Bias12Sent_S);
-
 	detectBias13Change : entity work.ChangeDetector
 		generic map(
 			SIZE => BIAS_CF_LENGTH)
@@ -1360,16 +1293,6 @@ begin
 			ChangeDetected_SO     => Bias20Changed_S,
 			ChangeAcknowledged_SI => Bias20Sent_S);
 
-	detectBias21Change : entity work.ChangeDetector
-		generic map(
-			SIZE => BIAS_CF_LENGTH)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.Blk1P_D,
-			ChangeDetected_SO     => Bias21Changed_S,
-			ChangeAcknowledged_SI => Bias21Sent_S);
-
 	detectBias22Change : entity work.ChangeDetector
 		generic map(
 			SIZE => BIAS_CF_LENGTH)
@@ -1439,16 +1362,6 @@ begin
 			InputData_DI          => BiasConfigReg_D.DACBufBp_D,
 			ChangeDetected_SO     => Bias28Changed_S,
 			ChangeAcknowledged_SI => Bias28Sent_S);
-
-	detectBias29Change : entity work.ChangeDetector
-		generic map(
-			SIZE => BIAS_CF_LENGTH)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.Blk2P_D,
-			ChangeDetected_SO     => Bias29Changed_S,
-			ChangeAcknowledged_SI => Bias29Sent_S);
 
 	detectBias30Change : entity work.ChangeDetector
 		generic map(
