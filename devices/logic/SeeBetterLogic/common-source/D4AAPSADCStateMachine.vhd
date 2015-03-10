@@ -118,6 +118,13 @@ architecture Behavioral of D4AAPSADCStateMachine is
 
 	-- Row settle time counter.
 	signal RSRowSettleTimeCount_S, RSRowSettleTimeDone_S : std_logic;
+	
+	signal GSPDResetTimeCount_S, GSPDResetTimeDone_S : std_logic;
+	signal GSTXFallTimeCount_S, GSTXFallTimeDone_S : std_logic;
+	signal GSFDResetTimeCount_S, GSFDResetTimeDone_S : std_logic;
+	signal GSCpResetFDTimeCount_S, GSCpResetFDTimeDone_S : std_logic;
+	signal GSCpResetSettleTimeCount_S, GSCpResetSettleTimeDone_S : std_logic;
+	signal APSFrameInitiate_S, GSReadoutStart_S : std_logic;
 
 	-- Column and row read counters.
 	signal ColumnReadAPositionZero_S, ColumnReadAPositionInc_S : std_logic;
@@ -181,21 +188,7 @@ begin
 			DataLimit_DI => CHIP_APS_SIZE_COLUMNS,
 			Overflow_SO  => open,
 			Data_DO      => ColumnReadAPosition_D);
-
-	colReadBPosition : entity work.ContinuousCounter
-		generic map(
-			SIZE              => CHIP_APS_SIZE_COLUMNS'length,
-			RESET_ON_OVERFLOW => false,
-			GENERATE_OVERFLOW => false)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => ColumnReadBPositionZero_S,
-			Enable_SI    => ColumnReadBPositionInc_S,
-			DataLimit_DI => CHIP_APS_SIZE_COLUMNS,
-			Overflow_SO  => open,
-			Data_DO      => ColumnReadBPosition_D);
-
+			
 	rowReadPosition : entity work.ContinuousCounter
 		generic map(
 			SIZE              => CHIP_APS_SIZE_ROWS'length,
@@ -209,6 +202,66 @@ begin
 			DataLimit_DI => CHIP_APS_SIZE_ROWS,
 			Overflow_SO  => open,
 			Data_DO      => RowReadPosition_D);
+
+	GSTXFallTimeCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_GSTXFALLTIME_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => GSTXFallTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.GSTXFall_D,
+			Overflow_SO  => GSTXFallTimeDone_S,
+			Data_DO      => open);
+
+	GSPDResetTimeCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_GSPDRESETTIME_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => GSPDResetTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.GSPDReset_D,
+			Overflow_SO  => GSPDResetTimeDone_S,
+			Data_DO      => open);
+	
+	GSFDResetTimeCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_GSFDRESETTIME_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => GSFDResetTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.GSFDReset_D,
+			Overflow_SO  => GSFDResetTimeDone_S,
+			Data_DO      => open);
+			
+	GSCpResetFDTimeCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_GSCPRESETFDTIME_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => GSCpResetFDTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.GSCpResetFD_D,
+			Overflow_SO  => GSCpResetFDTimeDone_S,
+			Data_DO      => open);
+			
+	GSCpResetSettleTimeCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_GSCPRESETSETTLETIME_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => GSCpResetSettleTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.GSCpResetSettle_D,
+			Overflow_SO  => GSCpResetSettleTimeDone_S,
+			Data_DO      => open);
 
 	ExposureTimeCounter : entity work.ContinuousCounter
 		generic map(
@@ -271,7 +324,7 @@ begin
 			Overflow_SO  => RSRowSettleTimeDone_S,
 			Data_DO      => open);
 
-	PixelStateMachine : process(PixelState_DP, APSRowSRClockReg_C, RSRowSettleTimeDone_S, ChipADCSampleDone_S, ExposureTimeDone_S)
+	PixelStateMachine : process(APSADCConfigReg_D, PixelState_DP, APSRowSRClockReg_C, RSRowSettleTimeDone_S, ChipADCSampleDone_S, ExposureTimeDone_S, TransferTimeDone_S, RSCpResetTimeDone_S, RSCpSettleTimeDone_S, APSFrameInitiate_S, GSPDResetTimeDone_S, GSTXFallTimeDone_S, GSFDResetTimeDone_S, GSCpResetFDTimeDone_S, GSCpResetSettleTimeDone_S, RowReadPosition_D)
 	begin
 		PixelState_DN <= PixelState_DP;     -- Keep current state by default.
 
@@ -284,22 +337,7 @@ begin
 		ChipADCSample_S <= '0';
 		TransferTimeCount_S <= '0';
 		RSCpResetTimeCount_S <= '0';
-		RSCpSettleTimeCount_S <= '0';
-
-		-- Colum counters.
-		
-
-		-- Reset time counter.
-		
-
-		-- Null time counter.
-		
-
-		-- Row SM communication.
-		
-
-		-- Keep value by default.
-		
+		RSCpSettleTimeCount_S <= '0';		
 
 		-- Only update configuration when in Idle state. Doing so while the frame is being read out
 		-- would cause different timing, exposure and read out types, resulting in corrupted frames.
@@ -591,7 +629,7 @@ begin
 		end case;
 	end process RowSRStateMachine;
 	
-	ChipADCStateMachine : process()
+	ChipADCStateMachine : process(ChipADCState_DP)
 	begin
 		ChipADCState_DN <= ChipADCState_DP;
 		
