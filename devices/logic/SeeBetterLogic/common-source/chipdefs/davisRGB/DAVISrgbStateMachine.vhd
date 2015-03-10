@@ -919,9 +919,9 @@ begin
 				ChipSRInput_D(51 downto 48) <= std_logic_vector(ChipConfigReg_D.DigitalMux2_D);
 				ChipSRInput_D(47 downto 44) <= std_logic_vector(ChipConfigReg_D.DigitalMux1_D);
 				ChipSRInput_D(43 downto 40) <= std_logic_vector(ChipConfigReg_D.DigitalMux0_D);
-				ChipSRInput_D(29)           <= ChipConfigReg_D.AdjOVG1Lo_S;
-				ChipSRInput_D(28)           <= ChipConfigReg_D.AdjOVG2Lo_S;
-				ChipSRInput_D(27)           <= ChipConfigReg_D.AdjTX2OVG2Hi_S;
+				ChipSRInput_D(29)           <= ChipConfigReg_D.AdjustOVG1Lo_S;
+				ChipSRInput_D(28)           <= ChipConfigReg_D.AdjustOVG2Lo_S;
+				ChipSRInput_D(27)           <= ChipConfigReg_D.AdjustTX2OVG2Hi_S;
 				ChipSRInput_D(25)           <= ChipConfigReg_D.SelectGrayCounter_S;
 				ChipSRInput_D(24)           <= ChipConfigReg_D.TestADC_S;
 				ChipSRInput_D(21)           <= ChipConfigReg_D.UseAOut_S;
@@ -932,7 +932,7 @@ begin
 				ChipSRInput_D(15 downto 12) <= std_logic_vector(ChipConfigReg_D.AnalogMux2_D);
 				ChipSRInput_D(11 downto 8)  <= std_logic_vector(ChipConfigReg_D.AnalogMux1_D);
 				ChipSRInput_D(7 downto 4)   <= std_logic_vector(ChipConfigReg_D.AnalogMux0_D);
-				ChipSRInput_D(3 downto 0)   <= std_logic_vector(ChipConfigReg_D.BiasOutMux_D);
+				ChipSRInput_D(3 downto 0)   <= std_logic_vector(ChipConfigReg_D.BiasMux0_D);
 				ChipSRMode_S                <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendChip;
@@ -1436,8 +1436,8 @@ begin
 	-- Put all chip register configuration parameters together, and then detect changes
 	-- on the whole lot of them. This is easier to handle and slightly more efficient.
 	ChipChangedInput_D <= std_logic_vector(ChipConfigReg_D.DigitalMux0_D) & std_logic_vector(ChipConfigReg_D.DigitalMux1_D) & std_logic_vector(ChipConfigReg_D.DigitalMux2_D) & std_logic_vector(ChipConfigReg_D.DigitalMux3_D) & std_logic_vector(ChipConfigReg_D.AnalogMux0_D) & std_logic_vector(
-			ChipConfigReg_D.AnalogMux1_D) & std_logic_vector(ChipConfigReg_D.AnalogMux2_D) & std_logic_vector(ChipConfigReg_D.BiasOutMux_D) & ChipConfigReg_D.ResetCalibNeuron_S & ChipConfigReg_D.TypeNCalibNeuron_S & ChipConfigReg_D.ResetTestPixel_S & ChipConfigReg_D.AERnArow_S &
-		ChipConfigReg_D.UseAOut_S & ChipConfigReg_D.TestADC_S & ChipConfigReg_D.SelectGrayCounter_S & ChipConfigReg_D.AdjTX2OVG2Hi_S & ChipConfigReg_D.AdjOVG2Lo_S & ChipConfigReg_D.AdjOVG1Lo_S;
+			ChipConfigReg_D.AnalogMux1_D) & std_logic_vector(ChipConfigReg_D.AnalogMux2_D) & std_logic_vector(ChipConfigReg_D.BiasMux0_D) & ChipConfigReg_D.ResetCalibNeuron_S & ChipConfigReg_D.TypeNCalibNeuron_S & ChipConfigReg_D.ResetTestPixel_S & ChipConfigReg_D.AERnArow_S & ChipConfigReg_D.UseAOut_S
+		& ChipConfigReg_D.TestADC_S & ChipConfigReg_D.SelectGrayCounter_S & ChipConfigReg_D.AdjustTX2OVG2Hi_S & ChipConfigReg_D.AdjustOVG2Lo_S & ChipConfigReg_D.AdjustOVG1Lo_S;
 
 	detectChipChange : entity work.ChangeDetector
 		generic map(

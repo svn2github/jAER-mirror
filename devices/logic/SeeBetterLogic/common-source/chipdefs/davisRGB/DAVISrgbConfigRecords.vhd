@@ -159,7 +159,7 @@ package DAVISrgbChipBiasConfigRecords is
 		AnalogMux0_D        : unsigned(7 downto 0);
 		AnalogMux1_D        : unsigned(7 downto 0);
 		AnalogMux2_D        : unsigned(7 downto 0);
-		BiasOutMux_D        : unsigned(7 downto 0);
+		BiasMux0_D          : unsigned(7 downto 0);
 		ResetCalibNeuron_S  : unsigned(7 downto 0);
 		TypeNCalibNeuron_S  : unsigned(7 downto 0);
 		ResetTestPixel_S    : unsigned(7 downto 0);
@@ -167,9 +167,9 @@ package DAVISrgbChipBiasConfigRecords is
 		UseAOut_S           : unsigned(7 downto 0);
 		SelectGrayCounter_S : unsigned(7 downto 0);
 		TestADC_S           : unsigned(7 downto 0);
-		AdjOVG1Lo_S         : unsigned(7 downto 0);
-		AdjOVG2Lo_S         : unsigned(7 downto 0);
-		AdjTX2OVG2Hi_S      : unsigned(7 downto 0);
+		AdjustOVG1Lo_S      : unsigned(7 downto 0);
+		AdjustOVG2Lo_S      : unsigned(7 downto 0);
+		AdjustTX2OVG2Hi_S   : unsigned(7 downto 0);
 	end record tDAVISrgbChipConfigParamAddresses;
 
 	-- Start with addresses 128 here, so that the MSB (bit 7) is always high. This heavily simplifies
@@ -182,7 +182,7 @@ package DAVISrgbChipBiasConfigRecords is
 		AnalogMux0_D        => to_unsigned(132, 8),
 		AnalogMux1_D        => to_unsigned(133, 8),
 		AnalogMux2_D        => to_unsigned(134, 8),
-		BiasOutMux_D        => to_unsigned(135, 8),
+		BiasMux0_D          => to_unsigned(135, 8),
 		ResetCalibNeuron_S  => to_unsigned(136, 8),
 		TypeNCalibNeuron_S  => to_unsigned(137, 8),
 		ResetTestPixel_S    => to_unsigned(138, 8),
@@ -190,9 +190,9 @@ package DAVISrgbChipBiasConfigRecords is
 		UseAOut_S           => to_unsigned(141, 8),
 		SelectGrayCounter_S => to_unsigned(143, 8),
 		TestADC_S           => to_unsigned(144, 8),
-		AdjOVG1Lo_S         => to_unsigned(145, 8),
-		AdjOVG2Lo_S         => to_unsigned(146, 8),
-		AdjTX2OVG2Hi_S      => to_unsigned(147, 8));
+		AdjustOVG1Lo_S      => to_unsigned(145, 8),
+		AdjustOVG2Lo_S      => to_unsigned(146, 8),
+		AdjustTX2OVG2Hi_S   => to_unsigned(147, 8));
 
 	type tDAVISrgbChipConfig is record
 		DigitalMux0_D       : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
@@ -202,7 +202,7 @@ package DAVISrgbChipBiasConfigRecords is
 		AnalogMux0_D        : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		AnalogMux1_D        : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		AnalogMux2_D        : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
-		BiasOutMux_D        : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
+		BiasMux0_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		ResetCalibNeuron_S  : std_logic;
 		TypeNCalibNeuron_S  : std_logic;
 		ResetTestPixel_S    : std_logic;
@@ -210,9 +210,9 @@ package DAVISrgbChipBiasConfigRecords is
 		UseAOut_S           : std_logic;
 		SelectGrayCounter_S : std_logic;
 		TestADC_S           : std_logic;
-		AdjOVG1Lo_S         : std_logic;
-		AdjOVG2Lo_S         : std_logic;
-		AdjTX2OVG2Hi_S      : std_logic;
+		AdjustOVG1Lo_S      : std_logic;
+		AdjustOVG2Lo_S      : std_logic;
+		AdjustTX2OVG2Hi_S   : std_logic;
 	end record tDAVISrgbChipConfig;
 
 	-- Effectively used bits in chip register.
@@ -226,15 +226,15 @@ package DAVISrgbChipBiasConfigRecords is
 		AnalogMux0_D        => (others => '0'),
 		AnalogMux1_D        => (others => '0'),
 		AnalogMux2_D        => (others => '0'),
-		BiasOutMux_D        => (others => '0'),
+		BiasMux0_D          => (others => '0'),
 		ResetCalibNeuron_S  => '1',
 		TypeNCalibNeuron_S  => '0',
 		ResetTestPixel_S    => '1',
 		AERnArow_S          => '0',
-		UseAOut_S           => '1',
+		UseAOut_S           => '0',
 		SelectGrayCounter_S => '0',
 		TestADC_S           => '0',
-		AdjOVG1Lo_S         => '0',
-		AdjOVG2Lo_S         => '0',
-		AdjTX2OVG2Hi_S      => '0');
+		AdjustOVG1Lo_S      => '0',
+		AdjustOVG2Lo_S      => '0',
+		AdjustTX2OVG2Hi_S   => '0');
 end package DAVISrgbChipBiasConfigRecords;

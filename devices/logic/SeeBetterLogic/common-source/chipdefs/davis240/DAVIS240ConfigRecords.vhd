@@ -111,7 +111,7 @@ package DAVIS240ChipBiasConfigRecords is
 		AnalogMux0_D          : unsigned(7 downto 0);
 		AnalogMux1_D          : unsigned(7 downto 0);
 		AnalogMux2_D          : unsigned(7 downto 0);
-		BiasOutMux_D          : unsigned(7 downto 0);
+		BiasMux0_D            : unsigned(7 downto 0);
 		ResetCalibNeuron_S    : unsigned(7 downto 0);
 		TypeNCalibNeuron_S    : unsigned(7 downto 0);
 		ResetTestPixel_S      : unsigned(7 downto 0);
@@ -131,7 +131,7 @@ package DAVIS240ChipBiasConfigRecords is
 		AnalogMux0_D          => to_unsigned(132, 8),
 		AnalogMux1_D          => to_unsigned(133, 8),
 		AnalogMux2_D          => to_unsigned(134, 8),
-		BiasOutMux_D          => to_unsigned(135, 8),
+		BiasMux0_D            => to_unsigned(135, 8),
 		ResetCalibNeuron_S    => to_unsigned(136, 8),
 		TypeNCalibNeuron_S    => to_unsigned(137, 8),
 		ResetTestPixel_S      => to_unsigned(138, 8),
@@ -148,7 +148,7 @@ package DAVIS240ChipBiasConfigRecords is
 		AnalogMux0_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		AnalogMux1_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		AnalogMux2_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
-		BiasOutMux_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
+		BiasMux0_D            : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		ResetCalibNeuron_S    : std_logic;
 		TypeNCalibNeuron_S    : std_logic;
 		ResetTestPixel_S      : std_logic;
@@ -169,12 +169,12 @@ package DAVIS240ChipBiasConfigRecords is
 		AnalogMux0_D          => (others => '0'),
 		AnalogMux1_D          => (others => '0'),
 		AnalogMux2_D          => (others => '0'),
-		BiasOutMux_D          => (others => '0'),
+		BiasMux0_D            => (others => '0'),
 		ResetCalibNeuron_S    => '1',
 		TypeNCalibNeuron_S    => '0',
 		ResetTestPixel_S      => '1',
 		HotPixelSuppression_S => '0',
 		AERnArow_S            => '0',
-		UseAOut_S             => '1',
+		UseAOut_S             => '0',
 		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER);
 end package DAVIS240ChipBiasConfigRecords;

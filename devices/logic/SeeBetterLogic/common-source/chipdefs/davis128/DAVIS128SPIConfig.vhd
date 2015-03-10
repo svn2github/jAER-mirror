@@ -215,9 +215,9 @@ begin
 				ChipConfigReg_DN.AnalogMux2_D                                       <= unsigned(ChipInput_DP(tDAVIS128ChipConfig.AnalogMux2_D'length - 1 downto 0));
 				ChipOutput_DN(tDAVIS128ChipConfig.AnalogMux2_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.AnalogMux2_D);
 
-			when DAVIS128_CHIPCONFIG_PARAM_ADDRESSES.BiasOutMux_D =>
-				ChipConfigReg_DN.BiasOutMux_D                                       <= unsigned(ChipInput_DP(tDAVIS128ChipConfig.BiasOutMux_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVIS128ChipConfig.BiasOutMux_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.BiasOutMux_D);
+			when DAVIS128_CHIPCONFIG_PARAM_ADDRESSES.BiasMux0_D =>
+				ChipConfigReg_DN.BiasMux0_D                                       <= unsigned(ChipInput_DP(tDAVIS128ChipConfig.BiasMux0_D'length - 1 downto 0));
+				ChipOutput_DN(tDAVIS128ChipConfig.BiasMux0_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.BiasMux0_D);
 
 			when DAVIS128_CHIPCONFIG_PARAM_ADDRESSES.ResetCalibNeuron_S =>
 				ChipConfigReg_DN.ResetCalibNeuron_S <= ChipInput_DP(0);

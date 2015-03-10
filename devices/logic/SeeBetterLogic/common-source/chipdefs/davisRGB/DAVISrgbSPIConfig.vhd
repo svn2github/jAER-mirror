@@ -239,9 +239,9 @@ begin
 				ChipConfigReg_DN.AnalogMux2_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.AnalogMux2_D'length - 1 downto 0));
 				ChipOutput_DN(tDAVISrgbChipConfig.AnalogMux2_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.AnalogMux2_D);
 
-			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.BiasOutMux_D =>
-				ChipConfigReg_DN.BiasOutMux_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.BiasOutMux_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVISrgbChipConfig.BiasOutMux_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.BiasOutMux_D);
+			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.BiasMux0_D =>
+				ChipConfigReg_DN.BiasMux0_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.BiasMux0_D'length - 1 downto 0));
+				ChipOutput_DN(tDAVISrgbChipConfig.BiasMux0_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.BiasMux0_D);
 
 			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.ResetCalibNeuron_S =>
 				ChipConfigReg_DN.ResetCalibNeuron_S <= ChipInput_DP(0);
@@ -271,17 +271,17 @@ begin
 				ChipConfigReg_DN.TestADC_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)           <= ChipConfigReg_DP.TestADC_S;
 
-			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.AdjOVG1Lo_S =>
-				ChipConfigReg_DN.AdjOVG1Lo_S <= ChipInput_DP(0);
-				ChipOutput_DN(0)             <= ChipConfigReg_DP.AdjOVG1Lo_S;
+			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.AdjustOVG1Lo_S =>
+				ChipConfigReg_DN.AdjustOVG1Lo_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)                <= ChipConfigReg_DP.AdjustOVG1Lo_S;
 
-			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.AdjOVG2Lo_S =>
-				ChipConfigReg_DN.AdjOVG2Lo_S <= ChipInput_DP(0);
-				ChipOutput_DN(0)             <= ChipConfigReg_DP.AdjOVG2Lo_S;
+			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.AdjustOVG2Lo_S =>
+				ChipConfigReg_DN.AdjustOVG2Lo_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)                <= ChipConfigReg_DP.AdjustOVG2Lo_S;
 
-			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.AdjTX2OVG2Hi_S =>
-				ChipConfigReg_DN.AdjTX2OVG2Hi_S <= ChipInput_DP(0);
-				ChipOutput_DN(0)                <= ChipConfigReg_DP.AdjTX2OVG2Hi_S;
+			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.AdjustTX2OVG2Hi_S =>
+				ChipConfigReg_DN.AdjustTX2OVG2Hi_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)                   <= ChipConfigReg_DP.AdjustTX2OVG2Hi_S;
 
 			when others => null;
 		end case;

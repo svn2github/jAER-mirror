@@ -815,7 +815,7 @@ begin
 				ChipSRInput_D(15 downto 12) <= std_logic_vector(ChipConfigReg_D.AnalogMux2_D);
 				ChipSRInput_D(11 downto 8)  <= std_logic_vector(ChipConfigReg_D.AnalogMux1_D);
 				ChipSRInput_D(7 downto 4)   <= std_logic_vector(ChipConfigReg_D.AnalogMux0_D);
-				ChipSRInput_D(3 downto 0)   <= std_logic_vector(ChipConfigReg_D.BiasOutMux_D);
+				ChipSRInput_D(3 downto 0)   <= std_logic_vector(ChipConfigReg_D.BiasMux0_D);
 				ChipSRMode_S                <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendChip;
@@ -1259,7 +1259,7 @@ begin
 	-- Put all chip register configuration parameters together, and then detect changes
 	-- on the whole lot of them. This is easier to handle and slightly more efficient.
 	ChipChangedInput_D <= std_logic_vector(ChipConfigReg_D.DigitalMux0_D) & std_logic_vector(ChipConfigReg_D.DigitalMux1_D) & std_logic_vector(ChipConfigReg_D.DigitalMux2_D) & std_logic_vector(ChipConfigReg_D.DigitalMux3_D) & std_logic_vector(ChipConfigReg_D.AnalogMux0_D) & std_logic_vector(
-			ChipConfigReg_D.AnalogMux1_D) & std_logic_vector(ChipConfigReg_D.AnalogMux2_D) & std_logic_vector(ChipConfigReg_D.BiasOutMux_D) & ChipConfigReg_D.ResetCalibNeuron_S & ChipConfigReg_D.TypeNCalibNeuron_S & ChipConfigReg_D.ResetTestPixel_S & ChipConfigReg_D.HotPixelSuppression_S &
+			ChipConfigReg_D.AnalogMux1_D) & std_logic_vector(ChipConfigReg_D.AnalogMux2_D) & std_logic_vector(ChipConfigReg_D.BiasMux0_D) & ChipConfigReg_D.ResetCalibNeuron_S & ChipConfigReg_D.TypeNCalibNeuron_S & ChipConfigReg_D.ResetTestPixel_S & ChipConfigReg_D.HotPixelSuppression_S &
 		ChipConfigReg_D.AERnArow_S & ChipConfigReg_D.UseAOut_S & ChipConfigReg_D.GlobalShutter_S & ChipConfigReg_D.SelectGrayCounter_S;
 
 	detectChipChange : entity work.ChangeDetector
