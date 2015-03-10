@@ -28,9 +28,9 @@ end entity DAVIS208StateMachine;
 architecture Behavioral of DAVIS208StateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stIdle, stAckAndLoadBias0, stAckAndLoadBias1, stAckAndLoadBias2, stAckAndLoadBias3, stAckAndLoadBias4, stAckAndLoadBias8, stAckAndLoadBias9, stAckAndLoadBias10, stAckAndLoadBias11, stAckAndLoadBias12, stAckAndLoadBias13, stAckAndLoadBias14, stAckAndLoadBias15, stAckAndLoadBias16,
-		            stAckAndLoadBias17, stAckAndLoadBias18, stAckAndLoadBias19, stAckAndLoadBias20, stAckAndLoadBias21, stAckAndLoadBias22, stAckAndLoadBias23, stAckAndLoadBias24, stAckAndLoadBias25, stAckAndLoadBias26, stAckAndLoadBias27, stAckAndLoadBias34, stAckAndLoadBias35, stAckAndLoadBias36,
-		            stPrepareSendBiasAddress, stSendBiasAddress, stPrepareSendBias, stSendBias, stAckAndLoadChip, stPrepareSendChip, stSendChip, stLatchBiasAddress, stLatchBias, stLatchChip);
+	type tState is (stIdle, stAckAndLoadBias0, stAckAndLoadBias1, stAckAndLoadBias2, stAckAndLoadBias3, stAckAndLoadBias4, stAckAndLoadBias5, stAckAndLoadBias6, stAckAndLoadBias8, stAckAndLoadBias9, stAckAndLoadBias10, stAckAndLoadBias11, stAckAndLoadBias12, stAckAndLoadBias13, stAckAndLoadBias14,
+		            stAckAndLoadBias15, stAckAndLoadBias16, stAckAndLoadBias17, stAckAndLoadBias18, stAckAndLoadBias19, stAckAndLoadBias20, stAckAndLoadBias21, stAckAndLoadBias22, stAckAndLoadBias23, stAckAndLoadBias24, stAckAndLoadBias25, stAckAndLoadBias26, stAckAndLoadBias27, stAckAndLoadBias28,
+		            stAckAndLoadBias30, stAckAndLoadBias34, stAckAndLoadBias35, stAckAndLoadBias36, stPrepareSendBiasAddress, stSendBiasAddress, stPrepareSendBias, stSendBias, stAckAndLoadChip, stPrepareSendChip, stSendChip, stLatchBiasAddress, stLatchBias, stLatchChip);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	signal State_DP, State_DN : tState;
@@ -61,6 +61,8 @@ architecture Behavioral of DAVIS208StateMachine is
 	signal Bias2Changed_S, Bias2Sent_S   : std_logic;
 	signal Bias3Changed_S, Bias3Sent_S   : std_logic;
 	signal Bias4Changed_S, Bias4Sent_S   : std_logic;
+	signal Bias5Changed_S, Bias5Sent_S   : std_logic;
+	signal Bias6Changed_S, Bias6Sent_S   : std_logic;
 	signal Bias8Changed_S, Bias8Sent_S   : std_logic;
 	signal Bias9Changed_S, Bias9Sent_S   : std_logic;
 	signal Bias10Changed_S, Bias10Sent_S : std_logic;
@@ -81,6 +83,8 @@ architecture Behavioral of DAVIS208StateMachine is
 	signal Bias25Changed_S, Bias25Sent_S : std_logic;
 	signal Bias26Changed_S, Bias26Sent_S : std_logic;
 	signal Bias27Changed_S, Bias27Sent_S : std_logic;
+	signal Bias28Changed_S, Bias28Sent_S : std_logic;
+	signal Bias30Changed_S, Bias30Sent_S : std_logic;
 	signal Bias34Changed_S, Bias34Sent_S : std_logic;
 	signal Bias35Changed_S, Bias35Sent_S : std_logic;
 	signal Bias36Changed_S, Bias36Sent_S : std_logic;
@@ -141,6 +145,8 @@ begin
 		Bias2Sent_S  <= '0';
 		Bias3Sent_S  <= '0';
 		Bias4Sent_S  <= '0';
+		Bias5Sent_S  <= '0';
+		Bias6Sent_S  <= '0';
 		Bias8Sent_S  <= '0';
 		Bias9Sent_S  <= '0';
 		Bias10Sent_S <= '0';
@@ -161,6 +167,8 @@ begin
 		Bias25Sent_S <= '0';
 		Bias26Sent_S <= '0';
 		Bias27Sent_S <= '0';
+		Bias28Sent_S <= '0';
+		Bias30Sent_S <= '0';
 		Bias34Sent_S <= '0';
 		Bias35Sent_S <= '0';
 		Bias36Sent_S <= '0';
@@ -198,6 +206,12 @@ begin
 				end if;
 				if Bias4Changed_S = '1' then
 					State_DN <= stAckAndLoadBias4;
+				end if;
+				if Bias5Changed_S = '1' then
+					State_DN <= stAckAndLoadBias5;
+				end if;
+				if Bias6Changed_S = '1' then
+					State_DN <= stAckAndLoadBias6;
 				end if;
 				if Bias8Changed_S = '1' then
 					State_DN <= stAckAndLoadBias8;
@@ -258,6 +272,12 @@ begin
 				end if;
 				if Bias27Changed_S = '1' then
 					State_DN <= stAckAndLoadBias27;
+				end if;
+				if Bias28Changed_S = '1' then
+					State_DN <= stAckAndLoadBias28;
+				end if;
+				if Bias30Changed_S = '1' then
+					State_DN <= stAckAndLoadBias30;
 				end if;
 				if Bias34Changed_S = '1' then
 					State_DN <= stAckAndLoadBias34;
@@ -339,6 +359,34 @@ begin
 
 				-- Load shiftreg with current bias config content.
 				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.AdcTestVoltage_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stPrepareSendBiasAddress;
+
+			when stAckAndLoadBias5 =>
+				-- Acknowledge this particular bias.
+				Bias5Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(5, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.ResetHighPass_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stPrepareSendBiasAddress;
+
+			when stAckAndLoadBias6 =>
+				-- Acknowledge this particular bias.
+				Bias6Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(6, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= BiasGenerateVDAC(BiasConfigReg_D.RefSS_D);
 				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendBiasAddress;
@@ -623,6 +671,34 @@ begin
 
 				State_DN <= stPrepareSendBiasAddress;
 
+			when stAckAndLoadBias28 =>
+				-- Acknowledge this particular bias.
+				Bias28Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(28, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.RegBiasBp_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stPrepareSendBiasAddress;
+
+			when stAckAndLoadBias30 =>
+				-- Acknowledge this particular bias.
+				Bias30Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(30, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= BiasGenerateCoarseFine(BiasConfigReg_D.RefSSBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stPrepareSendBiasAddress;
+
 			when stAckAndLoadBias34 =>
 				-- Acknowledge this particular bias.
 				Bias34Sent_S <= '1';
@@ -804,7 +880,12 @@ begin
 				ChipSRInput_D(51 downto 48) <= std_logic_vector(ChipConfigReg_D.DigitalMux2_D);
 				ChipSRInput_D(47 downto 44) <= std_logic_vector(ChipConfigReg_D.DigitalMux1_D);
 				ChipSRInput_D(43 downto 40) <= std_logic_vector(ChipConfigReg_D.DigitalMux0_D);
-				ChipSRInput_D(23)           <= ChipConfigReg_D.SelectGrayCounter_S;
+				ChipSRInput_D(29)           <= ChipConfigReg_D.SelectGrayCounter_S;
+				ChipSRInput_D(27)           <= not ChipConfigReg_D.SelectHighPass_S; -- Negated in chip config chain.
+				ChipSRInput_D(26)           <= not ChipConfigReg_D.SelectPosFb_S; -- Negated in chip config chain.
+				ChipSRInput_D(25)           <= not ChipConfigReg_D.SelectSense_S; -- Negated in chip config chain.
+				ChipSRInput_D(24)           <= ChipConfigReg_D.SelectBiasRefSS_S;
+				ChipSRInput_D(23)           <= ChipConfigReg_D.SelectPreAmpAvg_S;
 				ChipSRInput_D(22)           <= ChipConfigReg_D.GlobalShutter_S;
 				ChipSRInput_D(21)           <= ChipConfigReg_D.UseAOut_S;
 				ChipSRInput_D(20)           <= ChipConfigReg_D.AERnArow_S;
@@ -815,7 +896,7 @@ begin
 				ChipSRInput_D(15 downto 12) <= std_logic_vector(ChipConfigReg_D.AnalogMux2_D);
 				ChipSRInput_D(11 downto 8)  <= std_logic_vector(ChipConfigReg_D.AnalogMux1_D);
 				ChipSRInput_D(7 downto 4)   <= std_logic_vector(ChipConfigReg_D.AnalogMux0_D);
-				ChipSRInput_D(3 downto 0)   <= std_logic_vector(ChipConfigReg_D.BiasOutMux_D);
+				ChipSRInput_D(3 downto 0)   <= std_logic_vector(ChipConfigReg_D.BiasMux0_D);
 				ChipSRMode_S                <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendChip;
@@ -1026,6 +1107,26 @@ begin
 			ChangeDetected_SO     => Bias4Changed_S,
 			ChangeAcknowledged_SI => Bias4Sent_S);
 
+	detectBias5Change : entity work.ChangeDetector
+		generic map(
+			SIZE => BIAS_VD_LENGTH)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_DI          => BiasConfigReg_D.ResetHighPass_D,
+			ChangeDetected_SO     => Bias5Changed_S,
+			ChangeAcknowledged_SI => Bias5Sent_S);
+
+	detectBias6Change : entity work.ChangeDetector
+		generic map(
+			SIZE => BIAS_VD_LENGTH)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_DI          => BiasConfigReg_D.RefSS_D,
+			ChangeDetected_SO     => Bias6Changed_S,
+			ChangeAcknowledged_SI => Bias6Sent_S);
+
 	detectBias8Change : entity work.ChangeDetector
 		generic map(
 			SIZE => BIAS_CF_LENGTH)
@@ -1226,6 +1327,26 @@ begin
 			ChangeDetected_SO     => Bias27Changed_S,
 			ChangeAcknowledged_SI => Bias27Sent_S);
 
+	detectBias28Change : entity work.ChangeDetector
+		generic map(
+			SIZE => BIAS_CF_LENGTH)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_DI          => BiasConfigReg_D.RegBiasBp_D,
+			ChangeDetected_SO     => Bias28Changed_S,
+			ChangeAcknowledged_SI => Bias28Sent_S);
+
+	detectBias30Change : entity work.ChangeDetector
+		generic map(
+			SIZE => BIAS_CF_LENGTH)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_DI          => BiasConfigReg_D.RefSSBn_D,
+			ChangeDetected_SO     => Bias30Changed_S,
+			ChangeAcknowledged_SI => Bias30Sent_S);
+
 	detectBias34Change : entity work.ChangeDetector
 		generic map(
 			SIZE => BIAS_CF_LENGTH)
@@ -1259,8 +1380,9 @@ begin
 	-- Put all chip register configuration parameters together, and then detect changes
 	-- on the whole lot of them. This is easier to handle and slightly more efficient.
 	ChipChangedInput_D <= std_logic_vector(ChipConfigReg_D.DigitalMux0_D) & std_logic_vector(ChipConfigReg_D.DigitalMux1_D) & std_logic_vector(ChipConfigReg_D.DigitalMux2_D) & std_logic_vector(ChipConfigReg_D.DigitalMux3_D) & std_logic_vector(ChipConfigReg_D.AnalogMux0_D) & std_logic_vector(
-			ChipConfigReg_D.AnalogMux1_D) & std_logic_vector(ChipConfigReg_D.AnalogMux2_D) & std_logic_vector(ChipConfigReg_D.BiasOutMux_D) & ChipConfigReg_D.ResetCalibNeuron_S & ChipConfigReg_D.TypeNCalibNeuron_S & ChipConfigReg_D.ResetTestPixel_S & ChipConfigReg_D.HotPixelSuppression_S &
-		ChipConfigReg_D.AERnArow_S & ChipConfigReg_D.UseAOut_S & ChipConfigReg_D.GlobalShutter_S & ChipConfigReg_D.SelectGrayCounter_S;
+			ChipConfigReg_D.AnalogMux1_D) & std_logic_vector(ChipConfigReg_D.AnalogMux2_D) & std_logic_vector(ChipConfigReg_D.BiasMux0_D) & ChipConfigReg_D.ResetCalibNeuron_S & ChipConfigReg_D.TypeNCalibNeuron_S & ChipConfigReg_D.ResetTestPixel_S & ChipConfigReg_D.HotPixelSuppression_S &
+		ChipConfigReg_D.AERnArow_S & ChipConfigReg_D.UseAOut_S & ChipConfigReg_D.GlobalShutter_S & ChipConfigReg_D.SelectGrayCounter_S & ChipConfigReg_D.SelectPreAmpAvg_S & ChipConfigReg_D.SelectBiasRefSS_S & ChipConfigReg_D.SelectSense_S & ChipConfigReg_D.SelectPosFb_S &
+		ChipConfigReg_D.SelectHighPass_S;
 
 	detectChipChange : entity work.ChangeDetector
 		generic map(

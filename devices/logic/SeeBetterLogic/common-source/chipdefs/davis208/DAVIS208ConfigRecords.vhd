@@ -11,6 +11,8 @@ package DAVIS208ChipBiasConfigRecords is
 		AdcRefHigh_D       : unsigned(7 downto 0);
 		AdcRefLow_D        : unsigned(7 downto 0);
 		AdcTestVoltage_D   : unsigned(7 downto 0);
+		ResetHighPass_D    : unsigned(7 downto 0);
+		RefSS_D            : unsigned(7 downto 0);
 		LocalBufBn_D       : unsigned(7 downto 0);
 		PadFollBn_D        : unsigned(7 downto 0);
 		DiffBn_D           : unsigned(7 downto 0);
@@ -31,6 +33,8 @@ package DAVIS208ChipBiasConfigRecords is
 		AEPuYBp_D          : unsigned(7 downto 0);
 		IFRefrBn_D         : unsigned(7 downto 0);
 		IFThrBn_D          : unsigned(7 downto 0);
+		RegBiasBp_D        : unsigned(7 downto 0);
+		RefSSBn_D          : unsigned(7 downto 0);
 		BiasBuffer_D       : unsigned(7 downto 0);
 		SSP_D              : unsigned(7 downto 0);
 		SSN_D              : unsigned(7 downto 0);
@@ -42,6 +46,8 @@ package DAVIS208ChipBiasConfigRecords is
 		AdcRefHigh_D       => to_unsigned(2, 8),
 		AdcRefLow_D        => to_unsigned(3, 8),
 		AdcTestVoltage_D   => to_unsigned(4, 8),
+		ResetHighPass_D    => to_unsigned(5, 8),
+		RefSS_D            => to_unsigned(6, 8),
 		LocalBufBn_D       => to_unsigned(8, 8),
 		PadFollBn_D        => to_unsigned(9, 8),
 		DiffBn_D           => to_unsigned(10, 8),
@@ -62,6 +68,8 @@ package DAVIS208ChipBiasConfigRecords is
 		AEPuYBp_D          => to_unsigned(25, 8),
 		IFRefrBn_D         => to_unsigned(26, 8),
 		IFThrBn_D          => to_unsigned(27, 8),
+		RegBiasBp_D        => to_unsigned(28, 8),
+		RefSSBn_D          => to_unsigned(30, 8),
 		BiasBuffer_D       => to_unsigned(34, 8),
 		SSP_D              => to_unsigned(35, 8),
 		SSN_D              => to_unsigned(36, 8));
@@ -72,6 +80,8 @@ package DAVIS208ChipBiasConfigRecords is
 		AdcRefHigh_D       : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
 		AdcRefLow_D        : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
 		AdcTestVoltage_D   : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
+		ResetHighPass_D    : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
+		RefSS_D            : std_logic_vector(BIAS_VD_LENGTH - 1 downto 0);
 		LocalBufBn_D       : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		PadFollBn_D        : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		DiffBn_D           : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
@@ -92,6 +102,8 @@ package DAVIS208ChipBiasConfigRecords is
 		AEPuYBp_D          : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		IFRefrBn_D         : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		IFThrBn_D          : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
+		RegBiasBp_D        : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
+		RefSSBn_D          : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		BiasBuffer_D       : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		SSP_D              : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
 		SSN_D              : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
@@ -103,6 +115,8 @@ package DAVIS208ChipBiasConfigRecords is
 		AdcRefHigh_D       => (others => '0'),
 		AdcRefLow_D        => (others => '0'),
 		AdcTestVoltage_D   => (others => '0'),
+		ResetHighPass_D    => (others => '0'),
+		RefSS_D            => (others => '0'),
 		LocalBufBn_D       => (others => '0'),
 		PadFollBn_D        => (others => '0'),
 		DiffBn_D           => (others => '0'),
@@ -123,6 +137,8 @@ package DAVIS208ChipBiasConfigRecords is
 		AEPuYBp_D          => (others => '0'),
 		IFRefrBn_D         => (others => '0'),
 		IFThrBn_D          => (others => '0'),
+		RegBiasBp_D        => (others => '0'),
+		RefSSBn_D          => (others => '0'),
 		BiasBuffer_D       => (others => '0'),
 		SSP_D              => (others => '0'),
 		SSN_D              => (others => '0'));
@@ -135,7 +151,7 @@ package DAVIS208ChipBiasConfigRecords is
 		AnalogMux0_D          : unsigned(7 downto 0);
 		AnalogMux1_D          : unsigned(7 downto 0);
 		AnalogMux2_D          : unsigned(7 downto 0);
-		BiasOutMux_D          : unsigned(7 downto 0);
+		BiasMux0_D            : unsigned(7 downto 0);
 		ResetCalibNeuron_S    : unsigned(7 downto 0);
 		TypeNCalibNeuron_S    : unsigned(7 downto 0);
 		ResetTestPixel_S      : unsigned(7 downto 0);
@@ -144,6 +160,11 @@ package DAVIS208ChipBiasConfigRecords is
 		UseAOut_S             : unsigned(7 downto 0);
 		GlobalShutter_S       : unsigned(7 downto 0);
 		SelectGrayCounter_S   : unsigned(7 downto 0);
+		SelectPreAmpAvg_S     : unsigned(7 downto 0);
+		SelectBiasRefSS_S     : unsigned(7 downto 0);
+		SelectSense_S         : unsigned(7 downto 0);
+		SelectPosFb_S         : unsigned(7 downto 0);
+		SelectHighPass_S      : unsigned(7 downto 0);
 	end record tDAVIS208ChipConfigParamAddresses;
 
 	-- Start with addresses 128 here, so that the MSB (bit 7) is always high. This heavily simplifies
@@ -156,7 +177,7 @@ package DAVIS208ChipBiasConfigRecords is
 		AnalogMux0_D          => to_unsigned(132, 8),
 		AnalogMux1_D          => to_unsigned(133, 8),
 		AnalogMux2_D          => to_unsigned(134, 8),
-		BiasOutMux_D          => to_unsigned(135, 8),
+		BiasMux0_D            => to_unsigned(135, 8),
 		ResetCalibNeuron_S    => to_unsigned(136, 8),
 		TypeNCalibNeuron_S    => to_unsigned(137, 8),
 		ResetTestPixel_S      => to_unsigned(138, 8),
@@ -164,7 +185,12 @@ package DAVIS208ChipBiasConfigRecords is
 		AERnArow_S            => to_unsigned(140, 8),
 		UseAOut_S             => to_unsigned(141, 8),
 		GlobalShutter_S       => to_unsigned(142, 8),
-		SelectGrayCounter_S   => to_unsigned(143, 8));
+		SelectGrayCounter_S   => to_unsigned(143, 8),
+		SelectPreAmpAvg_S     => to_unsigned(145, 8),
+		SelectBiasRefSS_S     => to_unsigned(146, 8),
+		SelectSense_S         => to_unsigned(147, 8),
+		SelectPosFb_S         => to_unsigned(148, 8),
+		SelectHighPass_S      => to_unsigned(149, 8));
 
 	type tDAVIS208ChipConfig is record
 		DigitalMux0_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
@@ -174,7 +200,7 @@ package DAVIS208ChipBiasConfigRecords is
 		AnalogMux0_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		AnalogMux1_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		AnalogMux2_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
-		BiasOutMux_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
+		BiasMux0_D            : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		ResetCalibNeuron_S    : std_logic;
 		TypeNCalibNeuron_S    : std_logic;
 		ResetTestPixel_S      : std_logic;
@@ -183,10 +209,15 @@ package DAVIS208ChipBiasConfigRecords is
 		UseAOut_S             : std_logic;
 		GlobalShutter_S       : std_logic;
 		SelectGrayCounter_S   : std_logic;
+		SelectPreAmpAvg_S     : std_logic;
+		SelectBiasRefSS_S     : std_logic;
+		SelectSense_S         : std_logic;
+		SelectPosFb_S         : std_logic;
+		SelectHighPass_S      : std_logic;
 	end record tDAVIS208ChipConfig;
 
 	-- Effectively used bits in chip register.
-	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 8;
+	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 13;
 
 	constant tDAVIS208ChipConfigDefault : tDAVIS208ChipConfig := (
 		DigitalMux0_D         => (others => '0'),
@@ -196,13 +227,18 @@ package DAVIS208ChipBiasConfigRecords is
 		AnalogMux0_D          => (others => '0'),
 		AnalogMux1_D          => (others => '0'),
 		AnalogMux2_D          => (others => '0'),
-		BiasOutMux_D          => (others => '0'),
+		BiasMux0_D            => (others => '0'),
 		ResetCalibNeuron_S    => '1',
 		TypeNCalibNeuron_S    => '0',
 		ResetTestPixel_S      => '1',
 		HotPixelSuppression_S => '0',
 		AERnArow_S            => '0',
-		UseAOut_S             => '1',
+		UseAOut_S             => '0',
 		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,
-		SelectGrayCounter_S   => '0');
+		SelectGrayCounter_S   => '0',
+		SelectPreAmpAvg_S     => '0',
+		SelectBiasRefSS_S     => '0',
+		SelectSense_S         => '0',
+		SelectPosFb_S         => '0',
+		SelectHighPass_S      => '0');
 end package DAVIS208ChipBiasConfigRecords;

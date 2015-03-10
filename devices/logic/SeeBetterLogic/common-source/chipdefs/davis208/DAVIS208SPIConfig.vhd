@@ -67,6 +67,14 @@ begin
 				BiasConfigReg_DN.AdcTestVoltage_D                                       <= BiasInput_DP(tDAVIS208BiasConfig.AdcTestVoltage_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS208BiasConfig.AdcTestVoltage_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcTestVoltage_D;
 
+			when DAVIS208_BIASCONFIG_PARAM_ADDRESSES.ResetHighPass_D =>
+				BiasConfigReg_DN.ResetHighPass_D                                       <= BiasInput_DP(tDAVIS208BiasConfig.ResetHighPass_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS208BiasConfig.ResetHighPass_D'length - 1 downto 0) <= BiasConfigReg_DP.ResetHighPass_D;
+
+			when DAVIS208_BIASCONFIG_PARAM_ADDRESSES.RefSS_D =>
+				BiasConfigReg_DN.RefSS_D                                       <= BiasInput_DP(tDAVIS208BiasConfig.RefSS_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS208BiasConfig.RefSS_D'length - 1 downto 0) <= BiasConfigReg_DP.RefSS_D;
+
 			when DAVIS208_BIASCONFIG_PARAM_ADDRESSES.LocalBufBn_D =>
 				BiasConfigReg_DN.LocalBufBn_D                                       <= BiasInput_DP(tDAVIS208BiasConfig.LocalBufBn_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS208BiasConfig.LocalBufBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LocalBufBn_D;
@@ -147,6 +155,14 @@ begin
 				BiasConfigReg_DN.IFThrBn_D                                       <= BiasInput_DP(tDAVIS208BiasConfig.IFThrBn_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS208BiasConfig.IFThrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFThrBn_D;
 
+			when DAVIS208_BIASCONFIG_PARAM_ADDRESSES.RegBiasBp_D =>
+				BiasConfigReg_DN.RegBiasBp_D                                       <= BiasInput_DP(tDAVIS208BiasConfig.RegBiasBp_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS208BiasConfig.RegBiasBp_D'length - 1 downto 0) <= BiasConfigReg_DP.RegBiasBp_D;
+
+			when DAVIS208_BIASCONFIG_PARAM_ADDRESSES.RefSSBn_D =>
+				BiasConfigReg_DN.RefSSBn_D                                       <= BiasInput_DP(tDAVIS208BiasConfig.RefSSBn_D'length - 1 downto 0);
+				BiasOutput_DN(tDAVIS208BiasConfig.RefSSBn_D'length - 1 downto 0) <= BiasConfigReg_DP.RefSSBn_D;
+
 			when DAVIS208_BIASCONFIG_PARAM_ADDRESSES.BiasBuffer_D =>
 				BiasConfigReg_DN.BiasBuffer_D                                       <= BiasInput_DP(tDAVIS208BiasConfig.BiasBuffer_D'length - 1 downto 0);
 				BiasOutput_DN(tDAVIS208BiasConfig.BiasBuffer_D'length - 1 downto 0) <= BiasConfigReg_DP.BiasBuffer_D;
@@ -215,9 +231,9 @@ begin
 				ChipConfigReg_DN.AnalogMux2_D                                       <= unsigned(ChipInput_DP(tDAVIS208ChipConfig.AnalogMux2_D'length - 1 downto 0));
 				ChipOutput_DN(tDAVIS208ChipConfig.AnalogMux2_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.AnalogMux2_D);
 
-			when DAVIS208_CHIPCONFIG_PARAM_ADDRESSES.BiasOutMux_D =>
-				ChipConfigReg_DN.BiasOutMux_D                                       <= unsigned(ChipInput_DP(tDAVIS208ChipConfig.BiasOutMux_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVIS208ChipConfig.BiasOutMux_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.BiasOutMux_D);
+			when DAVIS208_CHIPCONFIG_PARAM_ADDRESSES.BiasMux0_D =>
+				ChipConfigReg_DN.BiasMux0_D                                       <= unsigned(ChipInput_DP(tDAVIS208ChipConfig.BiasMux0_D'length - 1 downto 0));
+				ChipOutput_DN(tDAVIS208ChipConfig.BiasMux0_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.BiasMux0_D);
 
 			when DAVIS208_CHIPCONFIG_PARAM_ADDRESSES.ResetCalibNeuron_S =>
 				ChipConfigReg_DN.ResetCalibNeuron_S <= ChipInput_DP(0);
@@ -250,6 +266,26 @@ begin
 			when DAVIS208_CHIPCONFIG_PARAM_ADDRESSES.SelectGrayCounter_S =>
 				ChipConfigReg_DN.SelectGrayCounter_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)                     <= ChipConfigReg_DP.SelectGrayCounter_S;
+
+			when DAVIS208_CHIPCONFIG_PARAM_ADDRESSES.SelectPreAmpAvg_S =>
+				ChipConfigReg_DN.SelectPreAmpAvg_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)                   <= ChipConfigReg_DP.SelectPreAmpAvg_S;
+
+			when DAVIS208_CHIPCONFIG_PARAM_ADDRESSES.SelectBiasRefSS_S =>
+				ChipConfigReg_DN.SelectBiasRefSS_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)                   <= ChipConfigReg_DP.SelectBiasRefSS_S;
+
+			when DAVIS208_CHIPCONFIG_PARAM_ADDRESSES.SelectSense_S =>
+				ChipConfigReg_DN.SelectSense_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)               <= ChipConfigReg_DP.SelectSense_S;
+
+			when DAVIS208_CHIPCONFIG_PARAM_ADDRESSES.SelectPosFb_S =>
+				ChipConfigReg_DN.SelectPosFb_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)               <= ChipConfigReg_DP.SelectPosFb_S;
+
+			when DAVIS208_CHIPCONFIG_PARAM_ADDRESSES.SelectHighPass_S =>
+				ChipConfigReg_DN.SelectHighPass_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)                  <= ChipConfigReg_DP.SelectHighPass_S;
 
 			when others => null;
 		end case;
