@@ -159,7 +159,7 @@ architecture Behavioral of APSADCStateMachine is
 	signal OutFifoDataRegEnable_S, OutFifoDataRegColEnable_S, OutFifoDataRegRowEnable_S : std_logic;
 	signal OutFifoDataReg_D, OutFifoDataRegCol_D, OutFifoDataRegRow_D                   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
-	-- Register all outputs to ADC and chip for clean transitions.
+	-- Register all outputs to chip APS control for clean transitions.
 	signal APSChipRowSRClockReg_S, APSChipRowSRInReg_S : std_logic;
 	signal APSChipColSRClockReg_S, APSChipColSRInReg_S : std_logic;
 	signal APSChipColModeReg_DP, APSChipColModeReg_DN  : std_logic_vector(1 downto 0);
@@ -168,14 +168,6 @@ architecture Behavioral of APSADCStateMachine is
 	-- External ADC control.
 	signal APSADCOutputEnableReg_SB : std_logic;
 	signal APSADCStandbyReg_S       : std_logic;
-
-	-- On-chip ADC control.
-	signal ChipADCRampClearReg_S   : std_logic;
-	signal ChipADCRampClockReg_C   : std_logic;
-	signal ChipADCRampBitInReg_S   : std_logic;
-	signal ChipADCScanClockReg_C   : std_logic;
-	signal ChipADCScanControlReg_S : std_logic;
-	signal ChipADCSampleReg_S      : std_logic;
 
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
@@ -972,7 +964,15 @@ begin
 		end process rowReadStateMachine;
 	end generate externalADCRowReadout;
 
-	internalADCRowReadout : if CHIP_HAS_INTEGRATED_ADC = '1' generate
+	chipADCRowReadout : if CHIP_HAS_INTEGRATED_ADC = '1' generate
+		-- On-chip ADC control.
+		signal ChipADCRampClearReg_S   : std_logic;
+		signal ChipADCRampClockReg_C   : std_logic;
+		signal ChipADCRampBitInReg_S   : std_logic;
+		signal ChipADCScanClockReg_C   : std_logic;
+		signal ChipADCScanControlReg_S : std_logic;
+		signal ChipADCSampleReg_S      : std_logic;
+
 		-- ADC clock counter.
 		signal ADCClockCount_S, ADCClockDone_S : std_logic;
 
@@ -1188,7 +1188,26 @@ begin
 				when others => null;
 			end case;
 		end process rowReadStateMachine;
-	end generate internalADCRowReadout;
+
+		chipADCRegisterUpdate : process(Clock_CI, Reset_RI) is
+		begin
+			if Reset_RI = '1' then
+				ChipADCRampClear_SO   <= '1'; -- Clear ramp by default.
+				ChipADCRampClock_CO   <= '0';
+				ChipADCRampBitIn_SO   <= '0';
+				ChipADCScanClock_CO   <= '0';
+				ChipADCScanControl_SO <= '0';
+				ChipADCSample_SO      <= '0';
+			elsif rising_edge(Clock_CI) then
+				ChipADCRampClear_SO   <= ChipADCRampClearReg_S;
+				ChipADCRampClock_CO   <= ChipADCRampClockReg_C;
+				ChipADCRampBitIn_SO   <= ChipADCRampBitInReg_S;
+				ChipADCScanClock_CO   <= ChipADCScanClockReg_C;
+				ChipADCScanControl_SO <= ChipADCScanControlReg_S;
+				ChipADCSample_SO      <= ChipADCSampleReg_S;
+			end if;
+		end process chipADCRegisterUpdate;
+	end generate chipADCRowReadout;
 
 	-- FIFO output can be driven by both the column or the row state machines.
 	-- Care must be taken to never have both at the same time output meaningful data.
@@ -1207,7 +1226,7 @@ begin
 			Output_SO => OutFifoData_DO);
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process(Clock_CI, Reset_RI)
+	registerUpdate : process(Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			ColState_DP <= stIdle;
@@ -1231,13 +1250,6 @@ begin
 
 			APSADCOutputEnable_SBO <= '1';
 			APSADCStandby_SO       <= '1';
-
-			ChipADCRampClear_SO   <= '1'; -- Clear ramp by default.
-			ChipADCRampClock_CO   <= '0';
-			ChipADCRampBitIn_SO   <= '0';
-			ChipADCScanClock_CO   <= '0';
-			ChipADCScanControl_SO <= '0';
-			ChipADCSample_SO      <= '0';
 
 			-- APS ADC config from another clock domain.
 			APSADCConfigReg_D     <= tAPSADCConfigDefault;
@@ -1265,20 +1277,13 @@ begin
 			APSADCOutputEnable_SBO <= APSADCOutputEnableReg_SB;
 			APSADCStandby_SO       <= APSADCStandbyReg_S;
 
-			ChipADCRampClear_SO   <= ChipADCRampClearReg_S;
-			ChipADCRampClock_CO   <= ChipADCRampClockReg_C;
-			ChipADCRampBitIn_SO   <= ChipADCRampBitInReg_S;
-			ChipADCScanClock_CO   <= ChipADCScanClockReg_C;
-			ChipADCScanControl_SO <= ChipADCScanControlReg_S;
-			ChipADCSample_SO      <= ChipADCSampleReg_S;
-
 			-- APS ADC config from another clock domain.
 			if APSADCConfigRegEnable_S = '1' then
 				APSADCConfigReg_D <= APSADCConfigSyncReg_D;
 			end if;
 			APSADCConfigSyncReg_D <= APSADCConfig_DI;
 		end if;
-	end process p_memoryzing;
+	end process registerUpdate;
 
 	-- The output of this register goes to an intermediate signal, since we need to access it
 	-- inside this module. That's not possible with 'out' signal directly.
