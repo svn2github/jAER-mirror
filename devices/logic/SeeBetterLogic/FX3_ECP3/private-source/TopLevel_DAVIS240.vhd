@@ -67,6 +67,15 @@ entity TopLevel is
 		APSADCOutputEnable_SBO  : out   std_logic;
 		APSADCStandby_SO        : out   std_logic;
 
+		ChipADCData_DI          : in    std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+		ChipADCRampClear_SO     : out   std_logic;
+		ChipADCRampClock_CO     : out   std_logic;
+		ChipADCRampBitIn_SO     : out   std_logic;
+		ChipADCScanClock_CO     : out   std_logic;
+		ChipADCScanControl_SO   : out   std_logic;
+		ChipADCSample_SO        : out   std_logic;
+		ChipADCGrayCounter_DO   : out   std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+
 		IMUClock_CZO            : out   std_logic;
 		IMUData_DZIO            : inout std_logic;
 		IMUInterrupt_AI         : in    std_logic;
@@ -436,6 +445,14 @@ begin
 			APSADCClock_CO         => APSADCClock_CO,
 			APSADCOutputEnable_SBO => APSADCOutputEnable_SBO,
 			APSADCStandby_SO       => APSADCStandby_SO,
+			ChipADCData_DI         => ChipADCData_DI,
+			ChipADCRampClear_SO    => ChipADCRampClear_SO,
+			ChipADCRampClock_CO    => ChipADCRampClock_CO,
+			ChipADCRampBitIn_SO    => ChipADCRampBitIn_SO,
+			ChipADCScanClock_CO    => ChipADCScanClock_CO,
+			ChipADCScanControl_SO  => ChipADCScanControl_SO,
+			ChipADCSample_SO       => ChipADCSample_SO,
+			ChipADCGrayCounter_DO  => ChipADCGrayCounter_DO,
 			APSADCConfig_DI        => APSADCConfigReg2_D);
 
 	apsadcSPIConfig : entity work.APSADCSPIConfig

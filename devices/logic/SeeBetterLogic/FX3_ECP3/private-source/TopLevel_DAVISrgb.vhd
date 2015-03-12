@@ -69,6 +69,15 @@ entity TopLevelRGB is
 		APSADCOutputEnable_SBO   : out   std_logic;
 		APSADCStandby_SO         : out   std_logic;
 
+		ChipADCData_DI           : in    std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+		ChipADCRampClear_SO      : out   std_logic;
+		ChipADCRampClock_CO      : out   std_logic;
+		ChipADCRampBitIn_SO      : out   std_logic;
+		ChipADCScanClock_CO      : out   std_logic;
+		ChipADCScanControl_SO    : out   std_logic;
+		ChipADCSample_SO         : out   std_logic;
+		ChipADCGrayCounter_DO    : out   std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+
 		IMUClock_CZO             : out   std_logic;
 		IMUData_DZIO             : inout std_logic;
 		IMUInterrupt_AI          : in    std_logic;
@@ -419,35 +428,43 @@ begin
 			FifoData_DI    => APSADCFifoDataIn_D,
 			FifoData_DO    => APSADCFifoDataOut_D);
 
-	APSChipRowSRClock_SO <= '0';
-	APSChipRowSRIn_SO <= '0';
-	APSChipColSRClock_SO <= '0';
-	APSChipColSRIn_SO <= '0';
-	APSChipOverflowGate_SO <= '1';
-	APSChipTXGate_SO <= '0';
-	APSChipReset_SO <= '1';
+	APSChipRowSRClock_SO     <= '0';
+	APSChipRowSRIn_SO        <= '0';
+	APSChipColSRClock_SO     <= '0';
+	APSChipColSRIn_SO        <= '0';
+	APSChipOverflowGate_SO   <= '1';
+	APSChipTXGate_SO         <= '0';
+	APSChipReset_SO          <= '1';
 	APSChipGlobalShutter_SBO <= '0';
-	
---	apsAdcSM : entity work.APSADCStateMachine
---		generic map(
---			ENABLE_QUAD_ROI => false)
---		port map(
---			Clock_CI               => ADCClock_C,
---			Reset_RI               => ADCReset_R,
---			OutFifoControl_SI      => APSADCFifoControlOut_S.WriteSide,
---			OutFifoControl_SO      => APSADCFifoControlIn_S.WriteSide,
---			OutFifoData_DO         => APSADCFifoDataIn_D,
---			APSChipRowSRClock_SO   => APSChipRowSRClock_SO,
---			APSChipRowSRIn_SO      => APSChipRowSRIn_SO,
---			APSChipColSRClock_SO   => APSChipColSRClock_SO,
---			APSChipColSRIn_SO      => APSChipColSRIn_SO,
---			APSChipColMode_DO      => APSChipColMode_DO,
---			APSChipTXGate_SBO      => APSChipTXGate_SBO,
---			APSADCData_DI          => APSADCData_DI,
---			APSADCClock_CO         => APSADCClock_CO,
---			APSADCOutputEnable_SBO => APSADCOutputEnable_SBO,
---			APSADCStandby_SO       => APSADCStandby_SO,
---			APSADCConfig_DI        => APSADCConfigReg2_D);
+
+	apsAdcSM : entity work.APSADCStateMachine
+		generic map(
+			ENABLE_QUAD_ROI => false)
+		port map(
+			Clock_CI               => ADCClock_C,
+			Reset_RI               => ADCReset_R,
+			OutFifoControl_SI      => APSADCFifoControlOut_S.WriteSide,
+			OutFifoControl_SO      => APSADCFifoControlIn_S.WriteSide,
+			OutFifoData_DO         => APSADCFifoDataIn_D,
+			APSChipRowSRClock_SO   => open,
+			APSChipRowSRIn_SO      => open,
+			APSChipColSRClock_SO   => open,
+			APSChipColSRIn_SO      => open,
+			APSChipColMode_DO      => open,
+			APSChipTXGate_SBO      => open,
+			APSADCData_DI          => APSADCData_DI,
+			APSADCClock_CO         => APSADCClock_CO,
+			APSADCOutputEnable_SBO => APSADCOutputEnable_SBO,
+			APSADCStandby_SO       => APSADCStandby_SO,
+			ChipADCData_DI         => ChipADCData_DI,
+			ChipADCRampClear_SO    => ChipADCRampClear_SO,
+			ChipADCRampClock_CO    => ChipADCRampClock_CO,
+			ChipADCRampBitIn_SO    => ChipADCRampBitIn_SO,
+			ChipADCScanClock_CO    => ChipADCScanClock_CO,
+			ChipADCScanControl_SO  => ChipADCScanControl_SO,
+			ChipADCSample_SO       => ChipADCSample_SO,
+			ChipADCGrayCounter_DO  => ChipADCGrayCounter_DO,
+			APSADCConfig_DI        => APSADCConfigReg2_D);
 
 	apsadcSPIConfig : entity work.APSADCSPIConfig
 		generic map(

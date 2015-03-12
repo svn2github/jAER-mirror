@@ -347,6 +347,14 @@ begin
 			APSADCClock_CO         => APSADCClock_CO,
 			APSADCOutputEnable_SBO => APSADCOutputEnable_SBO,
 			APSADCStandby_SO       => APSADCStandby_SO,
+			ChipADCData_DI         => (others => '0'),
+			ChipADCRampClear_SO    => open,
+			ChipADCRampClock_CO    => open,
+			ChipADCRampBitIn_SO    => open,
+			ChipADCScanClock_CO    => open,
+			ChipADCScanControl_SO  => open,
+			ChipADCSample_SO       => open,
+			ChipADCGrayCounter_DO  => open,
 			APSADCConfig_DI        => APSADCConfig_D);
 
 	apsadcSPIConfig : entity work.APSADCSPIConfig
