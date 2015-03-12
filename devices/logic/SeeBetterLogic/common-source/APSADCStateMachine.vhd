@@ -615,7 +615,7 @@ begin
 				NullTimeCount_S <= '1';
 
 			when stGSSwitchToReadA =>
-				APSChipColModeReg_DN <= COLMODE_NULL;
+				APSChipColModeReg_DN <= COLMODE_RESETA;
 
 				if CurrentColumnAValid_S = '1' then
 					-- Start off the Row SM.
