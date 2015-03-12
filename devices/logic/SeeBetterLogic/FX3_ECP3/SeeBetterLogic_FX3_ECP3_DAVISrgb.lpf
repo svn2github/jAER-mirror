@@ -255,6 +255,79 @@ LOCATE COMP "APSChipGlobalShutter_SBO" SITE "A7" ; // APSLogic3 (nGS)
 IOBUF PORT "APSChipGlobalShutter_SBO" PULLMODE=DOWN ;
 CLOCK_TO_OUT PORT "APSChipGlobalShutter_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
 
+// APS data (on-chip ADC)
+LOCATE COMP "ChipADCRampClear_SO" SITE "H6" ;
+IOBUF PORT "ChipADCRampClear_SO" PULLMODE=UP ; // Clear ramp by default.
+CLOCK_TO_OUT PORT "ChipADCRampClear_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+
+LOCATE COMP "ChipADCRampClock_CO" SITE "K4" ;
+IOBUF PORT "ChipADCRampClock_CO" PULLMODE=DOWN ;
+CLOCK_TO_OUT PORT "ChipADCRampClock_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+
+LOCATE COMP "ChipADCRampBitIn_SO" SITE "G3" ;
+IOBUF PORT "ChipADCRampBitIn_SO" PULLMODE=DOWN ;
+CLOCK_TO_OUT PORT "ChipADCRampBitIn_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+
+LOCATE COMP "ChipADCScanClock_CO" SITE "F11" ;
+IOBUF PORT "ChipADCScanClock_CO" PULLMODE=DOWN ;
+CLOCK_TO_OUT PORT "ChipADCScanClock_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+
+LOCATE COMP "ChipADCScanControl_SO" SITE "D8" ;
+IOBUF PORT "ChipADCScanControl_SO" PULLMODE=DOWN ;
+CLOCK_TO_OUT PORT "ChipADCScanControl_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+
+LOCATE COMP "ChipADCSample_SO" SITE "D5" ;
+IOBUF PORT "ChipADCSample_SO" PULLMODE=DOWN ;
+CLOCK_TO_OUT PORT "ChipADCSample_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+
+LOCATE COMP "ChipADCData_DI[9]" SITE "G2" ;
+LOCATE COMP "ChipADCData_DI[8]" SITE "G4" ;
+LOCATE COMP "ChipADCData_DI[7]" SITE "H5" ;
+LOCATE COMP "ChipADCData_DI[6]" SITE "G5" ;
+LOCATE COMP "ChipADCData_DI[5]" SITE "F5" ;
+LOCATE COMP "ChipADCData_DI[4]" SITE "F4" ;
+LOCATE COMP "ChipADCData_DI[3]" SITE "E2" ;
+LOCATE COMP "ChipADCData_DI[2]" SITE "H4" ;
+LOCATE COMP "ChipADCData_DI[1]" SITE "E3" ;
+LOCATE COMP "ChipADCData_DI[0]" SITE "D1" ;
+DEFINE PORT GROUP "ChipADCData_DI"
+"ChipADCData_DI[9]" 
+"ChipADCData_DI[8]" 
+"ChipADCData_DI[7]" 
+"ChipADCData_DI[6]" 
+"ChipADCData_DI[5]" 
+"ChipADCData_DI[4]" 
+"ChipADCData_DI[3]" 
+"ChipADCData_DI[2]" 
+"ChipADCData_DI[1]" 
+"ChipADCData_DI[0]" ;
+IOBUF GROUP "ChipADCData_DI" PULLMODE=DOWN ;
+INPUT_SETUP GROUP "ChipADCData_DI" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "ADCClock_C" ;
+
+LOCATE COMP "ChipADCGrayCounter_DO[9]" SITE "F10" ;
+LOCATE COMP "ChipADCGrayCounter_DO[8]" SITE "F8" ;
+LOCATE COMP "ChipADCGrayCounter_DO[7]" SITE "F9" ;
+LOCATE COMP "ChipADCGrayCounter_DO[6]" SITE "G8" ;
+LOCATE COMP "ChipADCGrayCounter_DO[5]" SITE "E5" ;
+LOCATE COMP "ChipADCGrayCounter_DO[4]" SITE "F7" ;
+LOCATE COMP "ChipADCGrayCounter_DO[3]" SITE "D4" ;
+LOCATE COMP "ChipADCGrayCounter_DO[2]" SITE "G9" ;
+LOCATE COMP "ChipADCGrayCounter_DO[1]" SITE "E4" ;
+LOCATE COMP "ChipADCGrayCounter_DO[0]" SITE "B2" ;
+DEFINE PORT GROUP "ChipADCGrayCounter_DO"
+"ChipADCGrayCounter_DO[9]" 
+"ChipADCGrayCounter_DO[8]" 
+"ChipADCGrayCounter_DO[7]" 
+"ChipADCGrayCounter_DO[6]" 
+"ChipADCGrayCounter_DO[5]" 
+"ChipADCGrayCounter_DO[4]" 
+"ChipADCGrayCounter_DO[3]" 
+"ChipADCGrayCounter_DO[2]" 
+"ChipADCGrayCounter_DO[1]" 
+"ChipADCGrayCounter_DO[0]" ;
+IOBUF GROUP "ChipADCGrayCounter_DO" PULLMODE=DOWN ;
+CLOCK_TO_OUT PORT "ChipADCGrayCounter_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+
 // APS data (external ADC)
 LOCATE COMP "APSADCOverflow_SI" SITE "G1" ;
 IOBUF PORT "APSADCOverflow_SI" PULLMODE=DOWN ;
