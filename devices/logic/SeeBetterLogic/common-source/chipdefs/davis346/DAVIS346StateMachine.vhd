@@ -38,7 +38,7 @@ architecture Behavioral of DAVIS346StateMachine is
 	signal State_DP, State_DN : tState;
 
 	-- Bias clock frequency in KHz.
-	constant BIAS_CLOCK_FREQ : integer := 1;
+	constant BIAS_CLOCK_FREQ : integer := 100;
 
 	-- How long the latch should be asserted, based on bias clock frequency.
 	constant LATCH_LENGTH : integer := 10;
