@@ -44,37 +44,37 @@ entity APSADCStateMachine is
 	generic(
 		ENABLE_QUAD_ROI : boolean := false);
 	port(
-		Clock_CI               : in  std_logic; -- This clock must be 30MHz, use PLL to generate.
-		Reset_RI               : in  std_logic; -- This reset must be synchronized to the above clock.
+		Clock_CI                    : in  std_logic; -- This clock must be 30MHz, use PLL to generate.
+		Reset_RI                    : in  std_logic; -- This reset must be synchronized to the above clock.
 
 		-- Fifo output (to Multiplexer, must be a dual-clock FIFO)
-		OutFifoControl_SI      : in  tFromFifoWriteSide;
-		OutFifoControl_SO      : out tToFifoWriteSide;
-		OutFifoData_DO         : out std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		OutFifoControl_SI           : in  tFromFifoWriteSide;
+		OutFifoControl_SO           : out tToFifoWriteSide;
+		OutFifoData_DO              : out std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
-		APSChipRowSRClock_SO   : out std_logic;
-		APSChipRowSRIn_SO      : out std_logic;
-		APSChipColSRClock_SO   : out std_logic;
-		APSChipColSRIn_SO      : out std_logic;
-		APSChipColMode_DO      : out std_logic_vector(1 downto 0);
-		APSChipTXGate_SBO      : out std_logic;
+		APSChipColSRClock_CO        : out std_logic;
+		APSChipColSRIn_SO           : out std_logic;
+		APSChipRowSRClock_CO        : out std_logic;
+		APSChipRowSRIn_SO           : out std_logic;
+		APSChipColMode_DO           : out std_logic_vector(1 downto 0);
+		APSChipTXGate_SBO           : out std_logic;
 
-		APSADCData_DI          : in  std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
-		APSADCClock_CO         : out std_logic;
-		APSADCOutputEnable_SBO : out std_logic;
-		APSADCStandby_SO       : out std_logic;
+		ExternalADCData_DI          : in  std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+		ExternalADCClock_CO         : out std_logic;
+		ExternalADCOutputEnable_SBO : out std_logic;
+		ExternalADCStandby_SO       : out std_logic;
 
-		ChipADCData_DI         : in  std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
-		ChipADCRampClear_SO    : out std_logic;
-		ChipADCRampClock_CO    : out std_logic;
-		ChipADCRampBitIn_SO    : out std_logic;
-		ChipADCScanClock_CO    : out std_logic;
-		ChipADCScanControl_SO  : out std_logic;
-		ChipADCSample_SO       : out std_logic;
-		ChipADCGrayCounter_DO  : out std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+		ChipADCData_DI              : in  std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+		ChipADCRampClear_SO         : out std_logic;
+		ChipADCRampClock_CO         : out std_logic;
+		ChipADCRampBitIn_SO         : out std_logic;
+		ChipADCScanClock_CO         : out std_logic;
+		ChipADCScanControl_SO       : out std_logic;
+		ChipADCSample_SO            : out std_logic;
+		ChipADCGrayCounter_DO       : out std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
 
 		-- Configuration input
-		APSADCConfig_DI        : in  tAPSADCConfig);
+		APSADCConfig_DI             : in  tAPSADCConfig);
 end entity APSADCStateMachine;
 
 architecture Behavioral of APSADCStateMachine is
@@ -94,8 +94,8 @@ architecture Behavioral of APSADCStateMachine is
 	-- present and next state
 	signal RowState_DP, RowState_DN : tRowState;
 
-	constant ADC_STARTUP_CYCLES      : integer := ADC_CLOCK_FREQ * 20; -- At 30MHz, wait 20 microseconds.
-	constant ADC_STARTUP_CYCLES_SIZE : integer := integer(ceil(log2(real(ADC_STARTUP_CYCLES))));
+	constant EXTERNAL_ADC_STARTUP_CYCLES      : integer := ADC_CLOCK_FREQ * 20; -- At 30MHz, wait 20 microseconds.
+	constant EXTERNAL_ADC_STARTUP_CYCLES_SIZE : integer := integer(ceil(log2(real(EXTERNAL_ADC_STARTUP_CYCLES))));
 
 	constant COLMODE_NULL   : std_logic_vector(1 downto 0) := "00";
 	constant COLMODE_READA  : std_logic_vector(1 downto 0) := "01";
@@ -103,9 +103,9 @@ architecture Behavioral of APSADCStateMachine is
 	constant COLMODE_RESETA : std_logic_vector(1 downto 0) := "11";
 
 	-- Take note if the ADC is running already or not. If not, it has to be started.
-	signal ADCRunning_SP, ADCRunning_SN : std_logic;
+	signal ExternalADCRunning_SP, ExternalADCRunning_SN : std_logic;
 
-	signal ADCStartupCount_S, ADCStartupDone_S : std_logic;
+	signal ExternalADCStartupCount_S, ExternalADCStartupDone_S : std_logic;
 
 	-- Exposure time counter.
 	signal ExposureClear_S, ExposureDone_S : std_logic;
@@ -160,14 +160,14 @@ architecture Behavioral of APSADCStateMachine is
 	signal OutFifoDataReg_D, OutFifoDataRegCol_D, OutFifoDataRegRow_D                   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 	-- Register all outputs to chip APS control for clean transitions.
-	signal APSChipRowSRClockReg_S, APSChipRowSRInReg_S : std_logic;
-	signal APSChipColSRClockReg_S, APSChipColSRInReg_S : std_logic;
+	signal APSChipColSRClockReg_C, APSChipColSRInReg_S : std_logic;
+	signal APSChipRowSRClockReg_C, APSChipRowSRInReg_S : std_logic;
 	signal APSChipColModeReg_DP, APSChipColModeReg_DN  : std_logic_vector(1 downto 0);
 	signal APSChipTXGateReg_SP, APSChipTXGateReg_SN    : std_logic;
 
 	-- External ADC control.
-	signal APSADCOutputEnableReg_SB : std_logic;
-	signal APSADCStandbyReg_S       : std_logic;
+	signal ExternalADCOutputEnableReg_S : std_logic;
+	signal ExternalADCStandbyReg_S      : std_logic;
 
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
@@ -175,18 +175,18 @@ architecture Behavioral of APSADCStateMachine is
 	signal APSADCConfigRegEnable_S                  : std_logic;
 begin
 	-- Forward 30MHz clock directly to external ADC.
-	APSADCClock_CO <= Clock_CI;
+	ExternalADCClock_CO <= Clock_CI;
 
 	adcStartupCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => ADC_STARTUP_CYCLES_SIZE)
+			SIZE => EXTERNAL_ADC_STARTUP_CYCLES_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
-			Enable_SI    => ADCStartupCount_S,
-			DataLimit_DI => to_unsigned(ADC_STARTUP_CYCLES - 1, ADC_STARTUP_CYCLES_SIZE),
-			Overflow_SO  => ADCStartupDone_S,
+			Enable_SI    => ExternalADCStartupCount_S,
+			DataLimit_DI => to_unsigned(EXTERNAL_ADC_STARTUP_CYCLES - 1, EXTERNAL_ADC_STARTUP_CYCLES_SIZE),
+			Overflow_SO  => ExternalADCStartupDone_S,
 			Data_DO      => open);
 
 	colReadAPosition : entity work.ContinuousCounter
@@ -304,7 +304,7 @@ begin
 			Overflow_SO  => RowSettleTimeDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ADCRunning_SP, ADCStartupDone_S, APSADCConfigReg_D, RowReadDone_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S, ExposureDone_S, FrameDelayDone_S)
+	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ExternalADCRunning_SP, ExternalADCStartupDone_S, APSADCConfigReg_D, RowReadDone_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S, ExposureDone_S, FrameDelayDone_S)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -312,16 +312,16 @@ begin
 		OutFifoDataRegColEnable_S <= '0';
 		OutFifoDataRegCol_D       <= (others => '0');
 
-		ADCRunning_SN     <= ADCRunning_SP;
-		ADCStartupCount_S <= '0';
+		ExternalADCRunning_SN     <= ExternalADCRunning_SP;
+		ExternalADCStartupCount_S <= '0';
 
 		-- Keep ADC powered and OE by default, the Idle (start) state will
 		-- then negotiate the necessary settings, and when we're out of Idle,
 		-- they are always on anyway.
-		APSADCOutputEnableReg_SB <= '0';
-		APSADCStandbyReg_S       <= '0';
+		ExternalADCOutputEnableReg_S <= '1';
+		ExternalADCStandbyReg_S      <= '0';
 
-		APSChipColSRClockReg_S <= '0';
+		APSChipColSRClockReg_C <= '0';
 		APSChipColSRInReg_S    <= '0';
 
 		APSChipColModeReg_DN <= COLMODE_NULL;
@@ -359,7 +359,7 @@ begin
 
 				if APSADCConfigReg_D.Run_S = '1' then
 					-- We want to take samples (picture or video), so the ADC has to be running.
-					if ADCRunning_SP = '0' then
+					if ExternalADCRunning_SP = '0' then
 						ColState_DN <= stWaitADCStartup;
 					else
 						ColState_DN <= stStartFrame;
@@ -367,20 +367,20 @@ begin
 				else
 					-- Turn ADC off when not running, unless told otherwise.
 					if APSADCConfigReg_D.ForceADCRunning_S = '0' then
-						APSADCOutputEnableReg_SB <= '1';
-						APSADCStandbyReg_S       <= '1';
-						ADCRunning_SN            <= '0';
+						ExternalADCOutputEnableReg_S <= '0';
+						ExternalADCStandbyReg_S      <= '1';
+						ExternalADCRunning_SN        <= '0';
 					end if;
 				end if;
 
 			when stWaitADCStartup =>
 				-- Wait 1.5 microseconds for ADC to start up and be ready for precise conversions.
-				if ADCStartupDone_S = '1' then
-					ColState_DN   <= stStartFrame;
-					ADCRunning_SN <= '1';
+				if ExternalADCStartupDone_S = '1' then
+					ColState_DN           <= stStartFrame;
+					ExternalADCRunning_SN <= '1';
 				end if;
 
-				ADCStartupCount_S <= '1';
+				ExternalADCStartupCount_S <= '1';
 
 			when stStartFrame =>
 				-- Write out start of frame marker. This and the end of frame marker are the only
@@ -407,25 +407,25 @@ begin
 				end if;
 
 			when stColSRFeedA0 =>
-				APSChipColSRClockReg_S <= '0';
+				APSChipColSRClockReg_C <= '0';
 				APSChipColSRInReg_S    <= '1';
 
 				ColState_DN <= stColSRFeedA0Tick;
 
 			when stColSRFeedA0Tick =>
-				APSChipColSRClockReg_S <= '1';
+				APSChipColSRClockReg_C <= '1';
 				APSChipColSRInReg_S    <= '1';
 
 				ColState_DN <= stColSRFeedA1;
 
 			when stColSRFeedA1 =>
-				APSChipColSRClockReg_S <= '0';
+				APSChipColSRClockReg_C <= '0';
 				APSChipColSRInReg_S    <= '1';
 
 				ColState_DN <= stColSRFeedA1Tick;
 
 			when stColSRFeedA1Tick =>
-				APSChipColSRClockReg_S <= '1';
+				APSChipColSRClockReg_C <= '1';
 				APSChipColSRInReg_S    <= '1';
 
 				-- RS: open APS TXGate before first reset.
@@ -441,19 +441,19 @@ begin
 				end if;
 
 			when stRSColSRFeedB =>
-				APSChipColSRClockReg_S <= '0';
+				APSChipColSRClockReg_C <= '0';
 				APSChipColSRInReg_S    <= '1';
 
 				ColState_DN <= stRSColSRFeedBTick;
 
 			when stRSColSRFeedBTick =>
-				APSChipColSRClockReg_S <= '1';
+				APSChipColSRClockReg_C <= '1';
 				APSChipColSRInReg_S    <= '1';
 
 				ColState_DN <= stRSSwitchToReset;
 
 			when stRSFeedTick =>
-				APSChipColSRClockReg_S <= '1';
+				APSChipColSRClockReg_C <= '1';
 				APSChipColSRInReg_S    <= '0';
 
 				-- A first zero has just been shifted in.
@@ -651,7 +651,7 @@ begin
 				end if;
 
 			when stGSReadAFeedTick =>
-				APSChipColSRClockReg_S <= '1';
+				APSChipColSRClockReg_C <= '1';
 				APSChipColSRInReg_S    <= '0';
 
 				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS then
@@ -664,7 +664,7 @@ begin
 			when stGSSwitchToExposure =>
 				-- When not doing any reset read, we need this state to clock in
 				-- one zero into the column SR, so that the B pattern is present.
-				APSChipColSRClockReg_S <= '1';
+				APSChipColSRClockReg_C <= '1';
 				APSChipColSRInReg_S    <= '0';
 
 				ColState_DN <= stGSStartExposure;
@@ -689,25 +689,25 @@ begin
 				end if;
 
 			when stGSColSRFeedB1 =>
-				APSChipColSRClockReg_S <= '0';
+				APSChipColSRClockReg_C <= '0';
 				APSChipColSRInReg_S    <= '1';
 
 				ColState_DN <= stGSColSRFeedB1Tick;
 
 			when stGSColSRFeedB1Tick =>
-				APSChipColSRClockReg_S <= '1';
+				APSChipColSRClockReg_C <= '1';
 				APSChipColSRInReg_S    <= '1';
 
 				ColState_DN <= stGSColSRFeedB0;
 
 			when stGSColSRFeedB0 =>
-				APSChipColSRClockReg_S <= '0';
+				APSChipColSRClockReg_C <= '0';
 				APSChipColSRInReg_S    <= '0';
 
 				ColState_DN <= stGSColSRFeedB0Tick;
 
 			when stGSColSRFeedB0Tick =>
-				APSChipColSRClockReg_S <= '1';
+				APSChipColSRClockReg_C <= '1';
 				APSChipColSRInReg_S    <= '0';
 
 				ColState_DN <= stGSSwitchToReadB;
@@ -735,7 +735,7 @@ begin
 				end if;
 
 			when stGSReadBFeedTick =>
-				APSChipColSRClockReg_S <= '1';
+				APSChipColSRClockReg_C <= '1';
 				APSChipColSRInReg_S    <= '0';
 
 				if ColumnReadBPosition_D = CHIP_APS_SIZE_COLUMNS then
@@ -826,7 +826,7 @@ begin
 
 	externalADCRowReadout : if CHIP_HAS_INTEGRATED_ADC = '0' generate
 	begin
-		rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
+		rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, ExternalADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
 		begin
 			RowState_DN <= RowState_DP;
 
@@ -834,7 +834,7 @@ begin
 			OutFifoDataRegRowEnable_S <= '0';
 			OutFifoDataRegRow_D       <= (others => '0');
 
-			APSChipRowSRClockReg_S <= '0';
+			APSChipRowSRClockReg_C <= '0';
 			APSChipRowSRInReg_S    <= '0';
 
 			-- Row counters.
@@ -858,13 +858,13 @@ begin
 				when stRowSRFeedInit =>
 					-- We first feed in the row register pattern, since the column settle time
 					-- has to pass _after_ the first row has been selected.
-					APSChipRowSRClockReg_S <= '0';
+					APSChipRowSRClockReg_C <= '0';
 					APSChipRowSRInReg_S    <= '1';
 
 					RowState_DN <= stRowSRFeedInitTick;
 
 				when stRowSRFeedInitTick =>
-					APSChipRowSRClockReg_S <= '1';
+					APSChipRowSRClockReg_C <= '1';
 					APSChipRowSRInReg_S    <= '1';
 
 					RowState_DN <= stColSettleWait;
@@ -902,7 +902,7 @@ begin
 					end if;
 
 				when stRowSRFeedTick =>
-					APSChipRowSRClockReg_S <= '1';
+					APSChipRowSRClockReg_C <= '1';
 					APSChipRowSRInReg_S    <= '0';
 
 					-- Check if we're done. This means that we just clock the 1 in the RowSR out,
@@ -931,7 +931,7 @@ begin
 					-- Write event only if FIFO has place, else wait.
 					if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 						OutFifoDataRegRow_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
-						OutFifoDataRegRow_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= APSADCData_DI;
+						OutFifoDataRegRow_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= ExternalADCData_DI;
 
 						OutFifoDataRegRowEnable_S <= '1';
 						OutFifoWriteRegRow_S      <= '1';
@@ -973,8 +973,8 @@ begin
 		signal ChipADCScanControlReg_S : std_logic;
 		signal ChipADCSampleReg_S      : std_logic;
 
-		-- ADC clock counter.
-		signal ADCClockCount_S, ADCClockDone_S : std_logic;
+		-- Ramp clock counter.
+		signal RampTickCount_S, RampTickDone_S : std_logic;
 
 		-- Scan control constants.
 		constant SCAN_CONTROL_COPY : std_logic := '0';
@@ -982,19 +982,19 @@ begin
 	begin
 		ChipADCGrayCounter_DO <= "0101010101";
 
-		adcClockCounter : entity work.ContinuousCounter
+		rampTickCounter : entity work.ContinuousCounter
 			generic map(
 				SIZE => APS_ADC_BUS_WIDTH)
 			port map(
 				Clock_CI     => Clock_CI,
 				Reset_RI     => Reset_RI,
 				Clear_SI     => '0',
-				Enable_SI    => ADCClockCount_S,
+				Enable_SI    => RampTickCount_S,
 				DataLimit_DI => (others => '1'),
-				Overflow_SO  => ADCClockDone_S,
+				Overflow_SO  => RampTickDone_S,
 				Data_DO      => open);
 
-		rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, OutFifoControl_SI, APSChipColModeReg_DP, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, ADCClockDone_S, ChipADCData_DI, RowSettleTimeDone_S)
+		rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, OutFifoControl_SI, APSChipColModeReg_DP, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RampTickDone_S, ChipADCData_DI, RowSettleTimeDone_S)
 		begin
 			RowState_DN <= RowState_DP;
 
@@ -1002,7 +1002,7 @@ begin
 			OutFifoDataRegRowEnable_S <= '0';
 			OutFifoDataRegRow_D       <= (others => '0');
 
-			APSChipRowSRClockReg_S <= '0';
+			APSChipRowSRClockReg_C <= '0';
 			APSChipRowSRInReg_S    <= '0';
 
 			-- Row counters.
@@ -1010,7 +1010,7 @@ begin
 			RowReadPositionInc_S  <= '0';
 
 			-- ADC clock counter.
-			ADCClockCount_S <= '0';
+			RampTickCount_S <= '0';
 
 			-- Settle times counters (column and row).
 			ColSettleTimeCount_S <= '0';
@@ -1122,9 +1122,9 @@ begin
 
 					if RowSettleTimeDone_S = '1' then
 						-- Increase counter and stop ramping when maximum reached.
-						ADCClockCount_S <= '1';
+						RampTickCount_S <= '1';
 
-						if ADCClockDone_S = '1' then
+						if RampTickDone_S = '1' then
 							RowState_DN <= stRowScanSelect;
 						else
 							RowState_DN <= stRowRampClockLow;
@@ -1232,7 +1232,7 @@ begin
 			ColState_DP <= stIdle;
 			RowState_DP <= stIdle;
 
-			ADCRunning_SP <= '0';
+			ExternalADCRunning_SP <= '0';
 
 			RowReadStart_SP <= '0';
 			RowReadDone_SP  <= '0';
@@ -1241,15 +1241,15 @@ begin
 
 			OutFifoControl_SO.Write_S <= '0';
 
-			APSChipRowSRClock_SO <= '0';
-			APSChipRowSRIn_SO    <= '0';
-			APSChipColSRClock_SO <= '0';
+			APSChipColSRClock_CO <= '0';
 			APSChipColSRIn_SO    <= '0';
+			APSChipRowSRClock_CO <= '0';
+			APSChipRowSRIn_SO    <= '0';
 			APSChipColModeReg_DP <= COLMODE_NULL;
 			APSChipTXGateReg_SP  <= '0';
 
-			APSADCOutputEnable_SBO <= '1';
-			APSADCStandby_SO       <= '1';
+			ExternalADCOutputEnable_SBO <= '1';
+			ExternalADCStandby_SO       <= '1';
 
 			-- APS ADC config from another clock domain.
 			APSADCConfigReg_D     <= tAPSADCConfigDefault;
@@ -1258,7 +1258,7 @@ begin
 			ColState_DP <= ColState_DN;
 			RowState_DP <= RowState_DN;
 
-			ADCRunning_SP <= ADCRunning_SN;
+			ExternalADCRunning_SP <= ExternalADCRunning_SN;
 
 			RowReadStart_SP <= RowReadStart_SN;
 			RowReadDone_SP  <= RowReadDone_SN;
@@ -1267,15 +1267,15 @@ begin
 
 			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
 
-			APSChipRowSRClock_SO <= APSChipRowSRClockReg_S;
-			APSChipRowSRIn_SO    <= APSChipRowSRInReg_S;
-			APSChipColSRClock_SO <= APSChipColSRClockReg_S;
+			APSChipColSRClock_CO <= APSChipColSRClockReg_C;
 			APSChipColSRIn_SO    <= APSChipColSRInReg_S;
+			APSChipRowSRClock_CO <= APSChipRowSRClockReg_C;
+			APSChipRowSRIn_SO    <= APSChipRowSRInReg_S;
 			APSChipColModeReg_DP <= APSChipColModeReg_DN;
 			APSChipTXGateReg_SP  <= APSChipTXGateReg_SN;
 
-			APSADCOutputEnable_SBO <= APSADCOutputEnableReg_SB;
-			APSADCStandby_SO       <= APSADCStandbyReg_S;
+			ExternalADCOutputEnable_SBO <= not ExternalADCOutputEnableReg_S;
+			ExternalADCStandby_SO       <= ExternalADCStandbyReg_S;
 
 			-- APS ADC config from another clock domain.
 			if APSADCConfigRegEnable_S = '1' then
