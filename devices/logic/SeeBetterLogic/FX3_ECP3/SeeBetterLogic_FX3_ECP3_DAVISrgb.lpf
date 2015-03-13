@@ -367,7 +367,7 @@ DEFINE PORT GROUP "ChipADCGrayCounter_DO"
 "ChipADCGrayCounter_DO[1]" 
 "ChipADCGrayCounter_DO[0]" ;
 IOBUF GROUP "ChipADCGrayCounter_DO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "ChipADCGrayCounter_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+CLOCK_TO_OUT GROUP "ChipADCGrayCounter_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
 
 // IMU (InvenSense MPU 6X50)
 LOCATE COMP "IMUClock_CZO" SITE "B1" ;
