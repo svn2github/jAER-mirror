@@ -69,7 +69,7 @@ INPUT_SETUP PORT "USBFifoProgrammableFlag_SI" INPUT_DELAY 9.5 ns HOLD 0.0 ns CLK
 LOCATE COMP "USBFifoAddress_DO[1]" SITE "E2" ;// FifoAddr1
 LOCATE COMP "USBFifoAddress_DO[0]" SITE "F1" ;// FifoAddr0
 DEFINE PORT GROUP "USBFifoAddress_DO"
-"USBFifoAddress_DO[1]" 
+"USBFifoAddress_DO[1]"
 "USBFifoAddress_DO[0]" ;
 IOBUF GROUP "USBFifoAddress_DO" PULLMODE=DOWN ;
 CLOCK_TO_OUT GROUP "USBFifoAddress_DO" OUTPUT_DELAY 25.0 ns MIN 10.0 ns CLKNET "USBClock_CI_c" ;
@@ -91,21 +91,21 @@ LOCATE COMP "USBFifoData_DO[2]" SITE "P2" ;
 LOCATE COMP "USBFifoData_DO[1]" SITE "R1" ;
 LOCATE COMP "USBFifoData_DO[0]" SITE "R2" ;
 DEFINE PORT GROUP "USBFifoData_DO"
-"USBFifoData_DO[15]" 
-"USBFifoData_DO[14]" 
-"USBFifoData_DO[13]" 
-"USBFifoData_DO[12]" 
-"USBFifoData_DO[11]" 
-"USBFifoData_DO[10]" 
-"USBFifoData_DO[9]" 
-"USBFifoData_DO[8]" 
-"USBFifoData_DO[7]" 
-"USBFifoData_DO[6]" 
-"USBFifoData_DO[5]" 
-"USBFifoData_DO[4]" 
-"USBFifoData_DO[3]" 
-"USBFifoData_DO[2]" 
-"USBFifoData_DO[1]" 
+"USBFifoData_DO[15]"
+"USBFifoData_DO[14]"
+"USBFifoData_DO[13]"
+"USBFifoData_DO[12]"
+"USBFifoData_DO[11]"
+"USBFifoData_DO[10]"
+"USBFifoData_DO[9]"
+"USBFifoData_DO[8]"
+"USBFifoData_DO[7]"
+"USBFifoData_DO[6]"
+"USBFifoData_DO[5]"
+"USBFifoData_DO[4]"
+"USBFifoData_DO[3]"
+"USBFifoData_DO[2]"
+"USBFifoData_DO[1]"
 "USBFifoData_DO[0]" ;
 IOBUF GROUP "USBFifoData_DO" PULLMODE=DOWN ;
 CLOCK_TO_OUT GROUP "USBFifoData_DO" OUTPUT_DELAY 9.2 ns MIN 0.0 ns CLKNET "USBClock_CI_c" ;
@@ -160,15 +160,15 @@ LOCATE COMP "DVSAERData_AI[2]" SITE "N15" ;
 LOCATE COMP "DVSAERData_AI[1]" SITE "N16" ;
 LOCATE COMP "DVSAERData_AI[0]" SITE "M15" ;
 DEFINE PORT GROUP "DVSAERData_AI"
-"DVSAERData_AI[9]" 
-"DVSAERData_AI[8]" 
-"DVSAERData_AI[7]" 
-"DVSAERData_AI[6]" 
-"DVSAERData_AI[5]" 
-"DVSAERData_AI[4]" 
-"DVSAERData_AI[3]" 
-"DVSAERData_AI[2]" 
-"DVSAERData_AI[1]" 
+"DVSAERData_AI[9]"
+"DVSAERData_AI[8]"
+"DVSAERData_AI[7]"
+"DVSAERData_AI[6]"
+"DVSAERData_AI[5]"
+"DVSAERData_AI[4]"
+"DVSAERData_AI[3]"
+"DVSAERData_AI[2]"
+"DVSAERData_AI[1]"
 "DVSAERData_AI[0]" ;
 IOBUF GROUP "DVSAERData_AI" PULLMODE=DOWN ;
 INPUT_SETUP GROUP "DVSAERData_AI" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "LogicClock_C" ;
@@ -193,7 +193,7 @@ CLOCK_TO_OUT PORT "APSChipRowSRIn_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "USB
 LOCATE COMP "APSChipColMode_DO[1]" SITE "A15" ;
 LOCATE COMP "APSChipColMode_DO[0]" SITE "A14" ;
 DEFINE PORT GROUP "APSChipColMode_DO"
-"APSChipColMode_DO[1]" 
+"APSChipColMode_DO[1]"
 "APSChipColMode_DO[0]" ;
 IOBUF GROUP "APSChipColMode_DO" PULLMODE=DOWN ;
 CLOCK_TO_OUT GROUP "APSChipColMode_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
@@ -230,15 +230,15 @@ LOCATE COMP "ExternalADCData_DI[2]" SITE "K16" ;
 LOCATE COMP "ExternalADCData_DI[1]" SITE "K15" ;
 LOCATE COMP "ExternalADCData_DI[0]" SITE "L16" ;
 DEFINE PORT GROUP "ExternalADCData_DI"
-"ExternalADCData_DI[9]" 
-"ExternalADCData_DI[8]" 
-"ExternalADCData_DI[7]" 
-"ExternalADCData_DI[6]" 
-"ExternalADCData_DI[5]" 
-"ExternalADCData_DI[4]" 
-"ExternalADCData_DI[3]" 
-"ExternalADCData_DI[2]" 
-"ExternalADCData_DI[1]" 
+"ExternalADCData_DI[9]"
+"ExternalADCData_DI[8]"
+"ExternalADCData_DI[7]"
+"ExternalADCData_DI[6]"
+"ExternalADCData_DI[5]"
+"ExternalADCData_DI[4]"
+"ExternalADCData_DI[3]"
+"ExternalADCData_DI[2]"
+"ExternalADCData_DI[1]"
 "ExternalADCData_DI[0]" ;
 IOBUF GROUP "ExternalADCData_DI" PULLMODE=DOWN ;
 INPUT_SETUP GROUP "ExternalADCData_DI" INPUT_DELAY 31.0 ns HOLD -2.0 ns CLKNET "USBClock_CI_c" ;
