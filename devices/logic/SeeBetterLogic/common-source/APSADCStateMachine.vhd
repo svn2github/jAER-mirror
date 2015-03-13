@@ -88,7 +88,7 @@ architecture Behavioral of APSADCStateMachine is
 	signal ColState_DP, ColState_DN : tColumnState;
 
 	type tRowState is (stIdle, stRowDone, stRowStart, stRowSRFeedInit, stRowSRFeedInitTick, stRowSRFeedTick, stColSettleWait, stRowSettleWait, stRowWriteEvent, stRowFastJump, stRowSample, stRowRampFeed, stRowRampClockLow, stRowRampClockHigh, stRowScanSelect, stRowScanSelectTick,
-		               stRowScanReadValue, stRowScanNextValue, stRowRampResetSettle);
+		               stRowScanReadValue, stRowScanNextValue, stRowRampResetSettle, stRowScanJumpValue);
 	attribute syn_enum_encoding of tRowState : type is "onehot";
 
 	-- present and next state
@@ -1149,6 +1149,7 @@ begin
 					if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 						OutFifoDataRegRow_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
 						OutFifoDataRegRow_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= ChipADCData_DI;
+						-- TODO: convert from graycode here directly.
 
 						OutFifoDataRegRowEnable_S <= '1';
 						OutFifoWriteRegRow_S      <= '1';
@@ -1158,6 +1159,10 @@ begin
 						RowState_DN          <= stRowScanNextValue;
 						RowReadPositionInc_S <= '1';
 					end if;
+
+				when stRowScanJumpValue =>
+					RowState_DN          <= stRowScanNextValue;
+					RowReadPositionInc_S <= '1';
 
 				when stRowScanNextValue =>
 					ChipADCScanClockReg_C <= '1';
@@ -1169,7 +1174,11 @@ begin
 						RowState_DN           <= stRowDone;
 						RowReadPositionZero_S <= '1';
 					else
-						RowState_DN <= stRowScanReadValue;
+						if CurrentRowValid_S = '1' then
+							RowState_DN <= stRowScanReadValue;
+						else
+							RowState_DN <= stRowScanJumpValue;
+						end if;
 					end if;
 
 				when stRowDone =>
