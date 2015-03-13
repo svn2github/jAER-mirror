@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.APSADCConfigRecords.all;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
+use work.Settings.CHIP_HAS_INTEGRATED_ADC;
 
 entity APSADCSPIConfig is
 	generic(
@@ -47,11 +48,11 @@ begin
 				APSADCOutput_DN(0)                   <= APSADCConfigReg_DP.ForceADCRunning_S;
 
 			when APSADCCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
-				-- Allow changing global shutter parameter only on chips which support it.
+				-- Allow read/write of parameter only on chips which support it.
 				if CHIP_HAS_GLOBAL_SHUTTER = '1' then
 					APSADCConfigReg_DN.GlobalShutter_S <= APSADCInput_DP(0);
+					APSADCOutput_DN(0)                 <= APSADCConfigReg_DP.GlobalShutter_S;
 				end if;
-				APSADCOutput_DN(0) <= APSADCConfigReg_DP.GlobalShutter_S;
 
 			when APSADCCONFIG_PARAM_ADDRESSES.StartColumn0_D =>
 				APSADCConfigReg_DN.StartColumn0_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.StartColumn0_D'range));
@@ -171,6 +172,13 @@ begin
 				if ENABLE_QUAD_ROI = true then
 					APSADCConfigReg_DN.EndRow3_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.EndRow3_D'range));
 					APSADCOutput_DN(tAPSADCConfig.EndRow3_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndRow3_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.SampleSettle_D =>
+				-- Allow read/write of parameter only on chips which support it.
+				if CHIP_HAS_INTEGRATED_ADC = '1' then
+					APSADCConfigReg_DN.SampleSettle_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.SampleSettle_D'range));
+					APSADCOutput_DN(tAPSADCConfig.SampleSettle_D'range) <= std_logic_vector(APSADCConfigReg_DP.SampleSettle_D);
 				end if;
 
 			when others => null;
