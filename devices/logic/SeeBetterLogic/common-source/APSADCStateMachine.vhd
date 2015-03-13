@@ -977,8 +977,8 @@ begin
 		signal RampTickCount_S, RampTickDone_S : std_logic;
 
 		-- Scan control constants.
-		constant SCAN_CONTROL_COPY : std_logic := '0';
-		constant SCAN_CONTROL_SCAN : std_logic := '1';
+		constant SCAN_CONTROL_COPY_OVER    : std_logic := '0';
+		constant SCAN_CONTROL_SCAN_THROUGH : std_logic := '1';
 	begin
 		ChipADCGrayCounter_DO <= "0101010101";
 
@@ -1024,7 +1024,7 @@ begin
 			ChipADCRampClockReg_C   <= '0';
 			ChipADCRampBitInReg_S   <= '0';
 			ChipADCScanClockReg_C   <= '0';
-			ChipADCScanControlReg_S <= SCAN_CONTROL_SCAN;
+			ChipADCScanControlReg_S <= SCAN_CONTROL_SCAN_THROUGH;
 			ChipADCSampleReg_S      <= '0';
 
 			case RowState_DP is
@@ -1134,12 +1134,12 @@ begin
 					RowSettleTimeCount_S <= '1';
 
 				when stRowScanSelect =>
-					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY;
+					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY_OVER;
 
 					RowState_DN <= stRowScanSelectTick;
 
 				when stRowScanSelectTick =>
-					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY;
+					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY_OVER;
 					ChipADCScanClockReg_C   <= '1';
 
 					RowState_DN <= stRowScanReadValue;
@@ -1205,7 +1205,7 @@ begin
 				ChipADCRampClock_CO   <= '0';
 				ChipADCRampBitIn_SO   <= '0';
 				ChipADCScanClock_CO   <= '0';
-				ChipADCScanControl_SO <= '0';
+				ChipADCScanControl_SO <= SCAN_CONTROL_SCAN_THROUGH;
 				ChipADCSample_SO      <= '0';
 			elsif rising_edge(Clock_CI) then
 				ChipADCRampClear_SO   <= ChipADCRampClearReg_S;
