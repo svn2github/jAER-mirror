@@ -38,6 +38,7 @@ package APSADCConfigRecords is
 		EndColumn3_D          : unsigned(7 downto 0);
 		EndRow3_D             : unsigned(7 downto 0);
 		SampleSettle_D        : unsigned(7 downto 0);
+		SampleEnable_S        : unsigned(7 downto 0);
 	end record tAPSADCConfigParamAddresses;
 
 	constant APSADCCONFIG_PARAM_ADDRESSES : tAPSADCConfigParamAddresses := (
@@ -68,7 +69,8 @@ package APSADCConfigRecords is
 		StartRow3_D           => to_unsigned(24, 8),
 		EndColumn3_D          => to_unsigned(25, 8),
 		EndRow3_D             => to_unsigned(26, 8),
-		SampleSettle_D        => to_unsigned(27, 8));
+		SampleSettle_D        => to_unsigned(27, 8),
+		SampleEnable_S        => to_unsigned(28, 8));
 
 	constant APS_EXPOSURE_SIZE      : integer := 25; -- Up to about one second.
 	constant APS_FRAMEDELAY_SIZE    : integer := 25; -- Up to about one second.
@@ -109,6 +111,7 @@ package APSADCConfigRecords is
 		EndColumn3_D          : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		EndRow3_D             : unsigned(CHIP_APS_SIZE_ROWS'range);
 		SampleSettle_D        : unsigned(APS_SAMPLESETTLETIME_SIZE - 1 downto 0);
+		SampleEnable_S        : std_logic;
 	end record tAPSADCConfig;
 
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
@@ -139,5 +142,6 @@ package APSADCConfigRecords is
 		StartRow3_D           => CHIP_APS_SIZE_ROWS,
 		EndColumn3_D          => CHIP_APS_SIZE_COLUMNS,
 		EndRow3_D             => CHIP_APS_SIZE_ROWS,
-		SampleSettle_D        => to_unsigned(60, APS_SAMPLESETTLETIME_SIZE));
+		SampleSettle_D        => to_unsigned(60, APS_SAMPLESETTLETIME_SIZE),
+		SampleEnable_S        => '1');
 end package APSADCConfigRecords;
