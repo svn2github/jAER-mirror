@@ -826,7 +826,7 @@ begin
 
 	externalADCRowReadout : if CHIP_HAS_INTEGRATED_ADC = '0' generate
 	begin
-		rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, ExternalADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
+		externalADCRowReadoutStateMachine : process(RowState_DP, APSADCConfigReg_D, ExternalADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
 		begin
 			RowState_DN <= RowState_DP;
 
@@ -961,14 +961,14 @@ begin
 
 				when others => null;
 			end case;
-		end process rowReadStateMachine;
+		end process externalADCRowReadoutStateMachine;
 
 		ChipADCRampClear_SO   <= '1';
 		ChipADCRampClock_CO   <= '0';
 		ChipADCRampBitIn_SO   <= '0';
 		ChipADCScanClock_CO   <= '0';
 		ChipADCScanControl_SO <= '1';
-		ChipADCSample_SO      <= '0';
+		ChipADCSample_SO      <= '1';
 		ChipADCGrayCounter_DO <= (others => '0');
 	end generate externalADCRowReadout;
 
@@ -1027,7 +1027,7 @@ begin
 				Overflow_SO  => SampleSettleTimeDone_S,
 				Data_DO      => open);
 
-		rowReadStateMachine : process(RowState_DP, APSADCConfigReg_D, OutFifoControl_SI, APSChipColModeReg_DP, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RampTickDone_S, ChipADCData_DI, RowSettleTimeDone_S, CurrentRowValid_S, SampleSettleTimeDone_S)
+		chipADCRowReadoutStateMachine : process(RowState_DP, APSADCConfigReg_D, OutFifoControl_SI, APSChipColModeReg_DP, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RampTickDone_S, ChipADCData_DI, RowSettleTimeDone_S, CurrentRowValid_S, SampleSettleTimeDone_S)
 		begin
 			RowState_DN <= RowState_DP;
 
@@ -1235,7 +1235,7 @@ begin
 
 				when others => null;
 			end case;
-		end process rowReadStateMachine;
+		end process chipADCRowReadoutStateMachine;
 
 		chipADCRegisterUpdate : process(Clock_CI, Reset_RI) is
 		begin
