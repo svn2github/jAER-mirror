@@ -1011,7 +1011,7 @@ begin
 				Reset_RI                  => Reset_RI,
 				Clear_SI                  => '0',
 				Enable_SI                 => RampTickCount_S,
-				DataLimit_DI              => (others => '1'),
+				DataLimit_DI              => to_unsigned(1021, 10),
 				Overflow_SO               => RampTickDone_S,
 				std_logic_vector(Data_DO) => RampTickData_D);
 
@@ -1158,12 +1158,18 @@ begin
 					end if;
 
 				when stRowScanSelect =>
+					-- Do not clear Ramp while in use!
+					ChipADCRampClearReg_S <= '0';
+					
 					ChipADCScanClockReg_C   <= '0';
 					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY_OVER;
 
 					RowState_DN <= stRowScanSelectTick;
 
 				when stRowScanSelectTick =>
+					-- Do not clear Ramp while in use!
+					ChipADCRampClearReg_S <= '0';
+					
 					ChipADCScanClockReg_C   <= '1';
 					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY_OVER;
 
