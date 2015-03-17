@@ -823,153 +823,155 @@ begin
 		CurrentRowValid_S     <= '1' when (Row0Valid_S or Row1Valid_S or Row2Valid_S or Row3Valid_S) else '0';
 	end generate apsQuadROI;
 
-	externalADCRowReadout : if CHIP_HAS_INTEGRATED_ADC = '0' generate
+	externalADCRowReadoutStateMachine : process(ExtRowState_DP, APSADCConfigReg_D, ExternalADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
 	begin
-		externalADCRowReadoutStateMachine : process(ExtRowState_DP, APSADCConfigReg_D, ExternalADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
-		begin
-			ExtRowState_DN <= ExtRowState_DP;
+		ExtRowState_DN <= ExtRowState_DP;
 
-			OutFifoWriteRegRow_S      <= '0';
-			OutFifoDataRegRowEnable_S <= '0';
-			OutFifoDataRegRow_D       <= (others => '0');
+		OutFifoWriteRegRow_S      <= '0';
+		OutFifoDataRegRowEnable_S <= '0';
+		OutFifoDataRegRow_D       <= (others => '0');
 
-			APSChipRowSRClockReg_C <= '0';
-			APSChipRowSRInReg_S    <= '0';
+		APSChipRowSRClockReg_C <= '0';
+		APSChipRowSRInReg_S    <= '0';
 
-			-- Row counters.
-			RowReadPositionZero_S <= '0';
-			RowReadPositionInc_S  <= '0';
+		-- Row counters.
+		RowReadPositionZero_S <= '0';
+		RowReadPositionInc_S  <= '0';
 
-			-- Settle times counters (column and row).
-			ColSettleTimeCount_S <= '0';
-			RowSettleTimeCount_S <= '0';
+		-- Settle times counters (column and row).
+		ColSettleTimeCount_S <= '0';
+		RowSettleTimeCount_S <= '0';
 
-			-- Column SM communication.
-			RowReadDone_SN <= '0';
+		-- Column SM communication.
+		RowReadDone_SN <= '0';
 
-			case ExtRowState_DP is
-				when stIdle =>
-					-- Wait until the main column state machine signals us to do a row read.
-					if RowReadStart_SP = '1' then
-						ExtRowState_DN <= stRowSRFeedInit;
-					end if;
+		case ExtRowState_DP is
+			when stIdle =>
+				-- Wait until the main column state machine signals us to do a row read.
+				if APSADCConfigReg_D.UseInternalADC_S = '0' and RowReadStart_SP = '1' then
+					ExtRowState_DN <= stRowSRFeedInit;
+				end if;
 
-				when stRowSRFeedInit =>
-					-- We first feed in the row register pattern, since the column settle time
-					-- has to pass _after_ the first row has been selected.
-					APSChipRowSRClockReg_C <= '0';
-					APSChipRowSRInReg_S    <= '1';
+			when stRowSRFeedInit =>
+				-- We first feed in the row register pattern, since the column settle time
+				-- has to pass _after_ the first row has been selected.
+				APSChipRowSRClockReg_C <= '0';
+				APSChipRowSRInReg_S    <= '1';
 
-					ExtRowState_DN <= stRowSRFeedInitTick;
+				ExtRowState_DN <= stRowSRFeedInitTick;
 
-				when stRowSRFeedInitTick =>
-					APSChipRowSRClockReg_C <= '1';
-					APSChipRowSRInReg_S    <= '1';
+			when stRowSRFeedInitTick =>
+				APSChipRowSRClockReg_C <= '1';
+				APSChipRowSRInReg_S    <= '1';
 
-					ExtRowState_DN <= stColSettleWait;
+				ExtRowState_DN <= stColSettleWait;
 
-				when stColSettleWait =>
-					-- Additional wait for the column selection to be valid, once both the colum and
-					-- the current row pattern have been shifted in. We do this here, because the row
-					-- pattern also has to have been shifted in for this to be effective.
-					if ColSettleTimeDone_S = '1' then
-						ExtRowState_DN <= stRowStart;
-					end if;
+			when stColSettleWait =>
+				-- Additional wait for the column selection to be valid, once both the colum and
+				-- the current row pattern have been shifted in. We do this here, because the row
+				-- pattern also has to have been shifted in for this to be effective.
+				if ColSettleTimeDone_S = '1' then
+					ExtRowState_DN <= stRowStart;
+				end if;
 
-					ColSettleTimeCount_S <= '1';
+				ColSettleTimeCount_S <= '1';
 
-				when stRowStart =>
-					-- Write event only if FIFO has place, else wait.
-					-- If fake read (COLMODE_NULL), don't write anything.
-					if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-						if APSChipColModeReg_DP = COLMODE_READA then
-							OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
-						else
-							OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL;
-						end if;
-						OutFifoDataRegRowEnable_S <= '1';
-						OutFifoWriteRegRow_S      <= '1';
-					end if;
-
-					if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						-- Same decision to do here as in stRowSRFeedTick.
-						if CurrentRowValid_S = '1' then
-							ExtRowState_DN <= stRowSettleWait;
-						else
-							ExtRowState_DN <= stRowFastJump;
-						end if;
-					end if;
-
-				when stRowSRFeedTick =>
-					APSChipRowSRClockReg_C <= '1';
-					APSChipRowSRInReg_S    <= '0';
-
-					-- Check if we're done. This means that we just clock the 1 in the RowSR out,
-					-- leaving it clean at only zeros. Further, the row read position is at the
-					-- maximum, so we can detect that, zero it and exit.
-					if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
-						ExtRowState_DN        <= stRowDone;
-						RowReadPositionZero_S <= '1';
+			when stRowStart =>
+				-- Write event only if FIFO has place, else wait.
+				-- If fake read (COLMODE_NULL), don't write anything.
+				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
+					if APSChipColModeReg_DP = COLMODE_READA then
+						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
 					else
-						if CurrentRowValid_S = '1' then
-							ExtRowState_DN <= stRowSettleWait;
-						else
-							ExtRowState_DN <= stRowFastJump;
-						end if;
+						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL;
 					end if;
+					OutFifoDataRegRowEnable_S <= '1';
+					OutFifoWriteRegRow_S      <= '1';
+				end if;
 
-				when stRowSettleWait =>
-					-- Wait for the row selection to be valid.
-					if RowSettleTimeDone_S = '1' then
-						ExtRowState_DN <= stRowWriteEvent;
+				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+					-- Same decision to do here as in stRowSRFeedTick.
+					if CurrentRowValid_S = '1' then
+						ExtRowState_DN <= stRowSettleWait;
+					else
+						ExtRowState_DN <= stRowFastJump;
 					end if;
+				end if;
 
-					RowSettleTimeCount_S <= '1';
+			when stRowSRFeedTick =>
+				APSChipRowSRClockReg_C <= '1';
+				APSChipRowSRInReg_S    <= '0';
 
-				when stRowWriteEvent =>
-					-- Write event only if FIFO has place, else wait.
-					if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-						OutFifoDataRegRow_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
-						OutFifoDataRegRow_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= ExternalADCData_DI;
-
-						OutFifoDataRegRowEnable_S <= '1';
-						OutFifoWriteRegRow_S      <= '1';
+				-- Check if we're done. This means that we just clock the 1 in the RowSR out,
+				-- leaving it clean at only zeros. Further, the row read position is at the
+				-- maximum, so we can detect that, zero it and exit.
+				if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
+					ExtRowState_DN        <= stRowDone;
+					RowReadPositionZero_S <= '1';
+				else
+					if CurrentRowValid_S = '1' then
+						ExtRowState_DN <= stRowSettleWait;
+					else
+						ExtRowState_DN <= stRowFastJump;
 					end if;
+				end if;
 
-					if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						ExtRowState_DN       <= stRowSRFeedTick;
-						RowReadPositionInc_S <= '1';
-					end if;
+			when stRowSettleWait =>
+				-- Wait for the row selection to be valid.
+				if RowSettleTimeDone_S = '1' then
+					ExtRowState_DN <= stRowWriteEvent;
+				end if;
 
-				when stRowFastJump =>
+				RowSettleTimeCount_S <= '1';
+
+			when stRowWriteEvent =>
+				-- Write event only if FIFO has place, else wait.
+				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
+					OutFifoDataRegRow_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
+					OutFifoDataRegRow_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= ExternalADCData_DI;
+
+					OutFifoDataRegRowEnable_S <= '1';
+					OutFifoWriteRegRow_S      <= '1';
+				end if;
+
+				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ExtRowState_DN       <= stRowSRFeedTick;
 					RowReadPositionInc_S <= '1';
+				end if;
 
-				when stRowDone =>
-					-- Write event only if FIFO has place, else wait.
-					if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-						OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
-						OutFifoDataRegRowEnable_S <= '1';
-						OutFifoWriteRegRow_S      <= '1';
-					end if;
+			when stRowFastJump =>
+				ExtRowState_DN       <= stRowSRFeedTick;
+				RowReadPositionInc_S <= '1';
 
-					if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						ExtRowState_DN <= stIdle;
-						RowReadDone_SN <= '1';
-					end if;
+			when stRowDone =>
+				-- Write event only if FIFO has place, else wait.
+				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
+					OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
+					OutFifoDataRegRowEnable_S <= '1';
+					OutFifoWriteRegRow_S      <= '1';
+				end if;
 
-				when others => null;
-			end case;
-		end process externalADCRowReadoutStateMachine;
+				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+					ExtRowState_DN <= stIdle;
+					RowReadDone_SN <= '1';
+				end if;
 
-		ChipADCRampClear_SO   <= '1';
+			when others => null;
+		end case;
+	end process externalADCRowReadoutStateMachine;
+
+	noChipADC : if CHIP_HAS_INTEGRATED_ADC = '0' generate
+	begin
+		-- Assign all signals but disable them if no internal ADC is present.
+		-- This is the case only with 240a/b/c devices.
+		ChipADCRampClear_SO   <= '0';
 		ChipADCRampClock_CO   <= '0';
 		ChipADCRampBitIn_SO   <= '0';
 		ChipADCScanClock_CO   <= '0';
-		ChipADCScanControl_SO <= '1';
-		ChipADCSample_SO      <= '1';   -- Always sample for external ADC, so that current gets to the buffers.
+		ChipADCScanControl_SO <= '0';
+		ChipADCSample_SO      <= '0';
 		ChipADCGrayCounter_DO <= (others => '0');
-	end generate externalADCRowReadout;
+	end generate noChipADC;
 
 	chipADCRowReadout : if CHIP_HAS_INTEGRATED_ADC = '1' generate
 		type tChipRowState is (stIdle, stRowDone, stRowStart, stColSettleWait, stRowSample, stRowRampFeed, stRowRampClockLow, stRowRampClockHigh, stRowScanSelect, stRowScanSelectTick, stRowScanReadValue, stRowScanNextValue, stRowRampResetSettle, stRowScanJumpValue, stRowRampFeedTick);
@@ -996,11 +998,6 @@ begin
 		constant SCAN_CONTROL_COPY_OVER    : std_logic := '0';
 		constant SCAN_CONTROL_SCAN_THROUGH : std_logic := '1';
 	begin
-		-- Not used with internal ADC.
-		APSChipRowSRClockReg_C <= '0';
-		APSChipRowSRInReg_S    <= '0';
-		ExtRowState_DN         <= ExtRowState_DP;
-
 		-- Don't generate any external gray-code. Internal gray-counter works.
 		ChipADCGrayCounter_DO <= (others => '0');
 
@@ -1012,7 +1009,7 @@ begin
 				Reset_RI     => Reset_RI,
 				Clear_SI     => '0',
 				Enable_SI    => RampTickCount_S,
-				DataLimit_DI => to_unsigned(1021, 10),
+				DataLimit_DI => to_unsigned(1021, APS_ADC_BUS_WIDTH),
 				Overflow_SO  => RampTickDone_S,
 				Data_DO      => open);
 
@@ -1062,7 +1059,7 @@ begin
 			case ChipRowState_DP is
 				when stIdle =>
 					-- Wait until the main column state machine signals us to do a row read.
-					if RowReadStart_SP = '1' then
+					if APSADCConfigReg_D.UseInternalADC_S = '1' and RowReadStart_SP = '1' then
 						ChipRowState_DN <= stColSettleWait;
 					end if;
 
@@ -1262,7 +1259,7 @@ begin
 				ChipADCRampBitIn_SO   <= ChipADCRampBitInReg_S;
 				ChipADCScanClock_CO   <= ChipADCScanClockReg_C;
 				ChipADCScanControl_SO <= ChipADCScanControlReg_S;
-				ChipADCSample_SO      <= ChipADCSampleReg_S and APSADCConfigReg_D.SampleEnable_S;
+				ChipADCSample_SO      <= APSADCConfigReg_D.SampleEnable_S and (ChipADCSampleReg_S or not APSADCConfigReg_D.UseInternalADC_S);
 			end if;
 		end process chipADCRegisterUpdate;
 	end generate chipADCRowReadout;
