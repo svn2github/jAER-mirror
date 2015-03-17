@@ -188,6 +188,13 @@ begin
 					APSADCOutput_DN(0)                <= APSADCConfigReg_DP.SampleEnable_S;
 				end if;
 
+			when APSADCCONFIG_PARAM_ADDRESSES.UseInternalADC_S =>
+				-- Allow read/write of parameter only on chips which support it.
+				if CHIP_HAS_INTEGRATED_ADC = '1' then
+					APSADCConfigReg_DN.UseInternalADC_S <= APSADCInput_DP(0);
+					APSADCOutput_DN(0)                  <= APSADCConfigReg_DP.UseInternalADC_S;
+				end if;
+
 			when others => null;
 		end case;
 	end process apsadcIO;
