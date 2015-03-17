@@ -989,36 +989,32 @@ begin
 		-- Sample time settle counter.
 		signal SampleSettleTimeCount_S, SampleSettleTimeDone_S : std_logic;
 
-		-- Ramp clock counter. Also generates grey-code.
-		signal RampTickCount_S, RampTickDone_S   : std_logic;
-		signal RampTickData_D, RampGreyCounter_D : std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+		-- Ramp clock counter. Could be used to generate grey-code if needed too.
+		signal RampTickCount_S, RampTickDone_S : std_logic;
 
 		-- Scan control constants.
 		constant SCAN_CONTROL_COPY_OVER    : std_logic := '0';
 		constant SCAN_CONTROL_SCAN_THROUGH : std_logic := '1';
 	begin
-		RampGreyCounter_D(9) <= RampTickData_D(9);
-		RampGreyCounter_D(8) <= RampTickData_D(9) xor RampTickData_D(8);
-		RampGreyCounter_D(7) <= RampTickData_D(8) xor RampTickData_D(7);
-		RampGreyCounter_D(6) <= RampTickData_D(7) xor RampTickData_D(6);
-		RampGreyCounter_D(5) <= RampTickData_D(6) xor RampTickData_D(5);
-		RampGreyCounter_D(4) <= RampTickData_D(5) xor RampTickData_D(4);
-		RampGreyCounter_D(3) <= RampTickData_D(4) xor RampTickData_D(3);
-		RampGreyCounter_D(2) <= RampTickData_D(3) xor RampTickData_D(2);
-		RampGreyCounter_D(1) <= RampTickData_D(2) xor RampTickData_D(1);
-		RampGreyCounter_D(0) <= RampTickData_D(1) xor RampTickData_D(0);
+		-- Not used with internal ADC.
+		APSChipRowSRClockReg_C <= '0';
+		APSChipRowSRInReg_S    <= '0';
+		ExtRowState_DN         <= ExtRowState_DP;
+
+		-- Don't generate any external gray-code. Internal gray-counter works.
+		ChipADCGrayCounter_DO <= (others => '0');
 
 		rampTickCounter : entity work.ContinuousCounter
 			generic map(
 				SIZE => APS_ADC_BUS_WIDTH)
 			port map(
-				Clock_CI                  => Clock_CI,
-				Reset_RI                  => Reset_RI,
-				Clear_SI                  => '0',
-				Enable_SI                 => RampTickCount_S,
-				DataLimit_DI              => to_unsigned(1021, 10),
-				Overflow_SO               => RampTickDone_S,
-				std_logic_vector(Data_DO) => RampTickData_D);
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Clear_SI     => '0',
+				Enable_SI    => RampTickCount_S,
+				DataLimit_DI => to_unsigned(1021, 10),
+				Overflow_SO  => RampTickDone_S,
+				Data_DO      => open);
 
 		sampleSettleTimeCounter : entity work.ContinuousCounter
 			generic map(
@@ -1039,9 +1035,6 @@ begin
 			OutFifoWriteRegRow_S      <= '0';
 			OutFifoDataRegRowEnable_S <= '0';
 			OutFifoDataRegRow_D       <= (others => '0');
-
-			APSChipRowSRClockReg_C <= '0';
-			APSChipRowSRInReg_S    <= '0';
 
 			-- Row counters.
 			RowReadPositionZero_S <= '0';
@@ -1189,17 +1182,20 @@ begin
 					-- Write event only if FIFO has place, else wait.
 					if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 						OutFifoDataRegRow_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
-						OutFifoDataRegRow_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= ChipADCData_DI;
-						-- OutFifoDataRegRow_D(9) <= ChipADCData_DI(9);
-						-- OutFifoDataRegRow_D(8) <= OutFifoDataRegRow_D(9) xor ChipADCData_DI(8);
-						-- OutFifoDataRegRow_D(7) <= OutFifoDataRegRow_D(8) xor ChipADCData_DI(7);
-						-- OutFifoDataRegRow_D(6) <= OutFifoDataRegRow_D(7) xor ChipADCData_DI(6);
-						-- OutFifoDataRegRow_D(5) <= OutFifoDataRegRow_D(6) xor ChipADCData_DI(5);
-						-- OutFifoDataRegRow_D(4) <= OutFifoDataRegRow_D(5) xor ChipADCData_DI(4);
-						-- OutFifoDataRegRow_D(3) <= OutFifoDataRegRow_D(4) xor ChipADCData_DI(3);
-						-- OutFifoDataRegRow_D(2) <= OutFifoDataRegRow_D(3) xor ChipADCData_DI(2);
-						-- OutFifoDataRegRow_D(1) <= OutFifoDataRegRow_D(2) xor ChipADCData_DI(1);
-						-- OutFifoDataRegRow_D(0) <= OutFifoDataRegRow_D(1) xor ChipADCData_DI(0);
+
+						-- Convert from gray-code to binary. This uses a direct algorithm instead of using the previously stored binary
+						-- value at each step. Lastly, the output is negated so that the range 0-1023 is properly inverted to be the same
+						-- as for external ADC, where 0 represents lowest voltage and 1023 highest voltage.
+						OutFifoDataRegRow_D(9) <= not (ChipADCData_DI(9));
+						OutFifoDataRegRow_D(8) <= not (ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRow_D(7) <= not (ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRow_D(6) <= not (ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRow_D(5) <= not (ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRow_D(4) <= not (ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRow_D(3) <= not (ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRow_D(2) <= not (ChipADCData_DI(2) xor ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRow_D(1) <= not (ChipADCData_DI(1) xor ChipADCData_DI(2) xor ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRow_D(0) <= not (ChipADCData_DI(0) xor ChipADCData_DI(1) xor ChipADCData_DI(2) xor ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
 
 						OutFifoDataRegRowEnable_S <= '1';
 						OutFifoWriteRegRow_S      <= '1';
@@ -1217,8 +1213,7 @@ begin
 				when stRowScanNextValue =>
 					ChipADCScanClockReg_C <= '1';
 
-					-- Check if we're done. This means that we just clock the 1 in the RowSR out,
-					-- leaving it clean at only zeros. Further, the row read position is at the
+					-- Check if we're done. The row read position is at the
 					-- maximum, so we can detect that, zero it and exit.
 					if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
 						ChipRowState_DN       <= stRowDone;
@@ -1259,7 +1254,6 @@ begin
 				ChipADCScanClock_CO   <= '0';
 				ChipADCScanControl_SO <= SCAN_CONTROL_SCAN_THROUGH;
 				ChipADCSample_SO      <= '0';
-				ChipADCGrayCounter_DO <= (others => '0');
 			elsif rising_edge(Clock_CI) then
 				ChipRowState_DP <= ChipRowState_DN;
 
@@ -1269,7 +1263,6 @@ begin
 				ChipADCScanClock_CO   <= ChipADCScanClockReg_C;
 				ChipADCScanControl_SO <= ChipADCScanControlReg_S;
 				ChipADCSample_SO      <= ChipADCSampleReg_S and APSADCConfigReg_D.SampleEnable_S;
-				ChipADCGrayCounter_DO <= RampGreyCounter_D;
 			end if;
 		end process chipADCRegisterUpdate;
 	end generate chipADCRowReadout;
