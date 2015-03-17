@@ -84,7 +84,7 @@ architecture Behavioral of D4AAPSADCStateMachine is
 	-- present and next state
 	signal RowSRState_DP, RowSRState_DN : tRowSRState;
 	
-	type tChipADCState is (stIdle, stSettle, stSample, stConvert, stScan);
+	type tChipADCState is (stIdle, stSettle, stSample, stConvert, stClear);
 	attribute syn_enum_encoding of tChipADCState : type is "onehot";
 	-- present and next state
 	signal ChipADCState_DP, ChipADCState_DN : tChipADCState;
@@ -546,7 +546,7 @@ begin
 		end case;
 	end process PixelStateMachine;
 
-	RowSRStateMachine : process(RowState_DP, APSADCConfigReg_D, APSADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
+	RowSRStateMachine : process(RowSRState_DP, APSADCConfigReg_D, APSFrameInitiate_S, GSReadoutStart_S, RowReadPosition_D, ExposureTimeDone_S)
 	begin
 		RowSRState_DN <= RowSRState_DP;
 
@@ -554,19 +554,12 @@ begin
 		OutFifoDataRegRowEnable_S <= '0';
 		OutFifoDataRegRow_D       <= (others => '0');
 
-		APSChipRowSRClockReg_S <= '0';
-		APSChipRowSRInReg_S    <= '0';
+		APSRowSRClockReg_S <= '0';
+		APSRowSRInReg_S    <= '0';
 
 		-- Row counters.
 		RowReadPositionZero_S <= '0';
 		RowReadPositionInc_S  <= '0';
-
-		-- Settle times counters (column and row).
-		ColSettleTimeCount_S <= '0';
-		RowSettleTimeCount_S <= '0';
-
-		-- Column SM communication.
-		RowReadDone_SN <= '0';
 
 		case RowSRState_DP is
 			when stIdle =>
@@ -629,13 +622,13 @@ begin
 		end case;
 	end process RowSRStateMachine;
 	
-	ChipADCStateMachine : process(ChipADCState_DP)
+	ChipADCStateMachine : process(ChipADCState_DP, ChipADCSample_S, ChipADCSettleTimeDone_S, ChipADCRampDone_S)
 	begin
 		ChipADCState_DN <= ChipADCState_DP;
 		
 		case ChipADCState_DP is
 			when stIdle =>
-				ChipADCRampClearReg_S <= '1';
+				ChipADCRampClearReg_S <= '0';
 				ChipADCRampBitInReg_S <= '0';
 				ChipADCRampClockReg_C <= '0';
 				ChipADCSampleReg_S <= '1';
@@ -660,14 +653,22 @@ begin
 				ChipADCState_DN <= stConvert;
 				
 			when stConvert =>
-				ChipADCSample_S <= '0';
+				ChipADCSampleReg_S <= '0';
 				ChipADCSampleDone_S <= '1';
 				ChipADCRampBitInReg_S <= '0';
 				ChipADCRampCount_S <= '1';
 				
 				if ChipADCRampDone_S = '1' then
-					ChipADCState_DN <= stIdle;
+					ChipADCState_DN <= stClear;
 				end if;
+				
+			when stClear =>
+				ChipADCSampleReg_S <= '0';
+				ChipADCRampClearReg_S <= '1';
+				ChipADCRampBitInReg_S <= '1';
+				ChipADCRampClockReg_C <= '1';
+				
+				ChipADCState_DN <= stIdle;
 
 		end case;
 	end process ChipADCStateMachine;
