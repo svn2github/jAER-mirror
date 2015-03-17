@@ -354,7 +354,7 @@ begin
 				if APSADCConfigReg_D.GlobalShutter_S = '0' and APSRowSRClockReg_C = '1' then
 					PixelState_DN <= stRSRowSettle;
 					RSRowSettleTimeCount_S <= '1';
-				else if APSADCConfigReg_D.GlobalShutter_S = '1' then
+				elsif APSADCConfigReg_D.GlobalShutter_S = '1' then
 					PixelState_DN <= stGSIdle;
 				end if;
 
@@ -428,7 +428,7 @@ begin
 				
 				if APSADCConfigReg_D.GlobalShutter_S = '1' and APSFrameInitiate_S = '1' then
 					PixelState_DN <= stGSPDReset;
-				else if APSADCConfigReg_D.GlobalShutter_S = '0' then
+				elsif APSADCConfigReg_D.GlobalShutter_S = '0' then
 					PixelState_DN <= stRSIdle;
 				end if;
 				
@@ -567,7 +567,7 @@ begin
 				
 				if APSADCConfigReg_D.GlobalShutter_S = '0' and APSFrameInitiate_S = '1' then
 					RowSRState_DN <= stRSExposureStart0;
-				else if APSADCConfigReg_D.GlobalShutter_S = '1' and GSReadoutStart_S = '1' then
+				elsif APSADCConfigReg_D.GlobalShutter_S = '1' and GSReadoutStart_S = '1' then
 					RowSRState_DN <= stGSReadout0;
 				end if;
 
