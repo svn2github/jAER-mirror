@@ -174,11 +174,11 @@ begin
 					APSADCOutput_DN(tAPSADCConfig.EndRow3_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndRow3_D);
 				end if;
 
-			when APSADCCONFIG_PARAM_ADDRESSES.SampleSettle_D =>
+			when APSADCCONFIG_PARAM_ADDRESSES.UseInternalADC_S =>
 				-- Allow read/write of parameter only on chips which support it.
 				if CHIP_HAS_INTEGRATED_ADC = '1' then
-					APSADCConfigReg_DN.SampleSettle_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.SampleSettle_D'range));
-					APSADCOutput_DN(tAPSADCConfig.SampleSettle_D'range) <= std_logic_vector(APSADCConfigReg_DP.SampleSettle_D);
+					APSADCConfigReg_DN.UseInternalADC_S <= APSADCInput_DP(0);
+					APSADCOutput_DN(0)                  <= APSADCConfigReg_DP.UseInternalADC_S;
 				end if;
 
 			when APSADCCONFIG_PARAM_ADDRESSES.SampleEnable_S =>
@@ -188,11 +188,18 @@ begin
 					APSADCOutput_DN(0)                <= APSADCConfigReg_DP.SampleEnable_S;
 				end if;
 
-			when APSADCCONFIG_PARAM_ADDRESSES.UseInternalADC_S =>
+			when APSADCCONFIG_PARAM_ADDRESSES.SampleSettle_D =>
 				-- Allow read/write of parameter only on chips which support it.
 				if CHIP_HAS_INTEGRATED_ADC = '1' then
-					APSADCConfigReg_DN.UseInternalADC_S <= APSADCInput_DP(0);
-					APSADCOutput_DN(0)                  <= APSADCConfigReg_DP.UseInternalADC_S;
+					APSADCConfigReg_DN.SampleSettle_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.SampleSettle_D'range));
+					APSADCOutput_DN(tAPSADCConfig.SampleSettle_D'range) <= std_logic_vector(APSADCConfigReg_DP.SampleSettle_D);
+				end if;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.RampReset_D =>
+				-- Allow read/write of parameter only on chips which support it.
+				if CHIP_HAS_INTEGRATED_ADC = '1' then
+					APSADCConfigReg_DN.RampReset_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.RampReset_D'range));
+					APSADCOutput_DN(tAPSADCConfig.RampReset_D'range) <= std_logic_vector(APSADCConfigReg_DP.RampReset_D);
 				end if;
 
 			when others => null;

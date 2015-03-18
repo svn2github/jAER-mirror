@@ -455,7 +455,7 @@ begin
 			ChipADCGrayCounter_DO       => ChipADCGrayCounter_DO,
 			APSADCConfig_DI             => APSADCConfigReg2_D);
 
-	apsadcSPIConfig : entity work.APSADCSPIConfig
+	apsAdcSPIConfig : entity work.APSADCSPIConfig
 		generic map(
 			ENABLE_QUAD_ROI => false)
 		port map(

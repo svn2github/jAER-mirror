@@ -38,9 +38,10 @@ package APSADCConfigRecords is
 		StartRow3_D           : unsigned(7 downto 0);
 		EndColumn3_D          : unsigned(7 downto 0);
 		EndRow3_D             : unsigned(7 downto 0);
-		SampleSettle_D        : unsigned(7 downto 0);
-		SampleEnable_S        : unsigned(7 downto 0);
 		UseInternalADC_S      : unsigned(7 downto 0);
+		SampleEnable_S        : unsigned(7 downto 0);
+		SampleSettle_D        : unsigned(7 downto 0);
+		RampReset_D           : unsigned(7 downto 0);
 	end record tAPSADCConfigParamAddresses;
 
 	constant APSADCCONFIG_PARAM_ADDRESSES : tAPSADCConfigParamAddresses := (
@@ -71,19 +72,21 @@ package APSADCConfigRecords is
 		StartRow3_D           => to_unsigned(24, 8),
 		EndColumn3_D          => to_unsigned(25, 8),
 		EndRow3_D             => to_unsigned(26, 8),
-		SampleSettle_D        => to_unsigned(27, 8),
+		UseInternalADC_S      => to_unsigned(27, 8),
 		SampleEnable_S        => to_unsigned(28, 8),
-		UseInternalADC_S      => to_unsigned(29, 8));
+		SampleSettle_D        => to_unsigned(29, 8),
+		RampReset_D           => to_unsigned(30, 8));
 
 	constant APS_EXPOSURE_SIZE      : integer := 25; -- Up to about one second.
 	constant APS_FRAMEDELAY_SIZE    : integer := 25; -- Up to about one second.
-	constant APS_NULLTIME_SIZE      : integer := 5; -- Up to about one microsecond.
 	constant APS_RESETTIME_SIZE     : integer := 7; -- Up to about four microseconds.
 	constant APS_COLSETTLETIME_SIZE : integer := 7; -- Up to about four microseconds.
 	constant APS_ROWSETTLETIME_SIZE : integer := 6; -- Up to about two microseconds.
+	constant APS_NULLTIME_SIZE      : integer := 5; -- Up to about one microsecond.
 
 	-- On-chip ADC specific timings.
 	constant APS_SAMPLESETTLETIME_SIZE : integer := 8; -- Up to about eight microseconds.
+	constant APS_RAMPRESETTIME_SIZE    : integer := 8; -- Up to about eight microseconds.
 
 	type tAPSADCConfig is record
 		Run_S                 : std_logic;
@@ -96,7 +99,7 @@ package APSADCConfigRecords is
 		Exposure_D            : unsigned(APS_EXPOSURE_SIZE - 1 downto 0); -- in cycles at 30MHz
 		FrameDelay_D          : unsigned(APS_FRAMEDELAY_SIZE - 1 downto 0); -- in cycles at 30MHz
 		ResetSettle_D         : unsigned(APS_RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
-		ColumnSettle_D        : unsigned(APS_COLSETTLETIME_SIZE - 1 downto 0); -- in cycles at 30MHzes
+		ColumnSettle_D        : unsigned(APS_COLSETTLETIME_SIZE - 1 downto 0); -- in cycles at 30MHz
 		RowSettle_D           : unsigned(APS_ROWSETTLETIME_SIZE - 1 downto 0); -- in cycles at 30MHz
 		NullSettle_D          : unsigned(APS_NULLTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
 		ResetRead_S           : std_logic; -- Wether to do the reset read or not.
@@ -113,9 +116,10 @@ package APSADCConfigRecords is
 		StartRow3_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
 		EndColumn3_D          : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		EndRow3_D             : unsigned(CHIP_APS_SIZE_ROWS'range);
-		SampleSettle_D        : unsigned(APS_SAMPLESETTLETIME_SIZE - 1 downto 0);
-		SampleEnable_S        : std_logic;
 		UseInternalADC_S      : std_logic;
+		SampleEnable_S        : std_logic;
+		SampleSettle_D        : unsigned(APS_SAMPLESETTLETIME_SIZE - 1 downto 0); -- in cycles at 30MHz
+		RampReset_D           : unsigned(APS_RAMPRESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
 	end record tAPSADCConfig;
 
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
@@ -146,7 +150,8 @@ package APSADCConfigRecords is
 		StartRow3_D           => CHIP_APS_SIZE_ROWS,
 		EndColumn3_D          => CHIP_APS_SIZE_COLUMNS,
 		EndRow3_D             => CHIP_APS_SIZE_ROWS,
-		SampleSettle_D        => to_unsigned(60, APS_SAMPLESETTLETIME_SIZE),
+		UseInternalADC_S      => CHIP_HAS_INTEGRATED_ADC,
 		SampleEnable_S        => '1',
-		UseInternalADC_S      => CHIP_HAS_INTEGRATED_ADC);
+		SampleSettle_D        => to_unsigned(60, APS_SAMPLESETTLETIME_SIZE),
+		RampReset_D           => to_unsigned(10, APS_RAMPRESETTIME_SIZE));
 end package APSADCConfigRecords;
