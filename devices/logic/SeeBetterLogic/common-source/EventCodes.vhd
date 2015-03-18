@@ -30,6 +30,7 @@ package EventCodes is
 	constant EVENT_CODE_SPECIAL_APS_STARTFRAME_RS_NORST : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0)     := std_logic_vector(to_unsigned(15, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_SPECIAL_IMU_SCALE_CONFIG        : std_logic_vector(EVENT_DATA_WIDTH_MAX - 4 - 1 downto 0) := std_logic_vector(to_unsigned(1, EVENT_DATA_WIDTH_MAX - 4));
 	-- IMU Scale Config uses addresses from 16 to 31, by adding four bits to the end of it.
+	constant EVENT_CODE_SPECIAL_APS_STARTSRESET2COL     : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0)     := std_logic_vector(to_unsigned(32, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_Y_ADDR                          : std_logic_vector(2 downto 0)                            := "001";
 	-- The fourth bit of an X address is the polarity. It usually gets encoded directly from the AER bus input.
 	constant EVENT_CODE_X_ADDR                          : std_logic_vector(1 downto 0)                            := "01";
