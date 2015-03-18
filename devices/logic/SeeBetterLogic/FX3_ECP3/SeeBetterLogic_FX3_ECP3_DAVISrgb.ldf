@@ -105,13 +105,13 @@
         <Source name="../common-source/DVSAERConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/APSADCStateMachine.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/D4AAPSADCStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/APSADCSPIConfig.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/D4AAPSADCSPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/APSADCConfigRecords.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/D4AAPSADCConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/IMUStateMachine.vhd" type="VHDL" type_short="VHDL">

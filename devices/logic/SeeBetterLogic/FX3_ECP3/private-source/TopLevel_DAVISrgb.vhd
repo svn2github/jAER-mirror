@@ -6,7 +6,7 @@ use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
-use work.APSADCConfigRecords.all;
+use work.D4AAPSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
 use work.ExtInputConfigRecords.all;
 use work.ChipBiasConfigRecords.all;
@@ -137,7 +137,7 @@ architecture Structural of TopLevelRGB is
 
 	signal MultiplexerConfigParamOutput_D : std_logic_vector(31 downto 0);
 	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
-	signal APSADCConfigParamOutput_D      : std_logic_vector(31 downto 0);
+	signal D4AAPSADCConfigParamOutput_D   : std_logic_vector(31 downto 0);
 	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
 	signal ExtInputConfigParamOutput_D    : std_logic_vector(31 downto 0);
 	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
@@ -147,7 +147,7 @@ architecture Structural of TopLevelRGB is
 
 	signal MultiplexerConfig_D, MultiplexerConfigReg_D, MultiplexerConfigReg2_D : tMultiplexerConfig;
 	signal DVSAERConfig_D, DVSAERConfigReg_D, DVSAERConfigReg2_D                : tDVSAERConfig;
-	signal APSADCConfig_D, APSADCConfigReg_D, APSADCConfigReg2_D                : tAPSADCConfig;
+	signal D4AAPSADCConfig_D, D4AAPSADCConfigReg_D, D4AAPSADCConfigReg2_D       : tD4AAPSADCConfig;
 	signal IMUConfig_D, IMUConfigReg_D, IMUConfigReg2_D                         : tIMUConfig;
 	signal ExtInputConfig_D, ExtInputConfigReg_D, ExtInputConfigReg2_D          : tExtInputConfig;
 	signal FX3Config_D, FX3ConfigReg_D, FX3ConfigReg2_D                         : tFX3Config;
@@ -203,7 +203,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => DVSAERConfig_D.Run_S or APSADCConfig_D.Run_S or MultiplexerConfig_D.ForceChipBiasEnable_S,
+			Input_SI(0)  => DVSAERConfig_D.Run_S or D4AAPSADCConfig_D.Run_S or MultiplexerConfig_D.ForceChipBiasEnable_S,
 			Output_SO(0) => ChipBiasEnable_SO);
 
 	-- Wire all LEDs.
@@ -428,56 +428,45 @@ begin
 			FifoData_DI    => APSADCFifoDataIn_D,
 			FifoData_DO    => APSADCFifoDataOut_D);
 
-	APSChipColSRClock_CO     <= '0';
-	APSChipColSRIn_SO        <= '0';
-	APSChipRowSRClock_CO     <= '0';
-	APSChipRowSRIn_SO        <= '0';
-	APSChipOverflowGate_SO   <= '1';
-	APSChipTXGate_SO         <= '0';
-	APSChipReset_SO          <= '1';
-	APSChipGlobalShutter_SBO <= '0';
-
-	apsAdcSM : entity work.APSADCStateMachine
+	apsAdcSM : entity work.D4AAPSADCStateMachine
 		generic map(
 			ENABLE_QUAD_ROI => false)
 		port map(
-			Clock_CI                    => ADCClock_C,
-			Reset_RI                    => ADCReset_R,
-			OutFifoControl_SI           => APSADCFifoControlOut_S.WriteSide,
-			OutFifoControl_SO           => APSADCFifoControlIn_S.WriteSide,
-			OutFifoData_DO              => APSADCFifoDataIn_D,
-			APSChipColSRClock_CO        => open,
-			APSChipColSRIn_SO           => open,
-			APSChipRowSRClock_CO        => open,
-			APSChipRowSRIn_SO           => open,
-			APSChipColMode_DO           => open,
-			APSChipTXGate_SBO           => open,
-			ExternalADCData_DI          => ExternalADCData_DI,
-			ExternalADCClock_CO         => ExternalADCClock_CO,
-			ExternalADCOutputEnable_SBO => ExternalADCOutputEnable_SBO,
-			ExternalADCStandby_SO       => ExternalADCStandby_SO,
-			ChipADCData_DI              => ChipADCData_DI,
-			ChipADCRampClear_SO         => ChipADCRampClear_SO,
-			ChipADCRampClock_CO         => ChipADCRampClock_CO,
-			ChipADCRampBitIn_SO         => ChipADCRampBitIn_SO,
-			ChipADCScanClock_CO         => ChipADCScanClock_CO,
-			ChipADCScanControl_SO       => ChipADCScanControl_SO,
-			ChipADCSample_SO            => ChipADCSample_SO,
-			ChipADCGrayCounter_DO       => ChipADCGrayCounter_DO,
-			APSADCConfig_DI             => APSADCConfigReg2_D);
+			Clock_CI                 => ADCClock_C,
+			Reset_RI                 => ADCReset_R,
+			OutFifoControl_SI        => APSADCFifoControlOut_S.WriteSide,
+			OutFifoControl_SO        => APSADCFifoControlIn_S.WriteSide,
+			OutFifoData_DO           => APSADCFifoDataIn_D,
+			APSChipColSRClock_CO     => APSChipColSRClock_CO,
+			APSChipColSRIn_SO        => APSChipColSRIn_SO,
+			APSChipRowSRClock_CO     => APSChipRowSRClock_CO,
+			APSChipRowSRIn_SO        => APSChipRowSRIn_SO,
+			APSChipOverflowGate_SO   => APSChipOverflowGate_SO,
+			APSChipTXGate_SO         => APSChipTXGate_SO,
+			APSChipReset_SO          => APSChipReset_SO,
+			APSChipGlobalShutter_SBO => APSChipGlobalShutter_SBO,
+			ChipADCData_DI           => ChipADCData_DI,
+			ChipADCRampClear_SO      => ChipADCRampClear_SO,
+			ChipADCRampClock_CO      => ChipADCRampClock_CO,
+			ChipADCRampBitIn_SO      => ChipADCRampBitIn_SO,
+			ChipADCScanClock_CO      => ChipADCScanClock_CO,
+			ChipADCScanControl_SO    => ChipADCScanControl_SO,
+			ChipADCSample_SO         => ChipADCSample_SO,
+			ChipADCGrayCounter_DO    => ChipADCGrayCounter_DO,
+			D4AAPSADCConfig_DI       => D4AAPSADCConfigReg2_D);
 
-	apsadcSPIConfig : entity work.APSADCSPIConfig
+	apsAdcSPIConfig : entity work.D4AAPSADCSPIConfig
 		generic map(
 			ENABLE_QUAD_ROI => false)
 		port map(
-			Clock_CI                   => LogicClock_C,
-			Reset_RI                   => LogicReset_R,
-			APSADCConfig_DO            => APSADCConfig_D,
-			ConfigModuleAddress_DI     => ConfigModuleAddress_D,
-			ConfigParamAddress_DI      => ConfigParamAddress_D,
-			ConfigParamInput_DI        => ConfigParamInput_D,
-			ConfigLatchInput_SI        => ConfigLatchInput_S,
-			APSADCConfigParamOutput_DO => APSADCConfigParamOutput_D);
+			Clock_CI                      => LogicClock_C,
+			Reset_RI                      => LogicReset_R,
+			D4AAPSADCConfig_DO            => D4AAPSADCConfig_D,
+			ConfigModuleAddress_DI        => ConfigModuleAddress_D,
+			ConfigParamAddress_DI         => ConfigParamAddress_D,
+			ConfigParamInput_DI           => ConfigParamInput_D,
+			ConfigLatchInput_SI           => ConfigLatchInput_S,
+			D4AAPSADCConfigParamOutput_DO => D4AAPSADCConfigParamOutput_D);
 
 	imuFifo : entity work.FIFO
 		generic map(
@@ -570,28 +559,28 @@ begin
 		if LogicReset_R = '1' then
 			MultiplexerConfigReg2_D <= tMultiplexerConfigDefault;
 			DVSAERConfigReg2_D      <= tDVSAERConfigDefault;
-			APSADCConfigReg2_D      <= tAPSADCConfigDefault;
+			D4AAPSADCConfigReg2_D   <= tD4AAPSADCConfigDefault;
 			IMUConfigReg2_D         <= tIMUConfigDefault;
 			ExtInputConfigReg2_D    <= tExtInputConfigDefault;
 			FX3ConfigReg2_D         <= tFX3ConfigDefault;
 
 			MultiplexerConfigReg_D <= tMultiplexerConfigDefault;
 			DVSAERConfigReg_D      <= tDVSAERConfigDefault;
-			APSADCConfigReg_D      <= tAPSADCConfigDefault;
+			D4AAPSADCConfigReg_D   <= tD4AAPSADCConfigDefault;
 			IMUConfigReg_D         <= tIMUConfigDefault;
 			ExtInputConfigReg_D    <= tExtInputConfigDefault;
 			FX3ConfigReg_D         <= tFX3ConfigDefault;
 		elsif rising_edge(LogicClock_C) then
 			MultiplexerConfigReg2_D <= MultiplexerConfigReg_D;
 			DVSAERConfigReg2_D      <= DVSAERConfigReg_D;
-			APSADCConfigReg2_D      <= APSADCConfigReg_D;
+			D4AAPSADCConfigReg2_D   <= D4AAPSADCConfigReg_D;
 			IMUConfigReg2_D         <= IMUConfigReg_D;
 			ExtInputConfigReg2_D    <= ExtInputConfigReg_D;
 			FX3ConfigReg2_D         <= FX3ConfigReg_D;
 
 			MultiplexerConfigReg_D <= MultiplexerConfig_D;
 			DVSAERConfigReg_D      <= DVSAERConfig_D;
-			APSADCConfigReg_D      <= APSADCConfig_D;
+			D4AAPSADCConfigReg_D   <= D4AAPSADCConfig_D;
 			IMUConfigReg_D         <= IMUConfig_D;
 			ExtInputConfigReg_D    <= ExtInputConfig_D;
 			FX3ConfigReg_D         <= FX3Config_D;
@@ -612,7 +601,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtInputConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, D4AAPSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtInputConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -624,8 +613,8 @@ begin
 			when DVSAERCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= DVSAERConfigParamOutput_D;
 
-			when APSADCCONFIG_MODULE_ADDRESS =>
-				ConfigParamOutput_D <= APSADCConfigParamOutput_D;
+			when D4AAPSADCCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= D4AAPSADCConfigParamOutput_D;
 
 			when IMUCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= IMUConfigParamOutput_D;

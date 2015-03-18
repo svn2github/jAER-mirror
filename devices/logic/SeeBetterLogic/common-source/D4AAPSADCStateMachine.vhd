@@ -5,14 +5,15 @@ use ieee.math_real.ceil;
 use ieee.math_real.log2;
 use work.EventCodes.all;
 use work.FIFORecords.all;
-use work.APSADCConfigRecords.all;
-use work.Settings.ADC_CLOCK_FREQ;
+use work.D4AAPSADCConfigRecords.all;
 use work.Settings.APS_ADC_BUS_WIDTH;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 
 entity D4AAPSADCStateMachine is
+	generic(
+		ENABLE_QUAD_ROI : boolean := false);
 	port(
 		Clock_CI                 : in  std_logic; -- This clock must be 30MHz, use PLL to generate.
 		Reset_RI                 : in  std_logic; -- This reset must be synchronized to the above clock.
@@ -41,7 +42,7 @@ entity D4AAPSADCStateMachine is
 		ChipADCGrayCounter_DO    : out std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
 
 		-- Configuration input
-		APSADCConfig_DI          : in  tAPSADCConfig);
+		D4AAPSADCConfig_DI       : in  tD4AAPSADCConfig);
 end entity D4AAPSADCStateMachine;
 
 architecture Behavioral of D4AAPSADCStateMachine is
@@ -156,8 +157,8 @@ architecture Behavioral of D4AAPSADCStateMachine is
 
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
-	signal APSADCConfigSyncReg_D, APSADCConfigReg_D : tAPSADCConfig;
-	signal APSADCConfigRegEnable_S                  : std_logic;
+	signal D4AAPSADCConfigSyncReg_D, D4AAPSADCConfigReg_D : tD4AAPSADCConfig;
+	signal D4AAPSADCConfigRegEnable_S                     : std_logic;
 begin
 	rowReadPosition : entity work.ContinuousCounter
 		generic map(
@@ -182,7 +183,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => ExposureClear_S,
 			Enable_SI    => '1',
-			DataLimit_DI => APSADCConfigReg_D.Exposure_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.Exposure_D,
 			Overflow_SO  => ExposureTimeDone_S,
 			Data_DO      => open);
 
@@ -194,7 +195,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => TransferTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.Transfer_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.Transfer_D,
 			Overflow_SO  => TransferTimeDone_S,
 			Data_DO      => open);
 
@@ -206,7 +207,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => FrameDelayCount_S,
-			DataLimit_DI => APSADCConfigReg_D.FrameDelay_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.FrameDelay_D,
 			Overflow_SO  => FrameDelayDone_S,
 			Data_DO      => open);
 
@@ -218,7 +219,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => RSFDSettleTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.RSFDSettle_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.RSFDSettle_D,
 			Overflow_SO  => RSFDSettleTimeDone_S,
 			Data_DO      => open);
 
@@ -230,7 +231,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => RSCpResetTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.RSCpReset_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.RSCpReset_D,
 			Overflow_SO  => RSCpResetTimeDone_S,
 			Data_DO      => open);
 
@@ -242,7 +243,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => RSCpSettleTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.RSCpSettle_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.RSCpSettle_D,
 			Overflow_SO  => RSCpSettleTimeDone_S,
 			Data_DO      => open);
 
@@ -254,7 +255,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => GSPDResetTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.GSPDReset_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.GSPDReset_D,
 			Overflow_SO  => GSPDResetTimeDone_S,
 			Data_DO      => open);
 
@@ -266,7 +267,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => GSResetFallTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.GSResetFall_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.GSResetFall_D,
 			Overflow_SO  => GSResetFallTimeDone_S,
 			Data_DO      => open);
 
@@ -278,7 +279,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => GSTXFallTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.GSTXFall_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.GSTXFall_D,
 			Overflow_SO  => GSTXFallTimeDone_S,
 			Data_DO      => open);
 
@@ -290,7 +291,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => GSFDResetTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.GSFDReset_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.GSFDReset_D,
 			Overflow_SO  => GSFDResetTimeDone_S,
 			Data_DO      => open);
 
@@ -302,7 +303,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => GSCpResetFDTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.GSCpResetFD_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.GSCpResetFD_D,
 			Overflow_SO  => GSCpResetFDTimeDone_S,
 			Data_DO      => open);
 
@@ -314,11 +315,11 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => GSCpResetSettleTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.GSCpResetSettle_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.GSCpResetSettle_D,
 			Overflow_SO  => GSCpResetSettleTimeDone_S,
 			Data_DO      => open);
 
-	PixelStateMachine : process(PixelState_DP, APSADCConfigReg_D, APSChipGlobalShutterReg_SP, APSChipOverflowGateReg_SP, APSChipResetReg_SP, APSChipTXGateReg_SP, ColReadDone_SP, ExposureTimeDone_S, FrameDelayDone_S, GSCpResetFDTimeDone_S, GSCpResetSettleTimeDone_S, GSFDResetTimeDone_S, GSPDResetTimeDone_S, GSResetFallTimeDone_S, GSTXFallTimeDone_S, OutFifoControl_SI, RSCpResetTimeDone_S, RSCpSettleTimeDone_S, RSFDSettleTimeDone_S, ReadBSRStatus_DP, RowReadPosition_D, TransferTimeDone_S)
+	PixelStateMachine : process(PixelState_DP, D4AAPSADCConfigReg_D, APSChipGlobalShutterReg_SP, APSChipOverflowGateReg_SP, APSChipResetReg_SP, APSChipTXGateReg_SP, ColReadDone_SP, ExposureTimeDone_S, FrameDelayDone_S, GSCpResetFDTimeDone_S, GSCpResetSettleTimeDone_S, GSFDResetTimeDone_S, GSPDResetTimeDone_S, GSResetFallTimeDone_S, GSTXFallTimeDone_S, OutFifoControl_SI, RSCpResetTimeDone_S, RSCpSettleTimeDone_S, RSFDSettleTimeDone_S, ReadBSRStatus_DP, RowReadPosition_D, TransferTimeDone_S)
 	begin
 		PixelState_DN <= PixelState_DP; -- Keep current state by default.
 
@@ -366,13 +367,13 @@ begin
 
 		-- Only update configuration when in Idle state. Doing so while the frame is being read out
 		-- would cause different timing, exposure and read out types, resulting in corrupted frames.
-		APSADCConfigRegEnable_S <= '0';
+		D4AAPSADCConfigRegEnable_S <= '0';
 
 		case PixelState_DP is
 			when stIdle =>
-				APSADCConfigRegEnable_S <= '1';
+				D4AAPSADCConfigRegEnable_S <= '1';
 
-				if APSADCConfigReg_D.Run_S = '1' then
+				if D4AAPSADCConfigReg_D.Run_S = '1' then
 					PixelState_DN <= stStartFrame;
 				end if;
 
@@ -380,8 +381,8 @@ begin
 				-- Write out start of frame marker. This and the end of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
 				if OutFifoControl_SI.Full_S = '0' then
-					if CHIP_HAS_GLOBAL_SHUTTER = '1' and APSADCConfigReg_D.GlobalShutter_S = '1' then
-						if APSADCConfigReg_D.ResetRead_S = '1' then
+					if CHIP_HAS_GLOBAL_SHUTTER = '1' and D4AAPSADCConfigReg_D.GlobalShutter_S = '1' then
+						if D4AAPSADCConfigReg_D.ResetRead_S = '1' then
 							OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME_GS;
 						else
 							OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME_GS_NORST;
@@ -389,7 +390,7 @@ begin
 
 						PixelState_DN <= stGSIdle;
 					else
-						if APSADCConfigReg_D.ResetRead_S = '1' then
+						if D4AAPSADCConfigReg_D.ResetRead_S = '1' then
 							OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME_RS;
 						else
 							OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME_RS_NORST;
@@ -787,7 +788,7 @@ begin
 					PixelState_DN <= stIdle;
 
 					-- Ensure config reg is up-to-date when entering Idle state.
-					APSADCConfigRegEnable_S <= '1';
+					D4AAPSADCConfigRegEnable_S <= '1';
 				end if;
 
 			when others => null;
@@ -831,7 +832,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => RowSettleTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.RowSettle_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.RowSettle_D,
 			Overflow_SO  => RowSettleTimeDone_S,
 			Data_DO      => open);
 
@@ -843,7 +844,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => SampleSettleTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.SampleSettle_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.SampleSettle_D,
 			Overflow_SO  => SampleSettleTimeDone_S,
 			Data_DO      => open);
 
@@ -855,11 +856,11 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => RampResetTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.RampReset_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.RampReset_D,
 			Overflow_SO  => RampResetTimeDone_S,
 			Data_DO      => open);
 
-	chipADCColumnReadoutStateMachine : process(ChipColState_DP, APSADCConfigReg_D, APSSampleType_DP, ChipADCData_DI, ColReadStart_SP, ColumnReadPosition_D, OutFifoControl_SI, RampResetTimeDone_S, RampTickDone_S, RowSettleTimeDone_S, SampleSettleTimeDone_S)
+	chipADCColumnReadoutStateMachine : process(ChipColState_DP, D4AAPSADCConfigReg_D, APSSampleType_DP, ChipADCData_DI, ColReadStart_SP, ColumnReadPosition_D, OutFifoControl_SI, RampResetTimeDone_S, RampTickDone_S, RowSettleTimeDone_S, SampleSettleTimeDone_S)
 	begin
 		ChipColState_DN <= ChipColState_DP;
 
@@ -880,6 +881,7 @@ begin
 		-- Settle times counters.
 		RowSettleTimeCount_S    <= '0';
 		SampleSettleTimeCount_S <= '0';
+		RampResetTimeCount_S    <= '0';
 
 		-- Column SM communication.
 		ColReadDone_SN <= '0';
@@ -923,7 +925,7 @@ begin
 					OutFifoWriteRegCol_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSSampleType_DP = SAMPLETYPE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' or APSSampleType_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColState_DN <= stColSample;
 				end if;
 
@@ -1032,7 +1034,7 @@ begin
 					OutFifoWriteRegCol_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSSampleType_DP = SAMPLETYPE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' or APSSampleType_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColState_DN         <= stColScanNextValue;
 					ColumnReadPositionInc_S <= '1';
 				end if;
@@ -1057,7 +1059,7 @@ begin
 					OutFifoWriteRegCol_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSSampleType_DP = SAMPLETYPE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' or APSSampleType_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColState_DN <= stIdle;
 					ColReadDone_SN  <= '1';
 				end if;
@@ -1085,7 +1087,7 @@ begin
 			ChipADCRampBitIn_SO   <= ChipADCRampBitInReg_S;
 			ChipADCScanClock_CO   <= ChipADCScanClockReg_C;
 			ChipADCScanControl_SO <= ChipADCScanControlReg_S;
-			ChipADCSample_SO      <= APSADCConfigReg_D.SampleEnable_S and ChipADCSampleReg_S;
+			ChipADCSample_SO      <= D4AAPSADCConfigReg_D.SampleEnable_S and ChipADCSampleReg_S;
 		end if;
 	end process chipADCRegisterUpdate;
 
@@ -1124,14 +1126,14 @@ begin
 			APSChipRowSRClock_CO <= '0';
 			APSChipRowSRIn_SO    <= '0';
 
-			APSChipOverflowGateReg_SP  <= '0';
+			APSChipOverflowGateReg_SP  <= '1';
 			APSChipTXGateReg_SP        <= '0';
-			APSChipResetReg_SP         <= '0';
-			APSChipGlobalShutterReg_SP <= '0';
+			APSChipResetReg_SP         <= '1';
+			APSChipGlobalShutterReg_SP <= '1';
 
 			-- APS ADC config from another clock domain.
-			APSADCConfigReg_D     <= tAPSADCConfigDefault;
-			APSADCConfigSyncReg_D <= tAPSADCConfigDefault;
+			D4AAPSADCConfigReg_D     <= tD4AAPSADCConfigDefault;
+			D4AAPSADCConfigSyncReg_D <= tD4AAPSADCConfigDefault;
 		elsif rising_edge(Clock_CI) then
 			PixelState_DP <= PixelState_DN;
 
@@ -1154,10 +1156,10 @@ begin
 			APSChipGlobalShutterReg_SP <= APSChipGlobalShutterReg_SN;
 
 			-- APS ADC config from another clock domain.
-			if APSADCConfigRegEnable_S = '1' then
-				APSADCConfigReg_D <= APSADCConfigSyncReg_D;
+			if D4AAPSADCConfigRegEnable_S = '1' then
+				D4AAPSADCConfigReg_D <= D4AAPSADCConfigSyncReg_D;
 			end if;
-			APSADCConfigSyncReg_D <= APSADCConfig_DI;
+			D4AAPSADCConfigSyncReg_D <= D4AAPSADCConfig_DI;
 		end if;
 	end process registerUpdate;
 
