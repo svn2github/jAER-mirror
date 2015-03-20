@@ -31,8 +31,10 @@ package DVSAERConfigRecords is
 		FilterPixel6Column_D                : unsigned(7 downto 0);
 		FilterPixel7Row_D                   : unsigned(7 downto 0);
 		FilterPixel7Column_D                : unsigned(7 downto 0);
+		HasPixelFilter_S                    : unsigned(7 downto 0);
 		FilterBackgroundActivity_S          : unsigned(7 downto 0);
 		FilterBackgroundActivityDeltaTime_D : unsigned(7 downto 0);
+		HasBackgroundActivityFilter_S       : unsigned(7 downto 0);
 	end record tDVSAERConfigParamAddresses;
 
 	constant DVSAERCONFIG_PARAM_ADDRESSES : tDVSAERConfigParamAddresses := (
@@ -59,8 +61,10 @@ package DVSAERConfigRecords is
 		FilterPixel6Column_D                => to_unsigned(20, 8),
 		FilterPixel7Row_D                   => to_unsigned(21, 8),
 		FilterPixel7Column_D                => to_unsigned(22, 8),
-		FilterBackgroundActivity_S          => to_unsigned(23, 8),
-		FilterBackgroundActivityDeltaTime_D => to_unsigned(24, 8));
+		HasPixelFilter_S                    => to_unsigned(23, 8),
+		FilterBackgroundActivity_S          => to_unsigned(24, 8),
+		FilterBackgroundActivityDeltaTime_D => to_unsigned(25, 8),
+		HasBackgroundActivityFilter_S       => to_unsigned(26, 8));
 
 	constant DVS_AER_ACK_COUNTER_WIDTH  : integer := 5;
 	constant DVS_FILTER_BA_DELTAT_WIDTH : integer := 20;
@@ -89,8 +93,10 @@ package DVSAERConfigRecords is
 		FilterPixel6Column_D                : unsigned(CHIP_DVS_SIZE_COLUMNS'range);
 		FilterPixel7Row_D                   : unsigned(CHIP_DVS_SIZE_ROWS'range);
 		FilterPixel7Column_D                : unsigned(CHIP_DVS_SIZE_COLUMNS'range);
+		HasPixelFilter_S                    : std_logic;
 		FilterBackgroundActivity_S          : std_logic;
 		FilterBackgroundActivityDeltaTime_D : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		HasBackgroundActivityFilter_S       : std_logic;
 	end record tDVSAERConfig;
 
 	constant tDVSAERConfigDefault : tDVSAERConfig := (
@@ -117,6 +123,8 @@ package DVSAERConfigRecords is
 		FilterPixel6Column_D                => CHIP_DVS_SIZE_COLUMNS,
 		FilterPixel7Row_D                   => CHIP_DVS_SIZE_ROWS,
 		FilterPixel7Column_D                => CHIP_DVS_SIZE_COLUMNS,
+		HasPixelFilter_S                    => '0',
 		FilterBackgroundActivity_S          => '0',
-		FilterBackgroundActivityDeltaTime_D => to_unsigned(20000, tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'length));
+		FilterBackgroundActivityDeltaTime_D => to_unsigned(20000, tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'length),
+		HasBackgroundActivityFilter_S       => '0');
 end package DVSAERConfigRecords;

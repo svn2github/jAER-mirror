@@ -174,6 +174,12 @@ begin
 					APSADCOutput_DN(tAPSADCConfig.EndRow3_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndRow3_D);
 				end if;
 
+			when APSADCCONFIG_PARAM_ADDRESSES.HasQuadROI_S =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.HasQuadROI_S <= '1';
+					APSADCOutput_DN(0)              <= '1';
+				end if;
+
 			when APSADCCONFIG_PARAM_ADDRESSES.UseInternalADC_S =>
 				-- Allow read/write of parameter only on chips which support it.
 				if CHIP_HAS_INTEGRATED_ADC = '1' then

@@ -158,6 +158,12 @@ begin
 					D4AAPSADCOutput_DN(tD4AAPSADCConfig.EndRow3_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.EndRow3_D);
 				end if;
 
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.HasQuadROI_S =>
+				if ENABLE_QUAD_ROI = true then
+					D4AAPSADCConfigReg_DN.HasQuadROI_S <= '1';
+					D4AAPSADCOutput_DN(0)              <= '1';
+				end if;
+
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.UseInternalADC_S =>
 				-- Allow read/write of parameter only on chips which support it.
 				if CHIP_HAS_INTEGRATED_ADC = '1' then
