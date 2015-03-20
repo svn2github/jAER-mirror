@@ -29,7 +29,6 @@
   <Mappings Location="SeeBetterLogic_FX3_ECP3_DAVISrgb" Library="not mapped"/>
   <Mappings Location="SeeBetterLogic_FX3_ECP3_DAVISrgb_tcr.dir" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVISrgb.vhd" Library="not mapped"/>
-  <Mappings Location="common-source/D4AAPSADCStateMachine.vhd" Library="not mapped"/>
   <Mappings Location="Common Libraries/STD" Library="std"/>
   <Mappings Location="" Library="work"/>
 </com.sigasi.hdt.shared.librarymapping.model:LibraryMappings>
