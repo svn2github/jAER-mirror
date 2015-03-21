@@ -286,8 +286,6 @@ begin
 			FifoData_DO    => DVSAERFifoDataOut_D);
 
 	dvsAerSM : entity work.DVSAERStateMachine
-		generic map(
-			FLIP_COLUMN_ADDRESS => not CHIP_IS_FLIPPED)
 		port map(
 			Clock_CI          => LogicClock_C,
 			Reset_RI          => LogicReset_R,

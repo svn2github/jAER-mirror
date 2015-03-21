@@ -34,6 +34,12 @@ begin
 			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipIdentifier_D =>
 				SystemInfoOutput_DN(CHIP_IDENTIFIER'range) <= std_logic_vector(CHIP_IDENTIFIER);
 
+			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipOrientation_D =>
+				SystemInfoOutput_DN(CHIP_ORIENTATION'range) <= CHIP_ORIENTATION;
+
+			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipAPSStreamStart_D =>
+				SystemInfoOutput_DN(CHIP_APS_STREAM_START'range) <= CHIP_APS_STREAM_START;
+
 			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipAPSSizeColumns_D =>
 				SystemInfoOutput_DN(CHIP_APS_SIZE_COLUMNS'range) <= std_logic_vector(CHIP_APS_SIZE_COLUMNS);
 

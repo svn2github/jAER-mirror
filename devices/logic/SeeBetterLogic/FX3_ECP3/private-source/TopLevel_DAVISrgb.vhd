@@ -379,7 +379,6 @@ begin
 
 	dvsAerSM : entity work.DVSAERStateMachine
 		generic map(
-			FLIP_COLUMN_ADDRESS        => true,
 			ENABLE_PIXEL_FILTERING     => false,
 			ENABLE_BA_FILTERING        => false,
 			BA_FILTER_SUBSAMPLE_COLUMN => 1,

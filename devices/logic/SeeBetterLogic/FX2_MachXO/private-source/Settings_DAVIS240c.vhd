@@ -52,6 +52,10 @@ package Settings is
 	constant CHIP_HAS_GLOBAL_SHUTTER : std_logic := CHIP_HAS_GLOBAL_SHUTTER;
 	constant CHIP_HAS_INTEGRATED_ADC : std_logic := CHIP_HAS_INTEGRATED_ADC;
 
+	constant CHIP_ORIENTATION      : std_logic_vector(1 downto 0) := CHIP_ORIENTATION;
+	constant CHIP_APS_STREAM_START : std_logic_vector(1 downto 0) := CHIP_APS_STREAM_START;
+	constant CHIP_DVS_ORIGIN_POINT : std_logic_vector(1 downto 0) := CHIP_DVS_ORIGIN_POINT;
+
 	constant CHIP_APS_SIZE_COLUMNS : unsigned(CHIP_APS_SIZE_COLUMNS'range) := CHIP_APS_SIZE_COLUMNS;
 	constant CHIP_APS_SIZE_ROWS    : unsigned(CHIP_APS_SIZE_ROWS'range)    := CHIP_APS_SIZE_ROWS;
 
@@ -60,6 +64,4 @@ package Settings is
 
 	constant DVS_AER_BUS_WIDTH : integer := DVS_AER_BUS_WIDTH;
 	constant APS_ADC_BUS_WIDTH : integer := APS_ADC_BUS_WIDTH;
-
-	constant CHIP_IS_FLIPPED : boolean := true;
 end Settings;
