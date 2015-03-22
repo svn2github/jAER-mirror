@@ -97,43 +97,48 @@ begin
 				Overflow_S <= '0';
 
 				if not OVERFLOW_AT_ZERO then
+					-- First handle special cases of resetting right into a limit.
+					if Clear_SI = '1' and Enable_SI = '0' and DataLimit_DI = 0 then
+						-- Due to clearing, the next number is zero. Since the minimum
+						-- DataLimit_DI is also zero, it could be we're resetting
+						-- directly into a value that produces the overflow flag, so we
+						-- need to keep that in mind and check for it.
+						Overflow_S <= '1';
+					end if;
+
+					if Clear_SI = '1' and Enable_SI = '1' and DataLimit_DI = 1 then
+						-- In this case, the next number is one, not zero. Since
+						-- DataLimit_DI might be one, it could be we're resetting
+						-- directly into a value that produces the overflow flag still,
+						-- so we need to keep that in mind and check for it.
+						Overflow_S <= '1';
+					end if;
+
 					if Count_DP = (DataLimit_DI - 1) then
 						if Clear_SI = '0' and Enable_SI = '1' then
 							Overflow_S <= '1';
 						end if;
 					end if;
 
-					if not SHORT_OVERFLOW and Count_DP >= DataLimit_DI then
-						if Clear_SI = '0' and Enable_SI = '0' then
-							Overflow_S <= '1';
-						end if;
-
-						if Clear_SI = '0' and Enable_SI = '1' and not RESET_ON_OVERFLOW then
-							Overflow_S <= '1';
-						end if;
-
+					if Count_DP >= DataLimit_DI then
 						if Clear_SI = '0' and Enable_SI = '1' and RESET_ON_OVERFLOW and DataLimit_DI = 0 then
 							-- If we're resetting into zero, and zero is the limit, overflow
-							-- will be signalled.
+							-- will be signalled. This can only happend (reset) when we are above the limit.
 							Overflow_S <= '1';
 						end if;
 
-						if Clear_SI = '1' and Enable_SI = '0' and DataLimit_DI = 0 then
-							-- In this case, the next number zero. Since the minimum
-							-- DataLimit_DI is also zero, it could be we're resetting
-							-- directly into a value that produces the overflow flag, so we
-							-- need to keep that in mind and check for it.
-							Overflow_S <= '1';
-						end if;
+						if not SHORT_OVERFLOW then
+							if Clear_SI = '0' and Enable_SI = '0' then
+								Overflow_S <= '1';
+							end if;
 
-						if Clear_SI = '1' and Enable_SI = '1' and DataLimit_DI = 1 then
-							-- In this case, the next number is one, not zero. Since the
-							-- minimum DataLimit_DI is one, it could be we're resetting
-							-- directly into a value that produces the overflow flag, so we
-							-- need to keep that in mind and check for it.
-							Overflow_S <= '1';
+							if Clear_SI = '0' and Enable_SI = '1' and not RESET_ON_OVERFLOW then
+								Overflow_S <= '1';
+							end if;
 						end if;
 					end if;
+
+					assert (not SHORT_OVERFLOW) report "SHORT_OVERFLOW will not assert right away when DataLimit_DI is zero." severity NOTE;
 				else
 					-- This only ever makes sense if we also reset on overflow, since that's
 					-- the only case where we overflow into zero automatically (with Enable_SI).
