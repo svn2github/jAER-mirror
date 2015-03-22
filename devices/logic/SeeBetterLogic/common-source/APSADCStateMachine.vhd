@@ -133,8 +133,8 @@ architecture Behavioral of APSADCStateMachine is
 	signal RowReadPosition_D                                   : unsigned(CHIP_APS_SIZE_ROWS'range);
 
 	-- Communication between column and row state machines. Done through a register for full decoupling.
-	signal RowReadStart_SP, RowReadStart_SN : std_logic;
-	signal RowReadDone_SP, RowReadDone_SN   : std_logic;
+	signal RowReadStart_SP, RowReadStart_SN                                           : std_logic;
+	signal RowReadDone_SP, RowReadDone_SN, RowReadDoneExternal_SN, RowReadDoneChip_SN : std_logic;
 
 	-- RS: the B read has several very special considerations that must be taken into account.
 	-- First, it has to be done only after exposure time expires, before that, it must be faked
@@ -157,6 +157,11 @@ architecture Behavioral of APSADCStateMachine is
 	signal OutFifoWriteReg_S, OutFifoWriteRegCol_S, OutFifoWriteRegRow_S                : std_logic;
 	signal OutFifoDataRegEnable_S, OutFifoDataRegColEnable_S, OutFifoDataRegRowEnable_S : std_logic;
 	signal OutFifoDataReg_D, OutFifoDataRegCol_D, OutFifoDataRegRow_D                   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+
+	-- Support both external and internal ADCs at the same time (switch at run-time).
+	signal OutFifoWriteRegRowExternal_S, OutFifoWriteRegRowChip_S           : std_logic;
+	signal OutFifoDataRegRowExternalEnable_S, OutFifoDataRegRowChipEnable_S : std_logic;
+	signal OutFifoDataRegRowExternal_D, OutFifoDataRegRowChip_D             : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 	-- Register all outputs to chip APS control for clean transitions.
 	signal APSChipColSRClockReg_C, APSChipColSRInReg_S : std_logic;
@@ -216,20 +221,6 @@ begin
 			Overflow_SO  => open,
 			Data_DO      => ColumnReadBPosition_D);
 
-	rowReadPosition : entity work.ContinuousCounter
-		generic map(
-			SIZE              => CHIP_APS_SIZE_ROWS'length,
-			RESET_ON_OVERFLOW => false,
-			GENERATE_OVERFLOW => false)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => RowReadPositionZero_S,
-			Enable_SI    => RowReadPositionInc_S,
-			DataLimit_DI => CHIP_APS_SIZE_ROWS,
-			Overflow_SO  => open,
-			Data_DO      => RowReadPosition_D);
-
 	exposureCounter : entity work.ContinuousCounter
 		generic map(
 			SIZE              => APS_EXPOSURE_SIZE,
@@ -277,30 +268,6 @@ begin
 			Enable_SI    => ResetTimeCount_S,
 			DataLimit_DI => APSADCConfigReg_D.ResetSettle_D,
 			Overflow_SO  => ResetTimeDone_S,
-			Data_DO      => open);
-
-	columnSettleTimeCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => APS_COLSETTLETIME_SIZE)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => ColSettleTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.ColumnSettle_D,
-			Overflow_SO  => ColSettleTimeDone_S,
-			Data_DO      => open);
-
-	rowSettleTimeCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => APS_ROWSETTLETIME_SIZE)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => RowSettleTimeCount_S,
-			DataLimit_DI => APSADCConfigReg_D.RowSettle_D,
-			Overflow_SO  => RowSettleTimeDone_S,
 			Data_DO      => open);
 
 	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ExternalADCRunning_SP, ExternalADCStartupDone_S, APSADCConfigReg_D, RowReadDone_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S, ExposureDone_S, FrameDelayDone_S)
@@ -373,13 +340,18 @@ begin
 				end if;
 
 			when stWaitADCStartup =>
-				-- Wait 15 microseconds for ADC to start up and be ready for precise conversions.
-				if ExternalADCStartupDone_S = '1' then
-					ColState_DN           <= stStartFrame;
-					ExternalADCRunning_SN <= '1';
-				end if;
+				-- Check if we really want to startup the external ADC.
+				if CHIP_HAS_INTEGRATED_ADC = '1' and APSADCConfigReg_D.UseInternalADC_S = '1' then
+					ColState_DN <= stStartFrame;
+				else
+					-- Wait 15 microseconds for ADC to start up and be ready for precise conversions.
+					if ExternalADCStartupDone_S = '1' then
+						ColState_DN           <= stStartFrame;
+						ExternalADCRunning_SN <= '1';
+					end if;
 
-				ExternalADCStartupCount_S <= '1';
+					ExternalADCStartupCount_S <= '1';
+				end if;
 
 			when stStartFrame =>
 				-- Write out start of frame marker. This and the end of frame marker are the only
@@ -823,13 +795,51 @@ begin
 		CurrentRowValid_S     <= '1' when (Row0Valid_S or Row1Valid_S or Row2Valid_S or Row3Valid_S) else '0';
 	end generate apsQuadROI;
 
+	rowReadPosition : entity work.ContinuousCounter
+		generic map(
+			SIZE              => CHIP_APS_SIZE_ROWS'length,
+			RESET_ON_OVERFLOW => false,
+			GENERATE_OVERFLOW => false)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => RowReadPositionZero_S,
+			Enable_SI    => RowReadPositionInc_S,
+			DataLimit_DI => CHIP_APS_SIZE_ROWS,
+			Overflow_SO  => open,
+			Data_DO      => RowReadPosition_D);
+
+	columnSettleTimeCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_COLSETTLETIME_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => ColSettleTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.ColumnSettle_D,
+			Overflow_SO  => ColSettleTimeDone_S,
+			Data_DO      => open);
+
+	rowSettleTimeCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_ROWSETTLETIME_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => RowSettleTimeCount_S,
+			DataLimit_DI => APSADCConfigReg_D.RowSettle_D,
+			Overflow_SO  => RowSettleTimeDone_S,
+			Data_DO      => open);
+
 	externalADCRowReadoutStateMachine : process(ExtRowState_DP, APSADCConfigReg_D, ExternalADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
 	begin
 		ExtRowState_DN <= ExtRowState_DP;
 
-		OutFifoWriteRegRow_S      <= '0';
-		OutFifoDataRegRowEnable_S <= '0';
-		OutFifoDataRegRow_D       <= (others => '0');
+		OutFifoWriteRegRowExternal_S      <= '0';
+		OutFifoDataRegRowExternalEnable_S <= '0';
+		OutFifoDataRegRowExternal_D       <= (others => '0');
 
 		APSChipRowSRClockReg_C <= '0';
 		APSChipRowSRInReg_S    <= '0';
@@ -843,7 +853,7 @@ begin
 		RowSettleTimeCount_S <= '0';
 
 		-- Column SM communication.
-		RowReadDone_SN <= '0';
+		RowReadDoneExternal_SN <= '0';
 
 		case ExtRowState_DP is
 			when stIdle =>
@@ -881,12 +891,12 @@ begin
 				-- If fake read (COLMODE_NULL), don't write anything.
 				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 					if APSChipColModeReg_DP = COLMODE_READA then
-						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
+						OutFifoDataRegRowExternal_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
 					else
-						OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL;
+						OutFifoDataRegRowExternal_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL;
 					end if;
-					OutFifoDataRegRowEnable_S <= '1';
-					OutFifoWriteRegRow_S      <= '1';
+					OutFifoDataRegRowExternalEnable_S <= '1';
+					OutFifoWriteRegRowExternal_S      <= '1';
 				end if;
 
 				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
@@ -927,11 +937,11 @@ begin
 			when stRowWriteEvent =>
 				-- Write event only if FIFO has place, else wait.
 				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-					OutFifoDataRegRow_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
-					OutFifoDataRegRow_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= ExternalADCData_DI;
+					OutFifoDataRegRowExternal_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
+					OutFifoDataRegRowExternal_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= ExternalADCData_DI;
 
-					OutFifoDataRegRowEnable_S <= '1';
-					OutFifoWriteRegRow_S      <= '1';
+					OutFifoDataRegRowExternalEnable_S <= '1';
+					OutFifoWriteRegRowExternal_S      <= '1';
 				end if;
 
 				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
@@ -946,14 +956,14 @@ begin
 			when stRowDone =>
 				-- Write event only if FIFO has place, else wait.
 				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-					OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
-					OutFifoDataRegRowEnable_S <= '1';
-					OutFifoWriteRegRow_S      <= '1';
+					OutFifoDataRegRowExternal_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
+					OutFifoDataRegRowExternalEnable_S <= '1';
+					OutFifoWriteRegRowExternal_S      <= '1';
 				end if;
 
 				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-					ExtRowState_DN <= stIdle;
-					RowReadDone_SN <= '1';
+					ExtRowState_DN         <= stIdle;
+					RowReadDoneExternal_SN <= '1';
 				end if;
 
 			when others => null;
@@ -971,6 +981,14 @@ begin
 		ChipADCScanControl_SO <= '0';
 		ChipADCSample_SO      <= '0';
 		ChipADCGrayCounter_DO <= (others => '0');
+
+		-- The chip part of FIFO output doesn't contribute anything here.
+		OutFifoWriteRegRowChip_S      <= '0';
+		OutFifoDataRegRowChipEnable_S <= '0';
+		OutFifoDataRegRowChip_D       <= (others => '0');
+
+		-- Column SM communication (disabled for chip ADC part).
+		RowReadDoneChip_SN <= '0';
 	end generate noChipADC;
 
 	chipADCRowReadout : if CHIP_HAS_INTEGRATED_ADC = '1' generate
@@ -988,11 +1006,21 @@ begin
 		signal ChipADCScanControlReg_S : std_logic;
 		signal ChipADCSampleReg_S      : std_logic;
 
-		-- Sample time settle counter.
-		signal SampleSettleTimeCount_S, SampleSettleTimeDone_S : std_logic;
+		-- Row read counter for internal ADC.
+		signal ChipADCRowReadPositionZero_S, ChipADCRowReadPositionInc_S : std_logic;
+		signal ChipADCRowReadPosition_D                                  : unsigned(CHIP_APS_SIZE_ROWS'range);
 
 		-- Ramp clock counter. Could be used to generate grey-code if needed too.
 		signal RampTickCount_S, RampTickDone_S : std_logic;
+
+		-- Column settle time (before first row is read, like an additional offset) for internal ADC.
+		signal ChipADCColSettleTimeCount_S, ChipADCColSettleTimeDone_S : std_logic;
+
+		-- Sample time settle counter.
+		signal SampleSettleTimeCount_S, SampleSettleTimeDone_S : std_logic;
+
+		-- Ramp reset time counter.
+		signal RampResetTimeCount_S, RampResetTimeDone_S : std_logic;
 
 		-- Scan control constants.
 		constant SCAN_CONTROL_COPY_OVER    : std_logic := '0';
@@ -1000,6 +1028,20 @@ begin
 	begin
 		-- Don't generate any external gray-code. Internal gray-counter works.
 		ChipADCGrayCounter_DO <= (others => '0');
+
+		chipADCRowReadPosition : entity work.ContinuousCounter
+			generic map(
+				SIZE              => CHIP_APS_SIZE_ROWS'length,
+				RESET_ON_OVERFLOW => false,
+				GENERATE_OVERFLOW => false)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Clear_SI     => ChipADCRowReadPositionZero_S,
+				Enable_SI    => ChipADCRowReadPositionInc_S,
+				DataLimit_DI => CHIP_APS_SIZE_ROWS,
+				Overflow_SO  => open,
+				Data_DO      => ChipADCRowReadPosition_D);
 
 		rampTickCounter : entity work.ContinuousCounter
 			generic map(
@@ -1011,6 +1053,18 @@ begin
 				Enable_SI    => RampTickCount_S,
 				DataLimit_DI => to_unsigned(1021, APS_ADC_BUS_WIDTH),
 				Overflow_SO  => RampTickDone_S,
+				Data_DO      => open);
+
+		chipADColumnSettleTimeCounter : entity work.ContinuousCounter
+			generic map(
+				SIZE => APS_COLSETTLETIME_SIZE)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Clear_SI     => '0',
+				Enable_SI    => ChipADCColSettleTimeCount_S,
+				DataLimit_DI => APSADCConfigReg_D.ColumnSettle_D,
+				Overflow_SO  => ChipADCColSettleTimeDone_S,
 				Data_DO      => open);
 
 		sampleSettleTimeCounter : entity work.ContinuousCounter
@@ -1025,28 +1079,40 @@ begin
 				Overflow_SO  => SampleSettleTimeDone_S,
 				Data_DO      => open);
 
-		chipADCRowReadoutStateMachine : process(ChipRowState_DP, APSADCConfigReg_D, OutFifoControl_SI, APSChipColModeReg_DP, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RampTickDone_S, ChipADCData_DI, RowSettleTimeDone_S, CurrentRowValid_S, SampleSettleTimeDone_S)
+		rampResetTimeCounter : entity work.ContinuousCounter
+			generic map(
+				SIZE => APS_RAMPRESETTIME_SIZE)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Clear_SI     => '0',
+				Enable_SI    => RampResetTimeCount_S,
+				DataLimit_DI => APSADCConfigReg_D.RampReset_D,
+				Overflow_SO  => RampResetTimeDone_S,
+				Data_DO      => open);
+
+		chipADCRowReadoutStateMachine : process(ChipRowState_DP, APSADCConfigReg_D, OutFifoControl_SI, APSChipColModeReg_DP, RowReadStart_SP, ChipADCRowReadPosition_D, ChipADCColSettleTimeDone_S, RampTickDone_S, ChipADCData_DI, CurrentRowValid_S, SampleSettleTimeDone_S, RampResetTimeDone_S)
 		begin
 			ChipRowState_DN <= ChipRowState_DP;
 
-			OutFifoWriteRegRow_S      <= '0';
-			OutFifoDataRegRowEnable_S <= '0';
-			OutFifoDataRegRow_D       <= (others => '0');
+			OutFifoWriteRegRowChip_S      <= '0';
+			OutFifoDataRegRowChipEnable_S <= '0';
+			OutFifoDataRegRowChip_D       <= (others => '0');
 
 			-- Row counters.
-			RowReadPositionZero_S <= '0';
-			RowReadPositionInc_S  <= '0';
+			ChipADCRowReadPositionZero_S <= '0';
+			ChipADCRowReadPositionInc_S  <= '0';
 
 			-- ADC clock counter.
 			RampTickCount_S <= '0';
 
-			-- Settle times counters (column and row).
-			ColSettleTimeCount_S    <= '0';
-			RowSettleTimeCount_S    <= '0';
-			SampleSettleTimeCount_S <= '0';
+			-- Settle times counters.
+			ChipADCColSettleTimeCount_S <= '0';
+			SampleSettleTimeCount_S     <= '0';
+			RampResetTimeCount_S        <= '0';
 
 			-- Column SM communication.
-			RowReadDone_SN <= '0';
+			RowReadDoneChip_SN <= '0';
 
 			-- On-chip ADC.
 			ChipADCRampClearReg_S   <= '1'; -- Clear ramp by default.
@@ -1065,23 +1131,23 @@ begin
 
 				when stColSettleWait =>
 					-- Additional wait for the column selection to be valid.
-					if ColSettleTimeDone_S = '1' then
+					if ChipADCColSettleTimeDone_S = '1' then
 						ChipRowState_DN <= stRowStart;
 					end if;
 
-					ColSettleTimeCount_S <= '1';
+					ChipADCColSettleTimeCount_S <= '1';
 
 				when stRowStart =>
 					-- Write event only if FIFO has place, else wait.
 					-- If fake read (COLMODE_NULL), don't write anything.
 					if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 						if APSChipColModeReg_DP = COLMODE_READA then
-							OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
+							OutFifoDataRegRowChip_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
 						else
-							OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL;
+							OutFifoDataRegRowChip_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL;
 						end if;
-						OutFifoDataRegRowEnable_S <= '1';
-						OutFifoWriteRegRow_S      <= '1';
+						OutFifoDataRegRowChipEnable_S <= '1';
+						OutFifoWriteRegRowChip_S      <= '1';
 					end if;
 
 					if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
@@ -1123,11 +1189,11 @@ begin
 					-- Do not clear Ramp while in use!
 					ChipADCRampClearReg_S <= '0';
 
-					if RowSettleTimeDone_S = '1' then
+					if RampResetTimeDone_S = '1' then
 						ChipRowState_DN <= stRowRampClockLow;
 					end if;
 
-					RowSettleTimeCount_S <= '1';
+					RampResetTimeCount_S <= '1';
 
 				when stRowRampClockLow =>
 					ChipADCRampClockReg_C <= '0';
@@ -1178,43 +1244,43 @@ begin
 				when stRowScanReadValue =>
 					-- Write event only if FIFO has place, else wait.
 					if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-						OutFifoDataRegRow_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
+						OutFifoDataRegRowChip_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
 
 						-- Convert from gray-code to binary. This uses a direct algorithm instead of using the previously stored binary
 						-- value at each step. Lastly, the output is negated so that the range 0-1023 is properly inverted to be the same
 						-- as for external ADC, where 0 represents lowest voltage and 1023 highest voltage.
-						OutFifoDataRegRow_D(9) <= not (ChipADCData_DI(9));
-						OutFifoDataRegRow_D(8) <= not (ChipADCData_DI(8) xor ChipADCData_DI(9));
-						OutFifoDataRegRow_D(7) <= not (ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
-						OutFifoDataRegRow_D(6) <= not (ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
-						OutFifoDataRegRow_D(5) <= not (ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
-						OutFifoDataRegRow_D(4) <= not (ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
-						OutFifoDataRegRow_D(3) <= not (ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
-						OutFifoDataRegRow_D(2) <= not (ChipADCData_DI(2) xor ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
-						OutFifoDataRegRow_D(1) <= not (ChipADCData_DI(1) xor ChipADCData_DI(2) xor ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
-						OutFifoDataRegRow_D(0) <= not (ChipADCData_DI(0) xor ChipADCData_DI(1) xor ChipADCData_DI(2) xor ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRowChip_D(9) <= not (ChipADCData_DI(9));
+						OutFifoDataRegRowChip_D(8) <= not (ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRowChip_D(7) <= not (ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRowChip_D(6) <= not (ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRowChip_D(5) <= not (ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRowChip_D(4) <= not (ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRowChip_D(3) <= not (ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRowChip_D(2) <= not (ChipADCData_DI(2) xor ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRowChip_D(1) <= not (ChipADCData_DI(1) xor ChipADCData_DI(2) xor ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
+						OutFifoDataRegRowChip_D(0) <= not (ChipADCData_DI(0) xor ChipADCData_DI(1) xor ChipADCData_DI(2) xor ChipADCData_DI(3) xor ChipADCData_DI(4) xor ChipADCData_DI(5) xor ChipADCData_DI(6) xor ChipADCData_DI(7) xor ChipADCData_DI(8) xor ChipADCData_DI(9));
 
-						OutFifoDataRegRowEnable_S <= '1';
-						OutFifoWriteRegRow_S      <= '1';
+						OutFifoDataRegRowChipEnable_S <= '1';
+						OutFifoWriteRegRowChip_S      <= '1';
 					end if;
 
 					if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						ChipRowState_DN      <= stRowScanNextValue;
-						RowReadPositionInc_S <= '1';
+						ChipRowState_DN             <= stRowScanNextValue;
+						ChipADCRowReadPositionInc_S <= '1';
 					end if;
 
 				when stRowScanJumpValue =>
-					ChipRowState_DN      <= stRowScanNextValue;
-					RowReadPositionInc_S <= '1';
+					ChipRowState_DN             <= stRowScanNextValue;
+					ChipADCRowReadPositionInc_S <= '1';
 
 				when stRowScanNextValue =>
 					ChipADCScanClockReg_C <= '1';
 
 					-- Check if we're done. The row read position is at the
 					-- maximum, so we can detect that, zero it and exit.
-					if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
-						ChipRowState_DN       <= stRowDone;
-						RowReadPositionZero_S <= '1';
+					if ChipADCRowReadPosition_D = CHIP_APS_SIZE_ROWS then
+						ChipRowState_DN              <= stRowDone;
+						ChipADCRowReadPositionZero_S <= '1';
 					else
 						if CurrentRowValid_S = '1' then
 							ChipRowState_DN <= stRowScanReadValue;
@@ -1226,14 +1292,14 @@ begin
 				when stRowDone =>
 					-- Write event only if FIFO has place, else wait.
 					if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
-						OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
-						OutFifoDataRegRowEnable_S <= '1';
-						OutFifoWriteRegRow_S      <= '1';
+						OutFifoDataRegRowChip_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
+						OutFifoDataRegRowChipEnable_S <= '1';
+						OutFifoWriteRegRowChip_S      <= '1';
 					end if;
 
 					if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						ChipRowState_DN <= stIdle;
-						RowReadDone_SN  <= '1';
+						ChipRowState_DN    <= stIdle;
+						RowReadDoneChip_SN <= '1';
 					end if;
 
 				when others => null;
@@ -1269,6 +1335,14 @@ begin
 	OutFifoWriteReg_S      <= OutFifoWriteRegCol_S or OutFifoWriteRegRow_S;
 	OutFifoDataRegEnable_S <= OutFifoDataRegColEnable_S or OutFifoDataRegRowEnable_S;
 	OutFifoDataReg_D       <= OutFifoDataRegCol_D or OutFifoDataRegRow_D;
+
+	-- The row FIFO output can come from either the external or the internal ADC state machine.
+	OutFifoWriteRegRow_S      <= OutFifoWriteRegRowExternal_S or OutFifoWriteRegRowChip_S;
+	OutFifoDataRegRowEnable_S <= OutFifoDataRegRowExternalEnable_S or OutFifoDataRegRowChipEnable_S;
+	OutFifoDataRegRow_D       <= OutFifoDataRegRowExternal_D or OutFifoDataRegRowChip_D;
+
+	-- Acknowledgement of having read out a full column can come from both ADC SMs.
+	RowReadDone_SN <= RowReadDoneExternal_SN or RowReadDoneChip_SN;
 
 	outputDataRegister : entity work.SimpleRegister
 		generic map(

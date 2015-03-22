@@ -1155,7 +1155,7 @@ begin
 			APSChipResetReg_SP         <= APSChipResetReg_SN;
 			APSChipGlobalShutterReg_SP <= APSChipGlobalShutterReg_SN;
 
-			-- APS ADC config from another clock domain.
+			-- D4A APS ADC config from another clock domain.
 			if D4AAPSADCConfigRegEnable_S = '1' then
 				D4AAPSADCConfigReg_D <= D4AAPSADCConfigSyncReg_D;
 			end if;
