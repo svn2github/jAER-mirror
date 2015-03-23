@@ -93,23 +93,23 @@ package D4AAPSADCConfigRecords is
 
 	constant APS_EXPOSURE_SIZE      : integer := 25; -- Up to about one second.
 	constant APS_FRAMEDELAY_SIZE    : integer := 25; -- Up to about one second.
-	constant APS_ROWSETTLETIME_SIZE : integer := 6; -- Up to about two microseconds.
+	constant APS_ROWSETTLETIME_SIZE : integer := 12; -- Up to about 128 microseconds.
 
 	-- On-chip ADC specific timings.
-	constant APS_SAMPLESETTLETIME_SIZE : integer := 8; -- Up to about eight microseconds.
-	constant APS_RAMPRESETTIME_SIZE    : integer := 8; -- Up to about eight microseconds.
+	constant APS_SAMPLESETTLETIME_SIZE : integer := 12; -- Up to about 128 microseconds.
+	constant APS_RAMPRESETTIME_SIZE    : integer := 12; -- Up to about 128 microseconds.
 
 	-- DAVIS RGB specific timings.
-	constant APS_TRANSFERTIME_SIZE        : integer := 8; -- Up to about eight microseconds.
-	constant APS_RSFDSETTLETIME_SIZE      : integer := 8; -- Up to about eight microseconds.
-	constant APS_RSCPRESETTIME_SIZE       : integer := 8; -- Up to about eight microseconds.
-	constant APS_RSCPSETTLETIME_SIZE      : integer := 8; -- Up to about eight microseconds.
-	constant APS_GSPDRESETTIME_SIZE       : integer := 8; -- Up to about eight microseconds.
-	constant APS_GSRESETFALLTIME_SIZE     : integer := 8; -- Up to about eight microseconds.
-	constant APS_GSTXFALLTIME_SIZE        : integer := 8; -- Up to about eight microseconds.
-	constant APS_GSFDRESETTIME_SIZE       : integer := 8; -- Up to about eight microseconds.
-	constant APS_GSCPRESETFDTIME_SIZE     : integer := 8; -- Up to about eight microseconds.
-	constant APS_GSCPRESETSETTLETIME_SIZE : integer := 8; -- Up to about eight microseconds.
+	constant APS_TRANSFERTIME_SIZE        : integer := 12; -- Up to about 128 microseconds.
+	constant APS_RSFDSETTLETIME_SIZE      : integer := 12; -- Up to about 128 microseconds.
+	constant APS_RSCPRESETTIME_SIZE       : integer := 12; -- Up to about 128 microseconds.
+	constant APS_RSCPSETTLETIME_SIZE      : integer := 12; -- Up to about 128 microseconds.
+	constant APS_GSPDRESETTIME_SIZE       : integer := 12; -- Up to about 128 microseconds.
+	constant APS_GSRESETFALLTIME_SIZE     : integer := 12; -- Up to about 128 microseconds.
+	constant APS_GSTXFALLTIME_SIZE        : integer := 12; -- Up to about 128 microseconds.
+	constant APS_GSFDRESETTIME_SIZE       : integer := 12; -- Up to about 128 microseconds.
+	constant APS_GSCPRESETFDTIME_SIZE     : integer := 12; -- Up to about 128 microseconds.
+	constant APS_GSCPRESETSETTLETIME_SIZE : integer := 12; -- Up to about 128 microseconds.
 
 	type tD4AAPSADCConfig is record
 		Run_S                 : std_logic;
@@ -181,14 +181,14 @@ package D4AAPSADCConfigRecords is
 		SampleEnable_S        => '1',
 		SampleSettle_D        => to_unsigned(60, APS_SAMPLESETTLETIME_SIZE),
 		RampReset_D           => to_unsigned(10, APS_RAMPRESETTIME_SIZE),
-		Transfer_D            => to_unsigned(60, APS_TRANSFERTIME_SIZE),
-		RSFDSettle_D          => to_unsigned(60, APS_RSFDSETTLETIME_SIZE),
-		RSCpReset_D           => to_unsigned(60, APS_RSCPRESETTIME_SIZE),
-		RSCpSettle_D          => to_unsigned(60, APS_RSCPSETTLETIME_SIZE),
-		GSPDReset_D           => to_unsigned(60, APS_GSPDRESETTIME_SIZE),
-		GSResetFall_D         => to_unsigned(60, APS_GSRESETFALLTIME_SIZE),
-		GSTXFall_D            => to_unsigned(60, APS_GSTXFALLTIME_SIZE),
-		GSFDReset_D           => to_unsigned(60, APS_GSFDRESETTIME_SIZE),
-		GSCpResetFD_D         => to_unsigned(60, APS_GSCPRESETFDTIME_SIZE),
-		GSCpResetSettle_D     => to_unsigned(60, APS_GSCPRESETSETTLETIME_SIZE));
+		Transfer_D            => to_unsigned(150, APS_TRANSFERTIME_SIZE),
+		RSFDSettle_D          => to_unsigned(150, APS_RSFDSETTLETIME_SIZE),
+		RSCpReset_D           => to_unsigned(150, APS_RSCPRESETTIME_SIZE),
+		RSCpSettle_D          => to_unsigned(150, APS_RSCPSETTLETIME_SIZE),
+		GSPDReset_D           => to_unsigned(150, APS_GSPDRESETTIME_SIZE),
+		GSResetFall_D         => to_unsigned(150, APS_GSRESETFALLTIME_SIZE),
+		GSTXFall_D            => to_unsigned(150, APS_GSTXFALLTIME_SIZE),
+		GSFDReset_D           => to_unsigned(150, APS_GSFDRESETTIME_SIZE),
+		GSCpResetFD_D         => to_unsigned(150, APS_GSCPRESETFDTIME_SIZE),
+		GSCpResetSettle_D     => to_unsigned(150, APS_GSCPRESETSETTLETIME_SIZE));
 end package D4AAPSADCConfigRecords;
