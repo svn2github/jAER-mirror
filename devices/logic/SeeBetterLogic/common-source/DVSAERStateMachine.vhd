@@ -84,8 +84,7 @@ architecture Behavioral of DVSAERStateMachine is
 begin
 	aerAckCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE                => DVS_AER_ACK_COUNTER_WIDTH,
-			OVERFLOW_OUT_BUFFER => false)
+			SIZE => DVS_AER_ACK_COUNTER_WIDTH)
 		port map(Clock_CI     => Clock_CI,
 			     Reset_RI     => Reset_RI,
 			     Clear_SI     => '0',
