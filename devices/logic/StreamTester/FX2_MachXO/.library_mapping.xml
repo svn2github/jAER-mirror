@@ -10,6 +10,8 @@
   <Mappings Location="common-source/APSADCStateMachine.vhd" Library="not mapped"/>
   <Mappings Location="common-source/ChipBiasConfigRecords.vhd" Library="not mapped"/>
   <Mappings Location="common-source/ChipBiasSelector.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/D4AAPSADCConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/D4AAPSADCSPIConfig.vhd" Library="not mapped"/>
   <Mappings Location="common-source/D4AAPSADCStateMachine.vhd" Library="not mapped"/>
   <Mappings Location="common-source/DVSAERConfigRecords.vhd" Library="not mapped"/>
   <Mappings Location="common-source/DVSAERSPIConfig.vhd" Library="not mapped"/>
