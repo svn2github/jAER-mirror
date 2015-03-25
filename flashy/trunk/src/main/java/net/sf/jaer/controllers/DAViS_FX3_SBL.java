@@ -604,6 +604,7 @@ public class DAViS_FX3_SBL extends Controller {
 	private final boolean fullDebug = false;
 	private final boolean printOutput = true;
 	private long dataCount = 0;
+	private long errorCount = 0;
 
 	private VBox usbEPListenGUI() {
 		final VBox usbEPListenGUI = new VBox(10);
@@ -698,11 +699,13 @@ public class DAViS_FX3_SBL extends Controller {
 						final int usbData = (sBuf.get(pos) & 0xFFFF);
 
 						if (usbData != expData) {
+							errorCount++;
+
 							final String output = String
 								.format(
-									"Length: %d\nFirst: %d, last: %d\nMismatch detected, got: %d, expected: %d (difference: %d)\n",
-									(sBuf.limit()), (sBuf.get(0) & 0xFFFF), (sBuf.get(sBuf.limit() - 1) & 0xFFFF),
-									usbData, expData, usbData - expData);
+									"%d - Length: %d\nFirst: %d, last: %d\nMismatch detected, got: %d, expected: %d (difference: %d)\n",
+									errorCount, (sBuf.limit()), (sBuf.get(0) & 0xFFFF),
+									(sBuf.get(sBuf.limit() - 1) & 0xFFFF), usbData, expData, usbData - expData);
 
 							if (printOutput) {
 								System.out.println(output);
