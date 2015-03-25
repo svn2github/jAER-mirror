@@ -39,12 +39,12 @@ architecture Structural of TopLevel is
 	signal LogicClock_C : std_logic;
 	signal LogicReset_R : std_logic;
 
-	signal USBFifoData_D          : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
-	signal USBFifoChipSelect_SB   : std_logic;
-	signal USBFifoWrite_SB        : std_logic;
-	signal USBFifoRead_SB         : std_logic;
-	signal USBFifoPktEnd_SB       : std_logic;
-	signal USBFifoAddress_D       : std_logic_vector(1 downto 0);
+	signal USBFifoData_D        : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+	signal USBFifoChipSelect_SB : std_logic;
+	signal USBFifoWrite_SB      : std_logic;
+	signal USBFifoRead_SB       : std_logic;
+	signal USBFifoPktEnd_SB     : std_logic;
+	signal USBFifoAddress_D     : std_logic_vector(1 downto 0);
 
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S : std_logic;
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D                                                   : std_logic;
@@ -64,6 +64,7 @@ architecture Structural of TopLevel is
 	signal EnableStreamTesterReg_S : std_logic;
 
 	signal RunOutputsHighTester_S       : std_logic;
+	signal RunOutputsHighTesterReg_S    : std_logic;
 	signal EnableOutputsHighTesterReg_S : std_logic;
 begin
 	USBFifoData_DO          <= (others => '1') when RunOutputsHighTester_S = '1' else USBFifoData_D;
@@ -270,5 +271,15 @@ begin
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => EnableOutputsHighTesterReg_S,
 			Input_SI(0)  => ConfigParamInput_D(0),
+			Output_SO(0) => RunOutputsHighTesterReg_S);
+
+	runOutputsHighTesterReg2 : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => RunOutputsHighTesterReg_S,
 			Output_SO(0) => RunOutputsHighTester_S);
 end Structural;
