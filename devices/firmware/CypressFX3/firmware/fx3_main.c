@@ -807,6 +807,11 @@ static void CyFxAppInit(void) {
 		goto handle_error;
 	}
 
+	status = CyU3PSetPportDriveStrength(CY_U3P_DS_FULL_STRENGTH);
+	if (status != CY_U3P_SUCCESS) {
+		goto handle_error;
+	}
+
 	// Register a callback for notification of PIB interrupts.
 	CyU3PPibRegisterCallback(&CyFxPIBErrorCB, CYU3P_PIB_INTR_ERROR);
 
