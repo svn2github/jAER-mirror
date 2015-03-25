@@ -7,37 +7,44 @@ use work.FX3ConfigRecords.all;
 
 entity TopLevel is
 	port(
-		USBClock_CI             : in  std_logic;
-		Reset_RI                : in  std_logic;
+		USBClock_CI             : in    std_logic;
+		Reset_RI                : in    std_logic;
 
-		SPISlaveSelect_ABI      : in  std_logic;
-		SPIClock_AI             : in  std_logic;
-		SPIMOSI_AI              : in  std_logic;
-		SPIMISO_DZO             : out std_logic;
+		SPISlaveSelect_ABI      : in    std_logic;
+		SPIClock_AI             : in    std_logic;
+		SPIMOSI_AI              : in    std_logic;
+		SPIMISO_DZO             : out   std_logic;
 
-		USBFifoData_DO          : out std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
-		USBFifoChipSelect_SBO   : out std_logic;
-		USBFifoWrite_SBO        : out std_logic;
-		USBFifoRead_SBO         : out std_logic;
-		USBFifoPktEnd_SBO       : out std_logic;
-		USBFifoAddress_DO       : out std_logic_vector(1 downto 0);
-		USBFifoThr0Ready_SI     : in  std_logic;
-		USBFifoThr0Watermark_SI : in  std_logic;
-		USBFifoThr1Ready_SI     : in  std_logic;
-		USBFifoThr1Watermark_SI : in  std_logic;
+		USBFifoData_DO          : out   std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+		USBFifoChipSelect_SBO   : out   std_logic;
+		USBFifoWrite_SBO        : out   std_logic;
+		USBFifoRead_SBO         : out   std_logic;
+		USBFifoPktEnd_SBO       : out   std_logic;
+		USBFifoAddress_DO       : out   std_logic_vector(1 downto 0);
+		USBFifoThr0Ready_SI     : inout std_logic;
+		USBFifoThr0Watermark_SI : inout std_logic;
+		USBFifoThr1Ready_SI     : inout std_logic;
+		USBFifoThr1Watermark_SI : inout std_logic;
 
-		LED1_SO                 : out std_logic;
-		LED2_SO                 : out std_logic;
-		LED3_SO                 : out std_logic;
-		LED4_SO                 : out std_logic;
-		LED5_SO                 : out std_logic;
-		LED6_SO                 : out std_logic);
+		LED1_SO                 : out   std_logic;
+		LED2_SO                 : out   std_logic;
+		LED3_SO                 : out   std_logic;
+		LED4_SO                 : out   std_logic;
+		LED5_SO                 : out   std_logic;
+		LED6_SO                 : out   std_logic);
 end TopLevel;
 
 architecture Structural of TopLevel is
 	signal USBReset_R   : std_logic;
 	signal LogicClock_C : std_logic;
 	signal LogicReset_R : std_logic;
+
+	signal USBFifoData_D          : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+	signal USBFifoChipSelect_SB   : std_logic;
+	signal USBFifoWrite_SB        : std_logic;
+	signal USBFifoRead_SB         : std_logic;
+	signal USBFifoPktEnd_SB       : std_logic;
+	signal USBFifoAddress_D       : std_logic_vector(1 downto 0);
 
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S : std_logic;
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D                                                   : std_logic;
@@ -55,7 +62,21 @@ architecture Structural of TopLevel is
 
 	signal RunStreamTester_S       : std_logic;
 	signal EnableStreamTesterReg_S : std_logic;
+
+	signal RunOutputsHighTester_S       : std_logic;
+	signal EnableOutputsHighTesterReg_S : std_logic;
 begin
+	USBFifoData_DO          <= (others => '1') when RunOutputsHighTester_S = '1' else USBFifoData_D;
+	USBFifoChipSelect_SBO   <= '1' when RunOutputsHighTester_S = '1' else USBFifoChipSelect_SB;
+	USBFifoWrite_SBO        <= '1' when RunOutputsHighTester_S = '1' else USBFifoWrite_SB;
+	USBFifoRead_SBO         <= '1' when RunOutputsHighTester_S = '1' else USBFifoRead_SB;
+	USBFifoPktEnd_SBO       <= '1' when RunOutputsHighTester_S = '1' else USBFifoPktEnd_SB;
+	USBFifoAddress_DO       <= (others => '1') when RunOutputsHighTester_S = '1' else USBFifoAddress_D;
+	USBFifoThr0Ready_SI     <= '1' when RunOutputsHighTester_S = '1' else 'Z';
+	USBFifoThr0Watermark_SI <= '1' when RunOutputsHighTester_S = '1' else 'Z';
+	USBFifoThr1Ready_SI     <= '1' when RunOutputsHighTester_S = '1' else 'Z';
+	USBFifoThr1Watermark_SI <= '1' when RunOutputsHighTester_S = '1' else 'Z';
+
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
 		port map(
@@ -85,9 +106,9 @@ begin
 			SPIMOSISync_DO         => SPIMOSISync_D);
 
 	-- Third: set all constant outputs.
-	USBFifoChipSelect_SBO <= '0';       -- Always keep USB chip selected (active-low).
-	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
-	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
+	USBFifoChipSelect_SB <= '0';        -- Always keep USB chip selected (active-low).
+	USBFifoRead_SB       <= '1';        -- We never read from the USB data path (active-low).
+	USBFifoData_D        <= LogicUSBFifoDataOut_D;
 
 	-- Wire all LEDs.
 	led1Buffer : entity work.SimpleRegister
@@ -156,9 +177,9 @@ begin
 			USBFifoThread0AlmostFull_SI => USBFifoThr0WatermarkSync_S,
 			USBFifoThread1Full_SI       => USBFifoThr1ReadySync_S,
 			USBFifoThread1AlmostFull_SI => USBFifoThr1WatermarkSync_S,
-			USBFifoWrite_SBO            => USBFifoWrite_SBO,
-			USBFifoPktEnd_SBO           => USBFifoPktEnd_SBO,
-			USBFifoAddress_DO           => USBFifoAddress_DO,
+			USBFifoWrite_SBO            => USBFifoWrite_SB,
+			USBFifoPktEnd_SBO           => USBFifoPktEnd_SB,
+			USBFifoAddress_DO           => USBFifoAddress_D,
 			InFifoControl_SI            => LogicUSBFifoControlOut_S.ReadSide,
 			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide,
 			FX3Config_DI                => tFX3ConfigDefault);
@@ -213,13 +234,17 @@ begin
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
 	-- Module 0, Parameter 0, Bit 0 tells us if we should run the data stream testing.
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, RunStreamTester_S)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, RunStreamTester_S, RunOutputsHighTester_S)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
 
-		if ConfigModuleAddress_D = 0 and ConfigParamAddress_D = 0 then
-			ConfigParamOutput_D(0) <= RunStreamTester_S;
+		if ConfigModuleAddress_D = 0 then
+			if ConfigParamAddress_D = 0 then
+				ConfigParamOutput_D(0) <= RunStreamTester_S;
+			elsif ConfigParamAddress_D = 1 then
+				ConfigParamOutput_D(0) <= RunOutputsHighTester_S;
+			end if;
 		end if;
 	end process spiConfigurationOutputSelect;
 
@@ -234,4 +259,16 @@ begin
 			Enable_SI    => EnableStreamTesterReg_S,
 			Input_SI(0)  => ConfigParamInput_D(0),
 			Output_SO(0) => RunStreamTester_S);
+
+	EnableOutputsHighTesterReg_S <= '1' when (ConfigModuleAddress_D = 0 and ConfigParamAddress_D = 1 and ConfigLatchInput_S = '1') else '0';
+
+	runOutputsHighTesterReg : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => EnableOutputsHighTesterReg_S,
+			Input_SI(0)  => ConfigParamInput_D(0),
+			Output_SO(0) => RunOutputsHighTester_S);
 end Structural;
