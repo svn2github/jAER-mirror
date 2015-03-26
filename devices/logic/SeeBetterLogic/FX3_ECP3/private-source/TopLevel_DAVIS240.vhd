@@ -104,7 +104,7 @@ architecture Structural of TopLevel is
 
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
-	signal LogicUSBFifoDataIn_D     : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+	signal LogicUSBFifoDataIn_D     : std_logic_vector(FULL_EVENT_WIDTH - 1 downto 0);
 	signal LogicUSBFifoDataOut_D    : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
 
 	signal DVSAERFifoControlIn_S  : tToFifo;

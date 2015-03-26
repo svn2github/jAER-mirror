@@ -38,7 +38,7 @@ architecture Structural of TopLevel is
 
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
-	signal LogicUSBFifoDataIn_D     : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+	signal LogicUSBFifoDataIn_D     : std_logic_vector(NUMBER_GENERATOR_WIDTH - 1 downto 0);
 	signal LogicUSBFifoDataOut_D    : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
 
 	signal ConfigModuleAddress_D : unsigned(6 downto 0);
@@ -124,10 +124,10 @@ begin
 			FifoData_DI    => LogicUSBFifoDataIn_D,
 			FifoData_DO    => LogicUSBFifoDataOut_D);
 
-	-- Generate a continuous 16bit number for testing the data stream from FPGA to USB.
+	-- Generate a continuous N-bit number for testing the data stream from FPGA to USB.
 	numberGenerator : entity work.ContinuousCounter
 		generic map(
-			SIZE              => 16,
+			SIZE              => NUMBER_GENERATOR_WIDTH,
 			RESET_ON_OVERFLOW => true,
 			GENERATE_OVERFLOW => false)
 		port map(
