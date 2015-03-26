@@ -35,8 +35,8 @@ end FX3Statemachine;
 architecture Behavioral of FX3Statemachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stSwitchToIdle0, stSwitchToPrepareWrite0, stIdle0, stPrepareEarlyPacket0, stEarlyPacket0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
-		            stSwitchToIdle1, stSwitchToPrepareWrite1, stIdle1, stPrepareEarlyPacket1, stEarlyPacket1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
+	type tState is (stSwitchToIdle0, stSwitchToPrepareWrite0, stIdle0, stEarlyPacket0, stEarlyPacketSwitch0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
+		            stSwitchToIdle1, stSwitchToPrepareWrite1, stIdle1, stEarlyPacket1, stEarlyPacketSwitch1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
@@ -133,28 +133,32 @@ begin
 
 		case State_DP is
 			when stSwitchToIdle0 =>
-				-- Add one cycle delay when switching threads, so that the
-				-- old address is kept asserted for one extra cycle.
+				-- Add some cycles delay when switching threads. So that the old address
+				-- is kept stable a few more cycles after we finish writing, and the new
+				-- one is for sure stable before we resume writing in the new thread.
 				SwitchDelayCount_S <= '1';
 
 				if SwitchDelayDone_S = '1' then
-					State_DN <= stIdle0;
+					State_DN           <= stIdle0;
+					EarlyPacketClear_S <= '1';
 				end if;
 
 			when stSwitchToPrepareWrite0 =>
-				-- Add one cycle delay when switching threads, so that the
-				-- old address is kept asserted for one extra cycle.
+				-- Add some cycles delay when switching threads. So that the old address
+				-- is kept stable a few more cycles after we finish writing, and the new
+				-- one is for sure stable before we resume writing in the new thread.
 				SwitchDelayCount_S <= '1';
 
 				if SwitchDelayDone_S = '1' then
-					State_DN <= stPrepareWrite0;
+					State_DN           <= stPrepareWrite0;
+					EarlyPacketClear_S <= '1';
 				end if;
 
 			when stIdle0 =>
 				if FX3ConfigReg_D.Run_S = '1' then
 					if USBFifoThread0Full_SI = '0' then
 						if EarlyPacketNotify_S = '1' then
-							State_DN <= stPrepareEarlyPacket0;
+							State_DN <= stEarlyPacket0;
 						elsif InFifoControl_SI.AlmostEmpty_S = '0' then
 							State_DN <= stPrepareWrite0;
 						end if;
@@ -169,20 +173,30 @@ begin
 					EarlyPacketClear_S <= '1';
 				end if;
 
-			when stPrepareEarlyPacket0 =>
+			when stEarlyPacket0 =>
+				-- Wait for one more piece of data to be ready, then write it and assert
+				-- PKTEND at the same time. This results in a short packet containing the
+				-- current buffer contents. Without also writing here (asserting SLWR),
+				-- the FX3 would generate only a ZLP (Zero Length Packet).
 				if InFifoControl_SI.Empty_S = '0' then
-					State_DN                <= stEarlyPacket0;
+					State_DN                <= stEarlyPacketSwitch0;
 					InFifoControl_SO.Read_S <= '1';
 					USBFifoWriteReg_SB      <= '0';
 					USBFifoPktEndReg_SB     <= '0';
+				elsif FX3ConfigReg_D.Run_S = '0' then
+					-- Prevent the state machine from getting stuck here waiting on data
+					-- that may never come. If Run_S is zero, ensure we go back to Idle.
+					State_DN <= stIdle0;
 				end if;
 
-			when stEarlyPacket0 =>
+			when stEarlyPacketSwitch0 =>
+				-- Add some cycles delay when switching threads. So that the old address
+				-- is kept stable a few more cycles after we finish writing, and the new
+				-- one is for sure stable before we resume writing in the new thread.
 				SwitchDelayCount_S <= '1';
 
 				if SwitchDelayDone_S = '1' then
-					State_DN           <= stSwitchToIdle1;
-					EarlyPacketClear_S <= '1';
+					State_DN <= stSwitchToIdle1;
 				end if;
 
 			when stPrepareWrite0 =>
@@ -230,6 +244,9 @@ begin
 				USBFifoWriteReg_SB      <= '0';
 
 			when stSwitch0 =>
+				-- Add some cycles delay when switching threads. So that the old address
+				-- is kept stable a few more cycles after we finish writing, and the new
+				-- one is for sure stable before we resume writing in the new thread.
 				SwitchDelayCount_S <= '1';
 
 				if SwitchDelayDone_S = '1' then
@@ -238,30 +255,32 @@ begin
 					else
 						State_DN <= stSwitchToPrepareWrite1;
 					end if;
-
-					EarlyPacketClear_S <= '1';
 				end if;
 
 			when stSwitchToIdle1 =>
-				-- Add one cycle delay when switching threads, so that the
-				-- old address is kept asserted for one extra cycle.
 				USBFifoAddressReg_D <= USB_THREAD1; -- Access Thread 1.
 
+				-- Add some cycles delay when switching threads. So that the old address
+				-- is kept stable a few more cycles after we finish writing, and the new
+				-- one is for sure stable before we resume writing in the new thread.
 				SwitchDelayCount_S <= '1';
 
 				if SwitchDelayDone_S = '1' then
-					State_DN <= stIdle1;
+					State_DN           <= stIdle1;
+					EarlyPacketClear_S <= '1';
 				end if;
 
 			when stSwitchToPrepareWrite1 =>
-				-- Add one cycle delay when switching threads, so that the
-				-- old address is kept asserted for one extra cycle.
 				USBFifoAddressReg_D <= USB_THREAD1; -- Access Thread 1.
 
+				-- Add some cycles delay when switching threads. So that the old address
+				-- is kept stable a few more cycles after we finish writing, and the new
+				-- one is for sure stable before we resume writing in the new thread.
 				SwitchDelayCount_S <= '1';
 
 				if SwitchDelayDone_S = '1' then
-					State_DN <= stPrepareWrite1;
+					State_DN           <= stPrepareWrite1;
+					EarlyPacketClear_S <= '1';
 				end if;
 
 			when stIdle1 =>
@@ -270,7 +289,7 @@ begin
 				if FX3ConfigReg_D.Run_S = '1' then
 					if USBFifoThread1Full_SI = '0' then
 						if EarlyPacketNotify_S = '1' then
-							State_DN <= stPrepareEarlyPacket1;
+							State_DN <= stEarlyPacket1;
 						elsif InFifoControl_SI.AlmostEmpty_S = '0' then
 							State_DN <= stPrepareWrite1;
 						end if;
@@ -285,24 +304,34 @@ begin
 					EarlyPacketClear_S <= '1';
 				end if;
 
-			when stPrepareEarlyPacket1 =>
-				USBFifoAddressReg_D <= USB_THREAD1; -- Access Thread 1.
-
-				if InFifoControl_SI.Empty_S = '0' then
-					State_DN                <= stEarlyPacket1;
-					InFifoControl_SO.Read_S <= '1';
-					USBFifoWriteReg_SB      <= '0';
-					USBFifoPktEndReg_SB     <= '0';
-				end if;
-
 			when stEarlyPacket1 =>
 				USBFifoAddressReg_D <= USB_THREAD1; -- Access Thread 1.
 
+				-- Wait for one more piece of data to be ready, then write it and assert
+				-- PKTEND at the same time. This results in a short packet containing the
+				-- current buffer contents. Without also writing here (asserting SLWR),
+				-- the FX3 would generate only a ZLP (Zero Length Packet).
+				if InFifoControl_SI.Empty_S = '0' then
+					State_DN                <= stEarlyPacketSwitch1;
+					InFifoControl_SO.Read_S <= '1';
+					USBFifoWriteReg_SB      <= '0';
+					USBFifoPktEndReg_SB     <= '0';
+				elsif FX3ConfigReg_D.Run_S = '0' then
+					-- Prevent the state machine from getting stuck here waiting on data
+					-- that may never come. If Run_S is zero, ensure we go back to Idle.
+					State_DN <= stIdle1;
+				end if;
+
+			when stEarlyPacketSwitch1 =>
+				USBFifoAddressReg_D <= USB_THREAD1; -- Access Thread 1.
+
+				-- Add some cycles delay when switching threads. So that the old address
+				-- is kept stable a few more cycles after we finish writing, and the new
+				-- one is for sure stable before we resume writing in the new thread.
 				SwitchDelayCount_S <= '1';
 
 				if SwitchDelayDone_S = '1' then
-					State_DN           <= stSwitchToIdle0;
-					EarlyPacketClear_S <= '1';
+					State_DN <= stSwitchToIdle0;
 				end if;
 
 			when stPrepareWrite1 =>
@@ -362,6 +391,9 @@ begin
 			when stSwitch1 =>
 				USBFifoAddressReg_D <= USB_THREAD1; -- Access Thread 1.
 
+				-- Add some cycles delay when switching threads. So that the old address
+				-- is kept stable a few more cycles after we finish writing, and the new
+				-- one is for sure stable before we resume writing in the new thread.
 				SwitchDelayCount_S <= '1';
 
 				if SwitchDelayDone_S = '1' then
@@ -370,8 +402,6 @@ begin
 					else
 						State_DN <= stSwitchToPrepareWrite0;
 					end if;
-
-					EarlyPacketClear_S <= '1';
 				end if;
 
 			when others => null;
