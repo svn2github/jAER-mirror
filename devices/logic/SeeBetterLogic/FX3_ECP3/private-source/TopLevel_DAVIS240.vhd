@@ -466,7 +466,8 @@ begin
 			DATA_WIDTH        => EVENT_WIDTH,
 			DATA_DEPTH        => IMU_FIFO_SIZE,
 			ALMOST_EMPTY_FLAG => IMU_FIFO_ALMOST_EMPTY_SIZE,
-			ALMOST_FULL_FLAG  => IMU_FIFO_ALMOST_FULL_SIZE)
+			ALMOST_FULL_FLAG  => IMU_FIFO_ALMOST_FULL_SIZE,
+			MEMORY            => "LUT")
 		port map(
 			Clock_CI       => LogicClock_C,
 			Reset_RI       => LogicReset_R,
@@ -503,7 +504,8 @@ begin
 			DATA_WIDTH        => EVENT_WIDTH,
 			DATA_DEPTH        => EXT_INPUT_FIFO_SIZE,
 			ALMOST_EMPTY_FLAG => EXT_INPUT_FIFO_ALMOST_EMPTY_SIZE,
-			ALMOST_FULL_FLAG  => EXT_INPUT_FIFO_ALMOST_FULL_SIZE)
+			ALMOST_FULL_FLAG  => EXT_INPUT_FIFO_ALMOST_FULL_SIZE,
+			MEMORY            => "LUT")
 		port map(
 			Clock_CI       => LogicClock_C,
 			Reset_RI       => LogicReset_R,
