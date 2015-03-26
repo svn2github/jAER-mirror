@@ -190,10 +190,8 @@ begin
 		generic map(
 			DATA_WIDTH        => USB_FIFO_WIDTH,
 			DATA_DEPTH        => USBLOGIC_FIFO_SIZE,
-			EMPTY_FLAG        => 0,
 			ALMOST_EMPTY_FLAG => USBLOGIC_FIFO_ALMOST_EMPTY_SIZE,
-			FULL_FLAG         => USBLOGIC_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => USBLOGIC_FIFO_SIZE - USBLOGIC_FIFO_ALMOST_FULL_SIZE)
+			ALMOST_FULL_FLAG  => USBLOGIC_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Reset_RI       => LogicReset_R,
 			WrClock_CI     => LogicClock_C,
