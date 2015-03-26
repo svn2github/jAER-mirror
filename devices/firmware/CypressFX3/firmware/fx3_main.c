@@ -728,7 +728,7 @@ static CyBool_t CyFxUSBSetupRequestsCB(uint32_t setupdat0, uint32_t setupdat1) {
 		}
 #endif
 
-#if SPI_SUPPORT_ENABLED == 1 && GPIF_32BIT_SUPPORT_ENABLED == 0
+#if SPI_SUPPORT_ENABLED == 1
 		if (!reqHandled) {
 			reqHandled = CyFxHandleCustomVR_SPI(bDirection, bRequest, wValue, wIndex, wLength);
 		}
@@ -854,7 +854,7 @@ static void CyFxAppInit(void) {
 	}
 #endif
 
-#if SPI_SUPPORT_ENABLED == 1 && GPIF_32BIT_SUPPORT_ENABLED == 0
+#if SPI_SUPPORT_ENABLED == 1
 	// Initialize the SPI interface for the flash memory and other devices.
 	status = CyFxSpiInit();
 	if (status != CY_U3P_SUCCESS) {
@@ -1108,14 +1108,18 @@ int main(void) {
 #endif
 
 	// Enable SPI block.
-#if SPI_SUPPORT_ENABLED == 1 && GPIF_32BIT_SUPPORT_ENABLED == 0 // No SPI available on 32-bit!
+#if SPI_SUPPORT_ENABLED == 1
 	// Verify the SPI configuration first.
 	status = CyFxSpiConfigParse(&ioConfig.gpioSimpleEn[0], &ioConfig.gpioSimpleEn[1]);
 	if (status != CY_U3P_SUCCESS) {
 		goto handle_fatal_error;
 	}
 
+#if GPIF_32BIT_SUPPORT_ENABLED == 0 // Direct SPI support with 32bit data not possible.
 	ioConfig.useSpi = CyTrue;
+#else
+	ioConfig.useSpi = CyFalse;
+#endif
 #else
 	ioConfig.useSpi = CyFalse;
 #endif
