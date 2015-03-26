@@ -7,9 +7,7 @@ entity FIFODualClock is
 	generic(
 		DATA_WIDTH        : integer;
 		DATA_DEPTH        : integer;
-		EMPTY_FLAG        : integer;
 		ALMOST_EMPTY_FLAG : integer;
-		FULL_FLAG         : integer;
 		ALMOST_FULL_FLAG  : integer;
 		MEMORY            : string := "EBR");
 	port(
@@ -49,9 +47,9 @@ begin
 			pmi_data_width_r      => DATA_WIDTH,
 			pmi_data_depth_w      => DATA_DEPTH,
 			pmi_data_depth_r      => DATA_DEPTH,
-			pmi_full_flag         => FULL_FLAG,
-			pmi_empty_flag        => EMPTY_FLAG,
-			pmi_almost_full_flag  => ALMOST_FULL_FLAG,
+			pmi_full_flag         => DATA_DEPTH,
+			pmi_empty_flag        => 0,
+			pmi_almost_full_flag  => DATA_DEPTH - ALMOST_FULL_FLAG,
 			pmi_almost_empty_flag => ALMOST_EMPTY_FLAG,
 			pmi_regmode           => "noreg",
 			pmi_resetmode         => "async",

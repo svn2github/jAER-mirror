@@ -221,10 +221,8 @@ begin
 		generic map(
 			DATA_WIDTH        => USB_FIFO_WIDTH,
 			DATA_DEPTH        => USBLOGIC_FIFO_SIZE,
-			EMPTY_FLAG        => 0,
 			ALMOST_EMPTY_FLAG => USBLOGIC_FIFO_ALMOST_EMPTY_SIZE,
-			FULL_FLAG         => USBLOGIC_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => USBLOGIC_FIFO_SIZE - USBLOGIC_FIFO_ALMOST_FULL_SIZE)
+			ALMOST_FULL_FLAG  => USBLOGIC_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Reset_RI       => LogicReset_R,
 			WrClock_CI     => LogicClock_C,
@@ -273,10 +271,8 @@ begin
 		generic map(
 			DATA_WIDTH        => EVENT_WIDTH,
 			DATA_DEPTH        => DVSAER_FIFO_SIZE,
-			EMPTY_FLAG        => 0,
 			ALMOST_EMPTY_FLAG => DVSAER_FIFO_ALMOST_EMPTY_SIZE,
-			FULL_FLAG         => DVSAER_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_FULL_SIZE)
+			ALMOST_FULL_FLAG  => DVSAER_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
 			Reset_RI       => LogicReset_R,
@@ -314,10 +310,8 @@ begin
 		generic map(
 			DATA_WIDTH        => EVENT_WIDTH,
 			DATA_DEPTH        => APSADC_FIFO_SIZE,
-			EMPTY_FLAG        => 0,
 			ALMOST_EMPTY_FLAG => APSADC_FIFO_ALMOST_EMPTY_SIZE,
-			FULL_FLAG         => APSADC_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE)
+			ALMOST_FULL_FLAG  => APSADC_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Reset_RI       => USBReset_R,
 			WrClock_CI     => USBClock_CI,
@@ -370,10 +364,8 @@ begin
 		generic map(
 			DATA_WIDTH        => EVENT_WIDTH,
 			DATA_DEPTH        => IMU_FIFO_SIZE,
-			EMPTY_FLAG        => 0,
 			ALMOST_EMPTY_FLAG => IMU_FIFO_ALMOST_EMPTY_SIZE,
-			FULL_FLAG         => IMU_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => IMU_FIFO_SIZE - IMU_FIFO_ALMOST_FULL_SIZE,
+			ALMOST_FULL_FLAG  => IMU_FIFO_ALMOST_FULL_SIZE,
 			MEMORY            => "LUT")
 		port map(
 			Clock_CI       => LogicClock_C,
@@ -410,10 +402,8 @@ begin
 		generic map(
 			DATA_WIDTH        => EVENT_WIDTH,
 			DATA_DEPTH        => EXT_INPUT_FIFO_SIZE,
-			EMPTY_FLAG        => 0,
 			ALMOST_EMPTY_FLAG => EXT_INPUT_FIFO_ALMOST_EMPTY_SIZE,
-			FULL_FLAG         => EXT_INPUT_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => EXT_INPUT_FIFO_SIZE - EXT_INPUT_FIFO_ALMOST_FULL_SIZE,
+			ALMOST_FULL_FLAG  => EXT_INPUT_FIFO_ALMOST_FULL_SIZE,
 			MEMORY            => "LUT")
 		port map(
 			Clock_CI       => LogicClock_C,

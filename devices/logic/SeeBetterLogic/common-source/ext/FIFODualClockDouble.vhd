@@ -3,23 +3,27 @@ use ieee.std_logic_1164.all;
 use work.Settings.DEVICE_FAMILY;
 use work.FIFORecords.all;
 
-entity FIFO is
+entity FIFODualClockDouble is
 	generic(
-		DATA_WIDTH        : integer;
-		DATA_DEPTH        : integer;
+		DATA_WIDTH        : integer;    -- This is OUTPUT data width.
+		DATA_DEPTH        : integer;    -- This is OUTPUT data depth.
 		ALMOST_EMPTY_FLAG : integer;
 		ALMOST_FULL_FLAG  : integer;
 		MEMORY            : string := "EBR");
 	port(
-		Clock_CI       : in  std_logic;
 		Reset_RI       : in  std_logic;
+		WrClock_CI     : in  std_logic;
+		RdClock_CI     : in  std_logic;
 		FifoControl_SI : in  tToFifo;
 		FifoControl_SO : out tFromFifo;
-		FifoData_DI    : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
+		FifoData_DI    : in  std_logic_vector((DATA_WIDTH / 2) - 1 downto 0);
 		FifoData_DO    : out std_logic_vector(DATA_WIDTH - 1 downto 0));
-end entity FIFO;
+end entity FIFODualClockDouble;
 
-architecture Structural of FIFO is
+architecture Structural of FIFODualClockDouble is
+	constant DATA_WIDTH_IN : integer := DATA_WIDTH / 2;
+	constant DATA_DEPTH_IN : integer := DATA_DEPTH * 2;
+
 	attribute syn_enum_encoding : string;
 
 	type tState is (stInit, stGetData, stWaitRead);
@@ -36,23 +40,32 @@ architecture Structural of FIFO is
 
 	signal FIFOEmpty_S, FIFOAlmostEmpty_S, FIFORead_S : std_logic;
 begin
-	fifo : component work.pmi_components.pmi_fifo
+	-- Use double-clock FIFO from the Lattice Portable Module Interfaces.
+	-- This is a more portable variation than what you'd get with the other tools,
+	-- but slightly less configurable. It has everything we need though, and allows
+	-- for easy switching between underlying hardware implementations and tuning.
+	fifoDualClock : component work.pmi_components.pmi_fifo_dc
 		generic map(
-			pmi_data_width        => DATA_WIDTH,
-			pmi_data_depth        => DATA_DEPTH,
-			pmi_full_flag         => DATA_DEPTH,
+			pmi_data_width_w      => DATA_WIDTH_IN,
+			pmi_data_width_r      => DATA_WIDTH,
+			pmi_data_depth_w      => DATA_DEPTH_IN,
+			pmi_data_depth_r      => DATA_DEPTH,
+			pmi_full_flag         => DATA_DEPTH_IN,
 			pmi_empty_flag        => 0,
-			pmi_almost_full_flag  => DATA_DEPTH - ALMOST_FULL_FLAG,
+			pmi_almost_full_flag  => DATA_DEPTH_IN - ALMOST_FULL_FLAG,
 			pmi_almost_empty_flag => ALMOST_EMPTY_FLAG,
 			pmi_regmode           => "noreg",
+			pmi_resetmode         => "async",
 			pmi_family            => DEVICE_FAMILY,
 			pmi_implementation    => MEMORY)
 		port map(
 			Data        => FifoData_DI,
-			Clock       => Clock_CI,
+			WrClock     => WrClock_CI,
+			RdClock     => RdClock_CI,
 			WrEn        => FifoControl_SI.WriteSide.Write_S,
 			RdEn        => FIFORead_S,
 			Reset       => Reset_RI,
+			RPReset     => Reset_RI,
 			Q           => DataInReg_D,
 			Empty       => FIFOEmpty_S,
 			Full        => FifoControl_SO.WriteSide.Full_S,
@@ -114,7 +127,7 @@ begin
 		end case;
 	end process readSideOutputsRegisteringLogic;
 
-	registerUpdate : process(Clock_CI, Reset_RI) is
+	registerUpdate : process(RdClock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
 			State_DP <= stInit;
@@ -123,7 +136,7 @@ begin
 			FifoControl_SO.ReadSide.AlmostEmpty_S <= '1';
 
 			FifoData_DO <= (others => '0');
-		elsif rising_edge(Clock_CI) then -- rising clock edge
+		elsif rising_edge(RdClock_CI) then -- rising clock edge
 			State_DP <= State_DN;
 
 			FifoControl_SO.ReadSide.Empty_S       <= EmptyReg_S;

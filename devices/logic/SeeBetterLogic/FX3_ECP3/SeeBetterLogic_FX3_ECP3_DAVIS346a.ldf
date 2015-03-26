@@ -12,6 +12,9 @@
         <Source name="../common-source/ext/FIFODualClock.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/ext/FIFODualClockDouble.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/ext/FIFO.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
