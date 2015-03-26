@@ -20,6 +20,11 @@
 #define FX3_APPLICATION_THREAD_STACK    (0x0800) /* Main application thread stack size */
 #define FX3_APPLICATION_THREAD_PRIORITY (8)      /* Main application thread priority */
 
+// IO Drive Strengths
+#define FX3_DRIVE_STRENGTH_PPORT (CY_U3P_DS_FULL_STRENGTH)
+#define FX3_DRIVE_STRENGTH_I2C (CY_U3P_DS_FULL_STRENGTH)
+#define FX3_DRIVE_STRENGTH_SPI (CY_U3P_DS_FULL_STRENGTH)
+
 // End-point maximum transfer sizes
 #define FX3_MAX_TRANSFER_SIZE_CONTROL (4 * KILOBYTE) /* 4KB is the default size for control transfers */
 #define FX3_MAX_TRANSFER_SIZE_STATUS (64) /* fixed at 64 bytes to be compatible with all USB versions */

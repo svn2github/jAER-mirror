@@ -152,6 +152,13 @@ CyU3PReturnStatus_t CyFxSpiInit(void) {
 		return (status);
 	}
 
+	// SerialIO contains SPI, I2S and UART blocks. We don't support I2S and UART, so we use this
+	// to set the SPI drive strength only.
+	status = CyU3PSetSerialIoDriveStrength(FX3_DRIVE_STRENGTH_SPI);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
 	// If more than one device (the default one) is present, let's initialize its SS line.
 	if (spiConfig_DeviceSpecific_Length > 1) {
 		// First verify that the GPIO block itself is enabled. It can be disabled, as GPIO_SUPPORT_ENABLED == 0 and
@@ -409,7 +416,7 @@ CyU3PReturnStatus_t CyFxSpiTransfer(uint8_t deviceAddress, uint32_t address, uin
 
 		if (isRead) {
 			status = CyFxSpiCommand(deviceAddress, cmd, cmdLength, data, commandDataLength, SPI_READ,
-				SPI_ASSERT | SPI_DEASSERT);
+			SPI_ASSERT | SPI_DEASSERT);
 			if (status != CY_U3P_SUCCESS) {
 				return (status);
 			}
@@ -422,7 +429,7 @@ CyU3PReturnStatus_t CyFxSpiTransfer(uint8_t deviceAddress, uint32_t address, uin
 			}
 
 			status = CyFxSpiCommand(deviceAddress, cmd, cmdLength, data, commandDataLength, SPI_WRITE,
-				SPI_ASSERT | SPI_DEASSERT);
+			SPI_ASSERT | SPI_DEASSERT);
 			if (status != CY_U3P_SUCCESS) {
 				return (status);
 			}
@@ -432,7 +439,7 @@ CyU3PReturnStatus_t CyFxSpiTransfer(uint8_t deviceAddress, uint32_t address, uin
 
 			do {
 				status = CyFxSpiCommand(deviceAddress, &READ_STATUS_CMD, 1, &buf, 1, SPI_READ,
-					SPI_ASSERT | SPI_DEASSERT);
+				SPI_ASSERT | SPI_DEASSERT);
 				if (status != CY_U3P_SUCCESS) {
 					return (status);
 				}

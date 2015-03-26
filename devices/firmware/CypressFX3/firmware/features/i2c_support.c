@@ -108,6 +108,11 @@ CyU3PReturnStatus_t CyFxI2cInit(void) {
 		return (status);
 	}
 
+	status = CyU3PSetI2cDriveStrength(FX3_DRIVE_STRENGTH_I2C);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
 	return (status);
 }
 

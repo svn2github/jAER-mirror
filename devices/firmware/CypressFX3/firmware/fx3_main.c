@@ -807,7 +807,7 @@ static void CyFxAppInit(void) {
 		goto handle_error;
 	}
 
-	status = CyU3PSetPportDriveStrength(CY_U3P_DS_FULL_STRENGTH);
+	status = CyU3PSetPportDriveStrength(FX3_DRIVE_STRENGTH_PPORT);
 	if (status != CY_U3P_SUCCESS) {
 		goto handle_error;
 	}
