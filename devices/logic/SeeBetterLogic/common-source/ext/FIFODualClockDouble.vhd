@@ -39,6 +39,22 @@ architecture Structural of FIFODualClockDouble is
 	signal AlmostEmptyReg_S : std_logic;
 
 	signal FIFOEmpty_S, FIFOAlmostEmpty_S, FIFORead_S : std_logic;
+
+	component FIFODualClockDoubleECP3
+		port(
+			Data        : in  std_logic_vector(15 downto 0);
+			WrClock     : in  std_logic;
+			RdClock     : in  std_logic;
+			WrEn        : in  std_logic;
+			RdEn        : in  std_logic;
+			Reset       : in  std_logic;
+			RPReset     : in  std_logic;
+			Q           : out std_logic_vector(31 downto 0);
+			Empty       : out std_logic;
+			Full        : out std_logic;
+			AlmostEmpty : out std_logic;
+			AlmostFull  : out std_logic);
+	end component;
 begin
 	-- Use double-clock FIFO from the Lattice Portable Module Interfaces.
 	-- This is a more portable variation than what you'd get with the other tools,
@@ -80,7 +96,7 @@ begin
 		assert (ALMOST_EMPTY_FLAG = 8) report "FIFODualClockDouble on ECP3 is hard-coded to 8 elements for the almost empty flag." severity FAILURE;
 		assert (ALMOST_FULL_FLAG = 2) report "FIFODualClockDouble on ECP3 is hard-coded to 2 elements for the almost full flag." severity FAILURE;
 
-		fifoDualClock : entity work.FIFODualClockDoubleECP3
+		fifoDualClock : component FIFODualClockDoubleECP3
 			port map(
 				Data        => FifoData_DI,
 				WrClock     => WrClock_CI,
