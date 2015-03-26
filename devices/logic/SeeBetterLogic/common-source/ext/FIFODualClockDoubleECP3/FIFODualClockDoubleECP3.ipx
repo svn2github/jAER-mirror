@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DiamondModule name="FIFODualClockDoubleECP3" module="FIFO_DC" VendorName="Lattice Semiconductor Corporation" generator="IPexpress" date="2015 03 26 18:53:38.857" version="5.7" type="Module" synthesis="synplify" source_format="VHDL">
+  <Package>
+		<File name="FIFODualClockDoubleECP3.lpc" type="lpc" modified="2015 03 26 18:53:34.962"/>
+		<File name="FIFODualClockDoubleECP3.vhd" type="top_level_vhdl" modified="2015 03 26 18:53:35.040"/>
+		<File name="FIFODualClockDoubleECP3_tmpl.vhd" type="template_vhdl" modified="2015 03 26 18:53:35.041"/>
+		<File name="tb_FIFODualClockDoubleECP3_tmpl.vhd" type="testbench_vhdl" modified="2015 03 26 18:53:35.043"/>
+  </Package>
+</DiamondModule>

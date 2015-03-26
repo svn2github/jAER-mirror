@@ -1,0 +1,50 @@
+[Device]
+Family=latticeecp3
+PartType=LFE3-70EA
+PartName=LFE3-70EA-8FN484C
+SpeedGrade=8
+Package=FPBGA484
+OperatingCondition=COM
+Status=P
+
+[IP]
+VendorName=Lattice Semiconductor Corporation
+CoreType=LPM
+CoreStatus=Demo
+CoreName=FIFO_DC
+CoreRevision=5.7
+ModuleName=FIFODualClockDoubleECP3
+SourceFormat=VHDL
+ParameterFileVersion=1.0
+Date=03/26/2015
+Time=18:53:34
+
+[Parameters]
+Verilog=0
+VHDL=1
+EDIF=1
+Destination=Synplicity
+Expression=BusA(0 to 7)
+Order=Big Endian [MSB:LSB]
+IO=0
+FIFOImp=EBR Based
+Depth=1024
+Width=16
+RDepth=512
+RWidth=32
+regout=0
+CtrlByRdEn=0
+EmpFlg=1
+PeMode=Static - Single Threshold
+PeAssert=8
+PeDeassert=12
+FullFlg=1
+PfMode=Static - Single Threshold
+PfAssert=1022
+PfDeassert=506
+RDataCount=0
+WDataCount=0
+EnECC=0
+
+[Command]
+cmd_line= -w -n FIFODualClockDoubleECP3 -lang vhdl -synth synplify -bus_exp 7 -bb -arch ep5c00 -type fifodc -addr_width 10 -data_width 16 -num_words 1024 -rdata_width 32 -no_enable -pe 8 -pf 1022

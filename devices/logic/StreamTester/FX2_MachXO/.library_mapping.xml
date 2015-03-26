@@ -32,6 +32,7 @@
   <Mappings Location="common-source/TimestampGenerator.vhd" Library="not mapped"/>
   <Mappings Location="common-source/TimestampSynchronizer.vhd" Library="not mapped"/>
   <Mappings Location="common-source/chipdefs" Library="not mapped"/>
+  <Mappings Location="common-source/ext/FIFODualClockDoubleECP3" Library="not mapped"/>
   <Mappings Location="Common Libraries/STD" Library="std"/>
   <Mappings Location="" Library="work"/>
 </com.sigasi.hdt.shared.librarymapping.model:LibraryMappings>
