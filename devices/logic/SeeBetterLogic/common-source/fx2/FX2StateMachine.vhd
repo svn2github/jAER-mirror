@@ -130,6 +130,9 @@ begin
 					if InFifoControl_SI.Empty_S = '0' then
 						InFifoControl_SO.Read_S <= '1';
 					end if;
+
+					-- Keep the Early Packet counter in reset when not running.
+					EarlyPacketClear_S <= '1';
 				end if;
 
 			when stPrepareEarlyPacket =>
