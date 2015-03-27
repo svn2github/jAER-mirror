@@ -8,6 +8,9 @@
 #define STRING_PRODUCT 'D', 0x00, 'A', 0x00, 'V', 0x00, 'i', 0x00, 'S', 0x00, ' ', 0x00, 'F', 0x00, 'X', 0x00, '3', 0x00, ' ', 0x00, 'R', 0x00, '2', 0x00
 #define STRING_PRODUCT_LEN 24
 
+#define USB3_POWER_REQUIREMENT (75) // 75 x 8mA = 600mA
+#define USB2_POWER_REQUIREMENT (255) // 255 x 2mA = 510mA
+
 #define FX3_LOG_LEVEL (LOG_DEBUG)
 
 #define FX3_FIFO_FREQUENCY_DIVIDER (5)

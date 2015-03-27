@@ -13,6 +13,10 @@
 #define STRING_SERIALNUMBER '0', 0x00, '0', 0x00, '0', 0x00, '0', 0x00, '0', 0x00, '0', 0x00, '0', 0x00, '0', 0x00
 #define STRING_SERIALNUMBER_LEN 16
 
+// USB Power Requirement (current, for USB descriptor).
+#define USB3_POWER_REQUIREMENT (50) // Max power consumption of device (in 8mA units), default: 50 x 8mA = 400mA
+#define USB2_POWER_REQUIREMENT (200) // Max power consumption of device (in 2mA units), default: 200 x 2mA = 400mA
+
 #define MS_FEATURE_DESCRIPTOR_ENABLED (0)
 
 #define GPIF_32BIT_SUPPORT_ENABLED (0)

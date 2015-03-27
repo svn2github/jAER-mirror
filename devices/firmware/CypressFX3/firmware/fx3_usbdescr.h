@@ -96,7 +96,7 @@ CY_U3P_USB_CONFIG_DESCR, /* Configuration descriptor type */
 0x01, /* Configuration number */
 0x00, /* Configuration string index */
 0x80, /* Config characteristics - Bus powered */
-0x32, /* Max power consumption of device (in 8mA units, 50 of them) : 400mA */
+USB3_POWER_REQUIREMENT, /* Max power consumption of device (in 8mA units) */
 
 /* Interface descriptor */
 0x09, /* Descriptor size */
@@ -177,7 +177,7 @@ CY_U3P_USB_CONFIG_DESCR, /* Configuration descriptor type */
 0x01, /* Configuration number */
 0x00, /* Configuration string index */
 0x80, /* Config characteristics - bus powered */
-0xC8, /* Max power consumption of device (in 2mA units, 200 of them) : 400mA */
+USB2_POWER_REQUIREMENT, /* Max power consumption of device (in 2mA units) */
 
 /* Interface descriptor */
 0x09, /* Descriptor size */
@@ -237,7 +237,7 @@ CY_U3P_USB_CONFIG_DESCR, /* Configuration descriptor type */
 0x01, /* Configuration number */
 0x00, /* Configuration string index */
 0x80, /* Config characteristics - bus powered */
-0xC8, /* Max power consumption of device (in 2mA units, 200 of them) : 400mA */
+USB2_POWER_REQUIREMENT, /* Max power consumption of device (in 2mA units) */
 
 /* Interface descriptor */
 0x09, /* Descriptor size */
