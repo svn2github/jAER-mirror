@@ -167,7 +167,7 @@ begin
 					-- Row address (Y).
 					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_Y_ADDR;
 
-					if CHIP_DVS_ORIGIN_POINT(1) = '0' then
+					if CHIP_DVS_ORIGIN_POINT(1) = '1' then
 						DVSEventDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0) <= std_logic_vector(resize(CHIP_DVS_SIZE_ROWS - 1, DVS_ROW_ADDRESS_WIDTH) - unsigned(DVSAERData_DI(DVS_ROW_ADDRESS_WIDTH - 1 downto 0)));
 					else
 						DVSEventDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0) <= DVSAERData_DI(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
@@ -209,7 +209,7 @@ begin
 					-- Column address (X).
 					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR & DVSAERData_DI(0);
 
-					if CHIP_DVS_ORIGIN_POINT(0) = '0' then
+					if CHIP_DVS_ORIGIN_POINT(0) = '1' then
 						DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0) <= std_logic_vector(resize(CHIP_DVS_SIZE_COLUMNS - 1, DVS_COLUMN_ADDRESS_WIDTH) - unsigned(DVSAERData_DI(DVS_COLUMN_ADDRESS_WIDTH downto 1)));
 					else
 						DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0) <= DVSAERData_DI(DVS_COLUMN_ADDRESS_WIDTH downto 1);
