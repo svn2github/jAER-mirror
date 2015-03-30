@@ -9,7 +9,7 @@ package DAVIS346b is
 	constant CHIP_HAS_GLOBAL_SHUTTER : std_logic := '1';
 	constant CHIP_HAS_INTEGRATED_ADC : std_logic := '1';
 
-	constant CHIP_ORIENTATION      : std_logic_vector(1 downto 0) := ORIENTATION_ROT270;
+	constant CHIP_ORIENTATION      : std_logic_vector(1 downto 0) := ORIENTATION_STRAIGHT;
 	constant CHIP_APS_STREAM_START : std_logic_vector(1 downto 0) := APS_STREAM_START_UPPER_LEFT;
 	constant CHIP_DVS_ORIGIN_POINT : std_logic_vector(1 downto 0) := DVS_ORIGIN_LOWER_LEFT;
 

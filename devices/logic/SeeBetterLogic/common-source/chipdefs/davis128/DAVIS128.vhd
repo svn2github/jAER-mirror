@@ -10,8 +10,8 @@ package DAVIS128 is
 	constant CHIP_HAS_INTEGRATED_ADC : std_logic := '1';
 
 	constant CHIP_ORIENTATION      : std_logic_vector(1 downto 0) := ORIENTATION_STRAIGHT;
-	constant CHIP_APS_STREAM_START : std_logic_vector(1 downto 0) := APS_STREAM_START_UPPER_RIGHT;
-	constant CHIP_DVS_ORIGIN_POINT : std_logic_vector(1 downto 0) := DVS_ORIGIN_LOWER_RIGHT;
+	constant CHIP_APS_STREAM_START : std_logic_vector(1 downto 0) := APS_STREAM_START_LOWER_LEFT;
+	constant CHIP_DVS_ORIGIN_POINT : std_logic_vector(1 downto 0) := DVS_ORIGIN_LOWER_LEFT;
 
 	constant CHIP_APS_SIZE_COLUMNS : unsigned(7 downto 0) := to_unsigned(128, 8);
 	constant CHIP_APS_SIZE_ROWS    : unsigned(7 downto 0) := to_unsigned(128, 8);
