@@ -43,10 +43,6 @@ begin
 				APSADCConfigReg_DN.Run_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)       <= APSADCConfigReg_DP.Run_S;
 
-			when APSADCCONFIG_PARAM_ADDRESSES.ForceADCRunning_S =>
-				APSADCConfigReg_DN.ForceADCRunning_S <= APSADCInput_DP(0);
-				APSADCOutput_DN(0)                   <= APSADCConfigReg_DP.ForceADCRunning_S;
-
 			when APSADCCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
 				-- Allow read/write of parameter only on chips which support it.
 				if CHIP_HAS_GLOBAL_SHUTTER = '1' then

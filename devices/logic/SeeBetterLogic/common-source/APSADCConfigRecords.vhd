@@ -12,7 +12,6 @@ package APSADCConfigRecords is
 
 	type tAPSADCConfigParamAddresses is record
 		Run_S                 : unsigned(7 downto 0);
-		ForceADCRunning_S     : unsigned(7 downto 0);
 		GlobalShutter_S       : unsigned(7 downto 0);
 		StartColumn0_D        : unsigned(7 downto 0);
 		StartRow0_D           : unsigned(7 downto 0);
@@ -47,7 +46,6 @@ package APSADCConfigRecords is
 
 	constant APSADCCONFIG_PARAM_ADDRESSES : tAPSADCConfigParamAddresses := (
 		Run_S                 => to_unsigned(0, 8),
-		ForceADCRunning_S     => to_unsigned(1, 8),
 		GlobalShutter_S       => to_unsigned(2, 8),
 		StartColumn0_D        => to_unsigned(3, 8),
 		StartRow0_D           => to_unsigned(4, 8),
@@ -92,7 +90,6 @@ package APSADCConfigRecords is
 
 	type tAPSADCConfig is record
 		Run_S                 : std_logic;
-		ForceADCRunning_S     : std_logic; -- Force ADC to be always on, for quick resume.
 		GlobalShutter_S       : std_logic; -- Enable global shutter instead of rolling shutter.
 		StartColumn0_D        : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		StartRow0_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
@@ -127,7 +124,6 @@ package APSADCConfigRecords is
 
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
 		Run_S                 => '0',
-		ForceADCRunning_S     => '0',
 		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,
 		StartColumn0_D        => to_unsigned(0, CHIP_APS_SIZE_COLUMNS'length),
 		StartRow0_D           => to_unsigned(0, CHIP_APS_SIZE_ROWS'length),
