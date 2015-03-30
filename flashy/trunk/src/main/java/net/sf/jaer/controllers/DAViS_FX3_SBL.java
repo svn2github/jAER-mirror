@@ -10,6 +10,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.prefs.Preferences;
 
@@ -17,6 +18,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -49,6 +51,29 @@ public class DAViS_FX3_SBL extends Controller {
 	private File firmwareFile;
 	private File logicFile;
 	private String serialNumber;
+
+	private static enum ColorFilter {
+		NONE("None", (byte) 0),
+		RGBG("RGBG", (byte) 1),
+		RGBW("RGBW", (byte) 2);
+
+		private final String name;
+		private final byte code;
+
+		private ColorFilter(final String n, final byte c) {
+			name = n;
+			code = c;
+		}
+
+		public final byte getCode() {
+			return (code);
+		}
+
+		@Override
+		public final String toString() {
+			return (name);
+		}
+	}
 
 	@Override
 	public VBox generateGUI() {
@@ -280,7 +305,7 @@ public class DAViS_FX3_SBL extends Controller {
 
 				// Check that the typed in file is valid, if not, color the
 				// field background red.
-				if (newVal.length() > DAViS_FX3_SBL.SNUM_MAX_SIZE) {
+				if (newVal.length() > DAViS_FX3_SBL.SNUM_SIZE) {
 					serialNumberField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
@@ -300,13 +325,38 @@ public class DAViS_FX3_SBL extends Controller {
 						return;
 					}
 
-					if (serialNumber.length() > DAViS_FX3_SBL.SNUM_MAX_SIZE) {
+					if (serialNumber.length() > DAViS_FX3_SBL.SNUM_SIZE) {
 						GUISupport.showDialogError("Serial number too long!");
 						return;
 					}
 
 					try {
 						serialNumberToROM(serialNumber.getBytes());
+					}
+					catch (final Exception e) {
+						GUISupport.showDialogException(e);
+						return;
+					}
+				}
+			});
+
+		final HBox colorFilterBox = new HBox(10);
+		fx3GUI.getChildren().add(colorFilterBox);
+
+		GUISupport.addLabel(colorFilterBox, "Color Filter", "Select the type of color filter the device has.", null,
+			null);
+
+		final ComboBox<ColorFilter> colorFilterComboBox = GUISupport.addComboBox(colorFilterBox,
+			EnumSet.allOf(ColorFilter.class), 0);
+
+		GUISupport.addButtonWithMouseClickedHandler(colorFilterBox, "Write Color Filter", true, null,
+			new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
+					final ColorFilter colorFilter = colorFilterComboBox.valueProperty().getValue();
+
+					try {
+						colorFilterToROM(colorFilter.getCode());
 					}
 					catch (final Exception e) {
 						GUISupport.showDialogException(e);
@@ -340,7 +390,11 @@ public class DAViS_FX3_SBL extends Controller {
 	private static final int DATA_HEADER_SIZE = 8;
 
 	private static final int SNUM_START_ADDRESS = DAViS_FX3_SBL.DATA_START_ADDRESS;
-	private static final int SNUM_MAX_SIZE = 8;
+	private static final int SNUM_SIZE = 8;
+
+	private static final int CFILTER_START_ADDRESS = DAViS_FX3_SBL.SNUM_START_ADDRESS + DAViS_FX3_SBL.DATA_HEADER_SIZE
+		+ DAViS_FX3_SBL.SNUM_SIZE;
+	private static final int CFILTER_SIZE = 1;
 
 	private void firmwareToROM(final ByteBuffer fw) throws Exception {
 		// Check signature.
@@ -371,20 +425,20 @@ public class DAViS_FX3_SBL extends Controller {
 
 	private void serialNumberToROM(final byte[] sNumArray) throws Exception {
 		// Check size of input array.
-		if (sNumArray.length > DAViS_FX3_SBL.SNUM_MAX_SIZE) {
+		if (sNumArray.length > DAViS_FX3_SBL.SNUM_SIZE) {
 			throw new Exception("Size of serial number character array exceeds maximum!");
 		}
 
-		final ByteBuffer sNum = BufferUtils.allocateByteBuffer(DAViS_FX3_SBL.DATA_HEADER_SIZE
-			+ DAViS_FX3_SBL.SNUM_MAX_SIZE);
+		final ByteBuffer sNum = BufferUtils
+			.allocateByteBuffer(DAViS_FX3_SBL.DATA_HEADER_SIZE + DAViS_FX3_SBL.SNUM_SIZE);
 		sNum.order(ByteOrder.LITTLE_ENDIAN);
 
 		// Get the bytes from the input array.
-		sNum.position((DAViS_FX3_SBL.DATA_HEADER_SIZE + DAViS_FX3_SBL.SNUM_MAX_SIZE) - sNumArray.length);
+		sNum.position((DAViS_FX3_SBL.DATA_HEADER_SIZE + DAViS_FX3_SBL.SNUM_SIZE) - sNumArray.length);
 		sNum.put(sNumArray, 0, sNumArray.length);
 
 		// Pad with zeros at the front, if shorter.
-		for (int i = 0; i < (DAViS_FX3_SBL.SNUM_MAX_SIZE - sNumArray.length); i++) {
+		for (int i = 0; i < (DAViS_FX3_SBL.SNUM_SIZE - sNumArray.length); i++) {
 			sNum.put(DAViS_FX3_SBL.DATA_HEADER_SIZE + i, (byte) '0');
 		}
 
@@ -400,14 +454,41 @@ public class DAViS_FX3_SBL extends Controller {
 
 		// Write FX3 serial number.
 		final ByteBufferToRomTask serialNumberToROMTask = new ByteBufferToRomTask(sNum,
-			DAViS_FX3_SBL.SNUM_START_ADDRESS, DAViS_FX3_SBL.DATA_HEADER_SIZE + DAViS_FX3_SBL.SNUM_MAX_SIZE);
+			DAViS_FX3_SBL.SNUM_START_ADDRESS, DAViS_FX3_SBL.DATA_HEADER_SIZE + DAViS_FX3_SBL.SNUM_SIZE);
 
 		final Thread t = new Thread(serialNumberToROMTask);
 		t.setDaemon(true);
 		t.start();
 	}
 
-	private void logicToROM(final ByteBuffer logic) throws Exception {
+	private void colorFilterToROM(final byte colorFilterByte) {
+		final ByteBuffer cFilter = BufferUtils.allocateByteBuffer(DAViS_FX3_SBL.DATA_HEADER_SIZE
+			+ DAViS_FX3_SBL.CFILTER_SIZE);
+		cFilter.order(ByteOrder.LITTLE_ENDIAN);
+
+		// Write correct header.
+		cFilter.put(0, (byte) 'C');
+		cFilter.put(1, (byte) 'O');
+		cFilter.put(2, (byte) 'F');
+		cFilter.put(3, (byte) 'I');
+
+		cFilter.putInt(4, 1);
+
+		// Put single byte containing color filter value.
+		cFilter.put(8, colorFilterByte);
+
+		cFilter.position(0); // Reset position to initial value.
+
+		// Write color filter information to FX3 ROM.
+		final ByteBufferToRomTask colorFilterToROMTask = new ByteBufferToRomTask(cFilter,
+			DAViS_FX3_SBL.CFILTER_START_ADDRESS, DAViS_FX3_SBL.DATA_HEADER_SIZE + DAViS_FX3_SBL.CFILTER_SIZE);
+
+		final Thread t = new Thread(colorFilterToROMTask);
+		t.setDaemon(true);
+		t.start();
+	}
+
+	private void logicToROM(final ByteBuffer logic) {
 		// Generate preamble and concatenate the bitstream after it.
 		final ByteBuffer data = BufferUtils.allocateByteBuffer(logic.limit() + 8);
 		data.order(ByteOrder.LITTLE_ENDIAN);
