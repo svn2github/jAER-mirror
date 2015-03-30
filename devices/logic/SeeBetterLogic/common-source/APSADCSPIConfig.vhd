@@ -43,6 +43,10 @@ begin
 				APSADCConfigReg_DN.Run_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)       <= APSADCConfigReg_DP.Run_S;
 
+			when APSADCCONFIG_PARAM_ADDRESSES.HasColorFilter_D =>
+				APSADCConfigReg_DN.HasColorFilter_D                   <= APSADCInput_DP(tAPSADCConfig.HasColorFilter_D'range);
+				APSADCOutput_DN(tAPSADCConfig.HasColorFilter_D'range) <= APSADCConfigReg_DP.HasColorFilter_D;
+
 			when APSADCCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
 				-- Allow read/write of parameter only on chips which support it.
 				if CHIP_HAS_GLOBAL_SHUTTER = '1' then

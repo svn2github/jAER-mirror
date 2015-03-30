@@ -43,6 +43,10 @@ begin
 				D4AAPSADCConfigReg_DN.Run_S <= D4AAPSADCInput_DP(0);
 				D4AAPSADCOutput_DN(0)       <= D4AAPSADCConfigReg_DP.Run_S;
 
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.HasColorFilter_D =>
+				D4AAPSADCConfigReg_DN.HasColorFilter_D                      <= D4AAPSADCInput_DP(tD4AAPSADCConfig.HasColorFilter_D'range);
+				D4AAPSADCOutput_DN(tD4AAPSADCConfig.HasColorFilter_D'range) <= D4AAPSADCConfigReg_DP.HasColorFilter_D;
+
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
 				-- Allow read/write of parameter only on chips which support it.
 				if CHIP_HAS_GLOBAL_SHUTTER = '1' then

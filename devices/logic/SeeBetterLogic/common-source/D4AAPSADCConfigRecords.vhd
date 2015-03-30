@@ -12,6 +12,7 @@ package D4AAPSADCConfigRecords is
 
 	type tD4AAPSADCConfigParamAddresses is record
 		Run_S                 : unsigned(7 downto 0);
+		HasColorFilter_D      : unsigned(7 downto 0);
 		GlobalShutter_S       : unsigned(7 downto 0);
 		StartColumn0_D        : unsigned(7 downto 0);
 		StartRow0_D           : unsigned(7 downto 0);
@@ -53,6 +54,7 @@ package D4AAPSADCConfigRecords is
 
 	constant D4AAPSADCCONFIG_PARAM_ADDRESSES : tD4AAPSADCConfigParamAddresses := (
 		Run_S                 => to_unsigned(0, 8),
+		HasColorFilter_D      => to_unsigned(1, 8),
 		GlobalShutter_S       => to_unsigned(2, 8),
 		StartColumn0_D        => to_unsigned(3, 8),
 		StartRow0_D           => to_unsigned(4, 8),
@@ -113,6 +115,7 @@ package D4AAPSADCConfigRecords is
 
 	type tD4AAPSADCConfig is record
 		Run_S                 : std_logic;
+		HasColorFilter_D      : std_logic_vector(1 downto 0);
 		GlobalShutter_S       : std_logic; -- Enable global shutter instead of rolling shutter.
 		StartColumn0_D        : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		StartRow0_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
@@ -154,6 +157,7 @@ package D4AAPSADCConfigRecords is
 
 	constant tD4AAPSADCConfigDefault : tD4AAPSADCConfig := (
 		Run_S                 => '0',
+		HasColorFilter_D      => "00",
 		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,
 		StartColumn0_D        => to_unsigned(0, CHIP_APS_SIZE_COLUMNS'length),
 		StartRow0_D           => to_unsigned(0, CHIP_APS_SIZE_ROWS'length),
