@@ -10,7 +10,7 @@
   <Mappings Location="SeeBetterLogic_FX2_MachXO_DAVIS240c" Library="not mapped"/>
   <Mappings Location="SeeBetterLogic_FX2_MachXO_DAVIS240c_tcr.dir" Library="not mapped"/>
   <Mappings Location="common-source/ext/FIFODualClockDoubleECP3" Library="not mapped"/>
-  <Mappings Location="private-source/Settings_DAVIS240b.vhd" Library="not mapped"/>
+  <Mappings Location="private-source/Settings_DAVIS240a.vhd" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVIS240c.vhd" Library="not mapped"/>
   <Mappings Location="Common Libraries/STD" Library="std"/>
   <Mappings Location="" Library="work"/>
