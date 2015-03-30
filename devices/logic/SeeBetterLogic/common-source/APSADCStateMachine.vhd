@@ -169,10 +169,6 @@ architecture Behavioral of APSADCStateMachine is
 	signal APSChipColModeReg_DP, APSChipColModeReg_DN  : std_logic_vector(1 downto 0);
 	signal APSChipTXGateReg_SP, APSChipTXGateReg_SN    : std_logic;
 
-	-- External ADC control.
-	signal ExternalADCOutputEnableReg_S : std_logic;
-	signal ExternalADCStandbyReg_S      : std_logic;
-
 	-- Double register configuration input, since it comes from a different clock domain (LogicClock), it
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
 	signal APSADCConfigSyncReg_D, APSADCConfigReg_D : tAPSADCConfig;
@@ -281,12 +277,6 @@ begin
 		ExternalADCRunning_SN     <= ExternalADCRunning_SP;
 		ExternalADCStartupCount_S <= '0';
 
-		-- Keep ADC powered and OE by default, the Idle (start) state will
-		-- then negotiate the necessary settings, and when we're out of Idle,
-		-- they are always on anyway.
-		ExternalADCOutputEnableReg_S <= '1';
-		ExternalADCStandbyReg_S      <= '0';
-
 		APSChipColSRClockReg_C <= '0';
 		APSChipColSRInReg_S    <= '0';
 
@@ -321,37 +311,39 @@ begin
 
 		case ColState_DP is
 			when stIdle =>
-				APSADCConfigRegEnable_S <= '1';
-
 				if APSADCConfigReg_D.Run_S = '1' then
-					-- We want to take samples (picture or video), so the ADC has to be running.
-					if ExternalADCRunning_SP = '0' then
-						ColState_DN <= stWaitADCStartup;
-					else
+					-- We want to take samples, so ensure the wanted ADC is working.
+					if CHIP_HAS_INTEGRATED_ADC = '1' and APSADCConfigReg_D.UseInternalADC_S = '1' then
+						-- Turn off external ADC, if internal is wanted.
+						ExternalADCRunning_SN <= '0';
+
 						ColState_DN <= stStartFrame;
+					else
+						if ExternalADCRunning_SP = '1' then
+							-- External ADC wanted and already running, start right away.
+							ColState_DN <= stStartFrame;
+						else
+							-- External ADC wanted but not running, start and then wait.
+							ExternalADCRunning_SN <= '1';
+
+							ColState_DN <= stWaitADCStartup;
+						end if;
 					end if;
 				else
-					-- Turn ADC off when not running, unless told otherwise.
-					if APSADCConfigReg_D.ForceADCRunning_S = '0' then
-						ExternalADCOutputEnableReg_S <= '0';
-						ExternalADCStandbyReg_S      <= '1';
-						ExternalADCRunning_SN        <= '0';
-					end if;
+					-- Turn external ADC off when not running to reduce current consumption.
+					ExternalADCRunning_SN <= '0';
+
+					-- Update config, so that we get changes to Run_S especially.
+					APSADCConfigRegEnable_S <= '1';
 				end if;
 
 			when stWaitADCStartup =>
-				-- Check if we really want to startup the external ADC.
-				if CHIP_HAS_INTEGRATED_ADC = '1' and APSADCConfigReg_D.UseInternalADC_S = '1' then
+				-- Wait 15 microseconds for ADC to start up and be ready for precise conversions.
+				if ExternalADCStartupDone_S = '1' then
 					ColState_DN <= stStartFrame;
-				else
-					-- Wait 15 microseconds for ADC to start up and be ready for precise conversions.
-					if ExternalADCStartupDone_S = '1' then
-						ColState_DN           <= stStartFrame;
-						ExternalADCRunning_SN <= '1';
-					end if;
-
-					ExternalADCStartupCount_S <= '1';
 				end if;
+
+				ExternalADCStartupCount_S <= '1';
 
 			when stStartFrame =>
 				-- Write out start of frame marker. This and the end of frame marker are the only
@@ -858,7 +850,7 @@ begin
 		case ExtRowState_DP is
 			when stIdle =>
 				-- Wait until the main column state machine signals us to do a row read.
-				if APSADCConfigReg_D.UseInternalADC_S = '0' and RowReadStart_SP = '1' then
+				if (CHIP_HAS_INTEGRATED_ADC = '0' or APSADCConfigReg_D.UseInternalADC_S = '0') and RowReadStart_SP = '1' then
 					ExtRowState_DN <= stRowSRFeedInit;
 				end if;
 
@@ -1377,9 +1369,6 @@ begin
 			APSChipColModeReg_DP <= COLMODE_NULL;
 			APSChipTXGateReg_SP  <= '0';
 
-			ExternalADCOutputEnable_SBO <= '1';
-			ExternalADCStandby_SO       <= '1';
-
 			-- APS ADC config from another clock domain.
 			APSADCConfigReg_D     <= tAPSADCConfigDefault;
 			APSADCConfigSyncReg_D <= tAPSADCConfigDefault;
@@ -1403,9 +1392,6 @@ begin
 			APSChipColModeReg_DP <= APSChipColModeReg_DN;
 			APSChipTXGateReg_SP  <= APSChipTXGateReg_SN;
 
-			ExternalADCOutputEnable_SBO <= not ExternalADCOutputEnableReg_S;
-			ExternalADCStandby_SO       <= ExternalADCStandbyReg_S;
-
 			-- APS ADC config from another clock domain.
 			if APSADCConfigRegEnable_S = '1' then
 				APSADCConfigReg_D <= APSADCConfigSyncReg_D;
@@ -1418,4 +1404,8 @@ begin
 	-- inside this module. That's not possible with 'out' signal directly.
 	APSChipColMode_DO <= APSChipColModeReg_DP;
 	APSChipTXGate_SBO <= not APSChipTXGateReg_SP;
+
+	-- Enabling the external ADC depends on wheter we want to run it or not.
+	ExternalADCOutputEnable_SBO <= not ExternalADCRunning_SP;
+	ExternalADCStandby_SO       <= not ExternalADCRunning_SP;
 end architecture Behavioral;
