@@ -378,6 +378,7 @@ public class DAViS_FX3_SBL extends Controller {
 	private static final int MAX_TRANSFER_SIZE = 4096;
 
 	private static final int FLASH_MAX_SIZE = 8 * 1024 * 1024;
+	private static final int FLASK_BLOCK_SIZE = 64 * 1024;
 
 	private static final int FIRMWARE_START_ADDRESS = 0;
 	private static final int FIRMWARE_MAX_SIZE = 192 * 1024;
@@ -392,8 +393,7 @@ public class DAViS_FX3_SBL extends Controller {
 	private static final int SNUM_START_ADDRESS = DAViS_FX3_SBL.DATA_START_ADDRESS;
 	private static final int SNUM_SIZE = 8;
 
-	private static final int CFILTER_START_ADDRESS = DAViS_FX3_SBL.SNUM_START_ADDRESS + DAViS_FX3_SBL.DATA_HEADER_SIZE
-		+ DAViS_FX3_SBL.SNUM_SIZE;
+	private static final int CFILTER_START_ADDRESS = DAViS_FX3_SBL.SNUM_START_ADDRESS + DAViS_FX3_SBL.FLASK_BLOCK_SIZE;
 	private static final int CFILTER_SIZE = 1;
 
 	private void firmwareToROM(final ByteBuffer fw) throws Exception {
