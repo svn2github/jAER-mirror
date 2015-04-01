@@ -139,7 +139,6 @@ package DAVIS128ChipBiasConfigRecords is
 		ResetCalibNeuron_S    : unsigned(7 downto 0);
 		TypeNCalibNeuron_S    : unsigned(7 downto 0);
 		ResetTestPixel_S      : unsigned(7 downto 0);
-		HotPixelSuppression_S : unsigned(7 downto 0);
 		AERnArow_S            : unsigned(7 downto 0);
 		UseAOut_S             : unsigned(7 downto 0);
 		GlobalShutter_S       : unsigned(7 downto 0);
@@ -160,7 +159,6 @@ package DAVIS128ChipBiasConfigRecords is
 		ResetCalibNeuron_S    => to_unsigned(136, 8),
 		TypeNCalibNeuron_S    => to_unsigned(137, 8),
 		ResetTestPixel_S      => to_unsigned(138, 8),
-		HotPixelSuppression_S => to_unsigned(139, 8),
 		AERnArow_S            => to_unsigned(140, 8),
 		UseAOut_S             => to_unsigned(141, 8),
 		GlobalShutter_S       => to_unsigned(142, 8),
@@ -178,7 +176,6 @@ package DAVIS128ChipBiasConfigRecords is
 		ResetCalibNeuron_S    : std_logic;
 		TypeNCalibNeuron_S    : std_logic;
 		ResetTestPixel_S      : std_logic;
-		HotPixelSuppression_S : std_logic;
 		AERnArow_S            : std_logic;
 		UseAOut_S             : std_logic;
 		GlobalShutter_S       : std_logic;
@@ -186,7 +183,7 @@ package DAVIS128ChipBiasConfigRecords is
 	end record tDAVIS128ChipConfig;
 
 	-- Effectively used bits in chip register.
-	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 8;
+	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 7;
 
 	constant tDAVIS128ChipConfigDefault : tDAVIS128ChipConfig := (
 		DigitalMux0_D         => (others => '0'),
@@ -200,7 +197,6 @@ package DAVIS128ChipBiasConfigRecords is
 		ResetCalibNeuron_S    => '1',
 		TypeNCalibNeuron_S    => '0',
 		ResetTestPixel_S      => '1',
-		HotPixelSuppression_S => '0',
 		AERnArow_S            => '0',
 		UseAOut_S             => '0',
 		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,

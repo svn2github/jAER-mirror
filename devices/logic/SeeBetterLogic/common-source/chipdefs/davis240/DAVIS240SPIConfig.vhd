@@ -4,6 +4,7 @@ use ieee.numeric_std.all;
 use work.ChipBiasConfigRecords.all;
 use work.DAVIS240ChipBiasConfigRecords.all;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
+use work.Settings.CHIP_IDENTIFIER;
 
 entity DAVIS240SPIConfig is
 	port(
@@ -208,9 +209,12 @@ begin
 				ChipConfigReg_DN.ResetTestPixel_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)                  <= ChipConfigReg_DP.ResetTestPixel_S;
 
-			when DAVIS240_CHIPCONFIG_PARAM_ADDRESSES.HotPixelSuppression_S =>
-				ChipConfigReg_DN.HotPixelSuppression_S <= ChipInput_DP(0);
-				ChipOutput_DN(0)                       <= ChipConfigReg_DP.HotPixelSuppression_S;
+			when DAVIS240_CHIPCONFIG_PARAM_ADDRESSES.SpecialPixelControl_S =>
+				-- Allow changing this parameter only on DAVIS240 A or B.
+				if CHIP_IDENTIFIER = 0 or CHIP_IDENTIFIER = 1 then
+					ChipConfigReg_DN.SpecialPixelControl_S <= ChipInput_DP(0);
+					ChipOutput_DN(0)                       <= ChipConfigReg_DP.SpecialPixelControl_S;
+				end if;
 
 			when DAVIS240_CHIPCONFIG_PARAM_ADDRESSES.AERnArow_S =>
 				ChipConfigReg_DN.AERnArow_S <= ChipInput_DP(0);

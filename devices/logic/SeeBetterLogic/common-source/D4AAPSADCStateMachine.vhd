@@ -321,6 +321,7 @@ begin
 			Overflow_SO  => GSCpResetSettleTimeDone_S,
 			Data_DO      => open);
 
+	-- TODO: verify minimum for this.
 	clockSlowDownCounter : entity work.ContinuousCounter
 		generic map(
 			SIZE => 4)

@@ -231,10 +231,6 @@ begin
 				ChipConfigReg_DN.ResetTestPixel_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)                  <= ChipConfigReg_DP.ResetTestPixel_S;
 
-			when DAVIS128_CHIPCONFIG_PARAM_ADDRESSES.HotPixelSuppression_S =>
-				ChipConfigReg_DN.HotPixelSuppression_S <= ChipInput_DP(0);
-				ChipOutput_DN(0)                       <= ChipConfigReg_DP.HotPixelSuppression_S;
-
 			when DAVIS128_CHIPCONFIG_PARAM_ADDRESSES.AERnArow_S =>
 				ChipConfigReg_DN.AERnArow_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)            <= ChipConfigReg_DP.AERnArow_S;
