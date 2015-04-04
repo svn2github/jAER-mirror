@@ -102,7 +102,7 @@ package D4AAPSADCConfigRecords is
 	constant APS_RAMPRESETTIME_SIZE    : integer := 12; -- Up to about 128 microseconds.
 
 	-- DAVIS RGB specific timings.
-	constant APS_TRANSFERTIME_SIZE        : integer := 12; -- Up to about 128 microseconds.
+	constant APS_TRANSFERTIME_SIZE        : integer := 16; -- Up to about 2.16 miliseconds.
 	constant APS_RSFDSETTLETIME_SIZE      : integer := 12; -- Up to about 128 microseconds.
 	constant APS_RSCPRESETTIME_SIZE       : integer := 12; -- Up to about 128 microseconds.
 	constant APS_RSCPSETTLETIME_SIZE      : integer := 12; -- Up to about 128 microseconds.
