@@ -1,1 +1,0 @@
-project -fileorder "C:/lscc/diamond/3.4_x64/cae_library/synthesis/vhdl/ecp3.vhd" "E:/code/devices/logic/LatticeECP3/SeeBetterLogic/contrib/FX3ApproachSensitivity/ApproachSensitivity/source/ApproachCellBudgeting.vhd" 

@@ -1,9 +1,0 @@
-
-
-
-
--g CfgMode:Disable
--g RamCfg:Reset
--path "E:/code/devices/logic/LatticeECP3/SeeBetterLogic/contrib/FX3ApproachSensitivity" 
--path "E:/code/devices/logic/LatticeECP3/SeeBetterLogic/contrib/FX3ApproachSensitivity"
--g ES:No

@@ -1,1 +1,0 @@
--w -s "E:\FX3\ApproachSensitivity\library.cfg"  -j "E:\FX3\ApproachSensitivity\projlib.cfg"  -d "E:\FX3\ApproachSensitivity\compile"   -work work  -O3 -e 100 -2002 "E:\FX3\ApproachSensitivity\source\ApproachCell.vhd" "E:\FX3\ApproachSensitivity\source\ApproachCell_tb.vhd"
