@@ -89,7 +89,7 @@ public abstract class Memory extends Component {
 			@Override
 			public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
 				final File loadFirmware = GUISupport.showDialogLoadFile(ImmutableList.of(PairRO.of("Binary",
-					Memory.binaryExtensions)));
+					Memory.binaryExtensions)), null);
 
 				if (loadFirmware == null) {
 					return;

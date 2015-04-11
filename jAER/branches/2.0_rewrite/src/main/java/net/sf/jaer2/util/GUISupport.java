@@ -1,17 +1,23 @@
 package net.sf.jaer2.util;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
@@ -37,9 +43,8 @@ import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
 import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
 
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import org.controlsfx.dialog.ExceptionDialog;
+import org.controlsfx.dialog.ProgressDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -442,17 +447,16 @@ public final class GUISupport {
 		final Collection<Runnable> tasksUIRefresh) {
 		GUISupport.runTasksCollection(tasksDialogRefresh);
 
-		final Dialog dialog = new Dialog(null, title, true, null);
+		final Alert alert = new Alert(AlertType.CONFIRMATION);
 
-		dialog.setContent(content);
+		alert.setTitle(title);
+		alert.getDialogPane().setContent(content);
 
-		dialog.getActions().addAll(Dialog.Actions.OK, Dialog.Actions.CANCEL);
+		Optional<ButtonType> result = alert.showAndWait();
 
-		final Action result = dialog.show();
+		GUISupport.logger.debug("Dialog: clicked on {}.", result.get());
 
-		GUISupport.logger.debug("Dialog: clicked on {}.", result);
-
-		if (result == Dialog.Actions.OK) {
+		if (result.get() == ButtonType.OK) {
 			GUISupport.runTasksCollection(tasksDialogOK);
 
 			GUISupport.runTasksCollection(tasksUIRefresh);
@@ -460,22 +464,49 @@ public final class GUISupport {
 	}
 
 	public static void showDialogInformation(final String message) {
-		Dialogs.create().lightweight().title("Information").message(message).showInformation();
+		final Alert alert = new Alert(AlertType.INFORMATION);
+
+		alert.setTitle("Information");
+		alert.setContentText(message);
+		alert.showAndWait();
 	}
 
 	public static void showDialogWarning(final String message) {
-		Dialogs.create().lightweight().title("Warning").message(message).showInformation();
+		final Alert alert = new Alert(AlertType.WARNING);
+
+		alert.setTitle("Warning");
+		alert.setContentText(message);
+		alert.showAndWait();
 	}
 
 	public static void showDialogError(final String message) {
-		Dialogs.create().lightweight().title("Error").message(message).showInformation();
+		final Alert alert = new Alert(AlertType.ERROR);
+
+		alert.setTitle("Error");
+		alert.setContentText(message);
+		alert.showAndWait();
 	}
 
 	public static void showDialogException(final Throwable exception) {
-		Dialogs.create().lightweight().title("Exception detected").showException(exception);
+		final ExceptionDialog alert = new ExceptionDialog(exception);
+
+		alert.setTitle("Exception");
+		alert.showAndWait();
 	}
 
-	public static File showDialogLoadFile(final List<PairRO<String, List<String>>> allowedExtensions) {
+	public static void showDialogProgress(final Worker<?> worker) {
+		final ProgressDialog progress = new ProgressDialog(worker);
+
+		progress.setTitle("Progress ...");
+	}
+
+	public static File showDialogLoadFile(final String name, final List<String> allowedExtensions,
+		final String initialFolderPath) {
+		return showDialogLoadFile(Arrays.asList(PairRO.of(name, allowedExtensions)), initialFolderPath);
+	}
+
+	public static File showDialogLoadFile(final List<PairRO<String, List<String>>> allowedExtensions,
+		final String initialFolderPath) {
 		final FileChooser fileChooser = new FileChooser();
 
 		fileChooser.setTitle("Select File to load from ...");
@@ -483,6 +514,19 @@ public final class GUISupport {
 		if (allowedExtensions != null) {
 			for (final PairRO<String, List<String>> ext : allowedExtensions) {
 				fileChooser.getExtensionFilters().add(new ExtensionFilter(ext.getFirst(), ext.getSecond()));
+			}
+		}
+
+		if (initialFolderPath != null) {
+			final File initialFolder = new File(initialFolderPath);
+
+			if (initialFolder.exists()) {
+				if (initialFolder.isDirectory()) {
+					fileChooser.setInitialDirectory(initialFolder);
+				}
+				else if (initialFolder.isFile()) {
+					fileChooser.setInitialDirectory(initialFolder.getParentFile());
+				}
 			}
 		}
 
@@ -510,6 +554,10 @@ public final class GUISupport {
 		}
 
 		return toLoad;
+	}
+
+	public static File showDialogSaveFile(final String name, final List<String> allowedExtensions) {
+		return showDialogSaveFile(Arrays.asList(PairRO.of(name, allowedExtensions)));
 	}
 
 	public static File showDialogSaveFile(final List<PairRO<String, List<String>>> allowedExtensions) {

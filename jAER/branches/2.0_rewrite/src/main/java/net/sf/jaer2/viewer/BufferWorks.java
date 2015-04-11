@@ -4,9 +4,8 @@ import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-import javax.media.opengl.GL;
-
 import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.GL;
 
 public class BufferWorks {
 	public static enum BUFFER_FORMATS {
