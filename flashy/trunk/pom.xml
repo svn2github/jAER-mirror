@@ -4,7 +4,7 @@
 
 	<groupId>net.sf.jaer</groupId>
 	<artifactId>Flashy</artifactId>
-	<version>0.8</version>
+	<version>0.8.1</version>
 	<packaging>jar</packaging>
 
 	<name>Flashy</name>
@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>li.longi</groupId>
 			<artifactId>USBTransferThread</artifactId>
-			<version>0.9.3</version>
+			<version>0.9.4</version>
 		</dependency>
 	</dependencies>
 
@@ -84,7 +84,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
+				<version>2.6</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -97,7 +97,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.4</version>
+				<version>2.5.3</version>
 				<configuration>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
@@ -121,7 +121,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.3</version>
 				<configuration>
 					<showDeprecation>true</showDeprecation>
 				</configuration>
