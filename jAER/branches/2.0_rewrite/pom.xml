@@ -95,7 +95,7 @@
 		<dependency>
 			<groupId>li.longi</groupId>
 			<artifactId>USBTransferThread</artifactId>
-			<version>0.9.4</version>
+			<version>0.9.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jogamp.gluegen</groupId>
