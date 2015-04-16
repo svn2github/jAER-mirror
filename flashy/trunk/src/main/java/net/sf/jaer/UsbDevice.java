@@ -48,7 +48,6 @@ public class UsbDevice {
 		devHandle = new DeviceHandle();
 		if (LibUsb.open(dev, devHandle) != LibUsb.SUCCESS) {
 			devHandle = null;
-			System.out.println("Failopen");
 			throw new Exception("Impossible to open USB device.");
 		}
 
