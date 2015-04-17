@@ -174,8 +174,24 @@ architecture Behavioral of APSADCStateMachine is
 	signal APSADCConfigSyncReg_D, APSADCConfigReg_D : tAPSADCConfig;
 	signal APSADCConfigRegEnable_S                  : std_logic;
 begin
-	-- Forward 30MHz clock directly to external ADC.
-	ExternalADCClock_CO <= Clock_CI;
+	-- Forward 30MHz clock directly to external ADC, if Clock_CI is 30MHz.
+	-- Else generate it using a PLL, for when we drive internal ADC faster.
+	externalADCClockForward : if ADC_CLOCK_FREQ = 30 generate
+	begin
+		ExternalADCClock_CO <= Clock_CI;
+	end generate externalADCClockForward;
+
+	externalADCClockGenerate : if ADC_CLOCK_FREQ /= 30 generate
+	begin
+		externalADCClockPLL : entity work.PLL
+			generic map(
+				CLOCK_FREQ     => ADC_CLOCK_FREQ,
+				OUT_CLOCK_FREQ => 30)
+			port map(
+				Clock_CI    => Clock_CI,
+				Reset_RI    => Reset_RI,
+				OutClock_CO => ExternalADCClock_CO);
+	end generate externalADCClockGenerate;
 
 	adcStartupCounter : entity work.ContinuousCounter
 		generic map(
