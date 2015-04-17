@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>StreamTester_FX3_ECP3</name>
+	<name>StreamTester_ECP3</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -24,7 +24,7 @@
 		<link>
 			<name>common-source</name>
 			<type>2</type>
-			<locationURI>PARENT-2-PROJECT_LOC/SeeBetterLogic/common-source</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/SystemLogic2/common-source</locationURI>
 		</link>
 		<link>
 			<name>pmi_def.vhd</name>

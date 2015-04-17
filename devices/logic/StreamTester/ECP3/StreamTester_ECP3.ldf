@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="StreamTester_ECP3" device="LFE3-70EA-8FN484C" default_implementation="StreamTester_ECP3">
+    <Options/>
+    <Implementation title="StreamTester_ECP3" dir="StreamTester_ECP3" description="StreamTester_ECP3" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="TopLevel" top="TopLevel"/>
+        <Source name="C:/lscc/diamond/3.4_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/ext/FIFORecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/ext/FIFODualClock.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/ext/FIFODualClockDouble.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/ext/PLL.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/support/DFFSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/support/ResetSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/support/EdgeDetector.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/support/ContinuousCounter.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/support/SimpleRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/support/ShiftRegisterModes.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/support/ShiftRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/TopLevel.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="TopLevel"/>
+        </Source>
+        <Source name="private-source/Settings.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/fx3/FX3USBClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/fx3/FX3StateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/fx3/FX3ConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="StreamTester_ECP3.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="StreamTester_ECP3.sty"/>
+</BaliProject>
