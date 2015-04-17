@@ -17,6 +17,8 @@
   <Mappings Location="SystemLogic2_ECP3_DAVIS346a_tcr.dir" Library="not mapped"/>
   <Mappings Location="SystemLogic2_ECP3_DAVIS346b" Library="not mapped"/>
   <Mappings Location="SystemLogic2_ECP3_DAVIS346b_tcr.dir" Library="not mapped"/>
+  <Mappings Location="SystemLogic2_ECP3_DAVIS346cBSI" Library="not mapped"/>
+  <Mappings Location="SystemLogic2_ECP3_DAVIS346cBSI_tcr.dir" Library="not mapped"/>
   <Mappings Location="SystemLogic2_ECP3_DAVIS640" Library="not mapped"/>
   <Mappings Location="SystemLogic2_ECP3_DAVIS640_tcr.dir" Library="not mapped"/>
   <Mappings Location="SystemLogic2_ECP3_DAVISrgb" Library="not mapped"/>
@@ -28,6 +30,7 @@
   <Mappings Location="private-source/Settings_DAVIS240b.vhd" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVIS240c.vhd" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVIS346a.vhd" Library="not mapped"/>
+  <Mappings Location="private-source/Settings_DAVIS346cBSI.vhd" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVIS640.vhd" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVISrgb.vhd" Library="not mapped"/>
   <Mappings Location="Common Libraries/STD" Library="std"/>
