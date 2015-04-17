@@ -85,8 +85,6 @@ architecture Behavioral of D4AAPSADCStateMachine is
 	signal GSCpResetFDTimeCount_S, GSCpResetFDTimeDone_S         : std_logic;
 	signal GSCpResetSettleTimeCount_S, GSCpResetSettleTimeDone_S : std_logic;
 
-	signal ClockSlowDownCount_S, ClockSlowDownDone_S : std_logic;
-
 	-- Communication between row and column state machines. Done through a register for full decoupling.
 	signal ColReadStart_SP, ColReadStart_SN : std_logic;
 	signal ColReadDone_SP, ColReadDone_SN   : std_logic;
@@ -321,19 +319,6 @@ begin
 			Overflow_SO  => GSCpResetSettleTimeDone_S,
 			Data_DO      => open);
 
-	-- TODO: verify minimum for this.
-	clockSlowDownCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => 4)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => ClockSlowDownCount_S,
-			DataLimit_DI => to_unsigned(10, 4),
-			Overflow_SO  => ClockSlowDownDone_S,
-			Data_DO      => open);
-
 	PixelStateMachine : process(PixelState_DP, D4AAPSADCConfigReg_D, APSChipGlobalShutterReg_SP, APSChipOverflowGateReg_SP, APSChipResetReg_SP, APSChipTXGateReg_SP, ColReadDone_SP, ExposureTimeDone_S, FrameDelayDone_S, GSCpResetFDTimeDone_S, GSCpResetSettleTimeDone_S, GSFDResetTimeDone_S, GSPDResetTimeDone_S, GSResetFallTimeDone_S, GSTXFallTimeDone_S, OutFifoControl_SI, RSCpResetTimeDone_S, RSCpSettleTimeDone_S, RSFDSettleTimeDone_S, ReadBSRStatus_DP, RowReadPosition_D, TransferTimeDone_S)
 	begin
 		PixelState_DN <= PixelState_DP; -- Keep current state by default.
@@ -367,7 +352,6 @@ begin
 		GSFDResetTimeCount_S       <= '0';
 		GSCpResetFDTimeCount_S     <= '0';
 		GSCpResetSettleTimeCount_S <= '0';
-		ClockSlowDownCount_S       <= '0';
 
 		-- Keep value by default.
 		APSChipOverflowGateReg_SN  <= APSChipOverflowGateReg_SP;
@@ -434,66 +418,42 @@ begin
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '0';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					PixelState_DN <= stRSReadoutFeedOne1Tick;
-				end if;
+				PixelState_DN <= stRSReadoutFeedOne1Tick;
 
 			when stRSReadoutFeedOne1Tick =>
 				-- Tick 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '1';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					PixelState_DN <= stRSReadoutFeedOne2;
-				end if;
+				PixelState_DN <= stRSReadoutFeedOne2;
 
 			when stRSReadoutFeedOne2 =>
 				--- Feed 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '0';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					PixelState_DN <= stRSReadoutFeedOne2Tick;
-				end if;
+				PixelState_DN <= stRSReadoutFeedOne2Tick;
 
 			when stRSReadoutFeedOne2Tick =>
 				-- Tick 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '1';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					PixelState_DN <= stRSReadoutFeedOne3;
-				end if;
+				PixelState_DN <= stRSReadoutFeedOne3;
 
 			when stRSReadoutFeedOne3 =>
 				-- Feed 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '0';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					PixelState_DN <= stRSReadoutFeedOne3Tick;
-				end if;
+				PixelState_DN <= stRSReadoutFeedOne3Tick;
 
 			when stRSReadoutFeedOne3Tick =>
 				-- Tick 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '1';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					PixelState_DN <= stRSFDSettle;
-				end if;
+				PixelState_DN <= stRSFDSettle;
 
 			when stRSFDSettle =>
 				RSFDSettleTimeCount_S <= '1';
@@ -614,11 +574,7 @@ begin
 				APSChipRowSRInReg_S    <= '0';
 				APSChipRowSRClockReg_C <= '0';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					PixelState_DN <= stRSFeedTick;
-				end if;
+				PixelState_DN <= stRSFeedTick;
 
 			when stRSFeedTick =>
 				APSChipRowSRInReg_S    <= '0';
@@ -629,18 +585,14 @@ begin
 					ReadBSRStatus_DN <= RBSTAT_NEED_ONE;
 				end if;
 
-				ClockSlowDownCount_S <= '1';
+				-- Check if we're done (reads ended).
+				if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
+					PixelState_DN <= stEndFrame;
 
-				if ClockSlowDownDone_S = '1' then
-					-- Check if we're done (reads ended).
-					if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
-						PixelState_DN <= stEndFrame;
-
-						-- Reset ReadB status to initial (need at least a zero), for next frame.
-						ReadBSRStatus_DN <= RBSTAT_NEED_ZERO_ONE;
-					else
-						PixelState_DN <= stRSFDSettle;
-					end if;
+					-- Reset ReadB status to initial (need at least a zero), for next frame.
+					ReadBSRStatus_DN <= RBSTAT_NEED_ZERO_ONE;
+				else
+					PixelState_DN <= stRSFDSettle;
 				end if;
 
 			when stGSIdle =>
@@ -714,48 +666,32 @@ begin
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '0';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					PixelState_DN <= stGSReadoutFeedOneTick;
-				end if;
+				PixelState_DN <= stGSReadoutFeedOneTick;
 
 			when stGSReadoutFeedOneTick =>
 				-- Tick 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '1';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					PixelState_DN <= stGSReadoutFeedZero;
-				end if;
+				PixelState_DN <= stGSReadoutFeedZero;
 
 			when stGSReadoutFeedZero =>
 				-- Feed 0.
 				APSChipRowSRInReg_S    <= '0';
 				APSChipRowSRClockReg_C <= '0';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					PixelState_DN <= stGSReadoutFeedZeroTick;
-				end if;
+				PixelState_DN <= stGSReadoutFeedZeroTick;
 
 			when stGSReadoutFeedZeroTick =>
 				-- Tick 0.
 				APSChipRowSRInReg_S    <= '0';
 				APSChipRowSRClockReg_C <= '1';
 
-				ClockSlowDownCount_S <= '1';
-
-				if ClockSlowDownDone_S = '1' then
-					if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
-						-- Done with reads.
-						PixelState_DN <= stEndFrame;
-					else
-						PixelState_DN <= stGSSample1Start;
-					end if;
+				if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
+					-- Done with reads.
+					PixelState_DN <= stEndFrame;
+				else
+					PixelState_DN <= stGSSample1Start;
 				end if;
 
 			when stGSSample1Start =>
