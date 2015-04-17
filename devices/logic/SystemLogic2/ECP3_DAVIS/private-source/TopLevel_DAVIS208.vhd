@@ -6,14 +6,14 @@ use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
-use work.D4AAPSADCConfigRecords.all;
+use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
 use work.ExtInputConfigRecords.all;
 use work.ChipBiasConfigRecords.all;
 use work.SystemInfoConfigRecords.all;
 use work.FX3ConfigRecords.all;
 
-entity TopLevel_DAVISrgb is
+entity TopLevel_DAVIS208 is
 	port(
 		USBClock_CI                 : in    std_logic;
 		Reset_RI                    : in    std_logic;
@@ -58,10 +58,8 @@ entity TopLevel_DAVISrgb is
 		APSChipColSRIn_SO           : out   std_logic;
 		APSChipRowSRClock_CO        : out   std_logic;
 		APSChipRowSRIn_SO           : out   std_logic;
-		APSChipOverflowGate_SO      : out   std_logic;
-		APSChipTXGate_SO            : out   std_logic;
-		APSChipReset_SO             : out   std_logic;
-		APSChipGlobalShutter_SBO    : out   std_logic;
+		APSChipColMode_DO           : out   std_logic_vector(1 downto 0);
+		APSChipTXGate_SBO           : out   std_logic;
 
 		ExternalADCData_DI          : in    std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
 		ExternalADCOverflow_SI      : in    std_logic;
@@ -89,9 +87,9 @@ entity TopLevel_DAVISrgb is
 		SyncInClock_AI              : in    std_logic;
 		SyncInSwitch_AI             : in    std_logic;
 		SyncInSignal_AI             : in    std_logic);
-end TopLevel_DAVISrgb;
+end TopLevel_DAVIS208;
 
-architecture Structural of TopLevel_DAVISrgb is
+architecture Structural of TopLevel_DAVIS208 is
 	signal USBReset_R   : std_logic;
 	signal LogicClock_C : std_logic;
 	signal LogicReset_R : std_logic;
@@ -137,7 +135,7 @@ architecture Structural of TopLevel_DAVISrgb is
 
 	signal MultiplexerConfigParamOutput_D : std_logic_vector(31 downto 0);
 	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
-	signal D4AAPSADCConfigParamOutput_D   : std_logic_vector(31 downto 0);
+	signal APSADCConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
 	signal ExtInputConfigParamOutput_D    : std_logic_vector(31 downto 0);
 	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
@@ -147,7 +145,7 @@ architecture Structural of TopLevel_DAVISrgb is
 
 	signal MultiplexerConfig_D, MultiplexerConfigReg_D, MultiplexerConfigReg2_D : tMultiplexerConfig;
 	signal DVSAERConfig_D, DVSAERConfigReg_D, DVSAERConfigReg2_D                : tDVSAERConfig;
-	signal D4AAPSADCConfig_D, D4AAPSADCConfigReg_D, D4AAPSADCConfigReg2_D       : tD4AAPSADCConfig;
+	signal APSADCConfig_D, APSADCConfigReg_D, APSADCConfigReg2_D                : tAPSADCConfig;
 	signal IMUConfig_D, IMUConfigReg_D, IMUConfigReg2_D                         : tIMUConfig;
 	signal ExtInputConfig_D, ExtInputConfigReg_D, ExtInputConfigReg2_D          : tExtInputConfig;
 	signal FX3Config_D, FX3ConfigReg_D, FX3ConfigReg2_D                         : tFX3Config;
@@ -203,7 +201,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => DVSAERConfig_D.Run_S or D4AAPSADCConfig_D.Run_S or MultiplexerConfig_D.ForceChipBiasEnable_S,
+			Input_SI(0)  => DVSAERConfig_D.Run_S or APSADCConfig_D.Run_S or MultiplexerConfig_D.ForceChipBiasEnable_S,
 			Output_SO(0) => ChipBiasEnable_SO);
 
 	-- Wire all LEDs.
@@ -421,45 +419,47 @@ begin
 			FifoData_DI    => APSADCFifoDataIn_D,
 			FifoData_DO    => APSADCFifoDataOut_D);
 
-	apsAdcSM : entity work.D4AAPSADCStateMachine
+	apsAdcSM : entity work.APSADCStateMachine
 		generic map(
 			ENABLE_QUAD_ROI => false)
 		port map(
-			Clock_CI                 => ADCClock_C,
-			Reset_RI                 => ADCReset_R,
-			OutFifoControl_SI        => APSADCFifoControlOut_S.WriteSide,
-			OutFifoControl_SO        => APSADCFifoControlIn_S.WriteSide,
-			OutFifoData_DO           => APSADCFifoDataIn_D,
-			APSChipColSRClock_CO     => APSChipColSRClock_CO,
-			APSChipColSRIn_SO        => APSChipColSRIn_SO,
-			APSChipRowSRClock_CO     => APSChipRowSRClock_CO,
-			APSChipRowSRIn_SO        => APSChipRowSRIn_SO,
-			APSChipOverflowGate_SO   => APSChipOverflowGate_SO,
-			APSChipTXGate_SO         => APSChipTXGate_SO,
-			APSChipReset_SO          => APSChipReset_SO,
-			APSChipGlobalShutter_SBO => APSChipGlobalShutter_SBO,
-			ChipADCData_DI           => ChipADCData_DI,
-			ChipADCRampClear_SO      => ChipADCRampClear_SO,
-			ChipADCRampClock_CO      => ChipADCRampClock_CO,
-			ChipADCRampBitIn_SO      => ChipADCRampBitIn_SO,
-			ChipADCScanClock_CO      => ChipADCScanClock_CO,
-			ChipADCScanControl_SO    => ChipADCScanControl_SO,
-			ChipADCSample_SO         => ChipADCSample_SO,
-			ChipADCGrayCounter_DO    => ChipADCGrayCounter_DO,
-			D4AAPSADCConfig_DI       => D4AAPSADCConfigReg2_D);
+			Clock_CI                    => ADCClock_C,
+			Reset_RI                    => ADCReset_R,
+			OutFifoControl_SI           => APSADCFifoControlOut_S.WriteSide,
+			OutFifoControl_SO           => APSADCFifoControlIn_S.WriteSide,
+			OutFifoData_DO              => APSADCFifoDataIn_D,
+			APSChipColSRClock_CO        => APSChipColSRClock_CO,
+			APSChipColSRIn_SO           => APSChipColSRIn_SO,
+			APSChipRowSRClock_CO        => APSChipRowSRClock_CO,
+			APSChipRowSRIn_SO           => APSChipRowSRIn_SO,
+			APSChipColMode_DO           => APSChipColMode_DO,
+			APSChipTXGate_SBO           => APSChipTXGate_SBO,
+			ExternalADCData_DI          => ExternalADCData_DI,
+			ExternalADCClock_CO         => ExternalADCClock_CO,
+			ExternalADCOutputEnable_SBO => ExternalADCOutputEnable_SBO,
+			ExternalADCStandby_SO       => ExternalADCStandby_SO,
+			ChipADCData_DI              => ChipADCData_DI,
+			ChipADCRampClear_SO         => ChipADCRampClear_SO,
+			ChipADCRampClock_CO         => ChipADCRampClock_CO,
+			ChipADCRampBitIn_SO         => ChipADCRampBitIn_SO,
+			ChipADCScanClock_CO         => ChipADCScanClock_CO,
+			ChipADCScanControl_SO       => ChipADCScanControl_SO,
+			ChipADCSample_SO            => ChipADCSample_SO,
+			ChipADCGrayCounter_DO       => ChipADCGrayCounter_DO,
+			APSADCConfig_DI             => APSADCConfigReg2_D);
 
-	apsAdcSPIConfig : entity work.D4AAPSADCSPIConfig
+	apsAdcSPIConfig : entity work.APSADCSPIConfig
 		generic map(
 			ENABLE_QUAD_ROI => false)
 		port map(
-			Clock_CI                      => LogicClock_C,
-			Reset_RI                      => LogicReset_R,
-			D4AAPSADCConfig_DO            => D4AAPSADCConfig_D,
-			ConfigModuleAddress_DI        => ConfigModuleAddress_D,
-			ConfigParamAddress_DI         => ConfigParamAddress_D,
-			ConfigParamInput_DI           => ConfigParamInput_D,
-			ConfigLatchInput_SI           => ConfigLatchInput_S,
-			D4AAPSADCConfigParamOutput_DO => D4AAPSADCConfigParamOutput_D);
+			Clock_CI                   => LogicClock_C,
+			Reset_RI                   => LogicReset_R,
+			APSADCConfig_DO            => APSADCConfig_D,
+			ConfigModuleAddress_DI     => ConfigModuleAddress_D,
+			ConfigParamAddress_DI      => ConfigParamAddress_D,
+			ConfigParamInput_DI        => ConfigParamInput_D,
+			ConfigLatchInput_SI        => ConfigLatchInput_S,
+			APSADCConfigParamOutput_DO => APSADCConfigParamOutput_D);
 
 	imuFifo : entity work.FIFO
 		generic map(
@@ -550,28 +550,28 @@ begin
 		if LogicReset_R = '1' then
 			MultiplexerConfigReg2_D <= tMultiplexerConfigDefault;
 			DVSAERConfigReg2_D      <= tDVSAERConfigDefault;
-			D4AAPSADCConfigReg2_D   <= tD4AAPSADCConfigDefault;
+			APSADCConfigReg2_D      <= tAPSADCConfigDefault;
 			IMUConfigReg2_D         <= tIMUConfigDefault;
 			ExtInputConfigReg2_D    <= tExtInputConfigDefault;
 			FX3ConfigReg2_D         <= tFX3ConfigDefault;
 
 			MultiplexerConfigReg_D <= tMultiplexerConfigDefault;
 			DVSAERConfigReg_D      <= tDVSAERConfigDefault;
-			D4AAPSADCConfigReg_D   <= tD4AAPSADCConfigDefault;
+			APSADCConfigReg_D      <= tAPSADCConfigDefault;
 			IMUConfigReg_D         <= tIMUConfigDefault;
 			ExtInputConfigReg_D    <= tExtInputConfigDefault;
 			FX3ConfigReg_D         <= tFX3ConfigDefault;
 		elsif rising_edge(LogicClock_C) then
 			MultiplexerConfigReg2_D <= MultiplexerConfigReg_D;
 			DVSAERConfigReg2_D      <= DVSAERConfigReg_D;
-			D4AAPSADCConfigReg2_D   <= D4AAPSADCConfigReg_D;
+			APSADCConfigReg2_D      <= APSADCConfigReg_D;
 			IMUConfigReg2_D         <= IMUConfigReg_D;
 			ExtInputConfigReg2_D    <= ExtInputConfigReg_D;
 			FX3ConfigReg2_D         <= FX3ConfigReg_D;
 
 			MultiplexerConfigReg_D <= MultiplexerConfig_D;
 			DVSAERConfigReg_D      <= DVSAERConfig_D;
-			D4AAPSADCConfigReg_D   <= D4AAPSADCConfig_D;
+			APSADCConfigReg_D      <= APSADCConfig_D;
 			IMUConfigReg_D         <= IMUConfig_D;
 			ExtInputConfigReg_D    <= ExtInputConfig_D;
 			FX3ConfigReg_D         <= FX3Config_D;
@@ -592,7 +592,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, D4AAPSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtInputConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtInputConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -604,8 +604,8 @@ begin
 			when DVSAERCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= DVSAERConfigParamOutput_D;
 
-			when D4AAPSADCCONFIG_MODULE_ADDRESS =>
-				ConfigParamOutput_D <= D4AAPSADCConfigParamOutput_D;
+			when APSADCCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= APSADCConfigParamOutput_D;
 
 			when IMUCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= IMUConfigParamOutput_D;
