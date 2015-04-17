@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.2" title="SeeBetterLogic_FX3_ECP3_DAVIS240c" device="LFE3-70EA-8FN484C" default_implementation="SeeBetterLogic_FX3_ECP3_DAVIS240c">
+<BaliProject version="3.2" title="SystemLogic2_ECP3_DAVIS128" device="LFE3-70EA-8FN484C" default_implementation="SystemLogic2_ECP3_DAVIS128">
     <Options/>
-    <Implementation title="SeeBetterLogic_FX3_ECP3_DAVIS240c" dir="SeeBetterLogic_FX3_ECP3_DAVIS240c" description="SeeBetterLogic_FX3_ECP3_DAVIS240c" synthesis="synplify" default_strategy="Strategy1">
+    <Implementation title="SystemLogic2_ECP3_DAVIS128" dir="SystemLogic2_ECP3_DAVIS128" description="SystemLogic2_ECP3_DAVIS128" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="TopLevel" top="TopLevel"/>
         <Source name="C:/lscc/diamond/3.4_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
             <Options/>
@@ -63,7 +63,7 @@
         <Source name="private-source/TopLevel_DAVIS240.vhd" type="VHDL" type_short="VHDL">
             <Options top_module="TopLevel"/>
         </Source>
-        <Source name="private-source/Settings_DAVIS240c.vhd" type="VHDL" type_short="VHDL">
+        <Source name="private-source/Settings_DAVIS128.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
@@ -147,7 +147,7 @@
         <Source name="../common-source/chipdefs/ChipGeometry.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/chipdefs/davis240/DAVIS240c.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/chipdefs/davis128/DAVIS128.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/ChipBiasSelector.vhd" type="VHDL" type_short="VHDL">
@@ -201,9 +201,9 @@
         <Source name="../common-source/chipdefs/davisRGB/DAVISrgbConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="SeeBetterLogic_FX3_ECP3_DAVIS240c.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="SystemLogic2_ECP3_DAVIS128.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
-    <Strategy name="Strategy1" file="SeeBetterLogic_FX3_ECP3.sty"/>
+    <Strategy name="Strategy1" file="SystemLogic2_ECP3.sty"/>
 </BaliProject>
