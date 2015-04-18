@@ -1,10 +1,9 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.ChipGeometry.all;
 
 -- Chip to be used for this logic.
-use work.DAVIS128.all;
+use work.AERCorrFilter.all;
 
 package Settings is
 	constant DEVICE_FAMILY : string := "ECP3";
@@ -15,23 +14,12 @@ package Settings is
 
 	constant LOGIC_CLOCK_FREQ : integer := 120; -- PLL can generate between 5 and 500 MHz here.
 
-	constant ADC_CLOCK_FREQ : integer := 30;
-
 	constant USBLOGIC_FIFO_SIZE               : integer := 1024;
 	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE  : integer := USB_BURST_WRITE_LENGTH;
 	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE   : integer := 2;
 	constant DVSAER_FIFO_SIZE                 : integer := 1024;
 	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE    : integer := 2;
 	constant DVSAER_FIFO_ALMOST_FULL_SIZE     : integer := 2;
-	constant APSADC_FIFO_SIZE                 : integer := 1024;
-	constant APSADC_FIFO_ALMOST_EMPTY_SIZE    : integer := 16;
-	constant APSADC_FIFO_ALMOST_FULL_SIZE     : integer := 2;
-	constant IMU_FIFO_SIZE                    : integer := 34; -- two samples (2x17)
-	constant IMU_FIFO_ALMOST_EMPTY_SIZE       : integer := 17; -- one sample (1x17)
-	constant IMU_FIFO_ALMOST_FULL_SIZE        : integer := 17; -- one sample (1x17)
-	constant EXT_INPUT_FIFO_SIZE              : integer := 8;
-	constant EXT_INPUT_FIFO_ALMOST_EMPTY_SIZE : integer := 2;
-	constant EXT_INPUT_FIFO_ALMOST_FULL_SIZE  : integer := 2;
 
 	constant LOGIC_VERSION : unsigned(3 downto 0) := to_unsigned(1, 4);
 
@@ -50,19 +38,5 @@ package Settings is
 	-- that common set of variables here and assign them their values from ChipDef.vhd.
 	constant CHIP_IDENTIFIER : unsigned(3 downto 0) := CHIP_IDENTIFIER;
 
-	constant CHIP_HAS_GLOBAL_SHUTTER : std_logic := CHIP_HAS_GLOBAL_SHUTTER;
-	constant CHIP_HAS_INTEGRATED_ADC : std_logic := CHIP_HAS_INTEGRATED_ADC;
-
-	constant CHIP_ORIENTATION      : std_logic_vector(1 downto 0) := ORIENTATION_STRAIGHT;
-	constant CHIP_APS_STREAM_START : std_logic_vector(1 downto 0) := APS_STREAM_START_LOWER_LEFT;
-	constant CHIP_DVS_ORIGIN_POINT : std_logic_vector(1 downto 0) := DVS_ORIGIN_LOWER_LEFT;
-
-	constant CHIP_APS_SIZE_COLUMNS : unsigned(CHIP_APS_SIZE_COLUMNS'range) := CHIP_APS_SIZE_COLUMNS;
-	constant CHIP_APS_SIZE_ROWS    : unsigned(CHIP_APS_SIZE_ROWS'range)    := CHIP_APS_SIZE_ROWS;
-
-	constant CHIP_DVS_SIZE_COLUMNS : unsigned(CHIP_DVS_SIZE_COLUMNS'range) := CHIP_DVS_SIZE_COLUMNS;
-	constant CHIP_DVS_SIZE_ROWS    : unsigned(CHIP_DVS_SIZE_ROWS'range)    := CHIP_DVS_SIZE_ROWS;
-
-	constant DVS_AER_BUS_WIDTH : integer := DVS_AER_BUS_WIDTH;
-	constant APS_ADC_BUS_WIDTH : integer := APS_ADC_BUS_WIDTH;
+	constant AER_BUS_WIDTH : integer := AER_BUS_WIDTH;
 end Settings;
