@@ -434,10 +434,10 @@ begin
 			APSChipRowSRIn_SO           => APSChipRowSRIn_SO,
 			APSChipColMode_DO           => APSChipColMode_DO,
 			APSChipTXGate_SBO           => APSChipTXGate_SBO,
-			ExternalADCData_DI          => ExternalADCData_DI,
-			ExternalADCClock_CO         => ExternalADCClock_CO,
-			ExternalADCOutputEnable_SBO => ExternalADCOutputEnable_SBO,
-			ExternalADCStandby_SO       => ExternalADCStandby_SO,
+			ExternalADCData_DI          => (others => '0'),
+			ExternalADCClock_CO         => open,
+			ExternalADCOutputEnable_SBO => open,
+			ExternalADCStandby_SO       => open,
 			ChipADCData_DI              => ChipADCData_DI,
 			ChipADCRampClear_SO         => ChipADCRampClear_SO,
 			ChipADCRampClock_CO         => ChipADCRampClock_CO,
@@ -645,4 +645,34 @@ begin
 			ConfigLatchInput_SI      => ConfigLatchInput_S,
 			BiasConfigParamOutput_DO => BiasConfigParamOutput_D,
 			ChipConfigParamOutput_DO => ChipConfigParamOutput_D);
+
+	externalADCClockPLL : entity work.PLL
+		generic map(
+			CLOCK_FREQ     => LOGIC_CLOCK_FREQ,
+			OUT_CLOCK_FREQ => 10)
+		port map(
+			Clock_CI    => LogicClock_C,
+			Reset_RI    => LogicReset_R,
+			OutClock_CO => ExternalADCClock_CO);
+
+	davis208BiasControl : process(LogicClock_C, LogicReset_R) is
+	begin
+		if LogicReset_R = '1' then
+			ExternalADCOutputEnable_SBO <= '1';
+			ExternalADCStandby_SO       <= '1';
+		elsif rising_edge(LogicClock_C) then
+			ExternalADCOutputEnable_SBO <= not MultiplexerConfigReg2_D.Run_S;
+			ExternalADCStandby_SO       <= not MultiplexerConfigReg2_D.Run_S;
+
+			if unsigned(ExternalADCData_DI) >= 768 then
+				-- TODO: change bias VrefSSNb.
+			elsif unsigned(ExternalADCData_DI) >= 512 then
+			
+			elsif unsigned(ExternalADCData_DI) >= 256 then
+			
+			else
+				
+			end if;
+		end if;
+	end process davis208BiasControl;
 end Structural;
