@@ -5,6 +5,31 @@
   <Mappings Location="Common Libraries" Library="not mapped"/>
   <Mappings Location="SystemLogic2_ECP3_AERCorrFilter" Library="not mapped"/>
   <Mappings Location="SystemLogic2_ECP3_AERCorrFilter_tcr.dir" Library="not mapped"/>
+  <Mappings Location="common-source/APSADCConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/APSADCSPIConfig.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/APSADCStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ChipBiasConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ChipBiasSelector.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/D4AAPSADCConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/D4AAPSADCSPIConfig.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/D4AAPSADCStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/DVSAERConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/DVSAERSPIConfig.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/DVSAERStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/IMUConfigRecords.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/IMUSPIConfig.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/IMUStateMachine.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/cochlea4ear" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/cochlealp" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/davis128" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/davis208" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/davis240" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/davis346" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/davis640" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/davisRGB" Library="not mapped"/>
+  <Mappings Location="common-source/ext/FIFODualClockDoubleECP3/FIFODualClockDoubleECP3.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ext/FIFODualClockDoubleECP3/FIFODualClockDoubleECP3_tmpl.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/ext/FIFODualClockDoubleECP3/tb_FIFODualClockDoubleECP3_tmpl.vhd" Library="not mapped"/>
   <Mappings Location="Common Libraries/STD" Library="std"/>
   <Mappings Location="" Library="work"/>
 </com.sigasi.hdt.shared.librarymapping.model:LibraryMappings>

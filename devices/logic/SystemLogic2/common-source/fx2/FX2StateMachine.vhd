@@ -32,7 +32,7 @@ end FX2Statemachine;
 architecture Behavioral of FX2Statemachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stFullFlagWait1, stFullFlagWait2, stIdle, stEarlyPacket, stPrepareWrite, stWriteFirst, stWriteMiddle, stWriteLast, stPrepareSwitch, stSwitch);
+	type tState is (stFullFlagWait1, stFullFlagWait2, stIdle, stPrepareEarlyPacket, stEarlyPacket, stPrepareWrite, stWriteFirst, stWriteMiddle, stWriteLast, stPrepareSwitch, stSwitch);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
@@ -120,7 +120,7 @@ begin
 				if FX2ConfigReg_D.Run_S = '1' then
 					if USBFifoEP2Full_SI = '0' then
 						if EarlyPacketNotify_S = '1' then
-							State_DN <= stEarlyPacket;
+							State_DN <= stPrepareEarlyPacket;
 						elsif InFifoControl_SI.AlmostEmpty_S = '0' then
 							State_DN <= stPrepareWrite;
 						end if;
@@ -135,18 +135,19 @@ begin
 					EarlyPacketClear_S <= '1';
 				end if;
 
-			when stEarlyPacket =>
-				-- Commit short packet.
-				State_DN            <= stSwitch;
-				USBFifoPktEndReg_SB <= '0';
+			when stPrepareEarlyPacket =>
+				State_DN <= stEarlyPacket;
 
 				-- If available, read one element more and then send off the short packet.
-				-- FX2 has no limitations on asserting PKTEND concurrently with or without SLWR.
-				-- This improves efficiency by reusing this cycle to also write data if possible.
 				if InFifoControl_SI.Empty_S = '0' then
 					InFifoControl_SO.Read_S <= '1';
 					USBFifoWriteReg_SB      <= '0';
 				end if;
+
+			when stEarlyPacket =>
+				-- Commit short packet.
+				State_DN            <= stSwitch;
+				USBFifoPktEndReg_SB <= '0';
 
 			when stPrepareWrite =>
 				State_DN                <= stWriteFirst;
