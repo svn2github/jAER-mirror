@@ -156,7 +156,7 @@ begin
 	end generate davis240ChipBias;
 
 	-- DAVIS640 uses this too, since it has the same biases and chip config chain as DAVIS346.
-	davis346ChipBias : if CHIP_IDENTIFIER = 4 or CHIP_IDENTIFIER = 5 or CHIP_IDENTIFIER = 6 generate
+	davis346ChipBias : if CHIP_IDENTIFIER = 4 or CHIP_IDENTIFIER = 5 or CHIP_IDENTIFIER = 6 or CHIP_IDENTIFIER = 9 generate
 		signal DAVIS128BiasConfig_D, DAVIS128BiasConfigReg_D : tDAVIS128BiasConfig;
 		signal DAVIS346ChipConfig_D, DAVIS346ChipConfigReg_D : tDAVIS346ChipConfig;
 	begin
