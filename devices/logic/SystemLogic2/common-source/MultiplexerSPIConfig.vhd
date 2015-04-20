@@ -51,21 +51,21 @@ begin
 				MultiplexerConfigReg_DN.ForceChipBiasEnable_S <= MultiplexerInput_DP(0);
 				MultiplexerOutput_DN(0)                       <= MultiplexerConfigReg_DP.ForceChipBiasEnable_S;
 
-			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropDVSOnTransferStall_S =>
-				MultiplexerConfigReg_DN.DropDVSOnTransferStall_S <= MultiplexerInput_DP(0);
-				MultiplexerOutput_DN(0)                          <= MultiplexerConfigReg_DP.DropDVSOnTransferStall_S;
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropInput1OnTransferStall_S =>
+				MultiplexerConfigReg_DN.DropInput1OnTransferStall_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                             <= MultiplexerConfigReg_DP.DropInput1OnTransferStall_S;
 
-			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropAPSOnTransferStall_S =>
-				MultiplexerConfigReg_DN.DropAPSOnTransferStall_S <= MultiplexerInput_DP(0);
-				MultiplexerOutput_DN(0)                          <= MultiplexerConfigReg_DP.DropAPSOnTransferStall_S;
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropInput2OnTransferStall_S =>
+				MultiplexerConfigReg_DN.DropInput2OnTransferStall_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                             <= MultiplexerConfigReg_DP.DropInput2OnTransferStall_S;
 
-			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropIMUOnTransferStall_S =>
-				MultiplexerConfigReg_DN.DropIMUOnTransferStall_S <= MultiplexerInput_DP(0);
-				MultiplexerOutput_DN(0)                          <= MultiplexerConfigReg_DP.DropIMUOnTransferStall_S;
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropInput3OnTransferStall_S =>
+				MultiplexerConfigReg_DN.DropInput3OnTransferStall_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                             <= MultiplexerConfigReg_DP.DropInput3OnTransferStall_S;
 
-			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropExtInputOnTransferStall_S =>
-				MultiplexerConfigReg_DN.DropExtInputOnTransferStall_S <= MultiplexerInput_DP(0);
-				MultiplexerOutput_DN(0)                               <= MultiplexerConfigReg_DP.DropExtInputOnTransferStall_S;
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.DropInput4OnTransferStall_S =>
+				MultiplexerConfigReg_DN.DropInput4OnTransferStall_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                             <= MultiplexerConfigReg_DP.DropInput4OnTransferStall_S;
 
 			when others => null;
 		end case;

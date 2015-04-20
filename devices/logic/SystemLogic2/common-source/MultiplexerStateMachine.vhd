@@ -7,48 +7,52 @@ use work.MultiplexerConfigRecords.all;
 
 entity MultiplexerStateMachine is
 	port(
-		Clock_CI               : in  std_logic;
-		Reset_RI               : in  std_logic;
+		Clock_CI             : in  std_logic;
+		Reset_RI             : in  std_logic;
 
 		-- Multiple devices synchronization support.
-		SyncInClock_CI         : in  std_logic;
-		SyncOutClock_CO        : out std_logic;
+		SyncInClock_CI       : in  std_logic;
+		SyncOutClock_CO      : out std_logic;
 
-		DeviceIsMaster_SO      : out std_logic;
+		DeviceIsMaster_SO    : out std_logic;
 
 		-- Fifo output (to USB)
-		OutFifoControl_SI      : in  tFromFifoWriteSide;
-		OutFifoControl_SO      : out tToFifoWriteSide;
-		OutFifoData_DO         : out std_logic_vector(FULL_EVENT_WIDTH - 1 downto 0);
+		OutFifoControl_SI    : in  tFromFifoWriteSide;
+		OutFifoControl_SO    : out tToFifoWriteSide;
+		OutFifoData_DO       : out std_logic_vector(FULL_EVENT_WIDTH - 1 downto 0);
 
-		-- Fifo input (from DVS AER)
-		DVSAERFifoControl_SI   : in  tFromFifoReadSide;
-		DVSAERFifoControl_SO   : out tToFifoReadSide;
-		DVSAERFifoData_DI      : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		-- Fifo input (from Input1)
+		In1FifoControl_SI    : in  tFromFifoReadSide;
+		In1FifoControl_SO    : out tToFifoReadSide;
+		In1FifoData_DI       : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		In1Timestamp_SI      : in  std_logic;
 
-		-- Fifo input (from APS ADC)
-		APSADCFifoControl_SI   : in  tFromFifoReadSide;
-		APSADCFifoControl_SO   : out tToFifoReadSide;
-		APSADCFifoData_DI      : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		-- Fifo input (from Input2)
+		In2FifoControl_SI    : in  tFromFifoReadSide;
+		In2FifoControl_SO    : out tToFifoReadSide;
+		In2FifoData_DI       : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		In2Timestamp_SI      : in  std_logic;
 
-		-- Fifo input (from IMU)
-		IMUFifoControl_SI      : in  tFromFifoReadSide;
-		IMUFifoControl_SO      : out tToFifoReadSide;
-		IMUFifoData_DI         : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		-- Fifo input (from Input3)
+		In3FifoControl_SI    : in  tFromFifoReadSide;
+		In3FifoControl_SO    : out tToFifoReadSide;
+		In3FifoData_DI       : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		In3Timestamp_SI      : in  std_logic;
 
-		-- Fifo input (from External Input)
-		ExtInputFifoControl_SI : in  tFromFifoReadSide;
-		ExtInputFifoControl_SO : out tToFifoReadSide;
-		ExtInputFifoData_DI    : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		-- Fifo input (from Input4)
+		In4FifoControl_SI    : in  tFromFifoReadSide;
+		In4FifoControl_SO    : out tToFifoReadSide;
+		In4FifoData_DI       : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		In4Timestamp_SI      : in  std_logic;
 
 		-- Configuration input
-		MultiplexerConfig_DI   : in  tMultiplexerConfig);
+		MultiplexerConfig_DI : in  tMultiplexerConfig);
 end MultiplexerStateMachine;
 
 architecture Behavioral of MultiplexerStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareDVSAER, stDVSAER, stPrepareAPSADC, stAPSADC, stPrepareIMU, stIMU, stPrepareExtInput, stExtInput, stDropData);
+	type tState is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareInput1, stInput1, stPrepareInput2, stInput2, stPrepareInput3, stInput3, stPrepareInput4, stInput4, stDropData);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
@@ -160,7 +164,7 @@ begin
 			ChangeDetected_SO     => TimestampChanged_S,
 			ChangeAcknowledged_SI => TimestampSent_S);
 
-	p_memoryless : process(State_DP, StateTimestampNext_DP, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, HighestTimestampSent_SP, TimestampChanged_S, OutFifoControl_SI, DVSAERFifoControl_SI, DVSAERFifoData_DI, APSADCFifoControl_SI, APSADCFifoData_DI, IMUFifoControl_SI, IMUFifoData_DI, ExtInputFifoControl_SI, ExtInputFifoData_DI, MultiplexerConfigReg_D)
+	p_memoryless : process(State_DP, StateTimestampNext_DP, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, HighestTimestampSent_SP, TimestampChanged_S, OutFifoControl_SI, In1FifoControl_SI, In1FifoData_DI, In2FifoControl_SI, In2FifoData_DI, In3FifoControl_SI, In3FifoData_DI, In4FifoControl_SI, In4FifoData_DI, MultiplexerConfigReg_D, In1Timestamp_SI, In2Timestamp_SI, In3Timestamp_SI, In4Timestamp_SI)
 	begin
 		State_DN              <= State_DP; -- Keep current state by default.
 		StateTimestampNext_DN <= stTimestamp;
@@ -174,10 +178,10 @@ begin
 		OutFifoControl_SO.Write_S <= '0';
 		OutFifoData_DO            <= (others => '0');
 
-		DVSAERFifoControl_SO.Read_S   <= '0';
-		APSADCFifoControl_SO.Read_S   <= '0';
-		IMUFifoControl_SO.Read_S      <= '0';
-		ExtInputFifoControl_SO.Read_S <= '0';
+		In1FifoControl_SO.Read_S <= '0';
+		In2FifoControl_SO.Read_S <= '0';
+		In3FifoControl_SO.Read_S <= '0';
+		In4FifoControl_SO.Read_S <= '0';
 
 		case State_DP is
 			when stIdle =>
@@ -196,22 +200,22 @@ begin
 							-- prioritize emptying these over others.
 							-- First check the AlmostEmpty flags, which are set
 							-- to indicate a higher fullness level.
-							if DVSAERFifoControl_SI.AlmostEmpty_S = '0' then
-								State_DN <= stPrepareDVSAER;
-							elsif APSADCFifoControl_SI.AlmostEmpty_S = '0' then
-								State_DN <= stPrepareAPSADC;
-							elsif IMUFifoControl_SI.AlmostEmpty_S = '0' then
-								State_DN <= stPrepareIMU;
-							elsif ExtInputFifoControl_SI.AlmostEmpty_S = '0' then
-								State_DN <= stPrepareExtInput;
-							elsif DVSAERFifoControl_SI.Empty_S = '0' then
-								State_DN <= stPrepareDVSAER;
-							elsif APSADCFifoControl_SI.Empty_S = '0' then
-								State_DN <= stPrepareAPSADC;
-							elsif IMUFifoControl_SI.Empty_S = '0' then
-								State_DN <= stPrepareIMU;
-							elsif ExtInputFifoControl_SI.Empty_S = '0' then
-								State_DN <= stPrepareExtInput;
+							if In1FifoControl_SI.AlmostEmpty_S = '0' then
+								State_DN <= stPrepareInput1;
+							elsif In2FifoControl_SI.AlmostEmpty_S = '0' then
+								State_DN <= stPrepareInput2;
+							elsif In3FifoControl_SI.AlmostEmpty_S = '0' then
+								State_DN <= stPrepareInput3;
+							elsif In4FifoControl_SI.AlmostEmpty_S = '0' then
+								State_DN <= stPrepareInput4;
+							elsif In1FifoControl_SI.Empty_S = '0' then
+								State_DN <= stPrepareInput1;
+							elsif In2FifoControl_SI.Empty_S = '0' then
+								State_DN <= stPrepareInput2;
+							elsif In3FifoControl_SI.Empty_S = '0' then
+								State_DN <= stPrepareInput3;
+							elsif In4FifoControl_SI.Empty_S = '0' then
+								State_DN <= stPrepareInput4;
 							end if;
 						else
 							-- No space for an event and its timestamp, drop it.
@@ -224,20 +228,20 @@ begin
 					end if;
 				else
 					-- If not running, just drain the FIFOs.
-					if DVSAERFifoControl_SI.Empty_S = '0' then
-						DVSAERFifoControl_SO.Read_S <= '1';
+					if In1FifoControl_SI.Empty_S = '0' then
+						In1FifoControl_SO.Read_S <= '1';
 					end if;
 
-					if APSADCFifoControl_SI.Empty_S = '0' then
-						APSADCFifoControl_SO.Read_S <= '1';
+					if In2FifoControl_SI.Empty_S = '0' then
+						In2FifoControl_SO.Read_S <= '1';
 					end if;
 
-					if IMUFifoControl_SI.Empty_S = '0' then
-						IMUFifoControl_SO.Read_S <= '1';
+					if In3FifoControl_SI.Empty_S = '0' then
+						In3FifoControl_SO.Read_S <= '1';
 					end if;
 
-					if ExtInputFifoControl_SI.Empty_S = '0' then
-						ExtInputFifoControl_SO.Read_S <= '1';
+					if In4FifoControl_SI.Empty_S = '0' then
+						In4FifoControl_SO.Read_S <= '1';
 					end if;
 				end if;
 
@@ -301,80 +305,73 @@ begin
 
 				State_DN <= StateTimestampNext_DP;
 
-			when stPrepareDVSAER =>
-				-- The next event on the DVS AER fifo has just been read and
-				-- the data is available on the output bus. First, let's
-				-- examine it and see if we need to inject a timestamp,
-				-- if it's an Y (row) address.
-				if DVSAERFifoData_DI(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_Y_ADDR then
+			when stPrepareInput1 =>
+				-- Decide if event needs to be timestamped.
+				if In1Timestamp_SI = '1' then
 					State_DN              <= stTimestamp;
-					StateTimestampNext_DN <= stDVSAER;
+					StateTimestampNext_DN <= stInput1;
 				else
-					State_DN <= stDVSAER;
+					State_DN <= stInput1;
 				end if;
 
-			when stDVSAER =>
+			when stInput1 =>
 				-- Write out current event.
-				OutFifoData_DO            <= EVENT_CODE_EVENT & DVSAERFifoData_DI;
+				OutFifoData_DO            <= EVENT_CODE_EVENT & In1FifoData_DI;
 				OutFifoControl_SO.Write_S <= '1';
 
-				DVSAERFifoControl_SO.Read_S <= '1';
-				State_DN                    <= stIdle;
-
-			when stPrepareAPSADC =>
-				-- The next event on the APS ADC fifo has just been read and
-				-- the data is available on the output bus. First, let's
-				-- examine it and see if we need to inject a timestamp,
-				-- if it's one of the special events.
-				if APSADCFifoData_DI(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_SPECIAL then
-					State_DN              <= stTimestamp;
-					StateTimestampNext_DN <= stAPSADC;
-				else
-					State_DN <= stAPSADC;
-				end if;
-
-			when stAPSADC =>
-				-- Write out current event.
-				OutFifoData_DO            <= EVENT_CODE_EVENT & APSADCFifoData_DI;
-				OutFifoControl_SO.Write_S <= '1';
-
-				APSADCFifoControl_SO.Read_S <= '1';
-				State_DN                    <= stIdle;
-
-			when stPrepareIMU =>
-				-- The next event on the IMU fifo has just been read and
-				-- the data is available on the output bus. First, let's
-				-- examine it and see if we need to inject a timestamp,
-				-- if it's one of the special events (Gyro axes, Accel axes, ...).
-				if IMUFifoData_DI(EVENT_DATA_WIDTH_MAX - 1 downto 0) = EVENT_CODE_SPECIAL_IMU_START6 then
-					State_DN              <= stTimestamp;
-					StateTimestampNext_DN <= stIMU;
-				else
-					State_DN <= stIMU;
-				end if;
-
-			when stIMU =>
-				-- Write out current event.
-				OutFifoData_DO            <= EVENT_CODE_EVENT & IMUFifoData_DI;
-				OutFifoControl_SO.Write_S <= '1';
-
-				IMUFifoControl_SO.Read_S <= '1';
+				In1FifoControl_SO.Read_S <= '1';
 				State_DN                 <= stIdle;
 
-			when stPrepareExtInput =>
-				-- The next event on the APS ADC fifo has just been read and
-				-- the data is available on the output bus. All external
-				-- input events have to be timestamped.
-				State_DN              <= stTimestamp;
-				StateTimestampNext_DN <= stExtInput;
+			when stPrepareInput2 =>
+				-- Decide if event needs to be timestamped.
+				if In2Timestamp_SI = '1' then
+					State_DN              <= stTimestamp;
+					StateTimestampNext_DN <= stInput2;
+				else
+					State_DN <= stInput2;
+				end if;
 
-			when stExtInput =>
+			when stInput2 =>
 				-- Write out current event.
-				OutFifoData_DO            <= EVENT_CODE_EVENT & ExtInputFifoData_DI;
+				OutFifoData_DO            <= EVENT_CODE_EVENT & In2FifoData_DI;
 				OutFifoControl_SO.Write_S <= '1';
 
-				ExtInputFifoControl_SO.Read_S <= '1';
-				State_DN                      <= stIdle;
+				In2FifoControl_SO.Read_S <= '1';
+				State_DN                 <= stIdle;
+
+			when stPrepareInput3 =>
+				-- Decide if event needs to be timestamped.
+				if In3Timestamp_SI = '1' then
+					State_DN              <= stTimestamp;
+					StateTimestampNext_DN <= stInput3;
+				else
+					State_DN <= stInput3;
+				end if;
+
+			when stInput3 =>
+				-- Write out current event.
+				OutFifoData_DO            <= EVENT_CODE_EVENT & In3FifoData_DI;
+				OutFifoControl_SO.Write_S <= '1';
+
+				In3FifoControl_SO.Read_S <= '1';
+				State_DN                 <= stIdle;
+
+			when stPrepareInput4 =>
+				-- Decide if event needs to be timestamped.
+				if In4Timestamp_SI = '1' then
+					State_DN              <= stTimestamp;
+					StateTimestampNext_DN <= stInput4;
+				else
+					State_DN <= stInput4;
+				end if;
+
+			when stInput4 =>
+				-- Write out current event.
+				OutFifoData_DO            <= EVENT_CODE_EVENT & In4FifoData_DI;
+				OutFifoControl_SO.Write_S <= '1';
+
+				In4FifoControl_SO.Read_S <= '1';
+				State_DN                 <= stIdle;
 
 			when stDropData =>
 				-- Drop events while the output fifo is full. This guarantees
@@ -382,20 +379,20 @@ begin
 				-- disallows a backlog of old events to remain around, which
 				-- would be timestamped incorrectly after long delays.
 				-- This is fully configurable from the host.
-				if MultiplexerConfigReg_D.DropDVSOnTransferStall_S = '1' and DVSAERFifoControl_SI.Empty_S = '0' then
-					DVSAERFifoControl_SO.Read_S <= '1';
+				if MultiplexerConfigReg_D.DropInput1OnTransferStall_S = '1' and In1FifoControl_SI.Empty_S = '0' then
+					In1FifoControl_SO.Read_S <= '1';
 				end if;
 
-				if MultiplexerConfigReg_D.DropAPSOnTransferStall_S = '1' and APSADCFifoControl_SI.Empty_S = '0' then
-					APSADCFifoControl_SO.Read_S <= '1';
+				if MultiplexerConfigReg_D.DropInput2OnTransferStall_S = '1' and In2FifoControl_SI.Empty_S = '0' then
+					In2FifoControl_SO.Read_S <= '1';
 				end if;
 
-				if MultiplexerConfigReg_D.DropIMUOnTransferStall_S = '1' and IMUFifoControl_SI.Empty_S = '0' then
-					IMUFifoControl_SO.Read_S <= '1';
+				if MultiplexerConfigReg_D.DropInput3OnTransferStall_S = '1' and In3FifoControl_SI.Empty_S = '0' then
+					In3FifoControl_SO.Read_S <= '1';
 				end if;
 
-				if MultiplexerConfigReg_D.DropExtInputOnTransferStall_S = '1' and ExtInputFifoControl_SI.Empty_S = '0' then
-					ExtInputFifoControl_SO.Read_S <= '1';
+				if MultiplexerConfigReg_D.DropInput4OnTransferStall_S = '1' and In4FifoControl_SI.Empty_S = '0' then
+					In4FifoControl_SO.Read_S <= '1';
 				end if;
 
 				State_DN <= stIdle;

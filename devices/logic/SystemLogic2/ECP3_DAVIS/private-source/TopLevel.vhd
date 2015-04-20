@@ -102,6 +102,8 @@ architecture Structural of TopLevel is
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D                                                   : std_logic;
 	signal DeviceIsMaster_S                                                                                       : std_logic;
 
+	signal In1Timestamp_S, In2Timestamp_S, In3Timestamp_S, In4Timestamp_S : std_logic;
+
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
 	signal LogicUSBFifoDataIn_D     : std_logic_vector(FULL_EVENT_WIDTH - 1 downto 0);
@@ -322,29 +324,39 @@ begin
 			FifoData_DI    => LogicUSBFifoDataIn_D,
 			FifoData_DO    => LogicUSBFifoDataOut_D);
 
+	-- In1 is DVS, TS Y addresses. In2 is APS, TS special. In3 is IMU, TS Start6. In4 is ExtInput, TS all.
+	In1Timestamp_S <= '1' when DVSAERFifoDataOut_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_Y_ADDR else '0';
+	In2Timestamp_S <= '1' when APSADCFifoDataOut_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_SPECIAL else '0';
+	In3Timestamp_S <= '1' when IMUFifoDataOut_D(EVENT_DATA_WIDTH_MAX - 1 downto 0) = EVENT_CODE_SPECIAL_IMU_START6 else '0';
+	In4Timestamp_S <= '1' when true else '0';
+
 	multiplexerSM : entity work.MultiplexerStateMachine
 		port map(
-			Clock_CI               => LogicClock_C,
-			Reset_RI               => LogicReset_R,
-			SyncInClock_CI         => SyncInClockSync_C,
-			SyncOutClock_CO        => SyncOutClock_CO,
-			DeviceIsMaster_SO      => DeviceIsMaster_S,
-			OutFifoControl_SI      => LogicUSBFifoControlOut_S.WriteSide,
-			OutFifoControl_SO      => LogicUSBFifoControlIn_S.WriteSide,
-			OutFifoData_DO         => LogicUSBFifoDataIn_D,
-			DVSAERFifoControl_SI   => DVSAERFifoControlOut_S.ReadSide,
-			DVSAERFifoControl_SO   => DVSAERFifoControlIn_S.ReadSide,
-			DVSAERFifoData_DI      => DVSAERFifoDataOut_D,
-			APSADCFifoControl_SI   => APSADCFifoControlOut_S.ReadSide,
-			APSADCFifoControl_SO   => APSADCFifoControlIn_S.ReadSide,
-			APSADCFifoData_DI      => APSADCFifoDataOut_D,
-			IMUFifoControl_SI      => IMUFifoControlOut_S.ReadSide,
-			IMUFifoControl_SO      => IMUFifoControlIn_S.ReadSide,
-			IMUFifoData_DI         => IMUFifoDataOut_D,
-			ExtInputFifoControl_SI => ExtInputFifoControlOut_S.ReadSide,
-			ExtInputFifoControl_SO => ExtInputFifoControlIn_S.ReadSide,
-			ExtInputFifoData_DI    => ExtInputFifoDataOut_D,
-			MultiplexerConfig_DI   => MultiplexerConfigReg2_D);
+			Clock_CI             => LogicClock_C,
+			Reset_RI             => LogicReset_R,
+			SyncInClock_CI       => SyncInClockSync_C,
+			SyncOutClock_CO      => SyncOutClock_CO,
+			DeviceIsMaster_SO    => DeviceIsMaster_S,
+			OutFifoControl_SI    => LogicUSBFifoControlOut_S.WriteSide,
+			OutFifoControl_SO    => LogicUSBFifoControlIn_S.WriteSide,
+			OutFifoData_DO       => LogicUSBFifoDataIn_D,
+			In1FifoControl_SI    => DVSAERFifoControlOut_S.ReadSide,
+			In1FifoControl_SO    => DVSAERFifoControlIn_S.ReadSide,
+			In1FifoData_DI       => DVSAERFifoDataOut_D,
+			In1Timestamp_SI      => In1Timestamp_S,
+			In2FifoControl_SI    => APSADCFifoControlOut_S.ReadSide,
+			In2FifoControl_SO    => APSADCFifoControlIn_S.ReadSide,
+			In2FifoData_DI       => APSADCFifoDataOut_D,
+			In2Timestamp_SI      => In2Timestamp_S,
+			In3FifoControl_SI    => IMUFifoControlOut_S.ReadSide,
+			In3FifoControl_SO    => IMUFifoControlIn_S.ReadSide,
+			In3FifoData_DI       => IMUFifoDataOut_D,
+			In3Timestamp_SI      => In3Timestamp_S,
+			In4FifoControl_SI    => ExtInputFifoControlOut_S.ReadSide,
+			In4FifoControl_SO    => ExtInputFifoControlIn_S.ReadSide,
+			In4FifoData_DI       => ExtInputFifoDataOut_D,
+			In4Timestamp_SI      => In4Timestamp_S,
+			MultiplexerConfig_DI => MultiplexerConfigReg2_D);
 
 	multiplexerSPIConfig : entity work.MultiplexerSPIConfig
 		port map(
