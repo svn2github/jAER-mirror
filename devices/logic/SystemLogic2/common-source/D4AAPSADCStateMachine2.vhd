@@ -11,7 +11,7 @@ use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 
-entity D4AAPSADCStateMachine is
+entity D4AAPSADCStateMachine2 is
 	generic(
 		ENABLE_QUAD_ROI : boolean := false);
 	port(
@@ -43,9 +43,9 @@ entity D4AAPSADCStateMachine is
 
 		-- Configuration input
 		D4AAPSADCConfig_DI       : in  tD4AAPSADCConfig);
-end entity D4AAPSADCStateMachine;
+end entity D4AAPSADCStateMachine2;
 
-architecture Behavioral of D4AAPSADCStateMachine is
+architecture Behavioral of D4AAPSADCStateMachine2 is
 	attribute syn_enum_encoding : string;
 
 	type tPixelState is (stRSIdle, stRSFDSettle, stRSChargeTransfer, stRSCpReset, stRSCpSettle, stGSIdle, stGSPDReset, stGSExposureStart, stGSChargeTransfer, stGSExposureEnd, stGSFDReset, stGSCpResetFD, stGSCpResetSettle, stWaitFrameDelay, stEndFrame, stGSSample3Done, stGSSample3Start,
@@ -82,7 +82,7 @@ architecture Behavioral of D4AAPSADCStateMachine is
 	signal GSResetFallTimeCount_S, GSResetFallTimeDone_S         : std_logic;
 	signal GSTXFallTimeCount_S, GSTXFallTimeDone_S               : std_logic;
 	signal GSFDResetTimeCount_S, GSFDResetTimeDone_S             : std_logic;
-	signal GSOVGFallTimeCount_S, GSOVGFallTimeDone_S         : std_logic;
+	signal GSOVGFallTimeCount_S, GSOVGFallTimeDone_S             : std_logic;
 	signal GSCpResetSettleTimeCount_S, GSCpResetSettleTimeDone_S : std_logic;
 
 	-- Communication between row and column state machines. Done through a register for full decoupling.
@@ -303,7 +303,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => GSOVGFallTimeCount_S,
-			DataLimit_DI => D4AAPSADCConfigReg_D.GSOVGFallFD_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.GSOVGFall_D,
 			Overflow_SO  => GSOVGFallTimeDone_S,
 			Data_DO      => open);
 
@@ -494,49 +494,49 @@ begin
 
 				PixelState_DN <= stRSSample2Done;
 
---			when stRSSample2Done =>
---				if ReadBSRStatus_DP = RBSTAT_NORMAL then
---					APSSampleType_DN <= SAMPLETYPE_SIGNAL;
---				end if;
---
---				if ColReadDone_SP = '1' then
---					PixelState_DN <= stRSCpReset;
---				end if;
---
---			when stRSCpReset =>
---				APSChipTXGateReg_SN       <= '1';
---				APSChipOverflowGateReg_SN <= '1';
---
---				RSCpResetTimeCount_S <= '1';
---
---				if RSCpResetTimeDone_S = '1' then
---					-- Exposure starts in the next state. We only want to clear the exposure counter
---					-- once to start it, when the first row is selected by the 111 pattern. This is
---					-- only the case when ReadBSRStatus tells us it needs a first zero, since as soon
---					-- as we shift in that zero and select the second colum, the ReadBSRStatus changes.
---					-- We can thus use it to identify that we are still in the first row.
---					if ReadBSRStatus_DP = RBSTAT_NEED_ZERO_ONE then
---						ExposureClear_S <= '1';
---					end if;
---
---					PixelState_DN <= stRSCpSettle;
---				end if;
---
---			when stRSCpSettle =>
---				APSChipOverflowGateReg_SN <= '0';
---
---				RSCpSettleTimeCount_S <= '1';
---
---				if RSCpSettleTimeDone_S = '1' then
---					PixelState_DN <= stRSSample3Start;
---				end if;
---
---			when stRSSample3Start =>
---				APSChipTXGateReg_SN <= '0'; -- Turn off again.
---
---				ColReadStart_SN <= '1';
---
---				PixelState_DN <= stRSSample3Done;
+			--			when stRSSample2Done =>
+			--				if ReadBSRStatus_DP = RBSTAT_NORMAL then
+			--					APSSampleType_DN <= SAMPLETYPE_SIGNAL;
+			--				end if;
+			--
+			--				if ColReadDone_SP = '1' then
+			--					PixelState_DN <= stRSCpReset;
+			--				end if;
+			--
+			--			when stRSCpReset =>
+			--				APSChipTXGateReg_SN       <= '1';
+			--				APSChipOverflowGateReg_SN <= '1';
+			--
+			--				RSCpResetTimeCount_S <= '1';
+			--
+			--				if RSCpResetTimeDone_S = '1' then
+			--					-- Exposure starts in the next state. We only want to clear the exposure counter
+			--					-- once to start it, when the first row is selected by the 111 pattern. This is
+			--					-- only the case when ReadBSRStatus tells us it needs a first zero, since as soon
+			--					-- as we shift in that zero and select the second colum, the ReadBSRStatus changes.
+			--					-- We can thus use it to identify that we are still in the first row.
+			--					if ReadBSRStatus_DP = RBSTAT_NEED_ZERO_ONE then
+			--						ExposureClear_S <= '1';
+			--					end if;
+			--
+			--					PixelState_DN <= stRSCpSettle;
+			--				end if;
+			--
+			--			when stRSCpSettle =>
+			--				APSChipOverflowGateReg_SN <= '0';
+			--
+			--				RSCpSettleTimeCount_S <= '1';
+			--
+			--				if RSCpSettleTimeDone_S = '1' then
+			--					PixelState_DN <= stRSSample3Start;
+			--				end if;
+			--
+			--			when stRSSample3Start =>
+			--				APSChipTXGateReg_SN <= '0'; -- Turn off again.
+			--
+			--				ColReadStart_SN <= '1';
+			--
+			--				PixelState_DN <= stRSSample3Done;
 
 			when stRSSample2Done =>
 				if ReadBSRStatus_DP = RBSTAT_NORMAL then
@@ -608,17 +608,17 @@ begin
 				GSFDResetTimeCount_S <= '1';
 
 				if GSFDResetTimeDone_S = '1' then
---					ExposureClear_S <= '1';
+					--					ExposureClear_S <= '1';
 
 					PixelState_DN <= stGSResetFallTime;
 				end if;
 
---			when stGSExposureStart =>
---				APSChipOverflowGateReg_SN <= '0';
---
---				if ExposureTimeDone_S = '1' then
---					PixelState_DN <= stGSResetFallTime;
---				end if;
+			--			when stGSExposureStart =>
+			--				APSChipOverflowGateReg_SN <= '0';
+			--
+			--				if ExposureTimeDone_S = '1' then
+			--					PixelState_DN <= stGSResetFallTime;
+			--				end if;
 
 			when stGSResetFallTime =>
 				APSChipResetReg_SN <= '0';
@@ -629,33 +629,33 @@ begin
 					PixelState_DN <= stGSReadoutFeedOne;
 				end if;
 
---			when stGSChargeTransfer =>
---				APSChipTXGateReg_SN <= '1';
---
---				TransferTimeCount_S <= '1';
---
---				if TransferTimeDone_S = '1' then
---					PixelState_DN <= stGSExposureEnd;
---				end if;
---
---			when stGSExposureEnd =>
---				APSChipTXGateReg_SN <= '0';
---
---				GSTXFallTimeCount_S <= '1';
---
---				if GSTXFallTimeDone_S = '1' then
---					PixelState_DN <= stGSSwitchToReadout1;
---				end if;
+			--			when stGSChargeTransfer =>
+			--				APSChipTXGateReg_SN <= '1';
+			--
+			--				TransferTimeCount_S <= '1';
+			--
+			--				if TransferTimeDone_S = '1' then
+			--					PixelState_DN <= stGSExposureEnd;
+			--				end if;
+			--
+			--			when stGSExposureEnd =>
+			--				APSChipTXGateReg_SN <= '0';
+			--
+			--				GSTXFallTimeCount_S <= '1';
+			--
+			--				if GSTXFallTimeDone_S = '1' then
+			--					PixelState_DN <= stGSSwitchToReadout1;
+			--				end if;
 
---			when stGSSwitchToReadout1 =>
---				APSChipOverflowGateReg_SN <= '1';
---
---				PixelState_DN <= stGSSwitchToReadout2;
---
---			when stGSSwitchToReadout2 =>
---				APSChipOverflowGateReg_SN <= '1';
---
---				PixelState_DN <= stGSReadoutFeedOne;
+			--			when stGSSwitchToReadout1 =>
+			--				APSChipOverflowGateReg_SN <= '1';
+			--
+			--				PixelState_DN <= stGSSwitchToReadout2;
+			--
+			--			when stGSSwitchToReadout2 =>
+			--				APSChipOverflowGateReg_SN <= '1';
+			--
+			--				PixelState_DN <= stGSReadoutFeedOne;
 
 			when stGSReadoutFeedOne =>
 				-- GS turned off from here on.
@@ -714,87 +714,87 @@ begin
 				if ColReadDone_SP = '1' then
 					RowReadPositionInc_S <= '1';
 
-					PixelState_DN <= stGSReadoutFeedZero;		
+					PixelState_DN <= stGSReadoutFeedZero;
 				end if;
 
 			when stGSExposureStart =>
 				APSChipOverflowGateReg_SN <= '0';
-				ExposureClear_S <= '1';
+				ExposureClear_S           <= '1';
 
 				GSOVGFallTimeCount_S <= '1';
 
 				if GSOVGFallTimeDone_S = '1' then
 					PixelState_DN <= stGSChargeTransfer;
 				end if;
-				
+
 			when stGSChargeTransfer =>
 				APSChipTXGateReg_SN <= '1';
 
 				if ExposureTimeDone_S = '1' then
 					PixelState_DN <= stGSExposureEnd;
 				end if;
-				
+
 			when stGSExposureEnd =>
 				APSChipTXGateReg_SN <= '0';
 
 				GSTXFallTimeCount_S <= '1';
-				
+
 				RowReadPositionZero_S <= '1';
 
 				if GSTXFallTimeDone_S = '1' then
 					PixelState_DN <= stGSReadoutFeedOne;
 				end if;
 
---			when stGSSample2Start =>
---				APSChipResetReg_SN <= '0'; -- Turn off again.
---
---				ColReadStart_SN <= '1';
---
---				PixelState_DN <= stGSSample2Done;
---
---			when stGSSample2Done =>
---				APSSampleType_DN <= SAMPLETYPE_FDRESET;
---
---				if ColReadDone_SP = '1' then
---					PixelState_DN <= stGSCpResetFD;
---				end if;
---
---			when stGSCpResetFD =>
---				APSChipTXGateReg_SN <= '1';
---
---				GSCpResetFDTimeCount_S <= '1';
---
---				if GSCpResetFDTimeDone_S = '1' then
---					PixelState_DN <= stGSCpResetSettle;
---				end if;
---
---			when stGSCpResetSettle =>
---				APSChipOverflowGateReg_SN <= '0';
---
---				GSCpResetSettleTimeCount_S <= '1';
---
---				if GSCpResetSettleTimeDone_S = '1' then
---					PixelState_DN <= stGSSample3Start;
---				end if;
---
---			when stGSSample3Start =>
---				APSChipTXGateReg_SN <= '0'; -- Turn off again.
---
---				ColReadStart_SN <= '1';
---
---				PixelState_DN <= stGSSample3Done;
---
---			when stGSSample3Done =>
---				APSSampleType_DN <= SAMPLETYPE_CPRESET;
---
---				if ColReadDone_SP = '1' then
---					APSChipOverflowGateReg_SN <= '1';
---
---					-- Increase row count, now that we're done with last read.
---					RowReadPositionInc_S <= '1';
---
---					PixelState_DN <= stGSReadoutFeedZero;
---				end if;
+			--			when stGSSample2Start =>
+			--				APSChipResetReg_SN <= '0'; -- Turn off again.
+			--
+			--				ColReadStart_SN <= '1';
+			--
+			--				PixelState_DN <= stGSSample2Done;
+			--
+			--			when stGSSample2Done =>
+			--				APSSampleType_DN <= SAMPLETYPE_FDRESET;
+			--
+			--				if ColReadDone_SP = '1' then
+			--					PixelState_DN <= stGSCpResetFD;
+			--				end if;
+			--
+			--			when stGSCpResetFD =>
+			--				APSChipTXGateReg_SN <= '1';
+			--
+			--				GSCpResetFDTimeCount_S <= '1';
+			--
+			--				if GSCpResetFDTimeDone_S = '1' then
+			--					PixelState_DN <= stGSCpResetSettle;
+			--				end if;
+			--
+			--			when stGSCpResetSettle =>
+			--				APSChipOverflowGateReg_SN <= '0';
+			--
+			--				GSCpResetSettleTimeCount_S <= '1';
+			--
+			--				if GSCpResetSettleTimeDone_S = '1' then
+			--					PixelState_DN <= stGSSample3Start;
+			--				end if;
+			--
+			--			when stGSSample3Start =>
+			--				APSChipTXGateReg_SN <= '0'; -- Turn off again.
+			--
+			--				ColReadStart_SN <= '1';
+			--
+			--				PixelState_DN <= stGSSample3Done;
+			--
+			--			when stGSSample3Done =>
+			--				APSSampleType_DN <= SAMPLETYPE_CPRESET;
+			--
+			--				if ColReadDone_SP = '1' then
+			--					APSChipOverflowGateReg_SN <= '1';
+			--
+			--					-- Increase row count, now that we're done with last read.
+			--					RowReadPositionInc_S <= '1';
+			--
+			--					PixelState_DN <= stGSReadoutFeedZero;
+			--				end if;
 
 			when stEndFrame =>
 				-- Zero row counter too.
