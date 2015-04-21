@@ -5,7 +5,8 @@ use work.Settings.DEVICE_FAMILY;
 entity PLL is
 	generic(
 		CLOCK_FREQ     : integer;
-		OUT_CLOCK_FREQ : integer);
+		OUT_CLOCK_FREQ : integer;
+		PHASE_ADJUST   : integer := 0);
 	port(
 		Clock_CI    : in  std_logic;
 		Reset_RI    : in  std_logic;
@@ -23,7 +24,7 @@ begin
 			pmi_freq_clkos   => OUT_CLOCK_FREQ,
 			pmi_freq_clkok   => OUT_CLOCK_FREQ,
 			pmi_family       => DEVICE_FAMILY,
-			pmi_phase_adj    => 0,
+			pmi_phase_adj    => PHASE_ADJUST,
 			pmi_duty_cycle   => 50,
 			pmi_clkfb_source => "CLKOP",
 			pmi_fdel         => "off",
