@@ -30,7 +30,7 @@ USE PRIMARY NET "USBClock_CI_c" ;
 FREQUENCY NET "LogicClock_C" 120.0 MHz ;
 USE PRIMARY NET "LogicClock_C" ;
 
-FREQUENCY NET "ADCClock_C" 30.0 MHz ;
+FREQUENCY NET "ADCClock_C" 40.0 MHz ;
 USE PRIMARY NET "ADCClock_C" ;
 
 // FX3 controls
@@ -254,7 +254,7 @@ CLOCK_TO_OUT PORT "APSChipTXGate_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADC
 // APS data (external ADC)
 LOCATE COMP "ExternalADCOverflow_SI" SITE "G1" ;
 IOBUF PORT "ExternalADCOverflow_SI" PULLMODE=DOWN ;
-INPUT_SETUP PORT "ExternalADCOverflow_SI" INPUT_DELAY 31.0 ns HOLD -2.0 ns CLKNET "ADCClock_C" ;
+INPUT_SETUP PORT "ExternalADCOverflow_SI" INPUT_DELAY 20.0 ns HOLD -2.0 ns CLKNET "ADCClock_C" ;
 
 LOCATE COMP "ExternalADCClock_CO" SITE "M21" ;
 IOBUF PORT "ExternalADCClock_CO" PULLMODE=DOWN ;
@@ -290,7 +290,7 @@ DEFINE PORT GROUP "ExternalADCData_DI"
 "ExternalADCData_DI[1]" 
 "ExternalADCData_DI[0]" ;
 IOBUF GROUP "ExternalADCData_DI" PULLMODE=DOWN ;
-INPUT_SETUP GROUP "ExternalADCData_DI" INPUT_DELAY 31.0 ns HOLD -2.0 ns CLKNET "ADCClock_C" ;
+INPUT_SETUP GROUP "ExternalADCData_DI" INPUT_DELAY 20.0 ns HOLD -2.0 ns CLKNET "ADCClock_C" ;
 
 // APS data (on-chip ADC)
 LOCATE COMP "ChipADCRampClear_SO" SITE "H6" ;
