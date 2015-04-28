@@ -48,10 +48,8 @@ end entity D4AAPSADCStateMachine2;
 architecture Behavioral of D4AAPSADCStateMachine2 is
 	attribute syn_enum_encoding : string;
 
-	type tPixelState is (stRSIdle, stRSFDSettle, stRSChargeTransfer, stRSCpReset, stRSCpSettle, stGSIdle, stGSPDReset, stGSExposureStart1, stGSExposureStart2, stGSChargeTransfer, stGSExposureEnd, stGSFDReset, stGSCpResetFD, stGSCpResetSettle, stWaitFrameDelay, stEndFrame, stGSSample3Done, stGSSample3Start,
-		                 stGSSample2Done, stGSSample2Start, stGSSample1Done, stGSSample1Start, stGSReadoutFeedZeroTick, stGSReadoutFeedZero, stGSReadoutFeedOneTick, stGSReadoutFeedOne,
-		                 stGSSwitchToReadout2, stGSSwitchToReadout1, stGSResetFallTime, stIdle, stStartFrame, stRSReadoutFeedOne1, stRSReadoutFeedOne1Tick, stRSReadoutFeedOne2, stRSReadoutFeedOne2Tick, stRSReadoutFeedOne3, stRSReadoutFeedOne3Tick, stRSSample1Start, stRSSample1Done, stRSSample2Start, stRSSample2Done,
-		                 stRSSample3Start, stRSSample3Done, stRSFeedTick, stRSFeed);
+	type tPixelState is (stRSIdle, stRSFDSettle, stRSChargeTransfer, stGSIdle, stGSExposureStart1, stGSExposureStart2, stGSChargeTransfer, stGSExposureEnd, stGSFDReset, stWaitFrameDelay, stEndFrame, stGSSampleDone, stGSSampleStart, stGSReadoutFeedZeroTick, stGSReadoutFeedZero, stGSReadoutFeedOneTick,
+		                 stGSReadoutFeedOne, stGSResetFallTime, stIdle, stStartFrame, stRSReadoutFeedOne1, stRSReadoutFeedOne1Tick, stRSReadoutFeedOne2, stRSReadoutFeedOne2Tick, stRSReadoutFeedOne3, stRSReadoutFeedOne3Tick, stRSSample1Start, stRSSample1Done, stRSSample2Start, stRSSample2Done, stRSFeedTick, stRSFeed);
 	attribute syn_enum_encoding of tPixelState : type is "onehot";
 
 	-- present and next state
@@ -74,16 +72,12 @@ architecture Behavioral of D4AAPSADCStateMachine2 is
 
 	-- RS specific time counters.
 	signal RSFDSettleTimeCount_S, RSFDSettleTimeDone_S : std_logic;
-	signal RSCpResetTimeCount_S, RSCpResetTimeDone_S   : std_logic;
-	signal RSCpSettleTimeCount_S, RSCpSettleTimeDone_S : std_logic;
 
 	-- GS specific time counters.
-	signal GSPDResetTimeCount_S, GSPDResetTimeDone_S             : std_logic;
-	signal GSResetFallTimeCount_S, GSResetFallTimeDone_S         : std_logic;
-	signal GSTXFallTimeCount_S, GSTXFallTimeDone_S               : std_logic;
-	signal GSFDResetTimeCount_S, GSFDResetTimeDone_S             : std_logic;
-	signal GSOVGFallTimeCount_S, GSOVGFallTimeDone_S             : std_logic;
-	signal GSCpResetSettleTimeCount_S, GSCpResetSettleTimeDone_S : std_logic;
+	signal GSResetFallTimeCount_S, GSResetFallTimeDone_S : std_logic;
+	signal GSTXFallTimeCount_S, GSTXFallTimeDone_S       : std_logic;
+	signal GSFDResetTimeCount_S, GSFDResetTimeDone_S     : std_logic;
+	signal GSOVGFallTimeCount_S, GSOVGFallTimeDone_S     : std_logic;
 
 	-- Communication between row and column state machines. Done through a register for full decoupling.
 	signal ColReadStart_SP, ColReadStart_SN : std_logic;
@@ -107,7 +101,7 @@ architecture Behavioral of D4AAPSADCStateMachine2 is
 
 	constant SAMPLETYPE_NULL    : std_logic_vector(1 downto 0) := "00";
 	constant SAMPLETYPE_FDRESET : std_logic_vector(1 downto 0) := "01";
-	constant SAMPLETYPE_CPRESET : std_logic_vector(1 downto 0) := "10";
+	--constant SAMPLETYPE_CPRESET : std_logic_vector(1 downto 0) := "10";
 	constant SAMPLETYPE_SIGNAL  : std_logic_vector(1 downto 0) := "11";
 
 	-- Register outputs to FIFO.
@@ -223,42 +217,6 @@ begin
 			Overflow_SO  => RSFDSettleTimeDone_S,
 			Data_DO      => open);
 
-	RSCpResetTimeCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => APS_RSCPRESETTIME_SIZE)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => RSCpResetTimeCount_S,
-			DataLimit_DI => D4AAPSADCConfigReg_D.RSCpReset_D,
-			Overflow_SO  => RSCpResetTimeDone_S,
-			Data_DO      => open);
-
-	RSCpSettleTimeCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => APS_RSCPSETTLETIME_SIZE)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => RSCpSettleTimeCount_S,
-			DataLimit_DI => D4AAPSADCConfigReg_D.RSCpSettle_D,
-			Overflow_SO  => RSCpSettleTimeDone_S,
-			Data_DO      => open);
-
-	GSPDResetTimeCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => APS_GSPDRESETTIME_SIZE)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => GSPDResetTimeCount_S,
-			DataLimit_DI => D4AAPSADCConfigReg_D.GSPDReset_D,
-			Overflow_SO  => GSPDResetTimeDone_S,
-			Data_DO      => open);
-
 	GSResetFallTimeCounter : entity work.ContinuousCounter
 		generic map(
 			SIZE => APS_GSRESETFALLTIME_SIZE)
@@ -297,29 +255,17 @@ begin
 
 	GSOVGFallTimeCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => APS_GSOVGFALLTIME_SIZE)
+			SIZE => APS_GSPDRESETTIME_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => GSOVGFallTimeCount_S,
-			DataLimit_DI => D4AAPSADCConfigReg_D.GSOVGFall_D,
+			DataLimit_DI => D4AAPSADCConfigReg_D.GSPDReset_D, -- TODO: fix if this is better SM.
 			Overflow_SO  => GSOVGFallTimeDone_S,
 			Data_DO      => open);
 
-	GSCpResetSettleTimeCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE => APS_GSCPRESETSETTLETIME_SIZE)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => GSCpResetSettleTimeCount_S,
-			DataLimit_DI => D4AAPSADCConfigReg_D.GSCpResetSettle_D,
-			Overflow_SO  => GSCpResetSettleTimeDone_S,
-			Data_DO      => open);
-
-	PixelStateMachine : process(PixelState_DP, D4AAPSADCConfigReg_D, APSChipGlobalShutterReg_SP, APSChipOverflowGateReg_SP, APSChipResetReg_SP, APSChipTXGateReg_SP, ColReadDone_SP, ExposureTimeDone_S, FrameDelayDone_S, GSCpResetFDTimeDone_S, GSCpResetSettleTimeDone_S, GSFDResetTimeDone_S, GSPDResetTimeDone_S, GSResetFallTimeDone_S, GSTXFallTimeDone_S, OutFifoControl_SI, RSCpResetTimeDone_S, RSCpSettleTimeDone_S, RSFDSettleTimeDone_S, ReadBSRStatus_DP, RowReadPosition_D, TransferTimeDone_S)
+	PixelStateMachine : process(PixelState_DP, D4AAPSADCConfigReg_D, APSChipGlobalShutterReg_SP, APSChipOverflowGateReg_SP, APSChipResetReg_SP, APSChipTXGateReg_SP, ColReadDone_SP, ExposureTimeDone_S, FrameDelayDone_S, GSFDResetTimeDone_S, GSResetFallTimeDone_S, GSTXFallTimeDone_S, OutFifoControl_SI, RSFDSettleTimeDone_S, ReadBSRStatus_DP, RowReadPosition_D, TransferTimeDone_S, APSSampleType_DP, GSOVGFallTimeDone_S)
 	begin
 		PixelState_DN <= PixelState_DP; -- Keep current state by default.
 
@@ -341,17 +287,13 @@ begin
 		ExposureClear_S <= '0';
 
 		-- Don't enable any counter by default.
-		TransferTimeCount_S        <= '0';
-		FrameDelayCount_S          <= '0';
-		RSFDSettleTimeCount_S      <= '0';
-		RSCpResetTimeCount_S       <= '0';
-		RSCpSettleTimeCount_S      <= '0';
-		GSPDResetTimeCount_S       <= '0';
-		GSResetFallTimeCount_S     <= '0';
-		GSTXFallTimeCount_S        <= '0';
-		GSFDResetTimeCount_S       <= '0';
-		GSCpResetFDTimeCount_S     <= '0';
-		GSCpResetSettleTimeCount_S <= '0';
+		TransferTimeCount_S    <= '0';
+		FrameDelayCount_S      <= '0';
+		RSFDSettleTimeCount_S  <= '0';
+		GSResetFallTimeCount_S <= '0';
+		GSTXFallTimeCount_S    <= '0';
+		GSFDResetTimeCount_S   <= '0';
+		GSOVGFallTimeCount_S   <= '0';
 
 		-- Keep value by default.
 		APSChipOverflowGateReg_SN  <= APSChipOverflowGateReg_SP;
@@ -362,8 +304,8 @@ begin
 		-- Keep value by default.
 		ReadBSRStatus_DN <= ReadBSRStatus_DP;
 
-		-- No valid sample type by default.
-		APSSampleType_DN <= SAMPLETYPE_NULL;
+		-- Keep sample type by default.
+		APSSampleType_DN <= APSSampleType_DP;
 
 		-- Only update configuration when in Idle state. Doing so while the frame is being read out
 		-- would cause different timing, exposure and read out types, resulting in corrupted frames.
@@ -472,6 +414,8 @@ begin
 			when stRSSample1Done =>
 				if ReadBSRStatus_DP = RBSTAT_NORMAL then
 					APSSampleType_DN <= SAMPLETYPE_FDRESET;
+				else
+					APSSampleType_DN <= SAMPLETYPE_NULL;
 				end if;
 
 				if ColReadDone_SP = '1' then
@@ -494,53 +438,11 @@ begin
 
 				PixelState_DN <= stRSSample2Done;
 
-			--			when stRSSample2Done =>
-			--				if ReadBSRStatus_DP = RBSTAT_NORMAL then
-			--					APSSampleType_DN <= SAMPLETYPE_SIGNAL;
-			--				end if;
-			--
-			--				if ColReadDone_SP = '1' then
-			--					PixelState_DN <= stRSCpReset;
-			--				end if;
-			--
-			--			when stRSCpReset =>
-			--				APSChipTXGateReg_SN       <= '1';
-			--				APSChipOverflowGateReg_SN <= '1';
-			--
-			--				RSCpResetTimeCount_S <= '1';
-			--
-			--				if RSCpResetTimeDone_S = '1' then
-			--					-- Exposure starts in the next state. We only want to clear the exposure counter
-			--					-- once to start it, when the first row is selected by the 111 pattern. This is
-			--					-- only the case when ReadBSRStatus tells us it needs a first zero, since as soon
-			--					-- as we shift in that zero and select the second colum, the ReadBSRStatus changes.
-			--					-- We can thus use it to identify that we are still in the first row.
-			--					if ReadBSRStatus_DP = RBSTAT_NEED_ZERO_ONE then
-			--						ExposureClear_S <= '1';
-			--					end if;
-			--
-			--					PixelState_DN <= stRSCpSettle;
-			--				end if;
-			--
-			--			when stRSCpSettle =>
-			--				APSChipOverflowGateReg_SN <= '0';
-			--
-			--				RSCpSettleTimeCount_S <= '1';
-			--
-			--				if RSCpSettleTimeDone_S = '1' then
-			--					PixelState_DN <= stRSSample3Start;
-			--				end if;
-			--
-			--			when stRSSample3Start =>
-			--				APSChipTXGateReg_SN <= '0'; -- Turn off again.
-			--
-			--				ColReadStart_SN <= '1';
-			--
-			--				PixelState_DN <= stRSSample3Done;
-
 			when stRSSample2Done =>
 				if ReadBSRStatus_DP = RBSTAT_NORMAL then
 					APSSampleType_DN <= SAMPLETYPE_SIGNAL;
+				else
+					APSSampleType_DN <= SAMPLETYPE_NULL;
 				end if;
 
 				if ColReadDone_SP = '1' then
@@ -602,23 +504,16 @@ begin
 				APSChipOverflowGateReg_SN  <= '1';
 				APSChipGlobalShutterReg_SN <= '1';
 
+				APSSampleType_DN <= SAMPLETYPE_FDRESET;
+
 				PixelState_DN <= stGSFDReset;
 
 			when stGSFDReset =>
 				GSFDResetTimeCount_S <= '1';
 
 				if GSFDResetTimeDone_S = '1' then
-					--					ExposureClear_S <= '1';
-
 					PixelState_DN <= stGSResetFallTime;
 				end if;
-
-			--			when stGSExposureStart =>
-			--				APSChipOverflowGateReg_SN <= '0';
-			--
-			--				if ExposureTimeDone_S = '1' then
-			--					PixelState_DN <= stGSResetFallTime;
-			--				end if;
 
 			when stGSResetFallTime =>
 				APSChipResetReg_SN <= '0';
@@ -628,34 +523,6 @@ begin
 				if GSResetFallTimeDone_S = '1' then
 					PixelState_DN <= stGSReadoutFeedOne;
 				end if;
-
-			--			when stGSChargeTransfer =>
-			--				APSChipTXGateReg_SN <= '1';
-			--
-			--				TransferTimeCount_S <= '1';
-			--
-			--				if TransferTimeDone_S = '1' then
-			--					PixelState_DN <= stGSExposureEnd;
-			--				end if;
-			--
-			--			when stGSExposureEnd =>
-			--				APSChipTXGateReg_SN <= '0';
-			--
-			--				GSTXFallTimeCount_S <= '1';
-			--
-			--				if GSTXFallTimeDone_S = '1' then
-			--					PixelState_DN <= stGSSwitchToReadout1;
-			--				end if;
-
-			--			when stGSSwitchToReadout1 =>
-			--				APSChipOverflowGateReg_SN <= '1';
-			--
-			--				PixelState_DN <= stGSSwitchToReadout2;
-			--
-			--			when stGSSwitchToReadout2 =>
-			--				APSChipOverflowGateReg_SN <= '1';
-			--
-			--				PixelState_DN <= stGSReadoutFeedOne;
 
 			when stGSReadoutFeedOne =>
 				-- GS turned off from here on.
@@ -688,29 +555,27 @@ begin
 				APSChipRowSRClockReg_C <= '1';
 
 				if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
-					if APSChipOverflowGateReg_SN = '0' then
-						-- Done with 2nd reads.
+					if APSSampleType_DP = SAMPLETYPE_SIGNAL then
+						-- Done with 2nd read.
 						PixelState_DN <= stEndFrame;
 					else
-						-- Done with only 1st reads.
-						PixelState_DN <= stGSExposureStart;
+						-- Done with only 1st read.
+						PixelState_DN <= stGSExposureStart1;
+
+						RowReadPositionZero_S <= '1';
+
+						APSSampleType_DN <= SAMPLETYPE_SIGNAL;
 					end if;
 				else
-					PixelState_DN <= stGSSample1Start;
+					PixelState_DN <= stGSSampleStart;
 				end if;
 
-			when stGSSample1Start =>
+			when stGSSampleStart =>
 				ColReadStart_SN <= '1';
 
-				PixelState_DN <= stGSSample1Done;
+				PixelState_DN <= stGSSampleDone;
 
-			when stGSSample1Done =>
-				if APSChipOverflowGateReg_SN = '1' then
-					APSSampleType_DN <= SAMPLETYPE_FDRESET;
-				else
-					APSSampleType_DN <= SAMPLETYPE_SIGNAL;
-				end if;
-
+			when stGSSampleDone =>
 				if ColReadDone_SP = '1' then
 					RowReadPositionInc_S <= '1';
 
@@ -719,9 +584,9 @@ begin
 
 			when stGSExposureStart1 =>
 				APSChipGlobalShutterReg_SN <= '1';
-				
+
 				PixelState_DN <= stGSExposureStart2;
-			
+
 			when stGSExposureStart2 =>
 				APSChipOverflowGateReg_SN <= '0';
 				ExposureClear_S           <= '1';
@@ -744,62 +609,11 @@ begin
 
 				GSTXFallTimeCount_S <= '1';
 
-				RowReadPositionZero_S <= '1';
-
 				if GSTXFallTimeDone_S = '1' then
 					PixelState_DN <= stGSReadoutFeedOne;
+					
+					APSChipOverflowGateReg_SN <= '1';
 				end if;
-
-			--			when stGSSample2Start =>
-			--				APSChipResetReg_SN <= '0'; -- Turn off again.
-			--
-			--				ColReadStart_SN <= '1';
-			--
-			--				PixelState_DN <= stGSSample2Done;
-			--
-			--			when stGSSample2Done =>
-			--				APSSampleType_DN <= SAMPLETYPE_FDRESET;
-			--
-			--				if ColReadDone_SP = '1' then
-			--					PixelState_DN <= stGSCpResetFD;
-			--				end if;
-			--
-			--			when stGSCpResetFD =>
-			--				APSChipTXGateReg_SN <= '1';
-			--
-			--				GSCpResetFDTimeCount_S <= '1';
-			--
-			--				if GSCpResetFDTimeDone_S = '1' then
-			--					PixelState_DN <= stGSCpResetSettle;
-			--				end if;
-			--
-			--			when stGSCpResetSettle =>
-			--				APSChipOverflowGateReg_SN <= '0';
-			--
-			--				GSCpResetSettleTimeCount_S <= '1';
-			--
-			--				if GSCpResetSettleTimeDone_S = '1' then
-			--					PixelState_DN <= stGSSample3Start;
-			--				end if;
-			--
-			--			when stGSSample3Start =>
-			--				APSChipTXGateReg_SN <= '0'; -- Turn off again.
-			--
-			--				ColReadStart_SN <= '1';
-			--
-			--				PixelState_DN <= stGSSample3Done;
-			--
-			--			when stGSSample3Done =>
-			--				APSSampleType_DN <= SAMPLETYPE_CPRESET;
-			--
-			--				if ColReadDone_SP = '1' then
-			--					APSChipOverflowGateReg_SN <= '1';
-			--
-			--					-- Increase row count, now that we're done with last read.
-			--					RowReadPositionInc_S <= '1';
-			--
-			--					PixelState_DN <= stGSReadoutFeedZero;
-			--				end if;
 
 			when stEndFrame =>
 				-- Zero row counter too.
@@ -950,8 +764,8 @@ begin
 				if OutFifoControl_SI.Full_S = '0' and APSSampleType_DP /= SAMPLETYPE_NULL then
 					if APSSampleType_DP = SAMPLETYPE_FDRESET then
 						OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
-					elsif APSSampleType_DP = SAMPLETYPE_CPRESET then
-						OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSRESET2COL;
+					--elsif APSSampleType_DP = SAMPLETYPE_CPRESET then
+					--	OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSRESET2COL;
 					else
 						OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL;
 					end if;

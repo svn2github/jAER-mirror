@@ -433,7 +433,7 @@ begin
 			FifoData_DI    => APSADCFifoDataIn_D,
 			FifoData_DO    => APSADCFifoDataOut_D);
 
-	apsAdcSM : entity work.D4AAPSADCStateMachine
+	apsAdcSM : entity work.D4AAPSADCStateMachine2
 		generic map(
 			ENABLE_QUAD_ROI => false)
 		port map(
