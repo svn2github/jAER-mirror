@@ -18,7 +18,7 @@ package AERCorrFilterChipBiasConfigRecords is
 		SSN_D        : unsigned(7 downto 0);
 	end record tAERCorrFilterBiasConfigParamAddresses;
 
-	constant AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES : tAERCorrFilterBiasConfigParamAddresses := (
+	constant AERCORRFILTER_BIASCONFIG_PARAM_ADDRESSES : tAERCorrFilterBiasConfigParamAddresses := (
 		Vth_D        => to_unsigned(0, 8),
 		Vrs_D        => to_unsigned(1, 8),
 		LocalBufBn_D => to_unsigned(8, 8),
@@ -87,7 +87,7 @@ package AERCorrFilterChipBiasConfigRecords is
 
 	-- Start with addresses 128 here, so that the MSB (bit 7) is always high. This heavily simplifies
 	-- the SPI configuration module, and clearly separates biases from chip diagnostic.
-	constant AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES : tAERCorrFilterChipConfigParamAddresses := (
+	constant AERCORRFILTER_CHIPCONFIG_PARAM_ADDRESSES : tAERCorrFilterChipConfigParamAddresses := (
 		DigitalMux0_D      => to_unsigned(128, 8),
 		DigitalMux1_D      => to_unsigned(129, 8),
 		DigitalMux2_D      => to_unsigned(130, 8),
