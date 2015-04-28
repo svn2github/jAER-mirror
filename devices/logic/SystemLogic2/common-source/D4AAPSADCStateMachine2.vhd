@@ -48,7 +48,7 @@ end entity D4AAPSADCStateMachine2;
 architecture Behavioral of D4AAPSADCStateMachine2 is
 	attribute syn_enum_encoding : string;
 
-	type tPixelState is (stRSIdle, stRSFDSettle, stRSChargeTransfer, stRSCpReset, stRSCpSettle, stGSIdle, stGSPDReset, stGSExposureStart, stGSChargeTransfer, stGSExposureEnd, stGSFDReset, stGSCpResetFD, stGSCpResetSettle, stWaitFrameDelay, stEndFrame, stGSSample3Done, stGSSample3Start,
+	type tPixelState is (stRSIdle, stRSFDSettle, stRSChargeTransfer, stRSCpReset, stRSCpSettle, stGSIdle, stGSPDReset, stGSExposureStart1, stGSExposureStart2, stGSChargeTransfer, stGSExposureEnd, stGSFDReset, stGSCpResetFD, stGSCpResetSettle, stWaitFrameDelay, stEndFrame, stGSSample3Done, stGSSample3Start,
 		                 stGSSample2Done, stGSSample2Start, stGSSample1Done, stGSSample1Start, stGSReadoutFeedZeroTick, stGSReadoutFeedZero, stGSReadoutFeedOneTick, stGSReadoutFeedOne,
 		                 stGSSwitchToReadout2, stGSSwitchToReadout1, stGSResetFallTime, stIdle, stStartFrame, stRSReadoutFeedOne1, stRSReadoutFeedOne1Tick, stRSReadoutFeedOne2, stRSReadoutFeedOne2Tick, stRSReadoutFeedOne3, stRSReadoutFeedOne3Tick, stRSSample1Start, stRSSample1Done, stRSSample2Start, stRSSample2Done,
 		                 stRSSample3Start, stRSSample3Done, stRSFeedTick, stRSFeed);
@@ -717,7 +717,12 @@ begin
 					PixelState_DN <= stGSReadoutFeedZero;
 				end if;
 
-			when stGSExposureStart =>
+			when stGSExposureStart1 =>
+				APSChipGlobalShutterReg_SN <= '1';
+				
+				PixelState_DN <= stGSExposureStart2;
+			
+			when stGSExposureStart2 =>
 				APSChipOverflowGateReg_SN <= '0';
 				ExposureClear_S           <= '1';
 
