@@ -215,6 +215,9 @@ package DAVISrgbChipBiasConfigRecords is
 		AdjustTX2OVG2Hi_S   : std_logic;
 	end record tDAVISrgbChipConfig;
 
+	-- Total length of actual register to send out.
+	constant CHIP_REG_LENGTH : integer := 56;
+
 	-- Effectively used bits in chip register.
 	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 10;
 

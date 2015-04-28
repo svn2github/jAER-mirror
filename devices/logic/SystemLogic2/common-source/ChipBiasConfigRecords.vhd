@@ -12,6 +12,5 @@ package ChipBiasConfigRecords is
 	constant BIAS_CF_LENGTH : integer := 15;
 	constant BIAS_SS_LENGTH : integer := 16;
 
-	constant CHIP_REG_LENGTH : integer := 56;
 	constant CHIP_MUX_LENGTH : integer := 4;
 end package ChipBiasConfigRecords;

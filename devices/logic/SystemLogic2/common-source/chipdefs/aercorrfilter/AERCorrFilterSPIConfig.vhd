@@ -47,116 +47,48 @@ begin
 		BiasOutput_DN    <= (others => '0');
 
 		case ConfigParamAddress_DI is
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.ApsOverflowLevel_D =>
-				BiasConfigReg_DN.ApsOverflowLevel_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.ApsOverflowLevel_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.ApsOverflowLevel_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsOverflowLevel_D;
+			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.Vth_D =>
+				BiasConfigReg_DN.Vth_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.Vth_D'length - 1 downto 0);
+				BiasOutput_DN(tAERCorrFilterBiasConfig.Vth_D'length - 1 downto 0) <= BiasConfigReg_DP.Vth_D;
 
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.ApsCas_D =>
-				BiasConfigReg_DN.ApsCas_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.ApsCas_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.ApsCas_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsCas_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.AdcRefHigh_D =>
-				BiasConfigReg_DN.AdcRefHigh_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.AdcRefHigh_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.AdcRefHigh_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcRefHigh_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.AdcRefLow_D =>
-				BiasConfigReg_DN.AdcRefLow_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.AdcRefLow_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.AdcRefLow_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcRefLow_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.AdcTestVoltage_D =>
-				BiasConfigReg_DN.AdcTestVoltage_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.AdcTestVoltage_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.AdcTestVoltage_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcTestVoltage_D;
+			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.Vrs_D =>
+				BiasConfigReg_DN.Vrs_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.Vrs_D'length - 1 downto 0);
+				BiasOutput_DN(tAERCorrFilterBiasConfig.Vrs_D'length - 1 downto 0) <= BiasConfigReg_DP.Vrs_D;
 
 			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.LocalBufBn_D =>
-				BiasConfigReg_DN.LocalBufBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.LocalBufBn_D'length - 1 downto 0);
+				BiasConfigReg_DN.LocalBufBn_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.LocalBufBn_D'length - 1 downto 0);
 				BiasOutput_DN(tAERCorrFilterBiasConfig.LocalBufBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LocalBufBn_D;
 
 			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.PadFollBn_D =>
-				BiasConfigReg_DN.PadFollBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.PadFollBn_D'length - 1 downto 0);
+				BiasConfigReg_DN.PadFollBn_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.PadFollBn_D'length - 1 downto 0);
 				BiasOutput_DN(tAERCorrFilterBiasConfig.PadFollBn_D'length - 1 downto 0) <= BiasConfigReg_DP.PadFollBn_D;
 
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.DiffBn_D =>
-				BiasConfigReg_DN.DiffBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.DiffBn_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.DiffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.DiffBn_D;
+			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.BiasComp_D =>
+				BiasConfigReg_DN.BiasComp_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.BiasComp_D'length - 1 downto 0);
+				BiasOutput_DN(tAERCorrFilterBiasConfig.BiasComp_D'length - 1 downto 0) <= BiasConfigReg_DP.BiasComp_D;
 
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.OnBn_D =>
-				BiasConfigReg_DN.OnBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.OnBn_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.OnBn_D'length - 1 downto 0) <= BiasConfigReg_DP.OnBn_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.OffBn_D =>
-				BiasConfigReg_DN.OffBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.OffBn_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.OffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.OffBn_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.PixInvBn_D =>
-				BiasConfigReg_DN.PixInvBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.PixInvBn_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.PixInvBn_D'length - 1 downto 0) <= BiasConfigReg_DP.PixInvBn_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.PrBp_D =>
-				BiasConfigReg_DN.PrBp_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.PrBp_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.PrBp_D'length - 1 downto 0) <= BiasConfigReg_DP.PrBp_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.PrSFBp_D =>
-				BiasConfigReg_DN.PrSFBp_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.PrSFBp_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.PrSFBp_D'length - 1 downto 0) <= BiasConfigReg_DP.PrSFBp_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.RefrBp_D =>
-				BiasConfigReg_DN.RefrBp_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.RefrBp_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.RefrBp_D'length - 1 downto 0) <= BiasConfigReg_DP.RefrBp_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.ReadoutBufBp_D =>
-				BiasConfigReg_DN.ReadoutBufBp_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.ReadoutBufBp_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.ReadoutBufBp_D'length - 1 downto 0) <= BiasConfigReg_DP.ReadoutBufBp_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.ApsROSFBn_D =>
-				BiasConfigReg_DN.ApsROSFBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.ApsROSFBn_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.ApsROSFBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsROSFBn_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.AdcCompBp_D =>
-				BiasConfigReg_DN.AdcCompBp_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.AdcCompBp_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.AdcCompBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcCompBp_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.ColSelLowBn_D =>
-				BiasConfigReg_DN.ColSelLowBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.ColSelLowBn_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.ColSelLowBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ColSelLowBn_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.DACBufBp_D =>
-				BiasConfigReg_DN.DACBufBp_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.DACBufBp_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.DACBufBp_D'length - 1 downto 0) <= BiasConfigReg_DP.DACBufBp_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.LcolTimeoutBn_D =>
-				BiasConfigReg_DN.LcolTimeoutBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.LcolTimeoutBn_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.LcolTimeoutBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LcolTimeoutBn_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.AEPdBn_D =>
-				BiasConfigReg_DN.AEPdBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.AEPdBn_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.AEPdBn_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPdBn_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.AEPuXBp_D =>
-				BiasConfigReg_DN.AEPuXBp_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.AEPuXBp_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.AEPuXBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPuXBp_D;
-
-			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.AEPuYBp_D =>
-				BiasConfigReg_DN.AEPuYBp_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.AEPuYBp_D'length - 1 downto 0);
-				BiasOutput_DN(tAERCorrFilterBiasConfig.AEPuYBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPuYBp_D;
+			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.ILeak_D =>
+				BiasConfigReg_DN.ILeak_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.ILeak_D'length - 1 downto 0);
+				BiasOutput_DN(tAERCorrFilterBiasConfig.ILeak_D'length - 1 downto 0) <= BiasConfigReg_DP.ILeak_D;
 
 			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.IFRefrBn_D =>
-				BiasConfigReg_DN.IFRefrBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.IFRefrBn_D'length - 1 downto 0);
+				BiasConfigReg_DN.IFRefrBn_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.IFRefrBn_D'length - 1 downto 0);
 				BiasOutput_DN(tAERCorrFilterBiasConfig.IFRefrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFRefrBn_D;
 
 			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.IFThrBn_D =>
-				BiasConfigReg_DN.IFThrBn_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.IFThrBn_D'length - 1 downto 0);
+				BiasConfigReg_DN.IFThrBn_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.IFThrBn_D'length - 1 downto 0);
 				BiasOutput_DN(tAERCorrFilterBiasConfig.IFThrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFThrBn_D;
 
 			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.BiasBuffer_D =>
-				BiasConfigReg_DN.BiasBuffer_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.BiasBuffer_D'length - 1 downto 0);
+				BiasConfigReg_DN.BiasBuffer_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.BiasBuffer_D'length - 1 downto 0);
 				BiasOutput_DN(tAERCorrFilterBiasConfig.BiasBuffer_D'length - 1 downto 0) <= BiasConfigReg_DP.BiasBuffer_D;
 
 			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.SSP_D =>
-				BiasConfigReg_DN.SSP_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.SSP_D'length - 1 downto 0);
+				BiasConfigReg_DN.SSP_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.SSP_D'length - 1 downto 0);
 				BiasOutput_DN(tAERCorrFilterBiasConfig.SSP_D'length - 1 downto 0) <= BiasConfigReg_DP.SSP_D;
 
 			when AERCorrFilter_BIASCONFIG_PARAM_ADDRESSES.SSN_D =>
-				BiasConfigReg_DN.SSN_D                                       <= BiasInput_DP(tAERCorrFilterBiasConfig.SSN_D'length - 1 downto 0);
+				BiasConfigReg_DN.SSN_D                                            <= BiasInput_DP(tAERCorrFilterBiasConfig.SSN_D'length - 1 downto 0);
 				BiasOutput_DN(tAERCorrFilterBiasConfig.SSN_D'length - 1 downto 0) <= BiasConfigReg_DP.SSN_D;
 
 			when others => null;
@@ -188,35 +120,39 @@ begin
 
 		case ConfigParamAddress_DI is
 			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.DigitalMux0_D =>
-				ChipConfigReg_DN.DigitalMux0_D                                       <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.DigitalMux0_D'length - 1 downto 0));
+				ChipConfigReg_DN.DigitalMux0_D                                            <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.DigitalMux0_D'length - 1 downto 0));
 				ChipOutput_DN(tAERCorrFilterChipConfig.DigitalMux0_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.DigitalMux0_D);
 
 			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.DigitalMux1_D =>
-				ChipConfigReg_DN.DigitalMux1_D                                       <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.DigitalMux1_D'length - 1 downto 0));
+				ChipConfigReg_DN.DigitalMux1_D                                            <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.DigitalMux1_D'length - 1 downto 0));
 				ChipOutput_DN(tAERCorrFilterChipConfig.DigitalMux1_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.DigitalMux1_D);
 
 			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.DigitalMux2_D =>
-				ChipConfigReg_DN.DigitalMux2_D                                       <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.DigitalMux2_D'length - 1 downto 0));
+				ChipConfigReg_DN.DigitalMux2_D                                            <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.DigitalMux2_D'length - 1 downto 0));
 				ChipOutput_DN(tAERCorrFilterChipConfig.DigitalMux2_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.DigitalMux2_D);
 
 			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.DigitalMux3_D =>
-				ChipConfigReg_DN.DigitalMux3_D                                       <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.DigitalMux3_D'length - 1 downto 0));
+				ChipConfigReg_DN.DigitalMux3_D                                            <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.DigitalMux3_D'length - 1 downto 0));
 				ChipOutput_DN(tAERCorrFilterChipConfig.DigitalMux3_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.DigitalMux3_D);
 
 			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AnalogMux0_D =>
-				ChipConfigReg_DN.AnalogMux0_D                                       <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.AnalogMux0_D'length - 1 downto 0));
+				ChipConfigReg_DN.AnalogMux0_D                                            <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.AnalogMux0_D'length - 1 downto 0));
 				ChipOutput_DN(tAERCorrFilterChipConfig.AnalogMux0_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.AnalogMux0_D);
 
 			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AnalogMux1_D =>
-				ChipConfigReg_DN.AnalogMux1_D                                       <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.AnalogMux1_D'length - 1 downto 0));
+				ChipConfigReg_DN.AnalogMux1_D                                            <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.AnalogMux1_D'length - 1 downto 0));
 				ChipOutput_DN(tAERCorrFilterChipConfig.AnalogMux1_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.AnalogMux1_D);
 
 			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AnalogMux2_D =>
-				ChipConfigReg_DN.AnalogMux2_D                                       <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.AnalogMux2_D'length - 1 downto 0));
+				ChipConfigReg_DN.AnalogMux2_D                                            <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.AnalogMux2_D'length - 1 downto 0));
 				ChipOutput_DN(tAERCorrFilterChipConfig.AnalogMux2_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.AnalogMux2_D);
 
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AnalogMux3_D =>
+				ChipConfigReg_DN.AnalogMux3_D                                            <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.AnalogMux3_D'length - 1 downto 0));
+				ChipOutput_DN(tAERCorrFilterChipConfig.AnalogMux3_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.AnalogMux3_D);
+
 			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.BiasMux0_D =>
-				ChipConfigReg_DN.BiasMux0_D                                       <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.BiasMux0_D'length - 1 downto 0));
+				ChipConfigReg_DN.BiasMux0_D                                            <= unsigned(ChipInput_DP(tAERCorrFilterChipConfig.BiasMux0_D'length - 1 downto 0));
 				ChipOutput_DN(tAERCorrFilterChipConfig.BiasMux0_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.BiasMux0_D);
 
 			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.ResetCalibNeuron_S =>
@@ -227,25 +163,57 @@ begin
 				ChipConfigReg_DN.TypeNCalibNeuron_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)                    <= ChipConfigReg_DP.TypeNCalibNeuron_S;
 
-			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.ResetTestPixel_S =>
-				ChipConfigReg_DN.ResetTestPixel_S <= ChipInput_DP(0);
-				ChipOutput_DN(0)                  <= ChipConfigReg_DP.ResetTestPixel_S;
-
-			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AERnArow_S =>
-				ChipConfigReg_DN.AERnArow_S <= ChipInput_DP(0);
-				ChipOutput_DN(0)            <= ChipConfigReg_DP.AERnArow_S;
-
 			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.UseAOut_S =>
 				ChipConfigReg_DN.UseAOut_S <= ChipInput_DP(0);
 				ChipOutput_DN(0)           <= ChipConfigReg_DP.UseAOut_S;
 
-			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
-				ChipConfigReg_DN.GlobalShutter_S <= ChipInput_DP(0);
-				ChipOutput_DN(0)                 <= ChipConfigReg_DP.GlobalShutter_S;
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.ChipIDX0_S =>
+				ChipConfigReg_DN.ChipIDX0_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)            <= ChipConfigReg_DP.ChipIDX0_S;
 
-			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.SelectGrayCounter_S =>
-				ChipConfigReg_DN.SelectGrayCounter_S <= ChipInput_DP(0);
-				ChipOutput_DN(0)                     <= ChipConfigReg_DP.SelectGrayCounter_S;
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.ChipIDX1_S =>
+				ChipConfigReg_DN.ChipIDX1_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)            <= ChipConfigReg_DP.ChipIDX1_S;
+
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AMCX0_S =>
+				ChipConfigReg_DN.AMCX0_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)         <= ChipConfigReg_DP.AMCX0_S;
+
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AMCX1_S =>
+				ChipConfigReg_DN.AMCX1_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)         <= ChipConfigReg_DP.AMCX1_S;
+
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AMDX0_S =>
+				ChipConfigReg_DN.AMDX0_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)         <= ChipConfigReg_DP.AMDX0_S;
+
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AMDX1_S =>
+				ChipConfigReg_DN.AMDX1_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)         <= ChipConfigReg_DP.AMDX1_S;
+
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.ChipIDY0_S =>
+				ChipConfigReg_DN.ChipIDY0_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)            <= ChipConfigReg_DP.ChipIDY0_S;
+
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.ChipIDY1_S =>
+				ChipConfigReg_DN.ChipIDY1_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)            <= ChipConfigReg_DP.ChipIDY1_S;
+
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AMCY0_S =>
+				ChipConfigReg_DN.AMCY0_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)         <= ChipConfigReg_DP.AMCY0_S;
+
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AMCY1_S =>
+				ChipConfigReg_DN.AMCY1_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)         <= ChipConfigReg_DP.AMCY1_S;
+
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AMDY0_S =>
+				ChipConfigReg_DN.AMDY0_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)         <= ChipConfigReg_DP.AMDY0_S;
+
+			when AERCorrFilter_CHIPCONFIG_PARAM_ADDRESSES.AMDY1_S =>
+				ChipConfigReg_DN.AMDY1_S <= ChipInput_DP(0);
+				ChipOutput_DN(0)         <= ChipConfigReg_DP.AMDY1_S;
 
 			when others => null;
 		end case;
