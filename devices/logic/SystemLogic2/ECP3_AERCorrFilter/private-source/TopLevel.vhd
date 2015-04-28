@@ -5,131 +5,90 @@ use work.EventCodes.all;
 use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
-use work.DVSAERConfigRecords.all;
-use work.D4AAPSADCConfigRecords.all;
-use work.IMUConfigRecords.all;
-use work.ExtInputConfigRecords.all;
-use work.ChipBiasConfigRecords.all;
+use work.DVSAERCorrFilterConfigRecords.all;
 use work.SystemInfoConfigRecords.all;
 use work.FX3ConfigRecords.all;
+use work.ChipBiasConfigRecords.all;
+use work.AERCorrFilterChipBiasConfigRecords.all;
 
-entity TopLevelRGB is
+entity TopLevel is
 	port(
-		USBClock_CI                 : in    std_logic;
-		Reset_RI                    : in    std_logic;
+		USBClock_CI                : in  std_logic;
+		Reset_RI                   : in  std_logic;
 
-		SPISlaveSelect_ABI          : in    std_logic;
-		SPIClock_AI                 : in    std_logic;
-		SPIMOSI_AI                  : in    std_logic;
-		SPIMISO_DZO                 : out   std_logic;
+		SPISlaveSelect_ABI         : in  std_logic;
+		SPIClock_AI                : in  std_logic;
+		SPIMOSI_AI                 : in  std_logic;
+		SPIMISO_DZO                : out std_logic;
 
-		USBFifoData_DO              : out   std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
-		USBFifoChipSelect_SBO       : out   std_logic;
-		USBFifoWrite_SBO            : out   std_logic;
-		USBFifoRead_SBO             : out   std_logic;
-		USBFifoPktEnd_SBO           : out   std_logic;
-		USBFifoAddress_DO           : out   std_logic_vector(1 downto 0);
-		USBFifoThr0Ready_SI         : in    std_logic;
-		USBFifoThr0Watermark_SI     : in    std_logic;
-		USBFifoThr1Ready_SI         : in    std_logic;
-		USBFifoThr1Watermark_SI     : in    std_logic;
+		USBFifoData_DO             : out std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+		USBFifoChipSelect_SBO      : out std_logic;
+		USBFifoWrite_SBO           : out std_logic;
+		USBFifoRead_SBO            : out std_logic;
+		USBFifoPktEnd_SBO          : out std_logic;
+		USBFifoAddress_DO          : out std_logic_vector(1 downto 0);
+		USBFifoThr0Ready_SI        : in  std_logic;
+		USBFifoThr0Watermark_SI    : in  std_logic;
+		USBFifoThr1Ready_SI        : in  std_logic;
+		USBFifoThr1Watermark_SI    : in  std_logic;
 
-		LED1_SO                     : out   std_logic;
-		LED2_SO                     : out   std_logic;
-		LED3_SO                     : out   std_logic;
-		LED4_SO                     : out   std_logic;
-		LED5_SO                     : out   std_logic;
-		LED6_SO                     : out   std_logic;
+		LED1_SO                    : out std_logic;
+		LED2_SO                    : out std_logic;
+		LED3_SO                    : out std_logic;
+		LED4_SO                    : out std_logic;
+		LED5_SO                    : out std_logic;
+		LED6_SO                    : out std_logic;
 
-		ChipBiasEnable_SO           : out   std_logic;
-		ChipBiasDiagSelect_SO       : out   std_logic;
-		ChipBiasAddrSelect_SBO      : out   std_logic;
-		ChipBiasClock_CBO           : out   std_logic;
-		ChipBiasBitIn_DO            : out   std_logic;
-		ChipBiasLatch_SBO           : out   std_logic;
+		ChipBiasEnable_SO          : out std_logic;
+		ChipBiasDiagSelect_SO      : out std_logic;
+		ChipBiasAddrSelect_SBO     : out std_logic;
+		ChipBiasClock_CBO          : out std_logic;
+		ChipBiasBitIn_DO           : out std_logic;
+		ChipBiasLatch_SBO          : out std_logic;
 		--ChipBiasBitOut_DI : in std_logic;
 
-		DVSAERData_AI               : in    std_logic_vector(DVS_AER_BUS_WIDTH - 1 downto 0);
-		DVSAERReq_ABI               : in    std_logic;
-		DVSAERAck_SBO               : out   std_logic;
-		DVSAERReset_SBO             : out   std_logic;
+		-- Fake event input from USBAERmini boards.
+		DVSAERData_AI              : in  std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
+		DVSAERReq_ABI              : in  std_logic;
+		DVSAERAck_SBO              : out std_logic;
 
-		APSChipColSRClock_CO        : out   std_logic;
-		APSChipColSRIn_SO           : out   std_logic;
-		APSChipRowSRClock_CO        : out   std_logic;
-		APSChipRowSRIn_SO           : out   std_logic;
-		APSChipOverflowGate_SO      : out   std_logic;
-		APSChipTXGate_SO            : out   std_logic;
-		APSChipReset_SO             : out   std_logic;
-		APSChipGlobalShutter_SBO    : out   std_logic;
+		-- Communication with AERCorrFilter chip.
+		AERCorrFilterPass_SI       : in  std_logic;
+		AERCorrFilterPassEnable_SO : out std_logic;
+		AERCorrFilterData_DO       : out std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
+		AERCorrFilterReq_SBO       : out std_logic;
+		AERCorrFilterAck_SBO       : out std_logic;
 
-		ExternalADCData_DI          : in    std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
-		ExternalADCOverflow_SI      : in    std_logic;
-		ExternalADCClock_CO         : out   std_logic;
-		ExternalADCOutputEnable_SBO : out   std_logic;
-		ExternalADCStandby_SO       : out   std_logic;
+		SyncOutClock_CO            : out std_logic;
+		SyncOutSwitch_AI           : in  std_logic;
+		SyncOutSignal_SO           : out std_logic;
+		SyncInClock_AI             : in  std_logic;
+		SyncInSwitch_AI            : in  std_logic;
+		SyncInSignal_AI            : in  std_logic);
+end TopLevel;
 
-		ChipADCData_DI              : in    std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
-		ChipADCRampClear_SO         : out   std_logic;
-		ChipADCRampClock_CO         : out   std_logic;
-		ChipADCRampBitIn_SO         : out   std_logic;
-		ChipADCScanClock_CO         : out   std_logic;
-		ChipADCScanControl_SO       : out   std_logic;
-		ChipADCSample_SO            : out   std_logic;
-		ChipADCGrayCounter_DO       : out   std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
-
-		IMUClock_CZO                : out   std_logic;
-		IMUData_DZIO                : inout std_logic;
-		IMUInterrupt_AI             : in    std_logic;
-		IMUFSync_SO                 : out   std_logic;
-
-		SyncOutClock_CO             : out   std_logic;
-		SyncOutSwitch_AI            : in    std_logic;
-		SyncOutSignal_SO            : out   std_logic;
-		SyncInClock_AI              : in    std_logic;
-		SyncInSwitch_AI             : in    std_logic;
-		SyncInSignal_AI             : in    std_logic);
-end TopLevelRGB;
-
-architecture Structural of TopLevelRGB is
+architecture Structural of TopLevel is
 	signal USBReset_R   : std_logic;
 	signal LogicClock_C : std_logic;
 	signal LogicReset_R : std_logic;
-	signal ADCClock_C   : std_logic;
-	signal ADCReset_R   : std_logic;
 
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S : std_logic;
-	signal DVSAERReqSync_SB, IMUInterruptSync_S                                                                   : std_logic;
-	signal SyncOutSwitchSync_S, SyncInClockSync_C, SyncInSwitchSync_S, SyncInSignalSync_S                         : std_logic;
+	signal DVSAERReqSync_SB, DVSAERAck_SB                                                                         : std_logic;
+	signal SyncInClockSync_C                                                                                      : std_logic;
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D                                                   : std_logic;
 	signal DeviceIsMaster_S                                                                                       : std_logic;
 
-	signal In1Timestamp_S, In2Timestamp_S, In3Timestamp_S, In4Timestamp_S : std_logic;
+	signal In1Timestamp_S : std_logic;
 
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
 	signal LogicUSBFifoDataIn_D     : std_logic_vector(FULL_EVENT_WIDTH - 1 downto 0);
 	signal LogicUSBFifoDataOut_D    : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
 
-	signal DVSAERFifoControlIn_S  : tToFifo;
-	signal DVSAERFifoControlOut_S : tFromFifo;
-	signal DVSAERFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
-	signal DVSAERFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
-
-	signal APSADCFifoControlIn_S  : tToFifo;
-	signal APSADCFifoControlOut_S : tFromFifo;
-	signal APSADCFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
-	signal APSADCFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
-
-	signal IMUFifoControlIn_S  : tToFifo;
-	signal IMUFifoControlOut_S : tFromFifo;
-	signal IMUFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
-	signal IMUFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
-
-	signal ExtInputFifoControlIn_S  : tToFifo;
-	signal ExtInputFifoControlOut_S : tFromFifo;
-	signal ExtInputFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
-	signal ExtInputFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal DVSAERCorrFilterFifoControlIn_S  : tToFifo;
+	signal DVSAERCorrFilterFifoControlOut_S : tFromFifo;
+	signal DVSAERCorrFilterFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal DVSAERCorrFilterFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 	signal ConfigModuleAddress_D : unsigned(6 downto 0);
 	signal ConfigParamAddress_D  : unsigned(7 downto 0);
@@ -137,22 +96,19 @@ architecture Structural of TopLevelRGB is
 	signal ConfigLatchInput_S    : std_logic;
 	signal ConfigParamOutput_D   : std_logic_vector(31 downto 0);
 
-	signal MultiplexerConfigParamOutput_D : std_logic_vector(31 downto 0);
-	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
-	signal D4AAPSADCConfigParamOutput_D   : std_logic_vector(31 downto 0);
-	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
-	signal ExtInputConfigParamOutput_D    : std_logic_vector(31 downto 0);
-	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
-	signal ChipConfigParamOutput_D        : std_logic_vector(31 downto 0);
-	signal SystemInfoConfigParamOutput_D  : std_logic_vector(31 downto 0);
-	signal FX3ConfigParamOutput_D         : std_logic_vector(31 downto 0);
+	signal MultiplexerConfigParamOutput_D      : std_logic_vector(31 downto 0);
+	signal DVSAERCorrFilterConfigParamOutput_D : std_logic_vector(31 downto 0);
+	signal BiasConfigParamOutput_D             : std_logic_vector(31 downto 0);
+	signal ChipConfigParamOutput_D             : std_logic_vector(31 downto 0);
+	signal SystemInfoConfigParamOutput_D       : std_logic_vector(31 downto 0);
+	signal FX3ConfigParamOutput_D              : std_logic_vector(31 downto 0);
 
-	signal MultiplexerConfig_D, MultiplexerConfigReg_D, MultiplexerConfigReg2_D : tMultiplexerConfig;
-	signal DVSAERConfig_D, DVSAERConfigReg_D, DVSAERConfigReg2_D                : tDVSAERConfig;
-	signal D4AAPSADCConfig_D, D4AAPSADCConfigReg_D, D4AAPSADCConfigReg2_D       : tD4AAPSADCConfig;
-	signal IMUConfig_D, IMUConfigReg_D, IMUConfigReg2_D                         : tIMUConfig;
-	signal ExtInputConfig_D, ExtInputConfigReg_D, ExtInputConfigReg2_D          : tExtInputConfig;
-	signal FX3Config_D, FX3ConfigReg_D, FX3ConfigReg2_D                         : tFX3Config;
+	signal MultiplexerConfig_D, MultiplexerConfigReg_D, MultiplexerConfigReg2_D                : tMultiplexerConfig;
+	signal DVSAERCorrFilterConfig_D, DVSAERCorrFilterConfigReg_D, DVSAERCorrFilterConfigReg2_D : tDVSAERCorrFilterConfig;
+	signal FX3Config_D, FX3ConfigReg_D, FX3ConfigReg2_D                                        : tFX3Config;
+
+	signal AERCorrFilterBiasConfig_D, AERCorrFilterBiasConfigReg_D : tAERCorrFilterBiasConfig;
+	signal AERCorrFilterChipConfig_D, AERCorrFilterChipConfigReg_D : tAERCorrFilterChipConfig;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
@@ -183,29 +139,29 @@ begin
 			SPIMOSISync_DO         => SPIMOSISync_D,
 			DVSAERReq_SBI          => DVSAERReq_ABI,
 			DVSAERReqSync_SBO      => DVSAERReqSync_SB,
-			IMUInterrupt_SI        => IMUInterrupt_AI,
-			IMUInterruptSync_SO    => IMUInterruptSync_S,
-			SyncOutSwitch_SI       => SyncOutSwitch_AI,
-			SyncOutSwitchSync_SO   => SyncOutSwitchSync_S,
+			IMUInterrupt_SI        => '0',
+			IMUInterruptSync_SO    => open,
+			SyncOutSwitch_SI       => '0',
+			SyncOutSwitchSync_SO   => open,
 			SyncInClock_CI         => SyncInClock_AI,
 			SyncInClockSync_CO     => SyncInClockSync_C,
-			SyncInSwitch_SI        => SyncInSwitch_AI,
-			SyncInSwitchSync_SO    => SyncInSwitchSync_S,
-			SyncInSignal_SI        => SyncInSignal_AI,
-			SyncInSignalSync_SO    => SyncInSignalSync_S);
+			SyncInSwitch_SI        => '0',
+			SyncInSwitchSync_SO    => open,
+			SyncInSignal_SI        => '0',
+			SyncInSignalSync_SO    => open);
 
 	-- Third: set all constant outputs.
 	USBFifoChipSelect_SBO <= '0';       -- Always keep USB chip selected (active-low).
 	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
-	IMUFSync_SO           <= '0';       -- Not used, tie to ground according to docs.
+
 	-- Always enable chip if it is needed (for DVS or APS or forced).
 	chipBiasEnableBuffer : entity work.SimpleRegister
 		port map(
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => DVSAERConfig_D.Run_S or D4AAPSADCConfig_D.Run_S or MultiplexerConfig_D.ForceChipBiasEnable_S,
+			Input_SI(0)  => DVSAERCorrFilterConfig_D.Run_S or MultiplexerConfig_D.ForceChipBiasEnable_S,
 			Output_SO(0) => ChipBiasEnable_SO);
 
 	-- Wire all LEDs.
@@ -267,23 +223,6 @@ begin
 			Reset_RI    => USBReset_R,
 			OutClock_CO => LogicClock_C);
 
-	-- Generate ADC clock using a PLL. Must be 30MHz.
-	adcClockPLL : entity work.PLL
-		generic map(
-			CLOCK_FREQ     => USB_CLOCK_FREQ,
-			OUT_CLOCK_FREQ => ADC_CLOCK_FREQ)
-		port map(
-			Clock_CI    => USBClock_CI,
-			Reset_RI    => USBReset_R,
-			OutClock_CO => ADCClock_C);
-
-	-- Also create synchronized reset signal for ADC.
-	adcResetSync : entity work.ResetSynchronizer
-		port map(
-			ExtClock_CI  => ADCClock_C,
-			ExtReset_RI  => Reset_RI,
-			SyncReset_RO => ADCReset_R);
-
 	usbFX3SM : entity work.FX3Statemachine
 		port map(
 			Clock_CI                    => USBClock_CI,
@@ -326,11 +265,8 @@ begin
 			FifoData_DI    => LogicUSBFifoDataIn_D,
 			FifoData_DO    => LogicUSBFifoDataOut_D);
 
-	-- In1 is DVS, TS Y addresses. In2 is APS, TS special. In3 is IMU, TS Start6. In4 is ExtInput, TS all.
-	In1Timestamp_S <= '1' when DVSAERFifoDataOut_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_Y_ADDR else '0';
-	In2Timestamp_S <= '1' when APSADCFifoDataOut_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_SPECIAL else '0';
-	In3Timestamp_S <= '1' when IMUFifoDataOut_D(EVENT_DATA_WIDTH_MAX - 1 downto 0) = EVENT_CODE_SPECIAL_IMU_START6 else '0';
-	In4Timestamp_S <= '1' when true else '0';
+	-- In1 is DVS, TS Y addresses.
+	In1Timestamp_S <= '1' when DVSAERCorrFilterFifoDataOut_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_Y_ADDR else '0';
 
 	multiplexerSM : entity work.MultiplexerStateMachine
 		port map(
@@ -342,22 +278,22 @@ begin
 			OutFifoControl_SI    => LogicUSBFifoControlOut_S.WriteSide,
 			OutFifoControl_SO    => LogicUSBFifoControlIn_S.WriteSide,
 			OutFifoData_DO       => LogicUSBFifoDataIn_D,
-			In1FifoControl_SI    => DVSAERFifoControlOut_S.ReadSide,
-			In1FifoControl_SO    => DVSAERFifoControlIn_S.ReadSide,
-			In1FifoData_DI       => DVSAERFifoDataOut_D,
+			In1FifoControl_SI    => DVSAERCorrFilterFifoControlOut_S.ReadSide,
+			In1FifoControl_SO    => DVSAERCorrFilterFifoControlIn_S.ReadSide,
+			In1FifoData_DI       => DVSAERCorrFilterFifoDataOut_D,
 			In1Timestamp_SI      => In1Timestamp_S,
-			In2FifoControl_SI    => APSADCFifoControlOut_S.ReadSide,
-			In2FifoControl_SO    => APSADCFifoControlIn_S.ReadSide,
-			In2FifoData_DI       => APSADCFifoDataOut_D,
-			In2Timestamp_SI      => In2Timestamp_S,
-			In3FifoControl_SI    => IMUFifoControlOut_S.ReadSide,
-			In3FifoControl_SO    => IMUFifoControlIn_S.ReadSide,
-			In3FifoData_DI       => IMUFifoDataOut_D,
-			In3Timestamp_SI      => In3Timestamp_S,
-			In4FifoControl_SI    => ExtInputFifoControlOut_S.ReadSide,
-			In4FifoControl_SO    => ExtInputFifoControlIn_S.ReadSide,
-			In4FifoData_DI       => ExtInputFifoDataOut_D,
-			In4Timestamp_SI      => In4Timestamp_S,
+			In2FifoControl_SI    => (others => '0'),
+			In2FifoControl_SO    => open,
+			In2FifoData_DI       => (others => '0'),
+			In2Timestamp_SI      => '0',
+			In3FifoControl_SI    => (others => '0'),
+			In3FifoControl_SO    => open,
+			In3FifoData_DI       => (others => '0'),
+			In3Timestamp_SI      => '0',
+			In4FifoControl_SI    => (others => '0'),
+			In4FifoControl_SO    => open,
+			In4FifoData_DI       => (others => '0'),
+			In4Timestamp_SI      => '0',
 			MultiplexerConfig_DI => MultiplexerConfigReg2_D);
 
 	multiplexerSPIConfig : entity work.MultiplexerSPIConfig
@@ -380,174 +316,42 @@ begin
 		port map(
 			Clock_CI       => LogicClock_C,
 			Reset_RI       => LogicReset_R,
-			FifoControl_SI => DVSAERFifoControlIn_S,
-			FifoControl_SO => DVSAERFifoControlOut_S,
-			FifoData_DI    => DVSAERFifoDataIn_D,
-			FifoData_DO    => DVSAERFifoDataOut_D);
+			FifoControl_SI => DVSAERCorrFilterFifoControlIn_S,
+			FifoControl_SO => DVSAERCorrFilterFifoControlOut_S,
+			FifoData_DI    => DVSAERCorrFilterFifoDataIn_D,
+			FifoData_DO    => DVSAERCorrFilterFifoDataOut_D);
 
-	dvsAerSM : entity work.DVSAERStateMachine
-		generic map(
-			ENABLE_PIXEL_FILTERING     => false,
-			ENABLE_BA_FILTERING        => false,
-			BA_FILTER_SUBSAMPLE_COLUMN => 1,
-			BA_FILTER_SUBSAMPLE_ROW    => 1)
-		port map(
-			Clock_CI          => LogicClock_C,
-			Reset_RI          => LogicReset_R,
-			OutFifoControl_SI => DVSAERFifoControlOut_S.WriteSide,
-			OutFifoControl_SO => DVSAERFifoControlIn_S.WriteSide,
-			OutFifoData_DO    => DVSAERFifoDataIn_D,
-			DVSAERData_DI     => DVSAERData_AI,
-			DVSAERReq_SBI     => DVSAERReqSync_SB,
-			DVSAERAck_SBO     => DVSAERAck_SBO,
-			DVSAERReset_SBO   => DVSAERReset_SBO,
-			DVSAERConfig_DI   => DVSAERConfigReg2_D);
+	-- Connect all AER buses as specified (Y configuration).
+	DVSAERAck_SBO        <= DVSAERAck_SB;
+	AERCorrFilterAck_SBO <= DVSAERAck_SB;
+	AERCorrFilterReq_SBO <= DVSAERReqSync_SB;
+	AERCorrFilterData_DO <= DVSAERData_AI;
 
-	dvsaerSPIConfig : entity work.DVSAERSPIConfig
-		generic map(
-			ENABLE_PIXEL_FILTERING => false,
-			ENABLE_BA_FILTERING    => false)
+	dvsAerCorrFilterSM : entity work.DVSAERCorrFilterStateMachine
 		port map(
 			Clock_CI                   => LogicClock_C,
 			Reset_RI                   => LogicReset_R,
-			DVSAERConfig_DO            => DVSAERConfig_D,
-			ConfigModuleAddress_DI     => ConfigModuleAddress_D,
-			ConfigParamAddress_DI      => ConfigParamAddress_D,
-			ConfigParamInput_DI        => ConfigParamInput_D,
-			ConfigLatchInput_SI        => ConfigLatchInput_S,
-			DVSAERConfigParamOutput_DO => DVSAERConfigParamOutput_D);
+			OutFifoControl_SI          => DVSAERCorrFilterFifoControlOut_S.WriteSide,
+			OutFifoControl_SO          => DVSAERCorrFilterFifoControlIn_S.WriteSide,
+			OutFifoData_DO             => DVSAERCorrFilterFifoDataIn_D,
+			DVSAERData_DI              => DVSAERData_AI,
+			DVSAERReq_SBI              => DVSAERReqSync_SB,
+			DVSAERAck_SBO              => DVSAERAck_SB,
+			DVSAERReset_SBO            => open,
+			AERCorrFilterPass_SI       => AERCorrFilterPass_SI,
+			AERCorrFilterPassEnable_SO => AERCorrFilterPassEnable_SO,
+			DVSAERCorrFilterConfig_DI  => DVSAERCorrFilterConfigReg2_D);
 
-	-- Dual-clock FIFO is needed to bridge from ADC clock (ADCClock_C in this case) to logic clock.
-	apsAdcFifo : entity work.FIFODualClock
-		generic map(
-			DATA_WIDTH        => EVENT_WIDTH,
-			DATA_DEPTH        => APSADC_FIFO_SIZE,
-			ALMOST_EMPTY_FLAG => APSADC_FIFO_ALMOST_EMPTY_SIZE,
-			ALMOST_FULL_FLAG  => APSADC_FIFO_ALMOST_FULL_SIZE)
+	dvsAerSPIConfig : entity work.DVSAERCorrFilterSPIConfig
 		port map(
-			Reset_RI       => ADCReset_R,
-			WrClock_CI     => ADCClock_C,
-			RdClock_CI     => LogicClock_C,
-			FifoControl_SI => APSADCFifoControlIn_S,
-			FifoControl_SO => APSADCFifoControlOut_S,
-			FifoData_DI    => APSADCFifoDataIn_D,
-			FifoData_DO    => APSADCFifoDataOut_D);
-
-	apsAdcSM : entity work.D4AAPSADCStateMachine
-		generic map(
-			ENABLE_QUAD_ROI => false)
-		port map(
-			Clock_CI                 => ADCClock_C,
-			Reset_RI                 => ADCReset_R,
-			OutFifoControl_SI        => APSADCFifoControlOut_S.WriteSide,
-			OutFifoControl_SO        => APSADCFifoControlIn_S.WriteSide,
-			OutFifoData_DO           => APSADCFifoDataIn_D,
-			APSChipColSRClock_CO     => APSChipColSRClock_CO,
-			APSChipColSRIn_SO        => APSChipColSRIn_SO,
-			APSChipRowSRClock_CO     => APSChipRowSRClock_CO,
-			APSChipRowSRIn_SO        => APSChipRowSRIn_SO,
-			APSChipOverflowGate_SO   => APSChipOverflowGate_SO,
-			APSChipTXGate_SO         => APSChipTXGate_SO,
-			APSChipReset_SO          => APSChipReset_SO,
-			APSChipGlobalShutter_SBO => APSChipGlobalShutter_SBO,
-			ChipADCData_DI           => ChipADCData_DI,
-			ChipADCRampClear_SO      => ChipADCRampClear_SO,
-			ChipADCRampClock_CO      => ChipADCRampClock_CO,
-			ChipADCRampBitIn_SO      => ChipADCRampBitIn_SO,
-			ChipADCScanClock_CO      => ChipADCScanClock_CO,
-			ChipADCScanControl_SO    => ChipADCScanControl_SO,
-			ChipADCSample_SO         => ChipADCSample_SO,
-			ChipADCGrayCounter_DO    => ChipADCGrayCounter_DO,
-			D4AAPSADCConfig_DI       => D4AAPSADCConfigReg2_D);
-
-	apsAdcSPIConfig : entity work.D4AAPSADCSPIConfig
-		generic map(
-			ENABLE_QUAD_ROI => false)
-		port map(
-			Clock_CI                      => LogicClock_C,
-			Reset_RI                      => LogicReset_R,
-			D4AAPSADCConfig_DO            => D4AAPSADCConfig_D,
-			ConfigModuleAddress_DI        => ConfigModuleAddress_D,
-			ConfigParamAddress_DI         => ConfigParamAddress_D,
-			ConfigParamInput_DI           => ConfigParamInput_D,
-			ConfigLatchInput_SI           => ConfigLatchInput_S,
-			D4AAPSADCConfigParamOutput_DO => D4AAPSADCConfigParamOutput_D);
-
-	imuFifo : entity work.FIFO
-		generic map(
-			DATA_WIDTH        => EVENT_WIDTH,
-			DATA_DEPTH        => IMU_FIFO_SIZE,
-			ALMOST_EMPTY_FLAG => IMU_FIFO_ALMOST_EMPTY_SIZE,
-			ALMOST_FULL_FLAG  => IMU_FIFO_ALMOST_FULL_SIZE,
-			MEMORY            => "LUT")
-		port map(
-			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R,
-			FifoControl_SI => IMUFifoControlIn_S,
-			FifoControl_SO => IMUFifoControlOut_S,
-			FifoData_DI    => IMUFifoDataIn_D,
-			FifoData_DO    => IMUFifoDataOut_D);
-
-	imuSM : entity work.IMUStateMachine
-		port map(
-			Clock_CI          => LogicClock_C,
-			Reset_RI          => LogicReset_R,
-			OutFifoControl_SI => IMUFifoControlOut_S.WriteSide,
-			OutFifoControl_SO => IMUFifoControlIn_S.WriteSide,
-			OutFifoData_DO    => IMUFifoDataIn_D,
-			IMUClock_CZO      => IMUClock_CZO,
-			IMUData_DZIO      => IMUData_DZIO,
-			IMUInterrupt_SI   => IMUInterruptSync_S,
-			IMUConfig_DI      => IMUConfigReg2_D);
-
-	imuSPIConfig : entity work.IMUSPIConfig
-		port map(
-			Clock_CI                => LogicClock_C,
-			Reset_RI                => LogicReset_R,
-			IMUConfig_DO            => IMUConfig_D,
-			ConfigModuleAddress_DI  => ConfigModuleAddress_D,
-			ConfigParamAddress_DI   => ConfigParamAddress_D,
-			ConfigParamInput_DI     => ConfigParamInput_D,
-			ConfigLatchInput_SI     => ConfigLatchInput_S,
-			IMUConfigParamOutput_DO => IMUConfigParamOutput_D);
-
-	extInputFifo : entity work.FIFO
-		generic map(
-			DATA_WIDTH        => EVENT_WIDTH,
-			DATA_DEPTH        => EXT_INPUT_FIFO_SIZE,
-			ALMOST_EMPTY_FLAG => EXT_INPUT_FIFO_ALMOST_EMPTY_SIZE,
-			ALMOST_FULL_FLAG  => EXT_INPUT_FIFO_ALMOST_FULL_SIZE,
-			MEMORY            => "LUT")
-		port map(
-			Clock_CI       => LogicClock_C,
-			Reset_RI       => LogicReset_R,
-			FifoControl_SI => ExtInputFifoControlIn_S,
-			FifoControl_SO => ExtInputFifoControlOut_S,
-			FifoData_DI    => ExtInputFifoDataIn_D,
-			FifoData_DO    => ExtInputFifoDataOut_D);
-
-	extInputSM : entity work.ExtInputStateMachine
-		port map(
-			Clock_CI              => LogicClock_C,
-			Reset_RI              => LogicReset_R,
-			OutFifoControl_SI     => ExtInputFifoControlOut_S.WriteSide,
-			OutFifoControl_SO     => ExtInputFifoControlIn_S.WriteSide,
-			OutFifoData_DO        => ExtInputFifoDataIn_D,
-			ExtInputSignal_SI     => SyncInSignalSync_S,
-			CustomOutputSignal_SI => '1',
-			ExtInputSignal_SO     => SyncOutSignal_SO,
-			ExtInputConfig_DI     => ExtInputConfigReg2_D);
-
-	extInputSPIConfig : entity work.ExtInputSPIConfig
-		port map(
-			Clock_CI                     => LogicClock_C,
-			Reset_RI                     => LogicReset_R,
-			ExtInputConfig_DO            => ExtInputConfig_D,
-			ConfigModuleAddress_DI       => ConfigModuleAddress_D,
-			ConfigParamAddress_DI        => ConfigParamAddress_D,
-			ConfigParamInput_DI          => ConfigParamInput_D,
-			ConfigLatchInput_SI          => ConfigLatchInput_S,
-			ExtInputConfigParamOutput_DO => ExtInputConfigParamOutput_D);
+			Clock_CI                             => LogicClock_C,
+			Reset_RI                             => LogicReset_R,
+			DVSAERCorrFilterConfig_DO            => DVSAERCorrFilterConfig_D,
+			ConfigModuleAddress_DI               => ConfigModuleAddress_D,
+			ConfigParamAddress_DI                => ConfigParamAddress_D,
+			ConfigParamInput_DI                  => ConfigParamInput_D,
+			ConfigLatchInput_SI                  => ConfigLatchInput_S,
+			DVSAERCorrFilterConfigParamOutput_DO => DVSAERCorrFilterConfigParamOutput_D);
 
 	systemInfoSPIConfig : entity work.SystemInfoSPIConfig
 		port map(
@@ -560,33 +364,21 @@ begin
 	configRegisters : process(LogicClock_C, LogicReset_R) is
 	begin
 		if LogicReset_R = '1' then
-			MultiplexerConfigReg2_D <= tMultiplexerConfigDefault;
-			DVSAERConfigReg2_D      <= tDVSAERConfigDefault;
-			D4AAPSADCConfigReg2_D   <= tD4AAPSADCConfigDefault;
-			IMUConfigReg2_D         <= tIMUConfigDefault;
-			ExtInputConfigReg2_D    <= tExtInputConfigDefault;
-			FX3ConfigReg2_D         <= tFX3ConfigDefault;
+			MultiplexerConfigReg2_D      <= tMultiplexerConfigDefault;
+			DVSAERCorrFilterConfigReg2_D <= tDVSAERCorrFilterConfigDefault;
+			FX3ConfigReg2_D              <= tFX3ConfigDefault;
 
-			MultiplexerConfigReg_D <= tMultiplexerConfigDefault;
-			DVSAERConfigReg_D      <= tDVSAERConfigDefault;
-			D4AAPSADCConfigReg_D   <= tD4AAPSADCConfigDefault;
-			IMUConfigReg_D         <= tIMUConfigDefault;
-			ExtInputConfigReg_D    <= tExtInputConfigDefault;
-			FX3ConfigReg_D         <= tFX3ConfigDefault;
+			MultiplexerConfigReg_D      <= tMultiplexerConfigDefault;
+			DVSAERCorrFilterConfigReg_D <= tDVSAERCorrFilterConfigDefault;
+			FX3ConfigReg_D              <= tFX3ConfigDefault;
 		elsif rising_edge(LogicClock_C) then
-			MultiplexerConfigReg2_D <= MultiplexerConfigReg_D;
-			DVSAERConfigReg2_D      <= DVSAERConfigReg_D;
-			D4AAPSADCConfigReg2_D   <= D4AAPSADCConfigReg_D;
-			IMUConfigReg2_D         <= IMUConfigReg_D;
-			ExtInputConfigReg2_D    <= ExtInputConfigReg_D;
-			FX3ConfigReg2_D         <= FX3ConfigReg_D;
+			MultiplexerConfigReg2_D      <= MultiplexerConfigReg_D;
+			DVSAERCorrFilterConfigReg2_D <= DVSAERCorrFilterConfigReg_D;
+			FX3ConfigReg2_D              <= FX3ConfigReg_D;
 
-			MultiplexerConfigReg_D <= MultiplexerConfig_D;
-			DVSAERConfigReg_D      <= DVSAERConfig_D;
-			D4AAPSADCConfigReg_D   <= D4AAPSADCConfig_D;
-			IMUConfigReg_D         <= IMUConfig_D;
-			ExtInputConfigReg_D    <= ExtInputConfig_D;
-			FX3ConfigReg_D         <= FX3Config_D;
+			MultiplexerConfigReg_D      <= MultiplexerConfig_D;
+			DVSAERCorrFilterConfigReg_D <= DVSAERCorrFilterConfig_D;
+			FX3ConfigReg_D              <= FX3Config_D;
 		end if;
 	end process configRegisters;
 
@@ -604,7 +396,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, D4AAPSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtInputConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERCorrFilterConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -613,17 +405,8 @@ begin
 			when MULTIPLEXERCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= MultiplexerConfigParamOutput_D;
 
-			when DVSAERCONFIG_MODULE_ADDRESS =>
-				ConfigParamOutput_D <= DVSAERConfigParamOutput_D;
-
-			when D4AAPSADCCONFIG_MODULE_ADDRESS =>
-				ConfigParamOutput_D <= D4AAPSADCConfigParamOutput_D;
-
-			when IMUCONFIG_MODULE_ADDRESS =>
-				ConfigParamOutput_D <= IMUConfigParamOutput_D;
-
-			when EXTINPUTCONFIG_MODULE_ADDRESS =>
-				ConfigParamOutput_D <= ExtInputConfigParamOutput_D;
+			when DVSAERCORRFILTERCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= DVSAERCorrFilterConfigParamOutput_D;
 
 			when CHIPBIASCONFIG_MODULE_ADDRESS =>
 				if ConfigParamAddress_D(7) = '0' then
@@ -642,15 +425,35 @@ begin
 		end case;
 	end process spiConfigurationOutputSelect;
 
-	chipBiasSelector : entity work.ChipBiasSelector
+	chipBiasSM : entity work.AERCorrFilterStateMachine
+		port map(
+			Clock_CI               => LogicClock_C,
+			Reset_RI               => LogicReset_R,
+			ChipBiasDiagSelect_SO  => ChipBiasDiagSelect_SO,
+			ChipBiasAddrSelect_SBO => ChipBiasAddrSelect_SBO,
+			ChipBiasClock_CBO      => ChipBiasClock_CBO,
+			ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
+			ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
+			BiasConfig_DI          => AERCorrFilterBiasConfigReg_D,
+			ChipConfig_DI          => AERCorrFilterChipConfigReg_D);
+
+	chipBiasConfigRegisters : process(LogicClock_C, LogicReset_R) is
+	begin
+		if LogicReset_R = '1' then
+			AERCorrFilterBiasConfigReg_D <= tAERCorrFilterBiasConfigDefault;
+			AERCorrFilterChipConfigReg_D <= tAERCorrFilterChipConfigDefault;
+		elsif rising_edge(LogicClock_C) then
+			AERCorrFilterBiasConfigReg_D <= AERCorrFilterBiasConfig_D;
+			AERCorrFilterChipConfigReg_D <= AERCorrFilterChipConfig_D;
+		end if;
+	end process chipBiasConfigRegisters;
+
+	chipBiasSPIConfig : entity work.AERCorrFilterSPIConfig
 		port map(
 			Clock_CI                 => LogicClock_C,
 			Reset_RI                 => LogicReset_R,
-			ChipBiasDiagSelect_SO    => ChipBiasDiagSelect_SO,
-			ChipBiasAddrSelect_SBO   => ChipBiasAddrSelect_SBO,
-			ChipBiasClock_CBO        => ChipBiasClock_CBO,
-			ChipBiasBitIn_DO         => ChipBiasBitIn_DO,
-			ChipBiasLatch_SBO        => ChipBiasLatch_SBO,
+			BiasConfig_DO            => AERCorrFilterBiasConfig_D,
+			ChipConfig_DO            => AERCorrFilterChipConfig_D,
 			ConfigModuleAddress_DI   => ConfigModuleAddress_D,
 			ConfigParamAddress_DI    => ConfigParamAddress_D,
 			ConfigParamInput_DI      => ConfigParamInput_D,

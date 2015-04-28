@@ -14,12 +14,12 @@ package Settings is
 
 	constant LOGIC_CLOCK_FREQ : integer := 120; -- PLL can generate between 5 and 500 MHz here.
 
-	constant USBLOGIC_FIFO_SIZE               : integer := 1024;
-	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE  : integer := USB_BURST_WRITE_LENGTH;
-	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE   : integer := 2;
-	constant DVSAER_FIFO_SIZE                 : integer := 1024;
-	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE    : integer := 2;
-	constant DVSAER_FIFO_ALMOST_FULL_SIZE     : integer := 2;
+	constant USBLOGIC_FIFO_SIZE              : integer := 1024;
+	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE : integer := USB_BURST_WRITE_LENGTH;
+	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE  : integer := 2;
+	constant DVSAER_FIFO_SIZE                : integer := 1024;
+	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE   : integer := 2;
+	constant DVSAER_FIFO_ALMOST_FULL_SIZE    : integer := 2;
 
 	constant LOGIC_VERSION : unsigned(3 downto 0) := to_unsigned(1, 4);
 
@@ -38,5 +38,9 @@ package Settings is
 	-- that common set of variables here and assign them their values from ChipDef.vhd.
 	constant CHIP_IDENTIFIER : unsigned(3 downto 0) := CHIP_IDENTIFIER;
 
-	constant AER_BUS_WIDTH : integer := AER_BUS_WIDTH;
+	constant CHIP_ORIENTATION : std_logic_vector(1 downto 0) := (others => '0');
+
+	constant AER_BUS_WIDTH     : integer := AER_BUS_WIDTH;
+	constant AER_BUS_WIDTH_ROW : integer := AER_BUS_WIDTH - 1; -- Without XSel.
+	constant AER_BUS_WIDTH_COL : integer := AER_BUS_WIDTH - 2; -- Without XSel and Polarity.
 end Settings;
