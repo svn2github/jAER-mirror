@@ -12,13 +12,7 @@
         <Source name="../common-source/ext/FIFODualClock.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/ext/FIFODualClockDouble.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
         <Source name="../common-source/ext/FIFO.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/ext/BlockRAM.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/ext/PLL.vhd" type="VHDL" type_short="VHDL">
@@ -48,7 +42,7 @@
         <Source name="../common-source/support/EdgeDetector.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/support/PulseGenerator.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/support/PulseGenerator.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
             <Options/>
         </Source>
         <Source name="../common-source/support/PulseDetector.vhd" type="VHDL" type_short="VHDL">
@@ -90,46 +84,19 @@
         <Source name="../common-source/MultiplexerConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="private-source/DVSAERCorrFilterStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/DVSAERCorrFilterSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/DVSAERCorrFilterConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/TimestampGenerator.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/TimestampSynchronizer.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/DVSAERStateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/DVSAERSPIConfig.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/DVSAERConfigRecords.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/APSADCStateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/APSADCSPIConfig.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/APSADCConfigRecords.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/IMUStateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/IMUSPIConfig.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/IMUConfigRecords.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/ExtInputStateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/ExtInputSPIConfig.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/ExtInputConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/SystemInfoSPIConfig.vhd" type="VHDL" type_short="VHDL">
@@ -144,55 +111,16 @@
         <Source name="../common-source/chipdefs/aercorrfilter/AERCorrFilter.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/ChipBiasSelector.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
         <Source name="../common-source/ChipBiasConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/chipdefs/davis128/AERCorrFilterStateMachine.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/chipdefs/aercorrfilter/AERCorrFilterStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/chipdefs/davis128/AERCorrFilterSPIConfig.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/chipdefs/aercorrfilter/AERCorrFilterSPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/chipdefs/davis128/AERCorrFilterConfigRecords.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis208/DAVIS208StateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis208/DAVIS208SPIConfig.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis208/DAVIS208ConfigRecords.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis240/DAVIS240StateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis240/DAVIS240SPIConfig.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis240/DAVIS240ConfigRecords.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis346/DAVIS346StateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis346/DAVIS346SPIConfig.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davis346/DAVIS346ConfigRecords.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davisRGB/DAVISrgbStateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davisRGB/DAVISrgbSPIConfig.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/chipdefs/davisRGB/DAVISrgbConfigRecords.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/chipdefs/aercorrfilter/AERCorrFilterConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="SystemLogic2_ECP3_AERCorrFilter.lpf" type="Logic Preference" type_short="LPF">
