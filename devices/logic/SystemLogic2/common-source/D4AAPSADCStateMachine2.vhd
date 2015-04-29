@@ -79,6 +79,8 @@ architecture Behavioral of D4AAPSADCStateMachine2 is
 	signal GSFDResetTimeCount_S, GSFDResetTimeDone_S     : std_logic;
 	signal GSOVGFallTimeCount_S, GSOVGFallTimeDone_S     : std_logic;
 
+	signal ClockSlowDownCount_S, ClockSlowDownDone_S : std_logic;
+
 	-- Communication between row and column state machines. Done through a register for full decoupling.
 	signal ColReadStart_SP, ColReadStart_SN : std_logic;
 	signal ColReadDone_SP, ColReadDone_SN   : std_logic;
@@ -265,6 +267,19 @@ begin
 			Overflow_SO  => GSOVGFallTimeDone_S,
 			Data_DO      => open);
 
+	-- TODO: verify minimum for this.
+	clockSlowDownCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_RSCPRESETTIME_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => ClockSlowDownCount_S,
+			DataLimit_DI => D4AAPSADCConfigReg_D.RSCpReset_D,
+			Overflow_SO  => ClockSlowDownDone_S,
+			Data_DO      => open);
+
 	PixelStateMachine : process(PixelState_DP, D4AAPSADCConfigReg_D, APSChipGlobalShutterReg_SP, APSChipOverflowGateReg_SP, APSChipResetReg_SP, APSChipTXGateReg_SP, ColReadDone_SP, ExposureTimeDone_S, FrameDelayDone_S, GSFDResetTimeDone_S, GSResetFallTimeDone_S, GSTXFallTimeDone_S, OutFifoControl_SI, RSFDSettleTimeDone_S, ReadBSRStatus_DP, RowReadPosition_D, TransferTimeDone_S, APSSampleType_DP, GSOVGFallTimeDone_S)
 	begin
 		PixelState_DN <= PixelState_DP; -- Keep current state by default.
@@ -294,6 +309,8 @@ begin
 		GSTXFallTimeCount_S    <= '0';
 		GSFDResetTimeCount_S   <= '0';
 		GSOVGFallTimeCount_S   <= '0';
+
+		ClockSlowDownCount_S <= '0';
 
 		-- Keep value by default.
 		APSChipOverflowGateReg_SN  <= APSChipOverflowGateReg_SP;
@@ -360,42 +377,66 @@ begin
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '0';
 
-				PixelState_DN <= stRSReadoutFeedOne1Tick;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					PixelState_DN <= stRSReadoutFeedOne1Tick;
+				end if;
 
 			when stRSReadoutFeedOne1Tick =>
 				-- Tick 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '1';
 
-				PixelState_DN <= stRSReadoutFeedOne2;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					PixelState_DN <= stRSReadoutFeedOne2;
+				end if;
 
 			when stRSReadoutFeedOne2 =>
 				--- Feed 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '0';
 
-				PixelState_DN <= stRSReadoutFeedOne2Tick;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					PixelState_DN <= stRSReadoutFeedOne2Tick;
+				end if;
 
 			when stRSReadoutFeedOne2Tick =>
 				-- Tick 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '1';
 
-				PixelState_DN <= stRSReadoutFeedOne3;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					PixelState_DN <= stRSReadoutFeedOne3;
+				end if;
 
 			when stRSReadoutFeedOne3 =>
 				-- Feed 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '0';
 
-				PixelState_DN <= stRSReadoutFeedOne3Tick;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					PixelState_DN <= stRSReadoutFeedOne3Tick;
+				end if;
 
 			when stRSReadoutFeedOne3Tick =>
 				-- Tick 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '1';
 
-				PixelState_DN <= stRSFDSettle;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					PixelState_DN <= stRSFDSettle;
+				end if;
 
 			when stRSFDSettle =>
 				RSFDSettleTimeCount_S <= '1';
@@ -476,7 +517,11 @@ begin
 				APSChipRowSRInReg_S    <= '0';
 				APSChipRowSRClockReg_C <= '0';
 
-				PixelState_DN <= stRSFeedTick;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					PixelState_DN <= stRSFeedTick;
+				end if;
 
 			when stRSFeedTick =>
 				APSChipRowSRInReg_S    <= '0';
@@ -487,14 +532,18 @@ begin
 					ReadBSRStatus_DN <= RBSTAT_NEED_ONE;
 				end if;
 
-				-- Check if we're done (reads ended).
-				if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
-					PixelState_DN <= stEndFrame;
+				ClockSlowDownCount_S <= '1';
 
-					-- Reset ReadB status to initial (need at least a zero), for next frame.
-					ReadBSRStatus_DN <= RBSTAT_NEED_ZERO_ONE;
-				else
-					PixelState_DN <= stRSFDSettle;
+				if ClockSlowDownDone_S = '1' then
+					-- Check if we're done (reads ended).
+					if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
+						PixelState_DN <= stEndFrame;
+
+						-- Reset ReadB status to initial (need at least a zero), for next frame.
+						ReadBSRStatus_DN <= RBSTAT_NEED_ZERO_ONE;
+					else
+						PixelState_DN <= stRSFDSettle;
+					end if;
 				end if;
 
 			when stGSIdle =>
@@ -533,41 +582,57 @@ begin
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '0';
 
-				PixelState_DN <= stGSReadoutFeedOneTick;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					PixelState_DN <= stGSReadoutFeedOneTick;
+				end if;
 
 			when stGSReadoutFeedOneTick =>
 				-- Tick 1.
 				APSChipRowSRInReg_S    <= '1';
 				APSChipRowSRClockReg_C <= '1';
 
-				PixelState_DN <= stGSReadoutFeedZero;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					PixelState_DN <= stGSReadoutFeedZero;
+				end if;
 
 			when stGSReadoutFeedZero =>
 				-- Feed 0.
 				APSChipRowSRInReg_S    <= '0';
 				APSChipRowSRClockReg_C <= '0';
 
-				PixelState_DN <= stGSReadoutFeedZeroTick;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					PixelState_DN <= stGSReadoutFeedZeroTick;
+				end if;
 
 			when stGSReadoutFeedZeroTick =>
 				-- Tick 0.
 				APSChipRowSRInReg_S    <= '0';
 				APSChipRowSRClockReg_C <= '1';
 
-				if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
-					if APSSampleType_DP = SAMPLETYPE_SIGNAL then
-						-- Done with 2nd read.
-						PixelState_DN <= stEndFrame;
+				ClockSlowDownCount_S <= '1';
+
+				if ClockSlowDownDone_S = '1' then
+					if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
+						if APSSampleType_DP = SAMPLETYPE_SIGNAL then
+							-- Done with 2nd read.
+							PixelState_DN <= stEndFrame;
+						else
+							-- Done with only 1st read.
+							PixelState_DN <= stGSExposureStart1;
+
+							RowReadPositionZero_S <= '1';
+
+							APSSampleType_DN <= SAMPLETYPE_SIGNAL;
+						end if;
 					else
-						-- Done with only 1st read.
-						PixelState_DN <= stGSExposureStart1;
-
-						RowReadPositionZero_S <= '1';
-
-						APSSampleType_DN <= SAMPLETYPE_SIGNAL;
+						PixelState_DN <= stGSSampleStart;
 					end if;
-				else
-					PixelState_DN <= stGSSampleStart;
 				end if;
 
 			when stGSSampleStart =>
@@ -611,7 +676,7 @@ begin
 
 				if GSTXFallTimeDone_S = '1' then
 					PixelState_DN <= stGSReadoutFeedOne;
-					
+
 					APSChipOverflowGateReg_SN <= '1';
 				end if;
 
