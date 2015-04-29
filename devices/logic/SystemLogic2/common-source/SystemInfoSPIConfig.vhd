@@ -37,27 +37,6 @@ begin
 			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipOrientation_D =>
 				SystemInfoOutput_DN(CHIP_ORIENTATION'range) <= CHIP_ORIENTATION;
 
-			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipAPSStreamStart_D =>
-				SystemInfoOutput_DN(CHIP_APS_STREAM_START'range) <= CHIP_APS_STREAM_START;
-
-			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipAPSSizeColumns_D =>
-				SystemInfoOutput_DN(CHIP_APS_SIZE_COLUMNS'range) <= std_logic_vector(CHIP_APS_SIZE_COLUMNS);
-
-			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipAPSSizeRows_D =>
-				SystemInfoOutput_DN(CHIP_APS_SIZE_ROWS'range) <= std_logic_vector(CHIP_APS_SIZE_ROWS);
-
-			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipDVSSizeColumns_D =>
-				SystemInfoOutput_DN(CHIP_DVS_SIZE_COLUMNS'range) <= std_logic_vector(CHIP_DVS_SIZE_COLUMNS);
-
-			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipDVSSizeRows_D =>
-				SystemInfoOutput_DN(CHIP_DVS_SIZE_ROWS'range) <= std_logic_vector(CHIP_DVS_SIZE_ROWS);
-
-			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipHasGlobalShutter_S =>
-				SystemInfoOutput_DN(0) <= CHIP_HAS_GLOBAL_SHUTTER;
-
-			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipHasIntegratedADC_S =>
-				SystemInfoOutput_DN(0) <= CHIP_HAS_INTEGRATED_ADC;
-
 			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.DeviceIsMaster_S =>
 				SystemInfoOutput_DN(0) <= DeviceIsMasterBuffer_S;
 

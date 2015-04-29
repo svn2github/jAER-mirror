@@ -8,6 +8,8 @@ package DVSAERConfigRecords is
 	constant DVSAERCONFIG_MODULE_ADDRESS : unsigned(6 downto 0) := to_unsigned(1, 7);
 
 	type tDVSAERConfigParamAddresses is record
+		SizeColumns_D                       : unsigned(7 downto 0);
+		SizeRows_D                          : unsigned(7 downto 0);
 		Run_S                               : unsigned(7 downto 0);
 		AckDelayRow_D                       : unsigned(7 downto 0);
 		AckDelayColumn_D                    : unsigned(7 downto 0);
@@ -15,6 +17,7 @@ package DVSAERConfigRecords is
 		AckExtensionColumn_D                : unsigned(7 downto 0);
 		WaitOnTransferStall_S               : unsigned(7 downto 0);
 		FilterRowOnlyEvents_S               : unsigned(7 downto 0);
+		HasPixelFilter_S                    : unsigned(7 downto 0);
 		FilterPixel0Row_D                   : unsigned(7 downto 0);
 		FilterPixel0Column_D                : unsigned(7 downto 0);
 		FilterPixel1Row_D                   : unsigned(7 downto 0);
@@ -31,45 +34,48 @@ package DVSAERConfigRecords is
 		FilterPixel6Column_D                : unsigned(7 downto 0);
 		FilterPixel7Row_D                   : unsigned(7 downto 0);
 		FilterPixel7Column_D                : unsigned(7 downto 0);
-		HasPixelFilter_S                    : unsigned(7 downto 0);
+		HasBackgroundActivityFilter_S       : unsigned(7 downto 0);
 		FilterBackgroundActivity_S          : unsigned(7 downto 0);
 		FilterBackgroundActivityDeltaTime_D : unsigned(7 downto 0);
-		HasBackgroundActivityFilter_S       : unsigned(7 downto 0);
 	end record tDVSAERConfigParamAddresses;
 
 	constant DVSAERCONFIG_PARAM_ADDRESSES : tDVSAERConfigParamAddresses := (
-		Run_S                               => to_unsigned(0, 8),
-		AckDelayRow_D                       => to_unsigned(1, 8),
-		AckDelayColumn_D                    => to_unsigned(2, 8),
-		AckExtensionRow_D                   => to_unsigned(3, 8),
-		AckExtensionColumn_D                => to_unsigned(4, 8),
-		WaitOnTransferStall_S               => to_unsigned(5, 8),
-		FilterRowOnlyEvents_S               => to_unsigned(6, 8),
-		FilterPixel0Row_D                   => to_unsigned(7, 8),
-		FilterPixel0Column_D                => to_unsigned(8, 8),
-		FilterPixel1Row_D                   => to_unsigned(9, 8),
-		FilterPixel1Column_D                => to_unsigned(10, 8),
-		FilterPixel2Row_D                   => to_unsigned(11, 8),
-		FilterPixel2Column_D                => to_unsigned(12, 8),
-		FilterPixel3Row_D                   => to_unsigned(13, 8),
-		FilterPixel3Column_D                => to_unsigned(14, 8),
-		FilterPixel4Row_D                   => to_unsigned(15, 8),
-		FilterPixel4Column_D                => to_unsigned(16, 8),
-		FilterPixel5Row_D                   => to_unsigned(17, 8),
-		FilterPixel5Column_D                => to_unsigned(18, 8),
-		FilterPixel6Row_D                   => to_unsigned(19, 8),
-		FilterPixel6Column_D                => to_unsigned(20, 8),
-		FilterPixel7Row_D                   => to_unsigned(21, 8),
-		FilterPixel7Column_D                => to_unsigned(22, 8),
-		HasPixelFilter_S                    => to_unsigned(23, 8),
-		FilterBackgroundActivity_S          => to_unsigned(24, 8),
-		FilterBackgroundActivityDeltaTime_D => to_unsigned(25, 8),
-		HasBackgroundActivityFilter_S       => to_unsigned(26, 8));
+		SizeColumns_D                       => to_unsigned(0, 8),
+		SizeRows_D                          => to_unsigned(1, 8),
+		Run_S                               => to_unsigned(2, 8),
+		AckDelayRow_D                       => to_unsigned(3, 8),
+		AckDelayColumn_D                    => to_unsigned(4, 8),
+		AckExtensionRow_D                   => to_unsigned(5, 8),
+		AckExtensionColumn_D                => to_unsigned(6, 8),
+		WaitOnTransferStall_S               => to_unsigned(7, 8),
+		FilterRowOnlyEvents_S               => to_unsigned(8, 8),
+		HasPixelFilter_S                    => to_unsigned(9, 8),
+		FilterPixel0Row_D                   => to_unsigned(10, 8),
+		FilterPixel0Column_D                => to_unsigned(11, 8),
+		FilterPixel1Row_D                   => to_unsigned(12, 8),
+		FilterPixel1Column_D                => to_unsigned(13, 8),
+		FilterPixel2Row_D                   => to_unsigned(14, 8),
+		FilterPixel2Column_D                => to_unsigned(15, 8),
+		FilterPixel3Row_D                   => to_unsigned(16, 8),
+		FilterPixel3Column_D                => to_unsigned(17, 8),
+		FilterPixel4Row_D                   => to_unsigned(18, 8),
+		FilterPixel4Column_D                => to_unsigned(19, 8),
+		FilterPixel5Row_D                   => to_unsigned(20, 8),
+		FilterPixel5Column_D                => to_unsigned(21, 8),
+		FilterPixel6Row_D                   => to_unsigned(22, 8),
+		FilterPixel6Column_D                => to_unsigned(23, 8),
+		FilterPixel7Row_D                   => to_unsigned(24, 8),
+		FilterPixel7Column_D                => to_unsigned(25, 8),
+		HasBackgroundActivityFilter_S       => to_unsigned(26, 8),
+		FilterBackgroundActivity_S          => to_unsigned(27, 8),
+		FilterBackgroundActivityDeltaTime_D => to_unsigned(28, 8));
 
 	constant DVS_AER_ACK_COUNTER_WIDTH  : integer := 5;
 	constant DVS_FILTER_BA_DELTAT_WIDTH : integer := 20;
 
 	type tDVSAERConfig is record
+		SizeColumns_D                       : unsigned(CHIP_DVS_SIZE_COLUMNS'range);
+		SizeRows_D                          : unsigned(CHIP_DVS_SIZE_ROWS'range);
 		Run_S                               : std_logic;
 		AckDelayRow_D                       : unsigned(DVS_AER_ACK_COUNTER_WIDTH - 1 downto 0);
 		AckDelayColumn_D                    : unsigned(DVS_AER_ACK_COUNTER_WIDTH - 1 downto 0);
@@ -77,6 +83,7 @@ package DVSAERConfigRecords is
 		AckExtensionColumn_D                : unsigned(DVS_AER_ACK_COUNTER_WIDTH - 1 downto 0);
 		WaitOnTransferStall_S               : std_logic;
 		FilterRowOnlyEvents_S               : std_logic;
+		HasPixelFilter_S                    : std_logic;
 		FilterPixel0Row_D                   : unsigned(CHIP_DVS_SIZE_ROWS'range);
 		FilterPixel0Column_D                : unsigned(CHIP_DVS_SIZE_COLUMNS'range);
 		FilterPixel1Row_D                   : unsigned(CHIP_DVS_SIZE_ROWS'range);
@@ -93,13 +100,14 @@ package DVSAERConfigRecords is
 		FilterPixel6Column_D                : unsigned(CHIP_DVS_SIZE_COLUMNS'range);
 		FilterPixel7Row_D                   : unsigned(CHIP_DVS_SIZE_ROWS'range);
 		FilterPixel7Column_D                : unsigned(CHIP_DVS_SIZE_COLUMNS'range);
-		HasPixelFilter_S                    : std_logic;
+		HasBackgroundActivityFilter_S       : std_logic;
 		FilterBackgroundActivity_S          : std_logic;
 		FilterBackgroundActivityDeltaTime_D : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		HasBackgroundActivityFilter_S       : std_logic;
 	end record tDVSAERConfig;
 
 	constant tDVSAERConfigDefault : tDVSAERConfig := (
+		SizeColumns_D                       => CHIP_DVS_SIZE_COLUMNS,
+		SizeRows_D                          => CHIP_DVS_SIZE_ROWS,
 		Run_S                               => '0',
 		AckDelayRow_D                       => to_unsigned(4, tDVSAERConfig.AckDelayRow_D'length),
 		AckDelayColumn_D                    => to_unsigned(0, tDVSAERConfig.AckDelayColumn_D'length),
@@ -107,6 +115,7 @@ package DVSAERConfigRecords is
 		AckExtensionColumn_D                => to_unsigned(0, tDVSAERConfig.AckExtensionColumn_D'length),
 		WaitOnTransferStall_S               => '0',
 		FilterRowOnlyEvents_S               => '1',
+		HasPixelFilter_S                    => '0',
 		FilterPixel0Row_D                   => CHIP_DVS_SIZE_ROWS,
 		FilterPixel0Column_D                => CHIP_DVS_SIZE_COLUMNS,
 		FilterPixel1Row_D                   => CHIP_DVS_SIZE_ROWS,
@@ -123,8 +132,7 @@ package DVSAERConfigRecords is
 		FilterPixel6Column_D                => CHIP_DVS_SIZE_COLUMNS,
 		FilterPixel7Row_D                   => CHIP_DVS_SIZE_ROWS,
 		FilterPixel7Column_D                => CHIP_DVS_SIZE_COLUMNS,
-		HasPixelFilter_S                    => '0',
+		HasBackgroundActivityFilter_S       => '0',
 		FilterBackgroundActivity_S          => '0',
-		FilterBackgroundActivityDeltaTime_D => to_unsigned(20000, tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'length),
-		HasBackgroundActivityFilter_S       => '0');
+		FilterBackgroundActivityDeltaTime_D => to_unsigned(20000, tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'length));
 end package DVSAERConfigRecords;

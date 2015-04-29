@@ -2,6 +2,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.APSADCConfigRecords.all;
+use work.Settings.CHIP_APS_SIZE_COLUMNS;
+use work.Settings.CHIP_APS_SIZE_ROWS;
+use work.Settings.CHIP_APS_STREAM_START;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 use work.Settings.CHIP_HAS_INTEGRATED_ADC;
 
@@ -39,13 +42,37 @@ begin
 		APSADCOutput_DN    <= (others => '0');
 
 		case ConfigParamAddress_DI is
+			when APSADCCONFIG_PARAM_ADDRESSES.SizeColumns_D =>
+				APSADCConfigReg_DN.SizeColumns_D                   <= CHIP_APS_SIZE_COLUMNS;
+				APSADCOutput_DN(tAPSADCConfig.SizeColumns_D'range) <= std_logic_vector(CHIP_APS_SIZE_COLUMNS);
+
+			when APSADCCONFIG_PARAM_ADDRESSES.SizeRows_D =>
+				APSADCConfigReg_DN.SizeRows_D                   <= CHIP_APS_SIZE_ROWS;
+				APSADCOutput_DN(tAPSADCConfig.SizeRows_D'range) <= std_logic_vector(CHIP_APS_SIZE_ROWS);
+
+			when APSADCCONFIG_PARAM_ADDRESSES.StreamStartPoint_D =>
+				APSADCConfigReg_DN.StreamStartPoint_D                   <= CHIP_APS_STREAM_START;
+				APSADCOutput_DN(tAPSADCConfig.StreamStartPoint_D'range) <= CHIP_APS_STREAM_START;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.ColorFilter_D =>
+				APSADCConfigReg_DN.ColorFilter_D                   <= APSADCInput_DP(tAPSADCConfig.ColorFilter_D'range);
+				APSADCOutput_DN(tAPSADCConfig.ColorFilter_D'range) <= APSADCConfigReg_DP.ColorFilter_D;
+
 			when APSADCCONFIG_PARAM_ADDRESSES.Run_S =>
 				APSADCConfigReg_DN.Run_S <= APSADCInput_DP(0);
 				APSADCOutput_DN(0)       <= APSADCConfigReg_DP.Run_S;
 
-			when APSADCCONFIG_PARAM_ADDRESSES.HasColorFilter_D =>
-				APSADCConfigReg_DN.HasColorFilter_D                   <= APSADCInput_DP(tAPSADCConfig.HasColorFilter_D'range);
-				APSADCOutput_DN(tAPSADCConfig.HasColorFilter_D'range) <= APSADCConfigReg_DP.HasColorFilter_D;
+			when APSADCCONFIG_PARAM_ADDRESSES.ResetRead_S =>
+				APSADCConfigReg_DN.ResetRead_S <= APSADCInput_DP(0);
+				APSADCOutput_DN(0)             <= APSADCConfigReg_DP.ResetRead_S;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.WaitOnTransferStall_S =>
+				APSADCConfigReg_DN.WaitOnTransferStall_S <= APSADCInput_DP(0);
+				APSADCOutput_DN(0)                       <= APSADCConfigReg_DP.WaitOnTransferStall_S;
+
+			when APSADCCONFIG_PARAM_ADDRESSES.HasGlobalShutter_S =>
+				APSADCConfigReg_DN.HasGlobalShutter_S <= CHIP_HAS_GLOBAL_SHUTTER;
+				APSADCOutput_DN(0)                    <= CHIP_HAS_GLOBAL_SHUTTER;
 
 			when APSADCCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
 				-- Allow read/write of parameter only on chips which support it.
@@ -94,13 +121,11 @@ begin
 				APSADCConfigReg_DN.NullSettle_D                   <= unsigned(APSADCInput_DP(tAPSADCConfig.NullSettle_D'range));
 				APSADCOutput_DN(tAPSADCConfig.NullSettle_D'range) <= std_logic_vector(APSADCConfigReg_DP.NullSettle_D);
 
-			when APSADCCONFIG_PARAM_ADDRESSES.ResetRead_S =>
-				APSADCConfigReg_DN.ResetRead_S <= APSADCInput_DP(0);
-				APSADCOutput_DN(0)             <= APSADCConfigReg_DP.ResetRead_S;
-
-			when APSADCCONFIG_PARAM_ADDRESSES.WaitOnTransferStall_S =>
-				APSADCConfigReg_DN.WaitOnTransferStall_S <= APSADCInput_DP(0);
-				APSADCOutput_DN(0)                       <= APSADCConfigReg_DP.WaitOnTransferStall_S;
+			when APSADCCONFIG_PARAM_ADDRESSES.HasQuadROI_S =>
+				if ENABLE_QUAD_ROI = true then
+					APSADCConfigReg_DN.HasQuadROI_S <= '1';
+					APSADCOutput_DN(0)              <= '1';
+				end if;
 
 			when APSADCCONFIG_PARAM_ADDRESSES.StartColumn1_D =>
 				if ENABLE_QUAD_ROI = true then
@@ -174,11 +199,9 @@ begin
 					APSADCOutput_DN(tAPSADCConfig.EndRow3_D'range) <= std_logic_vector(APSADCConfigReg_DP.EndRow3_D);
 				end if;
 
-			when APSADCCONFIG_PARAM_ADDRESSES.HasQuadROI_S =>
-				if ENABLE_QUAD_ROI = true then
-					APSADCConfigReg_DN.HasQuadROI_S <= '1';
-					APSADCOutput_DN(0)              <= '1';
-				end if;
+			when APSADCCONFIG_PARAM_ADDRESSES.HasInternalADC_S =>
+				APSADCConfigReg_DN.HasInternalADC_S <= CHIP_HAS_INTEGRATED_ADC;
+				APSADCOutput_DN(0)                  <= CHIP_HAS_INTEGRATED_ADC;
 
 			when APSADCCONFIG_PARAM_ADDRESSES.UseInternalADC_S =>
 				-- Allow read/write of parameter only on chips which support it.

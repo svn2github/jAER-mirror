@@ -2,6 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.DVSAERConfigRecords.all;
+use work.Settings.CHIP_DVS_SIZE_COLUMNS;
+use work.Settings.CHIP_DVS_SIZE_ROWS;
 
 entity DVSAERSPIConfig is
 	generic(
@@ -38,6 +40,14 @@ begin
 		DVSAEROutput_DN    <= (others => '0');
 
 		case ConfigParamAddress_DI is
+			when DVSAERCONFIG_PARAM_ADDRESSES.SizeColumns_D =>
+				DVSAERConfigReg_DN.SizeColumns_D                   <= CHIP_DVS_SIZE_COLUMNS;
+				DVSAEROutput_DN(tDVSAERConfig.SizeColumns_D'range) <= std_logic_vector(CHIP_DVS_SIZE_COLUMNS);
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.SizeRows_D =>
+				DVSAERConfigReg_DN.SizeRows_D                   <= CHIP_DVS_SIZE_ROWS;
+				DVSAEROutput_DN(tDVSAERConfig.SizeRows_D'range) <= std_logic_vector(CHIP_DVS_SIZE_ROWS);
+
 			when DVSAERCONFIG_PARAM_ADDRESSES.Run_S =>
 				DVSAERConfigReg_DN.Run_S <= DVSAERInput_DP(0);
 				DVSAEROutput_DN(0)       <= DVSAERConfigReg_DP.Run_S;
@@ -65,6 +75,12 @@ begin
 			when DVSAERCONFIG_PARAM_ADDRESSES.FilterRowOnlyEvents_S =>
 				DVSAERConfigReg_DN.FilterRowOnlyEvents_S <= DVSAERInput_DP(0);
 				DVSAEROutput_DN(0)                       <= DVSAERConfigReg_DP.FilterRowOnlyEvents_S;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.HasPixelFilter_S =>
+				if ENABLE_PIXEL_FILTERING = true then
+					DVSAERConfigReg_DN.HasPixelFilter_S <= '1';
+					DVSAEROutput_DN(0)                  <= '1';
+				end if;
 
 			when DVSAERCONFIG_PARAM_ADDRESSES.FilterPixel0Row_D =>
 				if ENABLE_PIXEL_FILTERING = true then
@@ -162,10 +178,10 @@ begin
 					DVSAEROutput_DN(tDVSAERConfig.FilterPixel7Column_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterPixel7Column_D);
 				end if;
 
-			when DVSAERCONFIG_PARAM_ADDRESSES.HasPixelFilter_S =>
-				if ENABLE_PIXEL_FILTERING = true then
-					DVSAERConfigReg_DN.HasPixelFilter_S <= '1';
-					DVSAEROutput_DN(0)                  <= '1';
+			when DVSAERCONFIG_PARAM_ADDRESSES.HasBackgroundActivityFilter_S =>
+				if ENABLE_BA_FILTERING = true then
+					DVSAERConfigReg_DN.HasBackgroundActivityFilter_S <= '1';
+					DVSAEROutput_DN(0)                               <= '1';
 				end if;
 
 			when DVSAERCONFIG_PARAM_ADDRESSES.FilterBackgroundActivity_S =>
@@ -178,12 +194,6 @@ begin
 				if ENABLE_BA_FILTERING = true then
 					DVSAERConfigReg_DN.FilterBackgroundActivityDeltaTime_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'range));
 					DVSAEROutput_DN(tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterBackgroundActivityDeltaTime_D);
-				end if;
-
-			when DVSAERCONFIG_PARAM_ADDRESSES.HasBackgroundActivityFilter_S =>
-				if ENABLE_BA_FILTERING = true then
-					DVSAERConfigReg_DN.HasBackgroundActivityFilter_S <= '1';
-					DVSAEROutput_DN(0)                               <= '1';
 				end if;
 
 			when others => null;
