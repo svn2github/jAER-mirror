@@ -183,29 +183,27 @@ LOCATE COMP "ChipBiasLatch_SBO" SITE "C9" ;
 IOBUF PORT "ChipBiasLatch_SBO" PULLMODE=UP ;
 CLOCK_TO_OUT PORT "ChipBiasLatch_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
-// DVS data (AER bus)
-LOCATE COMP "DVSAERReq_ABI" SITE "B3" ;
+// DVS data (AER bus) from external USBAERmini board.
+LOCATE COMP "DVSAERReq_ABI" SITE "D15" ; // B1P08
 IOBUF PORT "DVSAERReq_ABI" PULLMODE=UP ;
 INPUT_SETUP PORT "DVSAERReq_ABI" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "LogicClock_C" ;
 
-LOCATE COMP "DVSAERAck_SBO" SITE "A2" ;
+LOCATE COMP "DVSAERAck_SBO" SITE "A18" ; // B1P12
 IOBUF PORT "DVSAERAck_SBO" PULLMODE=UP ;
 CLOCK_TO_OUT PORT "DVSAERAck_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
-LOCATE COMP "DVSAERReset_SBO" SITE "D11" ;// nReset on chip
-IOBUF PORT "DVSAERReset_SBO" PULLMODE=DOWN ;// Keep in reset by default
-CLOCK_TO_OUT PORT "DVSAERReset_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
-
-LOCATE COMP "DVSAERData_AI[8]" SITE "B6" ;
-LOCATE COMP "DVSAERData_AI[7]" SITE "C6" ;
-LOCATE COMP "DVSAERData_AI[6]" SITE "D7" ;
-LOCATE COMP "DVSAERData_AI[5]" SITE "D6" ;
-LOCATE COMP "DVSAERData_AI[4]" SITE "A4" ;
-LOCATE COMP "DVSAERData_AI[3]" SITE "A5" ;
-LOCATE COMP "DVSAERData_AI[2]" SITE "A3" ;
-LOCATE COMP "DVSAERData_AI[1]" SITE "C5" ;
-LOCATE COMP "DVSAERData_AI[0]" SITE "B4" ;
+LOCATE COMP "DVSAERData_AI[9]" SITE "D13" ; // B1P24
+LOCATE COMP "DVSAERData_AI[8]" SITE "E13" ; // B1P20
+LOCATE COMP "DVSAERData_AI[7]" SITE "F13" ; // B1P00
+LOCATE COMP "DVSAERData_AI[6]" SITE "E12" ; // B1P01
+LOCATE COMP "DVSAERData_AI[5]" SITE "D14" ; // B1P02
+LOCATE COMP "DVSAERData_AI[4]" SITE "B11" ; // B1P03
+LOCATE COMP "DVSAERData_AI[3]" SITE "E16" ; // B1P04
+LOCATE COMP "DVSAERData_AI[2]" SITE "A12" ; // B1P05
+LOCATE COMP "DVSAERData_AI[1]" SITE "B14" ; // B1P06
+LOCATE COMP "DVSAERData_AI[0]" SITE "C15" ; // B1P07
 DEFINE PORT GROUP "DVSAERData_AI"
+"DVSAERData_AI[9]" 
 "DVSAERData_AI[8]" 
 "DVSAERData_AI[7]" 
 "DVSAERData_AI[6]" 
@@ -218,166 +216,47 @@ DEFINE PORT GROUP "DVSAERData_AI"
 IOBUF GROUP "DVSAERData_AI" PULLMODE=DOWN ;
 INPUT_SETUP GROUP "DVSAERData_AI" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "LogicClock_C" ;
 
-// APS data (chip)
-LOCATE COMP "APSChipColSRClock_CO" SITE "F3" ;
-IOBUF PORT "APSChipColSRClock_CO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "APSChipColSRClock_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+// AER bus to external AERCorrFilter chip.
+LOCATE COMP "AERCorrFilterPass_SI" SITE "H6" ; // chipADC_RampClear on DAVIS daughter-board
+IOBUF PORT "AERCorrFilterPass_SI" PULLMODE=DOWN ;
+INPUT_SETUP PORT "AERCorrFilterPass_SI" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "LogicClock_C" ;
 
-LOCATE COMP "APSChipColSRIn_SO" SITE "F1" ;
-IOBUF PORT "APSChipColSRIn_SO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "APSChipColSRIn_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+LOCATE COMP "AERCorrFilterPassEnable_SO" SITE "E6" ; // RowSRclock on DAVIS daughter-board
+IOBUF PORT "AERCorrFilterPassEnable_SO" PULLMODE=DOWN ;
+CLOCK_TO_OUT PORT "AERCorrFilterPassEnable_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
-LOCATE COMP "APSChipRowSRClock_CO" SITE "E6" ;
-IOBUF PORT "APSChipRowSRClock_CO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "APSChipRowSRClock_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+LOCATE COMP "AERCorrFilterReq_SBO" SITE "F11" ; // chipADC_ScanClock on DAVIS daughter-board
+IOBUF PORT "AERCorrFilterReq_SBO" PULLMODE=UP ;
+CLOCK_TO_OUT PORT "AERCorrFilterReq_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
-LOCATE COMP "APSChipRowSRIn_SO" SITE "E7" ;
-IOBUF PORT "APSChipRowSRIn_SO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "APSChipRowSRIn_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+LOCATE COMP "AERCorrFilterAck_SBO" SITE "E7" ; // RowSRin on DAVIS daughter-board
+IOBUF PORT "AERCorrFilterAck_SBO" PULLMODE=UP ;
+CLOCK_TO_OUT PORT "AERCorrFilterAck_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
-LOCATE COMP "APSChipColMode_DO[1]" SITE "A7" ; // APSLogic3
-LOCATE COMP "APSChipColMode_DO[0]" SITE "C7" ; // APSLogic2
-DEFINE PORT GROUP "APSChipColMode_DO"
-"APSChipColMode_DO[1]" 
-"APSChipColMode_DO[0]" ;
-IOBUF GROUP "APSChipColMode_DO" PULLMODE=DOWN ;
-CLOCK_TO_OUT GROUP "APSChipColMode_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "APSChipTXGate_SBO" SITE "B8" ; // APSLogic1
-IOBUF PORT "APSChipTXGate_SBO" PULLMODE=UP ;
-CLOCK_TO_OUT PORT "APSChipTXGate_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-// APS data (external ADC)
-LOCATE COMP "ExternalADCOverflow_SI" SITE "G1" ;
-IOBUF PORT "ExternalADCOverflow_SI" PULLMODE=DOWN ;
-INPUT_SETUP PORT "ExternalADCOverflow_SI" INPUT_DELAY 31.0 ns HOLD -2.0 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "ExternalADCClock_CO" SITE "M21" ;
-IOBUF PORT "ExternalADCClock_CO" PULLMODE=DOWN ;
-MAXDELAY FROM PORT "USBClock_CI" TO PORT "ExternalADCClock_CO" 6.0 ns;
-
-LOCATE COMP "ExternalADCOutputEnable_SBO" SITE "M22" ;
-IOBUF PORT "ExternalADCOutputEnable_SBO" PULLMODE=UP ;
-CLOCK_TO_OUT PORT "ExternalADCOutputEnable_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "ExternalADCStandby_SO" SITE "K17" ;
-IOBUF PORT "ExternalADCStandby_SO" PULLMODE=UP ; // Keep in standby by default.
-CLOCK_TO_OUT PORT "ExternalADCStandby_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "ExternalADCData_DI[9]" SITE "J4" ;
-LOCATE COMP "ExternalADCData_DI[8]" SITE "J3" ;
-LOCATE COMP "ExternalADCData_DI[7]" SITE "J7" ;
-LOCATE COMP "ExternalADCData_DI[6]" SITE "J6" ;
-LOCATE COMP "ExternalADCData_DI[5]" SITE "K3" ;
-LOCATE COMP "ExternalADCData_DI[4]" SITE "H3" ;
-LOCATE COMP "ExternalADCData_DI[3]" SITE "H2" ;
-LOCATE COMP "ExternalADCData_DI[2]" SITE "H1" ;
-LOCATE COMP "ExternalADCData_DI[1]" SITE "J2" ;
-LOCATE COMP "ExternalADCData_DI[0]" SITE "J1" ;
-DEFINE PORT GROUP "ExternalADCData_DI"
-"ExternalADCData_DI[9]" 
-"ExternalADCData_DI[8]" 
-"ExternalADCData_DI[7]" 
-"ExternalADCData_DI[6]" 
-"ExternalADCData_DI[5]" 
-"ExternalADCData_DI[4]" 
-"ExternalADCData_DI[3]" 
-"ExternalADCData_DI[2]" 
-"ExternalADCData_DI[1]" 
-"ExternalADCData_DI[0]" ;
-IOBUF GROUP "ExternalADCData_DI" PULLMODE=DOWN ;
-INPUT_SETUP GROUP "ExternalADCData_DI" INPUT_DELAY 31.0 ns HOLD -2.0 ns CLKNET "ADCClock_C" ;
-
-// APS data (on-chip ADC)
-LOCATE COMP "ChipADCRampClear_SO" SITE "H6" ;
-IOBUF PORT "ChipADCRampClear_SO" PULLMODE=UP ; // Clear ramp by default.
-CLOCK_TO_OUT PORT "ChipADCRampClear_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "ChipADCRampClock_CO" SITE "F11" ;
-IOBUF PORT "ChipADCRampClock_CO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "ChipADCRampClock_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "ChipADCRampBitIn_SO" SITE "G3" ;
-IOBUF PORT "ChipADCRampBitIn_SO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "ChipADCRampBitIn_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "ChipADCScanClock_CO" SITE "K4" ;
-IOBUF PORT "ChipADCScanClock_CO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "ChipADCScanClock_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "ChipADCScanControl_SO" SITE "D8" ;
-IOBUF PORT "ChipADCScanControl_SO" PULLMODE=UP ; // Scan-through by default.
-CLOCK_TO_OUT PORT "ChipADCScanControl_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "ChipADCSample_SO" SITE "D5" ;
-IOBUF PORT "ChipADCSample_SO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "ChipADCSample_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "ChipADCData_DI[9]" SITE "G2" ;
-LOCATE COMP "ChipADCData_DI[8]" SITE "G4" ;
-LOCATE COMP "ChipADCData_DI[7]" SITE "H5" ;
-LOCATE COMP "ChipADCData_DI[6]" SITE "G5" ;
-LOCATE COMP "ChipADCData_DI[5]" SITE "F5" ;
-LOCATE COMP "ChipADCData_DI[4]" SITE "F4" ;
-LOCATE COMP "ChipADCData_DI[3]" SITE "E2" ;
-LOCATE COMP "ChipADCData_DI[2]" SITE "H4" ;
-LOCATE COMP "ChipADCData_DI[1]" SITE "E3" ;
-LOCATE COMP "ChipADCData_DI[0]" SITE "D1" ;
-DEFINE PORT GROUP "ChipADCData_DI"
-"ChipADCData_DI[9]" 
-"ChipADCData_DI[8]" 
-"ChipADCData_DI[7]" 
-"ChipADCData_DI[6]" 
-"ChipADCData_DI[5]" 
-"ChipADCData_DI[4]" 
-"ChipADCData_DI[3]" 
-"ChipADCData_DI[2]" 
-"ChipADCData_DI[1]" 
-"ChipADCData_DI[0]" ;
-IOBUF GROUP "ChipADCData_DI" PULLMODE=DOWN ;
-INPUT_SETUP GROUP "ChipADCData_DI" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "ADCClock_C" ;
-
-LOCATE COMP "ChipADCGrayCounter_DO[9]" SITE "F10" ;
-LOCATE COMP "ChipADCGrayCounter_DO[8]" SITE "F8" ;
-LOCATE COMP "ChipADCGrayCounter_DO[7]" SITE "F9" ;
-LOCATE COMP "ChipADCGrayCounter_DO[6]" SITE "G8" ;
-LOCATE COMP "ChipADCGrayCounter_DO[5]" SITE "E5" ;
-LOCATE COMP "ChipADCGrayCounter_DO[4]" SITE "F7" ;
-LOCATE COMP "ChipADCGrayCounter_DO[3]" SITE "D4" ;
-LOCATE COMP "ChipADCGrayCounter_DO[2]" SITE "G9" ;
-LOCATE COMP "ChipADCGrayCounter_DO[1]" SITE "E4" ;
-LOCATE COMP "ChipADCGrayCounter_DO[0]" SITE "B2" ;
-DEFINE PORT GROUP "ChipADCGrayCounter_DO"
-"ChipADCGrayCounter_DO[9]" 
-"ChipADCGrayCounter_DO[8]" 
-"ChipADCGrayCounter_DO[7]" 
-"ChipADCGrayCounter_DO[6]" 
-"ChipADCGrayCounter_DO[5]" 
-"ChipADCGrayCounter_DO[4]" 
-"ChipADCGrayCounter_DO[3]" 
-"ChipADCGrayCounter_DO[2]" 
-"ChipADCGrayCounter_DO[1]" 
-"ChipADCGrayCounter_DO[0]" ;
-IOBUF GROUP "ChipADCGrayCounter_DO" PULLMODE=DOWN ;
-CLOCK_TO_OUT GROUP "ChipADCGrayCounter_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
-
-// IMU (InvenSense MPU 6X50)
-LOCATE COMP "IMUClock_CZO" SITE "B1" ;
-IOBUF PORT "IMUClock_CZO" PULLMODE=NONE ;// I2C pulls high on its own.
-CLOCK_TO_OUT PORT "IMUClock_CZO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
-
-LOCATE COMP "IMUData_DZIO" SITE "C2" ;
-IOBUF PORT "IMUData_DZIO" PULLMODE=NONE ;// I2C pulls high on its own.
-CLOCK_TO_OUT PORT "IMUData_DZIO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
-INPUT_SETUP PORT "IMUData_DZIO" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "LogicClock_C" ;
-
-LOCATE COMP "IMUInterrupt_AI" SITE "C1" ;
-IOBUF PORT "IMUInterrupt_AI" PULLMODE=DOWN ;
-INPUT_SETUP PORT "IMUInterrupt_AI" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "LogicClock_C" ;
-
-LOCATE COMP "IMUFSync_SO" SITE "D2" ;
-IOBUF PORT "IMUFSync_SO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "IMUFSync_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+ // chipADC_GrayCnt<9-0> on DAVIS daughter-board
+LOCATE COMP "AERCorrFilterData_DO[9]" SITE "F10" ;
+LOCATE COMP "AERCorrFilterData_DO[8]" SITE "F8" ;
+LOCATE COMP "AERCorrFilterData_DO[7]" SITE "F9" ;
+LOCATE COMP "AERCorrFilterData_DO[6]" SITE "G8" ;
+LOCATE COMP "AERCorrFilterData_DO[5]" SITE "E5" ;
+LOCATE COMP "AERCorrFilterData_DO[4]" SITE "F7" ;
+LOCATE COMP "AERCorrFilterData_DO[3]" SITE "D4" ;
+LOCATE COMP "AERCorrFilterData_DO[2]" SITE "G9" ;
+LOCATE COMP "AERCorrFilterData_DO[1]" SITE "E4" ;
+LOCATE COMP "AERCorrFilterData_DO[0]" SITE "B2" ;
+DEFINE PORT GROUP "AERCorrFilterData_DO"
+"AERCorrFilterData_DO[9]" 
+"AERCorrFilterData_DO[8]" 
+"AERCorrFilterData_DO[7]" 
+"AERCorrFilterData_DO[6]" 
+"AERCorrFilterData_DO[5]" 
+"AERCorrFilterData_DO[4]" 
+"AERCorrFilterData_DO[3]" 
+"AERCorrFilterData_DO[2]" 
+"AERCorrFilterData_DO[1]" 
+"AERCorrFilterData_DO[0]" ;
+IOBUF GROUP "AERCorrFilterData_DO" PULLMODE=DOWN ;
+MAXDELAY FROM GROUP "DVSAERData_AI" TO GROUP "AERCorrFilterData_DO" 7.0 ns;
 
 // Multi-camera time synchronization
 LOCATE COMP "SyncOutClock_CO" SITE "B19" ;
