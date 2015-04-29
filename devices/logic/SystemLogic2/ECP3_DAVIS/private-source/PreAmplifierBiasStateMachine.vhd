@@ -1,15 +1,13 @@
 --------------------------------------------------------------------------------
--- Company: INI
--- Engineer: Diederik Paul Moeys
+-- Company: INI, iniLabs
+-- Engineer: Diederik Paul Moeys, Luca Longinotti
 --
--- Create Date:    23.04.2015
--- Design Name:    DAVIS208
--- Module Name:    PreAmplifierBiasStateMachine
--- Project Name:   VISUALISE
--- Target Device:  Latticed LFE3-17EA-7ftn256i
--- Tool versions:  Diamond x64 3.0.0.97x
--- Description:	   Module to automatically change the bias setting of the 
---					pre-amplifier in the pixel so that it does not saturate
+-- Create Date:  23.04.2015
+-- Design Name:  DAVIS208
+-- Module Name:  PreAmplifierBiasStateMachine
+-- Project Name: VISUALISE
+-- Description:	 Module to automatically change the bias setting of the 
+--               pre-amplifier in the pixel so that it does not saturate
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------

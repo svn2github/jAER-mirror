@@ -1,13 +1,13 @@
 --------------------------------------------------------------------------------
--- Company: INI
--- Engineer: Diederik Paul Moeys
+-- Company: INI, iniLabs
+-- Engineer: Diederik Paul Moeys, Luca Longinotti
 --
--- Create Date:    23.04.2015
--- Design Name:    DAVIS208
--- Module Name:    PreAmplifierBiasConfigRecords
--- Project Name:   VISUALISE
--- Target Device:  Latticed LFE3-17EA-7ftn256i
--- Tool versions:  Diamond x64 3.0.0.97x
+-- Create Date:  23.04.2015
+-- Design Name:  DAVIS208
+-- Module Name:  PreAmplifierBiasConfigRecords
+-- Project Name: VISUALISE
+-- Description:	 SPIConfig of PreAmplifierBias State Machine
+--------------------------------------------------------------------------------
 -- Description:	   Config Records of PreAmplifierBias State Machine
 --------------------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ use ieee.numeric_std.all;
 --------------------------------------------------------------------------------
 
 package PreAmplifierBiasConfigRecords is
-	constant PREAMPLIFIERBIASCONFIG_MODULE_ADDRESS : unsigned(6 downto 0) := to_unsigned(4, 7);
+	constant PREAMPLIFIERBIASCONFIG_MODULE_ADDRESS : unsigned(6 downto 0) := to_unsigned(14, 7);
 
 	type tPreAmplifierBiasConfigParamAddresses is record
 		Run_S             : unsigned(7 downto 0);
