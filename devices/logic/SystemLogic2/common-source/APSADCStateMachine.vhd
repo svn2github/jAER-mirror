@@ -10,6 +10,7 @@ use work.Settings.ADC_CLOCK_FREQ;
 use work.Settings.APS_ADC_BUS_WIDTH;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
+use work.Settings.CHIP_APS_STREAM_START;
 use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
 use work.Settings.CHIP_HAS_INTEGRATED_ADC;
 
@@ -756,12 +757,39 @@ begin
 
 	apsStandardROI : if ENABLE_QUAD_ROI = false generate
 	begin
-		-- Concurrently calculate if the current row has to be read out or not.
-		-- If not (like with ROI), we can just fast jump parts of that row.
-		CurrentColumnAValid_S <= '1' when (ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn0_D) else '0';
-		CurrentColumnBValid_S <= '1' when (ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn0_D) else '0';
+		-- Concurrently calculate if the current column or row has to be read out or not.
+		-- If not (like with ROI), we can just fast jump past it.
+		apsColumnROI : if CHIP_APS_STREAM_START(1) = '0' generate
+		begin
+			CurrentColumnAValid_S <= '1' when (ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn0_D) else '0';
+			CurrentColumnBValid_S <= '1' when (ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn0_D) else '0';
+		end generate apsColumnROI;
 
-		CurrentRowValid_S <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow0_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow0_D) else '0';
+		apsColumnROIInverted : if CHIP_APS_STREAM_START(1) = '1' generate
+			signal StartColumn0Inverted_S : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+			signal EndColumn0Inverted_S   : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+		begin
+			StartColumn0Inverted_S <= CHIP_APS_SIZE_COLUMNS - 1 - APSADCConfigReg_D.StartColumn0_D;
+			EndColumn0Inverted_S   <= CHIP_APS_SIZE_COLUMNS - 1 - APSADCConfigReg_D.EndColumn0_D;
+
+			CurrentColumnAValid_S <= '1' when (ColumnReadAPosition_D >= EndColumn0Inverted_S and ColumnReadAPosition_D <= StartColumn0Inverted_S) else '0';
+			CurrentColumnBValid_S <= '1' when (ColumnReadBPosition_D >= EndColumn0Inverted_S and ColumnReadBPosition_D <= StartColumn0Inverted_S) else '0';
+		end generate apsColumnROIInverted;
+
+		apsRowROI : if CHIP_APS_STREAM_START(0) = '0' generate
+		begin
+			CurrentRowValid_S <= '1' when (RowReadPosition_D >= APSADCConfigReg_D.StartRow0_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow0_D) else '0';
+		end generate apsRowROI;
+
+		apsRowROIInverted : if CHIP_APS_STREAM_START(0) = '1' generate
+			signal StartRow0Inverted_S : unsigned(CHIP_APS_SIZE_ROWS'range);
+			signal EndRow0Inverted_S   : unsigned(CHIP_APS_SIZE_ROWS'range);
+		begin
+			StartRow0Inverted_S <= CHIP_APS_SIZE_ROWS - 1 - APSADCConfigReg_D.StartRow0_D;
+			EndRow0Inverted_S   <= CHIP_APS_SIZE_ROWS - 1 - APSADCConfigReg_D.EndRow0_D;
+
+			CurrentRowValid_S <= '1' when (RowReadPosition_D >= EndRow0Inverted_S and RowReadPosition_D <= StartRow0Inverted_S) else '0';
+		end generate apsRowROIInverted;
 	end generate apsStandardROI;
 
 	apsQuadROI : if ENABLE_QUAD_ROI = true generate
@@ -780,27 +808,112 @@ begin
 		signal Row2Valid_S : boolean := false;
 		signal Row3Valid_S : boolean := false;
 	begin
-		-- Concurrently calculate if the current row has to be read out or not.
-		-- If not (like with ROI), we can just fast jump parts of that row.
-		ColumnA0Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn0_D;
-		ColumnB0Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn0_D;
-		Row0Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow0_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow0_D;
+		-- Concurrently calculate if the current column or row has to be read out or not.
+		-- If not (like with ROI), we can just fast jump past it.
+		apsColumnROI : if CHIP_APS_STREAM_START(1) = '0' generate
+		begin
+			ColumnA0Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn0_D;
+			ColumnB0Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn0_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn0_D;
 
-		ColumnA1Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn1_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn1_D;
-		ColumnB1Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn1_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn1_D;
-		Row1Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow1_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow1_D;
+			ColumnA1Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn1_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn1_D;
+			ColumnB1Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn1_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn1_D;
 
-		ColumnA2Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn2_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn2_D;
-		ColumnB2Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn2_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn2_D;
-		Row2Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow2_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow2_D;
+			ColumnA2Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn2_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn2_D;
+			ColumnB2Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn2_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn2_D;
 
-		ColumnA3Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn3_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn3_D;
-		ColumnB3Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn3_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn3_D;
-		Row3Valid_S     <= RowReadPosition_D >= APSADCConfigReg_D.StartRow3_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow3_D;
+			ColumnA3Valid_S <= ColumnReadAPosition_D >= APSADCConfigReg_D.StartColumn3_D and ColumnReadAPosition_D <= APSADCConfigReg_D.EndColumn3_D;
+			ColumnB3Valid_S <= ColumnReadBPosition_D >= APSADCConfigReg_D.StartColumn3_D and ColumnReadBPosition_D <= APSADCConfigReg_D.EndColumn3_D;
 
-		CurrentColumnAValid_S <= '1' when (ColumnA0Valid_S or ColumnA1Valid_S or ColumnA2Valid_S or ColumnA3Valid_S) else '0';
-		CurrentColumnBValid_S <= '1' when (ColumnB0Valid_S or ColumnB1Valid_S or ColumnB2Valid_S or ColumnB3Valid_S) else '0';
-		CurrentRowValid_S     <= '1' when (Row0Valid_S or Row1Valid_S or Row2Valid_S or Row3Valid_S) else '0';
+			CurrentColumnAValid_S <= '1' when (ColumnA0Valid_S or ColumnA1Valid_S or ColumnA2Valid_S or ColumnA3Valid_S) else '0';
+			CurrentColumnBValid_S <= '1' when (ColumnB0Valid_S or ColumnB1Valid_S or ColumnB2Valid_S or ColumnB3Valid_S) else '0';
+		end generate apsColumnROI;
+
+		apsColumnROIInverted : if CHIP_APS_STREAM_START(1) = '1' generate
+			signal StartColumn0Inverted_S : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+			signal EndColumn0Inverted_S   : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+
+			signal StartColumn1Inverted_S : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+			signal EndColumn1Inverted_S   : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+
+			signal StartColumn2Inverted_S : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+			signal EndColumn2Inverted_S   : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+
+			signal StartColumn3Inverted_S : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+			signal EndColumn3Inverted_S   : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+		begin
+			StartColumn0Inverted_S <= CHIP_APS_SIZE_COLUMNS - 1 - APSADCConfigReg_D.StartColumn0_D;
+			EndColumn0Inverted_S   <= CHIP_APS_SIZE_COLUMNS - 1 - APSADCConfigReg_D.EndColumn0_D;
+
+			ColumnA0Valid_S <= ColumnReadAPosition_D >= EndColumn0Inverted_S and ColumnReadAPosition_D <= StartColumn0Inverted_S;
+			ColumnB0Valid_S <= ColumnReadBPosition_D >= EndColumn0Inverted_S and ColumnReadBPosition_D <= StartColumn0Inverted_S;
+
+			StartColumn1Inverted_S <= CHIP_APS_SIZE_COLUMNS - 1 - APSADCConfigReg_D.StartColumn1_D;
+			EndColumn1Inverted_S   <= CHIP_APS_SIZE_COLUMNS - 1 - APSADCConfigReg_D.EndColumn1_D;
+
+			ColumnA1Valid_S <= ColumnReadAPosition_D >= EndColumn1Inverted_S and ColumnReadAPosition_D <= StartColumn1Inverted_S;
+			ColumnB1Valid_S <= ColumnReadBPosition_D >= EndColumn1Inverted_S and ColumnReadBPosition_D <= StartColumn1Inverted_S;
+
+			StartColumn2Inverted_S <= CHIP_APS_SIZE_COLUMNS - 1 - APSADCConfigReg_D.StartColumn2_D;
+			EndColumn2Inverted_S   <= CHIP_APS_SIZE_COLUMNS - 1 - APSADCConfigReg_D.EndColumn2_D;
+
+			ColumnA2Valid_S <= ColumnReadAPosition_D >= EndColumn2Inverted_S and ColumnReadAPosition_D <= StartColumn2Inverted_S;
+			ColumnB2Valid_S <= ColumnReadBPosition_D >= EndColumn2Inverted_S and ColumnReadBPosition_D <= StartColumn2Inverted_S;
+
+			StartColumn3Inverted_S <= CHIP_APS_SIZE_COLUMNS - 1 - APSADCConfigReg_D.StartColumn3_D;
+			EndColumn3Inverted_S   <= CHIP_APS_SIZE_COLUMNS - 1 - APSADCConfigReg_D.EndColumn3_D;
+
+			ColumnA3Valid_S <= ColumnReadAPosition_D >= EndColumn3Inverted_S and ColumnReadAPosition_D <= StartColumn3Inverted_S;
+			ColumnB3Valid_S <= ColumnReadBPosition_D >= EndColumn3Inverted_S and ColumnReadBPosition_D <= StartColumn3Inverted_S;
+
+			CurrentColumnAValid_S <= '1' when (ColumnA0Valid_S or ColumnA1Valid_S or ColumnA2Valid_S or ColumnA3Valid_S) else '0';
+			CurrentColumnBValid_S <= '1' when (ColumnB0Valid_S or ColumnB1Valid_S or ColumnB2Valid_S or ColumnB3Valid_S) else '0';
+		end generate apsColumnROIInverted;
+
+		apsRowROI : if CHIP_APS_STREAM_START(0) = '0' generate
+		begin
+			Row0Valid_S <= RowReadPosition_D >= APSADCConfigReg_D.StartRow0_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow0_D;
+			Row1Valid_S <= RowReadPosition_D >= APSADCConfigReg_D.StartRow1_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow1_D;
+			Row2Valid_S <= RowReadPosition_D >= APSADCConfigReg_D.StartRow2_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow2_D;
+			Row3Valid_S <= RowReadPosition_D >= APSADCConfigReg_D.StartRow3_D and RowReadPosition_D <= APSADCConfigReg_D.EndRow3_D;
+
+			CurrentRowValid_S <= '1' when (Row0Valid_S or Row1Valid_S or Row2Valid_S or Row3Valid_S) else '0';
+		end generate apsRowROI;
+
+		apsRowROIInverted : if CHIP_APS_STREAM_START(0) = '1' generate
+			signal StartRow0Inverted_S : unsigned(CHIP_APS_SIZE_ROWS'range);
+			signal EndRow0Inverted_S   : unsigned(CHIP_APS_SIZE_ROWS'range);
+
+			signal StartRow1Inverted_S : unsigned(CHIP_APS_SIZE_ROWS'range);
+			signal EndRow1Inverted_S   : unsigned(CHIP_APS_SIZE_ROWS'range);
+
+			signal StartRow2Inverted_S : unsigned(CHIP_APS_SIZE_ROWS'range);
+			signal EndRow2Inverted_S   : unsigned(CHIP_APS_SIZE_ROWS'range);
+
+			signal StartRow3Inverted_S : unsigned(CHIP_APS_SIZE_ROWS'range);
+			signal EndRow3Inverted_S   : unsigned(CHIP_APS_SIZE_ROWS'range);
+		begin
+			StartRow0Inverted_S <= CHIP_APS_SIZE_ROWS - 1 - APSADCConfigReg_D.StartRow0_D;
+			EndRow0Inverted_S   <= CHIP_APS_SIZE_ROWS - 1 - APSADCConfigReg_D.EndRow0_D;
+
+			Row0Valid_S <= RowReadPosition_D >= EndRow0Inverted_S and RowReadPosition_D <= StartRow0Inverted_S;
+
+			StartRow1Inverted_S <= CHIP_APS_SIZE_ROWS - 1 - APSADCConfigReg_D.StartRow1_D;
+			EndRow1Inverted_S   <= CHIP_APS_SIZE_ROWS - 1 - APSADCConfigReg_D.EndRow1_D;
+
+			Row1Valid_S <= RowReadPosition_D >= EndRow1Inverted_S and RowReadPosition_D <= StartRow1Inverted_S;
+
+			StartRow2Inverted_S <= CHIP_APS_SIZE_ROWS - 1 - APSADCConfigReg_D.StartRow2_D;
+			EndRow2Inverted_S   <= CHIP_APS_SIZE_ROWS - 1 - APSADCConfigReg_D.EndRow2_D;
+
+			Row2Valid_S <= RowReadPosition_D >= EndRow2Inverted_S and RowReadPosition_D <= StartRow2Inverted_S;
+
+			StartRow3Inverted_S <= CHIP_APS_SIZE_ROWS - 1 - APSADCConfigReg_D.StartRow3_D;
+			EndRow3Inverted_S   <= CHIP_APS_SIZE_ROWS - 1 - APSADCConfigReg_D.EndRow3_D;
+
+			Row3Valid_S <= RowReadPosition_D >= EndRow3Inverted_S and RowReadPosition_D <= StartRow3Inverted_S;
+
+			CurrentRowValid_S <= '1' when (Row0Valid_S or Row1Valid_S or Row2Valid_S or Row3Valid_S) else '0';
+		end generate apsRowROIInverted;
 	end generate apsQuadROI;
 
 	rowReadPosition : entity work.ContinuousCounter
