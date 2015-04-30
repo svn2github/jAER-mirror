@@ -29,12 +29,10 @@ entity PreAmplifierBiasStateMachine is
 		-- Clock and reset inputs
 		Clock_CI                  : in  std_logic;
 		Reset_RI                  : in  std_logic;
-
-		-- Mean pre-amplifier output as sampled by 10-bit ADC
-		VpreAmpAvg_DI             : in  unsigned(9 downto 0); -- 10 bit input from ADC
-
-		-- Chosen bias to be applied to the Shifted-source OTA
-		VrefSsBn_DO               : out unsigned(BIAS_CF_LENGTH - 1 downto 0); --
+		
+		-- Input and Outputs
+		VpreAmpAvg_DI             : in  unsigned(9 downto 0); -- Mean pre-amplifier output as sampled by 10-bit ADC
+		VrefSsBn_DO               : out unsigned(BIAS_CF_LENGTH - 1 downto 0); -- Chosen bias to be applied to the Shifted-source OTA
 		BiasChangeFlag_DO         : out std_logic; -- Flag telling that the change is needed
 
 		-- Receive Parameters

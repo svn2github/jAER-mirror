@@ -12,6 +12,7 @@ use work.ExtInputConfigRecords.all;
 use work.ChipBiasConfigRecords.all;
 use work.SystemInfoConfigRecords.all;
 use work.FX3ConfigRecords.all;
+use work.PreAmplifierBiasConfigRecords.all;
 
 entity TopLevel_DAVIS208 is
 	port(
@@ -139,6 +140,7 @@ architecture Structural of TopLevel_DAVIS208 is
 	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal APSADCConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
+	signal PreAmplifierBiasConfigParamOutput_D : std_logic_vector(31 downto 0);
 	signal ExtInputConfigParamOutput_D    : std_logic_vector(31 downto 0);
 	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
 	signal ChipConfigParamOutput_D        : std_logic_vector(31 downto 0);
@@ -149,8 +151,10 @@ architecture Structural of TopLevel_DAVIS208 is
 	signal DVSAERConfig_D, DVSAERConfigReg_D, DVSAERConfigReg2_D                : tDVSAERConfig;
 	signal APSADCConfig_D, APSADCConfigReg_D, APSADCConfigReg2_D                : tAPSADCConfig;
 	signal IMUConfig_D, IMUConfigReg_D, IMUConfigReg2_D                         : tIMUConfig;
+	signal PreAmplifierBiasConfig_D, PreAmplifierBiasConfigReg_D, PreAmplifierBiasConfigReg2_D : tPreAmplifierBiasConfig;
 	signal ExtInputConfig_D, ExtInputConfigReg_D, ExtInputConfigReg2_D          : tExtInputConfig;
 	signal FX3Config_D, FX3ConfigReg_D, FX3ConfigReg2_D                         : tFX3Config;
+	signal BiasChangeFlag_DO : std_logic;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
@@ -244,7 +248,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => '0',
+			Input_SI(0)  => BiasChangeFlag_DO,
 			Output_SO(0) => LED5_SO);
 
 	led6Buffer : entity work.SimpleRegister
@@ -604,7 +608,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtInputConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtInputConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, SystemInfoConfigParamOutput_D, FX3ConfigParamOutput_D, PreAmplifierBiasConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -621,7 +625,10 @@ begin
 
 			when IMUCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= IMUConfigParamOutput_D;
-
+				
+			when PREAMPLIFIERBIASCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= PreAmplifierBiasConfigParamOutput_D;
+			
 			when EXTINPUTCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= ExtInputConfigParamOutput_D;
 
@@ -667,21 +674,25 @@ begin
 			Reset_RI    => LogicReset_R,
 			OutClock_CO => ExternalADCClock_CO);
 
-	davis208BiasControl : process(LogicClock_C, LogicReset_R) is
-	begin
-		if LogicReset_R = '1' then
-			ExternalADCOutputEnable_SBO <= '1';
-			ExternalADCStandby_SO       <= '1';
-		elsif rising_edge(LogicClock_C) then
-			ExternalADCOutputEnable_SBO <= not MultiplexerConfigReg2_D.Run_S;
-			ExternalADCStandby_SO       <= not MultiplexerConfigReg2_D.Run_S;
+	PreAmplifierBiasSM : entity work.PreAmplifierBiasStateMachine
+		port map(
+			-- Clock and reset inputs
+			Clock_CI          => LogicClock_C,
+			Reset_RI          => LogicReset_R,
+			VpreAmpAvg_DI     => to_unsigned(ChipADCGrayCounter_DO), -- Mean pre-amplifier output as sampled by 10-bit ADC
+			VrefSsBn_DO       =>      , -- Chosen bias to be applied to the Shifted-source OTA
+			BiasChangeFlag_DO => BiasChangeFlag_DO, -- Flag telling that the change is needed, to LED5
+			PreAmplifierBiasConfig_DI => PreAmplifierBiasConfig_D); -- Receive Parameters
 
-			if unsigned(ExternalADCData_DI) >= 768 then
-			-- TODO: change bias VrefSSNb.
-			elsif unsigned(ExternalADCData_DI) >= 512 then
-			elsif unsigned(ExternalADCData_DI) >= 256 then
-			else
-			end if;
-		end if;
-	end process davis208BiasControl;
+	PreAmplifierBiasSPIConfig : entity work.PreAmplifierBiasSPIConfig
+		port map(
+			Clock_CI                				=> LogicClock_C,
+			Reset_RI                				=> LogicReset_R,
+			PreAmplifierBiasConfig_DO 				=> PreAmplifierBiasConfig_D,
+			ConfigModuleAddress_DI 				 	=> ConfigModuleAddress_D,
+			ConfigParamAddress_DI   				=> ConfigParamAddress_D,
+			ConfigParamInput_DI     				=> ConfigParamInput_D,
+			ConfigLatchInput_SI     				=> ConfigLatchInput_S,
+			PreAmplifierBiasConfigParamOutput_DO	=> PreAmplifierBiasConfigParamOutput_D);
+		
 end Structural;
