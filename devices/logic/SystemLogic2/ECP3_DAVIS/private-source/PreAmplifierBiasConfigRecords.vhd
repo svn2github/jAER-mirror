@@ -48,7 +48,7 @@ package PreAmplifierBiasConfigRecords is
 
 	constant tPreAmplifierBiasConfigDefault : tPreAmplifierBiasConfig := (
 		Run_S             => '0',
-		HighThreshold_S   => to_unsigned(0, THRESHOLD_SIZE),
-		LowThreshold_S    => to_unsigned(0, THRESHOLD_SIZE),
-		ADCSamplingTime_S => to_unsigned(0, ADC_SAMPLE_TIME_SIZE));
+		HighThreshold_S   => to_unsigned(866, THRESHOLD_SIZE), -- 1.4 V Top limit (real limit 1.5 V)
+		LowThreshold_S    => to_unsigned(0, THRESHOLD_SIZE), -- 850 mV Bottom limit (hard-limit)
+		ADCSamplingTime_S => to_unsigned(120000000, ADC_SAMPLE_TIME_SIZE)); -- 1 second with 120 MHz clock
 end package PreAmplifierBiasConfigRecords;
