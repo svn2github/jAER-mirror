@@ -2,8 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.D4AAPSADCConfigRecords.all;
-use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
-use work.Settings.CHIP_HAS_INTEGRATED_ADC;
+use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
+use work.Settings.CHIP_APS_HAS_INTEGRATED_ADC;
 
 entity D4AAPSADCSPIConfig is
 	generic(
@@ -49,7 +49,7 @@ begin
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
 				-- Allow read/write of parameter only on chips which support it.
-				if CHIP_HAS_GLOBAL_SHUTTER = '1' then
+				if CHIP_APS_HAS_GLOBAL_SHUTTER = '1' then
 					D4AAPSADCConfigReg_DN.GlobalShutter_S <= D4AAPSADCInput_DP(0);
 					D4AAPSADCOutput_DN(0)                 <= D4AAPSADCConfigReg_DP.GlobalShutter_S;
 				end if;
@@ -170,28 +170,28 @@ begin
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.UseInternalADC_S =>
 				-- Allow read/write of parameter only on chips which support it.
-				if CHIP_HAS_INTEGRATED_ADC = '1' then
+				if CHIP_APS_HAS_INTEGRATED_ADC = '1' then
 					D4AAPSADCConfigReg_DN.UseInternalADC_S <= D4AAPSADCInput_DP(0);
 					D4AAPSADCOutput_DN(0)                  <= D4AAPSADCConfigReg_DP.UseInternalADC_S;
 				end if;
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.SampleEnable_S =>
 				-- Allow read/write of parameter only on chips which support it.
-				if CHIP_HAS_INTEGRATED_ADC = '1' then
+				if CHIP_APS_HAS_INTEGRATED_ADC = '1' then
 					D4AAPSADCConfigReg_DN.SampleEnable_S <= D4AAPSADCInput_DP(0);
 					D4AAPSADCOutput_DN(0)                <= D4AAPSADCConfigReg_DP.SampleEnable_S;
 				end if;
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.SampleSettle_D =>
 				-- Allow read/write of parameter only on chips which support it.
-				if CHIP_HAS_INTEGRATED_ADC = '1' then
+				if CHIP_APS_HAS_INTEGRATED_ADC = '1' then
 					D4AAPSADCConfigReg_DN.SampleSettle_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.SampleSettle_D'range));
 					D4AAPSADCOutput_DN(tD4AAPSADCConfig.SampleSettle_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.SampleSettle_D);
 				end if;
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.RampReset_D =>
 				-- Allow read/write of parameter only on chips which support it.
-				if CHIP_HAS_INTEGRATED_ADC = '1' then
+				if CHIP_APS_HAS_INTEGRATED_ADC = '1' then
 					D4AAPSADCConfigReg_DN.RampReset_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.RampReset_D'range));
 					D4AAPSADCOutput_DN(tD4AAPSADCConfig.RampReset_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.RampReset_D);
 				end if;

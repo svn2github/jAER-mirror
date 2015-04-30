@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 package DAVIS240a is
 	constant CHIP_IDENTIFIER : unsigned(3 downto 0) := to_unsigned(0, 4);
 
-	constant CHIP_HAS_GLOBAL_SHUTTER : std_logic := '0';
-	constant CHIP_HAS_INTEGRATED_ADC : std_logic := '0';
+	constant CHIP_APS_HAS_GLOBAL_SHUTTER : std_logic := '0';
+	constant CHIP_APS_HAS_INTEGRATED_ADC : std_logic := '0';
 
 	constant CHIP_APS_SIZE_COLUMNS : unsigned(7 downto 0) := to_unsigned(240, 8);
 	constant CHIP_APS_SIZE_ROWS    : unsigned(7 downto 0) := to_unsigned(180, 8);

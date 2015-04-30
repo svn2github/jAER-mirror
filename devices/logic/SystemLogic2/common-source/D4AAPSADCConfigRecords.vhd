@@ -3,8 +3,8 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
-use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
-use work.Settings.CHIP_HAS_INTEGRATED_ADC;
+use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
+use work.Settings.CHIP_APS_HAS_INTEGRATED_ADC;
 use work.Settings.ADC_CLOCK_FREQ;
 
 package D4AAPSADCConfigRecords is
@@ -158,7 +158,7 @@ package D4AAPSADCConfigRecords is
 	constant tD4AAPSADCConfigDefault : tD4AAPSADCConfig := (
 		Run_S                 => '0',
 		HasColorFilter_D      => "00",
-		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,
+		GlobalShutter_S       => CHIP_APS_HAS_GLOBAL_SHUTTER,
 		StartColumn0_D        => to_unsigned(0, CHIP_APS_SIZE_COLUMNS'length),
 		StartRow0_D           => to_unsigned(0, CHIP_APS_SIZE_ROWS'length),
 		EndColumn0_D          => CHIP_APS_SIZE_COLUMNS - 1,
@@ -181,7 +181,7 @@ package D4AAPSADCConfigRecords is
 		EndColumn3_D          => CHIP_APS_SIZE_COLUMNS,
 		EndRow3_D             => CHIP_APS_SIZE_ROWS,
 		HasQuadROI_S          => '0',
-		UseInternalADC_S      => CHIP_HAS_INTEGRATED_ADC,
+		UseInternalADC_S      => CHIP_APS_HAS_INTEGRATED_ADC,
 		SampleEnable_S        => '1',
 		SampleSettle_D        => to_unsigned(60, APS_SAMPLESETTLETIME_SIZE),
 		RampReset_D           => to_unsigned(10, APS_RAMPRESETTIME_SIZE),

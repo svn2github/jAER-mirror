@@ -11,8 +11,8 @@ use work.Settings.APS_ADC_BUS_WIDTH;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_APS_STREAM_START;
-use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
-use work.Settings.CHIP_HAS_INTEGRATED_ADC;
+use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
+use work.Settings.CHIP_APS_HAS_INTEGRATED_ADC;
 
 -- Rolling shutter considerations: since the exposure is given by the
 -- difference in time between the reset/reset read and the signal read (integration happens
@@ -330,7 +330,7 @@ begin
 			when stIdle =>
 				if APSADCConfigReg_D.Run_S = '1' then
 					-- We want to take samples, so ensure the wanted ADC is working.
-					if CHIP_HAS_INTEGRATED_ADC = '1' and APSADCConfigReg_D.UseInternalADC_S = '1' then
+					if CHIP_APS_HAS_INTEGRATED_ADC = '1' and APSADCConfigReg_D.UseInternalADC_S = '1' then
 						-- Turn off external ADC, if internal is wanted.
 						ExternalADCRunning_SN <= '0';
 
@@ -366,7 +366,7 @@ begin
 				-- Write out start of frame marker. This and the end of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
 				if OutFifoControl_SI.Full_S = '0' then
-					if CHIP_HAS_GLOBAL_SHUTTER = '1' and APSADCConfigReg_D.GlobalShutter_S = '1' then
+					if CHIP_APS_HAS_GLOBAL_SHUTTER = '1' and APSADCConfigReg_D.GlobalShutter_S = '1' then
 						if APSADCConfigReg_D.ResetRead_S = '1' then
 							OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME_GS;
 						else
@@ -413,7 +413,7 @@ begin
 				-- voltage won't go back up to high as expected.
 				APSChipTXGateReg_SN <= '1';
 
-				if CHIP_HAS_GLOBAL_SHUTTER = '1' and APSADCConfigReg_D.GlobalShutter_S = '1' then
+				if CHIP_APS_HAS_GLOBAL_SHUTTER = '1' and APSADCConfigReg_D.GlobalShutter_S = '1' then
 					-- Only switch to global shutter on chips supporting it.
 					ColState_DN <= stGSSwitchToReset;
 				else
@@ -979,7 +979,7 @@ begin
 		case ExtRowState_DP is
 			when stIdle =>
 				-- Wait until the main column state machine signals us to do a row read.
-				if (CHIP_HAS_INTEGRATED_ADC = '0' or APSADCConfigReg_D.UseInternalADC_S = '0') and RowReadStart_SP = '1' then
+				if (CHIP_APS_HAS_INTEGRATED_ADC = '0' or APSADCConfigReg_D.UseInternalADC_S = '0') and RowReadStart_SP = '1' then
 					ExtRowState_DN <= stRowSRFeedInit;
 				end if;
 
@@ -1091,7 +1091,7 @@ begin
 		end case;
 	end process externalADCRowReadoutStateMachine;
 
-	noChipADC : if CHIP_HAS_INTEGRATED_ADC = '0' generate
+	noChipADC : if CHIP_APS_HAS_INTEGRATED_ADC = '0' generate
 	begin
 		-- Assign all signals but disable them if no internal ADC is present.
 		-- This is the case only with 240a/b/c devices.
@@ -1112,7 +1112,7 @@ begin
 		RowReadDoneChip_SN <= '0';
 	end generate noChipADC;
 
-	chipADCRowReadout : if CHIP_HAS_INTEGRATED_ADC = '1' generate
+	chipADCRowReadout : if CHIP_APS_HAS_INTEGRATED_ADC = '1' generate
 		type tChipRowState is (stIdle, stRowDone, stRowStart, stColSettleWait, stRowSample, stRowRampFeed, stRowRampClockLow, stRowRampClockHigh, stRowScanSelect, stRowScanSelectTick, stRowScanReadValue, stRowScanNextValue, stRowRampResetSettle, stRowScanJumpValue, stRowRampFeedTick);
 		attribute syn_enum_encoding of tChipRowState : type is "onehot";
 

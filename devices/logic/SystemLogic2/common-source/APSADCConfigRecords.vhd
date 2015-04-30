@@ -4,8 +4,9 @@ use ieee.numeric_std.all;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_APS_STREAM_START;
-use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
-use work.Settings.CHIP_HAS_INTEGRATED_ADC;
+use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
+use work.Settings.CHIP_APS_HAS_INTEGRATED_ADC;
+use work.Settings.BOARD_APS_HAS_EXTERNAL_ADC;
 use work.Settings.ADC_CLOCK_FREQ;
 
 package APSADCConfigRecords is
@@ -44,6 +45,7 @@ package APSADCConfigRecords is
 		StartRow3_D           : unsigned(7 downto 0);
 		EndColumn3_D          : unsigned(7 downto 0);
 		EndRow3_D             : unsigned(7 downto 0);
+		HasExternalADC_S      : unsigned(7 downto 0);
 		HasInternalADC_S      : unsigned(7 downto 0);
 		UseInternalADC_S      : unsigned(7 downto 0);
 		SampleEnable_S        : unsigned(7 downto 0);
@@ -84,11 +86,12 @@ package APSADCConfigRecords is
 		StartRow3_D           => to_unsigned(29, 8),
 		EndColumn3_D          => to_unsigned(30, 8),
 		EndRow3_D             => to_unsigned(31, 8),
-		HasInternalADC_S      => to_unsigned(32, 8),
-		UseInternalADC_S      => to_unsigned(33, 8),
-		SampleEnable_S        => to_unsigned(34, 8),
-		SampleSettle_D        => to_unsigned(35, 8),
-		RampReset_D           => to_unsigned(36, 8));
+		HasExternalADC_S      => to_unsigned(32, 8),
+		HasInternalADC_S      => to_unsigned(33, 8),
+		UseInternalADC_S      => to_unsigned(34, 8),
+		SampleEnable_S        => to_unsigned(35, 8),
+		SampleSettle_D        => to_unsigned(36, 8),
+		RampReset_D           => to_unsigned(37, 8));
 
 	constant APS_EXPOSURE_SIZE      : integer := 25; -- Up to about one second.
 	constant APS_FRAMEDELAY_SIZE    : integer := 25; -- Up to about one second.
@@ -134,6 +137,7 @@ package APSADCConfigRecords is
 		StartRow3_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
 		EndColumn3_D          : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		EndRow3_D             : unsigned(CHIP_APS_SIZE_ROWS'range);
+		HasExternalADC_S      : std_logic;
 		HasInternalADC_S      : std_logic;
 		UseInternalADC_S      : std_logic;
 		SampleEnable_S        : std_logic;
@@ -149,8 +153,8 @@ package APSADCConfigRecords is
 		Run_S                 => '0',
 		ResetRead_S           => '1',
 		WaitOnTransferStall_S => '0',
-		HasGlobalShutter_S    => CHIP_HAS_GLOBAL_SHUTTER,
-		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER,
+		HasGlobalShutter_S    => CHIP_APS_HAS_GLOBAL_SHUTTER,
+		GlobalShutter_S       => CHIP_APS_HAS_GLOBAL_SHUTTER,
 		StartColumn0_D        => to_unsigned(0, CHIP_APS_SIZE_COLUMNS'length),
 		StartRow0_D           => to_unsigned(0, CHIP_APS_SIZE_ROWS'length),
 		EndColumn0_D          => CHIP_APS_SIZE_COLUMNS - 1,
@@ -174,8 +178,9 @@ package APSADCConfigRecords is
 		StartRow3_D           => CHIP_APS_SIZE_ROWS,
 		EndColumn3_D          => CHIP_APS_SIZE_COLUMNS,
 		EndRow3_D             => CHIP_APS_SIZE_ROWS,
-		HasInternalADC_S      => CHIP_HAS_INTEGRATED_ADC,
-		UseInternalADC_S      => CHIP_HAS_INTEGRATED_ADC,
+		HasExternalADC_S      => BOARD_APS_HAS_EXTERNAL_ADC,
+		HasInternalADC_S      => CHIP_APS_HAS_INTEGRATED_ADC,
+		UseInternalADC_S      => CHIP_APS_HAS_INTEGRATED_ADC,
 		SampleEnable_S        => '1',
 		SampleSettle_D        => to_unsigned(60, APS_SAMPLESETTLETIME_SIZE),
 		RampReset_D           => to_unsigned(10, APS_RAMPRESETTIME_SIZE));

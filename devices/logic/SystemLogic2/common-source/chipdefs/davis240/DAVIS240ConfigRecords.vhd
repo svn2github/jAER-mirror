@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
+use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
 use work.ChipBiasConfigRecords.all;
 
 package DAVIS240ChipBiasConfigRecords is
@@ -179,5 +179,5 @@ package DAVIS240ChipBiasConfigRecords is
 		SpecialPixelControl_S => '0',
 		AERnArow_S            => '0',
 		UseAOut_S             => '0',
-		GlobalShutter_S       => CHIP_HAS_GLOBAL_SHUTTER);
+		GlobalShutter_S       => CHIP_APS_HAS_GLOBAL_SHUTTER);
 end package DAVIS240ChipBiasConfigRecords;

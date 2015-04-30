@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.ChipBiasConfigRecords.all;
 use work.DAVIS240ChipBiasConfigRecords.all;
-use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
+use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
 use work.Settings.CHIP_IDENTIFIER;
 
 entity DAVIS240SPIConfig is
@@ -226,7 +226,7 @@ begin
 
 			when DAVIS240_CHIPCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
 				-- Allow changing global shutter parameter only on chips which support it.
-				if CHIP_HAS_GLOBAL_SHUTTER = '1' then
+				if CHIP_APS_HAS_GLOBAL_SHUTTER = '1' then
 					ChipConfigReg_DN.GlobalShutter_S <= ChipInput_DP(0);
 				end if;
 				ChipOutput_DN(0) <= ChipConfigReg_DP.GlobalShutter_S;

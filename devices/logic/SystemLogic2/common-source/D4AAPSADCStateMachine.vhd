@@ -9,7 +9,7 @@ use work.D4AAPSADCConfigRecords.all;
 use work.Settings.APS_ADC_BUS_WIDTH;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
-use work.Settings.CHIP_HAS_GLOBAL_SHUTTER;
+use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
 
 entity D4AAPSADCStateMachine is
 	generic(
@@ -381,7 +381,7 @@ begin
 				-- Write out start of frame marker. This and the end of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
 				if OutFifoControl_SI.Full_S = '0' then
-					if CHIP_HAS_GLOBAL_SHUTTER = '1' and D4AAPSADCConfigReg_D.GlobalShutter_S = '1' then
+					if CHIP_APS_HAS_GLOBAL_SHUTTER = '1' and D4AAPSADCConfigReg_D.GlobalShutter_S = '1' then
 						if D4AAPSADCConfigReg_D.ResetRead_S = '1' then
 							OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME_GS;
 						else
