@@ -58,16 +58,17 @@ architecture Behavioral of PreAmplifierBiasStateMachine is
 	-- Signals
 	signal ADCSamplingCounterOVF_S                      : std_logic; -- Counter overflow
 	signal VpreAmpAccumulator_DP, VpreAmpAccumulator_DN : unsigned(9 downto 0); -- Accumulate and keep the current value.
-
+	
+	-- Lookup table of biases to use
 	type tBiasArray is array (7 downto 0) of unsigned(BIAS_CF_LENGTH - 1 downto 0);
-	constant BIAS_LUT : tBiasArray := ("000000000000000",
-		                               "000000000000000",
-		                               "000000000000000",
-		                               "000000000000000",
-		                               "000000000000000",
-		                               "000000000000000",
-		                               "000000000000000",
-		                               "000000000000000"); -- Lookup table of biases to use
+	constant BIAS_LUT : tBiasArray := ("000111111111111", -- 100 mV
+		                               "010011111111111", -- 200 mV
+		                               "100001111001111", -- 300 mV
+		                               "101110101111111", -- 400 mV
+		                               "110100111101111", -- 500 mV
+		                               "111001110101111", -- 600 mV
+		                               "111100110001111", -- 700 mV
+		                               "111110101111111"); -- 750 mV
 	signal LUTIndex_DP, LUTIndex_DN : unsigned(2 downto 0);
 begin
 	VrefSsBn_DO <= BIAS_LUT(to_integer(LUTIndex_DP));
@@ -173,9 +174,9 @@ begin
 
 			when Compare =>
 				if (VpreAmpAccumulator_DP > PreAmplifierBiasConfigReg_D.HighThreshold_S) then
-					State_DN <= IncreaseBias;
-				elsif (VpreAmpAccumulator_DP < PreAmplifierBiasConfigReg_D.LowThreshold_S) then
 					State_DN <= DecreaseBias;
+				elsif (VpreAmpAccumulator_DP < PreAmplifierBiasConfigReg_D.LowThreshold_S) then
+					State_DN <= IncreaseBias;
 				else
 					-- If in good range, no change.
 					State_DN <= Idle;
