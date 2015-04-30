@@ -3,16 +3,24 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
+use work.Settings.CHIP_APS_STREAM_START;
 use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
 use work.Settings.CHIP_APS_HAS_INTEGRATED_ADC;
+use work.Settings.BOARD_APS_HAS_EXTERNAL_ADC;
 use work.Settings.ADC_CLOCK_FREQ;
 
 package D4AAPSADCConfigRecords is
 	constant D4AAPSADCCONFIG_MODULE_ADDRESS : unsigned(6 downto 0) := to_unsigned(2, 7);
 
 	type tD4AAPSADCConfigParamAddresses is record
+		SizeColumns_D         : unsigned(7 downto 0);
+		SizeRows_D            : unsigned(7 downto 0);
+		StreamStartPoint_D    : unsigned(7 downto 0);
+		ColorFilter_D         : unsigned(7 downto 0);
 		Run_S                 : unsigned(7 downto 0);
-		HasColorFilter_D      : unsigned(7 downto 0);
+		ResetRead_S           : unsigned(7 downto 0);
+		WaitOnTransferStall_S : unsigned(7 downto 0);
+		HasGlobalShutter_S    : unsigned(7 downto 0);
 		GlobalShutter_S       : unsigned(7 downto 0);
 		StartColumn0_D        : unsigned(7 downto 0);
 		StartRow0_D           : unsigned(7 downto 0);
@@ -21,8 +29,7 @@ package D4AAPSADCConfigRecords is
 		Exposure_D            : unsigned(7 downto 0);
 		FrameDelay_D          : unsigned(7 downto 0);
 		RowSettle_D           : unsigned(7 downto 0);
-		ResetRead_S           : unsigned(7 downto 0);
-		WaitOnTransferStall_S : unsigned(7 downto 0);
+		HasQuadROI_S          : unsigned(7 downto 0);
 		StartColumn1_D        : unsigned(7 downto 0);
 		StartRow1_D           : unsigned(7 downto 0);
 		EndColumn1_D          : unsigned(7 downto 0);
@@ -35,7 +42,8 @@ package D4AAPSADCConfigRecords is
 		StartRow3_D           : unsigned(7 downto 0);
 		EndColumn3_D          : unsigned(7 downto 0);
 		EndRow3_D             : unsigned(7 downto 0);
-		HasQuadROI_S          : unsigned(7 downto 0);
+		HasExternalADC_S      : unsigned(7 downto 0);
+		HasInternalADC_S      : unsigned(7 downto 0);
 		UseInternalADC_S      : unsigned(7 downto 0);
 		SampleEnable_S        : unsigned(7 downto 0);
 		SampleSettle_D        : unsigned(7 downto 0);
@@ -53,45 +61,51 @@ package D4AAPSADCConfigRecords is
 	end record tD4AAPSADCConfigParamAddresses;
 
 	constant D4AAPSADCCONFIG_PARAM_ADDRESSES : tD4AAPSADCConfigParamAddresses := (
-		Run_S                 => to_unsigned(0, 8),
-		HasColorFilter_D      => to_unsigned(1, 8),
-		GlobalShutter_S       => to_unsigned(2, 8),
-		StartColumn0_D        => to_unsigned(3, 8),
-		StartRow0_D           => to_unsigned(4, 8),
-		EndColumn0_D          => to_unsigned(5, 8),
-		EndRow0_D             => to_unsigned(6, 8),
-		Exposure_D            => to_unsigned(7, 8),
-		FrameDelay_D          => to_unsigned(8, 8),
-		RowSettle_D           => to_unsigned(11, 8),
-		ResetRead_S           => to_unsigned(13, 8),
-		WaitOnTransferStall_S => to_unsigned(14, 8),
-		StartColumn1_D        => to_unsigned(15, 8),
-		StartRow1_D           => to_unsigned(16, 8),
-		EndColumn1_D          => to_unsigned(17, 8),
-		EndRow1_D             => to_unsigned(18, 8),
-		StartColumn2_D        => to_unsigned(19, 8),
-		StartRow2_D           => to_unsigned(20, 8),
-		EndColumn2_D          => to_unsigned(21, 8),
-		EndRow2_D             => to_unsigned(22, 8),
-		StartColumn3_D        => to_unsigned(23, 8),
-		StartRow3_D           => to_unsigned(24, 8),
-		EndColumn3_D          => to_unsigned(25, 8),
-		EndRow3_D             => to_unsigned(26, 8),
-		HasQuadROI_S          => to_unsigned(27, 8),
-		UseInternalADC_S      => to_unsigned(28, 8),
-		SampleEnable_S        => to_unsigned(29, 8),
-		SampleSettle_D        => to_unsigned(30, 8),
-		RampReset_D           => to_unsigned(31, 8),
-		Transfer_D            => to_unsigned(32, 8),
-		RSFDSettle_D          => to_unsigned(33, 8),
-		RSCpReset_D           => to_unsigned(34, 8),
-		RSCpSettle_D          => to_unsigned(35, 8),
-		GSPDReset_D           => to_unsigned(36, 8),
-		GSResetFall_D         => to_unsigned(37, 8),
-		GSTXFall_D            => to_unsigned(38, 8),
-		GSFDReset_D           => to_unsigned(39, 8),
-		GSCpResetFD_D         => to_unsigned(40, 8),
-		GSCpResetSettle_D     => to_unsigned(41, 8));
+		SizeColumns_D         => to_unsigned(0, 8),
+		SizeRows_D            => to_unsigned(1, 8),
+		StreamStartPoint_D    => to_unsigned(2, 8),
+		ColorFilter_D         => to_unsigned(3, 8),
+		Run_S                 => to_unsigned(4, 8),
+		ResetRead_S           => to_unsigned(5, 8),
+		WaitOnTransferStall_S => to_unsigned(6, 8),
+		HasGlobalShutter_S    => to_unsigned(7, 8),
+		GlobalShutter_S       => to_unsigned(8, 8),
+		StartColumn0_D        => to_unsigned(9, 8),
+		StartRow0_D           => to_unsigned(10, 8),
+		EndColumn0_D          => to_unsigned(11, 8),
+		EndRow0_D             => to_unsigned(12, 8),
+		Exposure_D            => to_unsigned(13, 8),
+		FrameDelay_D          => to_unsigned(14, 8),
+		RowSettle_D           => to_unsigned(17, 8),
+		HasQuadROI_S          => to_unsigned(19, 8),
+		StartColumn1_D        => to_unsigned(20, 8),
+		StartRow1_D           => to_unsigned(21, 8),
+		EndColumn1_D          => to_unsigned(22, 8),
+		EndRow1_D             => to_unsigned(23, 8),
+		StartColumn2_D        => to_unsigned(24, 8),
+		StartRow2_D           => to_unsigned(25, 8),
+		EndColumn2_D          => to_unsigned(26, 8),
+		EndRow2_D             => to_unsigned(27, 8),
+		StartColumn3_D        => to_unsigned(28, 8),
+		StartRow3_D           => to_unsigned(29, 8),
+		EndColumn3_D          => to_unsigned(30, 8),
+		EndRow3_D             => to_unsigned(31, 8),
+		HasExternalADC_S      => to_unsigned(32, 8),
+		HasInternalADC_S      => to_unsigned(33, 8),
+		UseInternalADC_S      => to_unsigned(34, 8),
+		SampleEnable_S        => to_unsigned(35, 8),
+		SampleSettle_D        => to_unsigned(36, 8),
+		RampReset_D           => to_unsigned(37, 8),
+		Transfer_D            => to_unsigned(38, 8),
+		RSFDSettle_D          => to_unsigned(39, 8),
+		RSCpReset_D           => to_unsigned(40, 8),
+		RSCpSettle_D          => to_unsigned(41, 8),
+		GSPDReset_D           => to_unsigned(42, 8),
+		GSResetFall_D         => to_unsigned(43, 8),
+		GSTXFall_D            => to_unsigned(44, 8),
+		GSFDReset_D           => to_unsigned(45, 8),
+		GSCpResetFD_D         => to_unsigned(46, 8),
+		GSCpResetSettle_D     => to_unsigned(47, 8));
 
 	constant APS_EXPOSURE_SIZE      : integer := 25; -- Up to about one second.
 	constant APS_FRAMEDELAY_SIZE    : integer := 25; -- Up to about one second.
@@ -114,8 +128,14 @@ package D4AAPSADCConfigRecords is
 	constant APS_GSCPRESETSETTLETIME_SIZE : integer := 12; -- Up to about 128 microseconds.
 
 	type tD4AAPSADCConfig is record
+		SizeColumns_D         : unsigned(CHIP_APS_SIZE_COLUMNS'range);
+		SizeRows_D            : unsigned(CHIP_APS_SIZE_ROWS'range);
+		StreamStartPoint_D    : std_logic_vector(1 downto 0);
+		ColorFilter_D         : std_logic_vector(1 downto 0);
 		Run_S                 : std_logic;
-		HasColorFilter_D      : std_logic_vector(1 downto 0);
+		ResetRead_S           : std_logic; -- Wether to do the reset read or not.
+		WaitOnTransferStall_S : std_logic; -- Wether to wait when the FIFO is full or not.
+		HasGlobalShutter_S    : std_logic;
 		GlobalShutter_S       : std_logic; -- Enable global shutter instead of rolling shutter.
 		StartColumn0_D        : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		StartRow0_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
@@ -124,8 +144,7 @@ package D4AAPSADCConfigRecords is
 		Exposure_D            : unsigned(APS_EXPOSURE_SIZE - 1 downto 0); -- in cycles at 30MHz
 		FrameDelay_D          : unsigned(APS_FRAMEDELAY_SIZE - 1 downto 0); -- in cycles at 30MHz
 		RowSettle_D           : unsigned(APS_ROWSETTLETIME_SIZE - 1 downto 0); -- in cycles at 30MHz
-		ResetRead_S           : std_logic; -- Wether to do the reset read or not.
-		WaitOnTransferStall_S : std_logic; -- Wether to wait when the FIFO is full or not.
+		HasQuadROI_S          : std_logic;
 		StartColumn1_D        : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		StartRow1_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
 		EndColumn1_D          : unsigned(CHIP_APS_SIZE_COLUMNS'range);
@@ -138,7 +157,8 @@ package D4AAPSADCConfigRecords is
 		StartRow3_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
 		EndColumn3_D          : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		EndRow3_D             : unsigned(CHIP_APS_SIZE_ROWS'range);
-		HasQuadROI_S          : std_logic;
+		HasExternalADC_S      : std_logic;
+		HasInternalADC_S      : std_logic;
 		UseInternalADC_S      : std_logic;
 		SampleEnable_S        : std_logic;
 		SampleSettle_D        : unsigned(APS_SAMPLESETTLETIME_SIZE - 1 downto 0); -- in cycles at 30MHz
@@ -156,8 +176,14 @@ package D4AAPSADCConfigRecords is
 	end record tD4AAPSADCConfig;
 
 	constant tD4AAPSADCConfigDefault : tD4AAPSADCConfig := (
+		SizeColumns_D         => CHIP_APS_SIZE_COLUMNS,
+		SizeRows_D            => CHIP_APS_SIZE_ROWS,
+		StreamStartPoint_D    => CHIP_APS_STREAM_START,
+		ColorFilter_D         => "00",
 		Run_S                 => '0',
-		HasColorFilter_D      => "00",
+		ResetRead_S           => '1',
+		WaitOnTransferStall_S => '0',
+		HasGlobalShutter_S    => CHIP_APS_HAS_GLOBAL_SHUTTER,
 		GlobalShutter_S       => CHIP_APS_HAS_GLOBAL_SHUTTER,
 		StartColumn0_D        => to_unsigned(0, CHIP_APS_SIZE_COLUMNS'length),
 		StartRow0_D           => to_unsigned(0, CHIP_APS_SIZE_ROWS'length),
@@ -166,8 +192,7 @@ package D4AAPSADCConfigRecords is
 		Exposure_D            => to_unsigned(2000 * ADC_CLOCK_FREQ, APS_EXPOSURE_SIZE),
 		FrameDelay_D          => to_unsigned(200 * ADC_CLOCK_FREQ, APS_FRAMEDELAY_SIZE),
 		RowSettle_D           => to_unsigned(10, APS_ROWSETTLETIME_SIZE),
-		ResetRead_S           => '1',
-		WaitOnTransferStall_S => '0',
+		HasQuadROI_S          => '0',
 		StartColumn1_D        => CHIP_APS_SIZE_COLUMNS,
 		StartRow1_D           => CHIP_APS_SIZE_ROWS,
 		EndColumn1_D          => CHIP_APS_SIZE_COLUMNS,
@@ -180,7 +205,8 @@ package D4AAPSADCConfigRecords is
 		StartRow3_D           => CHIP_APS_SIZE_ROWS,
 		EndColumn3_D          => CHIP_APS_SIZE_COLUMNS,
 		EndRow3_D             => CHIP_APS_SIZE_ROWS,
-		HasQuadROI_S          => '0',
+		HasExternalADC_S      => BOARD_APS_HAS_EXTERNAL_ADC,
+		HasInternalADC_S      => CHIP_APS_HAS_INTEGRATED_ADC,
 		UseInternalADC_S      => CHIP_APS_HAS_INTEGRATED_ADC,
 		SampleEnable_S        => '1',
 		SampleSettle_D        => to_unsigned(60, APS_SAMPLESETTLETIME_SIZE),

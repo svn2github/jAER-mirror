@@ -2,8 +2,12 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.D4AAPSADCConfigRecords.all;
+use work.Settings.CHIP_APS_SIZE_COLUMNS;
+use work.Settings.CHIP_APS_SIZE_ROWS;
+use work.Settings.CHIP_APS_STREAM_START;
 use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
 use work.Settings.CHIP_APS_HAS_INTEGRATED_ADC;
+use work.Settings.BOARD_APS_HAS_EXTERNAL_ADC;
 
 entity D4AAPSADCSPIConfig is
 	generic(
@@ -39,13 +43,37 @@ begin
 		D4AAPSADCOutput_DN    <= (others => '0');
 
 		case ConfigParamAddress_DI is
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.SizeColumns_D =>
+				D4AAPSADCConfigReg_DN.SizeColumns_D                      <= CHIP_APS_SIZE_COLUMNS;
+				D4AAPSADCOutput_DN(tD4AAPSADCConfig.SizeColumns_D'range) <= std_logic_vector(CHIP_APS_SIZE_COLUMNS);
+
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.SizeRows_D =>
+				D4AAPSADCConfigReg_DN.SizeRows_D                      <= CHIP_APS_SIZE_ROWS;
+				D4AAPSADCOutput_DN(tD4AAPSADCConfig.SizeRows_D'range) <= std_logic_vector(CHIP_APS_SIZE_ROWS);
+
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StreamStartPoint_D =>
+				D4AAPSADCConfigReg_DN.StreamStartPoint_D                      <= CHIP_APS_STREAM_START;
+				D4AAPSADCOutput_DN(tD4AAPSADCConfig.StreamStartPoint_D'range) <= CHIP_APS_STREAM_START;
+
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.ColorFilter_D =>
+				D4AAPSADCConfigReg_DN.ColorFilter_D                      <= D4AAPSADCInput_DP(tD4AAPSADCConfig.ColorFilter_D'range);
+				D4AAPSADCOutput_DN(tD4AAPSADCConfig.ColorFilter_D'range) <= D4AAPSADCConfigReg_DP.ColorFilter_D;
+
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.Run_S =>
 				D4AAPSADCConfigReg_DN.Run_S <= D4AAPSADCInput_DP(0);
 				D4AAPSADCOutput_DN(0)       <= D4AAPSADCConfigReg_DP.Run_S;
 
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.HasColorFilter_D =>
-				D4AAPSADCConfigReg_DN.HasColorFilter_D                      <= D4AAPSADCInput_DP(tD4AAPSADCConfig.HasColorFilter_D'range);
-				D4AAPSADCOutput_DN(tD4AAPSADCConfig.HasColorFilter_D'range) <= D4AAPSADCConfigReg_DP.HasColorFilter_D;
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.ResetRead_S =>
+				D4AAPSADCConfigReg_DN.ResetRead_S <= D4AAPSADCInput_DP(0);
+				D4AAPSADCOutput_DN(0)             <= D4AAPSADCConfigReg_DP.ResetRead_S;
+
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.WaitOnTransferStall_S =>
+				D4AAPSADCConfigReg_DN.WaitOnTransferStall_S <= D4AAPSADCInput_DP(0);
+				D4AAPSADCOutput_DN(0)                       <= D4AAPSADCConfigReg_DP.WaitOnTransferStall_S;
+
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.HasGlobalShutter_S =>
+				D4AAPSADCConfigReg_DN.HasGlobalShutter_S <= CHIP_APS_HAS_GLOBAL_SHUTTER;
+				D4AAPSADCOutput_DN(0)                    <= CHIP_APS_HAS_GLOBAL_SHUTTER;
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.GlobalShutter_S =>
 				-- Allow read/write of parameter only on chips which support it.
@@ -82,13 +110,11 @@ begin
 				D4AAPSADCConfigReg_DN.RowSettle_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.RowSettle_D'range));
 				D4AAPSADCOutput_DN(tD4AAPSADCConfig.RowSettle_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.RowSettle_D);
 
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.ResetRead_S =>
-				D4AAPSADCConfigReg_DN.ResetRead_S <= D4AAPSADCInput_DP(0);
-				D4AAPSADCOutput_DN(0)             <= D4AAPSADCConfigReg_DP.ResetRead_S;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.WaitOnTransferStall_S =>
-				D4AAPSADCConfigReg_DN.WaitOnTransferStall_S <= D4AAPSADCInput_DP(0);
-				D4AAPSADCOutput_DN(0)                       <= D4AAPSADCConfigReg_DP.WaitOnTransferStall_S;
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.HasQuadROI_S =>
+				if ENABLE_QUAD_ROI = true then
+					D4AAPSADCConfigReg_DN.HasQuadROI_S <= '1';
+					D4AAPSADCOutput_DN(0)              <= '1';
+				end if;
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StartColumn1_D =>
 				if ENABLE_QUAD_ROI = true then
@@ -162,11 +188,13 @@ begin
 					D4AAPSADCOutput_DN(tD4AAPSADCConfig.EndRow3_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.EndRow3_D);
 				end if;
 
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.HasQuadROI_S =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.HasQuadROI_S <= '1';
-					D4AAPSADCOutput_DN(0)              <= '1';
-				end if;
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.HasExternalADC_S =>
+				D4AAPSADCConfigReg_DN.HasExternalADC_S <= D4AAPSADCInput_DP(0);
+				D4AAPSADCOutput_DN(0)                  <= D4AAPSADCConfigReg_DP.HasExternalADC_S;
+
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.HasInternalADC_S =>
+				D4AAPSADCConfigReg_DN.HasInternalADC_S <= CHIP_APS_HAS_INTEGRATED_ADC;
+				D4AAPSADCOutput_DN(0)                  <= CHIP_APS_HAS_INTEGRATED_ADC;
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.UseInternalADC_S =>
 				-- Allow read/write of parameter only on chips which support it.
