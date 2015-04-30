@@ -263,24 +263,23 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => GSOVGFallTimeCount_S,
-			DataLimit_DI => D4AAPSADCConfigReg_D.GSPDReset_D, -- TODO: fix if this is better SM.
+			DataLimit_DI => D4AAPSADCConfigReg_D.GSPDReset_D, -- TODO: fix if this SM turns out to be the better one.
 			Overflow_SO  => GSOVGFallTimeDone_S,
 			Data_DO      => open);
 
-	-- TODO: verify minimum for this.
 	clockSlowDownCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => APS_RSCPRESETTIME_SIZE)
+			SIZE => 3)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => ClockSlowDownCount_S,
-			DataLimit_DI => D4AAPSADCConfigReg_D.RSCpReset_D,
+			DataLimit_DI => (others => '1'),
 			Overflow_SO  => ClockSlowDownDone_S,
 			Data_DO      => open);
 
-	PixelStateMachine : process(PixelState_DP, D4AAPSADCConfigReg_D, APSChipGlobalShutterReg_SP, APSChipOverflowGateReg_SP, APSChipResetReg_SP, APSChipTXGateReg_SP, ColReadDone_SP, ExposureTimeDone_S, FrameDelayDone_S, GSFDResetTimeDone_S, GSResetFallTimeDone_S, GSTXFallTimeDone_S, OutFifoControl_SI, RSFDSettleTimeDone_S, ReadBSRStatus_DP, RowReadPosition_D, TransferTimeDone_S, APSSampleType_DP, GSOVGFallTimeDone_S)
+	PixelStateMachine : process(PixelState_DP, D4AAPSADCConfigReg_D, APSChipGlobalShutterReg_SP, APSChipOverflowGateReg_SP, APSChipResetReg_SP, APSChipTXGateReg_SP, ColReadDone_SP, ExposureTimeDone_S, FrameDelayDone_S, GSFDResetTimeDone_S, GSResetFallTimeDone_S, GSTXFallTimeDone_S, OutFifoControl_SI, RSFDSettleTimeDone_S, ReadBSRStatus_DP, RowReadPosition_D, TransferTimeDone_S, APSSampleType_DP, GSOVGFallTimeDone_S, ClockSlowDownDone_S)
 	begin
 		PixelState_DN <= PixelState_DP; -- Keep current state by default.
 
