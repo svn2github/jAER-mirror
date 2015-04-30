@@ -10,6 +10,7 @@ use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
 use work.ExtInputConfigRecords.all;
 use work.ChipBiasConfigRecords.all;
+use work.DAVIS208ChipBiasConfigRecords.all;
 use work.SystemInfoConfigRecords.all;
 use work.FX3ConfigRecords.all;
 use work.PreAmplifierBiasConfigRecords.all;
@@ -140,21 +141,28 @@ architecture Structural of TopLevel_DAVIS208 is
 	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal APSADCConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
+
+	signal ExtInputConfigParamOutput_D         : std_logic_vector(31 downto 0);
+	signal BiasConfigParamOutput_D             : std_logic_vector(31 downto 0);
+	signal ChipConfigParamOutput_D             : std_logic_vector(31 downto 0);
+	signal SystemInfoConfigParamOutput_D       : std_logic_vector(31 downto 0);
+	signal FX3ConfigParamOutput_D              : std_logic_vector(31 downto 0);
 	signal PreAmplifierBiasConfigParamOutput_D : std_logic_vector(31 downto 0);
-	signal ExtInputConfigParamOutput_D    : std_logic_vector(31 downto 0);
-	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
-	signal ChipConfigParamOutput_D        : std_logic_vector(31 downto 0);
-	signal SystemInfoConfigParamOutput_D  : std_logic_vector(31 downto 0);
-	signal FX3ConfigParamOutput_D         : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D, MultiplexerConfigReg_D, MultiplexerConfigReg2_D : tMultiplexerConfig;
 	signal DVSAERConfig_D, DVSAERConfigReg_D, DVSAERConfigReg2_D                : tDVSAERConfig;
 	signal APSADCConfig_D, APSADCConfigReg_D, APSADCConfigReg2_D                : tAPSADCConfig;
 	signal IMUConfig_D, IMUConfigReg_D, IMUConfigReg2_D                         : tIMUConfig;
+
+	signal ExtInputConfig_D, ExtInputConfigReg_D, ExtInputConfigReg2_D                         : tExtInputConfig;
+	signal FX3Config_D, FX3ConfigReg_D, FX3ConfigReg2_D                                        : tFX3Config;
 	signal PreAmplifierBiasConfig_D, PreAmplifierBiasConfigReg_D, PreAmplifierBiasConfigReg2_D : tPreAmplifierBiasConfig;
-	signal ExtInputConfig_D, ExtInputConfigReg_D, ExtInputConfigReg2_D          : tExtInputConfig;
-	signal FX3Config_D, FX3ConfigReg_D, FX3ConfigReg2_D                         : tFX3Config;
-	signal BiasChangeFlag_DO : std_logic;
+
+	signal VrefSsBn_D       : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
+	signal BiasChangeFlag_S : std_logic;
+
+	signal DAVIS208BiasConfig_D, DAVIS208BiasConfigReg_D : tDAVIS208BiasConfig;
+	signal DAVIS208ChipConfig_D, DAVIS208ChipConfigReg_D : tDAVIS208ChipConfig;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
@@ -248,7 +256,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => BiasChangeFlag_DO,
+			Input_SI(0)  => BiasChangeFlag_S,
 			Output_SO(0) => LED5_SO);
 
 	led6Buffer : entity work.SimpleRegister
@@ -564,33 +572,37 @@ begin
 	configRegisters : process(LogicClock_C, LogicReset_R) is
 	begin
 		if LogicReset_R = '1' then
-			MultiplexerConfigReg2_D <= tMultiplexerConfigDefault;
-			DVSAERConfigReg2_D      <= tDVSAERConfigDefault;
-			APSADCConfigReg2_D      <= tAPSADCConfigDefault;
-			IMUConfigReg2_D         <= tIMUConfigDefault;
-			ExtInputConfigReg2_D    <= tExtInputConfigDefault;
-			FX3ConfigReg2_D         <= tFX3ConfigDefault;
+			MultiplexerConfigReg2_D      <= tMultiplexerConfigDefault;
+			DVSAERConfigReg2_D           <= tDVSAERConfigDefault;
+			APSADCConfigReg2_D           <= tAPSADCConfigDefault;
+			IMUConfigReg2_D              <= tIMUConfigDefault;
+			ExtInputConfigReg2_D         <= tExtInputConfigDefault;
+			FX3ConfigReg2_D              <= tFX3ConfigDefault;
+			PreAmplifierBiasConfigReg2_D <= tPreAmplifierBiasConfigDefault;
 
-			MultiplexerConfigReg_D <= tMultiplexerConfigDefault;
-			DVSAERConfigReg_D      <= tDVSAERConfigDefault;
-			APSADCConfigReg_D      <= tAPSADCConfigDefault;
-			IMUConfigReg_D         <= tIMUConfigDefault;
-			ExtInputConfigReg_D    <= tExtInputConfigDefault;
-			FX3ConfigReg_D         <= tFX3ConfigDefault;
+			MultiplexerConfigReg_D      <= tMultiplexerConfigDefault;
+			DVSAERConfigReg_D           <= tDVSAERConfigDefault;
+			APSADCConfigReg_D           <= tAPSADCConfigDefault;
+			IMUConfigReg_D              <= tIMUConfigDefault;
+			ExtInputConfigReg_D         <= tExtInputConfigDefault;
+			FX3ConfigReg_D              <= tFX3ConfigDefault;
+			PreAmplifierBiasConfigReg_D <= tPreAmplifierBiasConfigDefault;
 		elsif rising_edge(LogicClock_C) then
-			MultiplexerConfigReg2_D <= MultiplexerConfigReg_D;
-			DVSAERConfigReg2_D      <= DVSAERConfigReg_D;
-			APSADCConfigReg2_D      <= APSADCConfigReg_D;
-			IMUConfigReg2_D         <= IMUConfigReg_D;
-			ExtInputConfigReg2_D    <= ExtInputConfigReg_D;
-			FX3ConfigReg2_D         <= FX3ConfigReg_D;
+			MultiplexerConfigReg2_D      <= MultiplexerConfigReg_D;
+			DVSAERConfigReg2_D           <= DVSAERConfigReg_D;
+			APSADCConfigReg2_D           <= APSADCConfigReg_D;
+			IMUConfigReg2_D              <= IMUConfigReg_D;
+			ExtInputConfigReg2_D         <= ExtInputConfigReg_D;
+			FX3ConfigReg2_D              <= FX3ConfigReg_D;
+			PreAmplifierBiasConfigReg2_D <= PreAmplifierBiasConfigReg_D;
 
-			MultiplexerConfigReg_D <= MultiplexerConfig_D;
-			DVSAERConfigReg_D      <= DVSAERConfig_D;
-			APSADCConfigReg_D      <= APSADCConfig_D;
-			IMUConfigReg_D         <= IMUConfig_D;
-			ExtInputConfigReg_D    <= ExtInputConfig_D;
-			FX3ConfigReg_D         <= FX3Config_D;
+			MultiplexerConfigReg_D      <= MultiplexerConfig_D;
+			DVSAERConfigReg_D           <= DVSAERConfig_D;
+			APSADCConfigReg_D           <= APSADCConfig_D;
+			IMUConfigReg_D              <= IMUConfig_D;
+			ExtInputConfigReg_D         <= ExtInputConfig_D;
+			FX3ConfigReg_D              <= FX3Config_D;
+			PreAmplifierBiasConfigReg_D <= PreAmplifierBiasConfig_D;
 		end if;
 	end process configRegisters;
 
@@ -625,10 +637,7 @@ begin
 
 			when IMUCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= IMUConfigParamOutput_D;
-				
-			when PREAMPLIFIERBIASCONFIG_MODULE_ADDRESS =>
-				ConfigParamOutput_D <= PreAmplifierBiasConfigParamOutput_D;
-			
+
 			when EXTINPUTCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= ExtInputConfigParamOutput_D;
 
@@ -645,19 +654,45 @@ begin
 			when FX3CONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= FX3ConfigParamOutput_D;
 
+			when PREAMPLIFIERBIASCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= PreAmplifierBiasConfigParamOutput_D;
+
 			when others => null;
 		end case;
 	end process spiConfigurationOutputSelect;
 
-	chipBiasSelector : entity work.ChipBiasSelector
+	davis208ChipBiasSM : entity work.DAVIS208StateMachine
+		port map(
+			Clock_CI               => LogicClock_C,
+			Reset_RI               => LogicReset_R,
+			ChipBiasDiagSelect_SO  => ChipBiasDiagSelect_SO,
+			ChipBiasAddrSelect_SBO => ChipBiasAddrSelect_SBO,
+			ChipBiasClock_CBO      => ChipBiasClock_CBO,
+			ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
+			ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
+			BiasConfig_DI          => DAVIS208BiasConfigReg_D,
+			ChipConfig_DI          => DAVIS208ChipConfigReg_D);
+
+	davis208ConfigRegisters : process(LogicClock_C, LogicReset_R) is
+	begin
+		if LogicReset_R = '1' then
+			DAVIS208BiasConfigReg_D <= tDAVIS208BiasConfigDefault;
+			DAVIS208ChipConfigReg_D <= tDAVIS208ChipConfigDefault;
+		elsif rising_edge(LogicClock_C) then
+			DAVIS208BiasConfigReg_D <= DAVIS208BiasConfig_D;
+			DAVIS208ChipConfigReg_D <= DAVIS208ChipConfig_D;
+
+			-- Override RefSSBn bias with computed version from SM.
+			DAVIS208BiasConfigReg_D.RefSSBn_D <= VrefSsBn_D;
+		end if;
+	end process davis208ConfigRegisters;
+
+	davis208ChipBiasSPIConfig : entity work.DAVIS208SPIConfig
 		port map(
 			Clock_CI                 => LogicClock_C,
 			Reset_RI                 => LogicReset_R,
-			ChipBiasDiagSelect_SO    => ChipBiasDiagSelect_SO,
-			ChipBiasAddrSelect_SBO   => ChipBiasAddrSelect_SBO,
-			ChipBiasClock_CBO        => ChipBiasClock_CBO,
-			ChipBiasBitIn_DO         => ChipBiasBitIn_DO,
-			ChipBiasLatch_SBO        => ChipBiasLatch_SBO,
+			BiasConfig_DO            => DAVIS208BiasConfig_D,
+			ChipConfig_DO            => DAVIS208ChipConfig_D,
 			ConfigModuleAddress_DI   => ConfigModuleAddress_D,
 			ConfigParamAddress_DI    => ConfigParamAddress_D,
 			ConfigParamInput_DI      => ConfigParamInput_D,
@@ -665,34 +700,27 @@ begin
 			BiasConfigParamOutput_DO => BiasConfigParamOutput_D,
 			ChipConfigParamOutput_DO => ChipConfigParamOutput_D);
 
-	externalADCClockPLL : entity work.PLL
-		generic map(
-			CLOCK_FREQ     => LOGIC_CLOCK_FREQ,
-			OUT_CLOCK_FREQ => 10)
-		port map(
-			Clock_CI    => LogicClock_C,
-			Reset_RI    => LogicReset_R,
-			OutClock_CO => ExternalADCClock_CO);
-
 	PreAmplifierBiasSM : entity work.PreAmplifierBiasStateMachine
 		port map(
 			-- Clock and reset inputs
-			Clock_CI          => LogicClock_C,
-			Reset_RI          => LogicReset_R,
-			VpreAmpAvg_DI     => to_unsigned(ChipADCGrayCounter_DO), -- Mean pre-amplifier output as sampled by 10-bit ADC
-			VrefSsBn_DO       =>      , -- Chosen bias to be applied to the Shifted-source OTA
-			BiasChangeFlag_DO => BiasChangeFlag_DO, -- Flag telling that the change is needed, to LED5
-			PreAmplifierBiasConfig_DI => PreAmplifierBiasConfig_D); -- Receive Parameters
+			Clock_CI                    => LogicClock_C,
+			Reset_RI                    => LogicReset_R,
+			ExternalADCClock_CO         => ExternalADCClock_CO,
+			ExternalADCOutputEnable_SBO => ExternalADCOutputEnable_SBO,
+			ExternalADCStandby_SO       => ExternalADCStandby_SO,
+			VpreAmpAvg_DI               => ExternalADCData_DI, -- Mean pre-amplifier output as sampled by 10-bit ADC
+			VrefSsBn_DO                 => VrefSsBn_D, -- Chosen bias to be applied to the Shifted-source OTA
+			BiasChangeFlag_SO           => BiasChangeFlag_S, -- Flag telling that the change is needed, to LED5
+			PreAmplifierBiasConfig_DI   => PreAmplifierBiasConfigReg2_D); -- Receive Parameters
 
 	PreAmplifierBiasSPIConfig : entity work.PreAmplifierBiasSPIConfig
 		port map(
-			Clock_CI                				=> LogicClock_C,
-			Reset_RI                				=> LogicReset_R,
-			PreAmplifierBiasConfig_DO 				=> PreAmplifierBiasConfig_D,
-			ConfigModuleAddress_DI 				 	=> ConfigModuleAddress_D,
-			ConfigParamAddress_DI   				=> ConfigParamAddress_D,
-			ConfigParamInput_DI     				=> ConfigParamInput_D,
-			ConfigLatchInput_SI     				=> ConfigLatchInput_S,
-			PreAmplifierBiasConfigParamOutput_DO	=> PreAmplifierBiasConfigParamOutput_D);
-		
+			Clock_CI                             => LogicClock_C,
+			Reset_RI                             => LogicReset_R,
+			PreAmplifierBiasConfig_DO            => PreAmplifierBiasConfig_D,
+			ConfigModuleAddress_DI               => ConfigModuleAddress_D,
+			ConfigParamAddress_DI                => ConfigParamAddress_D,
+			ConfigParamInput_DI                  => ConfigParamInput_D,
+			ConfigLatchInput_SI                  => ConfigLatchInput_S,
+			PreAmplifierBiasConfigParamOutput_DO => PreAmplifierBiasConfigParamOutput_D);
 end Structural;

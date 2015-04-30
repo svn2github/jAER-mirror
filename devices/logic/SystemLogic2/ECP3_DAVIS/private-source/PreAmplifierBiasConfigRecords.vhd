@@ -36,7 +36,7 @@ package PreAmplifierBiasConfigRecords is
 		LowThreshold_S    => to_unsigned(2, 8),
 		ADCSamplingTime_S => to_unsigned(3, 8));
 
-	constant THRESHOLD_SIZE       : integer := 10;
+	constant THRESHOLD_SIZE       : integer := 12;
 	constant ADC_SAMPLE_TIME_SIZE : integer := 28;
 
 	type tPreAmplifierBiasConfig is record
