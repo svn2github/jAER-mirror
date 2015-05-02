@@ -473,6 +473,10 @@ begin
 
 			when stRSSample2Start =>
 				APSChipTXGateReg_SN <= '0'; -- Turn off again.
+				
+				if ReadBSRStatus_DP = RBSTAT_NEED_ZERO_ONE then
+					ExposureClear_S <= '1';
+				end if;
 
 				ColReadStart_SN <= '1';
 
