@@ -54,15 +54,15 @@ package Settings is
 	constant CHIP_APS_HAS_INTEGRATED_ADC : std_logic := CHIP_APS_HAS_INTEGRATED_ADC;
 	constant BOARD_APS_HAS_EXTERNAL_ADC  : std_logic := '0';
 
-	constant CHIP_ORIENTATION      : std_logic_vector(1 downto 0) := ORIENTATION_STRAIGHT;
-	constant CHIP_APS_STREAM_START : std_logic_vector(1 downto 0) := APS_STREAM_START_LOWER_LEFT;
-	constant CHIP_DVS_ORIGIN_POINT : std_logic_vector(1 downto 0) := DVS_ORIGIN_LOWER_LEFT;
-
 	constant CHIP_APS_SIZE_COLUMNS : unsigned(CHIP_APS_SIZE_COLUMNS'range) := CHIP_APS_SIZE_COLUMNS;
 	constant CHIP_APS_SIZE_ROWS    : unsigned(CHIP_APS_SIZE_ROWS'range)    := CHIP_APS_SIZE_ROWS;
+	constant CHIP_APS_STREAM_START : std_logic_vector(1 downto 0)          := START_LOWER_LEFT;
+	constant CHIP_APS_AXES_INVERT  : std_logic                             := AXES_KEEP;
 
 	constant CHIP_DVS_SIZE_COLUMNS : unsigned(CHIP_DVS_SIZE_COLUMNS'range) := CHIP_DVS_SIZE_COLUMNS;
 	constant CHIP_DVS_SIZE_ROWS    : unsigned(CHIP_DVS_SIZE_ROWS'range)    := CHIP_DVS_SIZE_ROWS;
+	constant CHIP_DVS_ORIGIN_POINT : std_logic_vector(1 downto 0)          := START_LOWER_LEFT;
+	constant CHIP_DVS_AXES_INVERT  : std_logic                             := AXES_KEEP;
 
 	constant DVS_AER_BUS_WIDTH : integer := DVS_AER_BUS_WIDTH;
 	constant APS_ADC_BUS_WIDTH : integer := APS_ADC_BUS_WIDTH;

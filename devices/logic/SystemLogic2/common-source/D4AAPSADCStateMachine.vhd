@@ -12,8 +12,6 @@ use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
 
 entity D4AAPSADCStateMachine is
-	generic(
-		ENABLE_QUAD_ROI : boolean := false);
 	port(
 		Clock_CI                 : in  std_logic; -- This clock must be 30MHz, use PLL to generate.
 		Reset_RI                 : in  std_logic; -- This reset must be synchronized to the above clock.

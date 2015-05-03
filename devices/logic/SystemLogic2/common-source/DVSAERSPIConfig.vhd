@@ -4,6 +4,8 @@ use ieee.numeric_std.all;
 use work.DVSAERConfigRecords.all;
 use work.Settings.CHIP_DVS_SIZE_COLUMNS;
 use work.Settings.CHIP_DVS_SIZE_ROWS;
+use work.Settings.CHIP_DVS_ORIGIN_POINT;
+use work.Settings.CHIP_DVS_AXES_INVERT;
 
 entity DVSAERSPIConfig is
 	generic(
@@ -47,6 +49,10 @@ begin
 			when DVSAERCONFIG_PARAM_ADDRESSES.SizeRows_D =>
 				DVSAERConfigReg_DN.SizeRows_D                   <= CHIP_DVS_SIZE_ROWS;
 				DVSAEROutput_DN(tDVSAERConfig.SizeRows_D'range) <= std_logic_vector(CHIP_DVS_SIZE_ROWS);
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.OrientationInfo_D =>
+				DVSAERConfigReg_DN.OrientationInfo_D                   <= CHIP_DVS_AXES_INVERT & CHIP_DVS_ORIGIN_POINT;
+				DVSAEROutput_DN(tDVSAERConfig.OrientationInfo_D'range) <= CHIP_DVS_AXES_INVERT & CHIP_DVS_ORIGIN_POINT;
 
 			when DVSAERCONFIG_PARAM_ADDRESSES.Run_S =>
 				DVSAERConfigReg_DN.Run_S <= DVSAERInput_DP(0);

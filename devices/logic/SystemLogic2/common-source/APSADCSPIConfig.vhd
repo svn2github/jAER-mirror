@@ -5,6 +5,7 @@ use work.APSADCConfigRecords.all;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_APS_STREAM_START;
+use work.Settings.CHIP_APS_AXES_INVERT;
 use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
 use work.Settings.CHIP_APS_HAS_INTEGRATED_ADC;
 use work.Settings.BOARD_APS_HAS_EXTERNAL_ADC;
@@ -51,9 +52,9 @@ begin
 				APSADCConfigReg_DN.SizeRows_D                   <= CHIP_APS_SIZE_ROWS;
 				APSADCOutput_DN(tAPSADCConfig.SizeRows_D'range) <= std_logic_vector(CHIP_APS_SIZE_ROWS);
 
-			when APSADCCONFIG_PARAM_ADDRESSES.StreamStartPoint_D =>
-				APSADCConfigReg_DN.StreamStartPoint_D                   <= CHIP_APS_STREAM_START;
-				APSADCOutput_DN(tAPSADCConfig.StreamStartPoint_D'range) <= CHIP_APS_STREAM_START;
+			when APSADCCONFIG_PARAM_ADDRESSES.OrientationInfo_D =>
+				APSADCConfigReg_DN.OrientationInfo_D                   <= CHIP_APS_AXES_INVERT & CHIP_APS_STREAM_START;
+				APSADCOutput_DN(tAPSADCConfig.OrientationInfo_D'range) <= CHIP_APS_AXES_INVERT & CHIP_APS_STREAM_START;
 
 			when APSADCCONFIG_PARAM_ADDRESSES.ColorFilter_D =>
 				APSADCConfigReg_DN.ColorFilter_D                   <= APSADCInput_DP(tAPSADCConfig.ColorFilter_D'range);

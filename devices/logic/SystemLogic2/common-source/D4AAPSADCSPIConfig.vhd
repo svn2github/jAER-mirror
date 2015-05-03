@@ -5,13 +5,12 @@ use work.D4AAPSADCConfigRecords.all;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_APS_STREAM_START;
+use work.Settings.CHIP_APS_AXES_INVERT;
 use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
 use work.Settings.CHIP_APS_HAS_INTEGRATED_ADC;
 use work.Settings.BOARD_APS_HAS_EXTERNAL_ADC;
 
 entity D4AAPSADCSPIConfig is
-	generic(
-		ENABLE_QUAD_ROI : boolean := false);
 	port(
 		Clock_CI                      : in  std_logic;
 		Reset_RI                      : in  std_logic;
@@ -44,16 +43,16 @@ begin
 
 		case ConfigParamAddress_DI is
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.SizeColumns_D =>
-				D4AAPSADCConfigReg_DN.SizeColumns_D                      <= CHIP_APS_SIZE_COLUMNS;
-				D4AAPSADCOutput_DN(tD4AAPSADCConfig.SizeColumns_D'range) <= std_logic_vector(CHIP_APS_SIZE_COLUMNS);
+				D4AAPSADCConfigReg_DN.SizeColumns_D                      <= CHIP_APS_SIZE_ROWS; -- Invert Col/Row for DAVIS RGB.
+				D4AAPSADCOutput_DN(tD4AAPSADCConfig.SizeColumns_D'range) <= std_logic_vector(CHIP_APS_SIZE_ROWS); -- The SM is row-based, but decoding expects column-based sizes.
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.SizeRows_D =>
-				D4AAPSADCConfigReg_DN.SizeRows_D                      <= CHIP_APS_SIZE_ROWS;
-				D4AAPSADCOutput_DN(tD4AAPSADCConfig.SizeRows_D'range) <= std_logic_vector(CHIP_APS_SIZE_ROWS);
+				D4AAPSADCConfigReg_DN.SizeRows_D                      <= CHIP_APS_SIZE_COLUMNS; -- Invert Col/Row for DAVIS RGB.
+				D4AAPSADCOutput_DN(tD4AAPSADCConfig.SizeRows_D'range) <= std_logic_vector(CHIP_APS_SIZE_COLUMNS); -- The SM is row-based, but decoding expects column-based sizes.
 
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StreamStartPoint_D =>
-				D4AAPSADCConfigReg_DN.StreamStartPoint_D                      <= CHIP_APS_STREAM_START;
-				D4AAPSADCOutput_DN(tD4AAPSADCConfig.StreamStartPoint_D'range) <= CHIP_APS_STREAM_START;
+			when D4AAPSADCCONFIG_PARAM_ADDRESSES.OrientationInfo_D =>
+				D4AAPSADCConfigReg_DN.OrientationInfo_D                      <= CHIP_APS_AXES_INVERT & CHIP_APS_STREAM_START;
+				D4AAPSADCOutput_DN(tD4AAPSADCConfig.OrientationInfo_D'range) <= CHIP_APS_AXES_INVERT & CHIP_APS_STREAM_START;
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.ColorFilter_D =>
 				D4AAPSADCConfigReg_DN.ColorFilter_D                      <= D4AAPSADCInput_DP(tD4AAPSADCConfig.ColorFilter_D'range);
@@ -82,22 +81,6 @@ begin
 					D4AAPSADCOutput_DN(0)                 <= D4AAPSADCConfigReg_DP.GlobalShutter_S;
 				end if;
 
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StartColumn0_D =>
-				D4AAPSADCConfigReg_DN.StartColumn0_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.StartColumn0_D'range));
-				D4AAPSADCOutput_DN(tD4AAPSADCConfig.StartColumn0_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.StartColumn0_D);
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StartRow0_D =>
-				D4AAPSADCConfigReg_DN.StartRow0_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.StartRow0_D'range));
-				D4AAPSADCOutput_DN(tD4AAPSADCConfig.StartRow0_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.StartRow0_D);
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.EndColumn0_D =>
-				D4AAPSADCConfigReg_DN.EndColumn0_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.EndColumn0_D'range));
-				D4AAPSADCOutput_DN(tD4AAPSADCConfig.EndColumn0_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.EndColumn0_D);
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.EndRow0_D =>
-				D4AAPSADCConfigReg_DN.EndRow0_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.EndRow0_D'range));
-				D4AAPSADCOutput_DN(tD4AAPSADCConfig.EndRow0_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.EndRow0_D);
-
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.Exposure_D =>
 				D4AAPSADCConfigReg_DN.Exposure_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.Exposure_D'range));
 				D4AAPSADCOutput_DN(tD4AAPSADCConfig.Exposure_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.Exposure_D);
@@ -109,84 +92,6 @@ begin
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.RowSettle_D =>
 				D4AAPSADCConfigReg_DN.RowSettle_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.RowSettle_D'range));
 				D4AAPSADCOutput_DN(tD4AAPSADCConfig.RowSettle_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.RowSettle_D);
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.HasQuadROI_S =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.HasQuadROI_S <= '1';
-					D4AAPSADCOutput_DN(0)              <= '1';
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StartColumn1_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.StartColumn1_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.StartColumn1_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.StartColumn1_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.StartColumn1_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StartRow1_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.StartRow1_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.StartRow1_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.StartRow1_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.StartRow1_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.EndColumn1_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.EndColumn1_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.EndColumn1_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.EndColumn1_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.EndColumn1_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.EndRow1_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.EndRow1_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.EndRow1_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.EndRow1_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.EndRow1_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StartColumn2_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.StartColumn2_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.StartColumn2_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.StartColumn2_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.StartColumn2_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StartRow2_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.StartRow2_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.StartRow2_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.StartRow2_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.StartRow2_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.EndColumn2_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.EndColumn2_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.EndColumn2_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.EndColumn2_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.EndColumn2_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.EndRow2_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.EndRow2_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.EndRow2_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.EndRow2_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.EndRow2_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StartColumn3_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.StartColumn3_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.StartColumn3_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.StartColumn3_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.StartColumn3_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.StartRow3_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.StartRow3_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.StartRow3_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.StartRow3_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.StartRow3_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.EndColumn3_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.EndColumn3_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.EndColumn3_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.EndColumn3_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.EndColumn3_D);
-				end if;
-
-			when D4AAPSADCCONFIG_PARAM_ADDRESSES.EndRow3_D =>
-				if ENABLE_QUAD_ROI = true then
-					D4AAPSADCConfigReg_DN.EndRow3_D                      <= unsigned(D4AAPSADCInput_DP(tD4AAPSADCConfig.EndRow3_D'range));
-					D4AAPSADCOutput_DN(tD4AAPSADCConfig.EndRow3_D'range) <= std_logic_vector(D4AAPSADCConfigReg_DP.EndRow3_D);
-				end if;
 
 			when D4AAPSADCCONFIG_PARAM_ADDRESSES.HasExternalADC_S =>
 				D4AAPSADCConfigReg_DN.HasExternalADC_S <= D4AAPSADCInput_DP(0);

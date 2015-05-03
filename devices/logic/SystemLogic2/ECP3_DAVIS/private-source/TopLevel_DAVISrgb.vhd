@@ -434,8 +434,6 @@ begin
 			FifoData_DO    => APSADCFifoDataOut_D);
 
 	apsAdcSM : entity work.D4AAPSADCStateMachine2
-		generic map(
-			ENABLE_QUAD_ROI => false)
 		port map(
 			Clock_CI                 => ADCClock_C,
 			Reset_RI                 => ADCReset_R,
@@ -461,8 +459,6 @@ begin
 			D4AAPSADCConfig_DI       => D4AAPSADCConfigReg2_D);
 
 	apsAdcSPIConfig : entity work.D4AAPSADCSPIConfig
-		generic map(
-			ENABLE_QUAD_ROI => false)
 		port map(
 			Clock_CI                      => LogicClock_C,
 			Reset_RI                      => LogicReset_R,

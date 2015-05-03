@@ -2,7 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.SystemInfoConfigRecords.all;
-use work.Settings.all;
+use work.Settings.LOGIC_VERSION;
+use work.Settings.CHIP_IDENTIFIER;
+use work.Settings.LOGIC_CLOCK_FREQ;
+use work.Settings.ADC_CLOCK_FREQ;
 
 entity SystemInfoSPIConfig is
 	port(
@@ -34,11 +37,14 @@ begin
 			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipIdentifier_D =>
 				SystemInfoOutput_DN(CHIP_IDENTIFIER'range) <= std_logic_vector(CHIP_IDENTIFIER);
 
-			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ChipOrientation_D =>
-				SystemInfoOutput_DN(CHIP_ORIENTATION'range) <= CHIP_ORIENTATION;
-
 			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.DeviceIsMaster_S =>
 				SystemInfoOutput_DN(0) <= DeviceIsMasterBuffer_S;
+
+			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.LogicClock_D =>
+				SystemInfoOutput_DN(9 downto 0) <= std_logic_vector(to_unsigned(LOGIC_CLOCK_FREQ, 10));
+
+			when SYSTEMINFOCONFIG_PARAM_ADDRESSES.ADCClock_D =>
+				SystemInfoOutput_DN(9 downto 0) <= std_logic_vector(to_unsigned(ADC_CLOCK_FREQ, 10));
 
 			when others => null;
 		end case;

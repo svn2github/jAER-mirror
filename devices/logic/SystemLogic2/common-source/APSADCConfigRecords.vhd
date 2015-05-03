@@ -4,6 +4,7 @@ use ieee.numeric_std.all;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_APS_STREAM_START;
+use work.Settings.CHIP_APS_AXES_INVERT;
 use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
 use work.Settings.CHIP_APS_HAS_INTEGRATED_ADC;
 use work.Settings.BOARD_APS_HAS_EXTERNAL_ADC;
@@ -15,7 +16,7 @@ package APSADCConfigRecords is
 	type tAPSADCConfigParamAddresses is record
 		SizeColumns_D         : unsigned(7 downto 0);
 		SizeRows_D            : unsigned(7 downto 0);
-		StreamStartPoint_D    : unsigned(7 downto 0);
+		OrientationInfo_D     : unsigned(7 downto 0);
 		ColorFilter_D         : unsigned(7 downto 0);
 		Run_S                 : unsigned(7 downto 0);
 		ResetRead_S           : unsigned(7 downto 0);
@@ -56,7 +57,7 @@ package APSADCConfigRecords is
 	constant APSADCCONFIG_PARAM_ADDRESSES : tAPSADCConfigParamAddresses := (
 		SizeColumns_D         => to_unsigned(0, 8),
 		SizeRows_D            => to_unsigned(1, 8),
-		StreamStartPoint_D    => to_unsigned(2, 8),
+		OrientationInfo_D     => to_unsigned(2, 8),
 		ColorFilter_D         => to_unsigned(3, 8),
 		Run_S                 => to_unsigned(4, 8),
 		ResetRead_S           => to_unsigned(5, 8),
@@ -107,7 +108,7 @@ package APSADCConfigRecords is
 	type tAPSADCConfig is record
 		SizeColumns_D         : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		SizeRows_D            : unsigned(CHIP_APS_SIZE_ROWS'range);
-		StreamStartPoint_D    : std_logic_vector(1 downto 0);
+		OrientationInfo_D     : std_logic_vector(2 downto 0);
 		ColorFilter_D         : std_logic_vector(1 downto 0);
 		Run_S                 : std_logic;
 		ResetRead_S           : std_logic; -- Wether to do the reset read or not.
@@ -148,7 +149,7 @@ package APSADCConfigRecords is
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
 		SizeColumns_D         => CHIP_APS_SIZE_COLUMNS,
 		SizeRows_D            => CHIP_APS_SIZE_ROWS,
-		StreamStartPoint_D    => CHIP_APS_STREAM_START,
+		OrientationInfo_D     => CHIP_APS_AXES_INVERT & CHIP_APS_STREAM_START,
 		ColorFilter_D         => "00",
 		Run_S                 => '0',
 		ResetRead_S           => '1',
