@@ -109,6 +109,8 @@ architecture Structural of TopLevel is
 
 	signal AERCorrFilterBiasConfig_D, AERCorrFilterBiasConfigReg_D : tAERCorrFilterBiasConfig;
 	signal AERCorrFilterChipConfig_D, AERCorrFilterChipConfigReg_D : tAERCorrFilterChipConfig;
+
+	signal AERCorrFilterPassEnableReg_S : std_logic;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
@@ -339,8 +341,18 @@ begin
 			DVSAERAck_SBO              => DVSAERAck_SB,
 			DVSAERReset_SBO            => open,
 			AERCorrFilterPass_SI       => AERCorrFilterPass_SI,
-			AERCorrFilterPassEnable_SO => AERCorrFilterPassEnable_SO,
+			AERCorrFilterPassEnable_SO => AERCorrFilterPassEnableReg_S,
 			DVSAERCorrFilterConfig_DI  => DVSAERCorrFilterConfigReg2_D);
+
+	passEnableBuffer : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => AERCorrFilterPassEnableReg_S,
+			Output_SO(0) => AERCorrFilterPassEnable_SO);
 
 	dvsAerSPIConfig : entity work.DVSAERCorrFilterSPIConfig
 		port map(

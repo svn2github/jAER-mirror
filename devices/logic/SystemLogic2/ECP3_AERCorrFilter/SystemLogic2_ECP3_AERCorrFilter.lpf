@@ -223,7 +223,7 @@ INPUT_SETUP PORT "AERCorrFilterPass_SI" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "
 
 LOCATE COMP "AERCorrFilterPassEnable_SO" SITE "E6" ; // RowSRclock on DAVIS daughter-board
 IOBUF PORT "AERCorrFilterPassEnable_SO" PULLMODE=DOWN ;
-CLOCK_TO_OUT PORT "AERCorrFilterPassEnable_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+CLOCK_TO_OUT PORT "AERCorrFilterPassEnable_SO" OUTPUT_DELAY 0.5 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 LOCATE COMP "AERCorrFilterReq_SBO" SITE "F11" ; // chipADC_ScanClock on DAVIS daughter-board
 IOBUF PORT "AERCorrFilterReq_SBO" PULLMODE=UP ;
