@@ -41,6 +41,6 @@ package Settings is
 	constant CHIP_IDENTIFIER : unsigned(3 downto 0) := CHIP_IDENTIFIER;
 
 	constant AER_BUS_WIDTH     : integer := AER_BUS_WIDTH;
-	constant AER_BUS_WIDTH_ROW : integer := AER_BUS_WIDTH - 1; -- Without XSel.
+	constant AER_BUS_WIDTH_ROW : integer := AER_BUS_WIDTH - 2; -- Without XSel, and not longer than Col.
 	constant AER_BUS_WIDTH_COL : integer := AER_BUS_WIDTH - 2; -- Without XSel and Polarity.
 end Settings;

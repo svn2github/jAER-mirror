@@ -10,6 +10,7 @@ package DVSAERCorrFilterConfigRecords is
 	type tDVSAERCorrFilterConfigParamAddresses is record
 		SizeColumns_D         : unsigned(7 downto 0);
 		SizeRows_D            : unsigned(7 downto 0);
+		OrientationInfo_D     : unsigned(7 downto 0);
 		Run_S                 : unsigned(7 downto 0);
 		AckDelayRow_D         : unsigned(7 downto 0);
 		AckDelayColumn_D      : unsigned(7 downto 0);
@@ -23,20 +24,22 @@ package DVSAERCorrFilterConfigRecords is
 	constant DVSAERCORRFILTERCONFIG_PARAM_ADDRESSES : tDVSAERCorrFilterConfigParamAddresses := (
 		SizeColumns_D         => to_unsigned(0, 8),
 		SizeRows_D            => to_unsigned(1, 8),
-		Run_S                 => to_unsigned(2, 8),
-		AckDelayRow_D         => to_unsigned(3, 8),
-		AckDelayColumn_D      => to_unsigned(4, 8),
-		AckExtensionRow_D     => to_unsigned(5, 8),
-		AckExtensionColumn_D  => to_unsigned(6, 8),
-		WaitOnTransferStall_S => to_unsigned(7, 8),
-		FilterRowOnlyEvents_S => to_unsigned(8, 8),
-		PassDelayTime_D       => to_unsigned(9, 8));
+		OrientationInfo_D     => to_unsigned(2, 8),
+		Run_S                 => to_unsigned(3, 8),
+		AckDelayRow_D         => to_unsigned(4, 8),
+		AckDelayColumn_D      => to_unsigned(5, 8),
+		AckExtensionRow_D     => to_unsigned(6, 8),
+		AckExtensionColumn_D  => to_unsigned(7, 8),
+		WaitOnTransferStall_S => to_unsigned(8, 8),
+		FilterRowOnlyEvents_S => to_unsigned(9, 8),
+		PassDelayTime_D       => to_unsigned(10, 8));
 
 	constant DVS_AER_ACK_COUNTER_WIDTH : integer := 6;
 
 	type tDVSAERCorrFilterConfig is record
 		SizeColumns_D         : unsigned(AER_BUS_WIDTH_COL - 1 downto 0);
 		SizeRows_D            : unsigned(AER_BUS_WIDTH_ROW - 1 downto 0);
+		OrientationInfo_D     : std_logic_vector(2 downto 0);
 		Run_S                 : std_logic;
 		AckDelayRow_D         : unsigned(DVS_AER_ACK_COUNTER_WIDTH - 1 downto 0);
 		AckDelayColumn_D      : unsigned(DVS_AER_ACK_COUNTER_WIDTH - 1 downto 0);
@@ -50,6 +53,7 @@ package DVSAERCorrFilterConfigRecords is
 	constant tDVSAERCorrFilterConfigDefault : tDVSAERCorrFilterConfig := (
 		SizeColumns_D         => (others => '1'),
 		SizeRows_D            => (others => '1'),
+		OrientationInfo_D     => "000",
 		Run_S                 => '0',
 		AckDelayRow_D         => to_unsigned(4, tDVSAERCorrFilterConfig.AckDelayRow_D'length),
 		AckDelayColumn_D      => to_unsigned(0, tDVSAERCorrFilterConfig.AckDelayColumn_D'length),

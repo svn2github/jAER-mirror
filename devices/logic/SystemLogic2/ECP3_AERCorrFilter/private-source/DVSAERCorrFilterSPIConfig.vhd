@@ -43,6 +43,10 @@ begin
 				DVSAERCorrFilterConfigReg_DN.SizeRows_D                             <= (others => '1');
 				DVSAERCorrFilterOutput_DN(tDVSAERCorrFilterConfig.SizeRows_D'range) <= (others => '1');
 
+			when DVSAERCORRFILTERCONFIG_PARAM_ADDRESSES.OrientationInfo_D =>
+				DVSAERCorrFilterConfigReg_DN.OrientationInfo_D                             <= "000";
+				DVSAERCorrFilterOutput_DN(tDVSAERCorrFilterConfig.OrientationInfo_D'range) <= "000";
+
 			when DVSAERCORRFILTERCONFIG_PARAM_ADDRESSES.Run_S =>
 				DVSAERCorrFilterConfigReg_DN.Run_S <= DVSAERCorrFilterInput_DP(0);
 				DVSAERCorrFilterOutput_DN(0)       <= DVSAERCorrFilterConfigReg_DP.Run_S;
