@@ -433,7 +433,7 @@ begin
 			FifoData_DI    => APSADCFifoDataIn_D,
 			FifoData_DO    => APSADCFifoDataOut_D);
 
-	apsAdcSM : entity work.D4AAPSADCStateMachine2
+	apsAdcSM : entity work.D4AAPSADCStateMachine3
 		port map(
 			Clock_CI                 => ADCClock_C,
 			Reset_RI                 => ADCReset_R,
