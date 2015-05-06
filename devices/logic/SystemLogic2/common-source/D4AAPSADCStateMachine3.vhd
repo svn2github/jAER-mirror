@@ -377,7 +377,7 @@ begin
 		ReadBSRStatus_DN <= ReadBSRStatus_DP;
 
 		-- No valid sample type by default.
-		APSSampleType_DN <= SAMPLETYPE_NULL;
+		APSSampleType_DN <= APSSampleType_DP;
 
 		-- Only update configuration when in Idle state. Doing so while the frame is being read out
 		-- would cause different timing, exposure and read out types, resulting in corrupted frames.
@@ -510,6 +510,8 @@ begin
 			when stRSSample1Done =>
 				if ReadBSRStatus_DP = RBSTAT_NORMAL then
 					APSSampleType_DN <= SAMPLETYPE_FDRESET;
+				else
+					APSSampleType_DN <= SAMPLETYPE_NULL;
 				end if;
 
 				if ColReadDone_SP = '1' then
@@ -527,11 +529,11 @@ begin
 
 			when stRSSample2Start =>
 				APSChipTXGateReg_SN <= '0'; -- Turn off again.
-				
+
 				if ReadBSRStatus_DP = RBSTAT_NEED_ZERO_ONE then
 					ExposureClear_S <= '1';
 				end if;
-				
+
 				ColReadStart_SN <= '1';
 
 				PixelState_DN <= stRSSample2Done;
@@ -719,13 +721,12 @@ begin
 				end if;
 
 			when stGSSample1Start =>
-				ColReadStart_SN <= '1';
+				ColReadStart_SN  <= '1';
+				APSSampleType_DN <= SAMPLETYPE_SIGNAL;
 
 				PixelState_DN <= stGSSample1Done;
 
 			when stGSSample1Done =>
-				APSSampleType_DN <= SAMPLETYPE_SIGNAL;
-
 				if ColReadDone_SP = '1' then
 					PixelState_DN <= stGSFDReset;
 				end if;
@@ -742,13 +743,12 @@ begin
 			when stGSSample2Start =>
 				APSChipResetReg_SN <= '0'; -- Turn off again.
 
-				ColReadStart_SN <= '1';
+				ColReadStart_SN  <= '1';
+				APSSampleType_DN <= SAMPLETYPE_FDRESET;
 
 				PixelState_DN <= stGSSample2Done;
 
 			when stGSSample2Done =>
-				APSSampleType_DN <= SAMPLETYPE_FDRESET;
-
 				if ColReadDone_SP = '1' then
 					APSChipOverflowGateReg_SN <= '1';
 
@@ -1005,8 +1005,8 @@ begin
 
 			when stColScanReadValue =>
 				--start pipeline
-				ColReadDone_SN  <= '1';
-				
+				ColReadDone_SN <= '1';
+
 				-- Write event only if FIFO has place, else wait.
 				if OutFifoControl_SI.Full_S = '0' and APSSampleType_DP /= SAMPLETYPE_NULL then
 					OutFifoDataRegCol_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
@@ -1056,7 +1056,7 @@ begin
 
 				if OutFifoControl_SI.Full_S = '0' or APSSampleType_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColState_DN <= stIdle;
-					--ColReadDone_SN  <= '1';
+				--ColReadDone_SN  <= '1';
 				end if;
 
 			when others => null;
