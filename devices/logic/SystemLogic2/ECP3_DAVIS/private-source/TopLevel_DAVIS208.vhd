@@ -682,8 +682,10 @@ begin
 			DAVIS208BiasConfigReg_D <= DAVIS208BiasConfig_D;
 			DAVIS208ChipConfigReg_D <= DAVIS208ChipConfig_D;
 
-			-- Override RefSSBn bias with computed version from SM.
-			DAVIS208BiasConfigReg_D.RefSSBn_D <= VrefSsBn_D;
+			-- Override RefSSBn bias with computed version from SM, if SM is running.
+			if PreAmplifierBiasConfigReg2_D.Run_S = '1' then
+				DAVIS208BiasConfigReg_D.RefSSBn_D <= VrefSsBn_D;
+			end if;
 		end if;
 	end process davis208ConfigRegisters;
 

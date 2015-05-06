@@ -249,10 +249,10 @@ LOCATE COMP "APSChipTXGate_SBO" SITE "B8" ; // APSLogic1
 IOBUF PORT "APSChipTXGate_SBO" PULLMODE=UP ;
 CLOCK_TO_OUT PORT "APSChipTXGate_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
 
-// APS data (external ADC)
+// External ADC for automatic bias setting
 LOCATE COMP "ExternalADCOverflow_SI" SITE "G1" ;
 IOBUF PORT "ExternalADCOverflow_SI" PULLMODE=DOWN ;
-INPUT_SETUP PORT "ExternalADCOverflow_SI" INPUT_DELAY 31.0 ns HOLD -2.0 ns CLKNET "ADCClock_C" ;
+INPUT_SETUP PORT "ExternalADCOverflow_SI" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "LogicClock_C" ;
 
 LOCATE COMP "ExternalADCClock_CO" SITE "M21" ;
 IOBUF PORT "ExternalADCClock_CO" PULLMODE=DOWN ;
@@ -260,11 +260,11 @@ MAXDELAY FROM PORT "USBClock_CI" TO PORT "ExternalADCClock_CO" 6.0 ns;
 
 LOCATE COMP "ExternalADCOutputEnable_SBO" SITE "M22" ;
 IOBUF PORT "ExternalADCOutputEnable_SBO" PULLMODE=UP ;
-CLOCK_TO_OUT PORT "ExternalADCOutputEnable_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+CLOCK_TO_OUT PORT "ExternalADCOutputEnable_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 LOCATE COMP "ExternalADCStandby_SO" SITE "K17" ;
 IOBUF PORT "ExternalADCStandby_SO" PULLMODE=UP ; // Keep in standby by default.
-CLOCK_TO_OUT PORT "ExternalADCStandby_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "ADCClock_C" ;
+CLOCK_TO_OUT PORT "ExternalADCStandby_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 LOCATE COMP "ExternalADCData_DI[9]" SITE "J4" ;
 LOCATE COMP "ExternalADCData_DI[8]" SITE "J3" ;
@@ -288,7 +288,7 @@ DEFINE PORT GROUP "ExternalADCData_DI"
 "ExternalADCData_DI[1]" 
 "ExternalADCData_DI[0]" ;
 IOBUF GROUP "ExternalADCData_DI" PULLMODE=DOWN ;
-INPUT_SETUP GROUP "ExternalADCData_DI" INPUT_DELAY 31.0 ns HOLD -2.0 ns CLKNET "ADCClock_C" ;
+INPUT_SETUP GROUP "ExternalADCData_DI" INPUT_DELAY 1.0 ns HOLD -0.5 ns CLKNET "LogicClock_C" ;
 
 // APS data (on-chip ADC)
 LOCATE COMP "ChipADCRampClear_SO" SITE "H6" ;
