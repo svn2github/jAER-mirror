@@ -5,7 +5,7 @@ use work.ExtInputConfigRecords.all;
 
 entity ExtInputSPIConfig is
 	generic(
-		ENABLE_GENERATOR_CONFIG : boolean := true);
+		ENABLE_GENERATOR : boolean := true);
 	port(
 		Clock_CI                     : in  std_logic;
 		Reset_RI                     : in  std_logic;
@@ -61,32 +61,38 @@ begin
 				ExtInputConfigReg_DN.DetectPulseLength_D                     <= unsigned(ExtInputInput_DP(tExtInputConfig.DetectPulseLength_D'range));
 				ExtInputOutput_DN(tExtInputConfig.DetectPulseLength_D'range) <= std_logic_vector(ExtInputConfigReg_DP.DetectPulseLength_D);
 
+			when EXTINPUTCONFIG_PARAM_ADDRESSES.HasGenerator_S =>
+				if ENABLE_GENERATOR = true then
+					ExtInputConfigReg_DN.HasGenerator_S <= '1';
+					ExtInputOutput_DN(0)                <= '1';
+				end if;
+
 			when EXTINPUTCONFIG_PARAM_ADDRESSES.RunGenerator_S =>
-				if ENABLE_GENERATOR_CONFIG = true then
+				if ENABLE_GENERATOR = true then
 					ExtInputConfigReg_DN.RunGenerator_S <= ExtInputInput_DP(0);
 					ExtInputOutput_DN(0)                <= ExtInputConfigReg_DP.RunGenerator_S;
 				end if;
 
 			when EXTINPUTCONFIG_PARAM_ADDRESSES.GenerateUseCustomSignal_S =>
-				if ENABLE_GENERATOR_CONFIG = true then
+				if ENABLE_GENERATOR = true then
 					ExtInputConfigReg_DN.GenerateUseCustomSignal_S <= ExtInputInput_DP(0);
 					ExtInputOutput_DN(0)                           <= ExtInputConfigReg_DP.GenerateUseCustomSignal_S;
 				end if;
 
 			when EXTINPUTCONFIG_PARAM_ADDRESSES.GeneratePulsePolarity_S =>
-				if ENABLE_GENERATOR_CONFIG = true then
+				if ENABLE_GENERATOR = true then
 					ExtInputConfigReg_DN.GeneratePulsePolarity_S <= ExtInputInput_DP(0);
 					ExtInputOutput_DN(0)                         <= ExtInputConfigReg_DP.GeneratePulsePolarity_S;
 				end if;
 
 			when EXTINPUTCONFIG_PARAM_ADDRESSES.GeneratePulseInterval_D =>
-				if ENABLE_GENERATOR_CONFIG = true then
+				if ENABLE_GENERATOR = true then
 					ExtInputConfigReg_DN.GeneratePulseInterval_D                     <= unsigned(ExtInputInput_DP(tExtInputConfig.GeneratePulseInterval_D'range));
 					ExtInputOutput_DN(tExtInputConfig.GeneratePulseInterval_D'range) <= std_logic_vector(ExtInputConfigReg_DP.GeneratePulseInterval_D);
 				end if;
 
 			when EXTINPUTCONFIG_PARAM_ADDRESSES.GeneratePulseLength_D =>
-				if ENABLE_GENERATOR_CONFIG = true then
+				if ENABLE_GENERATOR = true then
 					ExtInputConfigReg_DN.GeneratePulseLength_D                     <= unsigned(ExtInputInput_DP(tExtInputConfig.GeneratePulseLength_D'range));
 					ExtInputOutput_DN(tExtInputConfig.GeneratePulseLength_D'range) <= std_logic_vector(ExtInputConfigReg_DP.GeneratePulseLength_D);
 				end if;

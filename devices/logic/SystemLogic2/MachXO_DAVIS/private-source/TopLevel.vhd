@@ -441,7 +441,7 @@ begin
 
 	extInputSPIConfig : entity work.ExtInputSPIConfig
 		generic map(
-			ENABLE_GENERATOR_CONFIG => false)
+			ENABLE_GENERATOR => false)
 		port map(
 			Clock_CI                     => LogicClock_C,
 			Reset_RI                     => LogicReset_R,

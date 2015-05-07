@@ -82,6 +82,10 @@ begin
 				DVSAERConfigReg_DN.FilterRowOnlyEvents_S <= DVSAERInput_DP(0);
 				DVSAEROutput_DN(0)                       <= DVSAERConfigReg_DP.FilterRowOnlyEvents_S;
 
+			when DVSAERCONFIG_PARAM_ADDRESSES.ExternalAERControl_S =>
+				DVSAERConfigReg_DN.ExternalAERControl_S <= DVSAERInput_DP(0);
+				DVSAEROutput_DN(0)                      <= DVSAERConfigReg_DP.ExternalAERControl_S;
+
 			when DVSAERCONFIG_PARAM_ADDRESSES.HasPixelFilter_S =>
 				if ENABLE_PIXEL_FILTERING = true then
 					DVSAERConfigReg_DN.HasPixelFilter_S <= '1';

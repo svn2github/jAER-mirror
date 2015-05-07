@@ -124,8 +124,16 @@ begin
 						end if;
 					end if;
 				else
-					-- Keep the DVS in reset if data producer turned off.
-					DVSAERResetReg_SB <= '0';
+					if DVSAERConfigReg_D.ExternalAERControl_S = '1' then
+						-- Support handing off control of AER to external systems connected through the CAVIAR
+						-- connector on the board. This ensures the chip is kept out of reset and the ACK is
+						-- not driven from our logic.
+						DVSAERAckReg_SB   <= 'Z';
+						DVSAERResetReg_SB <= '1';
+					else
+						-- Keep the DVS in reset if data producer turned off.
+						DVSAERResetReg_SB <= '0';
+					end if;
 				end if;
 
 			when stFIFOFull =>
@@ -583,6 +591,16 @@ begin
 			variable ColumnAddress_D : unsigned(BA_COLUMN_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
 			variable RowAddress_D    : unsigned(BA_ROW_ADDRESS_WIDTH - 1 downto 0)    := (others => '0');
 
+			variable TimestampMapAddress_D          : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+			variable TimestampMapAddressLeft_D      : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+			variable TimestampMapAddressRight_D     : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+			variable TimestampMapAddressDown_D      : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+			variable TimestampMapAddressDownLeft_D  : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+			variable TimestampMapAddressDownRight_D : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+			variable TimestampMapAddressUp_D        : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+			variable TimestampMapAddressUpLeft_D    : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+			variable TimestampMapAddressUpRight_D   : unsigned(BA_ADDRESS_WIDTH - 1 downto 0);
+
 			variable BorderLeft_S  : boolean := false;
 			variable BorderDown_S  : boolean := false;
 			variable BorderRight_S : boolean := false;
@@ -765,80 +783,92 @@ begin
 					TimestampMap14WrEn_S <= BooleanToStdLogic(Column2_S nand Row3_S);
 					TimestampMap15WrEn_S <= BooleanToStdLogic(Column3_S nand Row3_S);
 
-					TimestampMap0Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap1Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap2Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap3Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap4Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap5Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap6Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap7Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap8Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap9Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap10Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap11Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap12Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap13Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap14Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-					TimestampMap15Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+					TimestampMapAddress_D      := resize(RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 2) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
+					TimestampMapAddressLeft_D  := TimestampMapAddress_D - 1;
+					TimestampMapAddressRight_D := TimestampMapAddress_D + 1;
+
+					TimestampMapAddressDown_D      := resize((RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 2) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
+					TimestampMapAddressDownLeft_D  := TimestampMapAddressDown_D - 1;
+					TimestampMapAddressDownRight_D := TimestampMapAddressDown_D + 1;
+
+					TimestampMapAddressUp_D      := resize((RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 2) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
+					TimestampMapAddressUpLeft_D  := TimestampMapAddressUp_D - 1;
+					TimestampMapAddressUpRight_D := TimestampMapAddressUp_D + 1;
+
+					TimestampMap0Address_D  <= TimestampMapAddress_D;
+					TimestampMap1Address_D  <= TimestampMapAddress_D;
+					TimestampMap2Address_D  <= TimestampMapAddress_D;
+					TimestampMap3Address_D  <= TimestampMapAddress_D;
+					TimestampMap4Address_D  <= TimestampMapAddress_D;
+					TimestampMap5Address_D  <= TimestampMapAddress_D;
+					TimestampMap6Address_D  <= TimestampMapAddress_D;
+					TimestampMap7Address_D  <= TimestampMapAddress_D;
+					TimestampMap8Address_D  <= TimestampMapAddress_D;
+					TimestampMap9Address_D  <= TimestampMapAddress_D;
+					TimestampMap10Address_D <= TimestampMapAddress_D;
+					TimestampMap11Address_D <= TimestampMapAddress_D;
+					TimestampMap12Address_D <= TimestampMapAddress_D;
+					TimestampMap13Address_D <= TimestampMapAddress_D;
+					TimestampMap14Address_D <= TimestampMapAddress_D;
+					TimestampMap15Address_D <= TimestampMapAddress_D;
 
 					if Column0_S = true then
 						if Row0_S = true then
 							-- Left/Down Corner
-							TimestampMap3Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
-							TimestampMap7Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
-							TimestampMap12Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap13Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap15Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+							TimestampMap3Address_D  <= TimestampMapAddressLeft_D;
+							TimestampMap7Address_D  <= TimestampMapAddressLeft_D;
+							TimestampMap12Address_D <= TimestampMapAddressDown_D;
+							TimestampMap13Address_D <= TimestampMapAddressDown_D;
+							TimestampMap15Address_D <= TimestampMapAddressDownLeft_D;
 						elsif Row3_S = true then
 							-- Left/Up Corner
-							TimestampMap0Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap1Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap3Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
-							TimestampMap11Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
-							TimestampMap15Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+							TimestampMap0Address_D  <= TimestampMapAddressUp_D;
+							TimestampMap1Address_D  <= TimestampMapAddressUp_D;
+							TimestampMap3Address_D  <= TimestampMapAddressUpLeft_D;
+							TimestampMap11Address_D <= TimestampMapAddressLeft_D;
+							TimestampMap15Address_D <= TimestampMapAddressLeft_D;
 						else            -- Rows 1/2
 							-- Left Border
-							TimestampMap3Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
-							TimestampMap7Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
-							TimestampMap11Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
-							TimestampMap15Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) - 1);
+							TimestampMap3Address_D  <= TimestampMapAddressLeft_D;
+							TimestampMap7Address_D  <= TimestampMapAddressLeft_D;
+							TimestampMap11Address_D <= TimestampMapAddressLeft_D;
+							TimestampMap15Address_D <= TimestampMapAddressLeft_D;
 						end if;
 					elsif Column3_S = true then
 						if Row0_S = true then
 							-- Right/Down Corner
-							TimestampMap0Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
-							TimestampMap4Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
-							TimestampMap12Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
-							TimestampMap14Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap15Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap0Address_D  <= TimestampMapAddressRight_D;
+							TimestampMap4Address_D  <= TimestampMapAddressRight_D;
+							TimestampMap12Address_D <= TimestampMapAddressDownRight_D;
+							TimestampMap14Address_D <= TimestampMapAddressDown_D;
+							TimestampMap15Address_D <= TimestampMapAddressDown_D;
 						elsif Row3_S = true then
 							-- Right/Up Corner
-							TimestampMap0Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
-							TimestampMap2Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap3Address_D  <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap8Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
-							TimestampMap12Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
+							TimestampMap0Address_D  <= TimestampMapAddressUpRight_D;
+							TimestampMap2Address_D  <= TimestampMapAddressUp_D;
+							TimestampMap3Address_D  <= TimestampMapAddressUp_D;
+							TimestampMap8Address_D  <= TimestampMapAddressRight_D;
+							TimestampMap12Address_D <= TimestampMapAddressRight_D;
 						else            -- Rows 1/2
 							-- Right Border
-							TimestampMap0Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
-							TimestampMap4Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
-							TimestampMap8Address_D  <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
-							TimestampMap12Address_D <= RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) & (ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2) + 1);
+							TimestampMap0Address_D  <= TimestampMapAddressRight_D;
+							TimestampMap4Address_D  <= TimestampMapAddressRight_D;
+							TimestampMap8Address_D  <= TimestampMapAddressRight_D;
+							TimestampMap12Address_D <= TimestampMapAddressRight_D;
 						end if;
 					else                -- Columns 1/2
 						if Row0_S = true then
 							-- Down Border
-							TimestampMap12Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap13Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap14Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap15Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap12Address_D <= TimestampMapAddressDown_D;
+							TimestampMap13Address_D <= TimestampMapAddressDown_D;
+							TimestampMap14Address_D <= TimestampMapAddressDown_D;
+							TimestampMap15Address_D <= TimestampMapAddressDown_D;
 						elsif Row3_S = true then
 							-- Up Border
-							TimestampMap0Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap1Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap2Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
-							TimestampMap3Address_D <= (RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) & ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2);
+							TimestampMap0Address_D <= TimestampMapAddressUp_D;
+							TimestampMap1Address_D <= TimestampMapAddressUp_D;
+							TimestampMap2Address_D <= TimestampMapAddressUp_D;
+							TimestampMap3Address_D <= TimestampMapAddressUp_D;
 						end if;
 					end if;
 				end if;

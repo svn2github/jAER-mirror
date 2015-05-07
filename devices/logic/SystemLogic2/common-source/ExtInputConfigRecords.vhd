@@ -16,6 +16,7 @@ package ExtInputConfigRecords is
 		DetectPulses_S            : unsigned(7 downto 0);
 		DetectPulsePolarity_S     : unsigned(7 downto 0);
 		DetectPulseLength_D       : unsigned(7 downto 0);
+		HasGenerator_S            : unsigned(7 downto 0);
 		RunGenerator_S            : unsigned(7 downto 0);
 		GenerateUseCustomSignal_S : unsigned(7 downto 0);
 		GeneratePulsePolarity_S   : unsigned(7 downto 0);
@@ -30,11 +31,12 @@ package ExtInputConfigRecords is
 		DetectPulses_S            => to_unsigned(3, 8),
 		DetectPulsePolarity_S     => to_unsigned(4, 8),
 		DetectPulseLength_D       => to_unsigned(5, 8),
-		RunGenerator_S            => to_unsigned(6, 8),
-		GenerateUseCustomSignal_S => to_unsigned(7, 8),
-		GeneratePulsePolarity_S   => to_unsigned(8, 8),
-		GeneratePulseInterval_D   => to_unsigned(9, 8),
-		GeneratePulseLength_D     => to_unsigned(10, 8));
+		HasGenerator_S            => to_unsigned(6, 8),
+		RunGenerator_S            => to_unsigned(7, 8),
+		GenerateUseCustomSignal_S => to_unsigned(8, 8),
+		GeneratePulsePolarity_S   => to_unsigned(9, 8),
+		GeneratePulseInterval_D   => to_unsigned(10, 8),
+		GeneratePulseLength_D     => to_unsigned(11, 8));
 
 	type tExtInputConfig is record
 		RunDetector_S             : std_logic;
@@ -43,6 +45,7 @@ package ExtInputConfigRecords is
 		DetectPulses_S            : std_logic;
 		DetectPulsePolarity_S     : std_logic;
 		DetectPulseLength_D       : unsigned(EXTINPUT_MAX_TIME_SIZE - 1 downto 0);
+		HasGenerator_S            : std_logic;
 		RunGenerator_S            : std_logic;
 		GenerateUseCustomSignal_S : std_logic;
 		GeneratePulsePolarity_S   : std_logic;
@@ -58,6 +61,7 @@ package ExtInputConfigRecords is
 		DetectPulsePolarity_S     => '1',
 		DetectPulseLength_D       => to_unsigned(10, EXTINPUT_MAX_TIME_SIZE),
 		RunGenerator_S            => '0',
+		HasGenerator_S            => '0',
 		GenerateUseCustomSignal_S => '0',
 		GeneratePulsePolarity_S   => '1',
 		GeneratePulseInterval_D   => to_unsigned(10, EXTINPUT_MAX_TIME_SIZE),
