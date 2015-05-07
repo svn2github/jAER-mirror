@@ -86,7 +86,7 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	signal ColSampleStart_SP, ColSampleStart_SN : std_logic;
 	signal ColScanStart_SP, ColScanStart_SN : std_logic;
 	signal ColSampleDone_SP, ColSampleDone_SN   : std_logic;
-	signal ColScanDone_SP, ColScanDone_SN   : std_logic;
+	-- signal ColScanDone_SP, ColScanDone_SN   : std_logic;
 
 	-- RS: the B read has several very special considerations that must be taken into account.
 	-- First, it has to be done only after exposure time expires, before that, it must be faked
@@ -990,7 +990,7 @@ begin
 		RampResetTimeCount_S    <= '0';
 
 		-- Column SM communication.
-		ColScanDone_SN <= '0';
+		-- ColScanDone_SN <= '0';
 
 		-- On-chip ADC.
 		ChipADCScanClockReg_C   <= '0';
