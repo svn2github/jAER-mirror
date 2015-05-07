@@ -981,22 +981,13 @@ begin
 		ColumnReadPositionZero_S <= '0';
 		ColumnReadPositionInc_S  <= '0';
 
-		-- ADC clock counter.
-		RampTickCount_S <= '0';
-
-		-- Settle times counters.
-		RowSettleTimeCount_S    <= '0';
-		SampleSettleTimeCount_S <= '0';
-		RampResetTimeCount_S    <= '0';
-
 		-- Column SM communication.
 		-- ColScanDone_SN <= '0';
 
 		-- On-chip ADC.
 		ChipADCScanClockReg_C   <= '0';
 		ChipADCScanControlReg_S <= SCAN_CONTROL_SCAN_THROUGH; -- Scan by default.
-		ChipADCSampleReg_S      <= '0';
-
+		
 		case ChipColScanState_DP is
 			when stScanIdle =>
 				-- Wait until the sample state machine signals us to scan.
