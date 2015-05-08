@@ -1144,10 +1144,7 @@ begin
 			ColSampleStart_SP <= '0';
 			ColSampleDone_SP  <= '0';
 			ColScanStart_SP <= '0';
-			ColScanStartAck <= '0';
-			ColSampleStartAck <= '0';
-			ColSampleDoneAck <= '0';
-
+			
 			ReadBSRStatus_DP <= RBSTAT_NEED_ZERO_ONE;
 			APSSampleType_DP <= SAMPLETYPE_NULL;
 
