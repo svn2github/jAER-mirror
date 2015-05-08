@@ -1,0 +1,14 @@
+Revision 6616 - 08.05.2015
+- DVSAER: add ExternalAERControl configuration parameter
+  to have external AER masters control the AER bus, for
+  example other boards via the CAVIAR connector.
+- ExtInput: add HasGenerator configuration parameter
+  to check for generator presence.
+- SPIConfig: fixed bug that would leave the SPI state
+  machine stuck in the stInput state and wrongly then
+  drive a logic low value onto the bus full-time,
+  disrupting communication for other SPI slave devices.
+  (Only ECP3_FX3 boards are visibly affected by this.)
+
+Revision 6565 - 04.05.2015
+- Initial release.
