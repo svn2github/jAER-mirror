@@ -14,6 +14,7 @@
   <Mappings Location="common-source/D4AAPSADCSPIConfig.vhd" Library="not mapped"/>
   <Mappings Location="common-source/D4AAPSADCStateMachine.vhd" Library="not mapped"/>
   <Mappings Location="common-source/D4AAPSADCStateMachine2.vhd" Library="not mapped"/>
+  <Mappings Location="common-source/D4AAPSADCStateMachine3.vhd" Library="not mapped"/>
   <Mappings Location="common-source/DVSAERConfigRecords.vhd" Library="not mapped"/>
   <Mappings Location="common-source/DVSAERSPIConfig.vhd" Library="not mapped"/>
   <Mappings Location="common-source/DVSAERStateMachine.vhd" Library="not mapped"/>
