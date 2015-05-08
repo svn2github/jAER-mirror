@@ -31,14 +31,19 @@ architecture Behavioral of SPIConfig is
 	-- present and next state
 	signal State_DP, State_DN : tState;
 
+	signal SPISlaveSelectFallingEdges_S    : std_logic;
+	signal SPISlaveSelectEdgeDetectorReg_S : std_logic;
+
 	signal SPIClockRisingEdges_S, SPIClockFallingEdges_S : std_logic;
-	signal SPIReadMOSI_S, SPIWriteMISO_S                 : std_logic;
-	signal SPIInputSRegMode_S                            : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
-	signal SPIInputContent_D                             : std_logic_vector(7 downto 0);
-	signal SPIOutputSRegMode_S                           : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
-	signal SPIOutputContent_D                            : std_logic_vector(31 downto 0);
-	signal SPIBitCounterClear_S, SPIBitCounterEnable_S   : std_logic;
-	signal SPIBitCount_D                                 : unsigned(5 downto 0);
+	signal SPIClockEdgeDetectorReg_S                     : std_logic;
+
+	signal SPIReadMOSI_S, SPIWriteMISO_S               : std_logic;
+	signal SPIInputSRegMode_S                          : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
+	signal SPIInputContent_D                           : std_logic_vector(7 downto 0);
+	signal SPIOutputSRegMode_S                         : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
+	signal SPIOutputContent_D                          : std_logic_vector(31 downto 0);
+	signal SPIBitCounterClear_S, SPIBitCounterEnable_S : std_logic;
+	signal SPIBitCount_D                               : unsigned(5 downto 0);
 
 	signal ReadOperationReg_SP, ReadOperationReg_SN : std_logic;
 	signal ModuleAddressReg_DP, ModuleAddressReg_DN : unsigned(6 downto 0);
@@ -48,8 +53,6 @@ architecture Behavioral of SPIConfig is
 	signal ParamInput_DP, ParamInput_DN       : std_logic_vector(31 downto 0);
 
 	signal ParamOutput_DP, ParamOutput_DN : std_logic_vector(31 downto 0);
-
-	signal SPIClockEdgeDetectorReg_S : std_logic;
 
 	-- Register outputs (MISO only here).
 	signal SPIMISOReg_DZ : std_logic;
@@ -62,6 +65,27 @@ begin
 
 	-- The SPI input lines have already been synchronized to the logic clock at
 	-- this point, so we can use and sample them directly.
+	-- We need to watch falling edges on SPI SlaveSelect to robustly detect when
+	-- a slave is selected. Just looking at the level of this signal is not robust,
+	-- because the state machine here might be faster than the SPI Master, and then
+	-- detect the level to still be zero and think the Master is starting a new SPI
+	-- transaction, while it has actually not yet finished the last one by pulling
+	-- SlaveSelect back up into a high state.
+	SPISlaveSelectFallingEdges_S <= '1' when (SPISlaveSelect_SBI = '0' and SPISlaveSelectEdgeDetectorReg_S = '1') else '0';
+
+	spiSlaveSelectEdgeDetectorReg : process(Clock_CI, Reset_RI)
+	begin
+		if Reset_RI = '1' then
+			SPISlaveSelectEdgeDetectorReg_S <= '1';
+		elsif rising_edge(Clock_CI) then
+			SPISlaveSelectEdgeDetectorReg_S <= SPISlaveSelect_SBI;
+		end if;
+	end process spiSlaveSelectEdgeDetectorReg;
+
+	-- The SPI input lines have already been synchronized to the logic clock at
+	-- this point, so we can use and sample them directly.
+	-- We use rising/falling edges of the SPI clock to know when to read/write
+	-- values from/to the SPI bus.
 	SPIClockRisingEdges_S <= '1' when (SPIClock_CI = '1' and SPIClockEdgeDetectorReg_S = '0') else '0';
 
 	SPIClockFallingEdges_S <= '1' when (SPIClock_CI = '0' and SPIClockEdgeDetectorReg_S = '1') else '0';
@@ -116,7 +140,7 @@ begin
 			Overflow_SO  => open,
 			Data_DO      => SPIBitCount_D);
 
-	spiCommunication : process(State_DP, SPIInputContent_D, SPIOutputContent_D, SPIBitCount_D, SPISlaveSelect_SBI, SPIReadMOSI_S, SPIWriteMISO_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP)
+	spiCommunication : process(State_DP, SPIInputContent_D, SPIOutputContent_D, SPIBitCount_D, SPISlaveSelectFallingEdges_S, SPIReadMOSI_S, SPIWriteMISO_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -142,7 +166,7 @@ begin
 			when stIdle =>
 				-- If this SPI slave gets selected, start observing the clock
 				-- and input lines.
-				if SPISlaveSelect_SBI = '0' then
+				if SPISlaveSelectFallingEdges_S = '1' then
 					State_DN <= stInput;
 				end if;
 
