@@ -618,7 +618,7 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadColorFilterInfo(void) {
 		// Send color filter information to FPGA via FCONFIG bus.
 		uint32_t colorFilterBuffer = colorFilterInfo;
 
-		status = spiConfigFPGASend(2, 1, (uint8_t *) &colorFilterBuffer);
+		status = spiConfigFPGASend(2, 3, (uint8_t *) &colorFilterBuffer);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
 		}
