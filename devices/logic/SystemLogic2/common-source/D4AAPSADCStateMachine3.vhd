@@ -521,6 +521,7 @@ begin
 
 				if ColSampleDone_SP = '1' then
 					PixelState_DN <= stRSChargeTransfer;
+					ColSampleDone_SN <= '0';
 				end if;
 
 			when stRSChargeTransfer =>
@@ -551,6 +552,7 @@ begin
 				end if;
 
 				if ColSampleDone_SP = '1' then
+					ColSampleDone_SN <= '0';
 					APSChipResetReg_SN <= '1';
 
 					-- If exposure time hasn't expired or we haven't yet even shifted in one
@@ -734,6 +736,7 @@ begin
 			when stGSSample1Done =>
 				if ColSampleDone_SP = '1' then
 					PixelState_DN <= stGSFDReset;
+					ColSampleDone_SN <= '0';
 				end if;
 
 			when stGSFDReset =>
@@ -755,6 +758,7 @@ begin
 
 			when stGSSample2Done =>
 				if ColSampleDone_SP = '1' then
+					ColSampleDone_SN <= '0';
 					APSChipOverflowGateReg_SN <= '1';
 
 					-- Increase row count, now that we're done with last read.
@@ -868,10 +872,6 @@ begin
 		RowSettleTimeCount_S    <= '0';
 		SampleSettleTimeCount_S <= '0';
 		RampResetTimeCount_S    <= '0';
-
-		-- Column SM communication.
-		ColSampleDone_SN <= '0';
-		ColScanStart_SN <= '0';
 
 		-- On-chip ADC.
 		ChipADCRampClearReg_S   <= '1'; -- Clear ramp by default.
@@ -996,6 +996,8 @@ begin
 				end if;
 
 			when stColScanStart =>
+				ColScanStart_SN <= '0';
+				
 				-- Write event only if FIFO has place, else wait.
 				-- If fake read (SAMPLETYPE_NULL), don't write anything.
 				if OutFifoControl_SI.Full_S = '0' and APSSampleType_DP /= SAMPLETYPE_NULL then
