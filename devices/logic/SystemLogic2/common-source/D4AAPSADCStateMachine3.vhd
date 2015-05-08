@@ -86,7 +86,9 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	signal ColSampleStart_SP, ColSampleStart_SN : std_logic;
 	signal ColScanStart_SP, ColScanStart_SN : std_logic;
 	signal ColSampleDone_SP, ColSampleDone_SN   : std_logic;
-	-- signal ColScanDone_SP, ColScanDone_SN   : std_logic;
+	signal ColScanStartAck : std_logic;
+	signal ColSampleStartAck : std_logic;
+	signal ColSampleDoneAck : std_logic;
 
 	-- RS: the B read has several very special considerations that must be taken into account.
 	-- First, it has to be done only after exposure time expires, before that, it must be faked
@@ -164,6 +166,7 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
 	signal D4AAPSADCConfigSyncReg_D, D4AAPSADCConfigReg_D : tD4AAPSADCConfig;
 	signal D4AAPSADCConfigRegEnable_S                     : std_logic;
+	
 begin
 	rowReadPosition : entity work.ContinuousCounter
 		generic map(
@@ -352,7 +355,8 @@ begin
 		RowReadPositionInc_S  <= '0';
 
 		-- Column SM communication.
-		ColSampleStart_SN <= '0';
+		ColSampleDoneAck <= '0';
+		ColSampleStart_SN <= ColSampleStart_SP;
 
 		-- Don't clear exposure by default, only when requested!
 		ExposureClear_S <= '0';
@@ -521,7 +525,7 @@ begin
 
 				if ColSampleDone_SP = '1' then
 					PixelState_DN <= stRSChargeTransfer;
-					ColSampleDone_SN <= '0';
+					ColSampleDoneAck <= '1';
 				end if;
 
 			when stRSChargeTransfer =>
@@ -552,7 +556,7 @@ begin
 				end if;
 
 				if ColSampleDone_SP = '1' then
-					ColSampleDone_SN <= '0';
+					ColSampleDoneAck <= '1';
 					APSChipResetReg_SN <= '1';
 
 					-- If exposure time hasn't expired or we haven't yet even shifted in one
@@ -736,7 +740,7 @@ begin
 			when stGSSample1Done =>
 				if ColSampleDone_SP = '1' then
 					PixelState_DN <= stGSFDReset;
-					ColSampleDone_SN <= '0';
+					ColSampleDoneAck <= '1';
 				end if;
 
 			when stGSFDReset =>
@@ -758,7 +762,7 @@ begin
 
 			when stGSSample2Done =>
 				if ColSampleDone_SP = '1' then
-					ColSampleDone_SN <= '0';
+					ColSampleDoneAck <= '1';
 					APSChipOverflowGateReg_SN <= '1';
 
 					-- Increase row count, now that we're done with last read.
@@ -872,6 +876,10 @@ begin
 		RowSettleTimeCount_S    <= '0';
 		SampleSettleTimeCount_S <= '0';
 		RampResetTimeCount_S    <= '0';
+		
+		ColScanStart_SN <= ColScanStart_SP;
+		ColSampleDone_SN <= ColSampleDone_SP;
+		ColSampleStartAck <= '0';
 
 		-- On-chip ADC.
 		ChipADCRampClearReg_S   <= '1'; -- Clear ramp by default.
@@ -884,6 +892,7 @@ begin
 				-- Wait until the main row state machine signals us to do a column read.
 				if ColSampleStart_SP = '1' then
 					ChipColSampleState_DN <= stRowSettleWait;
+					ColSampleStartAck <= '1';
 				end if;
 
 			when stRowSettleWait =>
@@ -982,7 +991,7 @@ begin
 		ColumnReadPositionInc_S  <= '0';
 
 		-- Column SM communication.
-		-- ColScanDone_SN <= '0';
+		ColScanStartAck <= '0';
 
 		-- On-chip ADC.
 		ChipADCScanClockReg_C   <= '0';
@@ -996,7 +1005,7 @@ begin
 				end if;
 
 			when stColScanStart =>
-				ColScanStart_SN <= '0';
+				ColScanStartAck <= '1';
 				
 				-- Write event only if FIFO has place, else wait.
 				-- If fake read (SAMPLETYPE_NULL), don't write anything.
@@ -1135,6 +1144,9 @@ begin
 			ColSampleStart_SP <= '0';
 			ColSampleDone_SP  <= '0';
 			ColScanStart_SP <= '0';
+			ColScanStartAck <= '0';
+			ColSampleStartAck <= '0';
+			ColSampleDoneAck <= '0';
 
 			ReadBSRStatus_DP <= RBSTAT_NEED_ZERO_ONE;
 			APSSampleType_DP <= SAMPLETYPE_NULL;
@@ -1157,9 +1169,9 @@ begin
 		elsif rising_edge(Clock_CI) then
 			PixelState_DP <= PixelState_DN;
 
-			ColSampleStart_SP <= ColSampleStart_SN;
-			ColSampleDone_SP  <= ColSampleDone_SN;
-			ColScanStart_SP <= ColScanStart_SN;
+			ColSampleStart_SP <= ColSampleStart_SN xor ColSampleStartAck;
+			ColSampleDone_SP  <= ColSampleDone_SN xor ColSampleDoneAck;
+			ColScanStart_SP <= ColScanStart_SN xor ColScanStartAck;
 
 			ReadBSRStatus_DP <= ReadBSRStatus_DN;
 			APSSampleType_DP <= APSSampleType_DN;
