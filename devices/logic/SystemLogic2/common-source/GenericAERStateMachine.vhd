@@ -1,14 +1,9 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.math_real.ceil;
-use ieee.math_real.log2;
-use ieee.math_real."**";
 use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.DVSAERConfigRecords.all;
-use work.Settings.LOGIC_CLOCK_FREQ;
-use work.Settings.DEVICE_FAMILY;
 
 entity GenericAERStateMachine is
 	generic(
@@ -96,8 +91,16 @@ begin
 						end if;
 					end if;
 				else
-					-- Keep the DVS in reset if data producer turned off.
-					AERResetReg_SB <= '0';
+					if AERConfigReg_D.ExternalAERControl_S = '1' then
+						-- Support handing off control of AER to external systems connected through the CAVIAR
+						-- connector on the board. This ensures the chip is kept out of reset and the ACK is
+						-- not driven from our logic.
+						AERAckReg_SB   <= 'Z';
+						AERResetReg_SB <= '1';
+					else
+						-- Keep the DVS in reset if data producer turned off.
+						AERResetReg_SB <= '0';
+					end if;
 				end if;
 
 			when stFIFOFull =>
