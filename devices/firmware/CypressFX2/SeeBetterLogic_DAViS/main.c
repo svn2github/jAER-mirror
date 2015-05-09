@@ -26,6 +26,12 @@ extern BOOL GotSUD;
 #define	I2C_EEPROM_ADDRESS 0x51 // 0101_0001 is the address of the external serial EEPROM that holds FX2 program and static data
 #define EEPROM_SIZE (32 * 1024)
 #define SERIAL_NUMBER_LENGTH 8
+#define SERIAL_NUMBER_MEMORY_ADDRESS (EEPROM_SIZE - SERIAL_NUMBER_LENGTH)
+#define CONFIG_HEADER_LENGTH 2
+#define CONFIG_SINGLE_LENGTH 6
+#define CONFIG_MAX_NUMBER 500
+#define CONFIG_TOTAL_LENGTH (CONFIG_HEADER_LENGTH + (CONFIG_SINGLE_LENGTH * CONFIG_MAX_NUMBER))
+#define CONFIG_MEMORY_ADDRESS (SERIAL_NUMBER_MEMORY_ADDRESS - CONFIG_TOTAL_LENGTH)
 
 // XSVF support.
 #define XSVF_DATA_SIZE 512
@@ -46,6 +52,7 @@ static void EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf);
 static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf);
 
 void downloadSerialNumberFromEEPROM(void);
+void downloadConfigurationFromEEPROM(void);
 
 void TD_Init(void) // Called once at startup
 {
@@ -295,7 +302,7 @@ void downloadSerialNumberFromEEPROM(void)
 	sNumDscrPtr = ((char *)EZUSB_GetStringDscr(3)) + 2;
 
 	// Read string description from EEPROM
-	EEPROMRead(EEPROM_SIZE - SERIAL_NUMBER_LENGTH, SERIAL_NUMBER_LENGTH, sNum);
+	EEPROMRead(SERIAL_NUMBER_MEMORY_ADDRESS, SERIAL_NUMBER_LENGTH, sNum);
 
 	// Write serial number string descriptor to RAM
 	for (i = 0; i < SERIAL_NUMBER_LENGTH; i++)
@@ -303,6 +310,43 @@ void downloadSerialNumberFromEEPROM(void)
 		if (sNum[i] >= 32 && sNum[i] <= 126) {
 			sNumDscrPtr[i * 2] = sNum[i];
 		}
+	}
+}
+
+// Get configuration parameters from EEPROM and send them to CPLD.
+void downloadConfigurationFromEEPROM(void)
+{
+	BYTE xdata configNumber[CONFIG_HEADER_LENGTH];
+	BYTE xdata config[CONFIG_SINGLE_LENGTH];
+	WORD i;
+
+	// Read number of configuration parameters from EEPROM.
+	// Each one takes up 6 bytes: 1 module addr, 1 param addr, 4 param.
+	EEPROMRead(CONFIG_MEMORY_ADDRESS, CONFIG_HEADER_LENGTH, configNumber);
+
+	if (*(WORD xdata *) configNumber == 0) {
+		return;
+	}
+
+	// Step through each config parameter, read it and send it to the device.
+	for (i = 0; i < *(WORD xdata *) configNumber; i++) {
+		// Read data from EEPROM.
+		EEPROMRead((CONFIG_MEMORY_ADDRESS + CONFIG_HEADER_LENGTH) + (i * CONFIG_SINGLE_LENGTH),
+			CONFIG_SINGLE_LENGTH, config);
+
+		// Send configuration parameter to CPLD via SPI bus.
+		CPLD_SPI_SSN = 0; // SSN is active-low.
+
+		// Highest bit of first byte is zero to indicate write operation.
+		SPIWrite(config[0] & 0x7F);
+		SPIWrite(config[1]);
+
+		SPIWrite(config[2]);
+		SPIWrite(config[3]);
+		SPIWrite(config[4]);
+		SPIWrite(config[5]);
+
+		CPLD_SPI_SSN = 1; // SSN is active-low.
 	}
 }
 

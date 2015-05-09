@@ -42,6 +42,7 @@ BOOL TD_Suspend(void);
 BOOL TD_Resume(void);
 
 void downloadSerialNumberFromEEPROM(void);
+void downloadConfigurationFromEEPROM(void);
 
 BOOL DR_GetDescriptor(void);
 BOOL DR_SetConfiguration(void);
@@ -124,6 +125,9 @@ void main(void)
 
    // Download the serial number from the EEPROM
    downloadSerialNumberFromEEPROM();
+
+   // Load configuration parameters from EEPROM to CPLD.
+   downloadConfigurationFromEEPROM();
 
    // Task Dispatcher
    while(TRUE)               // Main Loop
