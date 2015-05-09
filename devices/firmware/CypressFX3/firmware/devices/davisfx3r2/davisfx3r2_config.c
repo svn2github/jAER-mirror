@@ -22,9 +22,11 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 #define FPGA_RESET 50
 
 // Memory and device addresses.
-#define SNUM_MEMORY_ADDRESS 0x00300000
 #define FPGA_MEMORY_ADDRESS 0x00030000
+#define SNUM_MEMORY_ADDRESS 0x00300000
 #define COFI_MEMORY_ADDRESS 0x00310000
+#define EADC_MEMORY_ADDRESS 0x00320000
+#define CONF_MEMORY_ADDRESS 0x00330000
 
 #define FPGA_SPI_ADDRESS 57
 #define FCONFIG_SPI_ADDRESS 52
@@ -37,6 +39,8 @@ extern uint8_t CyFxUSBSerialNumberDscr[];
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadColorFilterInfo(void);
+static inline CyU3PReturnStatus_t CyFxCustomInit_LoadExternalADCInfo(void);
+static inline CyU3PReturnStatus_t CyFxCustomInit_LoadConfiguration(void);
 static inline CyU3PReturnStatus_t spiConfigFPGASend(uint8_t moduleAddress, uint8_t parameterAddress,
 	uint8_t *valueInBuffer);
 static inline CyU3PReturnStatus_t spiConfigFPGAReceive(uint8_t moduleAddress, uint8_t parameterAddress,
@@ -61,9 +65,22 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 	CyFxGpioTurnOn(FPGA_RESET);
 	CyU3PBusyWait(2);
 	CyFxGpioTurnOff(FPGA_RESET);
+	CyU3PBusyWait(2);
 
 	// Load color filter information from Flash to FPGA.
 	status = CyFxCustomInit_LoadColorFilterInfo();
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	// Load external ADC information from Flash to FPGA.
+	status = CyFxCustomInit_LoadExternalADCInfo();
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	// Load configuration from Flash to FPGA.
+	status = CyFxCustomInit_LoadConfiguration();
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
@@ -621,6 +638,96 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadColorFilterInfo(void) {
 		status = spiConfigFPGASend(2, 3, (uint8_t *) &colorFilterBuffer);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
+		}
+	}
+
+	return (status);
+}
+
+static inline CyU3PReturnStatus_t CyFxCustomInit_LoadExternalADCInfo(void) {
+	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+
+	uint32_t externalADCHeader[2];
+
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(0);
+
+	status = CyFxSpiTransfer(0, EADC_MEMORY_ADDRESS, (uint8_t *) externalADCHeader, 8, SPI_READ);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	if (!memcmp(externalADCHeader, "EADC", 4)) {
+		// Found valid External ADC identifier!
+		uint32_t externalADCLength = externalADCHeader[1];
+
+		if (externalADCLength == 0) {
+			return (status);
+		}
+
+		uint8_t externalADCInfo;
+
+		if (externalADCLength > 1) {
+			externalADCLength = 1; // Maximum length is 1!
+		}
+
+		status = CyFxSpiTransfer(0, (EADC_MEMORY_ADDRESS + 8), &externalADCInfo, (uint16_t) externalADCLength,
+		SPI_READ);
+		if (status != CY_U3P_SUCCESS) {
+			return (status);
+		}
+
+		// Send external ADC presence information to FPGA via FCONFIG bus.
+		uint32_t externalADCBuffer = externalADCInfo;
+
+		status = spiConfigFPGASend(2, 32, (uint8_t *) &externalADCBuffer);
+		if (status != CY_U3P_SUCCESS) {
+			return (status);
+		}
+	}
+
+	return (status);
+}
+
+static inline CyU3PReturnStatus_t CyFxCustomInit_LoadConfiguration(void) {
+	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+
+	uint32_t configHeader[2];
+
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(0);
+
+	status = CyFxSpiTransfer(0, CONF_MEMORY_ADDRESS, (uint8_t *) configHeader, 8, SPI_READ);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	if (!memcmp(configHeader, "CONF", 4)) {
+		// Found valid configuration identifier!
+		uint32_t configLength = configHeader[1];
+
+		if (configLength == 0) {
+			return (status);
+		}
+
+		// Calculate number of configuration parameters to load.
+		// Each one takes up 6 bytes: 1 module addr, 1 param addr, 4 param.
+		uint32_t configNumber = configLength / 6;
+		uint8_t config[6]; // Memory for current config parameter.
+
+		// Step through each config parameter, read it and send it to the device.
+		for (size_t i = 0; i < configNumber; i++) {
+			// Read data from Flash memory.
+			status = CyFxSpiTransfer(0, (CONF_MEMORY_ADDRESS + 8) + (i * 6), config, 6, SPI_READ);
+			if (status != CY_U3P_SUCCESS) {
+				continue;
+			}
+
+			// Send configuration parameter to FPGA via FCONFIG bus.
+			status = spiConfigFPGASend(config[0], config[1], &config[2]);
+			if (status != CY_U3P_SUCCESS) {
+				continue;
+			}
 		}
 	}
 
