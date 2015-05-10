@@ -31,6 +31,14 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 #define FPGA_SPI_ADDRESS 57
 #define FCONFIG_SPI_ADDRESS 52
 
+#define DATA_HEADER_LENGTH 8
+#define DATA_DEFINITION_LENGTH 4
+
+#define SERIAL_NUMBER_LENGTH 8
+#define COLORFILTER_LENGTH 1
+#define EXTADC_LENGTH 1
+#define CONFIG_PARAM_LENGTH 6
+
 void CyFxHandleCustomGPIO_DeviceSpecific(uint8_t gpioId) {
 	CyFxErrorHandler(LOG_DEBUG, "GPIO was toggled.", gpioId);
 }
@@ -418,12 +426,12 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void) {
 	// Update SPI clock setting for maximum performance.
 	CyFxSpiClockUpdateForDevice(0);
 
-	status = CyFxSpiTransfer(0, SNUM_MEMORY_ADDRESS, (uint8_t *) serialNumberHeader, 8, SPI_READ);
+	status = CyFxSpiTransfer(0, SNUM_MEMORY_ADDRESS, (uint8_t *) serialNumberHeader, DATA_HEADER_LENGTH, SPI_READ);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
 
-	if (!memcmp(serialNumberHeader, "SNUM", 4)) {
+	if (!memcmp(serialNumberHeader, "SNUM", DATA_DEFINITION_LENGTH)) {
 		// Found valid Serial Number identifier!
 		uint32_t serialNumberLength = serialNumberHeader[1];
 
@@ -431,13 +439,14 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void) {
 			return (status);
 		}
 
-		uint8_t serialNumber[8];
+		uint8_t serialNumber[SERIAL_NUMBER_LENGTH];
 
-		if (serialNumberLength > 8) {
-			serialNumberLength = 8; // Maximum length is 8!
+		if (serialNumberLength > SERIAL_NUMBER_LENGTH) {
+			serialNumberLength = SERIAL_NUMBER_LENGTH;
 		}
 
-		status = CyFxSpiTransfer(0, (SNUM_MEMORY_ADDRESS + 8), serialNumber, (uint16_t) serialNumberLength, SPI_READ);
+		status = CyFxSpiTransfer(0, (SNUM_MEMORY_ADDRESS + DATA_HEADER_LENGTH), serialNumber,
+			(uint16_t) serialNumberLength, SPI_READ);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
 		}
@@ -474,16 +483,17 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 	// Update SPI clock setting for maximum performance.
 	CyFxSpiClockUpdateForDevice(0);
 
-	status = CyFxSpiTransfer(0, FPGA_MEMORY_ADDRESS, (uint8_t *) fpgaBitstreamHeader, 8, SPI_READ);
+	status = CyFxSpiTransfer(0, FPGA_MEMORY_ADDRESS, (uint8_t *) fpgaBitstreamHeader, DATA_HEADER_LENGTH, SPI_READ);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
 
-	if (!memcmp(fpgaBitstreamHeader, "FPGA", 4)) {
+	if (!memcmp(fpgaBitstreamHeader, "FPGA", DATA_DEFINITION_LENGTH)) {
 		// Found valid FPGA bitstream identifier!
 		uint32_t fpgaBitstreamLength = fpgaBitstreamHeader[1];
 
 		if (fpgaBitstreamLength < FX3_MAX_TRANSFER_SIZE_CONTROL) {
+			// A too short (<4K) bitstream is obviously wrong and shall be ignored.
 			return (status);
 		}
 
@@ -518,25 +528,26 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 			return (status);
 		}
 
-		uint32_t memAddress = (FPGA_MEMORY_ADDRESS + 8);
+		uint32_t memAddress = (FPGA_MEMORY_ADDRESS + DATA_HEADER_LENGTH);
 
 		// Read first bitstream chunk from SPI Flash (first read slightly shorter to align to page size)
-		status = CyFxSpiTransfer(0, memAddress, glEP0Buffer, (FX3_MAX_TRANSFER_SIZE_CONTROL - 8), SPI_READ);
+		status = CyFxSpiTransfer(0, memAddress, glEP0Buffer, (FX3_MAX_TRANSFER_SIZE_CONTROL - DATA_HEADER_LENGTH),
+		SPI_READ);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
 		}
 
 		// Write first bitstream chunk to FPGA and send WRITE CONFIG command
 		cmd[0] = FPGA_CMD_WRITE_INC;
-		status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer, (FX3_MAX_TRANSFER_SIZE_CONTROL - 8), SPI_WRITE,
-		SPI_ASSERT | SPI_NO_DEASSERT);
+		status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer,
+			(FX3_MAX_TRANSFER_SIZE_CONTROL - DATA_HEADER_LENGTH), SPI_WRITE, SPI_ASSERT | SPI_NO_DEASSERT);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
 		}
 
 		// Update involved counters
-		memAddress += (FX3_MAX_TRANSFER_SIZE_CONTROL - 8);
-		fpgaBitstreamLength -= (FX3_MAX_TRANSFER_SIZE_CONTROL - 8);
+		memAddress += (FX3_MAX_TRANSFER_SIZE_CONTROL - DATA_HEADER_LENGTH);
+		fpgaBitstreamLength -= (FX3_MAX_TRANSFER_SIZE_CONTROL - DATA_HEADER_LENGTH);
 
 		while (fpgaBitstreamLength > FX3_MAX_TRANSFER_SIZE_CONTROL) {
 			// Read bitstream chunk from SPI Flash
@@ -607,12 +618,12 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadColorFilterInfo(void) {
 	// Update SPI clock setting for maximum performance.
 	CyFxSpiClockUpdateForDevice(0);
 
-	status = CyFxSpiTransfer(0, COFI_MEMORY_ADDRESS, (uint8_t *) colorFilterHeader, 8, SPI_READ);
+	status = CyFxSpiTransfer(0, COFI_MEMORY_ADDRESS, (uint8_t *) colorFilterHeader, DATA_HEADER_LENGTH, SPI_READ);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
 
-	if (!memcmp(colorFilterHeader, "COFI", 4)) {
+	if (!memcmp(colorFilterHeader, "COFI", DATA_DEFINITION_LENGTH)) {
 		// Found valid Color Filter identifier!
 		uint32_t colorFilterLength = colorFilterHeader[1];
 
@@ -622,18 +633,18 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadColorFilterInfo(void) {
 
 		uint8_t colorFilterInfo;
 
-		if (colorFilterLength > 1) {
-			colorFilterLength = 1; // Maximum length is 1!
+		if (colorFilterLength > COLORFILTER_LENGTH) {
+			colorFilterLength = COLORFILTER_LENGTH;
 		}
 
-		status = CyFxSpiTransfer(0, (COFI_MEMORY_ADDRESS + 8), &colorFilterInfo, (uint16_t) colorFilterLength,
-		SPI_READ);
+		status = CyFxSpiTransfer(0, (COFI_MEMORY_ADDRESS + DATA_HEADER_LENGTH), &colorFilterInfo,
+			(uint16_t) colorFilterLength, SPI_READ);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
 		}
 
 		// Send color filter information to FPGA via FCONFIG bus.
-		uint32_t colorFilterBuffer = colorFilterInfo;
+		uint32_t colorFilterBuffer = (uint32_t) (colorFilterInfo << 24); // Shift to upper byte, little-endian!
 
 		status = spiConfigFPGASend(2, 3, (uint8_t *) &colorFilterBuffer);
 		if (status != CY_U3P_SUCCESS) {
@@ -652,12 +663,12 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadExternalADCInfo(void) {
 	// Update SPI clock setting for maximum performance.
 	CyFxSpiClockUpdateForDevice(0);
 
-	status = CyFxSpiTransfer(0, EADC_MEMORY_ADDRESS, (uint8_t *) externalADCHeader, 8, SPI_READ);
+	status = CyFxSpiTransfer(0, EADC_MEMORY_ADDRESS, (uint8_t *) externalADCHeader, DATA_HEADER_LENGTH, SPI_READ);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
 
-	if (!memcmp(externalADCHeader, "EADC", 4)) {
+	if (!memcmp(externalADCHeader, "EADC", DATA_DEFINITION_LENGTH)) {
 		// Found valid External ADC identifier!
 		uint32_t externalADCLength = externalADCHeader[1];
 
@@ -667,18 +678,18 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadExternalADCInfo(void) {
 
 		uint8_t externalADCInfo;
 
-		if (externalADCLength > 1) {
-			externalADCLength = 1; // Maximum length is 1!
+		if (externalADCLength > EXTADC_LENGTH) {
+			externalADCLength = EXTADC_LENGTH;
 		}
 
-		status = CyFxSpiTransfer(0, (EADC_MEMORY_ADDRESS + 8), &externalADCInfo, (uint16_t) externalADCLength,
-		SPI_READ);
+		status = CyFxSpiTransfer(0, (EADC_MEMORY_ADDRESS + DATA_HEADER_LENGTH), &externalADCInfo,
+			(uint16_t) externalADCLength, SPI_READ);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
 		}
 
 		// Send external ADC presence information to FPGA via FCONFIG bus.
-		uint32_t externalADCBuffer = externalADCInfo;
+		uint32_t externalADCBuffer = (uint32_t) (externalADCInfo << 24); // Shift to upper byte, little-endian!
 
 		status = spiConfigFPGASend(2, 32, (uint8_t *) &externalADCBuffer);
 		if (status != CY_U3P_SUCCESS) {
@@ -697,12 +708,12 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadConfiguration(void) {
 	// Update SPI clock setting for maximum performance.
 	CyFxSpiClockUpdateForDevice(0);
 
-	status = CyFxSpiTransfer(0, CONF_MEMORY_ADDRESS, (uint8_t *) configHeader, 8, SPI_READ);
+	status = CyFxSpiTransfer(0, CONF_MEMORY_ADDRESS, (uint8_t *) configHeader, DATA_HEADER_LENGTH, SPI_READ);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
 
-	if (!memcmp(configHeader, "CONF", 4)) {
+	if (!memcmp(configHeader, "CONF", DATA_DEFINITION_LENGTH)) {
 		// Found valid configuration identifier!
 		uint32_t configLength = configHeader[1];
 
@@ -712,13 +723,14 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadConfiguration(void) {
 
 		// Calculate number of configuration parameters to load.
 		// Each one takes up 6 bytes: 1 module addr, 1 param addr, 4 param.
-		uint32_t configNumber = configLength / 6;
-		uint8_t config[6]; // Memory for current config parameter.
+		uint32_t configNumber = configLength / CONFIG_PARAM_LENGTH;
+		uint8_t config[CONFIG_PARAM_LENGTH]; // Memory for current config parameter.
 
 		// Step through each config parameter, read it and send it to the device.
 		for (size_t i = 0; i < configNumber; i++) {
 			// Read data from Flash memory.
-			status = CyFxSpiTransfer(0, (CONF_MEMORY_ADDRESS + 8) + (i * 6), config, 6, SPI_READ);
+			status = CyFxSpiTransfer(0, (CONF_MEMORY_ADDRESS + DATA_HEADER_LENGTH) + (i * CONFIG_PARAM_LENGTH), config,
+			CONFIG_PARAM_LENGTH, SPI_READ);
 			if (status != CY_U3P_SUCCESS) {
 				continue;
 			}
