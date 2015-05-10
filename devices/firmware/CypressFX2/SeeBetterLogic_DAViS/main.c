@@ -46,6 +46,8 @@ static BYTE waitCounter = 0;
 
 // Private functions.
 static void BiasWrite(BYTE byte);
+static void ChipDiagnosticChainWrite(BYTE xdata *config);
+static void ChipBiasWrite(BYTE xdata *config);
 static void SPIWrite(BYTE byte);
 static BYTE SPIRead(void);
 static void EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf);
@@ -192,6 +194,64 @@ static void BiasWrite(BYTE byte) {
 	}
 }
 
+static void ChipDiagnosticChainWrite(BYTE xdata *config) {
+	// Ensure we are accessing the chip diagnostic shift register.
+	setPE(BIAS_DIAG_SELECT, 1);
+
+	// Write out all configuration bytes to the shift register.
+	BiasWrite(config[0]);
+	BiasWrite(config[1]);
+	BiasWrite(config[2]);
+	BiasWrite(config[3]);
+	BiasWrite(config[4]);
+	BiasWrite(config[5]);
+	BiasWrite(config[6]);
+
+	// Latch configuration.
+	setPE(BIAS_LATCH, 0);
+	WAIT_FOR(50);
+	setPE(BIAS_LATCH, 1);
+
+	// We're done and can deselect the chip diagnostic SR.
+	setPE(BIAS_DIAG_SELECT, 0);
+}
+
+static void ChipBiasWrite(BYTE xdata *config) {
+	// Ensure we're not accessing the chip diagnostic shift register.
+	setPE(BIAS_DIAG_SELECT, 0);
+
+	// Select addressed bias mode (active-low).
+	setPE(BIAS_ADDR_SELECT, 0);
+
+	// Write a byte, containing the bias address.
+	BiasWrite(config[0]);
+
+	// Latch bias.
+	setPE(BIAS_LATCH, 0);
+	WAIT_FOR(50);
+	setPE(BIAS_LATCH, 1);
+
+	// Release address selection (active-low).
+	setPE(BIAS_ADDR_SELECT, 1);
+
+	// The first byte of a coarse/fine bias needs to have the coarse bits
+	// flipped and reversed. For DAVIS240, that's all biases below address 20.
+	if (config[0] < 20) {
+		// Reverse and flip coarse part.
+		config[1] = config[1] ^ 0x70;
+		config[1] = (config[1] & ~0x50) | ((config[1] & 0x40) >> 2) | ((config[1] & 0x10) << 2);
+	}
+
+	// Write out all the data bytes for this bias.
+	BiasWrite(config[1]);
+	BiasWrite(config[2]);
+
+	// Latch bias.
+	setPE(BIAS_LATCH, 0);
+	WAIT_FOR(50);
+	setPE(BIAS_LATCH, 1);
+}
+
 static void SPIWrite(BYTE byte) {
 	BYTE i;
 
@@ -334,19 +394,48 @@ void downloadConfigurationFromEEPROM(void)
 		EEPROMRead((CONFIG_MEMORY_ADDRESS + CONFIG_HEADER_LENGTH) + (i * CONFIG_SINGLE_LENGTH),
 			CONFIG_SINGLE_LENGTH, config);
 
-		// Send configuration parameter to CPLD via SPI bus.
-		CPLD_SPI_SSN = 0; // SSN is active-low.
+		// FX2 devices need the biases or the chip diagnostic chain to be
+		// sent separately, using a different channel directly to chip.
+		if (config[0] == 5) { // SPI module address for biases is 5.
+			if (config[1] == 32) {
+				// To handle the chip diagnostic chain, we employ a simple trick.
+				// A bias module parameter address of 32 is used to signal we want
+				// to send the chip diagnostic chain, and we only store the three
+				// important bytes that contain configuration. The Muxes are always
+				// set to zero, since they are never used during normal operation.
+				xsvfDataArray[0] = 0x00;
+				xsvfDataArray[1] = 0x00;
+				xsvfDataArray[2] = config[3];
+				xsvfDataArray[3] = config[4];
+				xsvfDataArray[4] = config[5];
+				xsvfDataArray[5] = 0x00;
+				xsvfDataArray[6] = 0x00;
 
-		// Highest bit of first byte is zero to indicate write operation.
-		SPIWrite(config[0] & 0x7F);
-		SPIWrite(config[1]);
+				ChipDiagnosticChainWrite(xsvfDataArray);
+			}
+			else {
+				xsvfDataArray[0] = config[1];
+				xsvfDataArray[1] = config[4];
+				xsvfDataArray[2] = config[5];
 
-		SPIWrite(config[2]);
-		SPIWrite(config[3]);
-		SPIWrite(config[4]);
-		SPIWrite(config[5]);
+				ChipBiasWrite(xsvfDataArray);
+			}
+		}
+		else {
+			// Send configuration parameter to CPLD via SPI bus.
+			CPLD_SPI_SSN = 0; // SSN is active-low.
 
-		CPLD_SPI_SSN = 1; // SSN is active-low.
+			// Highest bit of first byte is zero to indicate write operation.
+			SPIWrite(config[0] & 0x7F);
+			SPIWrite(config[1]);
+
+			SPIWrite(config[2]);
+			SPIWrite(config[3]);
+			SPIWrite(config[4]);
+			SPIWrite(config[5]);
+
+			CPLD_SPI_SSN = 1; // SSN is active-low.
+		}
 	}
 }
 
@@ -477,31 +566,12 @@ BOOL DR_VendorCmnd(void) {
 		case USB_REQ_DIR(VR_CHIP_BIAS, USB_DIRECTION_IN):
 			// Verify length of data.
 			if (wLength != 2) {
-				return (TRUE);	
+				return (TRUE);
 			}
 
-			// Ensure we're not accessing the chip diagnostic shift register.
-			setPE(BIAS_DIAG_SELECT, 0);
+			currByteCount = 0;
 
-			// Select addressed bias mode (active-low).
-			setPE(BIAS_ADDR_SELECT, 0);
-
-			// Write a byte, containing the bias address (from wValue).
-			BiasWrite(wValue);
-
-			// Latch bias.
-			setPE(BIAS_LATCH, 0);
-			WAIT_FOR(50);
-			setPE(BIAS_LATCH, 1);
-
-			// Release address selection (active-low).
-			setPE(BIAS_ADDR_SELECT, 1);
-
-			// Write out all the data bytes for this bias.
-			// The first byte of a coarse/fine bias needs to have the coarse bits
-			// flipped and reversed. For DAVIS240, that's all biases below address 20.
-			// We track if this is the first byte by re-using the 'address' variable.
-			address = 0;
+			xsvfDataArray[currByteCount++] = wValue;
 
 			while (wLength) {
 				// Get data from USB control endpoint.
@@ -517,29 +587,14 @@ BOOL DR_VendorCmnd(void) {
 					;
 				} // Spin here until data arrives
 
-				currByteCount = EP0BCL; // Get the new byte count
-
-				for (i = 0; i < currByteCount; i++) {
-					// We use 'address' to track if this is really the first byte.
-					// See comment above for a more detailed explanation.
-					if (address == 0 && wValue < 20) {
-						address = 1;
-
-						// Reverse and flip coarse part.
-						EP0BUF[0] = EP0BUF[0] ^ 0x70;
-						EP0BUF[0] = (EP0BUF[0] & ~0x50) | ((EP0BUF[0] & 0x40) >> 2) | ((EP0BUF[0] & 0x10) << 2);
-					}
-
-					BiasWrite(EP0BUF[i]);
+				for (i = 0; i < EP0BCL; i++) {
+					xsvfDataArray[currByteCount++] = EP0BUF[i];
 				}
 
-				wLength -= currByteCount; // Decrement total byte count
+				wLength -= EP0BCL; // Decrement total byte count
 			}
 
-			// Latch bias.
-			setPE(BIAS_LATCH, 0);
-			WAIT_FOR(50);
-			setPE(BIAS_LATCH, 1);
+			ChipBiasWrite(xsvfDataArray);
 
 			EP0BCH = 0;
 			EP0BCL = 0; // Re-arm end-point for OUT transfers.
@@ -549,13 +604,11 @@ BOOL DR_VendorCmnd(void) {
 		case USB_REQ_DIR(VR_CHIP_DIAG, USB_DIRECTION_IN):
 			// Verify length of data.
 			if (wLength != 7) {
-				return (TRUE);	
+				return (TRUE);
 			}
 
-			// Ensure we are accessing the chip diagnostic shift register.
-			setPE(BIAS_DIAG_SELECT, 1);
+			currByteCount = 0;
 
-			// Write out all configuration bytes to the shift register.
 			while (wLength) {
 				// Get data from USB control endpoint.
 				// Move new data through EP0OUT, one packet at a time,
@@ -570,22 +623,14 @@ BOOL DR_VendorCmnd(void) {
 					;
 				} // Spin here until data arrives
 
-				currByteCount = EP0BCL; // Get the new byte count
-
-				for (i = 0; i < currByteCount; i++) {
-					BiasWrite(EP0BUF[i]);
+				for (i = 0; i < EP0BCL; i++) {
+					xsvfDataArray[currByteCount++] = EP0BUF[i];
 				}
 
-				wLength -= currByteCount; // Decrement total byte count
+				wLength -= EP0BCL; // Decrement total byte count
 			}
 
-			// Latch configuration.
-			setPE(BIAS_LATCH, 0);
-			WAIT_FOR(50);
-			setPE(BIAS_LATCH, 1);
-
-			// We're done and can deselect the chip diagnostic SR.
-			setPE(BIAS_DIAG_SELECT, 0);
+			ChipDiagnosticChainWrite(xsvfDataArray);
 
 			EP0BCH = 0;
 			EP0BCL = 0; // Re-arm end-point for OUT transfers.
@@ -595,7 +640,7 @@ BOOL DR_VendorCmnd(void) {
 		case USB_REQ_DIR(VR_CPLD_CONFIG, USB_DIRECTION_IN):
 			// Verify length of data.
 			if (wLength != 4) {
-				return (TRUE);	
+				return (TRUE);
 			}
 
 			// Write out all configuration bytes to the FPGA, using its SPI bus.
@@ -638,7 +683,7 @@ BOOL DR_VendorCmnd(void) {
 		case USB_REQ_DIR(VR_CPLD_CONFIG, USB_DIRECTION_OUT):
 			// Verify length of data.
 			if (wLength != 4) {
-				return (TRUE);	
+				return (TRUE);
 			}
 
 			// Read configuration bits from the FPGA, using its SPI bus.
@@ -804,12 +849,12 @@ BOOL DR_VendorCmnd(void) {
 		case USB_REQ_DIR(VR_CPLD_UPLOAD, USB_DIRECTION_OUT):
 			// Verify length of data.
 			if (wLength != 2) {
-				return (TRUE);	
+				return (TRUE);
 			}
 
 			EP0BUF[0] = VR_CPLD_UPLOAD;
 			EP0BUF[1] = xsvfReturn;
-			
+
 			EP0BCH = 0;
 			EP0BCL = 2;
 
