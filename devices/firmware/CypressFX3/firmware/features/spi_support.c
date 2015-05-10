@@ -11,11 +11,14 @@
 #define WRITE_ENABLE_CMD (const uint8_t) { 0x06 }
 #define ERASE_BLOCK64K_CMD (const uint8_t) { 0xD8 }
 
+// Define GPIOs for SPI emulation (32-bit mode).
+#define GPIO_SCK 53
+#define GPIO_SSN 54
+#define GPIO_MISO 55
+#define GPIO_MOSI 56
+
 // Map for fast configuration lookup (the highest address possible is GPIO 57).
 static spiConfig_DeviceSpecific_Type *spiIdConfigMap[GPIO_MAX_IDENTIFIER] = { NULL }; // NULL is always an invalid pointer.
-
-// Current configuration for the SPI block, to allow frequency adjustments as needed.
-static CyU3PSpiConfig_t currentSpiConfig;
 
 // Address of device currently used via USB VRs.
 static uint8_t currentSpiDeviceAddress = 0; // Device 0, the default device, always exists.
@@ -23,6 +26,10 @@ static uint8_t currentSpiDeviceAddress = 0; // Device 0, the default device, alw
 // Currently saved command from USB requests.
 static uint8_t currentSpiCommand[255] = { 0 };
 static uint8_t currentSpiCommandLength = 0;
+
+#if GPIF_32BIT_SUPPORT_ENABLED == 0
+// Current configuration for the SPI block, to allow frequency adjustments as needed.
+static CyU3PSpiConfig_t currentSpiConfig;
 
 static uint32_t CyFxSpiClockValueForDevice(uint8_t deviceAddress) {
 	uint32_t clockValue = SPI_MAX_CLOCK;
@@ -34,6 +41,7 @@ static uint32_t CyFxSpiClockValueForDevice(uint8_t deviceAddress) {
 
 	return (clockValue);
 }
+#endif
 
 static int CyFxSpiConfigComparator_SPICONFIG_DEVICESPECIFIC_TYPE(const void *a, const void *b) {
 	const spiConfig_DeviceSpecific_Type *aa = a;
@@ -124,12 +132,22 @@ CyU3PReturnStatus_t CyFxSpiConfigParse(uint32_t *gpioSimpleEn0, uint32_t *gpioSi
 		spiIdConfigMap[devAddr] = &spiConfig_DeviceSpecific[i];
 	}
 
+#if GPIF_32BIT_SUPPORT_ENABLED == 1
+	// When 32bit support is enabled, we must emulate SPI with normal GPIOs.
+	// So we enable those four GPIOs (53, 54, 55, 56) here (for IOMatrix).
+	(*gpioSimpleEn1) |= ((uint32_t) 1 << (GPIO_SCK - 32));
+	(*gpioSimpleEn1) |= ((uint32_t) 1 << (GPIO_SSN - 32));
+	(*gpioSimpleEn1) |= ((uint32_t) 1 << (GPIO_MISO - 32));
+	(*gpioSimpleEn1) |= ((uint32_t) 1 << (GPIO_MOSI - 32));
+#endif
+
 	return (CY_U3P_SUCCESS);
 }
 
 CyU3PReturnStatus_t CyFxSpiInit(void) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
 
+#if GPIF_32BIT_SUPPORT_ENABLED == 0
 	// Initialize and configure the SPI master module.
 	status = CyU3PSpiInit();
 	if (status != CY_U3P_SUCCESS) {
@@ -158,12 +176,77 @@ CyU3PReturnStatus_t CyFxSpiInit(void) {
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
+#else
+	// In 32-bit mode, the SPI block is unavailable. We have to emulate it with GPIOs manually.
+
+	// First verify that the GPIO block itself is enabled. It can be disabled, as GPIO_SUPPORT_ENABLED == 0 and
+	// SPI_SUPPORT_ENABLED == 1 is a perfectly valid configuration, so we might need to initialize it ourselves.
+#if GPIO_SUPPORT_ENABLED == 0
+	// Initialize the minimal GPIO module.
+	status = CyFxGpioInit();
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+#endif
+
+	// Now that we know GPIO works, we can configure the needed SPI emulation lines.
+	CyU3PGpioSimpleConfig_t gpioSimpleConfigSPI;
+
+	// SPI SCK (output).
+	gpioSimpleConfigSPI.outValue = CyFalse;
+	gpioSimpleConfigSPI.driveLowEn = CyTrue;
+	gpioSimpleConfigSPI.driveHighEn = CyTrue;
+	gpioSimpleConfigSPI.inputEn = CyFalse;
+	gpioSimpleConfigSPI.intrMode = CY_U3P_GPIO_NO_INTR;
+
+	status = CyU3PGpioSetSimpleConfig(GPIO_SCK, &gpioSimpleConfigSPI);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	// SPI SSN (output).
+	gpioSimpleConfigSPI.outValue = (spiConfig_DeviceSpecific[0].SSPolarity) ? (CyFalse) : (CyTrue);
+	gpioSimpleConfigSPI.driveLowEn = CyTrue;
+	gpioSimpleConfigSPI.driveHighEn = CyTrue;
+	gpioSimpleConfigSPI.inputEn = CyFalse;
+	gpioSimpleConfigSPI.intrMode = CY_U3P_GPIO_NO_INTR;
+
+	status = CyU3PGpioSetSimpleConfig(GPIO_SSN, &gpioSimpleConfigSPI);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	// SPI MISO (input).
+	gpioSimpleConfigSPI.outValue = CyFalse;
+	gpioSimpleConfigSPI.driveLowEn = CyFalse;
+	gpioSimpleConfigSPI.driveHighEn = CyFalse;
+	gpioSimpleConfigSPI.inputEn = CyTrue;
+	gpioSimpleConfigSPI.intrMode = CY_U3P_GPIO_NO_INTR;
+
+	status = CyU3PGpioSetSimpleConfig(GPIO_MISO, &gpioSimpleConfigSPI);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	// SPI MOSI (output).
+	gpioSimpleConfigSPI.outValue = CyFalse;
+	gpioSimpleConfigSPI.driveLowEn = CyTrue;
+	gpioSimpleConfigSPI.driveHighEn = CyTrue;
+	gpioSimpleConfigSPI.inputEn = CyFalse;
+	gpioSimpleConfigSPI.intrMode = CY_U3P_GPIO_NO_INTR;
+
+	status = CyU3PGpioSetSimpleConfig(GPIO_MOSI, &gpioSimpleConfigSPI);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+#endif
 
 	// If more than one device (the default one) is present, let's initialize its SS line.
 	if (spiConfig_DeviceSpecific_Length > 1) {
 		// First verify that the GPIO block itself is enabled. It can be disabled, as GPIO_SUPPORT_ENABLED == 0 and
 		// SPI_SUPPORT_ENABLED == 1 is a perfectly valid configuration, so we might need to initialize it ourselves.
-#if GPIO_SUPPORT_ENABLED == 0
+		// In 32-bit mode, this was already done above in the initialization code for SPI emulation.
+#if GPIO_SUPPORT_ENABLED == 0 && GPIF_32BIT_SUPPORT_ENABLED == 0
 		// Initialize the minimal GPIO module.
 		status = CyFxGpioInit();
 		if (status != CY_U3P_SUCCESS) {
@@ -172,17 +255,17 @@ CyU3PReturnStatus_t CyFxSpiInit(void) {
 #endif
 
 		// Now that we know GPIO works, we can configure the needed SS lines (simple GPIOs).
-		CyU3PGpioSimpleConfig_t gpioSimpleConfig;
+		CyU3PGpioSimpleConfig_t gpioSimpleConfigSSN;
 
 		for (size_t i = 1; i < spiConfig_DeviceSpecific_Length; i++) {
 			// Output configuration, since SS lines are always outputs.
-			gpioSimpleConfig.outValue = (spiConfig_DeviceSpecific[i].SSPolarity) ? (CyFalse) : (CyTrue); // Default to OFF.
-			gpioSimpleConfig.driveLowEn = CyTrue;
-			gpioSimpleConfig.driveHighEn = CyTrue;
-			gpioSimpleConfig.inputEn = CyFalse;
-			gpioSimpleConfig.intrMode = CY_U3P_GPIO_NO_INTR;
+			gpioSimpleConfigSSN.outValue = (spiConfig_DeviceSpecific[i].SSPolarity) ? (CyFalse) : (CyTrue); // Default to OFF.
+			gpioSimpleConfigSSN.driveLowEn = CyTrue;
+			gpioSimpleConfigSSN.driveHighEn = CyTrue;
+			gpioSimpleConfigSSN.inputEn = CyFalse;
+			gpioSimpleConfigSSN.intrMode = CY_U3P_GPIO_NO_INTR;
 
-			status = CyU3PGpioSetSimpleConfig(spiConfig_DeviceSpecific[i].deviceAddress, &gpioSimpleConfig);
+			status = CyU3PGpioSetSimpleConfig(spiConfig_DeviceSpecific[i].deviceAddress, &gpioSimpleConfigSSN);
 			if (status != CY_U3P_SUCCESS) {
 				return (status);
 			}
@@ -229,6 +312,9 @@ static CyU3PReturnStatus_t CyFxSpiTransferConfig(uint8_t deviceAddress, uint8_t 
 }
 
 CyU3PReturnStatus_t CyFxSpiClockUpdateForDevice(uint8_t deviceAddress) {
+#if GPIF_32BIT_SUPPORT_ENABLED == 1
+	(void) deviceAddress; // UNUSED
+#else
 	// Update SPI block clock setting for maximum performance.
 	currentSpiConfig.clock = CyFxSpiClockValueForDevice(deviceAddress);
 
@@ -236,14 +322,102 @@ CyU3PReturnStatus_t CyFxSpiClockUpdateForDevice(uint8_t deviceAddress) {
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
+#endif
 
 	return (CY_U3P_SUCCESS);
 }
 
+// Abstract SPI functions to easier be able to emulate them.
+static inline CyU3PReturnStatus_t CyFxSpiSetSsnLine(CyBool_t isHigh) {
+#if GPIF_32BIT_SUPPORT_ENABLED == 0
+	// The default device SS line is controlled via special firmware API.
+	return (CyU3PSpiSetSsnLine(isHigh));
+#else
+	// In 32-bit mode, we toggle the default SS line manually.
+	return (CyU3PGpioSimpleSetValue(GPIO_SSN, isHigh));
+#endif
+}
+
+static inline  CyU3PReturnStatus_t CyFxSpiTransmitWords(uint8_t *data, uint32_t byteCount) {
+#if GPIF_32BIT_SUPPORT_ENABLED == 0
+	return (CyU3PSpiTransmitWords(data, byteCount));
+#else
+	// Disable clock.
+	CyU3PGpioSimpleSetValue(GPIO_SCK, CyFalse);
+
+	for (uint32_t byteIndex = 0; byteIndex < byteCount; byteIndex++) {
+		// Assign value from data array.
+		uint8_t byte = data[byteIndex];
+
+		// Step through the eight bits of the given byte, starting at the highest
+		// (MSB) and going down to the lowest (LSB).
+		for (size_t i = 0; i < 8; i++) {
+			// Set the current bit value, based on the highest bit.
+			if (byte & 0x80) {
+				CyU3PGpioSimpleSetValue(GPIO_MOSI, CyTrue);
+			}
+			else {
+				CyU3PGpioSimpleSetValue(GPIO_MOSI, CyFalse);
+			}
+
+			// Pulse clock to signal value is ready to be read.
+			CyU3PGpioSimpleSetValue(GPIO_SCK, CyTrue);
+			CyU3PGpioSimpleSetValue(GPIO_SCK, CyFalse);
+
+			// Shift left by one, making the second highest bit the highest.
+			byte = (uint8_t) (byte << 1);
+		}
+	}
+
+	return (CY_U3P_SUCCESS);
+#endif
+}
+
+static inline  CyU3PReturnStatus_t CyFxSpiReceiveWords(uint8_t *data, uint32_t byteCount) {
+#if GPIF_32BIT_SUPPORT_ENABLED == 0
+	return (CyU3PSpiReceiveWords(data, byteCount));
+#else
+	// Disable clock.
+	CyU3PGpioSimpleSetValue(GPIO_SCK, CyFalse);
+
+	for (uint32_t byteIndex = 0; byteIndex < byteCount; byteIndex++) {
+		uint8_t byte = 0;
+
+		for (size_t i = 0; i < 8; i++) {
+			// Pulse clock to signal slave to output new value.
+			CyU3PGpioSimpleSetValue(GPIO_SCK, CyTrue);
+
+			// Get the current bit value, based on the GPIO value.
+			CyBool_t gpioIsHigh = CyFalse;
+			CyU3PGpioSimpleGetValue(GPIO_MISO, &gpioIsHigh);
+
+			if (gpioIsHigh) {
+				byte |= 1;
+			}
+			else {
+				byte |= 0;
+			}
+
+			CyU3PGpioSimpleSetValue(GPIO_SCK, CyFalse);
+
+			// Shift left by one, progressively moving the first set bit to be the MSB.
+			if (i != 7) {
+				byte = (uint8_t) (byte << 1);
+			}
+		}
+
+		// Assign value to data array.
+		data[byteIndex] = byte;
+	}
+
+	return (CY_U3P_SUCCESS);
+#endif
+}
+
 void CyFxSpiSSLineAssert(uint8_t deviceAddress) {
 	if (deviceAddress == 0) {
-		// The default device SS line is controlled via special firmware API.
-		CyU3PSpiSetSsnLine((spiIdConfigMap[0]->SSPolarity) ? (CyTrue) : (CyFalse));
+		// The default device SS line is controlled via special call.
+		CyFxSpiSetSsnLine((spiIdConfigMap[0]->SSPolarity) ? (CyTrue) : (CyFalse));
 	}
 	else {
 		// All other devices are normal, simple GPIOs.
@@ -253,8 +427,8 @@ void CyFxSpiSSLineAssert(uint8_t deviceAddress) {
 
 void CyFxSpiSSLineDeassert(uint8_t deviceAddress) {
 	if (deviceAddress == 0) {
-		// The default device SS line is controlled via special firmware API.
-		CyU3PSpiSetSsnLine((spiIdConfigMap[0]->SSPolarity) ? (CyFalse) : (CyTrue));
+		// The default device SS line is controlled via special call.
+		CyFxSpiSetSsnLine((spiIdConfigMap[0]->SSPolarity) ? (CyFalse) : (CyTrue));
 	}
 	else {
 		// All other devices are normal, simple GPIOs.
@@ -285,7 +459,7 @@ CyU3PReturnStatus_t CyFxSpiCommand(uint8_t deviceAddress, const uint8_t *cmd, ui
 	}
 
 	if (cmd != NULL) {
-		status = CyU3PSpiTransmitWords((uint8_t *) cmd, cmdLength);
+		status = CyFxSpiTransmitWords((uint8_t *) cmd, cmdLength);
 		if (status != CY_U3P_SUCCESS) {
 			CyFxSpiSSLineDeassert(deviceAddress);
 			return (status);
@@ -294,10 +468,10 @@ CyU3PReturnStatus_t CyFxSpiCommand(uint8_t deviceAddress, const uint8_t *cmd, ui
 
 	if (data != NULL) {
 		if (isRead) {
-			status = CyU3PSpiReceiveWords(data, dataLength);
+			status = CyFxSpiReceiveWords(data, dataLength);
 		}
 		else {
-			status = CyU3PSpiTransmitWords(data, dataLength);
+			status = CyFxSpiTransmitWords(data, dataLength);
 		}
 
 		if (status != CY_U3P_SUCCESS) {

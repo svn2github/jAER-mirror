@@ -19,8 +19,11 @@ static const uint8_t gpioValidIds[] = { 26, 27, 33, 34, 35, 36, 37, 38, 39, 40, 
 static const uint8_t gpioValidIds[] = {26, 27, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
 #endif
 #else
-// No SPI available on 32-bit!
+#if SPI_SUPPORT_ENABLED == 1
+static const uint8_t gpioValidIds[] = {26, 27, 45, 50, 51, 52, 57}; // 53, 54, 55, 56 are used to emulate SPI.
+#else
 static const uint8_t gpioValidIds[] = {26, 27, 45, 50, 51, 52, 53, 54, 55, 56, 57};
+#endif
 #endif
 
 static const uint8_t gpioValidTypes[] = { 'O', 'I', 'P', 'N', 'B', 'L', 'H' }; // Possible types always in upper-case!
@@ -181,10 +184,12 @@ CyU3PReturnStatus_t CyFxGpioConfigParse(uint32_t *gpioSimpleEn0, uint32_t *gpioS
  * GPIO interrupt callback handler. This is received from the interrupt context. So DMA API is not available
  * from here. Set an event in the event group, so that the GPIO thread can react to the event.
  */
+#if GPIO_SUPPORT_ENABLED == 1
 static void CyFxGpioInterruptHandler(uint8_t gpioId) {
 	// Send event by setting the appropriate event flag.
 	CyU3PEventSet(&glEventFlagGPIO, ((uint32_t) 0x01 << (gpioInterruptIdSlotMap[gpioId])), CYU3P_EVENT_OR);
 }
+#endif
 
 void CyFxGpioEventHandlerLoop(void) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
