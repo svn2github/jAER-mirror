@@ -27,7 +27,7 @@ extern BOOL GotSUD;
 #define EEPROM_SIZE (32 * 1024)
 #define SERIAL_NUMBER_LENGTH 8
 #define SERIAL_NUMBER_MEMORY_ADDRESS (EEPROM_SIZE - SERIAL_NUMBER_LENGTH)
-#define CONFIG_HEADER_LENGTH 2
+#define CONFIG_HEADER_LENGTH 8
 #define CONFIG_SINGLE_LENGTH 6
 #define CONFIG_MAX_NUMBER 500
 #define CONFIG_TOTAL_LENGTH (CONFIG_HEADER_LENGTH + (CONFIG_SINGLE_LENGTH * CONFIG_MAX_NUMBER))
@@ -376,20 +376,34 @@ void downloadSerialNumberFromEEPROM(void)
 // Get configuration parameters from EEPROM and send them to CPLD.
 void downloadConfigurationFromEEPROM(void)
 {
-	BYTE xdata configNumber[CONFIG_HEADER_LENGTH];
+	BYTE xdata configHeader[CONFIG_HEADER_LENGTH];
 	BYTE xdata config[CONFIG_SINGLE_LENGTH];
-	WORD i;
+	WORD i, configNumber;
 
 	// Read number of configuration parameters from EEPROM.
 	// Each one takes up 6 bytes: 1 module addr, 1 param addr, 4 param.
-	EEPROMRead(CONFIG_MEMORY_ADDRESS, CONFIG_HEADER_LENGTH, configNumber);
+	EEPROMRead(CONFIG_MEMORY_ADDRESS, CONFIG_HEADER_LENGTH, configHeader);
 
-	if (*(WORD xdata *) configNumber == 0) {
+	// Check that the signature matches.
+	if (configHeader[0] != 'C' || configHeader[1] != 'O'
+	 || configHeader[2] != 'N' || configHeader[3] != 'F') {
 		return;
 	}
 
+	// Get the length of configurations. Since maximum length is 3000,
+	// and 3000 fits in 16bits, we only get a WORD.
+	configNumber = *(WORD xdata *) &configHeader[4];
+
+	// If there is nothing, return.
+	if (configNumber == 0) {
+		return;
+	}
+
+	// Calculate number of configurations.
+	configNumber = configNumber / CONFIG_SINGLE_LENGTH;
+
 	// Step through each config parameter, read it and send it to the device.
-	for (i = 0; i < *(WORD xdata *) configNumber; i++) {
+	for (i = 0; i < configNumber; i++) {
 		// Read data from EEPROM.
 		EEPROMRead((CONFIG_MEMORY_ADDRESS + CONFIG_HEADER_LENGTH) + (i * CONFIG_SINGLE_LENGTH),
 			CONFIG_SINGLE_LENGTH, config);
