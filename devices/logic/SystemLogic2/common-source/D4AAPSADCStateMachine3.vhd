@@ -869,7 +869,7 @@ begin
 			Overflow_SO  => RampResetTimeDone_S,
 			Data_DO      => open);
 
-	chipADCColumnSampleStateMachine : process(ChipColSampleState_DP, ColSampleStart_SP, RampResetTimeDone_S, RampTickDone_S, RowSettleTimeDone_S, SampleSettleTimeDone_S, APSSampleType1_DP, APSSampleType_DP, ColSampleDone_SP, ColScanStart_SP)
+	chipADCColumnSampleStateMachine : process(ChipColSampleState_DP, ColSampleStart_SP, RampResetTimeDone_S, RampTickDone_S, RowSettleTimeDone_S, SampleSettleTimeDone_S, ColSampleDone_SP, ColScanStart_SP, APSSampleType1_DP, APSSampleType_DP)
 	begin
 		ChipColSampleState_DN <= ChipColSampleState_DP;
 
@@ -899,13 +899,14 @@ begin
 				if ColSampleStart_SP = '1' then
 					ChipColSampleState_DN <= stRowSettleWait;
 					ColSampleStartAck     <= '1';
-					APSSampleType1_DN <= APSSampleType_DP;
+					--APSSampleType1_DN <= APSSampleType_DP;
 				end if;
 
 			when stRowSettleWait =>
 				-- Additional wait for the row selection to be valid.
 				if RowSettleTimeDone_S = '1' then
 					ChipColSampleState_DN <= stColSample;
+					APSSampleType1_DN <= APSSampleType_DP;
 				end if;
 
 				RowSettleTimeCount_S <= '1';
@@ -943,6 +944,7 @@ begin
 
 				-- ready for PixelSM to move on
 				ColSampleDone_SN <= '1';
+				--APSSampleType1_DN <= APSSampleType_DP;
 
 			when stColRampReset =>
 				-- Do not clear Ramp while in use!
@@ -982,7 +984,7 @@ begin
 		end case;
 	end process chipADCColumnSampleStateMachine;
 
-	chipADCColumnScanStateMachine : process(ChipColScanState_DP, D4AAPSADCConfigReg_D, APSSampleType1_DP, ChipADCData_DI, ColScanStart_SP, ColumnReadPosition_D, OutFifoControl_SI)
+	chipADCColumnScanStateMachine : process(ChipColScanState_DP, D4AAPSADCConfigReg_D, ChipADCData_DI, ColScanStart_SP, ColumnReadPosition_D, OutFifoControl_SI, APSSampleType1_DP)
 	begin
 		ChipColScanState_DN <= ChipColScanState_DP;
 
