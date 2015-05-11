@@ -31,7 +31,10 @@ entity TopLevel is
 		LED3_SO                 : out   std_logic;
 		LED4_SO                 : out   std_logic;
 		LED5_SO                 : out   std_logic;
-		LED6_SO                 : out   std_logic);
+		LED6_SO                 : out   std_logic;
+		
+		
+		Bank1_DO : out std_logic_vector(29 downto 0));
 end TopLevel;
 
 architecture Structural of TopLevel is
