@@ -15,6 +15,9 @@
         <Source name="../../SystemLogic2/common-source/ext/FIFODualClockDouble.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../../SystemLogic2/common-source/ext/FIFODualClockDoubleECP3/FIFODualClockDoubleECP3.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../../SystemLogic2/common-source/ext/PLL.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>

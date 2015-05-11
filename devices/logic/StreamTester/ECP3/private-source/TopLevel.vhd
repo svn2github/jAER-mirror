@@ -186,7 +186,7 @@ begin
 			FX3Config_DI                => tFX3ConfigDefault);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
-	logicUSBFifo : entity work.FIFODualClock
+	logicUSBFifo : entity work.FIFODualClockDouble
 		generic map(
 			DATA_WIDTH        => USB_FIFO_WIDTH,
 			DATA_DEPTH        => USBLOGIC_FIFO_SIZE,
