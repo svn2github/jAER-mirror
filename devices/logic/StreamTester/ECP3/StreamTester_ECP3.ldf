@@ -51,16 +51,25 @@
         <Source name="private-source/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="private-source/TestSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/TestConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../../SystemLogic2/common-source/fx3/FX3USBClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../../SystemLogic2/common-source/fx3/FX3StateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../../SystemLogic2/common-source/fx3/FX3ConfigRecords.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../../SystemLogic2/common-source/fx3/FX3SPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../../SystemLogic2/common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../../SystemLogic2/common-source/fx3/FX3ConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="StreamTester_ECP3.lpf" type="Logic Preference" type_short="LPF">

@@ -8,33 +8,87 @@ use work.TestConfigRecords.all;
 
 entity TopLevel is
 	port(
-		USBClock_CI             : in    std_logic;
-		Reset_RI                : in    std_logic;
+		USBClock_CI                : in    std_logic;
+		Reset_RI                   : in    std_logic;
 
-		SPISlaveSelect_ABI      : in    std_logic;
-		SPIClock_AI             : in    std_logic;
-		SPIMOSI_AI              : in    std_logic;
-		SPIMISO_DZO             : out   std_logic;
+		SPISlaveSelect_ABI         : in    std_logic;
+		SPIClock_AI                : in    std_logic;
+		SPIMOSI_AI                 : in    std_logic;
+		SPIMISO_DZO                : out   std_logic;
 
-		USBFifoData_DO          : out   std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
-		USBFifoChipSelect_SBO   : out   std_logic;
-		USBFifoWrite_SBO        : out   std_logic;
-		USBFifoRead_SBO         : out   std_logic;
-		USBFifoPktEnd_SBO       : out   std_logic;
-		USBFifoAddress_DO       : out   std_logic_vector(1 downto 0);
-		USBFifoThr0Ready_SI     : inout std_logic;
-		USBFifoThr0Watermark_SI : inout std_logic;
-		USBFifoThr1Ready_SI     : inout std_logic;
-		USBFifoThr1Watermark_SI : inout std_logic;
+		USBFifoData_DO             : out   std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+		USBFifoChipSelect_SBO      : out   std_logic;
+		USBFifoWrite_SBO           : out   std_logic;
+		USBFifoRead_SBO            : out   std_logic;
+		USBFifoPktEnd_SBO          : out   std_logic;
+		USBFifoAddress_DO          : out   std_logic_vector(1 downto 0);
+		USBFifoThr0Ready_SI        : inout std_logic;
+		USBFifoThr0Watermark_SI    : inout std_logic;
+		USBFifoThr1Ready_SI        : inout std_logic;
+		USBFifoThr1Watermark_SI    : inout std_logic;
 
-		LED1_SO                 : out   std_logic;
-		LED2_SO                 : out   std_logic;
-		LED3_SO                 : out   std_logic;
-		LED4_SO                 : out   std_logic;
-		LED5_SO                 : out   std_logic;
-		LED6_SO                 : out   std_logic;
+		LED1_SO                    : out   std_logic;
+		LED2_SO                    : out   std_logic;
+		LED3_SO                    : out   std_logic;
+		LED4_SO                    : out   std_logic;
+		LED5_SO                    : out   std_logic;
+		LED6_SO                    : out   std_logic;
 
-		Bank1_DO                : out   std_logic_vector(29 downto 0));
+		SERDESClockOutputEnable_SO : out   std_logic;
+
+		AuxClockOutputEnable_SO    : out   std_logic;
+		AuxClockPos_CI             : in    std_logic;
+		AuxClockNeg_CI             : in    std_logic;
+
+		SRAMChipEnable1_SBO        : out   std_logic;
+		SRAMOutputEnable1_SBO      : out   std_logic;
+		SRAMWriteEnable1_SBO       : out   std_logic;
+		SRAMChipEnable2_SBO        : out   std_logic;
+		SRAMOutputEnable2_SBO      : out   std_logic;
+		SRAMWriteEnable2_SBO       : out   std_logic;
+		SRAMChipEnable3_SBO        : out   std_logic;
+		SRAMOutputEnable3_SBO      : out   std_logic;
+		SRAMWriteEnable3_SBO       : out   std_logic;
+		SRAMChipEnable4_SBO        : out   std_logic;
+		SRAMOutputEnable4_SBO      : out   std_logic;
+		SRAMWriteEnable4_SBO       : out   std_logic;
+		SRAMAddress_DO             : out   std_logic_vector(20 downto 0);
+		SRAMData_DZIO              : inout std_logic_vector(15 downto 0);
+
+		SDCardData_DO              : out   std_logic_vector(3 downto 0);
+		SDCardCommand_SO           : out   std_logic;
+		SDCardClock_CO             : out   std_logic;
+
+		RTCSlaveSelect_SBO         : out   std_logic;
+		RTCClock_CO                : out   std_logic;
+		RTCMOSI_SO                 : out   std_logic;
+		RTCMISO_AI                 : in    std_logic;
+		RTCInterrupt_AI            : in    std_logic;
+
+		SyncOutClock_CO            : out   std_logic;
+		SyncOutSwitch_AI           : in    std_logic;
+		SyncOutSignal_SO           : out   std_logic;
+		SyncInClock_AI             : in    std_logic;
+		SyncInSwitch_AI            : in    std_logic;
+		SyncInSignal_AI            : in    std_logic;
+
+		Bank0_DO                   : out   std_logic_vector(37 downto 0);
+		Bank0VRef_DO               : out   std_logic_vector(1 downto 0);
+		Bank0ClockPos_CO           : out   std_logic;
+		Bank0ClockNeg_CO           : out   std_logic;
+
+		Bank1_DO                   : out   std_logic_vector(29 downto 0);
+		Bank1VRef_DO               : out   std_logic_vector(1 downto 0);
+
+		Bank2_DO                   : out   std_logic_vector(19 downto 0);
+		Bank2VRef_DO               : out   std_logic_vector(1 downto 0);
+		Bank2ClockPos_CO           : out   std_logic;
+		Bank2ClockNeg_CO           : out   std_logic;
+
+		Bank7_DO                   : out   std_logic_vector(31 downto 0);
+		Bank7VRef_DO               : out   std_logic_vector(1 downto 0);
+		Bank7ClockPos_CO           : out   std_logic;
+		Bank7ClockNeg_CO           : out   std_logic);
 end TopLevel;
 
 architecture Structural of TopLevel is
