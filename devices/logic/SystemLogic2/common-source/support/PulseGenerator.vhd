@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
--- Emit a one-cycle pulse every PulseInterval_DI.
+-- Emit a PulseLength_DI-cycle pulse every PulseInterval_DI.
 -- Can be reset to zero with the Zero_SI signal.
 -- Please note that if SIGNAL_INITIAL_POLARITY and the actual
 -- PulsePolarity_SI are equal at reset, there will be a one
