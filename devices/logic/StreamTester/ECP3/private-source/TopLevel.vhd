@@ -316,8 +316,8 @@ begin
 			Zero_SI          => not TestConfigReg_D.TestBank1_S,
 			PulseOut_SO      => Bank1Pulse_S);
 
-	Bank1_DO     <= (others => Bank0Pulse_S);
-	Bank1VRef_DO <= (others => Bank0Pulse_S);
+	Bank1_DO     <= (others => Bank1Pulse_S);
+	Bank1VRef_DO <= (others => Bank1Pulse_S);
 
 	-- Generate 2MHz clock on bank 2 to see that all pins get a signal.
 	bank2Generator : entity work.PulseGenerator
@@ -332,8 +332,8 @@ begin
 			Zero_SI          => not TestConfigReg_D.TestBank2_S,
 			PulseOut_SO      => Bank2Pulse_S);
 
-	Bank2_DO     <= (others => Bank0Pulse_S);
-	Bank2VRef_DO <= (others => Bank0Pulse_S);
+	Bank2_DO     <= (others => Bank2Pulse_S);
+	Bank2VRef_DO <= (others => Bank2Pulse_S);
 
 	-- Generate 4MHz clock on bank 7 to see that all pins get a signal.
 	bank7Generator : entity work.PulseGenerator
@@ -348,8 +348,29 @@ begin
 			Zero_SI          => not TestConfigReg_D.TestBank7_S,
 			PulseOut_SO      => Bank7Pulse_S);
 
-	Bank7_DO     <= (others => Bank0Pulse_S);
-	Bank7VRef_DO <= (others => Bank0Pulse_S);
+	Bank7_DO     <= (others => Bank7Pulse_S);
+	Bank7VRef_DO <= (others => Bank7Pulse_S);
+
+	-- Auxiliary Clock test: if the external, auxiliary 100MHz clock is
+	-- enabled, it is directly forwarded to all clock outputs. This tests
+	-- both the clock input and outputs, and the oscillator itself.
+	Bank0ClockPos_CO <= AuxClockPos_CI;
+	Bank0ClockNeg_CO <= AuxClockNeg_CI;
+
+	Bank2ClockPos_CO <= AuxClockPos_CI;
+	Bank2ClockNeg_CO <= AuxClockNeg_CI;
+
+	Bank7ClockPos_CO <= AuxClockPos_CI;
+	Bank7ClockNeg_CO <= AuxClockNeg_CI;
+
+	AuxClockOutputEnable_SO <= TestConfigReg_D.TestAuxClock_S;
+
+	-- SERDES Clock test: enable or disable 150MHz SERDES clock.
+	SERDESClockOutputEnable_SO <= TestConfigReg_D.TestSERDESClock_S;
+
+	-- TODO: SERDES testing (SATA link data exchange).
+
+	-- TODO: RTC testing (SPI data exchange, interrupt).
 
 	testSPIConfig : entity work.TestSPIConfig
 		port map(

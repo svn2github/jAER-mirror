@@ -59,6 +59,14 @@ begin
 				TestConfigReg_DN.TestBank7_S <= TestInput_DP(0);
 				TestOutput_DN(0)             <= TestConfigReg_DP.TestBank7_S;
 
+			when TESTCONFIG_PARAM_ADDRESSES.TestAuxClock_S =>
+				TestConfigReg_DN.TestAuxClock_S <= TestInput_DP(0);
+				TestOutput_DN(0)                <= TestConfigReg_DP.TestAuxClock_S;
+
+			when TESTCONFIG_PARAM_ADDRESSES.TestSERDESClock_S =>
+				TestConfigReg_DN.TestSERDESClock_S <= TestInput_DP(0);
+				TestOutput_DN(0)                   <= TestConfigReg_DP.TestSERDESClock_S;
+
 			when others => null;
 		end case;
 	end process testIO;

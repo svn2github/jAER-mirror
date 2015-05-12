@@ -12,6 +12,8 @@ package TestConfigRecords is
 		TestBank1_S          : unsigned(7 downto 0);
 		TestBank2_S          : unsigned(7 downto 0);
 		TestBank7_S          : unsigned(7 downto 0);
+		TestAuxClock_S       : unsigned(7 downto 0);
+		TestSERDESClock_S    : unsigned(7 downto 0);
 	end record tTestConfigParamAddresses;
 
 	constant TESTCONFIG_PARAM_ADDRESSES : tTestConfigParamAddresses := (
@@ -20,7 +22,9 @@ package TestConfigRecords is
 		TestBank0_S          => to_unsigned(2, 8),
 		TestBank1_S          => to_unsigned(3, 8),
 		TestBank2_S          => to_unsigned(4, 8),
-		TestBank7_S          => to_unsigned(5, 8));
+		TestBank7_S          => to_unsigned(5, 8),
+		TestAuxClock_S       => to_unsigned(6, 8),
+		TestSERDESClock_S    => to_unsigned(7, 8));
 
 	type tTestConfig is record
 		TestUSBFifo_S        : std_logic;
@@ -29,6 +33,8 @@ package TestConfigRecords is
 		TestBank1_S          : std_logic;
 		TestBank2_S          : std_logic;
 		TestBank7_S          : std_logic;
+		TestAuxClock_S       : std_logic;
+		TestSERDESClock_S    : std_logic;
 	end record tTestConfig;
 
 	constant tTestConfigDefault : tTestConfig := (
@@ -37,5 +43,7 @@ package TestConfigRecords is
 		TestBank0_S          => '0',
 		TestBank1_S          => '0',
 		TestBank2_S          => '0',
-		TestBank7_S          => '0');
+		TestBank7_S          => '0',
+		TestAuxClock_S       => '0',
+		TestSERDESClock_S    => '0');
 end package TestConfigRecords;
