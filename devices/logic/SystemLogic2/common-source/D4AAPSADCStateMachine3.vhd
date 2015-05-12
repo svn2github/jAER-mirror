@@ -151,7 +151,7 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	signal ChipADCSampleReg_S      : std_logic;
 
 	-- Ramp clock counter. Could be used to generate grey-code if needed too.
-	signal RampTickCount_S, RampTickDone_S : std_logic;
+	signal RampTickCount_S, RampTickDone_S, RampTickHalfDone_S : std_logic;
 
 	-- Row settle time (before first column is read, like an additional offset before each sample).
 	signal RowSettleTimeCount_S, RowSettleTimeDone_S : std_logic;
@@ -832,6 +832,18 @@ begin
 			DataLimit_DI => to_unsigned(1021, APS_ADC_BUS_WIDTH),
 			Overflow_SO  => RampTickDone_S,
 			Data_DO      => open);
+			
+	rampTickCounter2 : entity work.ContinuousCounter
+		generic map(
+			SIZE => APS_ADC_BUS_WIDTH)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => RampTickCount_S,
+			DataLimit_DI => to_unsigned(511, APS_ADC_BUS_WIDTH),
+			Overflow_SO  => RampTickHalfDone_S,
+			Data_DO      => open);
 
 	rowSettleTimeCounter : entity work.ContinuousCounter
 		generic map(
@@ -973,7 +985,7 @@ begin
 				-- Increase counter and stop ramping when maximum reached.
 				RampTickCount_S <= '1';
 
-				if RampTickDone_S = '1' then
+				if (APSSampleType1_DN = SAMPLETYPE_SIGNAL and RampTickDone_S = '1') or (APSSampleType1_DN = SAMPLETYPE_FDRESET and RampTickHalfDone_S = '1') then
 					ChipColSampleState_DN <= stSampleIdle;
 					ColScanStart_SN       <= '1';
 				else
