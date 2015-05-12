@@ -377,10 +377,15 @@ begin
 
 	-- TODO: RTC testing (SPI data exchange, interrupt).
 	RTCSlaveSelect_SBO <= '1';
-	RTCClock_CO        <= '0';
-	RTCMOSI_DO         <= '0';
+	RTCClock_CO        <= '1';
+	RTCMOSI_DO         <= '1';
 	-- RTCMISOSync_D
 	-- RTCInterruptSync_S
+
+	-- TODO: SD-Card testing (SPI-like data exchange).
+	SDCardClock_CO   <= '1';
+	SDCardCommand_SO <= '1';
+	SDCardData_DO    <= (others => '1');
 
 	testSPIConfig : entity work.TestSPIConfig
 		port map(
