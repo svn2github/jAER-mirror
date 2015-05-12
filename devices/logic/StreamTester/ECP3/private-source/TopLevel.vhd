@@ -61,7 +61,7 @@ entity TopLevel is
 
 		RTCSlaveSelect_SBO         : out   std_logic;
 		RTCClock_CO                : out   std_logic;
-		RTCMOSI_SO                 : out   std_logic;
+		RTCMOSI_DO                 : out   std_logic;
 		RTCMISO_AI                 : in    std_logic;
 		RTCInterrupt_AI            : in    std_logic;
 
@@ -105,6 +105,8 @@ architecture Structural of TopLevel is
 
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S : std_logic;
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D                                                   : std_logic;
+	signal RTCMISOSync_D, RTCInterruptSync_S                                                                      : std_logic;
+	signal Bank0Pulse_S, Bank1Pulse_S, Bank2Pulse_S, Bank7Pulse_S                                                 : std_logic;
 
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
@@ -122,8 +124,6 @@ architecture Structural of TopLevel is
 
 	signal TestConfig_D, TestConfigReg_D : tTestConfig;
 	signal FX3Config_D, FX3ConfigReg_D   : tFX3Config;
-
-	signal Bank0Pulse_S, Bank1Pulse_S, Bank2Pulse_S, Bank7Pulse_S : std_logic;
 begin
 	USBFifoData_DO          <= (others => '1') when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoData_D;
 	USBFifoChipSelect_SBO   <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoChipSelect_SB;
@@ -162,7 +162,11 @@ begin
 			SPIClock_CI            => SPIClock_AI,
 			SPIClockSync_CO        => SPIClockSync_C,
 			SPIMOSI_DI             => SPIMOSI_AI,
-			SPIMOSISync_DO         => SPIMOSISync_D);
+			SPIMOSISync_DO         => SPIMOSISync_D,
+			RTCMISO_DI             => RTCMISO_AI,
+			RTCMISOSync_DO         => RTCMISOSync_D,
+			RTCInterrupt_SI        => RTCInterrupt_AI,
+			RTCInterruptSync_SO    => RTCInterruptSync_S);
 
 	-- Third: set all constant outputs.
 	USBFifoChipSelect_SB <= '0';        -- Always keep USB chip selected (active-low).
@@ -369,8 +373,14 @@ begin
 	SERDESClockOutputEnable_SO <= TestConfigReg_D.TestSERDESClock_S;
 
 	-- TODO: SERDES testing (SATA link data exchange).
+	-- Use Lattice PCS block (IPExpress tool).
 
 	-- TODO: RTC testing (SPI data exchange, interrupt).
+	RTCSlaveSelect_SBO <= '1';
+	RTCClock_CO        <= '0';
+	RTCMOSI_DO         <= '0';
+	-- RTCMISOSync_D
+	-- RTCInterruptSync_S
 
 	testSPIConfig : entity work.TestSPIConfig
 		port map(

@@ -13,7 +13,11 @@ entity LogicClockSynchronizer is
 		SPIClock_CI            : in  std_logic;
 		SPIClockSync_CO        : out std_logic;
 		SPIMOSI_DI             : in  std_logic;
-		SPIMOSISync_DO         : out std_logic);
+		SPIMOSISync_DO         : out std_logic;
+		RTCMISO_DI             : in  std_logic;
+		RTCMISOSync_DO         : out std_logic;
+		RTCInterrupt_SI        : in  std_logic;
+		RTCInterruptSync_SO    : out std_logic);
 end LogicClockSynchronizer;
 
 architecture Structural of LogicClockSynchronizer is
@@ -51,4 +55,18 @@ begin
 			Reset_RI           => ResetSync_R,
 			SignalToSync_SI(0) => SPIMOSI_DI,
 			SyncedSignal_SO(0) => SPIMOSISync_DO);
+
+	syncRTCMISO : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => RTCMISO_DI,
+			SyncedSignal_SO(0) => RTCMISOSync_DO);
+
+	syncRTCInterrupt : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => RTCInterrupt_SI,
+			SyncedSignal_SO(0) => RTCInterruptSync_SO);
 end Structural;
