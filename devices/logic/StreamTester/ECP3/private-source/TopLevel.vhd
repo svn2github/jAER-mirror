@@ -4,6 +4,7 @@ use ieee.numeric_std.all;
 use work.Settings.all;
 use work.FIFORecords.all;
 use work.FX3ConfigRecords.all;
+use work.TestConfigRecords.all;
 
 entity TopLevel is
 	port(
@@ -32,9 +33,8 @@ entity TopLevel is
 		LED4_SO                 : out   std_logic;
 		LED5_SO                 : out   std_logic;
 		LED6_SO                 : out   std_logic;
-		
-		
-		Bank1_DO : out std_logic_vector(29 downto 0));
+
+		Bank1_DO                : out   std_logic_vector(29 downto 0));
 end TopLevel;
 
 architecture Structural of TopLevel is
@@ -63,23 +63,22 @@ architecture Structural of TopLevel is
 	signal ConfigLatchInput_S    : std_logic;
 	signal ConfigParamOutput_D   : std_logic_vector(31 downto 0);
 
-	signal RunStreamTester_S       : std_logic;
-	signal EnableStreamTesterReg_S : std_logic;
+	signal TestConfigParamOutput_D : std_logic_vector(31 downto 0);
+	signal FX3ConfigParamOutput_D  : std_logic_vector(31 downto 0);
 
-	signal RunOutputsHighTester_S       : std_logic;
-	signal RunOutputsHighTesterReg_S    : std_logic;
-	signal EnableOutputsHighTesterReg_S : std_logic;
+	signal TestConfig_D, TestConfigReg_D : tTestConfig;
+	signal FX3Config_D, FX3ConfigReg_D   : tFX3Config;
 begin
-	USBFifoData_DO          <= (others => '1') when RunOutputsHighTester_S = '1' else USBFifoData_D;
-	USBFifoChipSelect_SBO   <= '1' when RunOutputsHighTester_S = '1' else USBFifoChipSelect_SB;
-	USBFifoWrite_SBO        <= '1' when RunOutputsHighTester_S = '1' else USBFifoWrite_SB;
-	USBFifoRead_SBO         <= '1' when RunOutputsHighTester_S = '1' else USBFifoRead_SB;
-	USBFifoPktEnd_SBO       <= '1' when RunOutputsHighTester_S = '1' else USBFifoPktEnd_SB;
-	USBFifoAddress_DO       <= (others => '1') when RunOutputsHighTester_S = '1' else USBFifoAddress_D;
-	USBFifoThr0Ready_SI     <= '1' when RunOutputsHighTester_S = '1' else 'Z';
-	USBFifoThr0Watermark_SI <= '1' when RunOutputsHighTester_S = '1' else 'Z';
-	USBFifoThr1Ready_SI     <= '1' when RunOutputsHighTester_S = '1' else 'Z';
-	USBFifoThr1Watermark_SI <= '1' when RunOutputsHighTester_S = '1' else 'Z';
+	USBFifoData_DO          <= (others => '1') when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoData_D;
+	USBFifoChipSelect_SBO   <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoChipSelect_SB;
+	USBFifoWrite_SBO        <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoWrite_SB;
+	USBFifoRead_SBO         <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoRead_SB;
+	USBFifoPktEnd_SBO       <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoPktEnd_SB;
+	USBFifoAddress_DO       <= (others => '1') when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoAddress_D;
+	USBFifoThr0Ready_SI     <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else 'Z';
+	USBFifoThr0Watermark_SI <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else 'Z';
+	USBFifoThr1Ready_SI     <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else 'Z';
+	USBFifoThr1Watermark_SI <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else 'Z';
 
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
@@ -120,7 +119,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => RunStreamTester_S,
+			Input_SI(0)  => TestConfigReg_D.TestUSBFifo_S,
 			Output_SO(0) => LED1_SO);
 
 	led2Buffer : entity work.SimpleRegister
@@ -186,7 +185,18 @@ begin
 			USBFifoAddress_DO           => USBFifoAddress_D,
 			InFifoControl_SI            => LogicUSBFifoControlOut_S.ReadSide,
 			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide,
-			FX3Config_DI                => tFX3ConfigDefault);
+			FX3Config_DI                => FX3ConfigReg_D);
+
+	fx3SPIConfig : entity work.FX3SPIConfig
+		port map(
+			Clock_CI                => LogicClock_C,
+			Reset_RI                => LogicReset_R,
+			FX3Config_DO            => FX3Config_D,
+			ConfigModuleAddress_DI  => ConfigModuleAddress_D,
+			ConfigParamAddress_DI   => ConfigParamAddress_D,
+			ConfigParamInput_DI     => ConfigParamInput_D,
+			ConfigLatchInput_SI     => ConfigLatchInput_S,
+			FX3ConfigParamOutput_DO => FX3ConfigParamOutput_D);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
 	logicUSBFifo : entity work.FIFODualClockDouble
@@ -214,12 +224,34 @@ begin
 			Clock_CI                  => LogicClock_C,
 			Reset_RI                  => LogicReset_R,
 			Clear_SI                  => '0',
-			Enable_SI                 => RunStreamTester_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S,
+			Enable_SI                 => TestConfigReg_D.TestUSBFifo_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S,
 			DataLimit_DI              => (others => '1'),
 			Overflow_SO               => open,
 			std_logic_vector(Data_DO) => LogicUSBFifoDataIn_D);
 
-	LogicUSBFifoControlIn_S.WriteSide.Write_S <= RunStreamTester_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S;
+	LogicUSBFifoControlIn_S.WriteSide.Write_S <= TestConfigReg_D.TestUSBFifo_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S;
+
+	testSPIConfig : entity work.TestSPIConfig
+		port map(
+			Clock_CI                 => LogicClock_C,
+			Reset_RI                 => LogicReset_R,
+			TestConfig_DO            => TestConfig_D,
+			ConfigModuleAddress_DI   => ConfigModuleAddress_D,
+			ConfigParamAddress_DI    => ConfigParamAddress_D,
+			ConfigParamInput_DI      => ConfigParamInput_D,
+			ConfigLatchInput_SI      => ConfigLatchInput_S,
+			TestConfigParamOutput_DO => TestConfigParamOutput_D);
+
+	configRegisters : process(LogicClock_C, LogicReset_R) is
+	begin
+		if LogicReset_R = '1' then
+			TestConfigReg_D <= tTestConfigDefault;
+			FX3ConfigReg_D  <= tFX3ConfigDefault;
+		elsif rising_edge(LogicClock_C) then
+			TestConfigReg_D <= TestConfig_D;
+			FX3ConfigReg_D  <= FX3Config_D;
+		end if;
+	end process configRegisters;
 
 	spiConfiguration : entity work.SPIConfig
 		port map(
@@ -235,52 +267,19 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	-- Module 0, Parameter 0, Bit 0 tells us if we should run the data stream testing.
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, RunStreamTester_S, RunOutputsHighTester_S)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, TestConfigParamOutput_D, FX3ConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
 
-		if ConfigModuleAddress_D = 0 then
-			if ConfigParamAddress_D = 0 then
-				ConfigParamOutput_D(0) <= RunStreamTester_S;
-			elsif ConfigParamAddress_D = 1 then
-				ConfigParamOutput_D(0) <= RunOutputsHighTester_S;
-			end if;
-		end if;
+		case ConfigModuleAddress_D is
+			when TESTCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= TestConfigParamOutput_D;
+
+			when FX3CONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= FX3ConfigParamOutput_D;
+
+			when others => null;
+		end case;
 	end process spiConfigurationOutputSelect;
-
-	EnableStreamTesterReg_S <= '1' when (ConfigModuleAddress_D = 0 and ConfigParamAddress_D = 0 and ConfigLatchInput_S = '1') else '0';
-
-	runStreamTesterReg : entity work.SimpleRegister
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI     => LogicClock_C,
-			Reset_RI     => LogicReset_R,
-			Enable_SI    => EnableStreamTesterReg_S,
-			Input_SI(0)  => ConfigParamInput_D(0),
-			Output_SO(0) => RunStreamTester_S);
-
-	EnableOutputsHighTesterReg_S <= '1' when (ConfigModuleAddress_D = 0 and ConfigParamAddress_D = 1 and ConfigLatchInput_S = '1') else '0';
-
-	runOutputsHighTesterReg : entity work.SimpleRegister
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI     => LogicClock_C,
-			Reset_RI     => LogicReset_R,
-			Enable_SI    => EnableOutputsHighTesterReg_S,
-			Input_SI(0)  => ConfigParamInput_D(0),
-			Output_SO(0) => RunOutputsHighTesterReg_S);
-
-	runOutputsHighTesterReg2 : entity work.SimpleRegister
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI     => LogicClock_C,
-			Reset_RI     => LogicReset_R,
-			Enable_SI    => '1',
-			Input_SI(0)  => RunOutputsHighTesterReg_S,
-			Output_SO(0) => RunOutputsHighTester_S);
 end Structural;
