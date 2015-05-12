@@ -181,7 +181,7 @@ begin
 			Clock_CI     => USBClock_CI,
 			Reset_RI     => USBReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => LogicUSBFifoControlOut_S.ReadSide.Empty_S,
+			Input_SI(0)  => not SPISlaveSelectSync_SB,
 			Output_SO(0) => LED2_SO);
 
 	led3Buffer : entity work.SimpleRegister
@@ -189,7 +189,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => not SPISlaveSelectSync_SB,
+			Input_SI(0)  => LogicUSBFifoControlOut_S.ReadSide.Empty_S,
 			Output_SO(0) => LED3_SO);
 
 	led4Buffer : entity work.SimpleRegister
@@ -205,7 +205,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => '0',
+			Input_SI(0)  => '1',
 			Output_SO(0) => LED5_SO);
 
 	led6Buffer : entity work.SimpleRegister
@@ -213,7 +213,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => '0',
+			Input_SI(0)  => '1',
 			Output_SO(0) => LED6_SO);
 
 	-- Generate logic clock using a PLL.
