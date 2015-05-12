@@ -151,7 +151,7 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	signal ChipADCSampleReg_S      : std_logic;
 
 	-- Ramp clock counter. Could be used to generate grey-code if needed too.
-	signal RampTickCount_S, RampTickDone_S, RampTickHalfDone_S : std_logic;
+	signal RampTickCount1_S, RampTickCount2_S, RampTickDone_S, RampTickHalfDone_S : std_logic;
 
 	-- Row settle time (before first column is read, like an additional offset before each sample).
 	signal RowSettleTimeCount_S, RowSettleTimeDone_S : std_logic;
@@ -521,11 +521,11 @@ begin
 				PixelState_DN <= stRSSample1Done;
 
 			when stRSSample1Done =>
-				if ReadBSRStatus_DP = RBSTAT_NORMAL then
+				--if ReadBSRStatus_DP = RBSTAT_NORMAL then
 					APSSampleType_DN <= SAMPLETYPE_FDRESET;
-				else
-					APSSampleType_DN <= SAMPLETYPE_NULL;
-				end if;
+				--else
+					--APSSampleType_DN <= SAMPLETYPE_NULL;
+				--end if;
 
 				if ColSampleDone_SP = '1' then
 					PixelState_DN    <= stRSChargeTransfer;
@@ -553,11 +553,11 @@ begin
 				PixelState_DN <= stRSSample2Done;
 
 			when stRSSample2Done =>
-				if ReadBSRStatus_DP = RBSTAT_NORMAL then
+				--if ReadBSRStatus_DP = RBSTAT_NORMAL then
 					APSSampleType_DN <= SAMPLETYPE_SIGNAL;
-				else
-					APSSampleType_DN <= SAMPLETYPE_NULL;
-				end if;
+				--else
+					--APSSampleType_DN <= SAMPLETYPE_NULL;
+				--end if;
 
 				if ColSampleDone_SP = '1' then
 					ColSampleDoneAck   <= '1';
@@ -821,14 +821,14 @@ begin
 			Overflow_SO  => open,
 			Data_DO      => ColumnReadPosition_D);
 
-	rampTickCounter : entity work.ContinuousCounter
+	rampTickCounter1 : entity work.ContinuousCounter
 		generic map(
 			SIZE => APS_ADC_BUS_WIDTH)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
-			Enable_SI    => RampTickCount_S,
+			Enable_SI    => RampTickCount1_S,
 			DataLimit_DI => to_unsigned(1021, APS_ADC_BUS_WIDTH),
 			Overflow_SO  => RampTickDone_S,
 			Data_DO      => open);
@@ -840,7 +840,7 @@ begin
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
-			Enable_SI    => RampTickCount_S,
+			Enable_SI    => RampTickCount2_S,
 			DataLimit_DI => to_unsigned(511, APS_ADC_BUS_WIDTH),
 			Overflow_SO  => RampTickHalfDone_S,
 			Data_DO      => open);
@@ -886,7 +886,8 @@ begin
 		ChipColSampleState_DN <= ChipColSampleState_DP;
 
 		-- ADC clock counter.
-		RampTickCount_S <= '0';
+		RampTickCount1_S <= '0';
+		RampTickCount2_S <= '0';
 
 		-- Settle times counters.
 		RowSettleTimeCount_S    <= '0';
@@ -983,9 +984,16 @@ begin
 				ChipADCRampClearReg_S <= '0';
 
 				-- Increase counter and stop ramping when maximum reached.
-				RampTickCount_S <= '1';
+				if APSSampleType1_DN = SAMPLETYPE_SIGNAL then
+					RampTickCount1_S <= '1';
+				elsif APSSampleType1_DN = SAMPLETYPE_FDRESET then
+					RampTickCount2_S <= '1';
+				end if;
 
-				if (APSSampleType1_DN = SAMPLETYPE_SIGNAL and RampTickDone_S = '1') or (APSSampleType1_DN = SAMPLETYPE_FDRESET and RampTickHalfDone_S = '1') then
+				if APSSampleType1_DN = SAMPLETYPE_SIGNAL and RampTickDone_S = '1'  then
+					ChipColSampleState_DN <= stSampleIdle;
+					ColScanStart_SN       <= '1';
+				elsif APSSampleType1_DN = SAMPLETYPE_FDRESET and RampTickHalfDone_S = '1' then
 					ChipColSampleState_DN <= stSampleIdle;
 					ColScanStart_SN       <= '1';
 				else
