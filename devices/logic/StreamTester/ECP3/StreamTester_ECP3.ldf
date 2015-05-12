@@ -30,6 +30,9 @@
         <Source name="../../SystemLogic2/common-source/support/EdgeDetector.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../../SystemLogic2/common-source/support/PulseGenerator.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../../SystemLogic2/common-source/support/ContinuousCounter.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>

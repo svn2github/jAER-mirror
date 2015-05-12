@@ -43,9 +43,21 @@ begin
 				TestConfigReg_DN.TestUSBOutputsHigh_S <= TestInput_DP(0);
 				TestOutput_DN(0)                      <= TestConfigReg_DP.TestUSBOutputsHigh_S;
 
+			when TESTCONFIG_PARAM_ADDRESSES.TestBank0_S =>
+				TestConfigReg_DN.TestBank0_S <= TestInput_DP(0);
+				TestOutput_DN(0)             <= TestConfigReg_DP.TestBank0_S;
+
 			when TESTCONFIG_PARAM_ADDRESSES.TestBank1_S =>
 				TestConfigReg_DN.TestBank1_S <= TestInput_DP(0);
 				TestOutput_DN(0)             <= TestConfigReg_DP.TestBank1_S;
+
+			when TESTCONFIG_PARAM_ADDRESSES.TestBank2_S =>
+				TestConfigReg_DN.TestBank2_S <= TestInput_DP(0);
+				TestOutput_DN(0)             <= TestConfigReg_DP.TestBank2_S;
+
+			when TESTCONFIG_PARAM_ADDRESSES.TestBank7_S =>
+				TestConfigReg_DN.TestBank7_S <= TestInput_DP(0);
+				TestOutput_DN(0)             <= TestConfigReg_DP.TestBank7_S;
 
 			when others => null;
 		end case;

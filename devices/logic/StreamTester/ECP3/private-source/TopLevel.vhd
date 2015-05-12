@@ -122,6 +122,8 @@ architecture Structural of TopLevel is
 
 	signal TestConfig_D, TestConfigReg_D : tTestConfig;
 	signal FX3Config_D, FX3ConfigReg_D   : tFX3Config;
+
+	signal Bank0Pulse_S, Bank1Pulse_S, Bank2Pulse_S, Bank7Pulse_S : std_logic;
 begin
 	USBFifoData_DO          <= (others => '1') when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoData_D;
 	USBFifoChipSelect_SBO   <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoChipSelect_SB;
@@ -284,6 +286,70 @@ begin
 			std_logic_vector(Data_DO) => LogicUSBFifoDataIn_D);
 
 	LogicUSBFifoControlIn_S.WriteSide.Write_S <= TestConfigReg_D.TestUSBFifo_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S;
+
+	-- Generate 500KHz clock on bank 0 to see that all pins get a signal.
+	bank0Generator : entity work.PulseGenerator
+		generic map(
+			SIZE => 8)
+		port map(
+			Clock_CI         => LogicClock_C,
+			Reset_RI         => LogicReset_R,
+			PulsePolarity_SI => '1',
+			PulseInterval_DI => to_unsigned(LOGIC_CLOCK_FREQ, 8),
+			PulseLength_DI   => to_unsigned(LOGIC_CLOCK_FREQ, 8),
+			Zero_SI          => not TestConfigReg_D.TestBank0_S,
+			PulseOut_SO      => Bank0Pulse_S);
+
+	Bank0_DO     <= (others => Bank0Pulse_S);
+	Bank0VRef_DO <= (others => Bank0Pulse_S);
+
+	-- Generate 1MHz clock on bank 1 to see that all pins get a signal.
+	bank1Generator : entity work.PulseGenerator
+		generic map(
+			SIZE => 8)
+		port map(
+			Clock_CI         => LogicClock_C,
+			Reset_RI         => LogicReset_R,
+			PulsePolarity_SI => '1',
+			PulseInterval_DI => to_unsigned(LOGIC_CLOCK_FREQ / 2, 8),
+			PulseLength_DI   => to_unsigned(LOGIC_CLOCK_FREQ / 2, 8),
+			Zero_SI          => not TestConfigReg_D.TestBank1_S,
+			PulseOut_SO      => Bank1Pulse_S);
+
+	Bank1_DO     <= (others => Bank0Pulse_S);
+	Bank1VRef_DO <= (others => Bank0Pulse_S);
+
+	-- Generate 2MHz clock on bank 2 to see that all pins get a signal.
+	bank2Generator : entity work.PulseGenerator
+		generic map(
+			SIZE => 8)
+		port map(
+			Clock_CI         => LogicClock_C,
+			Reset_RI         => LogicReset_R,
+			PulsePolarity_SI => '1',
+			PulseInterval_DI => to_unsigned(LOGIC_CLOCK_FREQ / 4, 8),
+			PulseLength_DI   => to_unsigned(LOGIC_CLOCK_FREQ / 4, 8),
+			Zero_SI          => not TestConfigReg_D.TestBank2_S,
+			PulseOut_SO      => Bank2Pulse_S);
+
+	Bank2_DO     <= (others => Bank0Pulse_S);
+	Bank2VRef_DO <= (others => Bank0Pulse_S);
+
+	-- Generate 4MHz clock on bank 7 to see that all pins get a signal.
+	bank7Generator : entity work.PulseGenerator
+		generic map(
+			SIZE => 8)
+		port map(
+			Clock_CI         => LogicClock_C,
+			Reset_RI         => LogicReset_R,
+			PulsePolarity_SI => '1',
+			PulseInterval_DI => to_unsigned(LOGIC_CLOCK_FREQ / 8, 8),
+			PulseLength_DI   => to_unsigned(LOGIC_CLOCK_FREQ / 8, 8),
+			Zero_SI          => not TestConfigReg_D.TestBank7_S,
+			PulseOut_SO      => Bank7Pulse_S);
+
+	Bank7_DO     <= (others => Bank0Pulse_S);
+	Bank7VRef_DO <= (others => Bank0Pulse_S);
 
 	testSPIConfig : entity work.TestSPIConfig
 		port map(

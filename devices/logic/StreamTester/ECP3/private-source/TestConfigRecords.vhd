@@ -8,22 +8,34 @@ package TestConfigRecords is
 	type tTestConfigParamAddresses is record
 		TestUSBFifo_S        : unsigned(7 downto 0);
 		TestUSBOutputsHigh_S : unsigned(7 downto 0);
+		TestBank0_S          : unsigned(7 downto 0);
 		TestBank1_S          : unsigned(7 downto 0);
+		TestBank2_S          : unsigned(7 downto 0);
+		TestBank7_S          : unsigned(7 downto 0);
 	end record tTestConfigParamAddresses;
 
 	constant TESTCONFIG_PARAM_ADDRESSES : tTestConfigParamAddresses := (
 		TestUSBFifo_S        => to_unsigned(0, 8),
 		TestUSBOutputsHigh_S => to_unsigned(1, 8),
-		TestBank1_S          => to_unsigned(2, 8));
+		TestBank0_S          => to_unsigned(2, 8),
+		TestBank1_S          => to_unsigned(3, 8),
+		TestBank2_S          => to_unsigned(4, 8),
+		TestBank7_S          => to_unsigned(5, 8));
 
 	type tTestConfig is record
 		TestUSBFifo_S        : std_logic;
 		TestUSBOutputsHigh_S : std_logic;
+		TestBank0_S          : std_logic;
 		TestBank1_S          : std_logic;
+		TestBank2_S          : std_logic;
+		TestBank7_S          : std_logic;
 	end record tTestConfig;
 
 	constant tTestConfigDefault : tTestConfig := (
 		TestUSBFifo_S        => '0',
 		TestUSBOutputsHigh_S => '0',
-		TestBank1_S          => '0');
+		TestBank0_S          => '0',
+		TestBank1_S          => '0',
+		TestBank2_S          => '0',
+		TestBank7_S          => '0');
 end package TestConfigRecords;
