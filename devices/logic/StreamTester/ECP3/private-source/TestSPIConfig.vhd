@@ -67,6 +67,10 @@ begin
 				TestConfigReg_DN.TestSERDESClock_S <= TestInput_DP(0);
 				TestOutput_DN(0)                   <= TestConfigReg_DP.TestSERDESClock_S;
 
+			when TESTCONFIG_PARAM_ADDRESSES.TestSyncConnectors_S =>
+				TestConfigReg_DN.TestSyncConnectors_S <= TestInput_DP(0);
+				TestOutput_DN(0)                      <= TestConfigReg_DP.TestSyncConnectors_S;
+
 			when others => null;
 		end case;
 	end process testIO;

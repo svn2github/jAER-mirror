@@ -107,6 +107,7 @@ architecture Structural of TopLevel is
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D                                                   : std_logic;
 	signal RTCMISOSync_D, RTCInterruptSync_S                                                                      : std_logic;
 	signal Bank0Pulse_S, Bank1Pulse_S, Bank2Pulse_S, Bank7Pulse_S                                                 : std_logic;
+	signal SyncConnectorPulse_S                                                                                   : std_logic;
 
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
@@ -195,7 +196,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => LogicUSBFifoControlOut_S.ReadSide.Empty_S,
+			Input_SI(0)  => SyncOutSwitch_AI,
 			Output_SO(0) => LED3_SO);
 
 	led4Buffer : entity work.SimpleRegister
@@ -203,7 +204,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => LogicUSBFifoControlOut_S.WriteSide.Full_S,
+			Input_SI(0)  => SyncInSwitch_AI,
 			Output_SO(0) => LED4_SO);
 
 	led5Buffer : entity work.SimpleRegister
@@ -211,7 +212,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => '1',
+			Input_SI(0)  => SyncInClock_AI,
 			Output_SO(0) => LED5_SO);
 
 	led6Buffer : entity work.SimpleRegister
@@ -219,7 +220,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => '1',
+			Input_SI(0)  => SyncInSignal_AI,
 			Output_SO(0) => LED6_SO);
 
 	-- Generate logic clock using a PLL.
@@ -386,6 +387,22 @@ begin
 	SDCardClock_CO   <= '1';
 	SDCardCommand_SO <= '1';
 	SDCardData_DO    <= (others => '1');
+
+	-- Test sync connectors, put inputs to LEDs (above) and output a 10KHz clock.
+	syncOutGenerator : entity work.PulseGenerator
+		generic map(
+			SIZE => 16)
+		port map(
+			Clock_CI         => LogicClock_C,
+			Reset_RI         => LogicReset_R,
+			PulsePolarity_SI => '1',
+			PulseInterval_DI => to_unsigned(LOGIC_CLOCK_FREQ * 50, 16),
+			PulseLength_DI   => to_unsigned(LOGIC_CLOCK_FREQ * 50, 16),
+			Zero_SI          => not TestConfigReg_D.TestSyncConnectors_S,
+			PulseOut_SO      => SyncConnectorPulse_S);
+
+	SyncOutClock_CO  <= SyncConnectorPulse_S;
+	SyncOutSignal_SO <= SyncConnectorPulse_S;
 
 	testSPIConfig : entity work.TestSPIConfig
 		port map(

@@ -501,10 +501,12 @@ CLOCK_TO_OUT GROUP "Bank0VRef_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicCl
 LOCATE COMP "Bank0ClockPos_CO" SITE "F11" ;
 IOBUF PORT "Bank0ClockPos_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank0).
 CLOCK_TO_OUT PORT "Bank0ClockPos_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+MAXDELAY FROM PORT "AuxClockPos_CI" TO PORT "Bank0ClockPos_CO" 5.0 ns;
 
 LOCATE COMP "Bank0ClockNeg_CO" SITE "F12" ;
 IOBUF PORT "Bank0ClockNeg_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank0).
 CLOCK_TO_OUT PORT "Bank0ClockNeg_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+MAXDELAY FROM PORT "AuxClockNeg_CI" TO PORT "Bank0ClockNeg_CO" 5.0 ns;
 
 // IO Bank 1
 LOCATE COMP "Bank1_DO[29]" SITE "G15" ;
@@ -638,10 +640,12 @@ CLOCK_TO_OUT GROUP "Bank2VRef_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicCl
 LOCATE COMP "Bank2ClockPos_CO" SITE "M21" ;
 IOBUF PORT "Bank2ClockPos_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank2).
 CLOCK_TO_OUT PORT "Bank2ClockPos_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+MAXDELAY FROM PORT "AuxClockPos_CI" TO PORT "Bank2ClockPos_CO" 5.0 ns;
 
 LOCATE COMP "Bank2ClockNeg_CO" SITE "M20" ;
 IOBUF PORT "Bank2ClockNeg_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank2).
 CLOCK_TO_OUT PORT "Bank2ClockNeg_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+MAXDELAY FROM PORT "AuxClockNeg_CI" TO PORT "Bank2ClockNeg_CO" 5.0 ns;
 
 // IO Bank 7
 LOCATE COMP "Bank7_DO[31]" SITE "K3" ;
@@ -725,7 +729,9 @@ CLOCK_TO_OUT GROUP "Bank7VRef_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicCl
 LOCATE COMP "Bank7ClockPos_CO" SITE "K4" ;
 IOBUF PORT "Bank7ClockPos_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank7).
 CLOCK_TO_OUT PORT "Bank7ClockPos_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+MAXDELAY FROM PORT "AuxClockPos_CI" TO PORT "Bank7ClockPos_CO" 5.0 ns;
 
 LOCATE COMP "Bank7ClockNeg_CO" SITE "K5" ;
 IOBUF PORT "Bank7ClockNeg_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank7).
 CLOCK_TO_OUT PORT "Bank7ClockNeg_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+MAXDELAY FROM PORT "AuxClockNeg_CI" TO PORT "Bank7ClockNeg_CO" 5.0 ns;
