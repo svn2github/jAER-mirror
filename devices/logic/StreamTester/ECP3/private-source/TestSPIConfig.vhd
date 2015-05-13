@@ -71,6 +71,22 @@ begin
 				TestConfigReg_DN.TestSyncConnectors_S <= TestInput_DP(0);
 				TestOutput_DN(0)                      <= TestConfigReg_DP.TestSyncConnectors_S;
 
+			when TESTCONFIG_PARAM_ADDRESSES.TestSRAM1_S =>
+				TestConfigReg_DN.TestSRAM1_S <= TestInput_DP(0);
+				TestOutput_DN(0)             <= TestConfigReg_DP.TestSRAM1_S;
+
+			when TESTCONFIG_PARAM_ADDRESSES.TestSRAM2_S =>
+				TestConfigReg_DN.TestSRAM2_S <= TestInput_DP(0);
+				TestOutput_DN(0)             <= TestConfigReg_DP.TestSRAM2_S;
+
+			when TESTCONFIG_PARAM_ADDRESSES.TestSRAM3_S =>
+				TestConfigReg_DN.TestSRAM3_S <= TestInput_DP(0);
+				TestOutput_DN(0)             <= TestConfigReg_DP.TestSRAM3_S;
+
+			when TESTCONFIG_PARAM_ADDRESSES.TestSRAM4_S =>
+				TestConfigReg_DN.TestSRAM4_S <= TestInput_DP(0);
+				TestOutput_DN(0)             <= TestConfigReg_DP.TestSRAM4_S;
+
 			when others => null;
 		end case;
 	end process testIO;
