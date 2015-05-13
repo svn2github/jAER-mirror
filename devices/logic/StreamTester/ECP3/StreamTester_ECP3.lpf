@@ -486,7 +486,7 @@ DEFINE PORT GROUP "Bank0_DO"
 "Bank0_DO[1]" 
 "Bank0_DO[0]" ;
 IOBUF GROUP "Bank0_DO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank0).
-CLOCK_TO_OUT GROUP "Bank0_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+CLOCK_TO_OUT GROUP "Bank0_DO" OUTPUT_DELAY 0.1 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 // IO Bank 0 VRef
 LOCATE COMP "Bank0VRef_DO[1]" SITE "D5" ;
@@ -495,18 +495,18 @@ DEFINE PORT GROUP "Bank0VRef_DO"
 "Bank0VRef_DO[1]" 
 "Bank0VRef_DO[0]" ;
 IOBUF GROUP "Bank0VRef_DO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank0).
-CLOCK_TO_OUT GROUP "Bank0VRef_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+CLOCK_TO_OUT GROUP "Bank0VRef_DO" OUTPUT_DELAY 0.1 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 // IO Bank 0 Clock
 LOCATE COMP "Bank0ClockPos_CO" SITE "F11" ;
 IOBUF PORT "Bank0ClockPos_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank0).
 CLOCK_TO_OUT PORT "Bank0ClockPos_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
-MAXDELAY FROM PORT "AuxClockPos_CI" TO PORT "Bank0ClockPos_CO" 5.0 ns;
+MAXDELAY FROM PORT "AuxClockPos_CI" TO PORT "Bank0ClockPos_CO" 8.0 ns;
 
 LOCATE COMP "Bank0ClockNeg_CO" SITE "F12" ;
 IOBUF PORT "Bank0ClockNeg_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank0).
 CLOCK_TO_OUT PORT "Bank0ClockNeg_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
-MAXDELAY FROM PORT "AuxClockNeg_CI" TO PORT "Bank0ClockNeg_CO" 5.0 ns;
+MAXDELAY FROM PORT "AuxClockNeg_CI" TO PORT "Bank0ClockNeg_CO" 8.0 ns;
 
 // IO Bank 1
 LOCATE COMP "Bank1_DO[29]" SITE "G15" ;
@@ -571,7 +571,7 @@ DEFINE PORT GROUP "Bank1_DO"
 "Bank1_DO[1]" 
 "Bank1_DO[0]" ;
 IOBUF GROUP "Bank1_DO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank1).
-CLOCK_TO_OUT GROUP "Bank1_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+CLOCK_TO_OUT GROUP "Bank1_DO" OUTPUT_DELAY 0.1 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 // IO Bank 1 VRef
 LOCATE COMP "Bank1VRef_DO[1]" SITE "D17" ;
@@ -580,7 +580,7 @@ DEFINE PORT GROUP "Bank1VRef_DO"
 "Bank1VRef_DO[1]" 
 "Bank1VRef_DO[0]" ;
 IOBUF GROUP "Bank1VRef_DO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank1).
-CLOCK_TO_OUT GROUP "Bank1VRef_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+CLOCK_TO_OUT GROUP "Bank1VRef_DO" OUTPUT_DELAY 0.1 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 // IO Bank 2
 LOCATE COMP "Bank2_DO[19]" SITE "M22" ;
@@ -625,7 +625,7 @@ DEFINE PORT GROUP "Bank2_DO"
 "Bank2_DO[1]" 
 "Bank2_DO[0]" ;
 IOBUF GROUP "Bank2_DO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank2).
-CLOCK_TO_OUT GROUP "Bank2_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+CLOCK_TO_OUT GROUP "Bank2_DO" OUTPUT_DELAY 0.1 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 // IO Bank 2 VRef
 LOCATE COMP "Bank2VRef_DO[1]" SITE "K18" ;
@@ -634,18 +634,18 @@ DEFINE PORT GROUP "Bank2VRef_DO"
 "Bank2VRef_DO[1]" 
 "Bank2VRef_DO[0]" ;
 IOBUF GROUP "Bank2VRef_DO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank2).
-CLOCK_TO_OUT GROUP "Bank2VRef_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+CLOCK_TO_OUT GROUP "Bank2VRef_DO" OUTPUT_DELAY 0.1 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 // IO Bank 2 Clock
 LOCATE COMP "Bank2ClockPos_CO" SITE "M21" ;
 IOBUF PORT "Bank2ClockPos_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank2).
 CLOCK_TO_OUT PORT "Bank2ClockPos_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
-MAXDELAY FROM PORT "AuxClockPos_CI" TO PORT "Bank2ClockPos_CO" 5.0 ns;
+MAXDELAY FROM PORT "AuxClockPos_CI" TO PORT "Bank2ClockPos_CO" 8.0 ns;
 
 LOCATE COMP "Bank2ClockNeg_CO" SITE "M20" ;
 IOBUF PORT "Bank2ClockNeg_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank2).
 CLOCK_TO_OUT PORT "Bank2ClockNeg_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
-MAXDELAY FROM PORT "AuxClockNeg_CI" TO PORT "Bank2ClockNeg_CO" 5.0 ns;
+MAXDELAY FROM PORT "AuxClockNeg_CI" TO PORT "Bank2ClockNeg_CO" 8.0 ns;
 
 // IO Bank 7
 LOCATE COMP "Bank7_DO[31]" SITE "K3" ;
@@ -714,7 +714,7 @@ DEFINE PORT GROUP "Bank7_DO"
 "Bank7_DO[1]" 
 "Bank7_DO[0]" ;
 IOBUF GROUP "Bank7_DO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank7).
-CLOCK_TO_OUT GROUP "Bank7_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+CLOCK_TO_OUT GROUP "Bank7_DO" OUTPUT_DELAY 0.1 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 // IO Bank 7 VRef
 LOCATE COMP "Bank7VRef_DO[1]" SITE "F1" ;
@@ -723,15 +723,15 @@ DEFINE PORT GROUP "Bank7VRef_DO"
 "Bank7VRef_DO[1]" 
 "Bank7VRef_DO[0]" ;
 IOBUF GROUP "Bank7VRef_DO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank7).
-CLOCK_TO_OUT GROUP "Bank7VRef_DO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
+CLOCK_TO_OUT GROUP "Bank7VRef_DO" OUTPUT_DELAY 0.1 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 // IO Bank 7 Clock
 LOCATE COMP "Bank7ClockPos_CO" SITE "K4" ;
 IOBUF PORT "Bank7ClockPos_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank7).
 CLOCK_TO_OUT PORT "Bank7ClockPos_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
-MAXDELAY FROM PORT "AuxClockPos_CI" TO PORT "Bank7ClockPos_CO" 5.0 ns;
+MAXDELAY FROM PORT "AuxClockPos_CI" TO PORT "Bank7ClockPos_CO" 8.0 ns;
 
 LOCATE COMP "Bank7ClockNeg_CO" SITE "K5" ;
 IOBUF PORT "Bank7ClockNeg_CO" PULLMODE=DOWN ; // Voltage may vary (depends on Bank7).
 CLOCK_TO_OUT PORT "Bank7ClockNeg_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
-MAXDELAY FROM PORT "AuxClockNeg_CI" TO PORT "Bank7ClockNeg_CO" 5.0 ns;
+MAXDELAY FROM PORT "AuxClockNeg_CI" TO PORT "Bank7ClockNeg_CO" 8.0 ns;
