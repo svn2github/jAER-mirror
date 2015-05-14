@@ -109,9 +109,12 @@ architecture Structural of TopLevel is
 	signal Bank0Pulse_S, Bank1Pulse_S, Bank2Pulse_S, Bank7Pulse_S                                                 : std_logic;
 	signal SyncConnectorPulse_S                                                                                   : std_logic;
 
+	signal CounterWrite_S, SRAMWrite_S : std_logic;
+	signal CounterData_D, SRAMData_D   : std_logic_vector(USB_EVENT_WIDTH - 1 downto 0);
+
 	signal LogicUSBFifoControlIn_S  : tToFifo;
 	signal LogicUSBFifoControlOut_S : tFromFifo;
-	signal LogicUSBFifoDataIn_D     : std_logic_vector(NUMBER_GENERATOR_WIDTH - 1 downto 0);
+	signal LogicUSBFifoDataIn_D     : std_logic_vector(USB_EVENT_WIDTH - 1 downto 0);
 	signal LogicUSBFifoDataOut_D    : std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
 
 	signal ConfigModuleAddress_D : unsigned(6 downto 0);
@@ -278,19 +281,48 @@ begin
 	-- Generate a continuous N-bit number for testing the data stream from FPGA to USB.
 	numberGenerator : entity work.ContinuousCounter
 		generic map(
-			SIZE              => NUMBER_GENERATOR_WIDTH,
+			SIZE              => USB_EVENT_WIDTH,
 			RESET_ON_OVERFLOW => true,
 			GENERATE_OVERFLOW => false)
 		port map(
 			Clock_CI                  => LogicClock_C,
 			Reset_RI                  => LogicReset_R,
-			Clear_SI                  => '0',
+			Clear_SI                  => not TestConfigReg_D.TestUSBFifo_S,
 			Enable_SI                 => TestConfigReg_D.TestUSBFifo_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S,
 			DataLimit_DI              => (others => '1'),
 			Overflow_SO               => open,
-			std_logic_vector(Data_DO) => LogicUSBFifoDataIn_D);
+			std_logic_vector(Data_DO) => CounterData_D);
 
-	LogicUSBFifoControlIn_S.WriteSide.Write_S <= TestConfigReg_D.TestUSBFifo_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S;
+	CounterWrite_S <= TestConfigReg_D.TestUSBFifo_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S;
+
+	-- The SRAM test works by writing 16bit numbers to the whole SRAM and then reading them
+	-- all out and sending them back via USB to host to be examined. As such the standard
+	-- USB FIFO test can't run concurrently.
+	LogicUSBFifoControlIn_S.WriteSide.Write_S <= CounterWrite_S when TestConfigReg_D.TestSRAM_S = '0' else SRAMWrite_S;
+	LogicUSBFifoDataIn_D                      <= CounterData_D when TestConfigReg_D.TestSRAM_S = '0' else SRAMData_D;
+
+	sramTester : entity work.SRAMTester
+		port map(
+			Clock_CI              => LogicClock_C,
+			Reset_RI              => LogicReset_R,
+			EnableSRAMTest_SI     => TestConfigReg_D.TestSRAM_S,
+			FIFOFull_SI           => LogicUSBFifoControlOut_S.WriteSide.Full_S,
+			FIFOWrite_SO          => SRAMWrite_S,
+			FIFOData_DO           => SRAMData_D,
+			SRAMChipEnable1_SBO   => SRAMChipEnable1_SBO,
+			SRAMOutputEnable1_SBO => SRAMOutputEnable1_SBO,
+			SRAMWriteEnable1_SBO  => SRAMWriteEnable1_SBO,
+			SRAMChipEnable2_SBO   => SRAMChipEnable2_SBO,
+			SRAMOutputEnable2_SBO => SRAMOutputEnable2_SBO,
+			SRAMWriteEnable2_SBO  => SRAMWriteEnable2_SBO,
+			SRAMChipEnable3_SBO   => SRAMChipEnable3_SBO,
+			SRAMOutputEnable3_SBO => SRAMOutputEnable3_SBO,
+			SRAMWriteEnable3_SBO  => SRAMWriteEnable3_SBO,
+			SRAMChipEnable4_SBO   => SRAMChipEnable4_SBO,
+			SRAMOutputEnable4_SBO => SRAMOutputEnable4_SBO,
+			SRAMWriteEnable4_SBO  => SRAMWriteEnable4_SBO,
+			SRAMAddress_DO        => SRAMAddress_DO,
+			SRAMData_DZIO         => SRAMData_DZIO);
 
 	-- Generate 1MHz clock on bank 0 to see that all pins get a signal.
 	bank0Generator : entity work.PulseGenerator

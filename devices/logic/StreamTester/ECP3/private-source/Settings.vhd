@@ -14,5 +14,5 @@ package Settings is
 	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE : integer := USB_BURST_WRITE_LENGTH;
 	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE  : integer := 2;
 
-	constant NUMBER_GENERATOR_WIDTH : integer := 16;
+	constant USB_EVENT_WIDTH : integer := 16;
 end Settings;
