@@ -45,6 +45,12 @@
         <Source name="../../SystemLogic2/common-source/support/ShiftRegister.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../../SystemLogic2/common-source/support/SRAMControllerOperations.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../../SystemLogic2/common-source/support/SRAMController.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="private-source/TopLevel.vhd" type="VHDL" type_short="VHDL">
             <Options top_module="TopLevel"/>
         </Source>
@@ -52,6 +58,9 @@
             <Options/>
         </Source>
         <Source name="private-source/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/SRAMTester.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="private-source/TestSPIConfig.vhd" type="VHDL" type_short="VHDL">

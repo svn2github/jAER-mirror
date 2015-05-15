@@ -126,19 +126,15 @@ architecture Structural of TopLevel is
 	signal TestConfigParamOutput_D : std_logic_vector(31 downto 0);
 	signal FX3ConfigParamOutput_D  : std_logic_vector(31 downto 0);
 
-	signal TestConfig_D, TestConfigReg_D : tTestConfig;
-	signal FX3Config_D, FX3ConfigReg_D   : tFX3Config;
+	signal TestConfig_D, TestConfigReg_D, TestConfigReg2_D : tTestConfig;
+	signal FX3Config_D, FX3ConfigReg_D, FX3ConfigReg2_D    : tFX3Config;
 begin
-	USBFifoData_DO          <= (others => '1') when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoData_D;
-	USBFifoChipSelect_SBO   <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoChipSelect_SB;
-	USBFifoWrite_SBO        <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoWrite_SB;
-	USBFifoRead_SBO         <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoRead_SB;
-	USBFifoPktEnd_SBO       <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoPktEnd_SB;
-	USBFifoAddress_DO       <= (others => '1') when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else USBFifoAddress_D;
-	USBFifoThr0Ready_SI     <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else 'Z';
-	USBFifoThr0Watermark_SI <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else 'Z';
-	USBFifoThr1Ready_SI     <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else 'Z';
-	USBFifoThr1Watermark_SI <= '1' when TestConfigReg_D.TestUSBOutputsHigh_S = '1' else 'Z';
+	USBFifoData_DO        <= USBFifoData_D;
+	USBFifoChipSelect_SBO <= USBFifoChipSelect_SB;
+	USBFifoWrite_SBO      <= USBFifoWrite_SB;
+	USBFifoRead_SBO       <= USBFifoRead_SB;
+	USBFifoPktEnd_SBO     <= USBFifoPktEnd_SB;
+	USBFifoAddress_DO     <= USBFifoAddress_D;
 
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
@@ -249,7 +245,7 @@ begin
 			USBFifoAddress_DO           => USBFifoAddress_D,
 			InFifoControl_SI            => LogicUSBFifoControlOut_S.ReadSide,
 			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide,
-			FX3Config_DI                => FX3ConfigReg_D);
+			FX3Config_DI                => FX3ConfigReg2_D);
 
 	fx3SPIConfig : entity work.FX3SPIConfig
 		port map(
@@ -287,25 +283,25 @@ begin
 		port map(
 			Clock_CI                  => LogicClock_C,
 			Reset_RI                  => LogicReset_R,
-			Clear_SI                  => not TestConfigReg_D.TestUSBFifo_S,
-			Enable_SI                 => TestConfigReg_D.TestUSBFifo_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S,
+			Clear_SI                  => not TestConfigReg2_D.TestUSBFifo_S,
+			Enable_SI                 => TestConfigReg2_D.TestUSBFifo_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S,
 			DataLimit_DI              => (others => '1'),
 			Overflow_SO               => open,
 			std_logic_vector(Data_DO) => CounterData_D);
 
-	CounterWrite_S <= TestConfigReg_D.TestUSBFifo_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S;
+	CounterWrite_S <= TestConfigReg2_D.TestUSBFifo_S and not LogicUSBFifoControlOut_S.WriteSide.Full_S;
 
 	-- The SRAM test works by writing 16bit numbers to the whole SRAM and then reading them
 	-- all out and sending them back via USB to host to be examined. As such the standard
 	-- USB FIFO test can't run concurrently.
-	LogicUSBFifoControlIn_S.WriteSide.Write_S <= CounterWrite_S when TestConfigReg_D.TestSRAM_S = '0' else SRAMWrite_S;
-	LogicUSBFifoDataIn_D                      <= CounterData_D when TestConfigReg_D.TestSRAM_S = '0' else SRAMData_D;
+	LogicUSBFifoControlIn_S.WriteSide.Write_S <= CounterWrite_S when TestConfigReg2_D.TestSRAM_S = '0' else SRAMWrite_S;
+	LogicUSBFifoDataIn_D                      <= CounterData_D when TestConfigReg2_D.TestSRAM_S = '0' else SRAMData_D;
 
 	sramTester : entity work.SRAMTester
 		port map(
 			Clock_CI              => LogicClock_C,
 			Reset_RI              => LogicReset_R,
-			EnableSRAMTest_SI     => TestConfigReg_D.TestSRAM_S,
+			EnableSRAMTest_SI     => TestConfigReg2_D.TestSRAM_S,
 			FIFOFull_SI           => LogicUSBFifoControlOut_S.WriteSide.Full_S,
 			FIFOWrite_SO          => SRAMWrite_S,
 			FIFOData_DO           => SRAMData_D,
@@ -450,10 +446,16 @@ begin
 	configRegisters : process(LogicClock_C, LogicReset_R) is
 	begin
 		if LogicReset_R = '1' then
-			TestConfigReg_D <= tTestConfigDefault;
+			TestConfigReg2_D <= tTestConfigDefault;
+			TestConfigReg_D  <= tTestConfigDefault;
+
+			FX3ConfigReg2_D <= tFX3ConfigDefault;
 			FX3ConfigReg_D  <= tFX3ConfigDefault;
 		elsif rising_edge(LogicClock_C) then
-			TestConfigReg_D <= TestConfig_D;
+			TestConfigReg2_D <= TestConfigReg_D;
+			TestConfigReg_D  <= TestConfig_D;
+
+			FX3ConfigReg2_D <= FX3ConfigReg_D;
 			FX3ConfigReg_D  <= FX3Config_D;
 		end if;
 	end process configRegisters;

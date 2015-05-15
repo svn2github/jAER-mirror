@@ -48,6 +48,10 @@ architecture Behavioral of SRAMTester is
 	signal Address_DP, Address_DN : unsigned(21 downto 0);
 	signal DataFromSRAM_D         : std_logic_vector(15 downto 0);
 	signal ControllerReady_S      : std_logic;
+
+	-- Register outputs to FIFO.
+	signal FIFOWriteReg_S : std_logic;
+	signal FIFODatReg_D   : std_logic_vector(USB_EVENT_WIDTH - 1 downto 0);
 begin
 	sramController : entity work.SRAMController
 		port map(
@@ -83,8 +87,8 @@ begin
 		Operation_S <= SRAMCONTROLLER_OPERATIONS_DO_NOTHING;
 
 		-- FIFO output.
-		FIFOData_DO  <= (others => '0');
-		FIFOWrite_SO <= '0';
+		FIFODatReg_D   <= (others => '0');
+		FIFOWriteReg_S <= '0';
 
 		case State_DP is
 			when stIdle =>
@@ -139,8 +143,8 @@ begin
 						Address_DN <= (others => '0');
 					elsif FIFOFull_SI = '0' then
 						-- Write just read value to FIFO output.
-						FIFOData_DO  <= DataFromSRAM_D;
-						FIFOWrite_SO <= '1';
+						FIFODatReg_D   <= DataFromSRAM_D;
+						FIFOWriteReg_S <= '1';
 
 						State_DN   <= stReadBackInit;
 						Address_DN <= Address_DP + 1;
@@ -157,10 +161,16 @@ begin
 			State_DP <= stIdle;
 
 			Address_DP <= (others => '0');
+
+			FIFOData_DO  <= (others => '0');
+			FIFOWrite_SO <= '0';
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
 			Address_DP <= Address_DN;
+
+			FIFOData_DO  <= FIFODatReg_D;
+			FIFOWrite_SO <= FIFOWriteReg_S;
 		end if;
 	end process registerUpdate;
 end architecture Behavioral;
