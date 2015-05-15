@@ -129,6 +129,18 @@ architecture Structural of TopLevel is
 	signal TestConfig_D, TestConfigReg_D, TestConfigReg2_D : tTestConfig;
 	signal FX3Config_D, FX3ConfigReg_D, FX3ConfigReg2_D    : tFX3Config;
 begin
+	-- DANGEROUS: can short pins, don't use unless suspected wrong soldering of termination resistors!
+	--	USBFifoData_DO          <= (others => '1') when TestConfigReg2_D.TestUSBOutputsHigh_S = '1' else USBFifoData_D;
+	--	USBFifoChipSelect_SBO   <= '1' when TestConfigReg2_D.TestUSBOutputsHigh_S = '1' else USBFifoChipSelect_SB;
+	--	USBFifoWrite_SBO        <= '1' when TestConfigReg2_D.TestUSBOutputsHigh_S = '1' else USBFifoWrite_SB;
+	--	USBFifoRead_SBO         <= '1' when TestConfigReg2_D.TestUSBOutputsHigh_S = '1' else USBFifoRead_SB;
+	--	USBFifoPktEnd_SBO       <= '1' when TestConfigReg2_D.TestUSBOutputsHigh_S = '1' else USBFifoPktEnd_SB;
+	--	USBFifoAddress_DO       <= (others => '1') when TestConfigReg2_D.TestUSBOutputsHigh_S = '1' else USBFifoAddress_D;
+	--	USBFifoThr0Ready_SI     <= '1' when TestConfigReg2_D.TestUSBOutputsHigh_S = '1' else 'Z';
+	--	USBFifoThr0Watermark_SI <= '1' when TestConfigReg2_D.TestUSBOutputsHigh_S = '1' else 'Z';
+	--	USBFifoThr1Ready_SI     <= '1' when TestConfigReg2_D.TestUSBOutputsHigh_S = '1' else 'Z';
+	--	USBFifoThr1Watermark_SI <= '1' when TestConfigReg2_D.TestUSBOutputsHigh_S = '1' else 'Z';
+
 	USBFifoData_DO        <= USBFifoData_D;
 	USBFifoChipSelect_SBO <= USBFifoChipSelect_SB;
 	USBFifoWrite_SBO      <= USBFifoWrite_SB;
