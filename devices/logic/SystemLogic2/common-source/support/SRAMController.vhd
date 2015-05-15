@@ -4,6 +4,8 @@ use ieee.numeric_std.all;
 use work.SRAMControllerOperations.all;
 
 entity SRAMController is
+	generic(
+		SRAM_DELAY_CYCLES : integer := 1);
 	port(
 		Clock_CI              : in    std_logic;
 		Reset_RI              : in    std_logic;
@@ -52,8 +54,28 @@ architecture Behavioral of SRAMController is
 	signal SRAMDataOutReg_DP, SRAMDataOutReg_DN               : std_logic_vector(15 downto 0);
 	signal SRAMDataInReg_DP, SRAMDataInReg_DN                 : std_logic_vector(15 downto 0);
 	signal ControllerReady_SP, ControllerReady_SN             : std_logic;
+
+	-- Counter signals.
+	signal SRAMDelayCount_S, SRAMDelayDone_S : std_logic;
 begin
-	sramControl : process(State_DP, Operation_SI, Address_DI, Data_DI, ControllerReady_SP, SRAMAddressReg_DP, SRAMChipEnable12Reg_SP, SRAMChipEnable34Reg_SP, SRAMDataInReg_DP, SRAMDataOutReg_DP, SRAMOutputEnable12Reg_SP, SRAMOutputEnable34Reg_SP, SRAMWriteEnable12Reg_SP, SRAMWriteEnable34Reg_SP, SRAMData_DZIO)
+	sramDelayCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE                => 2,
+			RESET_ON_OVERFLOW   => true,
+			GENERATE_OVERFLOW   => true,
+			SHORT_OVERFLOW      => false,
+			OVERFLOW_AT_ZERO    => false,
+			OVERFLOW_OUT_BUFFER => false)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => SRAMDelayCount_S,
+			DataLimit_DI => to_unsigned(SRAM_DELAY_CYCLES, 2),
+			Overflow_SO  => SRAMDelayDone_S,
+			Data_DO      => open);
+
+	sramControl : process(State_DP, Operation_SI, Address_DI, Data_DI, ControllerReady_SP, SRAMAddressReg_DP, SRAMChipEnable12Reg_SP, SRAMChipEnable34Reg_SP, SRAMDataInReg_DP, SRAMDataOutReg_DP, SRAMOutputEnable12Reg_SP, SRAMOutputEnable34Reg_SP, SRAMWriteEnable12Reg_SP, SRAMWriteEnable34Reg_SP, SRAMData_DZIO, SRAMDelayDone_S)
 	begin
 		-- All registers keep their state by default.
 		State_DN <= State_DP;
@@ -138,8 +160,12 @@ begin
 				end if;
 
 			when stRead1 =>
-				-- Wait one full cycle without changing anything.
-				State_DN <= stRead2;
+				SRAMDelayCount_S <= '1';
+
+				if SRAMDelayDone_S = '1' then
+					-- Wait one full cycle without changing anything.
+					State_DN <= stRead2;
+				end if;
 
 			when stRead2 =>
 				State_DN <= stIdle;
@@ -159,8 +185,12 @@ begin
 				SRAMAddressReg_DN        <= (others => '0');
 
 			when stWrite1 =>
-				-- Wait one full cycle without changing anything.
-				State_DN <= stWrite2;
+				SRAMDelayCount_S <= '1';
+
+				if SRAMDelayDone_S = '1' then
+					-- Wait one full cycle without changing anything.
+					State_DN <= stWrite2;
+				end if;
 
 			when stWrite2 =>
 				State_DN <= stIdle;
@@ -187,8 +217,12 @@ begin
 				State_DN <= stClear2;
 
 			when stClear2 =>
-				-- Wait one full cycle without changing anything.
-				State_DN <= stClear3;
+				SRAMDelayCount_S <= '1';
+
+				if SRAMDelayDone_S = '1' then
+					-- Wait one full cycle without changing anything.
+					State_DN <= stClear3;
+				end if;
 
 			when stClear3 =>
 				SRAMWriteEnable12Reg_SN <= '0';
