@@ -134,8 +134,8 @@ architecture Behavioral of APSADCStateMachine is
 	signal RowReadPosition_D                                   : unsigned(CHIP_APS_SIZE_ROWS'range);
 
 	-- Communication between column and row state machines. Done through a register for full decoupling.
-	signal RowReadStart_SP, RowReadStart_SN                                           : std_logic;
-	signal RowReadDone_SP, RowReadDone_SN, RowReadDoneExternal_SN, RowReadDoneChip_SN : std_logic;
+	signal RowReadInProgress_SP, RowReadStart_SN, RowReadDone_SN : std_logic;
+	signal RowReadDoneExternal_SN, RowReadDoneChip_SN            : std_logic;
 
 	-- RS: the B read has several very special considerations that must be taken into account.
 	-- First, it has to be done only after exposure time expires, before that, it must be faked
@@ -283,7 +283,7 @@ begin
 			Overflow_SO  => ResetTimeDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ExternalADCRunning_SP, ExternalADCStartupDone_S, APSADCConfigReg_D, RowReadDone_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S, ExposureDone_S, FrameDelayDone_S)
+	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ExternalADCRunning_SP, ExternalADCStartupDone_S, APSADCConfigReg_D, RowReadInProgress_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S, ExposureDone_S, FrameDelayDone_S)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -516,7 +516,7 @@ begin
 				end if;
 
 				-- Wait for the Row SM to complete its readout.
-				if RowReadDone_SP = '1' then
+				if RowReadInProgress_SP = '0' then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 
 					ColState_DN              <= stRSSwitchToReadB;
@@ -543,7 +543,7 @@ begin
 				end if;
 
 				-- Wait for the Row SM to complete its readout.
-				if RowReadDone_SP = '1' then
+				if RowReadInProgress_SP = '0' then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 
 					-- If exposure time hasn't expired or we haven't yet even shifted in one
@@ -623,7 +623,7 @@ begin
 			when stGSReadA =>
 				APSChipColModeReg_DN <= COLMODE_READA;
 
-				if RowReadDone_SP = '1' then
+				if RowReadInProgress_SP = '0' then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 
 					ColState_DN              <= stGSReadAFeedTick;
@@ -707,7 +707,7 @@ begin
 			when stGSReadB =>
 				APSChipColModeReg_DN <= COLMODE_READB;
 
-				if RowReadDone_SP = '1' then
+				if RowReadInProgress_SP = '0' then
 					APSChipColModeReg_DN <= COLMODE_NULL;
 
 					ColState_DN              <= stGSReadBFeedTick;
@@ -954,7 +954,7 @@ begin
 			Overflow_SO  => RowSettleTimeDone_S,
 			Data_DO      => open);
 
-	externalADCRowReadoutStateMachine : process(ExtRowState_DP, APSADCConfigReg_D, ExternalADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadStart_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
+	externalADCRowReadoutStateMachine : process(ExtRowState_DP, APSADCConfigReg_D, ExternalADCData_DI, OutFifoControl_SI, APSChipColModeReg_DP, CurrentRowValid_S, RowReadInProgress_SP, RowReadPosition_D, ColSettleTimeDone_S, RowSettleTimeDone_S)
 	begin
 		ExtRowState_DN <= ExtRowState_DP;
 
@@ -979,7 +979,7 @@ begin
 		case ExtRowState_DP is
 			when stIdle =>
 				-- Wait until the main column state machine signals us to do a row read.
-				if (CHIP_APS_HAS_INTEGRATED_ADC = '0' or APSADCConfigReg_D.UseInternalADC_S = '0') and RowReadStart_SP = '1' then
+				if (CHIP_APS_HAS_INTEGRATED_ADC = '0' or APSADCConfigReg_D.UseInternalADC_S = '0') and RowReadInProgress_SP = '1' then
 					ExtRowState_DN <= stRowSRFeedInit;
 				end if;
 
@@ -1113,19 +1113,31 @@ begin
 	end generate noChipADC;
 
 	chipADCRowReadout : if CHIP_APS_HAS_INTEGRATED_ADC = '1' generate
-		type tChipRowState is (stIdle, stRowDone, stRowStart, stColSettleWait, stRowSample, stRowRampFeed, stRowRampClockLow, stRowRampClockHigh, stRowScanSelect, stRowScanSelectTick, stRowScanReadValue, stRowScanNextValue, stRowRampResetSettle, stRowScanJumpValue, stRowRampFeedTick);
-		attribute syn_enum_encoding of tChipRowState : type is "onehot";
+		type tChipRowSampleState is (stIdle, stColSettleWait, stRowSample, stEnd);
+		attribute syn_enum_encoding of tChipRowSampleState : type is "onehot";
 
-		-- present and next state
-		signal ChipRowState_DP, ChipRowState_DN : tChipRowState;
+		-- present and next state (Sample&Hold)
+		signal ChipRowSampleState_DP, ChipRowSampleState_DN : tChipRowSampleState;
+
+		type tChipRowRampState is (stIdle, stRowRampFeed, stRowRampFeedTick, stRowRampResetSettle, stRowRampClockLow, stRowRampClockHigh, stRowScanSelect, stRowScanSelectTick, stEnd);
+		attribute syn_enum_encoding of tChipRowRampState : type is "onehot";
+
+		-- present and next state (Ramp generation)
+		signal ChipRowRampState_DP, ChipRowRampState_DN : tChipRowRampState;
+
+		type tChipRowScanState is (stIdle, stRowStart, stRowScanReadValue, stRowScanJumpValue, stRowScanNextValue, stRowDone);
+		attribute syn_enum_encoding of tChipRowScanState : type is "onehot";
+
+		-- present and next state (Value scan-out)
+		signal ChipRowScanState_DP, ChipRowScanState_DN : tChipRowScanState;
 
 		-- On-chip ADC control.
-		signal ChipADCRampClearReg_S   : std_logic;
-		signal ChipADCRampClockReg_C   : std_logic;
-		signal ChipADCRampBitInReg_S   : std_logic;
-		signal ChipADCScanClockReg_C   : std_logic;
-		signal ChipADCScanControlReg_S : std_logic;
-		signal ChipADCSampleReg_S      : std_logic;
+		signal ChipADCRampClearReg_S                          : std_logic;
+		signal ChipADCRampClockReg_C                          : std_logic;
+		signal ChipADCRampBitInReg_S                          : std_logic;
+		signal ChipADCScanClockReg1_C, ChipADCScanClockReg2_C : std_logic; -- Used from two SMs (Ramp, Scan) but never concurrently.
+		signal ChipADCScanControlReg_S                        : std_logic;
+		signal ChipADCSampleReg_S                             : std_logic;
 
 		-- Row read counter for internal ADC.
 		signal ChipADCRowReadPositionZero_S, ChipADCRowReadPositionInc_S : std_logic;
@@ -1146,6 +1158,20 @@ begin
 		-- Scan control constants.
 		constant SCAN_CONTROL_COPY_OVER    : std_logic := '0';
 		constant SCAN_CONTROL_SCAN_THROUGH : std_logic := '1';
+
+		-- For pipelined internal ADC, we split the row-read into three small state machines.
+		-- This means we must also pass down the pipe what kind of read (NULL, Reset, Signal)
+		-- we are doing, since that information is needed not only during sample time to actually
+		-- select the correct read type, but also during column-start-event writeout, which would
+		-- happen in the last of the three SMs, and so we need two additional registers to pass
+		-- that information down.
+		signal APSChipColModeReg1_DP, APSChipColModeReg1_DN : std_logic_vector(1 downto 0);
+		signal APSChipColModeReg2_DP, APSChipColModeReg2_DN : std_logic_vector(1 downto 0);
+
+		-- We also need four (2x2) additional registers for the two new SMs to notify when to
+		-- start and when they are done with their part of the overall work.
+		signal RampInProgress_SP, RampStart_SN, RampDone_SN : std_logic;
+		signal ScanInProgress_SP, ScanStart_SN, ScanDone_SN : std_logic;
 	begin
 		-- Don't generate any external gray-code. Internal gray-counter works.
 		ChipADCGrayCounter_DO <= (others => '0');
@@ -1212,9 +1238,178 @@ begin
 				Overflow_SO  => RampResetTimeDone_S,
 				Data_DO      => open);
 
-		chipADCRowReadoutStateMachine : process(ChipRowState_DP, APSADCConfigReg_D, OutFifoControl_SI, APSChipColModeReg_DP, RowReadStart_SP, ChipADCRowReadPosition_D, ChipADCColSettleTimeDone_S, RampTickDone_S, ChipADCData_DI, CurrentRowValid_S, SampleSettleTimeDone_S, RampResetTimeDone_S)
+		chipADCRowReadoutSampleStateMachine : process(ChipRowSampleState_DP, APSADCConfigReg_D, ChipADCColSettleTimeDone_S, RampInProgress_SP, RowReadInProgress_SP, SampleSettleTimeDone_S)
 		begin
-			ChipRowState_DN <= ChipRowState_DP;
+			ChipRowSampleState_DN <= ChipRowSampleState_DP;
+
+			-- Settle times counters.
+			ChipADCColSettleTimeCount_S <= '0';
+			SampleSettleTimeCount_S     <= '0';
+
+			-- Column SM communication.
+			RowReadDoneChip_SN <= '0';
+
+			-- Ramp SM communication.
+			RampStart_SN <= '0';
+
+			-- On-chip ADC.
+			ChipADCSampleReg_S <= '0';
+
+			case ChipRowSampleState_DP is
+				when stIdle =>
+					-- Wait until the main column state machine signals us to do a row read.
+					if APSADCConfigReg_D.UseInternalADC_S = '1' and RowReadInProgress_SP = '1' and RampInProgress_SP = '0' then
+						ChipRowSampleState_DN <= stColSettleWait;
+					end if;
+
+				when stColSettleWait =>
+					-- Additional wait for the column selection to be valid.
+					if ChipADCColSettleTimeDone_S = '1' then
+						ChipRowSampleState_DN <= stRowSample;
+					end if;
+
+					ChipADCColSettleTimeCount_S <= '1';
+
+				when stRowSample =>
+					-- Do sample now!
+					ChipADCSampleReg_S <= '1';
+
+					if SampleSettleTimeDone_S = '1' then
+						ChipRowSampleState_DN <= stEnd;
+					end if;
+
+					SampleSettleTimeCount_S <= '1';
+
+				when stEnd =>
+					ChipRowSampleState_DN <= stIdle;
+
+					-- Notify main SM that we're done with sampling. It can proceed
+					-- to select the next column.
+					RowReadDoneChip_SN <= '1';
+
+					-- Also, ramp can start.
+					RampStart_SN <= '1';
+
+				when others => null;
+			end case;
+		end process chipADCRowReadoutSampleStateMachine;
+
+		chipADCRowReadoutRampStateMachine : process(ChipRowRampState_DP, RampInProgress_SP, RampResetTimeDone_S, RampTickDone_S, ScanInProgress_SP)
+		begin
+			ChipRowRampState_DN <= ChipRowRampState_DP;
+
+			-- ADC clock counter.
+			RampTickCount_S <= '0';
+
+			-- Settle times counters.
+			RampResetTimeCount_S <= '0';
+
+			-- Ramp SM communication.
+			RampDone_SN <= '0';
+
+			-- Scan SM communication.
+			ScanStart_SN <= '0';
+
+			-- On-chip ADC.
+			ChipADCRampClearReg_S   <= '1'; -- Clear ramp by default.
+			ChipADCRampClockReg_C   <= '0';
+			ChipADCRampBitInReg_S   <= '0';
+			ChipADCScanClockReg1_C  <= '0';
+			ChipADCScanControlReg_S <= SCAN_CONTROL_SCAN_THROUGH; -- Scan by default.
+
+			case ChipRowRampState_DP is
+				when stIdle =>
+					-- Wait until the sample state machine signals us to start the ramp, and the scan of the previous value is done.
+					if RampInProgress_SP = '1' and ScanInProgress_SP = '0' then
+						ChipRowRampState_DP <= stRowRampFeed;
+					end if;
+
+				when stRowRampFeed =>
+					-- Do not clear Ramp while in use!
+					ChipADCRampClearReg_S <= '0';
+
+					ChipADCRampClockReg_C <= '0'; -- Set BitIn one cycle before to ensure the value is stable.
+					ChipADCRampBitInReg_S <= '1';
+
+					ChipRowRampState_DP <= stRowRampFeedTick;
+
+				when stRowRampFeedTick =>
+					-- Do not clear Ramp while in use!
+					ChipADCRampClearReg_S <= '0';
+
+					ChipADCRampClockReg_C <= '1';
+					ChipADCRampBitInReg_S <= '1';
+
+					ChipRowRampState_DP <= stRowRampResetSettle;
+
+				when stRowRampResetSettle =>
+					-- Do not clear Ramp while in use!
+					ChipADCRampClearReg_S <= '0';
+
+					if RampResetTimeDone_S = '1' then
+						ChipRowRampState_DP <= stRowRampClockLow;
+					end if;
+
+					RampResetTimeCount_S <= '1';
+
+				when stRowRampClockLow =>
+					ChipADCRampClockReg_C <= '0';
+
+					-- Do not clear Ramp while in use!
+					ChipADCRampClearReg_S <= '0';
+
+					ChipRowRampState_DP <= stRowRampClockHigh;
+
+				when stRowRampClockHigh =>
+					ChipADCRampClockReg_C <= '1';
+
+					-- Do not clear Ramp while in use!
+					ChipADCRampClearReg_S <= '0';
+
+					-- Increase counter and stop ramping when maximum reached.
+					RampTickCount_S <= '1';
+
+					if RampTickDone_S = '1' then
+						ChipRowRampState_DP <= stRowScanSelect;
+					else
+						ChipRowRampState_DP <= stRowRampClockLow;
+					end if;
+
+				when stRowScanSelect =>
+					-- Do not clear Ramp while in use!
+					ChipADCRampClearReg_S <= '0';
+
+					ChipADCScanClockReg1_C  <= '0';
+					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY_OVER;
+
+					ChipRowRampState_DP <= stRowScanSelectTick;
+
+				when stRowScanSelectTick =>
+					-- Do not clear Ramp while in use!
+					ChipADCRampClearReg_S <= '0';
+
+					ChipADCScanClockReg1_C  <= '1';
+					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY_OVER;
+
+					ChipRowRampState_DP <= stEnd;
+
+				when stEnd =>
+					ChipRowRampState_DP <= stIdle;
+
+					-- Notify sample SM that we're done with the ramp. It can proceed
+					-- to take the next sample.
+					RampDone_SN <= '1';
+
+					-- Also, scan can start.
+					ScanStart_SN <= '1';
+
+				when others => null;
+			end case;
+		end process chipADCRowReadoutRampStateMachine;
+
+		chipADCRowReadoutScanStateMachine : process(ChipRowScanState_DP, APSADCConfigReg_D, OutFifoControl_SI, APSChipColModeReg_DP, ChipADCData_DI, ChipADCRowReadPosition_D, CurrentRowValid_S, RampInProgress_SP, ScanInProgress_SP)
+		begin
+			ChipRowScanState_DN <= ChipRowScanState_DP;
 
 			OutFifoWriteRegRowChip_S      <= '0';
 			OutFifoDataRegRowChipEnable_S <= '0';
@@ -1224,39 +1419,18 @@ begin
 			ChipADCRowReadPositionZero_S <= '0';
 			ChipADCRowReadPositionInc_S  <= '0';
 
-			-- ADC clock counter.
-			RampTickCount_S <= '0';
-
-			-- Settle times counters.
-			ChipADCColSettleTimeCount_S <= '0';
-			SampleSettleTimeCount_S     <= '0';
-			RampResetTimeCount_S        <= '0';
-
-			-- Column SM communication.
-			RowReadDoneChip_SN <= '0';
+			-- Ramp SM communication.
+			ScanDone_SN <= '0';
 
 			-- On-chip ADC.
-			ChipADCRampClearReg_S   <= '1'; -- Clear ramp by default.
-			ChipADCRampClockReg_C   <= '0';
-			ChipADCRampBitInReg_S   <= '0';
-			ChipADCScanClockReg_C   <= '0';
-			ChipADCScanControlReg_S <= SCAN_CONTROL_SCAN_THROUGH; -- Scan by default.
-			ChipADCSampleReg_S      <= '0';
+			ChipADCScanClockReg2_C <= '0';
 
-			case ChipRowState_DP is
+			case ChipRowScanState_DP is
 				when stIdle =>
-					-- Wait until the main column state machine signals us to do a row read.
-					if APSADCConfigReg_D.UseInternalADC_S = '1' and RowReadStart_SP = '1' then
-						ChipRowState_DN <= stColSettleWait;
+					-- Wait until the ramp state machine signals us to start the scan.
+					if ScanInProgress_SP = '1' and RampInProgress_SP = '0' then
+						ChipRowScanState_DP <= stRowStart;
 					end if;
-
-				when stColSettleWait =>
-					-- Additional wait for the column selection to be valid.
-					if ChipADCColSettleTimeDone_S = '1' then
-						ChipRowState_DN <= stRowStart;
-					end if;
-
-					ChipADCColSettleTimeCount_S <= '1';
 
 				when stRowStart =>
 					-- Write event only if FIFO has place, else wait.
@@ -1272,94 +1446,12 @@ begin
 					end if;
 
 					if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						ChipRowState_DN <= stRowSample;
-					end if;
-
-				when stRowSample =>
-					-- Do not clear Ramp while in use!
-					ChipADCRampClearReg_S <= '0';
-
-					-- Do sample now!
-					ChipADCSampleReg_S <= '1';
-
-					if SampleSettleTimeDone_S = '1' then
-						ChipRowState_DN <= stRowRampFeed;
-					end if;
-
-					SampleSettleTimeCount_S <= '1';
-
-				when stRowRampFeed =>
-					-- Do not clear Ramp while in use!
-					ChipADCRampClearReg_S <= '0';
-
-					ChipADCRampClockReg_C <= '0'; -- Set BitIn one cycle before to ensure the value is stable.
-					ChipADCRampBitInReg_S <= '1';
-
-					ChipRowState_DN <= stRowRampFeedTick;
-
-				when stRowRampFeedTick =>
-					-- Do not clear Ramp while in use!
-					ChipADCRampClearReg_S <= '0';
-
-					ChipADCRampClockReg_C <= '1';
-					ChipADCRampBitInReg_S <= '1';
-
-					ChipRowState_DN <= stRowRampResetSettle;
-
-				when stRowRampResetSettle =>
-					-- Do not clear Ramp while in use!
-					ChipADCRampClearReg_S <= '0';
-
-					if RampResetTimeDone_S = '1' then
-						ChipRowState_DN <= stRowRampClockLow;
-					end if;
-
-					RampResetTimeCount_S <= '1';
-
-				when stRowRampClockLow =>
-					ChipADCRampClockReg_C <= '0';
-
-					-- Do not clear Ramp while in use!
-					ChipADCRampClearReg_S <= '0';
-
-					ChipRowState_DN <= stRowRampClockHigh;
-
-				when stRowRampClockHigh =>
-					ChipADCRampClockReg_C <= '1';
-
-					-- Do not clear Ramp while in use!
-					ChipADCRampClearReg_S <= '0';
-
-					-- Increase counter and stop ramping when maximum reached.
-					RampTickCount_S <= '1';
-
-					if RampTickDone_S = '1' then
-						ChipRowState_DN <= stRowScanSelect;
-					else
-						ChipRowState_DN <= stRowRampClockLow;
-					end if;
-
-				when stRowScanSelect =>
-					-- Do not clear Ramp while in use!
-					ChipADCRampClearReg_S <= '0';
-
-					ChipADCScanClockReg_C   <= '0';
-					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY_OVER;
-
-					ChipRowState_DN <= stRowScanSelectTick;
-
-				when stRowScanSelectTick =>
-					-- Do not clear Ramp while in use!
-					ChipADCRampClearReg_S <= '0';
-
-					ChipADCScanClockReg_C   <= '1';
-					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY_OVER;
-
-					-- Same check as in stRowScanNextValue needed here.
-					if CurrentRowValid_S = '1' then
-						ChipRowState_DN <= stRowScanReadValue;
-					else
-						ChipRowState_DN <= stRowScanJumpValue;
+						-- Same check as in stRowScanNextValue needed here.
+						if CurrentRowValid_S = '1' then
+							ChipRowScanState_DP <= stRowScanReadValue;
+						else
+							ChipRowScanState_DP <= stRowScanJumpValue;
+						end if;
 					end if;
 
 				when stRowScanReadValue =>
@@ -1386,27 +1478,27 @@ begin
 					end if;
 
 					if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						ChipRowState_DN             <= stRowScanNextValue;
+						ChipRowScanState_DP         <= stRowScanNextValue;
 						ChipADCRowReadPositionInc_S <= '1';
 					end if;
 
 				when stRowScanJumpValue =>
-					ChipRowState_DN             <= stRowScanNextValue;
+					ChipRowScanState_DP         <= stRowScanNextValue;
 					ChipADCRowReadPositionInc_S <= '1';
 
 				when stRowScanNextValue =>
-					ChipADCScanClockReg_C <= '1';
+					ChipADCScanClockReg2_C <= '1';
 
 					-- Check if we're done. The row read position is at the
 					-- maximum, so we can detect that, zero it and exit.
 					if ChipADCRowReadPosition_D = CHIP_APS_SIZE_ROWS then
-						ChipRowState_DN              <= stRowDone;
+						ChipRowScanState_DP          <= stRowDone;
 						ChipADCRowReadPositionZero_S <= '1';
 					else
 						if CurrentRowValid_S = '1' then
-							ChipRowState_DN <= stRowScanReadValue;
+							ChipRowScanState_DP <= stRowScanReadValue;
 						else
-							ChipRowState_DN <= stRowScanJumpValue;
+							ChipRowScanState_DP <= stRowScanJumpValue;
 						end if;
 					end if;
 
@@ -1419,18 +1511,26 @@ begin
 					end if;
 
 					if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						ChipRowState_DN    <= stIdle;
-						RowReadDoneChip_SN <= '1';
+						ChipRowScanState_DP <= stIdle;
+
+						-- Notify ramp SM that we're done with the scan. It can proceed
+						-- with the next ramp.
+						ScanDone_SN <= '1';
 					end if;
 
 				when others => null;
 			end case;
-		end process chipADCRowReadoutStateMachine;
+		end process chipADCRowReadoutScanStateMachine;
 
 		chipADCRegisterUpdate : process(Clock_CI, Reset_RI) is
 		begin
 			if Reset_RI = '1' then
-				ChipRowState_DP <= stIdle;
+				ChipRowSampleState_DP <= stIdle;
+				ChipRowRampState_DP   <= stIdle;
+				ChipRowScanState_DP   <= stIdle;
+
+				RampInProgress_SP <= '0';
+				ScanInProgress_SP <= '0';
 
 				ChipADCRampClear_SO   <= '1'; -- Clear ramp by default.
 				ChipADCRampClock_CO   <= '0';
@@ -1439,12 +1539,17 @@ begin
 				ChipADCScanControl_SO <= SCAN_CONTROL_SCAN_THROUGH;
 				ChipADCSample_SO      <= '0';
 			elsif rising_edge(Clock_CI) then
-				ChipRowState_DP <= ChipRowState_DN;
+				ChipRowSampleState_DP <= ChipRowSampleState_DN;
+				ChipRowRampState_DP   <= ChipRowRampState_DN;
+				ChipRowScanState_DP   <= ChipRowScanState_DN;
+
+				RampInProgress_SP <= RampInProgress_SP xor (RampStart_SN or RampDone_SN);
+				ScanInProgress_SP <= ScanInProgress_SP xor (ScanStart_SN or ScanDone_SN);
 
 				ChipADCRampClear_SO   <= ChipADCRampClearReg_S;
 				ChipADCRampClock_CO   <= ChipADCRampClockReg_C;
 				ChipADCRampBitIn_SO   <= ChipADCRampBitInReg_S;
-				ChipADCScanClock_CO   <= ChipADCScanClockReg_C;
+				ChipADCScanClock_CO   <= ChipADCScanClockReg1_C or ChipADCScanClockReg2_C;
 				ChipADCScanControl_SO <= ChipADCScanControlReg_S;
 				ChipADCSample_SO      <= APSADCConfigReg_D.SampleEnable_S and (ChipADCSampleReg_S or not APSADCConfigReg_D.UseInternalADC_S);
 			end if;
@@ -1484,8 +1589,7 @@ begin
 
 			ExternalADCRunning_SP <= '0';
 
-			RowReadStart_SP <= '0';
-			RowReadDone_SP  <= '0';
+			RowReadInProgress_SP <= '0';
 
 			ReadBSRStatus_DP <= RBSTAT_NEED_ZERO_ONE;
 
@@ -1507,8 +1611,7 @@ begin
 
 			ExternalADCRunning_SP <= ExternalADCRunning_SN;
 
-			RowReadStart_SP <= RowReadStart_SN;
-			RowReadDone_SP  <= RowReadDone_SN;
+			RowReadInProgress_SP <= RowReadInProgress_SP xor (RowReadStart_SN or RowReadDone_SN);
 
 			ReadBSRStatus_DP <= ReadBSRStatus_DN;
 
