@@ -1319,7 +1319,7 @@ begin
 				when stIdle =>
 					-- Wait until the sample state machine signals us to start the ramp.
 					if RampInProgress_SP = '1' then
-						ChipRowRampState_DP <= stRowRampFeed;
+						ChipRowRampState_DN <= stRowRampFeed;
 
 						-- Update the readout type register, which is used to pass this value down to the other SMs.
 						APSChipColModeRegRamp_DN <= APSChipColModeRegSample_DP;
@@ -1332,7 +1332,7 @@ begin
 					ChipADCRampClockReg_C <= '0'; -- Set BitIn one cycle before to ensure the value is stable.
 					ChipADCRampBitInReg_S <= '1';
 
-					ChipRowRampState_DP <= stRowRampFeedTick;
+					ChipRowRampState_DN <= stRowRampFeedTick;
 
 				when stRowRampFeedTick =>
 					-- Do not clear Ramp while in use!
@@ -1341,14 +1341,14 @@ begin
 					ChipADCRampClockReg_C <= '1';
 					ChipADCRampBitInReg_S <= '1';
 
-					ChipRowRampState_DP <= stRowRampResetSettle;
+					ChipRowRampState_DN <= stRowRampResetSettle;
 
 				when stRowRampResetSettle =>
 					-- Do not clear Ramp while in use!
 					ChipADCRampClearReg_S <= '0';
 
 					if RampResetTimeDone_S = '1' then
-						ChipRowRampState_DP <= stRowRampClockLow;
+						ChipRowRampState_DN <= stRowRampClockLow;
 					end if;
 
 					RampResetTimeCount_S <= '1';
@@ -1359,7 +1359,7 @@ begin
 					-- Do not clear Ramp while in use!
 					ChipADCRampClearReg_S <= '0';
 
-					ChipRowRampState_DP <= stRowRampClockHigh;
+					ChipRowRampState_DN <= stRowRampClockHigh;
 
 				when stRowRampClockHigh =>
 					ChipADCRampClockReg_C <= '1';
@@ -1371,9 +1371,9 @@ begin
 					RampTickCount_S <= '1';
 
 					if RampTickDone_S = '1' then
-						ChipRowRampState_DP <= stRowScanWait;
+						ChipRowRampState_DN <= stRowScanWait;
 					else
-						ChipRowRampState_DP <= stRowRampClockLow;
+						ChipRowRampState_DN <= stRowRampClockLow;
 					end if;
 
 				when stRowScanWait =>
@@ -1382,7 +1382,7 @@ begin
 
 					-- Wait for old scan to be finished before copying over the new value.
 					if ScanInProgress_SP = '0' then
-						ChipRowRampState_DP <= stRowScanSelect;
+						ChipRowRampState_DN <= stRowScanSelect;
 					end if;
 
 				when stRowScanSelect =>
@@ -1392,7 +1392,7 @@ begin
 					ChipADCScanClockReg1_C  <= '0';
 					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY_OVER;
 
-					ChipRowRampState_DP <= stRowScanSelectTick;
+					ChipRowRampState_DN <= stRowScanSelectTick;
 
 				when stRowScanSelectTick =>
 					-- Do not clear Ramp while in use!
@@ -1401,10 +1401,10 @@ begin
 					ChipADCScanClockReg1_C  <= '1';
 					ChipADCScanControlReg_S <= SCAN_CONTROL_COPY_OVER;
 
-					ChipRowRampState_DP <= stDone;
+					ChipRowRampState_DN <= stDone;
 
 				when stDone =>
-					ChipRowRampState_DP <= stIdle;
+					ChipRowRampState_DN <= stIdle;
 
 					-- Notify sample SM that we're done with the ramp. It can proceed
 					-- to take the next sample.
@@ -1442,7 +1442,7 @@ begin
 				when stIdle =>
 					-- Wait until the ramp state machine signals us to start the scan.
 					if ScanInProgress_SP = '1' then
-						ChipRowScanState_DP <= stRowStart;
+						ChipRowScanState_DN <= stRowStart;
 
 						-- Update the readout type register, which is used to decide the type of events to output.
 						APSChipColModeRegScan_DN <= APSChipColModeRegRamp_DP;
@@ -1464,9 +1464,9 @@ begin
 					if OutFifoControl_SI.Full_S = '0' or APSChipColModeRegScan_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 						-- Same check as in stRowScanNextValue needed here.
 						if CurrentRowValid_S = '1' then
-							ChipRowScanState_DP <= stRowScanReadValue;
+							ChipRowScanState_DN <= stRowScanReadValue;
 						else
-							ChipRowScanState_DP <= stRowScanJumpValue;
+							ChipRowScanState_DN <= stRowScanJumpValue;
 						end if;
 					end if;
 
@@ -1494,12 +1494,12 @@ begin
 					end if;
 
 					if OutFifoControl_SI.Full_S = '0' or APSChipColModeRegScan_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						ChipRowScanState_DP      <= stRowScanNextValue;
+						ChipRowScanState_DN      <= stRowScanNextValue;
 						RowReadPositionIncChip_S <= '1';
 					end if;
 
 				when stRowScanJumpValue =>
-					ChipRowScanState_DP      <= stRowScanNextValue;
+					ChipRowScanState_DN      <= stRowScanNextValue;
 					RowReadPositionIncChip_S <= '1';
 
 				when stRowScanNextValue =>
@@ -1508,13 +1508,13 @@ begin
 					-- Check if we're done. The row read position is at the
 					-- maximum, so we can detect that, zero it and exit.
 					if RowReadPosition_D = CHIP_APS_SIZE_ROWS then
-						ChipRowScanState_DP       <= stRowDone;
+						ChipRowScanState_DN       <= stRowDone;
 						RowReadPositionZeroChip_S <= '1';
 					else
 						if CurrentRowValid_S = '1' then
-							ChipRowScanState_DP <= stRowScanReadValue;
+							ChipRowScanState_DN <= stRowScanReadValue;
 						else
-							ChipRowScanState_DP <= stRowScanJumpValue;
+							ChipRowScanState_DN <= stRowScanJumpValue;
 						end if;
 					end if;
 
@@ -1527,7 +1527,7 @@ begin
 					end if;
 
 					if OutFifoControl_SI.Full_S = '0' or APSChipColModeRegScan_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
-						ChipRowScanState_DP <= stIdle;
+						ChipRowScanState_DN <= stIdle;
 
 						-- Notify ramp SM that we're done with the scan. It can proceed
 						-- with the next ramp.
