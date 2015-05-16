@@ -128,7 +128,7 @@ architecture Behavioral of DAVIS208StateMachine is
 		return '0' & not VDBIAS(6) & not VDBIAS(7) & not VDBIAS(8) & "000000" & VDBIAS(5 downto 0);
 	end function BiasGenerateVDAC;
 begin
-	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D, Bias0Changed_S, Bias10Changed_S, Bias11Changed_S, Bias12Changed_S, Bias13Changed_S, Bias14Changed_S, Bias15Changed_S, Bias16Changed_S, Bias17Changed_S, Bias18Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias22Changed_S, Bias23Changed_S, Bias24Changed_S, Bias25Changed_S, Bias26Changed_S, Bias27Changed_S, Bias2Changed_S, Bias34Changed_S, Bias35Changed_S, Bias36Changed_S, Bias3Changed_S, Bias4Changed_S, Bias8Changed_S, Bias9Changed_S)
+	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D, Bias0Changed_S, Bias10Changed_S, Bias11Changed_S, Bias12Changed_S, Bias13Changed_S, Bias14Changed_S, Bias15Changed_S, Bias16Changed_S, Bias17Changed_S, Bias18Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias22Changed_S, Bias23Changed_S, Bias24Changed_S, Bias25Changed_S, Bias26Changed_S, Bias27Changed_S, Bias28Changed_S, Bias2Changed_S, Bias30Changed_S, Bias34Changed_S, Bias35Changed_S, Bias36Changed_S, Bias3Changed_S, Bias4Changed_S, Bias5Changed_S, Bias6Changed_S, Bias8Changed_S, Bias9Changed_S)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;

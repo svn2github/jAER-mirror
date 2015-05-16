@@ -881,7 +881,7 @@ begin
 			Overflow_SO  => RampResetTimeDone_S,
 			Data_DO      => open);
 
-	chipADCColumnSampleStateMachine : process(ChipColSampleState_DP, ColSampleStart_SP, RampResetTimeDone_S, RampTickDone_S, RowSettleTimeDone_S, SampleSettleTimeDone_S, ColSampleDone_SP, ColScanStart_SP, APSSampleType1_DP, APSSampleType_DP)
+	chipADCColumnSampleStateMachine : process(ChipColSampleState_DP, ColSampleStart_SP, RampResetTimeDone_S, RampTickDone_S, RowSettleTimeDone_S, SampleSettleTimeDone_S, ColSampleDone_SP, ColScanStart_SP, APSSampleType1_DP, APSSampleType_DP, APSSampleType1_DN, RampTickHalfDone_S)
 	begin
 		ChipColSampleState_DN <= ChipColSampleState_DP;
 
