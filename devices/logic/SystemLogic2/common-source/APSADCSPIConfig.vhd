@@ -237,6 +237,13 @@ begin
 					APSADCOutput_DN(tAPSADCConfig.RampReset_D'range) <= std_logic_vector(APSADCConfigReg_DP.RampReset_D);
 				end if;
 
+			when APSADCCONFIG_PARAM_ADDRESSES.RampShortReset_S =>
+				-- Allow read/write of parameter only on chips which support it.
+				if CHIP_APS_HAS_INTEGRATED_ADC = '1' then
+					APSADCConfigReg_DN.RampShortReset_S <= APSADCInput_DP(0);
+					APSADCOutput_DN(0)                  <= APSADCConfigReg_DP.RampShortReset_S;
+				end if;
+
 			when others => null;
 		end case;
 	end process apsadcIO;

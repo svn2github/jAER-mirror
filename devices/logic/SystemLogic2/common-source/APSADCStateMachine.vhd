@@ -1182,7 +1182,7 @@ begin
 		-- Don't do the full ramp on reset reads. The value must be pretty high
 		-- anyway, near AdcHigh, so just half the ramp should always be enough
 		-- to hit a good value. For now with GS only due to timing exactness in RS.
-		RampLimit_D <= to_unsigned(511, APS_ADC_BUS_WIDTH) when (APSChipColModeRegRamp_DP = COLMODE_READA and APSADCConfigReg_D.GlobalShutter_S = '1') else to_unsigned(1021, APS_ADC_BUS_WIDTH);
+		RampLimit_D <= to_unsigned(511, APS_ADC_BUS_WIDTH) when (APSADCConfigReg_D.RampShortReset_S = '1' and APSChipColModeRegRamp_DP = COLMODE_READA) else to_unsigned(1021, APS_ADC_BUS_WIDTH);
 
 		rampTickCounter : entity work.ContinuousCounter
 			generic map(

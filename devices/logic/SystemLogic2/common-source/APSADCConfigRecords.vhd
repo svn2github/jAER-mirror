@@ -52,6 +52,7 @@ package APSADCConfigRecords is
 		SampleEnable_S        : unsigned(7 downto 0);
 		SampleSettle_D        : unsigned(7 downto 0);
 		RampReset_D           : unsigned(7 downto 0);
+		RampShortReset_S      : unsigned(7 downto 0);
 	end record tAPSADCConfigParamAddresses;
 
 	constant APSADCCONFIG_PARAM_ADDRESSES : tAPSADCConfigParamAddresses := (
@@ -92,7 +93,8 @@ package APSADCConfigRecords is
 		UseInternalADC_S      => to_unsigned(34, 8),
 		SampleEnable_S        => to_unsigned(35, 8),
 		SampleSettle_D        => to_unsigned(36, 8),
-		RampReset_D           => to_unsigned(37, 8));
+		RampReset_D           => to_unsigned(37, 8),
+		RampShortReset_S      => to_unsigned(38, 8));
 
 	constant APS_EXPOSURE_SIZE      : integer := 25; -- Up to about one second.
 	constant APS_FRAMEDELAY_SIZE    : integer := 25; -- Up to about one second.
@@ -144,6 +146,7 @@ package APSADCConfigRecords is
 		SampleEnable_S        : std_logic;
 		SampleSettle_D        : unsigned(APS_SAMPLESETTLETIME_SIZE - 1 downto 0); -- in cycles at 30MHz
 		RampReset_D           : unsigned(APS_RAMPRESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
+		RampShortReset_S      : std_logic;
 	end record tAPSADCConfig;
 
 	constant tAPSADCConfigDefault : tAPSADCConfig := (
@@ -184,5 +187,6 @@ package APSADCConfigRecords is
 		UseInternalADC_S      => CHIP_APS_HAS_INTEGRATED_ADC,
 		SampleEnable_S        => '1',
 		SampleSettle_D        => to_unsigned(60, APS_SAMPLESETTLETIME_SIZE),
-		RampReset_D           => to_unsigned(10, APS_RAMPRESETTIME_SIZE));
+		RampReset_D           => to_unsigned(10, APS_RAMPRESETTIME_SIZE),
+		RampShortReset_S      => '0');
 end package APSADCConfigRecords;
