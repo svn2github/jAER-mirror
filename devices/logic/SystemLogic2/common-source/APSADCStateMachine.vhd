@@ -1172,9 +1172,17 @@ begin
 		-- are actually running and control them.
 		signal RampInProgress_SP, RampStart_SN, RampDone_SN : std_logic;
 		signal ScanInProgress_SP, ScanStart_SN, ScanDone_SN : std_logic;
+
+		-- Variable ramp length.
+		signal RampLimit_D : unsigned(APS_ADC_BUS_WIDTH - 1 downto 0);
 	begin
 		-- Don't generate any external gray-code. Internal gray-counter works.
 		ChipADCGrayCounter_DO <= (others => '0');
+
+		-- Don't do the full ramp on reset reads. The value must be pretty high
+		-- anyway, near AdcHigh, so just half the ramp should always be enough
+		-- to hit a good value. For now with GS only due to timing exactness in RS.
+		RampLimit_D <= to_unsigned(511, APS_ADC_BUS_WIDTH) when (APSChipColModeRegRamp_DP = COLMODE_READA and APSADCConfigReg_D.GlobalShutter_S = '1') else to_unsigned(1021, APS_ADC_BUS_WIDTH);
 
 		rampTickCounter : entity work.ContinuousCounter
 			generic map(
@@ -1184,7 +1192,7 @@ begin
 				Reset_RI     => Reset_RI,
 				Clear_SI     => '0',
 				Enable_SI    => RampTickCount_S,
-				DataLimit_DI => to_unsigned(1021, APS_ADC_BUS_WIDTH),
+				DataLimit_DI => RampLimit_D,
 				Overflow_SO  => RampTickDone_S,
 				Data_DO      => open);
 
