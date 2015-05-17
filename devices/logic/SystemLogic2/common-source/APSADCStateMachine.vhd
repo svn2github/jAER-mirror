@@ -102,6 +102,9 @@ architecture Behavioral of APSADCStateMachine is
 	constant COLMODE_READB  : std_logic_vector(1 downto 0) := "10";
 	constant COLMODE_RESETA : std_logic_vector(1 downto 0) := "11";
 
+	-- Keep track of what type of timing-only (fake) read is happening.
+	signal TimingRead_DP, TimingRead_DN : std_logic_vector(1 downto 0);
+
 	-- Take note if the ADC is running already or not. If not, it has to be started.
 	signal ExternalADCRunning_SP, ExternalADCRunning_SN : std_logic;
 
@@ -299,6 +302,7 @@ begin
 		APSChipColSRInReg_S    <= '0';
 
 		APSChipColModeReg_DN <= COLMODE_NULL;
+		TimingRead_DN        <= COLMODE_NULL;
 		APSChipTXGateReg_SN  <= APSChipTXGateReg_SP;
 
 		ExposureClear_S <= '0';
@@ -468,6 +472,7 @@ begin
 			when stRSReset =>
 				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS then
 					APSChipColModeReg_DN <= COLMODE_NULL;
+					TimingRead_DN        <= COLMODE_RESETA;
 				else
 					-- Do reset.
 					APSChipColModeReg_DN <= COLMODE_RESETA;
@@ -511,6 +516,7 @@ begin
 			when stRSReadA =>
 				if ColumnReadAPosition_D = CHIP_APS_SIZE_COLUMNS or CurrentColumnAValid_S = '0' then
 					APSChipColModeReg_DN <= COLMODE_NULL;
+					TimingRead_DN        <= COLMODE_READA;
 				else
 					-- Do column read A.
 					APSChipColModeReg_DN <= COLMODE_READA;
@@ -538,6 +544,7 @@ begin
 			when stRSReadB =>
 				if ReadBSRStatus_DP /= RBSTAT_NORMAL or CurrentColumnBValid_S = '0' then
 					APSChipColModeReg_DN <= COLMODE_NULL;
+					TimingRead_DN        <= COLMODE_READB;
 				else
 					-- Do column read B.
 					APSChipColModeReg_DN <= COLMODE_READB;
@@ -1168,21 +1175,29 @@ begin
 		signal APSChipColModeRegRamp_DP, APSChipColModeRegRamp_DN     : std_logic_vector(1 downto 0);
 		signal APSChipColModeRegScan_DP, APSChipColModeRegScan_DN     : std_logic_vector(1 downto 0);
 
+		-- Do the same to keep track of type of timing-only (fake) reads, information which is needed
+		-- to shorten the ramp during reset reads in RS mode. The main ColMode registers only show
+		-- type NULL then, so we need additional information to determine this.
+		signal TimingReadSample_DP, TimingReadSample_DN : std_logic_vector(1 downto 0);
+		signal TimingReadRamp_DP, TimingReadRamp_DN     : std_logic_vector(1 downto 0);
+
 		-- We also need two additional registers for the two new SMs to notify when they
 		-- are actually running and control them.
 		signal RampInProgress_SP, RampStart_SN, RampDone_SN : std_logic;
 		signal ScanInProgress_SP, ScanStart_SN, ScanDone_SN : std_logic;
 
 		-- Variable ramp length.
-		signal RampLimit_D : unsigned(APS_ADC_BUS_WIDTH - 1 downto 0);
+		signal RampIsResetRead_S : std_logic;
+		signal RampLimit_D       : unsigned(APS_ADC_BUS_WIDTH - 1 downto 0);
 	begin
 		-- Don't generate any external gray-code. Internal gray-counter works.
 		ChipADCGrayCounter_DO <= (others => '0');
 
 		-- Don't do the full ramp on reset reads. The value must be pretty high
 		-- anyway, near AdcHigh, so just half the ramp should always be enough
-		-- to hit a good value. For now with GS only due to timing exactness in RS.
-		RampLimit_D <= to_unsigned(511, APS_ADC_BUS_WIDTH) when (APSADCConfigReg_D.RampShortReset_S = '1' and APSChipColModeRegRamp_DP = COLMODE_READA) else to_unsigned(1021, APS_ADC_BUS_WIDTH);
+		-- to hit a good value.
+		RampIsResetRead_S <= '1' when (APSChipColModeRegRamp_DP = COLMODE_READA or TimingReadRamp_DP = COLMODE_READA) else '0';
+		RampLimit_D       <= to_unsigned(511, APS_ADC_BUS_WIDTH) when (APSADCConfigReg_D.RampShortReset_S = '1' and RampIsResetRead_S = '1') else to_unsigned(1021, APS_ADC_BUS_WIDTH);
 
 		rampTickCounter : entity work.ContinuousCounter
 			generic map(
@@ -1220,7 +1235,7 @@ begin
 				Overflow_SO  => RampResetTimeDone_S,
 				Data_DO      => open);
 
-		chipADCRowReadoutSampleStateMachine : process(ChipRowSampleState_DP, APSADCConfigReg_D, ColSettleTimeDone_S, RampInProgress_SP, RowReadInProgress_SP, SampleSettleTimeDone_S, APSChipColModeRegSample_DP, APSChipColModeReg_DP)
+		chipADCRowReadoutSampleStateMachine : process(ChipRowSampleState_DP, APSADCConfigReg_D, ColSettleTimeDone_S, RampInProgress_SP, RowReadInProgress_SP, SampleSettleTimeDone_S, APSChipColModeRegSample_DP, APSChipColModeReg_DP, TimingReadSample_DP, TimingRead_DP)
 		begin
 			ChipRowSampleState_DN <= ChipRowSampleState_DP;
 
@@ -1236,6 +1251,7 @@ begin
 
 			-- Keep track of current readout type.
 			APSChipColModeRegSample_DN <= APSChipColModeRegSample_DP;
+			TimingReadSample_DN        <= TimingReadSample_DP;
 
 			-- On-chip ADC.
 			ChipADCSampleReg_S <= '0';
@@ -1251,6 +1267,7 @@ begin
 					-- Update the readout type register, which is used to pass this value down to the other SMs.
 					-- This is done here because APSChipColModeReg_DP is not yet set in stIdle above.
 					APSChipColModeRegSample_DN <= APSChipColModeReg_DP;
+					TimingReadSample_DN        <= TimingRead_DP;
 
 					ChipRowSampleState_DN <= stColSettleWait;
 
@@ -1293,7 +1310,7 @@ begin
 			end case;
 		end process chipADCRowReadoutSampleStateMachine;
 
-		chipADCRowReadoutRampStateMachine : process(ChipRowRampState_DP, RampInProgress_SP, RampResetTimeDone_S, RampTickDone_S, ScanInProgress_SP, APSChipColModeRegRamp_DP, APSChipColModeRegSample_DP)
+		chipADCRowReadoutRampStateMachine : process(ChipRowRampState_DP, RampInProgress_SP, RampResetTimeDone_S, RampTickDone_S, ScanInProgress_SP, APSChipColModeRegRamp_DP, APSChipColModeRegSample_DP, TimingReadRamp_DP, TimingReadSample_DP)
 		begin
 			ChipRowRampState_DN <= ChipRowRampState_DP;
 
@@ -1311,6 +1328,7 @@ begin
 
 			-- Keep track of current readout type.
 			APSChipColModeRegRamp_DN <= APSChipColModeRegRamp_DP;
+			TimingReadRamp_DN        <= TimingReadRamp_DP;
 
 			-- On-chip ADC.
 			ChipADCRampClearReg_S   <= '1'; -- Clear ramp by default.
@@ -1331,6 +1349,7 @@ begin
 
 						-- Update the readout type register, which is used to pass this value down to the other SMs.
 						APSChipColModeRegRamp_DN <= APSChipColModeRegSample_DP;
+						TimingReadRamp_DN        <= TimingReadSample_DP;
 					end if;
 
 				when stRowRampFeed =>
@@ -1560,6 +1579,9 @@ begin
 				APSChipColModeRegRamp_DP   <= COLMODE_NULL;
 				APSChipColModeRegScan_DP   <= COLMODE_NULL;
 
+				TimingReadSample_DP <= COLMODE_NULL;
+				TimingReadRamp_DP   <= COLMODE_NULL;
+
 				ChipADCRampClear_SO   <= '1'; -- Clear ramp by default.
 				ChipADCRampClock_CO   <= '0';
 				ChipADCRampBitIn_SO   <= '0';
@@ -1577,6 +1599,9 @@ begin
 				APSChipColModeRegSample_DP <= APSChipColModeRegSample_DN;
 				APSChipColModeRegRamp_DP   <= APSChipColModeRegRamp_DN;
 				APSChipColModeRegScan_DP   <= APSChipColModeRegScan_DN;
+
+				TimingReadSample_DP <= TimingReadSample_DN;
+				TimingReadRamp_DP   <= TimingReadRamp_DN;
 
 				ChipADCRampClear_SO   <= ChipADCRampClearReg_S;
 				ChipADCRampClock_CO   <= ChipADCRampClockReg_C;
@@ -1624,6 +1649,7 @@ begin
 			RowReadInProgress_SP <= '0';
 
 			ReadBSRStatus_DP <= RBSTAT_NEED_ZERO_ONE;
+			TimingRead_DP    <= COLMODE_NULL;
 
 			OutFifoControl_SO.Write_S <= '0';
 
@@ -1646,6 +1672,7 @@ begin
 			RowReadInProgress_SP <= RowReadInProgress_SP xor (RowReadStart_SN or RowReadDone_SN);
 
 			ReadBSRStatus_DP <= ReadBSRStatus_DN;
+			TimingRead_DP    <= TimingRead_DN;
 
 			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
 
