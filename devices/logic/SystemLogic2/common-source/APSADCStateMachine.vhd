@@ -141,6 +141,9 @@ architecture Behavioral of APSADCStateMachine is
 	signal RowReadInProgress_SP, RowReadStart_SN, RowReadDone_SN : std_logic;
 	signal RowReadDoneExternal_SN, RowReadDoneChip_SN            : std_logic;
 
+	-- Wait for all row-read parts to be done before sending end-of-frame (EOF) event.
+	signal RowReadsAllDone_S : std_logic;
+
 	-- RS: the B read has several very special considerations that must be taken into account.
 	-- First, it has to be done only after exposure time expires, before that, it must be faked
 	-- to not throw off timing. Secondly, the B read binary pattern is a 1 with a 0 on either
@@ -287,7 +290,7 @@ begin
 			Overflow_SO  => ResetTimeDone_S,
 			Data_DO      => open);
 
-	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ExternalADCRunning_SP, ExternalADCStartupDone_S, APSADCConfigReg_D, RowReadInProgress_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S, ExposureDone_S, FrameDelayDone_S)
+	columnMainStateMachine : process(ColState_DP, OutFifoControl_SI, ExternalADCRunning_SP, ExternalADCStartupDone_S, APSADCConfigReg_D, RowReadInProgress_SP, NullTimeDone_S, ResetTimeDone_S, APSChipTXGateReg_SP, ColumnReadAPosition_D, ColumnReadBPosition_D, ReadBSRStatus_DP, CurrentColumnAValid_S, CurrentColumnBValid_S, ExposureDone_S, FrameDelayDone_S, RowReadsAllDone_S)
 	begin
 		ColState_DN <= ColState_DP;     -- Keep current state by default.
 
@@ -740,7 +743,7 @@ begin
 
 				-- Write out end of frame marker. This and the start of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
-				if OutFifoControl_SI.Full_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' and RowReadsAllDone_S = '1' then
 					OutFifoDataRegCol_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDFRAME;
 					OutFifoDataRegColEnable_S <= '1';
 					OutFifoWriteRegCol_S      <= '1';
@@ -1123,6 +1126,9 @@ begin
 
 		-- Column SM communication (disabled for chip ADC part).
 		RowReadDoneChip_SN <= '0';
+
+		-- Signal when all row-reads are done and we can send EOF.
+		RowReadsAllDone_S <= not RowReadInProgress_SP;
 	end generate noChipADC;
 
 	chipADCRowReadout : if CHIP_APS_HAS_INTEGRATED_ADC = '1' generate
@@ -1192,6 +1198,10 @@ begin
 	begin
 		-- Don't generate any external gray-code. Internal gray-counter works.
 		ChipADCGrayCounter_DO <= (others => '0');
+
+		-- Signal when all row-reads are done and we can send EOF.
+		-- For pipelined ADC, this needs to make sure all three phases are completed.
+		RowReadsAllDone_S <= not RowReadInProgress_SP and not RampInProgress_SP and not ScanInProgress_SP;
 
 		-- Don't do the full ramp on reset reads. The value must be pretty high
 		-- anyway, near AdcHigh, so just half the ramp should always be enough
