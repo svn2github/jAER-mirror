@@ -1,5 +1,6 @@
 #include "cyu3spi.h"
 #include "cyu3gpio.h"
+#include "gpio_regs.h"
 #include "fx3.h"
 #include "spi_support.h"
 #include "gpio_support.h"
@@ -334,16 +335,30 @@ static inline CyU3PReturnStatus_t CyFxSpiSetSsnLine(CyBool_t isHigh) {
 	return (CyU3PSpiSetSsnLine(isHigh));
 #else
 	// In 32-bit mode, we toggle the default SS line manually.
-	return (CyU3PGpioSimpleSetValue(GPIO_SSN, isHigh));
+	// Using direct register access for performance.
+	uvint32_t *regPtrSSN = &GPIO->lpp_gpio_simple[GPIO_SSN];
+
+	if (isHigh) {
+		*regPtrSSN |= CY_U3P_LPP_GPIO_OUT_VALUE;
+	}
+	else {
+		*regPtrSSN &= ~CY_U3P_LPP_GPIO_OUT_VALUE;
+	}
+
+	return (CY_U3P_SUCCESS);
 #endif
 }
 
-static inline  CyU3PReturnStatus_t CyFxSpiTransmitWords(uint8_t *data, uint32_t byteCount) {
+static inline CyU3PReturnStatus_t CyFxSpiTransmitWords(uint8_t *data, uint32_t byteCount) {
 #if GPIF_32BIT_SUPPORT_ENABLED == 0
 	return (CyU3PSpiTransmitWords(data, byteCount));
 #else
+	// Using direct register access for performance.
+	uvint32_t *regPtrSCK = &GPIO->lpp_gpio_simple[GPIO_SCK];
+	uvint32_t *regPtrMOSI = &GPIO->lpp_gpio_simple[GPIO_MOSI];
+
 	// Disable clock.
-	CyU3PGpioSimpleSetValue(GPIO_SCK, CyFalse);
+	*regPtrSCK &= ~CY_U3P_LPP_GPIO_OUT_VALUE;
 
 	for (uint32_t byteIndex = 0; byteIndex < byteCount; byteIndex++) {
 		// Assign value from data array.
@@ -354,15 +369,15 @@ static inline  CyU3PReturnStatus_t CyFxSpiTransmitWords(uint8_t *data, uint32_t 
 		for (size_t i = 0; i < 8; i++) {
 			// Set the current bit value, based on the highest bit.
 			if (byte & 0x80) {
-				CyU3PGpioSimpleSetValue(GPIO_MOSI, CyTrue);
+				*regPtrMOSI |= CY_U3P_LPP_GPIO_OUT_VALUE;
 			}
 			else {
-				CyU3PGpioSimpleSetValue(GPIO_MOSI, CyFalse);
+				*regPtrMOSI &= ~CY_U3P_LPP_GPIO_OUT_VALUE;
 			}
 
 			// Pulse clock to signal value is ready to be read.
-			CyU3PGpioSimpleSetValue(GPIO_SCK, CyTrue);
-			CyU3PGpioSimpleSetValue(GPIO_SCK, CyFalse);
+			*regPtrSCK |= CY_U3P_LPP_GPIO_OUT_VALUE;
+			*regPtrSCK &= ~CY_U3P_LPP_GPIO_OUT_VALUE;
 
 			// Shift left by one, making the second highest bit the highest.
 			byte = (uint8_t) (byte << 1);
@@ -373,23 +388,27 @@ static inline  CyU3PReturnStatus_t CyFxSpiTransmitWords(uint8_t *data, uint32_t 
 #endif
 }
 
-static inline  CyU3PReturnStatus_t CyFxSpiReceiveWords(uint8_t *data, uint32_t byteCount) {
+static inline CyU3PReturnStatus_t CyFxSpiReceiveWords(uint8_t *data, uint32_t byteCount) {
 #if GPIF_32BIT_SUPPORT_ENABLED == 0
 	return (CyU3PSpiReceiveWords(data, byteCount));
 #else
+	// Using direct register access for performance.
+	uvint32_t *regPtrSCK = &GPIO->lpp_gpio_simple[GPIO_SCK];
+	uvint32_t *regPtrMISO = &GPIO->lpp_gpio_simple[GPIO_MISO];
+	CyBool_t gpioIsHigh = CyFalse;
+
 	// Disable clock.
-	CyU3PGpioSimpleSetValue(GPIO_SCK, CyFalse);
+	*regPtrSCK &= ~CY_U3P_LPP_GPIO_OUT_VALUE;
 
 	for (uint32_t byteIndex = 0; byteIndex < byteCount; byteIndex++) {
 		uint8_t byte = 0;
 
 		for (size_t i = 0; i < 8; i++) {
 			// Pulse clock to signal slave to output new value.
-			CyU3PGpioSimpleSetValue(GPIO_SCK, CyTrue);
+			*regPtrSCK |= CY_U3P_LPP_GPIO_OUT_VALUE;
 
 			// Get the current bit value, based on the GPIO value.
-			CyBool_t gpioIsHigh = CyFalse;
-			CyU3PGpioSimpleGetValue(GPIO_MISO, &gpioIsHigh);
+			gpioIsHigh = (CyBool_t) ((*regPtrMISO & CY_U3P_LPP_GPIO_IN_VALUE) >> 1);
 
 			if (gpioIsHigh) {
 				byte |= 1;
@@ -398,7 +417,7 @@ static inline  CyU3PReturnStatus_t CyFxSpiReceiveWords(uint8_t *data, uint32_t b
 				byte |= 0;
 			}
 
-			CyU3PGpioSimpleSetValue(GPIO_SCK, CyFalse);
+			*regPtrSCK &= ~CY_U3P_LPP_GPIO_OUT_VALUE;
 
 			// Shift left by one, progressively moving the first set bit to be the MSB.
 			if (i != 7) {
@@ -421,7 +440,15 @@ void CyFxSpiSSLineAssert(uint8_t deviceAddress) {
 	}
 	else {
 		// All other devices are normal, simple GPIOs.
-		CyU3PGpioSimpleSetValue(deviceAddress, (spiIdConfigMap[deviceAddress]->SSPolarity) ? (CyTrue) : (CyFalse));
+		// Using direct register access for performance.
+		uvint32_t *regPtrSS = &GPIO->lpp_gpio_simple[deviceAddress];
+
+		if (spiIdConfigMap[deviceAddress]->SSPolarity) {
+			*regPtrSS |= CY_U3P_LPP_GPIO_OUT_VALUE;
+		}
+		else {
+			*regPtrSS &= ~CY_U3P_LPP_GPIO_OUT_VALUE;
+		}
 	}
 }
 
@@ -432,7 +459,15 @@ void CyFxSpiSSLineDeassert(uint8_t deviceAddress) {
 	}
 	else {
 		// All other devices are normal, simple GPIOs.
-		CyU3PGpioSimpleSetValue(deviceAddress, (spiIdConfigMap[deviceAddress]->SSPolarity) ? (CyFalse) : (CyTrue));
+		// Using direct register access for performance.
+		uvint32_t *regPtrSS = &GPIO->lpp_gpio_simple[deviceAddress];
+
+		if (!spiIdConfigMap[deviceAddress]->SSPolarity) {
+			*regPtrSS |= CY_U3P_LPP_GPIO_OUT_VALUE;
+		}
+		else {
+			*regPtrSS &= ~CY_U3P_LPP_GPIO_OUT_VALUE;
+		}
 	}
 }
 

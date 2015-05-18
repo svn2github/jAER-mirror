@@ -224,7 +224,7 @@ CyU3PReturnStatus_t CyFxGpioInit(void) {
 	CyU3PGpioClock_t gpioClock;
 
 	// The fast clock is based on SYS_CLK. The Simple GPIOs run at SYS_CLK / 4 (fast clock / 2 again).
-	gpioClock.fastClkDiv = 4;
+	gpioClock.fastClkDiv = 2;
 	gpioClock.slowClkDiv = 0;
 	gpioClock.halfDiv = CyFalse;
 	gpioClock.simpleDiv = CY_U3P_GPIO_SIMPLE_DIV_BY_2;
