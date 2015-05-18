@@ -932,8 +932,8 @@ begin
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
-			Clear_SI     => RowReadPositionZero_S or RowReadPositionIncChip_S,
-			Enable_SI    => RowReadPositionInc_S or RowReadPositionZeroChip_S,
+			Clear_SI     => RowReadPositionZero_S or RowReadPositionZeroChip_S,
+			Enable_SI    => RowReadPositionInc_S or RowReadPositionIncChip_S,
 			DataLimit_DI => CHIP_APS_SIZE_ROWS,
 			Overflow_SO  => open,
 			Data_DO      => RowReadPosition_D);
