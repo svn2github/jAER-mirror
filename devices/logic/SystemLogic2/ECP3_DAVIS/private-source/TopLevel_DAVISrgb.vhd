@@ -77,6 +77,7 @@ entity TopLevel_DAVISrgb is
 		ChipADCScanControl_SO       : out   std_logic;
 		ChipADCSample_SO            : out   std_logic;
 		ChipADCGrayCounter_DO       : out   std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+		Debug_DO					: out   std_logic_vector(1 downto 0);
 
 		IMUClock_CZO                : out   std_logic;
 		IMUData_DZIO                : inout std_logic;
@@ -433,7 +434,7 @@ begin
 			FifoData_DI    => APSADCFifoDataIn_D,
 			FifoData_DO    => APSADCFifoDataOut_D);
 
-	apsAdcSM : entity work.D4AAPSADCStateMachine3
+	apsAdcSM : entity work.D4AAPSADCStateMachine
 		port map(
 			Clock_CI                 => ADCClock_C,
 			Reset_RI                 => ADCReset_R,
@@ -456,6 +457,7 @@ begin
 			ChipADCScanControl_SO    => ChipADCScanControl_SO,
 			ChipADCSample_SO         => ChipADCSample_SO,
 			ChipADCGrayCounter_DO    => ChipADCGrayCounter_DO,
+			--Debug_DO				 => Debug_DO,
 			D4AAPSADCConfig_DI       => D4AAPSADCConfigReg2_D);
 
 	apsAdcSPIConfig : entity work.D4AAPSADCSPIConfig

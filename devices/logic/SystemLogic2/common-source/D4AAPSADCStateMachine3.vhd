@@ -38,6 +38,7 @@ entity D4AAPSADCStateMachine3 is
 		ChipADCScanControl_SO    : out std_logic;
 		ChipADCSample_SO         : out std_logic;
 		ChipADCGrayCounter_DO    : out std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+		Debug_DO    : out std_logic_vector(1 downto 0);
 
 		-- Configuration input
 		D4AAPSADCConfig_DI       : in  tD4AAPSADCConfig);
@@ -108,6 +109,8 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	-- The column readout SM needs to know what kind of sample is being read out currently.
 	signal APSSampleType_DP, APSSampleType_DN : std_logic_vector(1 downto 0);
 	signal APSSampleType1_DP, APSSampleType1_DN : std_logic_vector(1 downto 0);
+	signal APSSampleType2_DP, APSSampleType2_DN : std_logic_vector(1 downto 0);
+	signal APSSampleType3_DP, APSSampleType3_DN : std_logic_vector(1 downto 0);
 	
 
 	constant SAMPLETYPE_NULL    : std_logic_vector(1 downto 0) := "00";
@@ -905,6 +908,7 @@ begin
 		ChipADCSampleReg_S    <= '0';
 		
 		APSSampleType1_DN <= APSSampleType1_DP;
+		APSSampleType2_DN <= APSSampleType2_DP;
 
 		case ChipColSampleState_DP is
 			when stSampleIdle =>
@@ -984,18 +988,20 @@ begin
 				ChipADCRampClearReg_S <= '0';
 
 				-- Increase counter and stop ramping when maximum reached.
-				if APSSampleType1_DN = SAMPLETYPE_SIGNAL then
+				if APSSampleType1_DP = SAMPLETYPE_SIGNAL then
 					RampTickCount1_S <= '1';
-				elsif APSSampleType1_DN = SAMPLETYPE_FDRESET then
+				elsif APSSampleType1_DP = SAMPLETYPE_FDRESET then
 					RampTickCount2_S <= '1';
 				end if;
 
-				if APSSampleType1_DN = SAMPLETYPE_SIGNAL and RampTickDone_S = '1'  then
+				if APSSampleType1_DP = SAMPLETYPE_SIGNAL and RampTickDone_S = '1'  then
 					ChipColSampleState_DN <= stSampleIdle;
 					ColScanStart_SN       <= '1';
-				elsif APSSampleType1_DN = SAMPLETYPE_FDRESET and RampTickHalfDone_S = '1' then
+					APSSampleType2_DN <= APSSampleType1_DP;
+				elsif APSSampleType1_DP = SAMPLETYPE_FDRESET and RampTickHalfDone_S = '1' then
 					ChipColSampleState_DN <= stSampleIdle;
 					ColScanStart_SN       <= '1';
+					APSSampleType2_DN <= APSSampleType1_DP;
 				else
 					ChipColSampleState_DN <= stColRampClockLow;
 				end if;
@@ -1025,23 +1031,27 @@ begin
 		-- On-chip ADC.
 		ChipADCScanClockReg_C   <= '0';
 		ChipADCScanControlReg_S <= SCAN_CONTROL_SCAN_THROUGH; -- Scan by default.
+		
+		APSSampleType3_DN <= APSSampleType3_DP;
 
 		case ChipColScanState_DP is
 			when stScanIdle =>
 				-- Wait until the sample state machine signals us to scan.
 				if ColScanStart_SP = '1' then
 					ChipColScanState_DN <= stColScanStart;
+					APSSampleType3_DN <= APSSampleType2_DP;
 				end if;
 
 			when stColScanStart =>
 				ColScanStartAck <= '1';
+				
 
 				-- Write event only if FIFO has place, else wait.
 				-- If fake read (SAMPLETYPE_NULL), don't write anything.
-				if OutFifoControl_SI.Full_S = '0' and APSSampleType1_DP /= SAMPLETYPE_NULL then
-					if APSSampleType1_DP = SAMPLETYPE_FDRESET then
+				if OutFifoControl_SI.Full_S = '0' and APSSampleType3_DP /= SAMPLETYPE_NULL then
+					if APSSampleType3_DP = SAMPLETYPE_FDRESET then
 						OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
-					elsif APSSampleType1_DP = SAMPLETYPE_CPRESET then
+					elsif APSSampleType3_DP = SAMPLETYPE_CPRESET then
 						OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSRESET2COL;
 					else
 						OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTSIGNALCOL;
@@ -1051,7 +1061,7 @@ begin
 					OutFifoWriteRegCol_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSSampleType1_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColScanState_DN <= stColScanSelect;
 				end if;
 
@@ -1069,7 +1079,7 @@ begin
 
 			when stColScanReadValue =>
 				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' and APSSampleType1_DP /= SAMPLETYPE_NULL then
+				if OutFifoControl_SI.Full_S = '0' and APSSampleType3_DP /= SAMPLETYPE_NULL then
 					OutFifoDataRegCol_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
 
 					-- Convert from gray-code to binary. This uses a direct algorithm instead of using the previously stored binary
@@ -1090,7 +1100,7 @@ begin
 					OutFifoWriteRegCol_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSSampleType1_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColScanState_DN     <= stColScanNextValue;
 					ColumnReadPositionInc_S <= '1';
 				end if;
@@ -1109,13 +1119,13 @@ begin
 
 			when stColScanDone =>
 				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' and APSSampleType1_DP /= SAMPLETYPE_NULL then
+				if OutFifoControl_SI.Full_S = '0' and APSSampleType3_DP /= SAMPLETYPE_NULL then
 					OutFifoDataRegCol_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
 					OutFifoDataRegColEnable_S <= '1';
 					OutFifoWriteRegCol_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSSampleType1_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.Full_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColScanState_DN <= stScanIdle;
 				end if;
 
@@ -1177,6 +1187,8 @@ begin
 			ReadBSRStatus_DP <= RBSTAT_NEED_ZERO_ONE;
 			APSSampleType_DP <= SAMPLETYPE_NULL;
 			APSSampleType1_DP <= SAMPLETYPE_NULL;
+			APSSampleType2_DP <= SAMPLETYPE_NULL;
+			APSSampleType3_DP <= SAMPLETYPE_NULL;
 
 			OutFifoControl_SO.Write_S <= '0';
 
@@ -1203,6 +1215,8 @@ begin
 			ReadBSRStatus_DP <= ReadBSRStatus_DN;
 			APSSampleType_DP <= APSSampleType_DN;
 			APSSampleType1_DP <= APSSampleType1_DN;
+			APSSampleType2_DP <= APSSampleType2_DN;
+			APSSampleType3_DP <= APSSampleType3_DN;
 
 			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
 
@@ -1230,4 +1244,5 @@ begin
 	APSChipTXGate_SO         <= APSChipTXGateReg_SP;
 	APSChipReset_SO          <= APSChipResetReg_SP;
 	APSChipGlobalShutter_SBO <= not APSChipGlobalShutterReg_SP;
+	Debug_DO <= APSSampleType3_DP;
 end architecture Behavioral;
