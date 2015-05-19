@@ -75,9 +75,21 @@ begin
 				DVSAERCorrFilterConfigReg_DN.FilterRowOnlyEvents_S <= DVSAERCorrFilterInput_DP(0);
 				DVSAERCorrFilterOutput_DN(0)                       <= DVSAERCorrFilterConfigReg_DP.FilterRowOnlyEvents_S;
 
-			when DVSAERCORRFILTERCONFIG_PARAM_ADDRESSES.PassDelayTime_D =>
-				DVSAERCorrFilterConfigReg_DN.PassDelayTime_D                             <= unsigned(DVSAERCorrFilterInput_DP(tDVSAERCorrFilterConfig.PassDelayTime_D'range));
-				DVSAERCorrFilterOutput_DN(tDVSAERCorrFilterConfig.PassDelayTime_D'range) <= std_logic_vector(DVSAERCorrFilterConfigReg_DP.PassDelayTime_D);
+			when DVSAERCORRFILTERCONFIG_PARAM_ADDRESSES.ExternalAERControl_S =>
+				DVSAERCorrFilterConfigReg_DN.ExternalAERControl_S <= DVSAERCorrFilterInput_DP(0);
+				DVSAERCorrFilterOutput_DN(0)                      <= DVSAERCorrFilterConfigReg_DP.ExternalAERControl_S;
+
+			when DVSAERCORRFILTERCONFIG_PARAM_ADDRESSES.HasBackgroundActivityFilter_S =>
+				DVSAERCorrFilterConfigReg_DN.HasBackgroundActivityFilter_S <= '1';
+				DVSAERCorrFilterOutput_DN(0)                               <= '1';
+
+			when DVSAERCORRFILTERCONFIG_PARAM_ADDRESSES.FilterBackgroundActivity_S =>
+				DVSAERCorrFilterConfigReg_DN.FilterBackgroundActivity_S <= DVSAERCorrFilterInput_DP(0);
+				DVSAERCorrFilterOutput_DN(0)                            <= DVSAERCorrFilterConfigReg_DP.FilterBackgroundActivity_S;
+
+			when DVSAERCORRFILTERCONFIG_PARAM_ADDRESSES.FilterBackgroundActivityPassDelayTime_D =>
+				DVSAERCorrFilterConfigReg_DN.FilterBackgroundActivityPassDelayTime_D                             <= unsigned(DVSAERCorrFilterInput_DP(tDVSAERCorrFilterConfig.FilterBackgroundActivityPassDelayTime_D'range));
+				DVSAERCorrFilterOutput_DN(tDVSAERCorrFilterConfig.FilterBackgroundActivityPassDelayTime_D'range) <= std_logic_vector(DVSAERCorrFilterConfigReg_DP.FilterBackgroundActivityPassDelayTime_D);
 
 			when others => null;
 		end case;

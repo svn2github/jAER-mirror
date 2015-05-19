@@ -105,8 +105,16 @@ begin
 						end if;
 					end if;
 				else
-					-- Keep the DVS in reset if data producer turned off.
-					DVSAERResetReg_SB <= '0';
+					if DVSAERCorrFilterConfigReg_D.ExternalAERControl_S = '1' then
+						-- Support handing off control of AER to external systems connected through the CAVIAR
+						-- connector on the board. This ensures the chip is kept out of reset and the ACK is
+						-- not driven from our logic.
+						DVSAERAckReg_SB   <= 'Z';
+						DVSAERResetReg_SB <= '1';
+					else
+						-- Keep the DVS in reset if data producer turned off.
+						DVSAERResetReg_SB <= '0';
+					end if;
 				end if;
 
 			when stFIFOFull =>
@@ -179,7 +187,7 @@ begin
 				end if;
 
 			when stAERCorrFilterDelayPass =>
-				AckLimit_D <= DVSAERCorrFilterConfigReg_D.PassDelayTime_D;
+				AckLimit_D <= DVSAERCorrFilterConfigReg_D.FilterBackgroundActivityPassDelayTime_D;
 
 				-- Wait to raise PassEnable signal (reuse AckCounter for this).
 				if AckDone_S = '1' then
@@ -202,7 +210,11 @@ begin
 
 					DVSEventDataReg_D(AER_BUS_WIDTH_COL - 1 downto 0) <= DVSAERData_DI(AER_BUS_WIDTH_COL downto 1);
 
-					DVSEventValidReg_S <= AERCorrFilterPass_SI; -- Event valid only if PASS is '1'.
+					if DVSAERCorrFilterConfigReg_D.FilterBackgroundActivity_S = '1' then
+						DVSEventValidReg_S <= AERCorrFilterPass_SI; -- Event valid only if PASS is '1'.
+					else
+						DVSEventValidReg_S <= '1';
+					end if;
 
 					DVSEventDataRegEnable_S <= '1';
 
