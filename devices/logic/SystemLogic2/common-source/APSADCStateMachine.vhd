@@ -373,7 +373,7 @@ begin
 			when stStartFrame =>
 				-- Write out start of frame marker. This and the end of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
-				if OutFifoControl_SI.Full_S = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' then
 					if CHIP_APS_HAS_GLOBAL_SHUTTER = '1' and APSADCConfigReg_D.GlobalShutter_S = '1' then
 						if APSADCConfigReg_D.ResetRead_S = '1' then
 							OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME_GS;
@@ -743,7 +743,7 @@ begin
 
 				-- Write out end of frame marker. This and the start of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
-				if OutFifoControl_SI.Full_S = '0' and RowReadsAllDone_S = '1' then
+				if OutFifoControl_SI.AlmostFull_S = '0' and RowReadsAllDone_S = '1' then
 					OutFifoDataRegCol_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDFRAME;
 					OutFifoDataRegColEnable_S <= '1';
 					OutFifoWriteRegCol_S      <= '1';
@@ -1021,7 +1021,7 @@ begin
 			when stRowStart =>
 				-- Write event only if FIFO has place, else wait.
 				-- If fake read (COLMODE_NULL), don't write anything.
-				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
+				if OutFifoControl_SI.AlmostFull_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 					if APSChipColModeReg_DP = COLMODE_READA then
 						OutFifoDataRegRowExternal_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
 					else
@@ -1031,7 +1031,7 @@ begin
 					OutFifoWriteRegRowExternal_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					-- Same decision to do here as in stRowSRFeedTick.
 					if CurrentRowValid_S = '1' then
 						ExtRowState_DN <= stRowSettleWait;
@@ -1068,7 +1068,7 @@ begin
 
 			when stRowWriteEvent =>
 				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
+				if OutFifoControl_SI.AlmostFull_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 					OutFifoDataRegRowExternal_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
 					OutFifoDataRegRowExternal_D(APS_ADC_BUS_WIDTH - 1 downto 0)         <= ExternalADCData_DI;
 
@@ -1076,7 +1076,7 @@ begin
 					OutFifoWriteRegRowExternal_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ExtRowState_DN       <= stRowSRFeedTick;
 					RowReadPositionInc_S <= '1';
 				end if;
@@ -1087,13 +1087,13 @@ begin
 
 			when stRowDone =>
 				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
+				if OutFifoControl_SI.AlmostFull_S = '0' and APSChipColModeReg_DP /= COLMODE_NULL then
 					OutFifoDataRegRowExternal_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
 					OutFifoDataRegRowExternalEnable_S <= '1';
 					OutFifoWriteRegRowExternal_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' or APSChipColModeReg_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ExtRowState_DN         <= stIdle;
 					RowReadDoneExternal_SN <= '1';
 				end if;
@@ -1488,7 +1488,7 @@ begin
 				when stRowStart =>
 					-- Write event only if FIFO has place, else wait.
 					-- If fake read (COLMODE_NULL), don't write anything.
-					if OutFifoControl_SI.Full_S = '0' and APSChipColModeRegScan_DP /= COLMODE_NULL then
+					if OutFifoControl_SI.AlmostFull_S = '0' and APSChipColModeRegScan_DP /= COLMODE_NULL then
 						if APSChipColModeRegScan_DP = COLMODE_READA then
 							OutFifoDataRegRowChip_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
 						else
@@ -1498,7 +1498,7 @@ begin
 						OutFifoWriteRegRowChip_S      <= '1';
 					end if;
 
-					if OutFifoControl_SI.Full_S = '0' or APSChipColModeRegScan_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+					if OutFifoControl_SI.AlmostFull_S = '0' or APSChipColModeRegScan_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 						-- Same check as in stRowScanNextValue needed here.
 						if CurrentRowValid_S = '1' then
 							ChipRowScanState_DN <= stRowScanReadValue;
@@ -1509,7 +1509,7 @@ begin
 
 				when stRowScanReadValue =>
 					-- Write event only if FIFO has place, else wait.
-					if OutFifoControl_SI.Full_S = '0' and APSChipColModeRegScan_DP /= COLMODE_NULL then
+					if OutFifoControl_SI.AlmostFull_S = '0' and APSChipColModeRegScan_DP /= COLMODE_NULL then
 						OutFifoDataRegRowChip_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
 
 						-- Convert from gray-code to binary. This uses a direct algorithm instead of using the previously stored binary
@@ -1530,7 +1530,7 @@ begin
 						OutFifoWriteRegRowChip_S      <= '1';
 					end if;
 
-					if OutFifoControl_SI.Full_S = '0' or APSChipColModeRegScan_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+					if OutFifoControl_SI.AlmostFull_S = '0' or APSChipColModeRegScan_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 						ChipRowScanState_DN      <= stRowScanNextValue;
 						RowReadPositionIncChip_S <= '1';
 					end if;
@@ -1557,13 +1557,13 @@ begin
 
 				when stRowDone =>
 					-- Write event only if FIFO has place, else wait.
-					if OutFifoControl_SI.Full_S = '0' and APSChipColModeRegScan_DP /= COLMODE_NULL then
+					if OutFifoControl_SI.AlmostFull_S = '0' and APSChipColModeRegScan_DP /= COLMODE_NULL then
 						OutFifoDataRegRowChip_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
 						OutFifoDataRegRowChipEnable_S <= '1';
 						OutFifoWriteRegRowChip_S      <= '1';
 					end if;
 
-					if OutFifoControl_SI.Full_S = '0' or APSChipColModeRegScan_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+					if OutFifoControl_SI.AlmostFull_S = '0' or APSChipColModeRegScan_DP = COLMODE_NULL or APSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 						ChipRowScanState_DN <= stIdle;
 
 						-- Notify ramp SM that we're done with the scan. It can proceed
