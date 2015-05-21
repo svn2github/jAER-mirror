@@ -103,6 +103,12 @@ void main(void)
    USBIE |= bmSUDAV | bmSUTOK | bmURES | bmHSGRANT; // Enable selected interrupts
    EA = 1; // Enable 8051 interrupts
 
+   // Download the serial number from the EEPROM
+   downloadSerialNumberFromEEPROM();
+
+   // Load configuration parameters from EEPROM to CPLD.
+   downloadConfigurationFromEEPROM();
+
 #ifndef NO_RENUM
    // Renumerate if necessary.  Do this by checking the renum bit.  If it
    // is already set, there is no need to renumerate.  The renum bit will
@@ -122,12 +128,6 @@ void main(void)
 
    // Clear the Sleep flag.
    Sleep = FALSE;
-
-   // Download the serial number from the EEPROM
-   downloadSerialNumberFromEEPROM();
-
-   // Load configuration parameters from EEPROM to CPLD.
-   downloadConfigurationFromEEPROM();
 
    // Task Dispatcher
    while(TRUE)               // Main Loop
