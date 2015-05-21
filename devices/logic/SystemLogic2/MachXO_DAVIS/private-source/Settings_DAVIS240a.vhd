@@ -33,7 +33,7 @@ package Settings is
 	constant EXT_INPUT_FIFO_ALMOST_EMPTY_SIZE : integer := 2;
 	constant EXT_INPUT_FIFO_ALMOST_FULL_SIZE  : integer := 2;
 
-	constant LOGIC_VERSION : unsigned(13 downto 0) := to_unsigned(6616, 14);
+	constant LOGIC_VERSION : unsigned(13 downto 0) := to_unsigned(6735, 14);
 
 	-- The idea behing common-source/ is to have generic implementations of features, that can
 	-- easily be adapted to a specific platform+chip combination. As such, only Settings.vhd and

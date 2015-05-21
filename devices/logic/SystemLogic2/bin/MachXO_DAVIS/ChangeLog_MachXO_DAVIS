@@ -1,3 +1,8 @@
+Revision 6735 - 21.05.2015
+- APSADC: several changes to accomodate fast pipelined
+  readout on new FX3 devices. No functional changes for
+  FX2 devices currently sold.
+
 Revision 6616 - 08.05.2015
 - DVSAER: add ExternalAERControl configuration parameter
   to have external AER masters control the AER bus, for
