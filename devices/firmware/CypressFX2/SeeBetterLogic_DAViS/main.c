@@ -50,8 +50,8 @@ static void ChipDiagnosticChainWrite(BYTE xdata *config);
 static void ChipBiasWrite(BYTE xdata *config);
 static void SPIWrite(BYTE byte);
 static BYTE SPIRead(void);
-static void EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf);
-static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf);
+static BOOL EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf);
+static BOOL EEPROMRead(WORD address, BYTE length, BYTE xdata *buf);
 
 void downloadSerialNumberFromEEPROM(void);
 void downloadConfigurationFromEEPROM(void);
@@ -308,7 +308,7 @@ static BYTE SPIRead(void) {
 	return (byte);
 }
 
-static void EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf)
+static BOOL EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf)
 {
 	BYTE i;
 	BYTE xdata ee_str[3];
@@ -320,16 +320,21 @@ static void EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf)
 		ee_str[1] = LSB(address);
 		ee_str[2] = buf[i];
 
-		EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 3, ee_str);
+		if (!EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 3, ee_str)) {
+			// Detect failure of I2C operation and stop, report it.
+  			setPE(FXLED, 0);
+			return (FALSE);
+		}
 		EZUSB_WaitForEEPROMWrite(I2C_EEPROM_ADDRESS);
 
 		address++;
 	}
 
 	setPE(FXLED, 0);
+	return (TRUE);
 }
 
-static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
+static BOOL EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
 {
 	BYTE i;
 	BYTE xdata ee_str[2];
@@ -339,16 +344,25 @@ static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
 	ee_str[0] = MSB(address);
 	ee_str[1] = LSB(address);
 
-	EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 2, ee_str);
+	if (!EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 2, ee_str)) {
+		// Detect failure of I2C operation and stop, report it.
+  		setPE(FXLED, 0);
+		return (FALSE);
+	}
 
 	// Set read buffer to known value.
 	for (i = 0; i < length; i++) {
 		buf[i] = 0xCD;
 	}
 
-	EZUSB_ReadI2C(I2C_EEPROM_ADDRESS, length, buf);
+	if (!EZUSB_ReadI2C(I2C_EEPROM_ADDRESS, length, buf)) {
+		// Detect failure of I2C operation and stop, report it.
+  		setPE(FXLED, 0);
+		return (FALSE);
+	}
 
 	setPE(FXLED, 0);
+	return (TRUE);
 }
 
 // Get serial number from EEPROM.
@@ -362,7 +376,9 @@ void downloadSerialNumberFromEEPROM(void)
 	sNumDscrPtr = ((char *)EZUSB_GetStringDscr(3)) + 2;
 
 	// Read string description from EEPROM
-	EEPROMRead(SERIAL_NUMBER_MEMORY_ADDRESS, SERIAL_NUMBER_LENGTH, sNum);
+	if (!EEPROMRead(SERIAL_NUMBER_MEMORY_ADDRESS, SERIAL_NUMBER_LENGTH, sNum)) {
+		return;
+	}
 
 	// Write serial number string descriptor to RAM
 	for (i = 0; i < SERIAL_NUMBER_LENGTH; i++)
@@ -382,7 +398,9 @@ void downloadConfigurationFromEEPROM(void)
 
 	// Read number of configuration parameters from EEPROM.
 	// Each one takes up 6 bytes: 1 module addr, 1 param addr, 4 param.
-	EEPROMRead(CONFIG_MEMORY_ADDRESS, CONFIG_HEADER_LENGTH, configHeader);
+	if (!EEPROMRead(CONFIG_MEMORY_ADDRESS, CONFIG_HEADER_LENGTH, configHeader)) {
+		return;
+	}
 
 	// Check that the signature matches.
 	if (configHeader[0] != 'C' || configHeader[1] != 'O'
@@ -405,8 +423,10 @@ void downloadConfigurationFromEEPROM(void)
 	// Step through each config parameter, read it and send it to the device.
 	for (i = 0; i < configNumber; i++) {
 		// Read data from EEPROM.
-		EEPROMRead((CONFIG_MEMORY_ADDRESS + CONFIG_HEADER_LENGTH) + (i * CONFIG_SINGLE_LENGTH),
-			CONFIG_SINGLE_LENGTH, config);
+		if (!EEPROMRead((CONFIG_MEMORY_ADDRESS + CONFIG_HEADER_LENGTH) + (i * CONFIG_SINGLE_LENGTH),
+			CONFIG_SINGLE_LENGTH, config)) {
+			continue;
+		}
 
 		// FX2 devices need the biases or the chip diagnostic chain to be
 		// sent separately, using a different channel directly to chip.
@@ -753,7 +773,9 @@ BOOL DR_VendorCmnd(void) {
 
 				currByteCount = EP0BCL; // Get the new byte count
 
-				EEPROMWrite(wValue, currByteCount, EP0BUF);
+				if (!EEPROMWrite(wValue, currByteCount, EP0BUF)) {
+					return (TRUE); // Error, exit and stall EP.
+				}
 
 				wValue += currByteCount;
 
@@ -780,7 +802,9 @@ BOOL DR_VendorCmnd(void) {
 					currByteCount = EP0BUFF_SIZE;
 				}
 
-				EEPROMRead(wValue, currByteCount, EP0BUF);
+				if (!EEPROMRead(wValue, currByteCount, EP0BUF)) {
+					return (TRUE); // Error, exit and stall EP.
+				}
 
 				wValue += currByteCount;
 
