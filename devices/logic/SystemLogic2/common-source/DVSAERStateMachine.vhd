@@ -739,14 +739,16 @@ begin
 					Row2_S := RowAddress_D(1 downto 0) = "10";
 					Row3_S := RowAddress_D(1 downto 0) = "11";
 
-					Column0Active_S := Column0_S or (Column1_S and not BorderLeft_S) or (Column3_S and not BorderRight_S);
-					Column1Active_S := Column1_S or (Column2_S and not BorderLeft_S) or (Column0_S and not BorderRight_S);
-					Column2Active_S := Column2_S or (Column3_S and not BorderLeft_S) or (Column1_S and not BorderRight_S);
+					-- BorderLeft can happen only when column is zero.
+					Column0Active_S := Column0_S or Column1_S or (Column3_S and not BorderRight_S);
+					Column1Active_S := Column1_S or Column2_S or (Column0_S and not BorderRight_S);
+					Column2Active_S := Column2_S or Column3_S or (Column1_S and not BorderRight_S);
 					Column3Active_S := Column3_S or (Column0_S and not BorderLeft_S) or (Column2_S and not BorderRight_S);
 
-					Row0Active_S := Row0_S or (Row1_S and not BorderDown_S) or (Row3_S and not BorderUp_S);
-					Row1Active_S := Row1_S or (Row2_S and not BorderDown_S) or (Row0_S and not BorderUp_S);
-					Row2Active_S := Row2_S or (Row3_S and not BorderDown_S) or (Row1_S and not BorderUp_S);
+					-- BorderDown can happen only when row is zero.
+					Row0Active_S := Row0_S or Row1_S or (Row3_S and not BorderUp_S);
+					Row1Active_S := Row1_S or Row2_S or (Row0_S and not BorderUp_S);
+					Row2Active_S := Row2_S or Row3_S or (Row1_S and not BorderUp_S);
 					Row3Active_S := Row3_S or (Row0_S and not BorderDown_S) or (Row2_S and not BorderUp_S);
 
 					TimestampMap0En_S  <= BooleanToStdLogic(Column0Active_S and Row0Active_S);
