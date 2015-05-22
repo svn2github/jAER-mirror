@@ -4,7 +4,7 @@
 
 	<groupId>net.sf.jaer</groupId>
 	<artifactId>Flashy</artifactId>
-	<version>0.8.2</version>
+	<version>0.8.3</version>
 	<packaging>jar</packaging>
 
 	<name>Flashy</name>
