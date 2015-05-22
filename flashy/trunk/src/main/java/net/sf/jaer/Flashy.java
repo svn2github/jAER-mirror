@@ -99,6 +99,40 @@ public final class Flashy extends Application {
 
 	@Override
 	public void start(final Stage primaryStage) {
+		// Check minimum Java version requirement.
+		final String javaVersionStr = System.getProperty("java.version");
+
+		final String[] javaVersionComponentsStr = javaVersionStr.split("\\.|_", 4);
+
+		final int[] javaVersionComponents = new int[javaVersionComponentsStr.length];
+		int i = 0;
+		for (final String component : javaVersionComponentsStr) {
+			javaVersionComponents[i++] = Integer.parseInt(component);
+		}
+
+		// Check at least Java 1.8.0 Update 40.
+		if ((javaVersionComponents[0] < 1) || (javaVersionComponents[1] < 8)
+			|| ((javaVersionComponents.length == 4) && (javaVersionComponents[3] < 40))) {
+			final VBox text = new VBox(20);
+			GUISupport
+				.addLabel(
+					text,
+					"Flashy requires at least Java 1.8 Update 40 to run. Please update your JRE/JDK to the latest Java 1.8 release.",
+					null, null, null);
+
+			final BorderPane main = new BorderPane();
+			main.setCenter(text);
+
+			final Scene rootScene = new Scene(main, 640, 240, Color.GRAY);
+
+			primaryStage.setTitle("Firmware Flash Utility - Error");
+			primaryStage.setScene(rootScene);
+
+			primaryStage.show();
+
+			return;
+		}
+
 		final VBox gui = new VBox(20);
 
 		gui.getChildren().add(usbDeviceSelectGUI());
