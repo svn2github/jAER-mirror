@@ -219,8 +219,12 @@ public final class Flashy extends Application {
 						newVal.open();
 					}
 					catch (final Exception e) {
-						// Remove unopenable devices from list.
-						usbDevicesBox.getItems().remove(newVal);
+						// Signal that this device can't be opened to user.
+						GUISupport
+							.showDialogError("Impossible to open this device.\n"
+								+ "This is usally caused by the device not having the WinUSB driver properly installed on Windows or by permission problems on Linux.\n"
+								+ "Please check the documentation on how to resolve this.");
+						return;
 					}
 
 					final Map<Short, Class<? extends Controller>> pids = Flashy.supportedVidPids.get(newVal.getDevVID());
