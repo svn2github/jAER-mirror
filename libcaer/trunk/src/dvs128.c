@@ -5,7 +5,7 @@
  *      Author: chtekk
  */
 
-#include "dvs128.h"
+#include "devices/dvs128.h"
 #include "ringbuffer/ringbuffer.h"
 #include <pthread.h>
 #include <libusb.h>

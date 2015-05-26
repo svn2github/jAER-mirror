@@ -1,5 +1,5 @@
 #include "davis_common.h"
-#include "davis_fx3.h"
+#include "devices/davis_fx3.h"
 #include <pthread.h>
 #include <unistd.h>
 
