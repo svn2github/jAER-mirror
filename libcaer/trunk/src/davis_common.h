@@ -44,8 +44,6 @@ struct davis_state {
 	bool apsFlipX;
 	bool apsFlipY;
 	bool apsIgnoreEvents;
-	uint16_t apsWindow0StartX;
-	uint16_t apsWindow0StartY;
 	uint16_t apsWindow0SizeX;
 	uint16_t apsWindow0SizeY;
 	bool apsGlobalShutter;
@@ -89,25 +87,22 @@ struct davis_state {
 	uint32_t maxSpecialPacketInterval;
 };
 
+typedef struct davis_state *davisState;
+
 struct davis_handle {
 	// Information fields
-	struct davis_info info;
-	// Device state
+	struct caer_davis_info info;
+	// State for data management, common to all DAVISes.
 	struct davis_state state;
 };
 
+typedef struct davis_handle *davisHandle;
+
 void spiConfigSend(libusb_device_handle *devHandle, uint8_t moduleAddr, uint8_t paramAddr, uint32_t param);
 uint32_t spiConfigReceive(libusb_device_handle *devHandle, uint8_t moduleAddr, uint8_t paramAddr);
-bool deviceOpenInfo(caerModuleData moduleData, davisCommonState cstate, uint16_t VID, uint16_t PID, uint8_t DID_TYPE);
-void createCommonConfiguration(caerModuleData moduleData, davisCommonState cstate);
-bool initializeCommonConfiguration(caerModuleData moduleData, davisCommonState cstate,
-	void *dataAcquisitionThread(void *inPtr));
-void caerInputDAVISCommonRun(caerModuleData moduleData, size_t argsNumber, va_list args);
-void caerInputDAVISCommonExit(caerModuleData moduleData);
-void allocateDataTransfers(davisCommonState state, uint32_t bufferNum, uint32_t bufferSize);
-void deallocateDataTransfers(davisCommonState state);
-void sendEnableDataConfig(sshsNode moduleNode, libusb_device_handle *devHandle);
-void sendDisableDataConfig(libusb_device_handle *devHandle);
-void dataAcquisitionThreadConfig(caerModuleData moduleData);
+bool davisOpen(davisHandle handle, uint16_t VID, uint16_t PID, uint8_t DID_TYPE, uint8_t busNumberRestrict,
+	uint8_t devAddressRestrict, const char *serialNumberRestrict);
+bool davisInfoInitialize(davisHandle handle);
+bool davisStateInitialize(davisHandle handle);
 
 #endif /* DAVIS_COMMON_H_ */

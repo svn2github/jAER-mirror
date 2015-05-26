@@ -14,14 +14,14 @@
 #include "events/frame.h"
 #include "events/imu6.h"
 
-#define DAVIS_CONFIG_MUX 0
-#define DAVIS_CONFIG_DVS 1
-#define DAVIS_CONFIG_APS 2
-#define DAVIS_CONFIG_IMU 3
+#define DAVIS_CONFIG_MUX      0
+#define DAVIS_CONFIG_DVS      1
+#define DAVIS_CONFIG_APS      2
+#define DAVIS_CONFIG_IMU      3
 #define DAVIS_CONFIG_EXTINPUT 4
-#define DAVIS_CONFIG_BIAS 5
-#define DAVIS_CONFIG_SYSINFO 6
-#define DAVIS_CONFIG_USB 9
+#define DAVIS_CONFIG_BIAS     5
+#define DAVIS_CONFIG_SYSINFO  6
+#define DAVIS_CONFIG_USB      9
 
 #define DAVIS_CHIP_DAVIS240A 0
 #define DAVIS_CHIP_DAVIS240B 1
@@ -34,7 +34,7 @@
 #define DAVIS_CHIP_DAVIS208  8
 #define DAVIS_CHIP_DAVIS346C 9
 
-struct davis_info {
+struct caer_davis_info {
 	uint16_t deviceID;
 	char *deviceString;
 	// System information fields
@@ -61,8 +61,6 @@ struct davis_info {
 	bool extInputHasGenerator;
 };
 
-typedef struct davis_info *davisInfo;
-
-typedef struct davis_handle *davisHandle;
+typedef struct caer_davis_info *caerDavisInfo;
 
 #endif /* LIBCAER_DEVICES_DAVIS_H_ */

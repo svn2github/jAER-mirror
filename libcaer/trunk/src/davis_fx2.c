@@ -1,48 +1,49 @@
 #include "davis_common.h"
 #include "davis_fx2.h"
-#include "base/module.h"
 #include <pthread.h>
 #include <unistd.h>
 
-struct davisFX2_state {
-	// State for data management, common to all DAVISes.
-	struct davisCommon_state cstate;
+#define DAVIS_FX2_VID 0x152A
+#define DAVIS_FX2_PID 0x841B
+#define DAVIS_FX2_DID_TYPE 0x00
+
+#define VR_CHIP_BIAS 0xC0
+#define VR_CHIP_DIAG 0xC1
+
+struct caer_davis_fx2_handle {
+	// Common info and state structure (handle).
+	struct davis_handle h;
 };
 
-typedef struct davisFX2_state *davisFX2State;
-
-static bool caerInputDAVISFX2Init(caerModuleData moduleData);
-// RUN: common to all DAVIS systems.
-// CONFIG: Nothing to do here in the main thread!
-// Biases are configured asynchronously, and buffer sizes in the data
-// acquisition thread itself. Resetting the main config_refresh flag
-// will also happen there.
-// EXIT: common to all DAVIS systems.
-
-static struct caer_module_functions caerInputDAVISFX2Functions = { .moduleInit = &caerInputDAVISFX2Init, .moduleRun =
-	&caerInputDAVISCommonRun, .moduleConfig = NULL, .moduleExit = &caerInputDAVISCommonExit };
-
-void caerInputDAVISFX2(uint16_t moduleID, caerPolarityEventPacket *polarity, caerFrameEventPacket *frame,
-	caerIMU6EventPacket *imu6, caerSpecialEventPacket *special) {
-	caerModuleData moduleData = caerMainloopFindModule(moduleID, "DAVISFX2");
-
-	// IMPORTANT: THE CONTENT OF OUTPUT ARGUMENTS MUST BE SET TO NULL!
-	if (polarity != NULL) {
-		*polarity = NULL;
-	}
-	if (frame != NULL) {
-		*frame = NULL;
-	}
-	if (imu6 != NULL) {
-		*imu6 = NULL;
-	}
-	if (special != NULL) {
-		*special = NULL;
+caerDavisFX2Handle caerDavisFX2Open(uint8_t busNumberRestrict, uint8_t devAddressRestrict,
+	const char *serialNumberRestrict) {
+	// Allocate memory for device structures.
+	caerDavisFX2Handle handle = ccalloc(1, sizeof(*handle));
+	if (handle == NULL) {
+		caerLog(LOG_CRITICAL, "DAVIS FX2", "Failed to allocate memory.");
+		return (NULL);
 	}
 
-	caerModuleSM(&caerInputDAVISFX2Functions, moduleData, sizeof(struct davisFX2_state), 4, polarity, frame, imu6,
-		special);
+	// Open device.
+	davisOpen(&handle->h, DAVIS_FX2_VID, DAVIS_FX2_PID, DAVIS_FX2_DID_TYPE,
+		busNumberRestrict, devAddressRestrict, serialNumberRestrict);
+
+	// Fill out info data structure.
+	davisInfoInitialize(&handle->h);
+
+	// Initialize state and configuration.
+	davisStateInitialize(&handle->h);
+
+	return (handle);
 }
+
+bool caerDavisFX2Close(caerDavisFX2Handle handle);
+caerDavisInfo caerDavisFX2InfoGet(caerDavisFX2Handle handle);
+bool caerDavisFX2ConfigSet(caerDavisFX2Handle handle, int8_t modAddr, uint8_t paramAddr, uint32_t param);
+bool caerDavisFX2ConfigGet(caerDavisFX2Handle handle, int8_t modAddr, uint8_t paramAddr, uint32_t *param);
+bool caerDavisFX2DataStart(caerDavisFX2Handle handle);
+bool caerDavisFX2DataStop(caerDavisFX2Handle handle);
+caerEventPacketContainer caerDavisFX2DataGet(caerDavisFX2Handle handle);
 
 static void *dataAcquisitionThread(void *inPtr);
 static void sendBias(libusb_device_handle *devHandle, uint8_t biasAddress, uint16_t biasValue);

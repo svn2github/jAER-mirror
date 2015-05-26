@@ -6,11 +6,22 @@
  */
 
 #include "dvs128.h"
-#include "base/mainloop.h"
-#include "base/module.h"
-#include "ext/ringbuffer/ringbuffer.h"
+#include "ringbuffer/ringbuffer.h"
 #include <pthread.h>
 #include <libusb.h>
+
+#define DVS128_VID 0x152A
+#define DVS128_PID 0x8400
+#define DVS128_DID_TYPE 0x00
+
+#define DVS128_ARRAY_SIZE_X 128
+#define DVS128_ARRAY_SIZE_Y 128
+
+#define DATA_ENDPOINT 0x86
+
+#define VENDOR_REQUEST_START_TRANSFER 0xB3
+#define VENDOR_REQUEST_STOP_TRANSFER 0xB4
+#define VENDOR_REQUEST_SEND_BIASES 0xB8
 
 struct dvs128_state {
 	// Data Acquisition Thread -> Mainloop Exchange

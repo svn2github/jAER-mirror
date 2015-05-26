@@ -6,7 +6,8 @@ static inline void checkMonotonicTimestamp(davisHandle handle) {
 	if (handle->state.currentTimestamp <= handle->state.lastTimestamp) {
 		caerLog(LOG_ALERT, handle->info.deviceString,
 			"Timestamps: non strictly-monotonic timestamp detected: lastTimestamp=%" PRIu32 ", currentTimestamp=%" PRIu32 ", difference=%" PRIu32 ".",
-			handle->state.lastTimestamp, handle->state.currentTimestamp, (handle->state.lastTimestamp - handle->state.currentTimestamp));
+			handle->state.lastTimestamp, handle->state.currentTimestamp,
+			(handle->state.lastTimestamp - handle->state.currentTimestamp));
 	}
 }
 
@@ -22,7 +23,8 @@ static inline void initFrame(davisHandle handle, caerFrameEvent currentFrameEven
 		caerFrameEventSetTSStartOfFrame(currentFrameEvent, handle->state.currentTimestamp);
 
 		// Allocate memory for pixels.
-		caerFrameEventAllocatePixels(currentFrameEvent, handle->state.apsWindow0SizeX, handle->state.apsWindow0SizeY, 1);
+		caerFrameEventAllocatePixels(currentFrameEvent, handle->state.apsWindow0SizeX, handle->state.apsWindow0SizeY,
+			1);
 	}
 }
 
@@ -56,45 +58,45 @@ static inline float calculateIMUGyroScale(uint8_t imuGyroScale) {
 	return (gyroScale);
 }
 
-static void freeAllMemory(davisCommonState state) {
-	if (state->currentPolarityPacket != NULL) {
-		free(state->currentPolarityPacket);
-		state->currentPolarityPacket = NULL;
+static void freeAllMemory(davisHandle handle) {
+	if (handle->state.currentPolarityPacket != NULL) {
+		free(handle->state.currentPolarityPacket);
+		handle->state.currentPolarityPacket = NULL;
 	}
 
-	if (state->currentFramePacket != NULL) {
-		free(state->currentFramePacket);
-		state->currentFramePacket = NULL;
+	if (handle->state.currentFramePacket != NULL) {
+		free(handle->state.currentFramePacket);
+		handle->state.currentFramePacket = NULL;
 	}
 
-	if (state->currentIMU6Packet != NULL) {
-		free(state->currentIMU6Packet);
-		state->currentIMU6Packet = NULL;
+	if (handle->state.currentIMU6Packet != NULL) {
+		free(handle->state.currentIMU6Packet);
+		handle->state.currentIMU6Packet = NULL;
 	}
 
-	if (state->currentSpecialPacket != NULL) {
-		free(state->currentSpecialPacket);
-		state->currentSpecialPacket = NULL;
+	if (handle->state.currentSpecialPacket != NULL) {
+		free(handle->state.currentSpecialPacket);
+		handle->state.currentSpecialPacket = NULL;
 	}
 
-	if (state->apsCurrentResetFrame != NULL) {
-		free(state->apsCurrentResetFrame);
-		state->apsCurrentResetFrame = NULL;
+	if (handle->state.apsCurrentResetFrame != NULL) {
+		free(handle->state.apsCurrentResetFrame);
+		handle->state.apsCurrentResetFrame = NULL;
 	}
 
-	if (state->apsCurrentSignalFrame != NULL) {
-		free(state->apsCurrentSignalFrame);
-		state->apsCurrentSignalFrame = NULL;
+	if (handle->state.apsCurrentSignalFrame != NULL) {
+		free(handle->state.apsCurrentSignalFrame);
+		handle->state.apsCurrentSignalFrame = NULL;
 	}
 
-	if (state->dataExchangeBuffer != NULL) {
-		ringBufferFree(state->dataExchangeBuffer);
-		state->dataExchangeBuffer = NULL;
+	if (handle->state.dataExchangeBuffer != NULL) {
+		ringBufferFree(handle->state.dataExchangeBuffer);
+		handle->state.dataExchangeBuffer = NULL;
 	}
 
-	if (state->sourceSubSystemString != NULL) {
-		free(state->sourceSubSystemString);
-		state->sourceSubSystemString = NULL;
+	if (handle->info.deviceString != NULL) {
+		free(handle->info.deviceString);
+		handle->info.deviceString = NULL;
 	}
 }
 
@@ -125,20 +127,21 @@ uint32_t spiConfigReceive(libusb_device_handle *devHandle, uint8_t moduleAddr, u
 	return (returnedParam);
 }
 
-bool deviceOpenInfo(davisCommonState cstate, uint16_t VID, uint16_t PID, uint8_t DID_TYPE,
-	uint8_t busNumberRestrict, uint8_t devAddressRestrict, const char *serialNumberRestrict) {
+bool davisOpen(davisHandle handle, uint16_t VID, uint16_t PID, uint8_t DID_TYPE, uint8_t busNumberRestrict,
+	uint8_t devAddressRestrict, const char *serialNumberRestrict) {
 	// Initialize libusb using a separate context for each device.
 	// This is to correctly support one thread per device.
-	if ((errno = libusb_init(&cstate->deviceContext)) != LIBUSB_SUCCESS) {
-		caerLog(LOG_CRITICAL, "DAVIS", "Failed to initialize libusb context. Error: %s (%d).",
-			libusb_strerror(errno), errno);
+	if ((errno = libusb_init(&handle->state.deviceContext)) != LIBUSB_SUCCESS) {
+		caerLog(LOG_CRITICAL, "DAVIS", "Failed to initialize libusb context. Error: %s (%d).", libusb_strerror(errno),
+			errno);
 		return (false);
 	}
 
 	// Try to open a DAVIS device on a specific USB port.
-	cstate->deviceHandle = deviceOpen(cstate->deviceContext, VID, PID, DID_TYPE, busNumberRestrict, devAddressRestrict);
-	if (cstate->deviceHandle == NULL) {
-		libusb_exit(cstate->deviceContext);
+	handle->state.deviceHandle = deviceOpen(handle->state.deviceContext, VID, PID, DID_TYPE, busNumberRestrict,
+		devAddressRestrict);
+	if (handle->state.deviceHandle == NULL) {
+		libusb_exit(handle->state.deviceContext);
 
 		caerLog(LOG_CRITICAL, "DAVIS", "Failed to open device.");
 		return (false);
@@ -146,121 +149,98 @@ bool deviceOpenInfo(davisCommonState cstate, uint16_t VID, uint16_t PID, uint8_t
 
 	// At this point we can get some more precise data on the device and update
 	// the logging string to reflect that and be more informative.
-	uint8_t busNumber = libusb_get_bus_number(libusb_get_device(cstate->deviceHandle));
-	uint8_t devAddress = libusb_get_device_address(libusb_get_device(cstate->deviceHandle));
+	uint8_t busNumber = libusb_get_bus_number(libusb_get_device(handle->state.deviceHandle));
+	uint8_t devAddress = libusb_get_device_address(libusb_get_device(handle->state.deviceHandle));
 
 	char serialNumber[8 + 1];
-	libusb_get_string_descriptor_ascii(cstate->deviceHandle, 3, (unsigned char *) serialNumber, 8 + 1);
+	libusb_get_string_descriptor_ascii(handle->state.deviceHandle, 3, (unsigned char *) serialNumber, 8 + 1);
 	serialNumber[8] = '\0'; // Ensure NUL termination.
 
-	size_t fullLogStringLength = (size_t) snprintf(NULL, 0, "%s SN-%s [%" PRIu8 ":%" PRIu8 "]",
-		"DAVIS", serialNumber, busNumber, devAddress);
+	size_t fullLogStringLength = (size_t) snprintf(NULL, 0, "%s SN-%s [%" PRIu8 ":%" PRIu8 "]", "DAVIS", serialNumber,
+		busNumber, devAddress);
 
 	char *fullLogString = malloc(fullLogStringLength + 1);
 	if (fullLogString == NULL) {
 		caerLog(LOG_CRITICAL, "DAVIS", "Unable to allocate memory for device log string.");
 	}
 
-	snprintf(fullLogString, fullLogStringLength + 1, "%s SN-%s [%" PRIu8 ":%" PRIu8 "]",
-		"DAVIS", serialNumber, busNumber, devAddress);
+	snprintf(fullLogString, fullLogStringLength + 1, "%s SN-%s [%" PRIu8 ":%" PRIu8 "]", "DAVIS", serialNumber,
+		busNumber, devAddress);
 
 	// Update module log string, make it accessible in cstate space.
-	cstate->sourceSubSystemString = fullLogString;
+	handle->info.deviceString = fullLogString;
 
 	// Now check if the Serial Number matches.
 	if (!str_equals(serialNumberRestrict, "") && !str_equals(serialNumberRestrict, serialNumber)) {
-		libusb_close(cstate->deviceHandle);
-		libusb_exit(cstate->deviceContext);
+		libusb_close(handle->state.deviceHandle);
+		libusb_exit(handle->state.deviceContext);
 
-		caerLog(LOG_CRITICAL, cstate->sourceSubSystemString, "Device Serial Number doesn't match.");
+		caerLog(LOG_CRITICAL, handle->info.deviceString, "Device Serial Number doesn't match.");
 		return (false);
 	}
-
-	// So now we have a working connection to the device we want. Let's get some data!
-	cstate->info.apsSizeX = U16T(spiConfigReceive(cstate->deviceHandle, FPGA_APS, 0));
-	cstate->info.apsSizeY = U16T(spiConfigReceive(cstate->deviceHandle, FPGA_APS, 1));
-
-	uint8_t apsOrientationInfo = U8T(spiConfigReceive(cstate->deviceHandle, FPGA_APS, 2));
-	cstate->apsInvertXY = apsOrientationInfo & 0x04;
-	cstate->apsFlipX = apsOrientationInfo & 0x02;
-	cstate->apsFlipY = apsOrientationInfo & 0x01;
-
-	cstate->info.apsColorFilter = spiConfigReceive(cstate->deviceHandle, FPGA_APS, 3);
-
-	cstate->info.apsHasGlobalShutter = spiConfigReceive(cstate->deviceHandle, FPGA_APS, 7);
-	cstate->info.apsHasQuadROI = spiConfigReceive(cstate->deviceHandle, FPGA_APS, 19);
-	cstate->info.apsHasExternalADC = spiConfigReceive(cstate->deviceHandle, FPGA_APS, 32);
-	cstate->info.apsHasInternalADC = spiConfigReceive(cstate->deviceHandle, FPGA_APS, 33);
-
-	cstate->info.dvsSizeX = U16T(spiConfigReceive(cstate->deviceHandle, FPGA_DVS, 0));
-	cstate->info.dvsSizeY = U16T(spiConfigReceive(cstate->deviceHandle, FPGA_DVS, 1));
-
-	cstate->dvsInvertXY = U8T(spiConfigReceive(cstate->deviceHandle, FPGA_DVS, 2)) & 0x04;
-
-	cstate->info.dvsHasPixelFilter = spiConfigReceive(cstate->deviceHandle, FPGA_DVS, 11);
-	cstate->info.dvsHasBackgroundActivityFilter = spiConfigReceive(cstate->deviceHandle, FPGA_DVS, 28);
-
-	cstate->info.extInputHasGenerator = spiConfigReceive(cstate->deviceHandle, FPGA_EXTINPUT, 6);
-
-	cstate->info.logicVersion = U16T(spiConfigReceive(cstate->deviceHandle, FPGA_SYSINFO, 0));
-	cstate->info.chipID = U16T(spiConfigReceive(cstate->deviceHandle, FPGA_SYSINFO, 1));
-	cstate->info.deviceIsMaster = spiConfigReceive(cstate->deviceHandle, FPGA_SYSINFO, 2);
-	cstate->info.logicClock = U16T(spiConfigReceive(cstate->deviceHandle, FPGA_SYSINFO, 3));
-	cstate->info.adcClock = U16T(spiConfigReceive(cstate->deviceHandle, FPGA_SYSINFO, 4));
 
 	return (true);
 }
 
-bool initializeCommonConfiguration(davisCommonState cstate,
-	void *dataAcquisitionThread(void *inPtr)) {
+bool davisInfoInitialize(davisHandle handle) {
+	// So now we have a working connection to the device we want. Let's get some data!
+	handle->info.apsSizeX = U16T(spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_APS, 0));
+	handle->info.apsSizeY = U16T(spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_APS, 1));
+
+	uint8_t apsOrientationInfo = U8T(spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_APS, 2));
+	handle->state.apsInvertXY = apsOrientationInfo & 0x04;
+	handle->state.apsFlipX = apsOrientationInfo & 0x02;
+	handle->state.apsFlipY = apsOrientationInfo & 0x01;
+
+	handle->info.apsColorFilter = spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_APS, 3);
+
+	handle->info.apsHasGlobalShutter = spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_APS, 7);
+	handle->info.apsHasQuadROI = spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_APS, 19);
+	handle->info.apsHasExternalADC = spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_APS, 32);
+	handle->info.apsHasInternalADC = spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_APS, 33);
+
+	handle->info.dvsSizeX = U16T(spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_DVS, 0));
+	handle->info.dvsSizeY = U16T(spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_DVS, 1));
+
+	handle->state.dvsInvertXY = U8T(spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_DVS, 2)) & 0x04;
+
+	handle->info.dvsHasPixelFilter = spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_DVS, 11);
+	handle->info.dvsHasBackgroundActivityFilter = spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_DVS, 28);
+
+	handle->info.extInputHasGenerator = spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_EXTINPUT, 6);
+
+	handle->info.logicVersion = U16T(spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_SYSINFO, 0));
+	handle->info.chipID = U16T(spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_SYSINFO, 1));
+	handle->info.deviceIsMaster = spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_SYSINFO, 2);
+	handle->info.logicClock = U16T(spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_SYSINFO, 3));
+	handle->info.adcClock = U16T(spiConfigReceive(handle->state.deviceHandle, DAVIS_CONFIG_SYSINFO, 4));
+
+	return (true);
+}
+
+bool davisStateInitialize(davisHandle handle) {
 	// Initialize state fields.
 	updatePacketSizesIntervals(moduleData->moduleNode, cstate);
 
 	cstate->currentPolarityPacket = caerPolarityEventPacketAllocate(cstate->maxPolarityPacketSize, cstate->sourceID);
-	cstate->currentPolarityPacketPosition = 0;
 
 	cstate->currentFramePacket = caerFrameEventPacketAllocate(cstate->maxFramePacketSize, cstate->sourceID,
 		cstate->apsSizeX, cstate->apsSizeY, DAVIS_COLOR_CHANNELS);
-	cstate->currentFramePacketPosition = 0;
 
 	cstate->currentIMU6Packet = caerIMU6EventPacketAllocate(cstate->maxIMU6PacketSize, cstate->sourceID);
-	cstate->currentIMU6PacketPosition = 0;
 
 	cstate->currentSpecialPacket = caerSpecialEventPacketAllocate(cstate->maxSpecialPacketSize, cstate->sourceID);
-	cstate->currentSpecialPacketPosition = 0;
 
-	cstate->wrapAdd = 0;
-	cstate->lastTimestamp = 0;
-	cstate->currentTimestamp = 0;
-
-	cstate->dvsTimestamp = 0;
-	cstate->dvsLastY = 0;
-	cstate->dvsGotY = false;
-
-	sshsNode imuNode = sshsGetRelativeNode(moduleData->moduleNode, "imu/");
-	cstate->imuIgnoreEvents = false;
-	cstate->imuCount = 0;
-	cstate->imuTmpData = 0;
 	cstate->imuAccelScale = calculateIMUAccelScale(sshsNodeGetByte(imuNode, "AccelFullScale"));
 	cstate->imuGyroScale = calculateIMUGyroScale(sshsNodeGetByte(imuNode, "GyroFullScale"));
 
-	sshsNode apsNode = sshsGetRelativeNode(moduleData->moduleNode, "aps/");
-	cstate->apsIgnoreEvents = false;
-	cstate->apsWindow0StartX = sshsNodeGetShort(apsNode, "StartColumn0");
-	cstate->apsWindow0StartY = sshsNodeGetShort(apsNode, "StartRow0");
 	cstate->apsWindow0SizeX = U16T(
 		sshsNodeGetShort(apsNode, "EndColumn0") + 1 - sshsNodeGetShort(apsNode, "StartColumn0"));
 	cstate->apsWindow0SizeY = U16T(sshsNodeGetShort(apsNode, "EndRow0") + 1 - sshsNodeGetShort(apsNode, "StartRow0"));
 
-	if (sshsNodeAttrExists(apsNode, "GlobalShutter", BOOL)) {
-		cstate->apsGlobalShutter = sshsNodeGetBool(apsNode, "GlobalShutter");
-	}
-	else {
-		cstate->apsGlobalShutter = false;
-	}
+	cstate->apsGlobalShutter = sshsNodeGetBool(apsNode, "GlobalShutter");
+
 	cstate->apsResetRead = sshsNodeGetBool(apsNode, "ResetRead");
-	cstate->apsRGBPixelOffsetDirection = 0;
-	cstate->apsRGBPixelOffset = 0;
 
 	initFrame(cstate, NULL);
 	cstate->apsCurrentResetFrame = calloc((size_t) cstate->apsSizeX * cstate->apsSizeY * DAVIS_COLOR_CHANNELS,
@@ -282,30 +262,47 @@ bool initializeCommonConfiguration(davisCommonState cstate,
 		}
 	}
 
-	// Store reference to parent mainloop, so that we can correctly notify
-	// the availability or not of data to consume.
-	cstate->mainloopNotify = caerMainloopGetReference();
+	return (true);
+}
 
+caerEventPacketContainer davisDataStart(davisHandle handle, void *dataAcquisitionThread(void *inPtr)) {
 	// Create data exchange buffers. Size is fixed until module restart.
-	cstate->dataExchangeBuffer = ringBufferInit(
+	handle->state.dataExchangeBuffer = ringBufferInit(
 		sshsNodeGetInt(sshsGetRelativeNode(moduleData->moduleNode, "system/"), "DataExchangeBufferSize"));
-	if (cstate->dataExchangeBuffer == NULL) {
+	if (handle->state.dataExchangeBuffer == NULL) {
 		freeAllMemory(cstate);
 
-		caerLog(LOG_CRITICAL, moduleData->moduleSubSystemString, "Failed to initialize data exchange buffer.");
+		caerLog(LOG_CRITICAL, handle->info.deviceString, "Failed to initialize data exchange buffer.");
 		return (false);
 	}
 
 	// Start data acquisition thread.
-	if ((errno = pthread_create(&cstate->dataAcquisitionThread, NULL, dataAcquisitionThread, moduleData)) != 0) {
+	if ((errno = pthread_create(&handle->state.dataAcquisitionThread, NULL, dataAcquisitionThread, handle)) != 0) {
 		freeAllMemory(cstate);
 
-		caerLog(LOG_CRITICAL, moduleData->moduleSubSystemString,
-			"Failed to start data acquisition thread. Error: %s (%d).", caerLogStrerror(errno), errno);
+		caerLog(LOG_CRITICAL, handle->info.deviceString, "Failed to start data acquisition thread. Error: %s (%d).",
+			caerLogStrerror(errno), errno);
 		return (false);
 	}
+}
 
-	return (true);
+bool davisDataStop(davisHandle handle) {
+	// Disable all data transfer on USB end-point.
+	sendDisableDataConfig(handle->state.deviceHandle);
+
+	// Wait for data acquisition thread to terminate...
+	if ((errno = pthread_join(handle->state.dataAcquisitionThread, NULL)) != 0) {
+		// This should never happen!
+		caerLog(LOG_CRITICAL, handle->info.deviceString, "Failed to join data acquisition thread. Error: %s (%d).",
+			caerLogStrerror(errno), errno);
+	}
+
+	// Empty ringbuffer.
+	void *packet;
+	while ((packet = ringBufferGet(handle->state.dataExchangeBuffer)) != NULL) {
+		caerMainloopDataAvailableDecrease(handle->state.dataNotify);
+		free(packet);
+	}
 }
 
 void caerInputDAVISCommonExit(caerModuleData moduleData) {
@@ -315,29 +312,11 @@ void caerInputDAVISCommonExit(caerModuleData moduleData) {
 	// for the DAVIS modules, so we can trust it being at address offset 0.
 	davisCommonState cstate = moduleData->moduleState;
 
-	// Disable all data transfer on USB end-point.
-	spiConfigSend(cstate->deviceHandle, FPGA_EXTINPUT, 7, 0); // FX3 only.
-	sendDisableDataConfig(cstate->deviceHandle);
-
-	// Wait for data acquisition thread to terminate...
-	if ((errno = pthread_join(cstate->dataAcquisitionThread, NULL)) != 0) {
-		// This should never happen!
-		caerLog(LOG_CRITICAL, moduleData->moduleSubSystemString,
-			"Failed to join data acquisition thread. Error: %s (%d).", caerLogStrerror(errno), errno);
-	}
-
 	// Finally, close the device fully.
 	deviceClose(cstate->deviceHandle);
 
 	// Destroy libusb context.
 	libusb_exit(cstate->deviceContext);
-
-	// Empty ringbuffer.
-	void *packet;
-	while ((packet = ringBufferGet(cstate->dataExchangeBuffer)) != NULL) {
-		caerMainloopDataAvailableDecrease(cstate->mainloopNotify);
-		free(packet);
-	}
 
 	// Free remaining incomplete packets.
 	freeAllMemory(cstate);
