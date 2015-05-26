@@ -1,0 +1,87 @@
+# Init CMake (require at least version 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+
+# General build settings
+IF (NOT CMAKE_BUILD_TYPE)
+	SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "Possible build types: None Debug Release RelWithDebInfo MinSizeRel")
+ENDIF()
+
+# Project name and version
+PROJECT(libcaer C)
+SET(PROJECT_VERSION_MAJOR 0)
+SET(PROJECT_VERSION_MINOR 9)
+SET(PROJECT_VERSION_PATCH 9)
+SET(PROJECT_VERSION_NOREV ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
+IF (NOT PROJECT_REVISION)
+	EXECUTE_PROCESS(COMMAND svnversion OUTPUT_VARIABLE PROJECT_REVISION OUTPUT_STRIP_TRAILING_WHITESPACE)
+	# EXECUTE_PROCESS(COMMAND git rev-parse HEAD OUTPUT_VARIABLE PROJECT_REVISION OUTPUT_STRIP_TRAILING_WHITESPACE)
+ENDIF()
+SET(PROJECT_VERSION ${PROJECT_VERSION_NOREV}-r${PROJECT_REVISION})
+MESSAGE(STATUS "Project version is: ${PROJECT_VERSION}")
+
+# Set compiler info
+SET(CC_CLANG FALSE)
+SET(CC_GCC FALSE)
+SET(CC_ICC FALSE)
+SET(CC_MSVC FALSE)
+
+IF ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
+	SET(CC_CLANG TRUE)
+ELSEIF ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
+	SET(CC_GCC TRUE)
+ELSEIF ("${CMAKE_C_COMPILER_ID}" STREQUAL "Intel")
+	SET(CC_ICC TRUE)
+ELSEIF ("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
+	SET(CC_MSVC TRUE)
+ENDIF()
+
+# Test if we are on a big-endian architecture
+INCLUDE(TestBigEndian)
+TEST_BIG_ENDIAN(SYSTEM_BIGENDIAN)
+
+# C11 standard needed (atomics, threads)
+IF (CC_GCC OR CC_CLANG)
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11")
+ENDIF()
+
+# Check size of various types
+INCLUDE(CheckTypeSize)
+CHECK_TYPE_SIZE("size_t" SIZEOF_SIZE_T)
+CHECK_TYPE_SIZE("void *" SIZEOF_VOID_PTR)
+
+IF (NOT "${SIZEOF_VOID_PTR}" STREQUAL "${SIZEOF_SIZE_T}")
+	MESSAGE(SEND_ERROR "Size of void * and size_t must be the same!")
+ENDIF()
+
+# Header definitions
+ADD_DEFINITIONS(-D_XOPEN_SOURCE=600)
+ADD_DEFINITIONS(-D_BSD_SOURCE=1)
+
+# Enable all warnings for GCC
+IF (CC_GCC OR CC_CLANG)
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pedantic -Wall -Wextra")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wunused-parameter -Wformat=2 -Winit-self -Wundef")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wshadow -Wbad-function-cast -Wfloat-equal")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wconversion -Wunused -Wstrict-overflow=5")
+ENDIF()
+
+# Search for external libraries with pkg-config
+INCLUDE(FindPkgConfig)
+
+# Basic device support
+PKG_CHECK_MODULES(LIBUSB1 REQUIRED libusb-1.0)
+SET(LIBCAER_LIBS ${LIBUSB1_LIBRARIES})
+SET(LIBCAER_LIBDIRS ${LIBUSB1_LIBRARY_DIRS})
+SET(LIBCAER_INCDIRS ${LIBUSB1_INCLUDE_DIRS})
+
+INCLUDE_DIRECTORIES(${LIBCAER_INCDIRS})
+LINK_DIRECTORIES(${LIBCAER_LIBDIRS})
+
+# Add local directory to include paths
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include/)
+
+# Subdirectories
+ADD_SUBDIRECTORY(include)
+ADD_SUBDIRECTORY(src)
