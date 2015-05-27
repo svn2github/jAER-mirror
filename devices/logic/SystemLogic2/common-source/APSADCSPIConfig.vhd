@@ -8,7 +8,6 @@ use work.Settings.CHIP_APS_STREAM_START;
 use work.Settings.CHIP_APS_AXES_INVERT;
 use work.Settings.CHIP_APS_HAS_GLOBAL_SHUTTER;
 use work.Settings.CHIP_APS_HAS_INTEGRATED_ADC;
-use work.Settings.BOARD_APS_HAS_EXTERNAL_ADC;
 
 entity APSADCSPIConfig is
 	generic(

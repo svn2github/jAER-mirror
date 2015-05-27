@@ -52,7 +52,7 @@ package Settings is
 
 	constant CHIP_APS_HAS_GLOBAL_SHUTTER : std_logic := CHIP_APS_HAS_GLOBAL_SHUTTER;
 	constant CHIP_APS_HAS_INTEGRATED_ADC : std_logic := CHIP_APS_HAS_INTEGRATED_ADC;
-	constant BOARD_APS_HAS_EXTERNAL_ADC  : std_logic := '1';
+	constant BOARD_APS_HAS_EXTERNAL_ADC  : std_logic := '0';
 
 	constant CHIP_APS_SIZE_COLUMNS : unsigned(CHIP_APS_SIZE_COLUMNS'range) := CHIP_APS_SIZE_COLUMNS;
 	constant CHIP_APS_SIZE_ROWS    : unsigned(CHIP_APS_SIZE_ROWS'range)    := CHIP_APS_SIZE_ROWS;
