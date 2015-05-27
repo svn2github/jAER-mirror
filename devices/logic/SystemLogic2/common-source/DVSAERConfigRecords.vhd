@@ -77,7 +77,7 @@ package DVSAERConfigRecords is
 		FilterBackgroundActivityDeltaTime_D => to_unsigned(30, 8));
 
 	constant DVS_AER_ACK_COUNTER_WIDTH  : integer := 5;
-	constant DVS_FILTER_BA_DELTAT_WIDTH : integer := 20;
+	constant DVS_FILTER_BA_DELTAT_WIDTH : integer := 32;
 
 	type tDVSAERConfig is record
 		SizeColumns_D                       : unsigned(CHIP_DVS_SIZE_COLUMNS'range);
