@@ -51,9 +51,6 @@ architecture Behavioral of DVSAERStateMachine is
 	signal AckCount_S, AckDone_S : std_logic;
 	signal AckLimit_D            : unsigned(DVS_AER_ACK_COUNTER_WIDTH - 1 downto 0);
 
-	-- Remember if what we're working on right now is an X or Y address.
-	signal DVSIsRowAddress_SP, DVSIsRowAddress_SN : std_logic;
-
 	-- Bits needed for each address.
 	constant DVS_ROW_ADDRESS_WIDTH    : integer := integer(ceil(log2(real(to_integer(CHIP_DVS_SIZE_ROWS)))));
 	constant DVS_COLUMN_ADDRESS_WIDTH : integer := integer(ceil(log2(real(to_integer(CHIP_DVS_SIZE_COLUMNS)))));
@@ -62,6 +59,8 @@ architecture Behavioral of DVSAERStateMachine is
 	signal DVSEventDataRegEnable_S : std_logic;
 	signal DVSEventDataReg_D       : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 	signal DVSEventValidReg_S      : std_logic;
+	signal DVSEventOutDataReg_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal DVSEventOutValidReg_S   : std_logic;
 
 	-- Register outputs to DVS.
 	signal DVSAERAckReg_SB   : std_logic;
@@ -81,6 +80,15 @@ architecture Behavioral of DVSAERStateMachine is
 	signal BAFilterInValidReg_S  : std_logic;
 	signal BAFilterOutDataReg_D  : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 	signal BAFilterOutValidReg_S : std_logic;
+
+	-- Row Only filtering support (at end to catch all the row-only events that
+	-- are generated from the other filters due to dropping column events).
+	signal RowOnlyFilterInDataReg_D   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal RowOnlyFilterInValidReg_S  : std_logic;
+	signal RowOnlyFilterOutDataReg_D  : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal RowOnlyFilterOutValidReg_S : std_logic;
+	signal RowOnlyFilterFIFOWrite_S   : std_logic;
+	signal RowOnlyFilterFIFOPassRow_S : std_logic;
 begin
 	aerAckCounter : entity work.ContinuousCounter
 		generic map(
@@ -93,11 +101,9 @@ begin
 			     Overflow_SO  => AckDone_S,
 			     Data_DO      => open);
 
-	dvsHandleAERComb : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, DVSIsRowAddress_SP, DVSAERConfigReg_D, AckDone_S)
+	dvsHandleAERComb : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, DVSAERConfigReg_D, AckDone_S)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
-
-		DVSIsRowAddress_SN <= DVSIsRowAddress_SP;
 
 		DVSEventValidReg_S      <= '0';
 		DVSEventDataRegEnable_S <= '0';
@@ -152,19 +158,9 @@ begin
 				-- Get data and format it. AER(WIDTH-1) holds the axis.
 				if DVSAERData_DI(DVS_AER_BUS_WIDTH - 1) = '0' then
 					-- This is an Y address.
-					DVSIsRowAddress_SN <= '1';
-					State_DN           <= stAERHandleRow;
+					State_DN <= stAERHandleRow;
 				else
-					DVSIsRowAddress_SN <= '0';
-					State_DN           <= stAERHandleCol;
-
-					-- Let's see if the previously address was a row-address.
-					-- If yes, we send it along on its path, since it has to be the valid row address
-					-- for this column address. We only do this if row-only event filtering is enabled,
-					-- since if not, row-addresses are sent right away.
-					if DVSAERConfigReg_D.FilterRowOnlyEvents_S = '1' and DVSIsRowAddress_SP = '1' then
-						DVSEventValidReg_S <= '1';
-					end if;
+					State_DN <= stAERHandleCol;
 				end if;
 
 			when stAERHandleRow =>
@@ -181,10 +177,7 @@ begin
 						DVSEventDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0) <= DVSAERData_DI(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
 					end if;
 
-					-- If we're not filtering row-only events, then we can just pass all row-events right away.
-					if DVSAERConfigReg_D.FilterRowOnlyEvents_S = '0' then
-						DVSEventValidReg_S <= '1';
-					end if;
+					DVSEventValidReg_S <= '1';
 
 					DVSEventDataRegEnable_S <= '1';
 
@@ -258,16 +251,12 @@ begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
 
-			DVSIsRowAddress_SP <= '0';
-
 			DVSAERAck_SBO   <= '1';
 			DVSAERReset_SBO <= '0';
 
 			DVSAERConfigReg_D <= tDVSAERConfigDefault;
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
-
-			DVSIsRowAddress_SP <= DVSIsRowAddress_SN;
 
 			DVSAERAck_SBO   <= DVSAERAckReg_SB;
 			DVSAERReset_SBO <= DVSAERResetReg_SB;
@@ -276,50 +265,78 @@ begin
 		end if;
 	end process dvsHandleAERRegisterUpdate;
 
+	dvsEventDataRegister : entity work.SimpleRegister
+		generic map(
+			SIZE => EVENT_WIDTH)
+		port map(
+			Clock_CI  => Clock_CI,
+			Reset_RI  => Reset_RI,
+			Enable_SI => DVSEventDataRegEnable_S,
+			Input_SI  => DVSEventDataReg_D,
+			Output_SO => DVSEventOutDataReg_D);
+
+	dvsEventValidRegister : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Enable_SI    => '1',
+			Input_SI(0)  => DVSEventValidReg_S,
+			Output_SO(0) => DVSEventOutValidReg_S);
+
+	rowOnlyFilter : process(RowOnlyFilterInDataReg_D, RowOnlyFilterInValidReg_S, DVSAERConfigReg_D)
+	begin
+		RowOnlyFilterOutDataReg_D  <= RowOnlyFilterInDataReg_D;
+		RowOnlyFilterOutValidReg_S <= RowOnlyFilterInValidReg_S;
+		RowOnlyFilterFIFOPassRow_S <= '0'; -- Bypass register and control FIFO directly.
+
+		if DVSAERConfigReg_D.FilterRowOnlyEvents_S = '1' and RowOnlyFilterInValidReg_S = '1' then
+			if RowOnlyFilterInDataReg_D(EVENT_WIDTH - 2) = '0' then
+				-- This is a row address, we force it to be invalid, so that it is not automatically
+				-- forwarded to the FIFO. We'll forward it later when encountering a column address.
+				RowOnlyFilterOutValidReg_S <= '0';
+			else
+				-- Column address, we pass the previously stored row to FIFO at this point.
+				-- The column address will go to the register and be forwarded as usual one
+				-- cycle later.
+				RowOnlyFilterFIFOPassRow_S <= '1';
+			end if;
+		end if;
+	end process rowOnlyFilter;
+
+	rowOnlyFilterDataRegister : entity work.SimpleRegister
+		generic map(
+			SIZE => EVENT_WIDTH)
+		port map(
+			Clock_CI  => Clock_CI,
+			Reset_RI  => Reset_RI,
+			Enable_SI => '1',
+			Input_SI  => RowOnlyFilterOutDataReg_D,
+			Output_SO => OutFifoData_DO);
+
+	rowOnlyFilterValidRegister : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Enable_SI    => '1',
+			Input_SI(0)  => RowOnlyFilterOutValidReg_S,
+			Output_SO(0) => RowOnlyFilterFIFOWrite_S);
+
+	OutFifoControl_SO.Write_S <= RowOnlyFilterFIFOWrite_S xor RowOnlyFilterFIFOPassRow_S;
+
 	dvsOnly : if ENABLE_PIXEL_FILTERING = false and ENABLE_BA_FILTERING = false generate
 	begin
-		dvsEventDataRegister : entity work.SimpleRegister
-			generic map(
-				SIZE => EVENT_WIDTH)
-			port map(
-				Clock_CI  => Clock_CI,
-				Reset_RI  => Reset_RI,
-				Enable_SI => DVSEventDataRegEnable_S,
-				Input_SI  => DVSEventDataReg_D,
-				Output_SO => OutFifoData_DO);
-
-		dvsEventValidRegister : entity work.SimpleRegister
-			generic map(
-				SIZE => 1)
-			port map(
-				Clock_CI     => Clock_CI,
-				Reset_RI     => Reset_RI,
-				Enable_SI    => '1',
-				Input_SI(0)  => DVSEventValidReg_S,
-				Output_SO(0) => OutFifoControl_SO.Write_S);
+		RowOnlyFilterInDataReg_D  <= DVSEventOutDataReg_D;
+		RowOnlyFilterInValidReg_S <= DVSEventOutValidReg_S;
 	end generate dvsOnly;
 
 	pixelFilteringOnly : if ENABLE_PIXEL_FILTERING = true and ENABLE_BA_FILTERING = false generate
 	begin
-		dvsEventDataRegister : entity work.SimpleRegister
-			generic map(
-				SIZE => EVENT_WIDTH)
-			port map(
-				Clock_CI  => Clock_CI,
-				Reset_RI  => Reset_RI,
-				Enable_SI => DVSEventDataRegEnable_S,
-				Input_SI  => DVSEventDataReg_D,
-				Output_SO => PixelFilterInDataReg_D);
-
-		dvsEventValidRegister : entity work.SimpleRegister
-			generic map(
-				SIZE => 1)
-			port map(
-				Clock_CI     => Clock_CI,
-				Reset_RI     => Reset_RI,
-				Enable_SI    => '1',
-				Input_SI(0)  => DVSEventValidReg_S,
-				Output_SO(0) => PixelFilterInValidReg_S);
+		PixelFilterInDataReg_D  <= DVSEventOutDataReg_D;
+		PixelFilterInValidReg_S <= DVSEventOutValidReg_S;
 
 		pixelFilterDataRegister : entity work.SimpleRegister
 			generic map(
@@ -329,7 +346,7 @@ begin
 				Reset_RI  => Reset_RI,
 				Enable_SI => '1',
 				Input_SI  => PixelFilterOutDataReg_D,
-				Output_SO => OutFifoData_DO);
+				Output_SO => RowOnlyFilterInDataReg_D);
 
 		pixelFilterValidRegister : entity work.SimpleRegister
 			generic map(
@@ -339,30 +356,13 @@ begin
 				Reset_RI     => Reset_RI,
 				Enable_SI    => '1',
 				Input_SI(0)  => PixelFilterOutValidReg_S,
-				Output_SO(0) => OutFifoControl_SO.Write_S);
+				Output_SO(0) => RowOnlyFilterInValidReg_S);
 	end generate pixelFilteringOnly;
 
 	baFilteringOnly : if ENABLE_PIXEL_FILTERING = false and ENABLE_BA_FILTERING = true generate
 	begin
-		dvsEventDataRegister : entity work.SimpleRegister
-			generic map(
-				SIZE => EVENT_WIDTH)
-			port map(
-				Clock_CI  => Clock_CI,
-				Reset_RI  => Reset_RI,
-				Enable_SI => DVSEventDataRegEnable_S,
-				Input_SI  => DVSEventDataReg_D,
-				Output_SO => BAFilterInDataReg_D);
-
-		dvsEventValidRegister : entity work.SimpleRegister
-			generic map(
-				SIZE => 1)
-			port map(
-				Clock_CI     => Clock_CI,
-				Reset_RI     => Reset_RI,
-				Enable_SI    => '1',
-				Input_SI(0)  => DVSEventValidReg_S,
-				Output_SO(0) => BAFilterInValidReg_S);
+		BAFilterInDataReg_D  <= DVSEventOutDataReg_D;
+		BAFilterInValidReg_S <= DVSEventOutValidReg_S;
 
 		baFilterDataRegister : entity work.SimpleRegister
 			generic map(
@@ -372,7 +372,7 @@ begin
 				Reset_RI  => Reset_RI,
 				Enable_SI => '1',
 				Input_SI  => BAFilterOutDataReg_D,
-				Output_SO => OutFifoData_DO);
+				Output_SO => RowOnlyFilterInDataReg_D);
 
 		baFilterValidRegister : entity work.SimpleRegister
 			generic map(
@@ -382,30 +382,13 @@ begin
 				Reset_RI     => Reset_RI,
 				Enable_SI    => '1',
 				Input_SI(0)  => BAFilterOutValidReg_S,
-				Output_SO(0) => OutFifoControl_SO.Write_S);
+				Output_SO(0) => RowOnlyFilterInValidReg_S);
 	end generate baFilteringOnly;
 
 	allFilters : if ENABLE_PIXEL_FILTERING = true and ENABLE_BA_FILTERING = true generate
 	begin
-		dvsEventDataRegister : entity work.SimpleRegister
-			generic map(
-				SIZE => EVENT_WIDTH)
-			port map(
-				Clock_CI  => Clock_CI,
-				Reset_RI  => Reset_RI,
-				Enable_SI => DVSEventDataRegEnable_S,
-				Input_SI  => DVSEventDataReg_D,
-				Output_SO => PixelFilterInDataReg_D);
-
-		dvsEventValidRegister : entity work.SimpleRegister
-			generic map(
-				SIZE => 1)
-			port map(
-				Clock_CI     => Clock_CI,
-				Reset_RI     => Reset_RI,
-				Enable_SI    => '1',
-				Input_SI(0)  => DVSEventValidReg_S,
-				Output_SO(0) => PixelFilterInValidReg_S);
+		PixelFilterInDataReg_D  <= DVSEventOutDataReg_D;
+		PixelFilterInValidReg_S <= DVSEventOutValidReg_S;
 
 		pixelFilterDataRegister : entity work.SimpleRegister
 			generic map(
@@ -435,7 +418,7 @@ begin
 				Reset_RI  => Reset_RI,
 				Enable_SI => '1',
 				Input_SI  => BAFilterOutDataReg_D,
-				Output_SO => OutFifoData_DO);
+				Output_SO => RowOnlyFilterInDataReg_D);
 
 		baFilterValidRegister : entity work.SimpleRegister
 			generic map(
@@ -445,7 +428,7 @@ begin
 				Reset_RI     => Reset_RI,
 				Enable_SI    => '1',
 				Input_SI(0)  => BAFilterOutValidReg_S,
-				Output_SO(0) => OutFifoControl_SO.Write_S);
+				Output_SO(0) => RowOnlyFilterInValidReg_S);
 	end generate allFilters;
 
 	pixelFilterSupport : if ENABLE_PIXEL_FILTERING = true generate
@@ -516,23 +499,24 @@ begin
 		constant BA_ROW_CELL_ADDRESS     : integer := integer(ceil(real(BA_ROW_CELL_NUMBER) / 4.0));
 		constant BA_ADDRESS_DEPTH        : integer := BA_COLUMN_CELL_ADDRESS * BA_ROW_CELL_ADDRESS;
 		constant BA_ADDRESS_WIDTH        : integer := integer(ceil(log2(real(BA_ADDRESS_DEPTH))));
+		constant BA_TIMESTAMP_WIDTH      : integer := 36;
 
-		signal TimestampMap0_DP, TimestampMap0_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap1_DP, TimestampMap1_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap2_DP, TimestampMap2_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap3_DP, TimestampMap3_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap4_DP, TimestampMap4_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap5_DP, TimestampMap5_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap6_DP, TimestampMap6_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap7_DP, TimestampMap7_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap8_DP, TimestampMap8_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap9_DP, TimestampMap9_DN   : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap10_DP, TimestampMap10_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap11_DP, TimestampMap11_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap12_DP, TimestampMap12_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap13_DP, TimestampMap13_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap14_DP, TimestampMap14_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampMap15_DP, TimestampMap15_DN : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal TimestampMap0_DP, TimestampMap0_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap1_DP, TimestampMap1_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap2_DP, TimestampMap2_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap3_DP, TimestampMap3_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap4_DP, TimestampMap4_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap5_DP, TimestampMap5_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap6_DP, TimestampMap6_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap7_DP, TimestampMap7_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap8_DP, TimestampMap8_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap9_DP, TimestampMap9_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap10_DP, TimestampMap10_DN : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap11_DP, TimestampMap11_DN : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap12_DP, TimestampMap12_DN : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap13_DP, TimestampMap13_DN : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap14_DP, TimestampMap14_DN : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampMap15_DP, TimestampMap15_DN : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
 
 		signal TimestampMap0En_S, TimestampMap0WrEn_S   : std_logic;
 		signal TimestampMap1En_S, TimestampMap1WrEn_S   : std_logic;
@@ -573,8 +557,8 @@ begin
 		constant TS_TICK_SIZE : integer := integer(ceil(log2(real(TS_TICK + 1))));
 
 		signal TimestampTick_S   : std_logic;
-		signal Timestamp_D       : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
-		signal TimestampBuffer_D : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		signal Timestamp_D       : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
+		signal TimestampBuffer_D : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
 
 		-- Intermediate TS Map Lookup stage support.
 		signal BAFilterTSLookupInDataReg_D   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
@@ -908,7 +892,7 @@ begin
 				Output_SO => BAFilterTSLookupMapReg_DP);
 
 		baFilter2 : process(BAFilterTSLookupInDataReg_D, BAFilterTSLookupInValidReg_S, TimestampBuffer_D, BAFilterTSLookupMapReg_DP, DVSAERConfigReg_D, TimestampMap0_DP, TimestampMap10_DP, TimestampMap11_DP, TimestampMap12_DP, TimestampMap13_DP, TimestampMap14_DP, TimestampMap15_DP, TimestampMap1_DP, TimestampMap2_DP, TimestampMap3_DP, TimestampMap4_DP, TimestampMap5_DP, TimestampMap6_DP, TimestampMap7_DP, TimestampMap8_DP, TimestampMap9_DP)
-			variable TimestampResult_D : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0) := (others => '0');
+			variable TimestampResult_D : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0) := (others => '0');
 		begin
 			BAFilterOutDataReg_D  <= BAFilterTSLookupInDataReg_D;
 			BAFilterOutValidReg_S <= BAFilterTSLookupInValidReg_S;
@@ -977,7 +961,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -991,7 +975,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1005,7 +989,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1019,7 +1003,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1033,7 +1017,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1047,7 +1031,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1061,7 +1045,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1075,7 +1059,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1089,7 +1073,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1103,7 +1087,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1117,7 +1101,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1131,7 +1115,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1145,7 +1129,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1159,7 +1143,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1173,7 +1157,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1187,7 +1171,7 @@ begin
 			generic map(
 				ADDRESS_DEPTH => BA_ADDRESS_DEPTH,
 				ADDRESS_WIDTH => BA_ADDRESS_WIDTH,
-				DATA_WIDTH    => DVS_FILTER_BA_DELTAT_WIDTH)
+				DATA_WIDTH    => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI          => Clock_CI,
 				Reset_RI          => Reset_RI,
@@ -1211,7 +1195,7 @@ begin
 
 		baFilterTSCounter : entity work.ContinuousCounter
 			generic map(
-				SIZE              => DVS_FILTER_BA_DELTAT_WIDTH,
+				SIZE              => BA_TIMESTAMP_WIDTH,
 				GENERATE_OVERFLOW => false)
 			port map(
 				Clock_CI     => Clock_CI,
@@ -1224,7 +1208,7 @@ begin
 
 		baFilterTSBuffer : entity work.SimpleRegister
 			generic map(
-				SIZE => DVS_FILTER_BA_DELTAT_WIDTH)
+				SIZE => BA_TIMESTAMP_WIDTH)
 			port map(
 				Clock_CI            => Clock_CI,
 				Reset_RI            => Reset_RI,
