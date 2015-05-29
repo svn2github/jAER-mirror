@@ -17,12 +17,14 @@ package Settings is
 
 	constant ADC_CLOCK_FREQ : integer := 60;
 
+	constant DVS_BAFILTER_SUBSAMPLE_BY : integer := 1;
+
 	constant USBLOGIC_FIFO_SIZE               : integer := 1024;
 	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE  : integer := USB_BURST_WRITE_LENGTH;
 	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE   : integer := 2;
 	constant DVSAER_FIFO_SIZE                 : integer := 1024;
 	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE    : integer := 2;
-	constant DVSAER_FIFO_ALMOST_FULL_SIZE     : integer := 2;
+	constant DVSAER_FIFO_ALMOST_FULL_SIZE     : integer := 8;
 	constant APSADC_FIFO_SIZE                 : integer := 1024;
 	constant APSADC_FIFO_ALMOST_EMPTY_SIZE    : integer := 16;
 	constant APSADC_FIFO_ALMOST_FULL_SIZE     : integer := 2;

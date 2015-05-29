@@ -15,72 +15,72 @@ use work.FX3ConfigRecords.all;
 
 entity TopLevel_noExternalADC is
 	port(
-		USBClock_CI                 : in    std_logic;
-		Reset_RI                    : in    std_logic;
+		USBClock_CI             : in    std_logic;
+		Reset_RI                : in    std_logic;
 
-		SPISlaveSelect_ABI          : in    std_logic;
-		SPIClock_AI                 : in    std_logic;
-		SPIMOSI_AI                  : in    std_logic;
-		SPIMISO_DZO                 : out   std_logic;
+		SPISlaveSelect_ABI      : in    std_logic;
+		SPIClock_AI             : in    std_logic;
+		SPIMOSI_AI              : in    std_logic;
+		SPIMISO_DZO             : out   std_logic;
 
-		USBFifoData_DO              : out   std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
-		USBFifoChipSelect_SBO       : out   std_logic;
-		USBFifoWrite_SBO            : out   std_logic;
-		USBFifoRead_SBO             : out   std_logic;
-		USBFifoPktEnd_SBO           : out   std_logic;
-		USBFifoAddress_DO           : out   std_logic_vector(1 downto 0);
-		USBFifoThr0Ready_SI         : in    std_logic;
-		USBFifoThr0Watermark_SI     : in    std_logic;
-		USBFifoThr1Ready_SI         : in    std_logic;
-		USBFifoThr1Watermark_SI     : in    std_logic;
+		USBFifoData_DO          : out   std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+		USBFifoChipSelect_SBO   : out   std_logic;
+		USBFifoWrite_SBO        : out   std_logic;
+		USBFifoRead_SBO         : out   std_logic;
+		USBFifoPktEnd_SBO       : out   std_logic;
+		USBFifoAddress_DO       : out   std_logic_vector(1 downto 0);
+		USBFifoThr0Ready_SI     : in    std_logic;
+		USBFifoThr0Watermark_SI : in    std_logic;
+		USBFifoThr1Ready_SI     : in    std_logic;
+		USBFifoThr1Watermark_SI : in    std_logic;
 
-		LED1_SO                     : out   std_logic;
-		LED2_SO                     : out   std_logic;
-		LED3_SO                     : out   std_logic;
-		LED4_SO                     : out   std_logic;
-		LED5_SO                     : out   std_logic;
-		LED6_SO                     : out   std_logic;
+		LED1_SO                 : out   std_logic;
+		LED2_SO                 : out   std_logic;
+		LED3_SO                 : out   std_logic;
+		LED4_SO                 : out   std_logic;
+		LED5_SO                 : out   std_logic;
+		LED6_SO                 : out   std_logic;
 
-		ChipBiasEnable_SO           : out   std_logic;
-		ChipBiasDiagSelect_SO       : out   std_logic;
-		ChipBiasAddrSelect_SBO      : out   std_logic;
-		ChipBiasClock_CBO           : out   std_logic;
-		ChipBiasBitIn_DO            : out   std_logic;
-		ChipBiasLatch_SBO           : out   std_logic;
+		ChipBiasEnable_SO       : out   std_logic;
+		ChipBiasDiagSelect_SO   : out   std_logic;
+		ChipBiasAddrSelect_SBO  : out   std_logic;
+		ChipBiasClock_CBO       : out   std_logic;
+		ChipBiasBitIn_DO        : out   std_logic;
+		ChipBiasLatch_SBO       : out   std_logic;
 		--ChipBiasBitOut_DI : in std_logic;
 
-		DVSAERData_AI               : in    std_logic_vector(DVS_AER_BUS_WIDTH - 1 downto 0);
-		DVSAERReq_ABI               : in    std_logic;
-		DVSAERAck_SBO               : out   std_logic;
-		DVSAERReset_SBO             : out   std_logic;
+		DVSAERData_AI           : in    std_logic_vector(DVS_AER_BUS_WIDTH - 1 downto 0);
+		DVSAERReq_ABI           : in    std_logic;
+		DVSAERAck_SBO           : out   std_logic;
+		DVSAERReset_SBO         : out   std_logic;
 
-		APSChipColSRClock_CO        : out   std_logic;
-		APSChipColSRIn_SO           : out   std_logic;
-		APSChipRowSRClock_CO        : out   std_logic;
-		APSChipRowSRIn_SO           : out   std_logic;
-		APSChipColMode_DO           : out   std_logic_vector(1 downto 0);
-		APSChipTXGate_SBO           : out   std_logic;
+		APSChipColSRClock_CO    : out   std_logic;
+		APSChipColSRIn_SO       : out   std_logic;
+		APSChipRowSRClock_CO    : out   std_logic;
+		APSChipRowSRIn_SO       : out   std_logic;
+		APSChipColMode_DO       : out   std_logic_vector(1 downto 0);
+		APSChipTXGate_SBO       : out   std_logic;
 
-		ChipADCData_DI              : in    std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
-		ChipADCRampClear_SO         : out   std_logic;
-		ChipADCRampClock_CO         : out   std_logic;
-		ChipADCRampBitIn_SO         : out   std_logic;
-		ChipADCScanClock_CO         : out   std_logic;
-		ChipADCScanControl_SO       : out   std_logic;
-		ChipADCSample_SO            : out   std_logic;
-		ChipADCGrayCounter_DO       : out   std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+		ChipADCData_DI          : in    std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
+		ChipADCRampClear_SO     : out   std_logic;
+		ChipADCRampClock_CO     : out   std_logic;
+		ChipADCRampBitIn_SO     : out   std_logic;
+		ChipADCScanClock_CO     : out   std_logic;
+		ChipADCScanControl_SO   : out   std_logic;
+		ChipADCSample_SO        : out   std_logic;
+		ChipADCGrayCounter_DO   : out   std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
 
-		IMUClock_CZO                : out   std_logic;
-		IMUData_DZIO                : inout std_logic;
-		IMUInterrupt_AI             : in    std_logic;
-		IMUFSync_SO                 : out   std_logic;
+		IMUClock_CZO            : out   std_logic;
+		IMUData_DZIO            : inout std_logic;
+		IMUInterrupt_AI         : in    std_logic;
+		IMUFSync_SO             : out   std_logic;
 
-		SyncOutClock_CO             : out   std_logic;
-		SyncOutSwitch_AI            : in    std_logic;
-		SyncOutSignal_SO            : out   std_logic;
-		SyncInClock_AI              : in    std_logic;
-		SyncInSwitch_AI             : in    std_logic;
-		SyncInSignal_AI             : in    std_logic);
+		SyncOutClock_CO         : out   std_logic;
+		SyncOutSwitch_AI        : in    std_logic;
+		SyncOutSignal_SO        : out   std_logic;
+		SyncInClock_AI          : in    std_logic;
+		SyncInSwitch_AI         : in    std_logic;
+		SyncInSignal_AI         : in    std_logic);
 end TopLevel_noExternalADC;
 
 architecture Structural of TopLevel_noExternalADC is
@@ -379,10 +379,10 @@ begin
 
 	dvsAerSM : entity work.DVSAERStateMachine
 		generic map(
-			ENABLE_PIXEL_FILTERING     => false,
-			ENABLE_BA_FILTERING        => false,
-			BA_FILTER_SUBSAMPLE_COLUMN => 1,
-			BA_FILTER_SUBSAMPLE_ROW    => 1)
+			ENABLE_PIXEL_FILTERING     => true,
+			ENABLE_BA_FILTERING        => true,
+			BA_FILTER_SUBSAMPLE_COLUMN => DVS_BAFILTER_SUBSAMPLE_BY,
+			BA_FILTER_SUBSAMPLE_ROW    => DVS_BAFILTER_SUBSAMPLE_BY)
 		port map(
 			Clock_CI          => LogicClock_C,
 			Reset_RI          => LogicReset_R,
@@ -397,8 +397,8 @@ begin
 
 	dvsaerSPIConfig : entity work.DVSAERSPIConfig
 		generic map(
-			ENABLE_PIXEL_FILTERING => false,
-			ENABLE_BA_FILTERING    => false)
+			ENABLE_PIXEL_FILTERING => true,
+			ENABLE_BA_FILTERING    => true)
 		port map(
 			Clock_CI                   => LogicClock_C,
 			Reset_RI                   => LogicReset_R,
@@ -427,7 +427,7 @@ begin
 
 	apsAdcSM : entity work.APSADCStateMachine
 		generic map(
-			ENABLE_QUAD_ROI => false)
+			ENABLE_QUAD_ROI => true)
 		port map(
 			Clock_CI                    => ADCClock_C,
 			Reset_RI                    => ADCReset_R,
@@ -456,7 +456,7 @@ begin
 
 	apsAdcSPIConfig : entity work.APSADCSPIConfig
 		generic map(
-			ENABLE_QUAD_ROI => false)
+			ENABLE_QUAD_ROI => true)
 		port map(
 			Clock_CI                   => LogicClock_C,
 			Reset_RI                   => LogicReset_R,

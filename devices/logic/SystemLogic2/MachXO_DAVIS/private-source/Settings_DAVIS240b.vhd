@@ -22,7 +22,7 @@ package Settings is
 	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE   : integer := 2;
 	constant DVSAER_FIFO_SIZE                 : integer := 512;
 	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE    : integer := 2;
-	constant DVSAER_FIFO_ALMOST_FULL_SIZE     : integer := 2;
+	constant DVSAER_FIFO_ALMOST_FULL_SIZE     : integer := 4;
 	constant APSADC_FIFO_SIZE                 : integer := 512;
 	constant APSADC_FIFO_ALMOST_EMPTY_SIZE    : integer := 16;
 	constant APSADC_FIFO_ALMOST_FULL_SIZE     : integer := 2;

@@ -77,7 +77,7 @@ entity TopLevel_DAVISrgb is
 		ChipADCScanControl_SO       : out   std_logic;
 		ChipADCSample_SO            : out   std_logic;
 		ChipADCGrayCounter_DO       : out   std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
-		Debug_DO					: out   std_logic_vector(1 downto 0);
+		Debug_DO                    : out   std_logic_vector(1 downto 0);
 
 		IMUClock_CZO                : out   std_logic;
 		IMUData_DZIO                : inout std_logic;
@@ -388,10 +388,10 @@ begin
 
 	dvsAerSM : entity work.DVSAERStateMachine
 		generic map(
-			ENABLE_PIXEL_FILTERING     => false,
-			ENABLE_BA_FILTERING        => false,
-			BA_FILTER_SUBSAMPLE_COLUMN => 1,
-			BA_FILTER_SUBSAMPLE_ROW    => 1)
+			ENABLE_PIXEL_FILTERING     => true,
+			ENABLE_BA_FILTERING        => true,
+			BA_FILTER_SUBSAMPLE_COLUMN => DVS_BAFILTER_SUBSAMPLE_BY,
+			BA_FILTER_SUBSAMPLE_ROW    => DVS_BAFILTER_SUBSAMPLE_BY)
 		port map(
 			Clock_CI          => LogicClock_C,
 			Reset_RI          => LogicReset_R,
@@ -406,8 +406,8 @@ begin
 
 	dvsaerSPIConfig : entity work.DVSAERSPIConfig
 		generic map(
-			ENABLE_PIXEL_FILTERING => false,
-			ENABLE_BA_FILTERING    => false)
+			ENABLE_PIXEL_FILTERING => true,
+			ENABLE_BA_FILTERING    => true)
 		port map(
 			Clock_CI                   => LogicClock_C,
 			Reset_RI                   => LogicReset_R,
