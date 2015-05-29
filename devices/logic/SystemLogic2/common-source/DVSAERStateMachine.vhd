@@ -785,15 +785,15 @@ begin
 					TimestampMap14WrEn_S <= BooleanToStdLogic(Column2_S nand Row3_S);
 					TimestampMap15WrEn_S <= BooleanToStdLogic(Column3_S nand Row3_S);
 
-					TimestampMapAddress_D      := resize(RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 2) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
+					TimestampMapAddress_D      := resize(RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 1) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
 					TimestampMapAddressLeft_D  := TimestampMapAddress_D - 1;
 					TimestampMapAddressRight_D := TimestampMapAddress_D + 1;
 
-					TimestampMapAddressDown_D      := resize((RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 2) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
+					TimestampMapAddressDown_D      := resize((RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 1) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
 					TimestampMapAddressDownLeft_D  := TimestampMapAddressDown_D - 1;
 					TimestampMapAddressDownRight_D := TimestampMapAddressDown_D + 1;
 
-					TimestampMapAddressUp_D      := resize((RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 2) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
+					TimestampMapAddressUp_D      := resize((RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 1) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
 					TimestampMapAddressUpLeft_D  := TimestampMapAddressUp_D - 1;
 					TimestampMapAddressUpRight_D := TimestampMapAddressUp_D + 1;
 
