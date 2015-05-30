@@ -1,3 +1,9 @@
+Revision 6791 - 29.05.2015
+- DVSAER: rewrote RowOnly filter and moved it to be
+  executed as last stage after the main state machine.
+  This has no functional implications for FX2 devices
+  currently sold.
+
 Revision 6735 - 21.05.2015
 - APSADC: several changes to accomodate fast pipelined
   readout on new FX3 devices. No functional changes for
