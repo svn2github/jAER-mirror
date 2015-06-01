@@ -17,7 +17,9 @@ package Settings is
 
 	constant ADC_CLOCK_FREQ : integer := 30;
 
-	constant DVS_BAFILTER_SUBSAMPLE_BY : integer := 1;
+	constant DVS_BAFILTER_ENABLE        : boolean := false;
+	constant DVS_BAFILTER_SUBSAMPLE_COL : integer := 1;
+	constant DVS_BAFILTER_SUBSAMPLE_ROW : integer := 1;
 
 	constant USBLOGIC_FIFO_SIZE               : integer := 1024;
 	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE  : integer := USB_BURST_WRITE_LENGTH;

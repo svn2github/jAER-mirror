@@ -386,9 +386,9 @@ begin
 	dvsAerSM : entity work.DVSAERStateMachine
 		generic map(
 			ENABLE_PIXEL_FILTERING     => true,
-			ENABLE_BA_FILTERING        => true,
-			BA_FILTER_SUBSAMPLE_COLUMN => DVS_BAFILTER_SUBSAMPLE_BY,
-			BA_FILTER_SUBSAMPLE_ROW    => DVS_BAFILTER_SUBSAMPLE_BY)
+			ENABLE_BA_FILTERING        => DVS_BAFILTER_ENABLE,
+			BA_FILTER_SUBSAMPLE_COLUMN => DVS_BAFILTER_SUBSAMPLE_COL,
+			BA_FILTER_SUBSAMPLE_ROW    => DVS_BAFILTER_SUBSAMPLE_ROW)
 		port map(
 			Clock_CI          => LogicClock_C,
 			Reset_RI          => LogicReset_R,
@@ -404,7 +404,7 @@ begin
 	dvsaerSPIConfig : entity work.DVSAERSPIConfig
 		generic map(
 			ENABLE_PIXEL_FILTERING => true,
-			ENABLE_BA_FILTERING    => true)
+			ENABLE_BA_FILTERING    => DVS_BAFILTER_ENABLE)
 		port map(
 			Clock_CI                   => LogicClock_C,
 			Reset_RI                   => LogicReset_R,
