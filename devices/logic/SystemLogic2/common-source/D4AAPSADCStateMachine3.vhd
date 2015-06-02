@@ -89,6 +89,7 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	signal ColSampleStart_SP, ColSampleStart_SN : std_logic;
 	signal ColScanStart_SP, ColScanStart_SN     : std_logic;
 	signal ColSampleDone_SP, ColSampleDone_SN   : std_logic;
+	signal ColScanDone_SP, ColScanDone_SN     : std_logic;
 	signal ColScanStartAck                      : std_logic;
 	signal ColSampleStartAck                    : std_logic;
 	signal ColSampleDoneAck                     : std_logic;
@@ -410,7 +411,7 @@ begin
 			when stStartFrame =>
 				-- Write out start of frame marker. This and the end of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
-				if OutFifoControl_SI.Full_S = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' then
 					if CHIP_APS_HAS_GLOBAL_SHUTTER = '1' and D4AAPSADCConfigReg_D.GlobalShutter_S = '1' then
 						if D4AAPSADCConfigReg_D.ResetRead_S = '1' then
 							OutFifoDataRegRow_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTFRAME_GS;
@@ -784,7 +785,7 @@ begin
 
 				-- Write out end of frame marker. This and the start of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
-				if OutFifoControl_SI.Full_S = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' and ColScanDone_SP = '1' and ColScanStart_SP = '0' then
 					OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDFRAME;
 					OutFifoDataRegRowEnable_S <= '1';
 					OutFifoWriteRegRow_S      <= '1';
@@ -1013,6 +1014,7 @@ begin
 	chipADCColumnScanStateMachine : process(ChipColScanState_DP, D4AAPSADCConfigReg_D, ChipADCData_DI, ColScanStart_SP, ColumnReadPosition_D, OutFifoControl_SI, APSSampleType1_DP)
 	begin
 		ChipColScanState_DN <= ChipColScanState_DP;
+		ColScanDone_SN   <= ColScanDone_SP;
 
 		OutFifoWriteRegCol_S      <= '0';
 		OutFifoDataRegColEnable_S <= '0';
@@ -1044,11 +1046,11 @@ begin
 
 			when stColScanStart =>
 				ColScanStartAck <= '1';
-				
+				ColScanDone_SN <= '0';
 
 				-- Write event only if FIFO has place, else wait.
 				-- If fake read (SAMPLETYPE_NULL), don't write anything.
-				if OutFifoControl_SI.Full_S = '0' and APSSampleType3_DP /= SAMPLETYPE_NULL then
+				if OutFifoControl_SI.AlmostFull_S = '0' and APSSampleType3_DP /= SAMPLETYPE_NULL then
 					if APSSampleType3_DP = SAMPLETYPE_FDRESET then
 						OutFifoDataRegCol_D <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_STARTRESETCOL;
 					elsif APSSampleType3_DP = SAMPLETYPE_CPRESET then
@@ -1061,7 +1063,7 @@ begin
 					OutFifoWriteRegCol_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColScanState_DN <= stColScanSelect;
 				end if;
 
@@ -1079,7 +1081,7 @@ begin
 
 			when stColScanReadValue =>
 				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' and APSSampleType3_DP /= SAMPLETYPE_NULL then
+				if OutFifoControl_SI.AlmostFull_S = '0' and APSSampleType3_DP /= SAMPLETYPE_NULL then
 					OutFifoDataRegCol_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_ADC_SAMPLE;
 
 					-- Convert from gray-code to binary. This uses a direct algorithm instead of using the previously stored binary
@@ -1100,7 +1102,7 @@ begin
 					OutFifoWriteRegCol_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColScanState_DN     <= stColScanNextValue;
 					ColumnReadPositionInc_S <= '1';
 				end if;
@@ -1119,16 +1121,17 @@ begin
 
 			when stColScanDone =>
 				-- Write event only if FIFO has place, else wait.
-				if OutFifoControl_SI.Full_S = '0' and APSSampleType3_DP /= SAMPLETYPE_NULL then
+				if OutFifoControl_SI.AlmostFull_S = '0' and APSSampleType3_DP /= SAMPLETYPE_NULL then
 					OutFifoDataRegCol_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDCOL;
 					OutFifoDataRegColEnable_S <= '1';
 					OutFifoWriteRegCol_S      <= '1';
 				end if;
 
-				if OutFifoControl_SI.Full_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColScanState_DN <= stScanIdle;
+					ColScanDone_SN <= '1';
 				end if;
-
+				
 			when others => null;
 		end case;
 	end process chipADCColumnScanStateMachine;
@@ -1183,6 +1186,7 @@ begin
 			ColSampleStart_SP <= '0';
 			ColSampleDone_SP  <= '0';
 			ColScanStart_SP   <= '0';
+			ColScanDone_SP   <= '0';
 
 			ReadBSRStatus_DP <= RBSTAT_NEED_ZERO_ONE;
 			APSSampleType_DP <= SAMPLETYPE_NULL;
@@ -1211,6 +1215,7 @@ begin
 			ColSampleStart_SP <= ColSampleStart_SN xor ColSampleStartAck;
 			ColSampleDone_SP  <= ColSampleDone_SN xor ColSampleDoneAck;
 			ColScanStart_SP   <= ColScanStart_SN xor ColScanStartAck;
+			ColScanDone_SP   <= ColScanDone_SN;
 
 			ReadBSRStatus_DP <= ReadBSRStatus_DN;
 			APSSampleType_DP <= APSSampleType_DN;

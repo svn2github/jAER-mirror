@@ -434,7 +434,7 @@ begin
 			FifoData_DI    => APSADCFifoDataIn_D,
 			FifoData_DO    => APSADCFifoDataOut_D);
 
-	apsAdcSM : entity work.D4AAPSADCStateMachine
+	apsAdcSM : entity work.D4AAPSADCStateMachine3
 		port map(
 			Clock_CI                 => ADCClock_C,
 			Reset_RI                 => ADCReset_R,
@@ -457,7 +457,7 @@ begin
 			ChipADCScanControl_SO    => ChipADCScanControl_SO,
 			ChipADCSample_SO         => ChipADCSample_SO,
 			ChipADCGrayCounter_DO    => ChipADCGrayCounter_DO,
-			--Debug_DO				 => Debug_DO,
+			Debug_DO				 => Debug_DO,
 			D4AAPSADCConfig_DI       => D4AAPSADCConfigReg2_D);
 
 	apsAdcSPIConfig : entity work.D4AAPSADCSPIConfig
