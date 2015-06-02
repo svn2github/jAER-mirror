@@ -18,8 +18,8 @@ entity DVSAERStateMachine is
 	generic(
 		ENABLE_PIXEL_FILTERING     : boolean := false;
 		ENABLE_BA_FILTERING        : boolean := false;
-		BA_FILTER_SUBSAMPLE_COLUMN : integer := 3;
-		BA_FILTER_SUBSAMPLE_ROW    : integer := 3);
+		BA_FILTER_SUBSAMPLE_COLUMN : integer := 2;
+		BA_FILTER_SUBSAMPLE_ROW    : integer := 2);
 	port(
 		Clock_CI          : in  std_logic;
 		Reset_RI          : in  std_logic;
@@ -491,15 +491,17 @@ begin
 	end generate pixelFilterSupport;
 
 	baFilterSupport : if ENABLE_BA_FILTERING = true generate
-		constant BA_COLUMN_ADDRESS_WIDTH : integer := DVS_COLUMN_ADDRESS_WIDTH - BA_FILTER_SUBSAMPLE_COLUMN;
-		constant BA_ROW_ADDRESS_WIDTH    : integer := DVS_ROW_ADDRESS_WIDTH - BA_FILTER_SUBSAMPLE_ROW;
-		constant BA_COLUMN_CELL_NUMBER   : integer := integer(ceil(real(to_integer(CHIP_DVS_SIZE_COLUMNS)) / (2.0 ** real(BA_FILTER_SUBSAMPLE_COLUMN))));
-		constant BA_ROW_CELL_NUMBER      : integer := integer(ceil(real(to_integer(CHIP_DVS_SIZE_ROWS)) / (2.0 ** real(BA_FILTER_SUBSAMPLE_ROW))));
-		constant BA_COLUMN_CELL_ADDRESS  : integer := integer(ceil(real(BA_COLUMN_CELL_NUMBER) / 4.0));
-		constant BA_ROW_CELL_ADDRESS     : integer := integer(ceil(real(BA_ROW_CELL_NUMBER) / 4.0));
-		constant BA_ADDRESS_DEPTH        : integer := BA_COLUMN_CELL_ADDRESS * BA_ROW_CELL_ADDRESS;
-		constant BA_ADDRESS_WIDTH        : integer := integer(ceil(log2(real(BA_ADDRESS_DEPTH))));
-		constant BA_TIMESTAMP_WIDTH      : integer := 36;
+		constant BA_COLUMN_ADDRESS_WIDTH     : integer := DVS_COLUMN_ADDRESS_WIDTH - BA_FILTER_SUBSAMPLE_COLUMN;
+		constant BA_ROW_ADDRESS_WIDTH        : integer := DVS_ROW_ADDRESS_WIDTH - BA_FILTER_SUBSAMPLE_ROW;
+		constant BA_COLUMN_CELL_NUMBER       : integer := integer(ceil(real(to_integer(CHIP_DVS_SIZE_COLUMNS)) / (2.0 ** real(BA_FILTER_SUBSAMPLE_COLUMN))));
+		constant BA_ROW_CELL_NUMBER          : integer := integer(ceil(real(to_integer(CHIP_DVS_SIZE_ROWS)) / (2.0 ** real(BA_FILTER_SUBSAMPLE_ROW))));
+		constant BA_COLUMN_CELL_ADDRESS      : integer := integer(ceil(real(BA_COLUMN_CELL_NUMBER) / 4.0));
+		-- Use next biggest power of two for column stride, wastes memory but helps PAR _a lot_ by not needing multipliers.
+		constant BA_COLUMN_CELL_ADDRESS_PTWO : integer := integer(2.0 ** ceil(log2(real(BA_COLUMN_CELL_ADDRESS))));
+		constant BA_ROW_CELL_ADDRESS         : integer := integer(ceil(real(BA_ROW_CELL_NUMBER) / 4.0));
+		constant BA_ADDRESS_DEPTH            : integer := BA_COLUMN_CELL_ADDRESS_PTWO * BA_ROW_CELL_ADDRESS;
+		constant BA_ADDRESS_WIDTH            : integer := integer(ceil(log2(real(BA_ADDRESS_DEPTH))));
+		constant BA_TIMESTAMP_WIDTH          : integer := 18;
 
 		signal TimestampMap0_DP, TimestampMap0_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
 		signal TimestampMap1_DP, TimestampMap1_DN   : unsigned(BA_TIMESTAMP_WIDTH - 1 downto 0);
@@ -769,15 +771,15 @@ begin
 					TimestampMap14WrEn_S <= BooleanToStdLogic(Column2_S nand Row3_S);
 					TimestampMap15WrEn_S <= BooleanToStdLogic(Column3_S nand Row3_S);
 
-					TimestampMapAddress_D      := resize(RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 1) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
+					TimestampMapAddress_D      := resize(RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) * to_unsigned(BA_COLUMN_CELL_ADDRESS_PTWO, BA_COLUMN_ADDRESS_WIDTH - 1) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
 					TimestampMapAddressLeft_D  := TimestampMapAddress_D - 1;
 					TimestampMapAddressRight_D := TimestampMapAddress_D + 1;
 
-					TimestampMapAddressDown_D      := resize((RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 1) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
+					TimestampMapAddressDown_D      := resize((RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) - 1) * to_unsigned(BA_COLUMN_CELL_ADDRESS_PTWO, BA_COLUMN_ADDRESS_WIDTH - 1) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
 					TimestampMapAddressDownLeft_D  := TimestampMapAddressDown_D - 1;
 					TimestampMapAddressDownRight_D := TimestampMapAddressDown_D + 1;
 
-					TimestampMapAddressUp_D      := resize((RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) * to_unsigned(BA_COLUMN_CELL_ADDRESS, BA_COLUMN_ADDRESS_WIDTH - 1) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
+					TimestampMapAddressUp_D      := resize((RowAddress_D(BA_ROW_ADDRESS_WIDTH - 1 downto 2) + 1) * to_unsigned(BA_COLUMN_CELL_ADDRESS_PTWO, BA_COLUMN_ADDRESS_WIDTH - 1) + ColumnAddress_D(BA_COLUMN_ADDRESS_WIDTH - 1 downto 2), BA_ADDRESS_WIDTH);
 					TimestampMapAddressUpLeft_D  := TimestampMapAddressUp_D - 1;
 					TimestampMapAddressUpRight_D := TimestampMapAddressUp_D + 1;
 
