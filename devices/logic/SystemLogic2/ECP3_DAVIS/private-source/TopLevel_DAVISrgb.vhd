@@ -77,7 +77,9 @@ entity TopLevel_DAVISrgb is
 		ChipADCScanControl_SO       : out   std_logic;
 		ChipADCSample_SO            : out   std_logic;
 		ChipADCGrayCounter_DO       : out   std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
-		Debug_DO                    : out   std_logic_vector(1 downto 0);
+		Debug1_DO                    : out   std_logic;
+		Debug2_DO                    : out   std_logic;
+		Debug3_DO                    : out   std_logic;
 
 		IMUClock_CZO                : out   std_logic;
 		IMUData_DZIO                : inout std_logic;
@@ -457,7 +459,9 @@ begin
 			ChipADCScanControl_SO    => ChipADCScanControl_SO,
 			ChipADCSample_SO         => ChipADCSample_SO,
 			ChipADCGrayCounter_DO    => ChipADCGrayCounter_DO,
-			Debug_DO				 => Debug_DO,
+			Debug1_DO				 => Debug1_DO,
+			Debug2_DO				 => Debug2_DO,
+			Debug3_DO				 => Debug3_DO,
 			D4AAPSADCConfig_DI       => D4AAPSADCConfigReg2_D);
 
 	apsAdcSPIConfig : entity work.D4AAPSADCSPIConfig

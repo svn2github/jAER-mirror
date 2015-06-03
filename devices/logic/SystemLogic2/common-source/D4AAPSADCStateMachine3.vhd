@@ -38,7 +38,9 @@ entity D4AAPSADCStateMachine3 is
 		ChipADCScanControl_SO    : out std_logic;
 		ChipADCSample_SO         : out std_logic;
 		ChipADCGrayCounter_DO    : out std_logic_vector(APS_ADC_BUS_WIDTH - 1 downto 0);
-		Debug_DO    : out std_logic_vector(1 downto 0);
+		Debug1_DO    : out std_logic;
+		Debug2_DO    : out std_logic;
+		Debug3_DO    : out std_logic;
 
 		-- Configuration input
 		D4AAPSADCConfig_DI       : in  tD4AAPSADCConfig);
@@ -60,7 +62,10 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	signal RowReadPosition_D                                 : unsigned(CHIP_APS_SIZE_ROWS'range);
 	signal ColumnReadPositionZero_S, ColumnReadPositionInc_S : std_logic;
 	signal ColumnReadPosition_D                              : unsigned(CHIP_APS_SIZE_COLUMNS'range);
-
+	signal RowScanCounterZero_S : std_logic;
+	signal RowScanCounterInc_S : std_logic;
+	signal RowScanCounter_D : unsigned(CHIP_APS_SIZE_ROWS'range);
+	
 	-- Exposure time counter.
 	signal ExposureClear_S, ExposureTimeDone_S : std_logic;
 
@@ -89,7 +94,9 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	signal ColSampleStart_SP, ColSampleStart_SN : std_logic;
 	signal ColScanStart_SP, ColScanStart_SN     : std_logic;
 	signal ColSampleDone_SP, ColSampleDone_SN   : std_logic;
-	signal ColScanDone_SP, ColScanDone_SN     : std_logic;
+	signal SampleInProgress_S : std_logic;
+	
+	signal ColScanDone_S     : std_logic;
 	signal ColScanStartAck                      : std_logic;
 	signal ColSampleStartAck                    : std_logic;
 	signal ColSampleDoneAck                     : std_logic;
@@ -785,7 +792,7 @@ begin
 
 				-- Write out end of frame marker. This and the start of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
-				if OutFifoControl_SI.AlmostFull_S = '0' and ColScanDone_SP = '1' and ColScanStart_SP = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' and ColScanDone_S = '1' and ColScanStart_SP = '0' and SampleInProgress_S = '0' then
 					OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDFRAME;
 					OutFifoDataRegRowEnable_S <= '1';
 					OutFifoWriteRegRow_S      <= '1';
@@ -824,6 +831,20 @@ begin
 			DataLimit_DI => CHIP_APS_SIZE_COLUMNS,
 			Overflow_SO  => open,
 			Data_DO      => ColumnReadPosition_D);
+			
+	rowScanCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE              => CHIP_APS_SIZE_ROWS'length,
+			RESET_ON_OVERFLOW => false,
+			GENERATE_OVERFLOW => false)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => RowScanCounterZero_S,
+			Enable_SI    => RowScanCounterInc_S,
+			DataLimit_DI => CHIP_APS_SIZE_ROWS,
+			Overflow_SO  => open,
+			Data_DO      => RowScanCounter_D);
 
 	rampTickCounter1 : entity work.ContinuousCounter
 		generic map(
@@ -901,6 +922,7 @@ begin
 		ColScanStart_SN   <= ColScanStart_SP;
 		ColSampleDone_SN  <= ColSampleDone_SP;
 		ColSampleStartAck <= '0';
+		SampleInProgress_S <= '0';
 
 		-- On-chip ADC.
 		ChipADCRampClearReg_S <= '1';   -- Clear ramp by default.
@@ -921,6 +943,7 @@ begin
 				end if;
 
 			when stRowSettleWait =>
+				SampleInProgress_S <= '1';
 				-- Additional wait for the row selection to be valid.
 				if RowSettleTimeDone_S = '1' then
 					ChipColSampleState_DN <= stColSample;
@@ -930,6 +953,7 @@ begin
 				RowSettleTimeCount_S <= '1';
 
 			when stColSample =>
+				SampleInProgress_S <= '1';
 				-- Do not clear Ramp while in use!
 				ChipADCRampClearReg_S <= '0';
 
@@ -943,6 +967,7 @@ begin
 				SampleSettleTimeCount_S <= '1';
 
 			when stColRampFeed =>
+				SampleInProgress_S <= '1';
 				-- Do not clear Ramp while in use!
 				ChipADCRampClearReg_S <= '0';
 
@@ -952,6 +977,7 @@ begin
 				ChipColSampleState_DN <= stColRampFeedTick;
 
 			when stColRampFeedTick =>
+				SampleInProgress_S <= '1';
 				-- Do not clear Ramp while in use!
 				ChipADCRampClearReg_S <= '0';
 
@@ -965,6 +991,7 @@ begin
 				--APSSampleType1_DN <= APSSampleType_DP;
 
 			when stColRampReset =>
+				SampleInProgress_S <= '1';
 				-- Do not clear Ramp while in use!
 				ChipADCRampClearReg_S <= '0';
 
@@ -975,6 +1002,7 @@ begin
 				RampResetTimeCount_S <= '1';
 
 			when stColRampClockLow =>
+				SampleInProgress_S <= '1';
 				ChipADCRampClockReg_C <= '0';
 
 				-- Do not clear Ramp while in use!
@@ -983,6 +1011,7 @@ begin
 				ChipColSampleState_DN <= stColRampClockHigh;
 
 			when stColRampClockHigh =>
+				SampleInProgress_S <= '1';
 				ChipADCRampClockReg_C <= '1';
 
 				-- Do not clear Ramp while in use!
@@ -1014,7 +1043,7 @@ begin
 	chipADCColumnScanStateMachine : process(ChipColScanState_DP, D4AAPSADCConfigReg_D, ChipADCData_DI, ColScanStart_SP, ColumnReadPosition_D, OutFifoControl_SI, APSSampleType1_DP)
 	begin
 		ChipColScanState_DN <= ChipColScanState_DP;
-		ColScanDone_SN   <= ColScanDone_SP;
+		ColScanDone_S   <= '0';
 
 		OutFifoWriteRegCol_S      <= '0';
 		OutFifoDataRegColEnable_S <= '0';
@@ -1026,6 +1055,9 @@ begin
 		-- Column counter.
 		ColumnReadPositionZero_S <= '0';
 		ColumnReadPositionInc_S  <= '0';
+		
+		RowScanCounterZero_S <= '0';
+		RowScanCounterInc_S  <= '0';
 
 		-- Column SM communication.
 		ColScanStartAck <= '0';
@@ -1046,8 +1078,7 @@ begin
 
 			when stColScanStart =>
 				ColScanStartAck <= '1';
-				ColScanDone_SN <= '0';
-
+				
 				-- Write event only if FIFO has place, else wait.
 				-- If fake read (SAMPLETYPE_NULL), don't write anything.
 				if OutFifoControl_SI.AlmostFull_S = '0' and APSSampleType3_DP /= SAMPLETYPE_NULL then
@@ -1129,10 +1160,9 @@ begin
 
 				if OutFifoControl_SI.AlmostFull_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColScanState_DN <= stScanIdle;
-					ColScanDone_SN <= '1';
+					ColScanDone_S <= '1';
 				end if;
 				
-			when others => null;
 		end case;
 	end process chipADCColumnScanStateMachine;
 
@@ -1186,8 +1216,7 @@ begin
 			ColSampleStart_SP <= '0';
 			ColSampleDone_SP  <= '0';
 			ColScanStart_SP   <= '0';
-			ColScanDone_SP   <= '0';
-
+			
 			ReadBSRStatus_DP <= RBSTAT_NEED_ZERO_ONE;
 			APSSampleType_DP <= SAMPLETYPE_NULL;
 			APSSampleType1_DP <= SAMPLETYPE_NULL;
@@ -1215,8 +1244,7 @@ begin
 			ColSampleStart_SP <= ColSampleStart_SN xor ColSampleStartAck;
 			ColSampleDone_SP  <= ColSampleDone_SN xor ColSampleDoneAck;
 			ColScanStart_SP   <= ColScanStart_SN xor ColScanStartAck;
-			ColScanDone_SP   <= ColScanDone_SN;
-
+			
 			ReadBSRStatus_DP <= ReadBSRStatus_DN;
 			APSSampleType_DP <= APSSampleType_DN;
 			APSSampleType1_DP <= APSSampleType1_DN;
@@ -1249,5 +1277,7 @@ begin
 	APSChipTXGate_SO         <= APSChipTXGateReg_SP;
 	APSChipReset_SO          <= APSChipResetReg_SP;
 	APSChipGlobalShutter_SBO <= not APSChipGlobalShutterReg_SP;
-	Debug_DO <= APSSampleType3_DP;
+	Debug1_DO <= ColScanDone_S;
+	Debug2_DO <= ColScanStart_SP;
+	Debug3_DO <= SampleInProgress_S;
 end architecture Behavioral;
