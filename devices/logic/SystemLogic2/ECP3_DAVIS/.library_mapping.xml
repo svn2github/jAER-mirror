@@ -23,6 +23,9 @@
   <Mappings Location="SystemLogic2_ECP3_DAVIS640_tcr.dir" Library="not mapped"/>
   <Mappings Location="SystemLogic2_ECP3_DAVISrgb" Library="not mapped"/>
   <Mappings Location="SystemLogic2_ECP3_DAVISrgb_tcr.dir" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/aercorrfilter" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/cochlea4ear" Library="not mapped"/>
+  <Mappings Location="common-source/chipdefs/cochlealp" Library="not mapped"/>
   <Mappings Location="common-source/ext/FIFODualClockDoubleECP3" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVIS128.vhd" Library="not mapped"/>
   <Mappings Location="private-source/Settings_DAVIS208.vhd" Library="not mapped"/>
