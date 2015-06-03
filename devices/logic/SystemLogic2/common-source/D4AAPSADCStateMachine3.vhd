@@ -100,6 +100,8 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	signal ColScanStartAck                      : std_logic;
 	signal ColSampleStartAck                    : std_logic;
 	signal ColSampleDoneAck                     : std_logic;
+	
+	signal EndOfFrame_S : std_logic;
 
 	-- RS: the B read has several very special considerations that must be taken into account.
 	-- First, it has to be done only after exposure time expires, before that, it must be faked
@@ -181,6 +183,7 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	-- needs to go through a double-flip-flop synchronizer to guarantee correctness.
 	signal D4AAPSADCConfigSyncReg_D, D4AAPSADCConfigReg_D : tD4AAPSADCConfig;
 	signal D4AAPSADCConfigRegEnable_S                     : std_logic;
+	
 	
 begin
 	rowReadPosition : entity work.ContinuousCounter
@@ -372,6 +375,9 @@ begin
 		-- Column SM communication.
 		ColSampleDoneAck  <= '0';
 		ColSampleStart_SN <= ColSampleStart_SP;
+		
+		-- Debug
+		EndOfFrame_S <= '0';
 
 		-- Don't clear exposure by default, only when requested!
 		ExposureClear_S <= '0';
@@ -794,6 +800,8 @@ begin
 				-- two events from this SM that always have to be committed and are never dropped.
 				if OutFifoControl_SI.AlmostFull_S = '0' and ColScanDone_S = '1' and ColScanStart_SP = '0' and SampleInProgress_S = '0' then
 					OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDFRAME;
+					EndOfFrame_S <= '1';
+					
 					OutFifoDataRegRowEnable_S <= '1';
 					OutFifoWriteRegRow_S      <= '1';
 
@@ -1279,5 +1287,5 @@ begin
 	APSChipGlobalShutter_SBO <= not APSChipGlobalShutterReg_SP;
 	Debug1_DO <= ColScanDone_S;
 	Debug2_DO <= ColScanStart_SP;
-	Debug3_DO <= SampleInProgress_S;
+	Debug3_DO <= EndOfFrame_S;
 end architecture Behavioral;
