@@ -96,7 +96,7 @@ architecture Behavioral of D4AAPSADCStateMachine3 is
 	signal ColSampleDone_SP, ColSampleDone_SN   : std_logic;
 	signal SampleInProgress_S : std_logic;
 	
-	signal ColScanDone_S     : std_logic;
+	signal ColScanDone_SP, ColScanDone_SN       : std_logic;
 	signal ColScanStartAck                      : std_logic;
 	signal ColSampleStartAck                    : std_logic;
 	signal ColSampleDoneAck                     : std_logic;
@@ -798,7 +798,7 @@ begin
 
 				-- Write out end of frame marker. This and the start of frame marker are the only
 				-- two events from this SM that always have to be committed and are never dropped.
-				if OutFifoControl_SI.AlmostFull_S = '0' and ColScanDone_S = '1' and ColScanStart_SP = '0' and SampleInProgress_S = '0' then
+				if OutFifoControl_SI.AlmostFull_S = '0' and ColScanDone_SP = '1' and ColScanStart_SP = '0' and SampleInProgress_S = '0' then
 					OutFifoDataRegRow_D       <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_APS_ENDFRAME;
 					EndOfFrame_S <= '1';
 					
@@ -1051,7 +1051,7 @@ begin
 	chipADCColumnScanStateMachine : process(ChipColScanState_DP, D4AAPSADCConfigReg_D, ChipADCData_DI, ColScanStart_SP, ColumnReadPosition_D, OutFifoControl_SI, APSSampleType1_DP)
 	begin
 		ChipColScanState_DN <= ChipColScanState_DP;
-		ColScanDone_S   <= '0';
+		ColScanDone_SN   <= ColScanDone_SP;
 
 		OutFifoWriteRegCol_S      <= '0';
 		OutFifoDataRegColEnable_S <= '0';
@@ -1086,6 +1086,7 @@ begin
 
 			when stColScanStart =>
 				ColScanStartAck <= '1';
+				ColScanDone_SN   <= '0';
 				
 				-- Write event only if FIFO has place, else wait.
 				-- If fake read (SAMPLETYPE_NULL), don't write anything.
@@ -1168,7 +1169,7 @@ begin
 
 				if OutFifoControl_SI.AlmostFull_S = '0' or APSSampleType3_DP = SAMPLETYPE_NULL or D4AAPSADCConfigReg_D.WaitOnTransferStall_S = '0' then
 					ChipColScanState_DN <= stScanIdle;
-					ColScanDone_S <= '1';
+					ColScanDone_SN <= '1';
 				end if;
 				
 		end case;
@@ -1252,6 +1253,7 @@ begin
 			ColSampleStart_SP <= ColSampleStart_SN xor ColSampleStartAck;
 			ColSampleDone_SP  <= ColSampleDone_SN xor ColSampleDoneAck;
 			ColScanStart_SP   <= ColScanStart_SN xor ColScanStartAck;
+			ColScanDone_SP  <= ColScanDone_SN;
 			
 			ReadBSRStatus_DP <= ReadBSRStatus_DN;
 			APSSampleType_DP <= APSSampleType_DN;
@@ -1285,7 +1287,7 @@ begin
 	APSChipTXGate_SO         <= APSChipTXGateReg_SP;
 	APSChipReset_SO          <= APSChipResetReg_SP;
 	APSChipGlobalShutter_SBO <= not APSChipGlobalShutterReg_SP;
-	Debug1_DO <= ColScanDone_S;
+	Debug1_DO <= ColScanDone_SP;
 	Debug2_DO <= ColScanStart_SP;
 	Debug3_DO <= EndOfFrame_S;
 end architecture Behavioral;
