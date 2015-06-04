@@ -7,6 +7,7 @@ package DACConfigRecords is
 
 	type tDACConfigParamAddresses is record
 		Run_S       : unsigned(7 downto 0);
+		DAC_D       : unsigned(7 downto 0);
 		ReadWrite_S : unsigned(7 downto 0);
 		Register_D  : unsigned(7 downto 0);
 		Channel_D   : unsigned(7 downto 0);
@@ -17,12 +18,13 @@ package DACConfigRecords is
 
 	constant DACCONFIG_PARAM_ADDRESSES : tDACConfigParamAddresses := (
 		Run_S       => to_unsigned(0, 8),
-		ReadWrite_S => to_unsigned(1, 8),
-		Register_D  => to_unsigned(2, 8),
-		Channel_D   => to_unsigned(3, 8),
-		DataRead_D  => to_unsigned(4, 8),
-		DataWrite_D => to_unsigned(5, 8),
-		Execute_S   => to_unsigned(6, 8));
+		DAC_D       => to_unsigned(1, 8),
+		ReadWrite_S => to_unsigned(2, 8),
+		Register_D  => to_unsigned(3, 8),
+		Channel_D   => to_unsigned(4, 8),
+		DataRead_D  => to_unsigned(5, 8),
+		DataWrite_D => to_unsigned(6, 8),
+		Execute_S   => to_unsigned(7, 8));
 
 	constant DAC_REGISTER_LENGTH : integer := 2;
 	constant DAC_CHANNEL_LENGTH  : integer := 4;
@@ -30,6 +32,7 @@ package DACConfigRecords is
 
 	type tDACConfig is record
 		Run_S       : std_logic;
+		DAC_D       : unsigned(1 downto 0); -- Address up to 4 DACs.
 		ReadWrite_S : std_logic;
 		Register_D  : unsigned(DAC_REGISTER_LENGTH - 1 downto 0);
 		Channel_D   : unsigned(DAC_CHANNEL_LENGTH - 1 downto 0);
@@ -39,6 +42,7 @@ package DACConfigRecords is
 
 	constant tDACConfigDefault : tDACConfig := (
 		Run_S       => '0',
+		DAC_D       => (others => '0'),
 		ReadWrite_S => '0',
 		Register_D  => (others => '0'),
 		Channel_D   => (others => '0'),

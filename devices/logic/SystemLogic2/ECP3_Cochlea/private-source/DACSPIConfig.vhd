@@ -40,6 +40,10 @@ begin
 				DACConfigReg_DN.Run_S <= DACInput_DP(0);
 				DACOutput_DN(0)       <= DACConfigReg_DP.Run_S;
 
+			when DACCONFIG_PARAM_ADDRESSES.DAC_D =>
+				DACConfigReg_DN.DAC_D                <= unsigned(DACInput_DP(tDACConfig.DAC_D'range));
+				DACOutput_DN(tDACConfig.DAC_D'range) <= std_logic_vector(DACConfigReg_DP.DAC_D);
+
 			when DACCONFIG_PARAM_ADDRESSES.ReadWrite_S =>
 				DACConfigReg_DN.ReadWrite_S <= DACInput_DP(0);
 				DACOutput_DN(0)             <= DACConfigReg_DP.ReadWrite_S;
