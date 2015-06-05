@@ -1,12 +1,9 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.math_real.ceil;
-use ieee.math_real.log2;
 use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.ExtInputConfigRecords.all;
-use work.Settings.LOGIC_CLOCK_FREQ;
 
 entity ExtInputStateMachine is
 	generic(
@@ -32,14 +29,6 @@ entity ExtInputStateMachine is
 end entity ExtInputStateMachine;
 
 architecture Behavioral of ExtInputStateMachine is
-	-- Number of cycles to get a 100 ns time slice at current logic frequency.
-	constant INTERNAL_TIME_CYCLES      : integer := LOGIC_CLOCK_FREQ / 10;
-	constant INTERNAL_TIME_CYCLES_SIZE : integer := integer(ceil(log2(real(INTERNAL_TIME_CYCLES + 1))));
-
-	-- Multiply configuration input with number of cycles needed to attain right timing.
-	constant EXTERNAL_CYCLES_SIZE : integer := EXTINPUT_MAX_TIME_SIZE + INTERNAL_TIME_CYCLES_SIZE;
-	signal DetectPulseLength_D    : unsigned(EXTERNAL_CYCLES_SIZE - 1 downto 0);
-
 	-- Detector signals.
 	signal RisingEdgeDetected_S  : std_logic;
 	signal FallingEdgeDetected_S : std_logic;
@@ -139,17 +128,14 @@ begin
 			RisingEdgeDetected_SO  => RisingEdgeDetected_S,
 			FallingEdgeDetected_SO => FallingEdgeDetected_S);
 
-	-- Calculate values in cycles for pulse detector and generator, by multiplying time-slice number by cycles in that time-slice.
-	DetectPulseLength_D <= ExtInputConfigReg_D.DetectPulseLength_D * to_unsigned(INTERNAL_TIME_CYCLES, INTERNAL_TIME_CYCLES_SIZE);
-
 	extInputPulseDetector : entity work.PulseDetector
 		generic map(
-			SIZE => EXTERNAL_CYCLES_SIZE)
+			SIZE => EXTINPUT_MAX_TIME_SIZE)
 		port map(
 			Clock_CI         => Clock_CI,
 			Reset_RI         => Reset_RI,
 			PulsePolarity_SI => ExtInputConfigReg_D.DetectPulsePolarity_S,
-			PulseLength_DI   => DetectPulseLength_D,
+			PulseLength_DI   => ExtInputConfigReg_D.DetectPulseLength_D,
 			InputSignal_SI   => ExtInputSignal_SI,
 			PulseDetected_SO => PulseDetected_S);
 
@@ -159,25 +145,17 @@ begin
 		signal ExtInputOut_S       : std_logic;
 		signal ExtInputOutBuffer_S : std_logic;
 		signal ExtInputSignalOut_S : std_logic;
-
-		-- Generator configuration signals.
-		signal GeneratePulseInterval_D : unsigned(EXTERNAL_CYCLES_SIZE - 1 downto 0);
-		signal GeneratePulseLength_D   : unsigned(EXTERNAL_CYCLES_SIZE - 1 downto 0);
 	begin
-		-- Calculate values in cycles for pulse detector and generator, by multiplying time-slice number by cycles in that time-slice.
-		GeneratePulseInterval_D <= ExtInputConfigReg_D.GeneratePulseInterval_D * to_unsigned(INTERNAL_TIME_CYCLES, INTERNAL_TIME_CYCLES_SIZE);
-		GeneratePulseLength_D   <= ExtInputConfigReg_D.GeneratePulseLength_D * to_unsigned(INTERNAL_TIME_CYCLES, INTERNAL_TIME_CYCLES_SIZE);
-
 		extInputPulseGenerator : entity work.PulseGenerator
 			generic map(
-				SIZE                    => EXTERNAL_CYCLES_SIZE,
+				SIZE                    => EXTINPUT_MAX_TIME_SIZE,
 				SIGNAL_INITIAL_POLARITY => not tExtInputConfigDefault.GeneratePulsePolarity_S)
 			port map(
 				Clock_CI         => Clock_CI,
 				Reset_RI         => Reset_RI,
 				PulsePolarity_SI => ExtInputConfigReg_D.GeneratePulsePolarity_S,
-				PulseInterval_DI => GeneratePulseInterval_D,
-				PulseLength_DI   => GeneratePulseLength_D,
+				PulseInterval_DI => ExtInputConfigReg_D.GeneratePulseInterval_D,
+				PulseLength_DI   => ExtInputConfigReg_D.GeneratePulseLength_D,
 				Zero_SI          => not ExtInputConfigReg_D.RunGenerator_S or ExtInputConfigReg_D.GenerateUseCustomSignal_S,
 				PulseOut_SO      => GeneratedPulse_S);
 

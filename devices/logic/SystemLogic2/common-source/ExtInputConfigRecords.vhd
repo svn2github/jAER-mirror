@@ -1,13 +1,18 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.ceil;
+use ieee.math_real.log2;
+use work.Settings.LOGIC_CLOCK_FREQ;
 
 package ExtInputConfigRecords is
 	constant EXTINPUTCONFIG_MODULE_ADDRESS : unsigned(6 downto 0) := to_unsigned(4, 7);
 
-	-- Pulse lengths are in 100 ns time-slices. Since we want to support up to 1Hz signals,
-	-- we need this value to go up to 10 million => 24 bits are needed (16 million).
-	constant EXTINPUT_MAX_TIME_SIZE : integer := 24;
+	-- Pulse lengths are in cycles at logic clock frequency. Since we want to support up to 1Hz signals,
+	-- we need this value to go up to 10 million (20 bits) in microseconds.
+	constant LOGIC_CLOCK_FREQ_SIZE : integer := integer(ceil(log2(real(LOGIC_CLOCK_FREQ + 1))));
+
+	constant EXTINPUT_MAX_TIME_SIZE : integer := 20 + LOGIC_CLOCK_FREQ_SIZE;
 
 	type tExtInputConfigParamAddresses is record
 		RunDetector_S             : unsigned(7 downto 0);
@@ -59,11 +64,11 @@ package ExtInputConfigRecords is
 		DetectFallingEdges_S      => '0',
 		DetectPulses_S            => '1',
 		DetectPulsePolarity_S     => '1',
-		DetectPulseLength_D       => to_unsigned(10, EXTINPUT_MAX_TIME_SIZE),
+		DetectPulseLength_D       => to_unsigned(LOGIC_CLOCK_FREQ, EXTINPUT_MAX_TIME_SIZE),
 		RunGenerator_S            => '0',
 		HasGenerator_S            => '0',
 		GenerateUseCustomSignal_S => '0',
 		GeneratePulsePolarity_S   => '1',
-		GeneratePulseInterval_D   => to_unsigned(10, EXTINPUT_MAX_TIME_SIZE),
-		GeneratePulseLength_D     => to_unsigned(5, EXTINPUT_MAX_TIME_SIZE));
+		GeneratePulseInterval_D   => to_unsigned(LOGIC_CLOCK_FREQ, EXTINPUT_MAX_TIME_SIZE),
+		GeneratePulseLength_D     => to_unsigned(LOGIC_CLOCK_FREQ / 2, EXTINPUT_MAX_TIME_SIZE));
 end package ExtInputConfigRecords;
