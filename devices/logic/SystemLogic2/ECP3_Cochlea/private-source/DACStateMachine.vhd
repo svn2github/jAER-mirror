@@ -67,6 +67,9 @@ architecture Behavioral of DACStateMachine is
 	-- Signal when to latch the registers and start a transaction.
 	signal Execute_S : std_logic;
 
+	-- Keep track if this is a read or write operation.
+	signal IsRead_SP, IsRead_SN : std_logic;
+
 	-- Keep track if the DACs are running or not.
 	signal DACRunning_SP, DACRunning_SN : std_logic;
 
@@ -146,12 +149,14 @@ begin
 			Overflow_SO  => open,
 			Data_DO      => SentBitsCounterData_D);
 
-	dacControl : process(State_DP, DACConfigReg_D, DACDataOutSRRead_D, DACSelectReg_SP, SentBitsCounterData_D, WaitCyclesCounterData_D, Execute_S, DACRunning_SP)
+	dacControl : process(State_DP, DACConfigReg_D, DACDataOutSRRead_D, DACSelectReg_SP, SentBitsCounterData_D, WaitCyclesCounterData_D, Execute_S, DACRunning_SP, IsRead_SP)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
 
 		DACRunning_SN <= DACRunning_SP;
+
+		IsRead_SN <= IsRead_SP;
 
 		DACSelectReg_SN <= DACSelectReg_SP;
 		DACClockReg_C   <= '0';
@@ -188,6 +193,8 @@ begin
 				-- DACs are considered running at startup after configuration.
 				DACRunning_SN <= '1';
 
+				IsRead_SN <= '0';
+
 				State_DN <= stWriteData;
 
 			when stPowerUp =>
@@ -205,6 +212,8 @@ begin
 				-- Bypass the StartTransaction state and select all DACs,
 				-- so they can be configured concurrently.
 				DACSelectReg_SN <= (others => '1');
+
+				IsRead_SN <= '0';
 
 				State_DN <= stWriteData;
 
@@ -224,6 +233,8 @@ begin
 				-- so they can be configured concurrently.
 				DACSelectReg_SN <= (others => '1');
 
+				IsRead_SN <= '0';
+
 				State_DN <= stWriteData;
 
 			when stIdle =>
@@ -233,6 +244,8 @@ begin
 					DACDataOutSRWrite_D(19 downto 16)                   <= std_logic_vector(DACConfigReg_D.Channel_D);
 					DACDataOutSRWrite_D(15 downto 14)                   <= std_logic_vector(DACConfigReg_D.Register_D);
 					DACDataOutSRWrite_D(13 downto 14 - DAC_DATA_LENGTH) <= std_logic_vector(DACConfigReg_D.DataWrite_D);
+
+					IsRead_SN <= DACConfigReg_D.ReadWrite_S;
 
 					if Execute_S = '1' then
 						-- Start next transaction.
@@ -274,7 +287,7 @@ begin
 						SentBitsCounterClear_S  <= '1';
 
 						-- Move to next state, this SR is fully shifted out now.
-						if DACConfigReg_D.ReadWrite_S = '1' then
+						if IsRead_SP = '1' then
 							-- This is a read transaction, let's read-back what we wanted.
 							State_DN <= stReadData;
 						else
@@ -311,12 +324,7 @@ begin
 						SentBitsCounterClear_S  <= '1';
 
 						-- Move to next state, this SR is fully shifted out now.
-						if DACConfigReg_D.ReadWrite_S = '1' then
-							-- This is a read transaction, let's read-back what we wanted.
-							State_DN <= stReadData;
-						else
-							State_DN <= stStopTransaction;
-						end if;
+						State_DN <= stStopTransaction;
 					end if;
 				end if;
 
@@ -343,6 +351,8 @@ begin
 
 			DACRunning_SP <= '0';
 
+			IsRead_SP <= '0';
+
 			DACSelectReg_SN <= (others => '0');
 
 			DACClock_CO   <= '0';
@@ -353,6 +363,8 @@ begin
 			State_DP <= State_DN;
 
 			DACRunning_SP <= DACRunning_SN;
+
+			IsRead_SP <= IsRead_SN;
 
 			DACSelectReg_SP <= DACSelectReg_SN;
 
