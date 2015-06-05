@@ -94,7 +94,7 @@ architecture Behavioral of APSADCStateMachine is
 	-- present and next state
 	signal ExtRowState_DP, ExtRowState_DN : tExtRowState;
 
-	constant EXTERNAL_ADC_STARTUP_CYCLES      : integer := ADC_CLOCK_FREQ * 15; -- At 30MHz, wait 15 microseconds.
+	constant EXTERNAL_ADC_STARTUP_CYCLES      : integer := 30 * 15; -- At 30MHz, wait 15 microseconds.
 	constant EXTERNAL_ADC_STARTUP_CYCLES_SIZE : integer := integer(ceil(log2(real(EXTERNAL_ADC_STARTUP_CYCLES))));
 
 	constant COLMODE_NULL   : std_logic_vector(1 downto 0) := "00";

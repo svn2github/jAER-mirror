@@ -1,6 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.ceil;
+use ieee.math_real.log2;
 use work.Settings.CHIP_APS_SIZE_COLUMNS;
 use work.Settings.CHIP_APS_SIZE_ROWS;
 use work.Settings.CHIP_APS_STREAM_START;
@@ -96,16 +98,18 @@ package APSADCConfigRecords is
 		RampReset_D           => to_unsigned(37, 8),
 		RampShortReset_S      => to_unsigned(38, 8));
 
-	constant APS_EXPOSURE_SIZE      : integer := 25; -- Up to about one second.
-	constant APS_FRAMEDELAY_SIZE    : integer := 25; -- Up to about one second.
-	constant APS_RESETTIME_SIZE     : integer := 7; -- Up to about four microseconds.
-	constant APS_COLSETTLETIME_SIZE : integer := 7; -- Up to about four microseconds.
-	constant APS_ROWSETTLETIME_SIZE : integer := 6; -- Up to about two microseconds.
-	constant APS_NULLTIME_SIZE      : integer := 5; -- Up to about one microsecond.
+	constant APS_CLOCK_FREQ_SIZE : integer := integer(ceil(log2(real(ADC_CLOCK_FREQ + 1))));
+
+	constant APS_EXPOSURE_SIZE      : integer := 20 + APS_CLOCK_FREQ_SIZE; -- Up to about one second.
+	constant APS_FRAMEDELAY_SIZE    : integer := 20 + APS_CLOCK_FREQ_SIZE; -- Up to about one second.
+	constant APS_RESETTIME_SIZE     : integer := 2 + APS_CLOCK_FREQ_SIZE; -- Up to about four microseconds.
+	constant APS_COLSETTLETIME_SIZE : integer := 2 + APS_CLOCK_FREQ_SIZE; -- Up to about four microseconds.
+	constant APS_ROWSETTLETIME_SIZE : integer := 1 + APS_CLOCK_FREQ_SIZE; -- Up to about two microseconds.
+	constant APS_NULLTIME_SIZE      : integer := 0 + APS_CLOCK_FREQ_SIZE; -- Up to about one microsecond.
 
 	-- On-chip ADC specific timings.
-	constant APS_SAMPLESETTLETIME_SIZE : integer := 8; -- Up to about eight microseconds.
-	constant APS_RAMPRESETTIME_SIZE    : integer := 8; -- Up to about eight microseconds.
+	constant APS_SAMPLESETTLETIME_SIZE : integer := 3 + APS_CLOCK_FREQ_SIZE; -- Up to about eight microseconds.
+	constant APS_RAMPRESETTIME_SIZE    : integer := 3 + APS_CLOCK_FREQ_SIZE; -- Up to about eight microseconds.
 
 	type tAPSADCConfig is record
 		SizeColumns_D         : unsigned(CHIP_APS_SIZE_COLUMNS'range);
@@ -121,12 +125,12 @@ package APSADCConfigRecords is
 		StartRow0_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
 		EndColumn0_D          : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		EndRow0_D             : unsigned(CHIP_APS_SIZE_ROWS'range);
-		Exposure_D            : unsigned(APS_EXPOSURE_SIZE - 1 downto 0); -- in cycles at 30MHz
-		FrameDelay_D          : unsigned(APS_FRAMEDELAY_SIZE - 1 downto 0); -- in cycles at 30MHz
-		ResetSettle_D         : unsigned(APS_RESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
-		ColumnSettle_D        : unsigned(APS_COLSETTLETIME_SIZE - 1 downto 0); -- in cycles at 30MHz
-		RowSettle_D           : unsigned(APS_ROWSETTLETIME_SIZE - 1 downto 0); -- in cycles at 30MHz
-		NullSettle_D          : unsigned(APS_NULLTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
+		Exposure_D            : unsigned(APS_EXPOSURE_SIZE - 1 downto 0); -- in cycles at ADC frequency
+		FrameDelay_D          : unsigned(APS_FRAMEDELAY_SIZE - 1 downto 0); -- in cycles at ADC frequency
+		ResetSettle_D         : unsigned(APS_RESETTIME_SIZE - 1 downto 0); -- in cycles at ADC frequency
+		ColumnSettle_D        : unsigned(APS_COLSETTLETIME_SIZE - 1 downto 0); -- in cycles at ADC frequency
+		RowSettle_D           : unsigned(APS_ROWSETTLETIME_SIZE - 1 downto 0); -- in cycles at ADC frequency
+		NullSettle_D          : unsigned(APS_NULLTIME_SIZE - 1 downto 0); -- in cycles at ADC frequency
 		HasQuadROI_S          : std_logic;
 		StartColumn1_D        : unsigned(CHIP_APS_SIZE_COLUMNS'range);
 		StartRow1_D           : unsigned(CHIP_APS_SIZE_ROWS'range);
@@ -144,8 +148,8 @@ package APSADCConfigRecords is
 		HasInternalADC_S      : std_logic;
 		UseInternalADC_S      : std_logic;
 		SampleEnable_S        : std_logic;
-		SampleSettle_D        : unsigned(APS_SAMPLESETTLETIME_SIZE - 1 downto 0); -- in cycles at 30MHz
-		RampReset_D           : unsigned(APS_RAMPRESETTIME_SIZE - 1 downto 0); -- in cycles at 30MHz
+		SampleSettle_D        : unsigned(APS_SAMPLESETTLETIME_SIZE - 1 downto 0); -- in cycles at ADC frequency
+		RampReset_D           : unsigned(APS_RAMPRESETTIME_SIZE - 1 downto 0); -- in cycles at ADC frequency
 		RampShortReset_S      : std_logic;
 	end record tAPSADCConfig;
 
@@ -165,10 +169,10 @@ package APSADCConfigRecords is
 		EndRow0_D             => CHIP_APS_SIZE_ROWS - 1,
 		Exposure_D            => to_unsigned(2000 * ADC_CLOCK_FREQ, APS_EXPOSURE_SIZE),
 		FrameDelay_D          => to_unsigned(200 * ADC_CLOCK_FREQ, APS_FRAMEDELAY_SIZE),
-		ResetSettle_D         => to_unsigned(10, APS_RESETTIME_SIZE),
-		ColumnSettle_D        => to_unsigned(30, APS_COLSETTLETIME_SIZE),
-		RowSettle_D           => to_unsigned(10, APS_ROWSETTLETIME_SIZE),
-		NullSettle_D          => to_unsigned(10, APS_NULLTIME_SIZE),
+		ResetSettle_D         => to_unsigned(ADC_CLOCK_FREQ / 3, APS_RESETTIME_SIZE),
+		ColumnSettle_D        => to_unsigned(ADC_CLOCK_FREQ, APS_COLSETTLETIME_SIZE),
+		RowSettle_D           => to_unsigned(ADC_CLOCK_FREQ / 3, APS_ROWSETTLETIME_SIZE),
+		NullSettle_D          => to_unsigned(ADC_CLOCK_FREQ / 3, APS_NULLTIME_SIZE),
 		HasQuadROI_S          => '0',
 		StartColumn1_D        => CHIP_APS_SIZE_COLUMNS,
 		StartRow1_D           => CHIP_APS_SIZE_ROWS,
@@ -186,7 +190,7 @@ package APSADCConfigRecords is
 		HasInternalADC_S      => CHIP_APS_HAS_INTEGRATED_ADC,
 		UseInternalADC_S      => CHIP_APS_HAS_INTEGRATED_ADC,
 		SampleEnable_S        => '1',
-		SampleSettle_D        => to_unsigned(60, APS_SAMPLESETTLETIME_SIZE),
-		RampReset_D           => to_unsigned(10, APS_RAMPRESETTIME_SIZE),
+		SampleSettle_D        => to_unsigned(ADC_CLOCK_FREQ, APS_SAMPLESETTLETIME_SIZE),
+		RampReset_D           => to_unsigned(ADC_CLOCK_FREQ / 3, APS_RAMPRESETTIME_SIZE),
 		RampShortReset_S      => '0');
 end package APSADCConfigRecords;
