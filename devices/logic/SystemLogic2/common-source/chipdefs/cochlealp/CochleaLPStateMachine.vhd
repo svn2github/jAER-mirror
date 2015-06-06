@@ -20,6 +20,10 @@ entity CochleaLPStateMachine is
 		ChipBiasBitIn_DO       : out std_logic;
 		ChipBiasLatch_SBO      : out std_logic;
 
+		-- Scanner configuration outputs (to chip)
+		ChipScannerClock_CO    : out std_logic;
+		ChipScannerBitIn_DO    : out std_logic;
+
 		-- Configuration inputs
 		BiasConfig_DI          : in  tCochleaLPBiasConfig;
 		ChipConfig_DI          : in  tCochleaLPChipConfig);
@@ -47,8 +51,8 @@ architecture Behavioral of CochleaLPStateMachine is
 	-- Calcualted length of cycles counter. Based on latch cycles, since biggest value.
 	constant WAIT_CYCLES_COUNTER_SIZE : integer := integer(ceil(log2(real(LATCH_CYCLES))));
 
-	-- Counts number of sent bits. Biggest value is 60 bits of chip SR, so 6 bits are enough.
-	constant SENT_BITS_COUNTER_SIZE : integer := 6;
+	-- Counts number of sent bits. Biggest value is 24 bits of chip SR, so 5 bits are enough.
+	constant SENT_BITS_COUNTER_SIZE : integer := 5;
 
 	-- Chip changes and acknowledges.
 	signal ChipChangedInput_D        : std_logic_vector(CHIP_REG_USED_SIZE - 1 downto 0);
@@ -93,6 +97,9 @@ architecture Behavioral of CochleaLPStateMachine is
 	signal ChipBiasBitInReg_D       : std_logic;
 	signal ChipBiasLatchReg_SB      : std_logic;
 
+	signal ChipScannerClockReg_C : std_logic;
+	signal ChipScannerBitInReg_D : std_logic;
+
 	function BiasGenerateCoarseFine(CFBIAS : in std_logic_vector(BIAS_CF_LENGTH - 1 downto 0)) return std_logic_vector is
 	begin
 		return '0' & not CFBIAS(12) & not CFBIAS(13) & not CFBIAS(14) & CFBIAS(11 downto 0);
@@ -109,6 +116,9 @@ begin
 		ChipBiasClockReg_CB      <= '1';
 		ChipBiasBitInReg_D       <= '0';
 		ChipBiasLatchReg_SB      <= '1';
+
+		ChipScannerClockReg_C <= '0';
+		ChipScannerBitInReg_D <= '0';
 
 		Bias0Sent_S  <= '0';
 		Bias1Sent_S  <= '0';
@@ -414,13 +424,13 @@ begin
 				ChipSent_S <= '1';
 
 				-- Load shiftreg with current chip config content.
-				ChipSRInput_D(10)           <= ChipConfigReg_D.LNADoubleInputSelect_S;
-				ChipSRInput_D(9)           <= ChipConfigReg_D.TestScannerBias_S;
-				ChipSRInput_D(8 downto 6)           <= std_logic_vector(ChipConfigReg_D.LNAGainConfig_D);
-				ChipSRInput_D(5)           <= ChipConfigReg_D.ComparatorSelfOsc_S;
+				ChipSRInput_D(10)         <= ChipConfigReg_D.LNADoubleInputSelect_S;
+				ChipSRInput_D(9)          <= ChipConfigReg_D.TestScannerBias_S;
+				ChipSRInput_D(8 downto 6) <= std_logic_vector(ChipConfigReg_D.LNAGainConfig_D);
+				ChipSRInput_D(5)          <= ChipConfigReg_D.ComparatorSelfOsc_S;
 				ChipSRInput_D(4 downto 2) <= std_logic_vector(ChipConfigReg_D.DelayCapConfigADM_D);
 				ChipSRInput_D(1 downto 0) <= std_logic_vector(ChipConfigReg_D.ResetCapConfigADM_D);
-				ChipSRMode_S                <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+				ChipSRMode_S              <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stPrepareSendChip;
 
@@ -507,6 +517,9 @@ begin
 			ChipBiasClock_CBO      <= '1';
 			ChipBiasBitIn_DO       <= '0';
 			ChipBiasLatch_SBO      <= '1';
+
+			ChipScannerClock_CO <= '0';
+			ChipScannerBitIn_DO <= '0';
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
@@ -518,6 +531,9 @@ begin
 			ChipBiasClock_CBO      <= ChipBiasClockReg_CB;
 			ChipBiasBitIn_DO       <= ChipBiasBitInReg_D;
 			ChipBiasLatch_SBO      <= ChipBiasLatchReg_SB;
+
+			ChipScannerClock_CO <= ChipScannerClockReg_C;
+			ChipScannerBitIn_DO <= ChipScannerBitInReg_D;
 		end if;
 	end process regUpdate;
 
@@ -582,21 +598,21 @@ begin
 
 	detectBias0Change : entity work.ChangeDetector
 		generic map(
-			SIZE => BIAS_VD_LENGTH)
+			SIZE => BIAS_CF_LENGTH)
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.Vth_D,
+			InputData_DI          => BiasConfigReg_D.VBNIBias_D,
 			ChangeDetected_SO     => Bias0Changed_S,
 			ChangeAcknowledged_SI => Bias0Sent_S);
 
 	detectBias1Change : entity work.ChangeDetector
 		generic map(
-			SIZE => BIAS_VD_LENGTH)
+			SIZE => BIAS_CF_LENGTH)
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.Vrs_D,
+			InputData_DI          => BiasConfigReg_D.VBNTest_D,
 			ChangeDetected_SO     => Bias1Changed_S,
 			ChangeAcknowledged_SI => Bias1Sent_S);
 
@@ -606,19 +622,19 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.LocalBufBn_D,
+			InputData_DI          => BiasConfigReg_D.VBPScan_D,
 			ChangeDetected_SO     => Bias8Changed_S,
 			ChangeAcknowledged_SI => Bias8Sent_S);
 
-	detectBias9Change : entity work.ChangeDetector
+	detectBias11Change : entity work.ChangeDetector
 		generic map(
 			SIZE => BIAS_CF_LENGTH)
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.PadFollBn_D,
-			ChangeDetected_SO     => Bias9Changed_S,
-			ChangeAcknowledged_SI => Bias9Sent_S);
+			InputData_DI          => BiasConfigReg_D.AEPdBn_D,
+			ChangeDetected_SO     => Bias11Changed_S,
+			ChangeAcknowledged_SI => Bias11Sent_S);
 
 	detectBias14Change : entity work.ChangeDetector
 		generic map(
@@ -626,76 +642,44 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.BiasComp_D,
+			InputData_DI          => BiasConfigReg_D.AEPuYBp_D,
 			ChangeDetected_SO     => Bias14Changed_S,
 			ChangeAcknowledged_SI => Bias14Sent_S);
 
-	detectBias20Change : entity work.ChangeDetector
-		generic map(
-			SIZE => BIAS_CF_LENGTH)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.ILeak_D,
-			ChangeDetected_SO     => Bias20Changed_S,
-			ChangeAcknowledged_SI => Bias20Sent_S);
-
-	detectBias26Change : entity work.ChangeDetector
-		generic map(
-			SIZE => BIAS_CF_LENGTH)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.IFRefrBn_D,
-			ChangeDetected_SO     => Bias26Changed_S,
-			ChangeAcknowledged_SI => Bias26Sent_S);
-
-	detectBias27Change : entity work.ChangeDetector
-		generic map(
-			SIZE => BIAS_CF_LENGTH)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_DI          => BiasConfigReg_D.IFThrBn_D,
-			ChangeDetected_SO     => Bias27Changed_S,
-			ChangeAcknowledged_SI => Bias27Sent_S);
-
-	detectBias34Change : entity work.ChangeDetector
+	detectBias19Change : entity work.ChangeDetector
 		generic map(
 			SIZE => BIAS_CF_LENGTH)
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
 			InputData_DI          => BiasConfigReg_D.BiasBuffer_D,
-			ChangeDetected_SO     => Bias34Changed_S,
-			ChangeAcknowledged_SI => Bias34Sent_S);
+			ChangeDetected_SO     => Bias19Changed_S,
+			ChangeAcknowledged_SI => Bias19Sent_S);
 
-	detectBias35Change : entity work.ChangeDetector
+	detectBias20Change : entity work.ChangeDetector
 		generic map(
 			SIZE => BIAS_SS_LENGTH)
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
 			InputData_DI          => BiasConfigReg_D.SSP_D,
-			ChangeDetected_SO     => Bias35Changed_S,
-			ChangeAcknowledged_SI => Bias35Sent_S);
+			ChangeDetected_SO     => Bias20Changed_S,
+			ChangeAcknowledged_SI => Bias20Sent_S);
 
-	detectBias36Change : entity work.ChangeDetector
+	detectBias21Change : entity work.ChangeDetector
 		generic map(
 			SIZE => BIAS_SS_LENGTH)
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
 			InputData_DI          => BiasConfigReg_D.SSN_D,
-			ChangeDetected_SO     => Bias36Changed_S,
-			ChangeAcknowledged_SI => Bias36Sent_S);
+			ChangeDetected_SO     => Bias21Changed_S,
+			ChangeAcknowledged_SI => Bias21Sent_S);
 
 	-- Put all chip register configuration parameters together, and then detect changes
 	-- on the whole lot of them. This is easier to handle and slightly more efficient.
-	ChipChangedInput_D <= std_logic_vector(ChipConfigReg_D.DigitalMux0_D) & std_logic_vector(ChipConfigReg_D.DigitalMux1_D) & std_logic_vector(ChipConfigReg_D.DigitalMux2_D) & std_logic_vector(ChipConfigReg_D.DigitalMux3_D) & std_logic_vector(ChipConfigReg_D.AnalogMux0_D) & std_logic_vector(
-			ChipConfigReg_D.AnalogMux1_D) & std_logic_vector(ChipConfigReg_D.AnalogMux2_D) & std_logic_vector(ChipConfigReg_D.AnalogMux3_D) & std_logic_vector(ChipConfigReg_D.BiasMux0_D) & ChipConfigReg_D.ResetCalibNeuron_S & ChipConfigReg_D.TypeNCalibNeuron_S & ChipConfigReg_D.UseAOut_S &
-		ChipConfigReg_D.ChipIDX0_S & ChipConfigReg_D.ChipIDX1_S & ChipConfigReg_D.AMCX0_S & ChipConfigReg_D.AMCX1_S & ChipConfigReg_D.AMDX0_S & ChipConfigReg_D.AMDX1_S & ChipConfigReg_D.ChipIDY0_S & ChipConfigReg_D.ChipIDY1_S & ChipConfigReg_D.AMCY0_S & ChipConfigReg_D.AMCY1_S & ChipConfigReg_D.AMDY0_S &
-		ChipConfigReg_D.AMDY1_S;
+	ChipChangedInput_D <= std_logic_vector(ChipConfigReg_D.ResetCapConfigADM_D) & std_logic_vector(ChipConfigReg_D.DelayCapConfigADM_D) & ChipConfigReg_D.ComparatorSelfOsc_S & std_logic_vector(ChipConfigReg_D.LNAGainConfig_D) & ChipConfigReg_D.LNADoubleInputSelect_S &
+		ChipConfigReg_D.TestScannerBias_S;
 
 	detectChipChange : entity work.ChangeDetector
 		generic map(
