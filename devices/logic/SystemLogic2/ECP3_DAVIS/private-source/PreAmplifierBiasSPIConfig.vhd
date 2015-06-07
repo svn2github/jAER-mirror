@@ -69,16 +69,16 @@ begin
 				PreAmplifierBiasOutput_DN(0)       <= PreAmplifierBiasConfigReg_DP.Run_S;
 
 			when PREAMPLIFIERBIASCONFIG_PARAM_ADDRESSES.HighThreshold_S =>
-				PreAmplifierBiasConfigReg_DN.HighThreshold_S           <= unsigned(PreAmplifierBiasInput_DP(THRESHOLD_SIZE - 1 downto 0));
-				PreAmplifierBiasOutput_DN(THRESHOLD_SIZE - 1 downto 0) <= std_logic_vector(PreAmplifierBiasConfigReg_DP.HighThreshold_S);
+				PreAmplifierBiasConfigReg_DN.HighThreshold_S                             <= unsigned(PreAmplifierBiasInput_DP(tPreAmplifierBiasConfig.HighThreshold_S'range));
+				PreAmplifierBiasOutput_DN(tPreAmplifierBiasConfig.HighThreshold_S'range) <= std_logic_vector(PreAmplifierBiasConfigReg_DP.HighThreshold_S);
 
 			when PREAMPLIFIERBIASCONFIG_PARAM_ADDRESSES.LowThreshold_S =>
-				PreAmplifierBiasConfigReg_DN.LowThreshold_S            <= unsigned(PreAmplifierBiasInput_DP(THRESHOLD_SIZE - 1 downto 0));
-				PreAmplifierBiasOutput_DN(THRESHOLD_SIZE - 1 downto 0) <= std_logic_vector(PreAmplifierBiasConfigReg_DP.LowThreshold_S);
+				PreAmplifierBiasConfigReg_DN.LowThreshold_S                             <= unsigned(PreAmplifierBiasInput_DP(tPreAmplifierBiasConfig.LowThreshold_S'range));
+				PreAmplifierBiasOutput_DN(tPreAmplifierBiasConfig.LowThreshold_S'range) <= std_logic_vector(PreAmplifierBiasConfigReg_DP.LowThreshold_S);
 
 			when PREAMPLIFIERBIASCONFIG_PARAM_ADDRESSES.ADCSamplingTime_S =>
-				PreAmplifierBiasConfigReg_DN.ADCSamplingTime_S               <= unsigned(PreAmplifierBiasInput_DP(ADC_SAMPLE_TIME_SIZE - 1 downto 0));
-				PreAmplifierBiasOutput_DN(ADC_SAMPLE_TIME_SIZE - 1 downto 0) <= std_logic_vector(PreAmplifierBiasConfigReg_DP.ADCSamplingTime_S);
+				PreAmplifierBiasConfigReg_DN.ADCSamplingTime_S                             <= unsigned(PreAmplifierBiasInput_DP(tPreAmplifierBiasConfig.ADCSamplingTime_S'range));
+				PreAmplifierBiasOutput_DN(tPreAmplifierBiasConfig.ADCSamplingTime_S'range) <= std_logic_vector(PreAmplifierBiasConfigReg_DP.ADCSamplingTime_S);
 
 			when others => null;
 		end case;

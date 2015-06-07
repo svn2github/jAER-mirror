@@ -48,140 +48,140 @@ begin
 
 		case ConfigParamAddress_DI is
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.ApsCasBpc_D =>
-				BiasConfigReg_DN.ApsCasBpc_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.ApsCasBpc_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.ApsCasBpc_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsCasBpc_D;
+				BiasConfigReg_DN.ApsCasBpc_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.ApsCasBpc_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.ApsCasBpc_D'range) <= BiasConfigReg_DP.ApsCasBpc_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.OVG1Lo_D =>
-				BiasConfigReg_DN.OVG1Lo_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.OVG1Lo_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.OVG1Lo_D'length - 1 downto 0) <= BiasConfigReg_DP.OVG1Lo_D;
+				BiasConfigReg_DN.OVG1Lo_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.OVG1Lo_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.OVG1Lo_D'range) <= BiasConfigReg_DP.OVG1Lo_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.OVG2Lo_D =>
-				BiasConfigReg_DN.OVG2Lo_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.OVG2Lo_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.OVG2Lo_D'length - 1 downto 0) <= BiasConfigReg_DP.OVG2Lo_D;
+				BiasConfigReg_DN.OVG2Lo_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.OVG2Lo_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.OVG2Lo_D'range) <= BiasConfigReg_DP.OVG2Lo_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.TX2OVG2Hi_D =>
-				BiasConfigReg_DN.TX2OVG2Hi_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.TX2OVG2Hi_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.TX2OVG2Hi_D'length - 1 downto 0) <= BiasConfigReg_DP.TX2OVG2Hi_D;
+				BiasConfigReg_DN.TX2OVG2Hi_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.TX2OVG2Hi_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.TX2OVG2Hi_D'range) <= BiasConfigReg_DP.TX2OVG2Hi_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.Gnd07_D =>
-				BiasConfigReg_DN.Gnd07_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.Gnd07_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.Gnd07_D'length - 1 downto 0) <= BiasConfigReg_DP.Gnd07_D;
+				BiasConfigReg_DN.Gnd07_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.Gnd07_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.Gnd07_D'range) <= BiasConfigReg_DP.Gnd07_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.vADCTest_D =>
-				BiasConfigReg_DN.vADCTest_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.vADCTest_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.vADCTest_D'length - 1 downto 0) <= BiasConfigReg_DP.vADCTest_D;
+				BiasConfigReg_DN.vADCTest_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.vADCTest_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.vADCTest_D'range) <= BiasConfigReg_DP.vADCTest_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.AdcRefHigh_D =>
-				BiasConfigReg_DN.AdcRefHigh_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.AdcRefHigh_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.AdcRefHigh_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcRefHigh_D;
+				BiasConfigReg_DN.AdcRefHigh_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.AdcRefHigh_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.AdcRefHigh_D'range) <= BiasConfigReg_DP.AdcRefHigh_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.AdcRefLow_D =>
-				BiasConfigReg_DN.AdcRefLow_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.AdcRefLow_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.AdcRefLow_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcRefLow_D;
+				BiasConfigReg_DN.AdcRefLow_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.AdcRefLow_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.AdcRefLow_D'range) <= BiasConfigReg_DP.AdcRefLow_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.IFRefrBn_D =>
-				BiasConfigReg_DN.IFRefrBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.IFRefrBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.IFRefrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFRefrBn_D;
+				BiasConfigReg_DN.IFRefrBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.IFRefrBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.IFRefrBn_D'range) <= BiasConfigReg_DP.IFRefrBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.IFThrBn_D =>
-				BiasConfigReg_DN.IFThrBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.IFThrBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.IFThrBn_D'length - 1 downto 0) <= BiasConfigReg_DP.IFThrBn_D;
+				BiasConfigReg_DN.IFThrBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.IFThrBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.IFThrBn_D'range) <= BiasConfigReg_DP.IFThrBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.LocalBufBn_D =>
-				BiasConfigReg_DN.LocalBufBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.LocalBufBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.LocalBufBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LocalBufBn_D;
+				BiasConfigReg_DN.LocalBufBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.LocalBufBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.LocalBufBn_D'range) <= BiasConfigReg_DP.LocalBufBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.PadFollBn_D =>
-				BiasConfigReg_DN.PadFollBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.PadFollBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.PadFollBn_D'length - 1 downto 0) <= BiasConfigReg_DP.PadFollBn_D;
+				BiasConfigReg_DN.PadFollBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.PadFollBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.PadFollBn_D'range) <= BiasConfigReg_DP.PadFollBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.PixInvBn_D =>
-				BiasConfigReg_DN.PixInvBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.PixInvBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.PixInvBn_D'length - 1 downto 0) <= BiasConfigReg_DP.PixInvBn_D;
+				BiasConfigReg_DN.PixInvBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.PixInvBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.PixInvBn_D'range) <= BiasConfigReg_DP.PixInvBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.DiffBn_D =>
-				BiasConfigReg_DN.DiffBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.DiffBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.DiffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.DiffBn_D;
+				BiasConfigReg_DN.DiffBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.DiffBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.DiffBn_D'range) <= BiasConfigReg_DP.DiffBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.OnBn_D =>
-				BiasConfigReg_DN.OnBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.OnBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.OnBn_D'length - 1 downto 0) <= BiasConfigReg_DP.OnBn_D;
+				BiasConfigReg_DN.OnBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.OnBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.OnBn_D'range) <= BiasConfigReg_DP.OnBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.OffBn_D =>
-				BiasConfigReg_DN.OffBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.OffBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.OffBn_D'length - 1 downto 0) <= BiasConfigReg_DP.OffBn_D;
+				BiasConfigReg_DN.OffBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.OffBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.OffBn_D'range) <= BiasConfigReg_DP.OffBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.PrBp_D =>
-				BiasConfigReg_DN.PrBp_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.PrBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.PrBp_D'length - 1 downto 0) <= BiasConfigReg_DP.PrBp_D;
+				BiasConfigReg_DN.PrBp_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.PrBp_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.PrBp_D'range) <= BiasConfigReg_DP.PrBp_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.PrSFBp_D =>
-				BiasConfigReg_DN.PrSFBp_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.PrSFBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.PrSFBp_D'length - 1 downto 0) <= BiasConfigReg_DP.PrSFBp_D;
+				BiasConfigReg_DN.PrSFBp_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.PrSFBp_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.PrSFBp_D'range) <= BiasConfigReg_DP.PrSFBp_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.RefrBp_D =>
-				BiasConfigReg_DN.RefrBp_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.RefrBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.RefrBp_D'length - 1 downto 0) <= BiasConfigReg_DP.RefrBp_D;
+				BiasConfigReg_DN.RefrBp_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.RefrBp_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.RefrBp_D'range) <= BiasConfigReg_DP.RefrBp_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.ArrayBiasBufferBn_D =>
-				BiasConfigReg_DN.ArrayBiasBufferBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.ArrayBiasBufferBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.ArrayBiasBufferBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ArrayBiasBufferBn_D;
+				BiasConfigReg_DN.ArrayBiasBufferBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.ArrayBiasBufferBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.ArrayBiasBufferBn_D'range) <= BiasConfigReg_DP.ArrayBiasBufferBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.ArrayLogicBufferBn_D =>
-				BiasConfigReg_DN.ArrayLogicBufferBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.ArrayLogicBufferBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.ArrayLogicBufferBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ArrayLogicBufferBn_D;
+				BiasConfigReg_DN.ArrayLogicBufferBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.ArrayLogicBufferBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.ArrayLogicBufferBn_D'range) <= BiasConfigReg_DP.ArrayLogicBufferBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.FalltimeBn_D =>
-				BiasConfigReg_DN.FalltimeBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.FalltimeBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.FalltimeBn_D'length - 1 downto 0) <= BiasConfigReg_DP.FalltimeBn_D;
+				BiasConfigReg_DN.FalltimeBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.FalltimeBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.FalltimeBn_D'range) <= BiasConfigReg_DP.FalltimeBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.RisetimeBp_D =>
-				BiasConfigReg_DN.RisetimeBp_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.RisetimeBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.RisetimeBp_D'length - 1 downto 0) <= BiasConfigReg_DP.RisetimeBp_D;
+				BiasConfigReg_DN.RisetimeBp_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.RisetimeBp_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.RisetimeBp_D'range) <= BiasConfigReg_DP.RisetimeBp_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.ReadoutBufBp_D =>
-				BiasConfigReg_DN.ReadoutBufBp_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.ReadoutBufBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.ReadoutBufBp_D'length - 1 downto 0) <= BiasConfigReg_DP.ReadoutBufBp_D;
+				BiasConfigReg_DN.ReadoutBufBp_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.ReadoutBufBp_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.ReadoutBufBp_D'range) <= BiasConfigReg_DP.ReadoutBufBp_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.ApsROSFBn_D =>
-				BiasConfigReg_DN.ApsROSFBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.ApsROSFBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.ApsROSFBn_D'length - 1 downto 0) <= BiasConfigReg_DP.ApsROSFBn_D;
+				BiasConfigReg_DN.ApsROSFBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.ApsROSFBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.ApsROSFBn_D'range) <= BiasConfigReg_DP.ApsROSFBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.AdcCompBp_D =>
-				BiasConfigReg_DN.AdcCompBp_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.AdcCompBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.AdcCompBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AdcCompBp_D;
+				BiasConfigReg_DN.AdcCompBp_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.AdcCompBp_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.AdcCompBp_D'range) <= BiasConfigReg_DP.AdcCompBp_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.DACBufBp_D =>
-				BiasConfigReg_DN.DACBufBp_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.DACBufBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.DACBufBp_D'length - 1 downto 0) <= BiasConfigReg_DP.DACBufBp_D;
+				BiasConfigReg_DN.DACBufBp_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.DACBufBp_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.DACBufBp_D'range) <= BiasConfigReg_DP.DACBufBp_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.LcolTimeoutBn_D =>
-				BiasConfigReg_DN.LcolTimeoutBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.LcolTimeoutBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.LcolTimeoutBn_D'length - 1 downto 0) <= BiasConfigReg_DP.LcolTimeoutBn_D;
+				BiasConfigReg_DN.LcolTimeoutBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.LcolTimeoutBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.LcolTimeoutBn_D'range) <= BiasConfigReg_DP.LcolTimeoutBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.AEPdBn_D =>
-				BiasConfigReg_DN.AEPdBn_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.AEPdBn_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.AEPdBn_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPdBn_D;
+				BiasConfigReg_DN.AEPdBn_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.AEPdBn_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.AEPdBn_D'range) <= BiasConfigReg_DP.AEPdBn_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.AEPuXBp_D =>
-				BiasConfigReg_DN.AEPuXBp_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.AEPuXBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.AEPuXBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPuXBp_D;
+				BiasConfigReg_DN.AEPuXBp_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.AEPuXBp_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.AEPuXBp_D'range) <= BiasConfigReg_DP.AEPuXBp_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.AEPuYBp_D =>
-				BiasConfigReg_DN.AEPuYBp_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.AEPuYBp_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.AEPuYBp_D'length - 1 downto 0) <= BiasConfigReg_DP.AEPuYBp_D;
+				BiasConfigReg_DN.AEPuYBp_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.AEPuYBp_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.AEPuYBp_D'range) <= BiasConfigReg_DP.AEPuYBp_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.BiasBuffer_D =>
-				BiasConfigReg_DN.BiasBuffer_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.BiasBuffer_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.BiasBuffer_D'length - 1 downto 0) <= BiasConfigReg_DP.BiasBuffer_D;
+				BiasConfigReg_DN.BiasBuffer_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.BiasBuffer_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.BiasBuffer_D'range) <= BiasConfigReg_DP.BiasBuffer_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.SSP_D =>
-				BiasConfigReg_DN.SSP_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.SSP_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.SSP_D'length - 1 downto 0) <= BiasConfigReg_DP.SSP_D;
+				BiasConfigReg_DN.SSP_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.SSP_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.SSP_D'range) <= BiasConfigReg_DP.SSP_D;
 
 			when DAVISRGB_BIASCONFIG_PARAM_ADDRESSES.SSN_D =>
-				BiasConfigReg_DN.SSN_D                                       <= BiasInput_DP(tDAVISrgbBiasConfig.SSN_D'length - 1 downto 0);
-				BiasOutput_DN(tDAVISrgbBiasConfig.SSN_D'length - 1 downto 0) <= BiasConfigReg_DP.SSN_D;
+				BiasConfigReg_DN.SSN_D                         <= BiasInput_DP(tDAVISrgbBiasConfig.SSN_D'range);
+				BiasOutput_DN(tDAVISrgbBiasConfig.SSN_D'range) <= BiasConfigReg_DP.SSN_D;
 
 			when others => null;
 		end case;
@@ -212,36 +212,36 @@ begin
 
 		case ConfigParamAddress_DI is
 			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.DigitalMux0_D =>
-				ChipConfigReg_DN.DigitalMux0_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.DigitalMux0_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVISrgbChipConfig.DigitalMux0_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.DigitalMux0_D);
+				ChipConfigReg_DN.DigitalMux0_D                         <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.DigitalMux0_D'range));
+				ChipOutput_DN(tDAVISrgbChipConfig.DigitalMux0_D'range) <= std_logic_vector(ChipConfigReg_DP.DigitalMux0_D);
 
 			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.DigitalMux1_D =>
-				ChipConfigReg_DN.DigitalMux1_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.DigitalMux1_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVISrgbChipConfig.DigitalMux1_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.DigitalMux1_D);
+				ChipConfigReg_DN.DigitalMux1_D                         <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.DigitalMux1_D'range));
+				ChipOutput_DN(tDAVISrgbChipConfig.DigitalMux1_D'range) <= std_logic_vector(ChipConfigReg_DP.DigitalMux1_D);
 
 			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.DigitalMux2_D =>
-				ChipConfigReg_DN.DigitalMux2_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.DigitalMux2_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVISrgbChipConfig.DigitalMux2_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.DigitalMux2_D);
+				ChipConfigReg_DN.DigitalMux2_D                         <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.DigitalMux2_D'range));
+				ChipOutput_DN(tDAVISrgbChipConfig.DigitalMux2_D'range) <= std_logic_vector(ChipConfigReg_DP.DigitalMux2_D);
 
 			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.DigitalMux3_D =>
-				ChipConfigReg_DN.DigitalMux3_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.DigitalMux3_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVISrgbChipConfig.DigitalMux3_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.DigitalMux3_D);
+				ChipConfigReg_DN.DigitalMux3_D                         <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.DigitalMux3_D'range));
+				ChipOutput_DN(tDAVISrgbChipConfig.DigitalMux3_D'range) <= std_logic_vector(ChipConfigReg_DP.DigitalMux3_D);
 
 			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.AnalogMux0_D =>
-				ChipConfigReg_DN.AnalogMux0_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.AnalogMux0_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVISrgbChipConfig.AnalogMux0_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.AnalogMux0_D);
+				ChipConfigReg_DN.AnalogMux0_D                         <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.AnalogMux0_D'range));
+				ChipOutput_DN(tDAVISrgbChipConfig.AnalogMux0_D'range) <= std_logic_vector(ChipConfigReg_DP.AnalogMux0_D);
 
 			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.AnalogMux1_D =>
-				ChipConfigReg_DN.AnalogMux1_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.AnalogMux1_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVISrgbChipConfig.AnalogMux1_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.AnalogMux1_D);
+				ChipConfigReg_DN.AnalogMux1_D                         <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.AnalogMux1_D'range));
+				ChipOutput_DN(tDAVISrgbChipConfig.AnalogMux1_D'range) <= std_logic_vector(ChipConfigReg_DP.AnalogMux1_D);
 
 			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.AnalogMux2_D =>
-				ChipConfigReg_DN.AnalogMux2_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.AnalogMux2_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVISrgbChipConfig.AnalogMux2_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.AnalogMux2_D);
+				ChipConfigReg_DN.AnalogMux2_D                         <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.AnalogMux2_D'range));
+				ChipOutput_DN(tDAVISrgbChipConfig.AnalogMux2_D'range) <= std_logic_vector(ChipConfigReg_DP.AnalogMux2_D);
 
 			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.BiasMux0_D =>
-				ChipConfigReg_DN.BiasMux0_D                                       <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.BiasMux0_D'length - 1 downto 0));
-				ChipOutput_DN(tDAVISrgbChipConfig.BiasMux0_D'length - 1 downto 0) <= std_logic_vector(ChipConfigReg_DP.BiasMux0_D);
+				ChipConfigReg_DN.BiasMux0_D                         <= unsigned(ChipInput_DP(tDAVISrgbChipConfig.BiasMux0_D'range));
+				ChipOutput_DN(tDAVISrgbChipConfig.BiasMux0_D'range) <= std_logic_vector(ChipConfigReg_DP.BiasMux0_D);
 
 			when DAVISrgb_CHIPCONFIG_PARAM_ADDRESSES.ResetCalibNeuron_S =>
 				ChipConfigReg_DN.ResetCalibNeuron_S <= ChipInput_DP(0);

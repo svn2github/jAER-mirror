@@ -20,13 +20,10 @@ entity CochleaLPStateMachine is
 		ChipBiasBitIn_DO       : out std_logic;
 		ChipBiasLatch_SBO      : out std_logic;
 
-		-- Scanner configuration outputs (to chip)
-		ChipScannerClock_CO    : out std_logic;
-		ChipScannerBitIn_DO    : out std_logic;
-
 		-- Configuration inputs
 		BiasConfig_DI          : in  tCochleaLPBiasConfig;
-		ChipConfig_DI          : in  tCochleaLPChipConfig);
+		ChipConfig_DI          : in  tCochleaLPChipConfig;
+		ChannelConfig_DI       : in  tCochleaLPChannelConfig);
 end entity CochleaLPStateMachine;
 
 architecture Behavioral of CochleaLPStateMachine is
@@ -78,6 +75,12 @@ architecture Behavioral of CochleaLPStateMachine is
 	signal ChipSRMode_S                  : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
 	signal ChipSRInput_D, ChipSROutput_D : std_logic_vector(CHIP_REG_LENGTH - 1 downto 0);
 
+	signal ChannelAddressSRMode_S                            : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
+	signal ChannelAddressSRInput_D, ChannelAddressSROutput_D : std_logic_vector(CHIP_CHANADDR_REG_LENGTH - 1 downto 0);
+
+	signal ChannelSRMode_S                     : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
+	signal ChannelSRInput_D, ChannelSROutput_D : std_logic_vector(CHIP_CHAN_REG_LENGTH - 1 downto 0);
+
 	-- Counter for keeping track of output bits.
 	signal SentBitsCounterClear_S, SentBitsCounterEnable_S : std_logic;
 	signal SentBitsCounterData_D                           : unsigned(SENT_BITS_COUNTER_SIZE - 1 downto 0);
@@ -97,15 +100,12 @@ architecture Behavioral of CochleaLPStateMachine is
 	signal ChipBiasBitInReg_D       : std_logic;
 	signal ChipBiasLatchReg_SB      : std_logic;
 
-	signal ChipScannerClockReg_C : std_logic;
-	signal ChipScannerBitInReg_D : std_logic;
-
 	function BiasGenerateCoarseFine(CFBIAS : in std_logic_vector(BIAS_CF_LENGTH - 1 downto 0)) return std_logic_vector is
 	begin
 		return '0' & not CFBIAS(12) & not CFBIAS(13) & not CFBIAS(14) & CFBIAS(11 downto 0);
 	end function BiasGenerateCoarseFine;
 begin
-	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D)
+	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D, Bias0Changed_S, Bias11Changed_S, Bias14Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias8Changed_S)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -116,9 +116,6 @@ begin
 		ChipBiasClockReg_CB      <= '1';
 		ChipBiasBitInReg_D       <= '0';
 		ChipBiasLatchReg_SB      <= '1';
-
-		ChipScannerClockReg_C <= '0';
-		ChipScannerBitInReg_D <= '0';
 
 		Bias0Sent_S  <= '0';
 		Bias1Sent_S  <= '0';
@@ -139,6 +136,12 @@ begin
 
 		ChipSRMode_S  <= SHIFTREGISTER_MODE_DO_NOTHING;
 		ChipSRInput_D <= (others => '0');
+
+		ChannelAddressSRMode_S  <= SHIFTREGISTER_MODE_DO_NOTHING;
+		ChannelAddressSRInput_D <= (others => '0');
+
+		ChannelSRMode_S  <= SHIFTREGISTER_MODE_DO_NOTHING;
+		ChannelSRInput_D <= (others => '0');
 
 		WaitCyclesCounterClear_S  <= '0';
 		WaitCyclesCounterEnable_S <= '0';
@@ -517,9 +520,6 @@ begin
 			ChipBiasClock_CBO      <= '1';
 			ChipBiasBitIn_DO       <= '0';
 			ChipBiasLatch_SBO      <= '1';
-
-			ChipScannerClock_CO <= '0';
-			ChipScannerBitIn_DO <= '0';
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
@@ -531,9 +531,6 @@ begin
 			ChipBiasClock_CBO      <= ChipBiasClockReg_CB;
 			ChipBiasBitIn_DO       <= ChipBiasBitInReg_D;
 			ChipBiasLatch_SBO      <= ChipBiasLatchReg_SB;
-
-			ChipScannerClock_CO <= ChipScannerClockReg_C;
-			ChipScannerBitIn_DO <= ChipScannerBitInReg_D;
 		end if;
 	end process regUpdate;
 
@@ -595,6 +592,28 @@ begin
 			DataIn_DI        => '0',
 			ParallelWrite_DI => ChipSRInput_D,
 			ParallelRead_DO  => ChipSROutput_D);
+
+	channelAddressSR : entity work.ShiftRegister
+		generic map(
+			SIZE => CHIP_CHANADDR_REG_LENGTH)
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			Mode_SI          => ChannelAddressSRMode_S,
+			DataIn_DI        => '0',
+			ParallelWrite_DI => ChannelAddressSRInput_D,
+			ParallelRead_DO  => ChannelAddressSROutput_D);
+
+	channelSR : entity work.ShiftRegister
+		generic map(
+			SIZE => CHIP_CHAN_REG_LENGTH)
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			Mode_SI          => ChannelSRMode_S,
+			DataIn_DI        => '0',
+			ParallelWrite_DI => ChannelSRInput_D,
+			ParallelRead_DO  => ChannelSROutput_D);
 
 	detectBias0Change : entity work.ChangeDetector
 		generic map(

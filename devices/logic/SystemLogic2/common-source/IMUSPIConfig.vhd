@@ -44,36 +44,36 @@ begin
 				IMUOutput_DN(0)               <= IMUConfigReg_DP.TempStandby_S;
 
 			when IMUCONFIG_PARAM_ADDRESSES.AccelStandby_S =>
-				IMUConfigReg_DN.AccelStandby_S                              <= IMUInput_DP(tIMUConfig.AccelStandby_S'length - 1 downto 0);
-				IMUOutput_DN(tIMUConfig.AccelStandby_S'length - 1 downto 0) <= IMUConfigReg_DP.AccelStandby_S;
+				IMUConfigReg_DN.AccelStandby_S                <= IMUInput_DP(tIMUConfig.AccelStandby_S'range);
+				IMUOutput_DN(tIMUConfig.AccelStandby_S'range) <= IMUConfigReg_DP.AccelStandby_S;
 
 			when IMUCONFIG_PARAM_ADDRESSES.GyroStandby_S =>
-				IMUConfigReg_DN.GyroStandby_S                              <= IMUInput_DP(tIMUConfig.GyroStandby_S'length - 1 downto 0);
-				IMUOutput_DN(tIMUConfig.GyroStandby_S'length - 1 downto 0) <= IMUConfigReg_DP.GyroStandby_S;
+				IMUConfigReg_DN.GyroStandby_S                <= IMUInput_DP(tIMUConfig.GyroStandby_S'range);
+				IMUOutput_DN(tIMUConfig.GyroStandby_S'range) <= IMUConfigReg_DP.GyroStandby_S;
 
 			when IMUCONFIG_PARAM_ADDRESSES.LPCycle_S =>
 				IMUConfigReg_DN.LPCycle_S <= IMUInput_DP(0);
 				IMUOutput_DN(0)           <= IMUConfigReg_DP.LPCycle_S;
 
 			when IMUCONFIG_PARAM_ADDRESSES.LPWakeup_D =>
-				IMUConfigReg_DN.LPWakeup_D                              <= unsigned(IMUInput_DP(tIMUConfig.LPWakeup_D'length - 1 downto 0));
-				IMUOutput_DN(tIMUConfig.LPWakeup_D'length - 1 downto 0) <= std_logic_vector(IMUConfigReg_DP.LPWakeup_D);
+				IMUConfigReg_DN.LPWakeup_D                <= unsigned(IMUInput_DP(tIMUConfig.LPWakeup_D'range));
+				IMUOutput_DN(tIMUConfig.LPWakeup_D'range) <= std_logic_vector(IMUConfigReg_DP.LPWakeup_D);
 
 			when IMUCONFIG_PARAM_ADDRESSES.SampleRateDivider_D =>
-				IMUConfigReg_DN.SampleRateDivider_D                              <= unsigned(IMUInput_DP(tIMUConfig.SampleRateDivider_D'length - 1 downto 0));
-				IMUOutput_DN(tIMUConfig.SampleRateDivider_D'length - 1 downto 0) <= std_logic_vector(IMUConfigReg_DP.SampleRateDivider_D);
+				IMUConfigReg_DN.SampleRateDivider_D                <= unsigned(IMUInput_DP(tIMUConfig.SampleRateDivider_D'range));
+				IMUOutput_DN(tIMUConfig.SampleRateDivider_D'range) <= std_logic_vector(IMUConfigReg_DP.SampleRateDivider_D);
 
 			when IMUCONFIG_PARAM_ADDRESSES.DigitalLowPassFilter_D =>
-				IMUConfigReg_DN.DigitalLowPassFilter_D                              <= unsigned(IMUInput_DP(tIMUConfig.DigitalLowPassFilter_D'length - 1 downto 0));
-				IMUOutput_DN(tIMUConfig.DigitalLowPassFilter_D'length - 1 downto 0) <= std_logic_vector(IMUConfigReg_DP.DigitalLowPassFilter_D);
+				IMUConfigReg_DN.DigitalLowPassFilter_D                <= unsigned(IMUInput_DP(tIMUConfig.DigitalLowPassFilter_D'range));
+				IMUOutput_DN(tIMUConfig.DigitalLowPassFilter_D'range) <= std_logic_vector(IMUConfigReg_DP.DigitalLowPassFilter_D);
 
 			when IMUCONFIG_PARAM_ADDRESSES.AccelFullScale_D =>
-				IMUConfigReg_DN.AccelFullScale_D                              <= unsigned(IMUInput_DP(tIMUConfig.AccelFullScale_D'length - 1 downto 0));
-				IMUOutput_DN(tIMUConfig.AccelFullScale_D'length - 1 downto 0) <= std_logic_vector(IMUConfigReg_DP.AccelFullScale_D);
+				IMUConfigReg_DN.AccelFullScale_D                <= unsigned(IMUInput_DP(tIMUConfig.AccelFullScale_D'range));
+				IMUOutput_DN(tIMUConfig.AccelFullScale_D'range) <= std_logic_vector(IMUConfigReg_DP.AccelFullScale_D);
 
 			when IMUCONFIG_PARAM_ADDRESSES.GyroFullScale_D =>
-				IMUConfigReg_DN.GyroFullScale_D                              <= unsigned(IMUInput_DP(tIMUConfig.GyroFullScale_D'length - 1 downto 0));
-				IMUOutput_DN(tIMUConfig.GyroFullScale_D'length - 1 downto 0) <= std_logic_vector(IMUConfigReg_DP.GyroFullScale_D);
+				IMUConfigReg_DN.GyroFullScale_D                <= unsigned(IMUInput_DP(tIMUConfig.GyroFullScale_D'range));
+				IMUOutput_DN(tIMUConfig.GyroFullScale_D'range) <= std_logic_vector(IMUConfigReg_DP.GyroFullScale_D);
 
 			when others => null;
 		end case;

@@ -40,8 +40,8 @@ begin
 				FX3Output_DN(0)       <= FX3ConfigReg_DP.Run_S;
 
 			when FX3CONFIG_PARAM_ADDRESSES.EarlyPacketDelay_D =>
-				FX3ConfigReg_DN.EarlyPacketDelay_D                              <= unsigned(FX3Input_DP(tFX3Config.EarlyPacketDelay_D'length - 1 downto 0));
-				FX3Output_DN(tFX3Config.EarlyPacketDelay_D'length - 1 downto 0) <= std_logic_vector(FX3ConfigReg_DP.EarlyPacketDelay_D);
+				FX3ConfigReg_DN.EarlyPacketDelay_D                <= unsigned(FX3Input_DP(tFX3Config.EarlyPacketDelay_D'range));
+				FX3Output_DN(tFX3Config.EarlyPacketDelay_D'range) <= std_logic_vector(FX3ConfigReg_DP.EarlyPacketDelay_D);
 
 			when others => null;
 		end case;
