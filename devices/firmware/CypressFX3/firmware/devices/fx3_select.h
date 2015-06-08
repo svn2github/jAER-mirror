@@ -8,8 +8,8 @@
 // 16-bit Slave FIFO; I2C, SPI and GPIO disabled; support for common vendor requests only
 #define EXAMPLE 0
 #define SRC_SINK 0
-#define DAVISFX3 0
-#define DAVISFX3R2 1
+#define DAVISFX3 1
+#define COCHLEAFX3 0
 
 // Device specific configuration inclusion
 #if EXAMPLE == 1
@@ -24,8 +24,8 @@
 #include "devices/davisfx3/davisfx3_config.h"
 #endif
 
-#if DAVISFX3R2 == 1
-#include "devices/davisfx3r2/davisfx3r2_config.h"
+#if COCHLEAFX3 == 1
+#include "devices/cochleafx3/cochleafx3_config.h"
 #endif
 
 #endif /* _INCLUDED_FX3_SELECT_H_ */
