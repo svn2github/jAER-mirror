@@ -11,58 +11,57 @@ use work.ChipBiasConfigRecords.all;
 
 entity TopLevel_CochleaLP is
 	port(
-		USBClock_CI                : in  std_logic;
-		Reset_RI                   : in  std_logic;
+		USBClock_CI             : in  std_logic;
+		Reset_RI                : in  std_logic;
 
-		SPISlaveSelect_ABI         : in  std_logic;
-		SPIClock_AI                : in  std_logic;
-		SPIMOSI_AI                 : in  std_logic;
-		SPIMISO_DZO                : out std_logic;
+		SPISlaveSelect_ABI      : in  std_logic;
+		SPIClock_AI             : in  std_logic;
+		SPIMOSI_AI              : in  std_logic;
+		SPIMISO_DZO             : out std_logic;
 
-		USBFifoData_DO             : out std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
-		USBFifoChipSelect_SBO      : out std_logic;
-		USBFifoWrite_SBO           : out std_logic;
-		USBFifoRead_SBO            : out std_logic;
-		USBFifoPktEnd_SBO          : out std_logic;
-		USBFifoAddress_DO          : out std_logic_vector(1 downto 0);
-		USBFifoThr0Ready_SI        : in  std_logic;
-		USBFifoThr0Watermark_SI    : in  std_logic;
-		USBFifoThr1Ready_SI        : in  std_logic;
-		USBFifoThr1Watermark_SI    : in  std_logic;
+		USBFifoData_DO          : out std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+		USBFifoChipSelect_SBO   : out std_logic;
+		USBFifoWrite_SBO        : out std_logic;
+		USBFifoRead_SBO         : out std_logic;
+		USBFifoPktEnd_SBO       : out std_logic;
+		USBFifoAddress_DO       : out std_logic_vector(1 downto 0);
+		USBFifoThr0Ready_SI     : in  std_logic;
+		USBFifoThr0Watermark_SI : in  std_logic;
+		USBFifoThr1Ready_SI     : in  std_logic;
+		USBFifoThr1Watermark_SI : in  std_logic;
 
-		LED1_SO                    : out std_logic;
-		LED2_SO                    : out std_logic;
-		LED3_SO                    : out std_logic;
-		LED4_SO                    : out std_logic;
-		LED5_SO                    : out std_logic;
-		LED6_SO                    : out std_logic;
+		LED1_SO                 : out std_logic;
+		LED2_SO                 : out std_logic;
+		LED3_SO                 : out std_logic;
+		LED4_SO                 : out std_logic;
+		LED5_SO                 : out std_logic;
+		LED6_SO                 : out std_logic;
 
-		ChipBiasEnable_SO          : out std_logic;
-		ChipBiasDiagSelect_SO      : out std_logic;
-		ChipBiasAddrSelect_SBO     : out std_logic;
-		ChipBiasClock_CBO          : out std_logic;
-		ChipBiasBitIn_DO           : out std_logic;
-		ChipBiasLatch_SBO          : out std_logic;
-		--ChipBiasBitOut_DI : in std_logic;
+		ChipBiasEnable_SO       : out std_logic;
+		ChipBiasDiagSelect_SO   : out std_logic;
+		ChipBiasAddrSelect_SBO  : out std_logic;
+		ChipBiasClock_CBO       : out std_logic;
+		ChipBiasBitIn_DO        : out std_logic;
+		ChipBiasLatch_SBO       : out std_logic;
 
-		-- Fake event input from USBAERmini boards.
-		DVSAERData_AI              : in  std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
-		DVSAERReq_ABI              : in  std_logic;
-		DVSAERAck_SBO              : out std_logic;
+		AERData_AI              : in  std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
+		AERReq_ABI              : in  std_logic;
+		AERAck_SBO              : out std_logic;
+		AERReset_SBO            : out std_logic;
 
-		-- Communication with AERCorrFilter chip.
-		AERCorrFilterPass_SI       : in  std_logic;
-		AERCorrFilterPassEnable_SO : out std_logic;
-		AERCorrFilterData_DO       : out std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
-		AERCorrFilterReq_SBO       : out std_logic;
-		AERCorrFilterAck_SBO       : out std_logic;
+		ScannerClock_CO         : out std_logic;
+		ScannerBitIn_DO         : out std_logic;
 
-		SyncOutClock_CO            : out std_logic;
-		SyncOutSwitch_AI           : in  std_logic;
-		SyncOutSignal_SO           : out std_logic;
-		SyncInClock_AI             : in  std_logic;
-		SyncInSwitch_AI            : in  std_logic;
-		SyncInSignal_AI            : in  std_logic);
+		DACSync_SBO             : out std_logic;
+		DACClock_CO             : out std_logic;
+		DACDataOut_DO           : out std_logic;
+
+		SyncOutClock_CO         : out std_logic;
+		SyncOutSwitch_AI        : in  std_logic;
+		SyncOutSignal_SO        : out std_logic;
+		SyncInClock_AI          : in  std_logic;
+		SyncInSwitch_AI         : in  std_logic;
+		SyncInSignal_AI         : in  std_logic);
 end TopLevel_CochleaLP;
 
 architecture Structural of TopLevel_CochleaLP is
