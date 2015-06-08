@@ -30,7 +30,7 @@ architecture Behavioral of CochleaLPStateMachine is
 	attribute syn_enum_encoding : string;
 
 	type tState is (stIdle, stAckAndLoadBias0, stAckAndLoadBias1, stAckAndLoadBias8, stAckAndLoadBias11, stAckAndLoadBias14, stAckAndLoadBias19, stAckAndLoadBias20, stAckAndLoadBias21, stPrepareSendBiasAddress, stSendBiasAddress, stPrepareSendBias, stSendBias, stAckAndLoadChip, stPrepareSendChip,
-		            stSendChip, stLatchBiasAddress, stLatchBias, stLatchChip);
+		            stSendChip, stLatchBiasAddress, stLatchBias, stLatchChip, stAckAndLoadChannel, stPrepareSendChannel, stSendChannel, stLatchChannel, stPrepareSendChannelAddress, stSendChannelAddress, stLatchChannelAddress);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	signal State_DP, State_DN : tState;
@@ -89,9 +89,18 @@ architecture Behavioral of CochleaLPStateMachine is
 	signal WaitCyclesCounterClear_S, WaitCyclesCounterEnable_S : std_logic;
 	signal WaitCyclesCounterData_D                             : unsigned(WAIT_CYCLES_COUNTER_SIZE - 1 downto 0);
 
+	-- Signal when to latch the channel registers and start a transaction.
+	signal ChannelSetPulse_S : std_logic;
+	signal ChannelSetAck_S   : std_logic;
+	signal ChannelSet_S      : std_logic;
+
+	-- Keep track if what we send after the channel address is channel data or diag chain data.
+	signal IsChannelConfigData_SP, IsChannelConfigData_SN : std_logic;
+
 	-- Register configuration inputs.
-	signal BiasConfigReg_D : tCochleaLPBiasConfig;
-	signal ChipConfigReg_D : tCochleaLPChipConfig;
+	signal BiasConfigReg_D    : tCochleaLPBiasConfig;
+	signal ChipConfigReg_D    : tCochleaLPChipConfig;
+	signal ChannelConfigReg_D : tCochleaLPChannelConfig;
 
 	-- Register all outputs.
 	signal ChipBiasDiagSelectReg_S  : std_logic;
@@ -105,7 +114,7 @@ architecture Behavioral of CochleaLPStateMachine is
 		return '0' & not CFBIAS(12) & not CFBIAS(13) & not CFBIAS(14) & CFBIAS(11 downto 0);
 	end function BiasGenerateCoarseFine;
 begin
-	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D, Bias0Changed_S, Bias11Changed_S, Bias14Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias8Changed_S)
+	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D, Bias0Changed_S, Bias11Changed_S, Bias14Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias8Changed_S, ChannelConfigReg_D, ChannelAddressSROutput_D, ChannelSROutput_D, ChannelSet_S, IsChannelConfigData_SP)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -127,6 +136,10 @@ begin
 		Bias21Sent_S <= '0';
 
 		ChipSent_S <= '0';
+
+		ChannelSetAck_S <= '0';
+
+		IsChannelConfigData_SN <= IsChannelConfigData_SP;
 
 		BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_DO_NOTHING;
 		BiasAddrSRInput_D <= (others => '0');
@@ -178,6 +191,10 @@ begin
 
 				if ChipChanged_S = '1' then
 					State_DN <= stAckAndLoadChip;
+				end if;
+
+				if ChannelSet_S = '1' then
+					State_DN <= stAckAndLoadChannel;
 				end if;
 
 			when stAckAndLoadBias0 =>
@@ -421,6 +438,81 @@ begin
 					State_DN <= stIdle;
 				end if;
 
+			when stPrepareSendChannelAddress =>
+				-- Set flags as needed for channel address SR.
+				ChipBiasDiagSelectReg_S  <= '1';
+				ChipBiasAddrSelectReg_SB <= '1';
+
+				-- Wait for one bias clock cycle, to ensure the chip has had time to switch to the right SR.
+				WaitCyclesCounterEnable_S <= '1';
+
+				if WaitCyclesCounterData_D = to_unsigned(BIAS_CLOCK_CYCLES, WAIT_CYCLES_COUNTER_SIZE) then
+					WaitCyclesCounterEnable_S <= '0';
+					WaitCyclesCounterClear_S  <= '1';
+
+					State_DN <= stSendChannelAddress;
+				end if;
+
+			when stSendChannelAddress =>
+				-- Set flags as needed for channel address SR.
+				ChipBiasDiagSelectReg_S  <= '1';
+				ChipBiasAddrSelectReg_SB <= '1';
+
+				-- Shift it out, slowly, over the bias ports.
+				-- NOTE: this is reversed, first to be shifted out is LSB!
+				ChipBiasBitInReg_D <= ChannelAddressSROutput_D(0);
+
+				-- Wait for one full clock cycle, then switch to the next bit.
+				WaitCyclesCounterEnable_S <= '1';
+
+				if WaitCyclesCounterData_D = to_unsigned(BIAS_CLOCK_CYCLES - 1, WAIT_CYCLES_COUNTER_SIZE) then
+					WaitCyclesCounterEnable_S <= '0';
+					WaitCyclesCounterClear_S  <= '1';
+
+					-- Move to next bit.
+					-- NOTE: this is reversed, first to be shifted out is LSB!
+					ChannelAddressSRMode_S <= SHIFTREGISTER_MODE_SHIFT_RIGHT;
+
+					-- Count up one, this bit is done!
+					SentBitsCounterEnable_S <= '1';
+
+					if SentBitsCounterData_D = to_unsigned(CHIP_CHANADDR_REG_LENGTH - 1, SENT_BITS_COUNTER_SIZE) then
+						SentBitsCounterEnable_S <= '0';
+						SentBitsCounterClear_S  <= '1';
+
+						-- Move to next state, this SR is fully shifted out now.
+						State_DN <= stLatchChannelAddress;
+					end if;
+				end if;
+
+				-- Clock data. Default clock is HIGH, so we pull it LOW during the middle half of its period.
+				-- This way both clock edges happen when the data is stable.
+				if WaitCyclesCounterData_D >= to_unsigned(BIAS_CLOCK_CYCLES / 4, WAIT_CYCLES_COUNTER_SIZE) and WaitCyclesCounterData_D <= to_unsigned(BIAS_CLOCK_CYCLES / 4 * 3, WAIT_CYCLES_COUNTER_SIZE) then
+					ChipBiasClockReg_CB <= '0';
+				end if;
+
+			when stLatchChannelAddress =>
+				-- Set flags as needed for channel address SR.
+				ChipBiasDiagSelectReg_S  <= '1';
+				ChipBiasAddrSelectReg_SB <= '1';
+
+				-- Latch new config.
+				ChipBiasLatchReg_SB <= '0';
+
+				-- Keep latch active for a few cycles.
+				WaitCyclesCounterEnable_S <= '1';
+
+				if WaitCyclesCounterData_D = to_unsigned(LATCH_CYCLES - 1, WAIT_CYCLES_COUNTER_SIZE) then
+					WaitCyclesCounterEnable_S <= '0';
+					WaitCyclesCounterClear_S  <= '1';
+
+					if IsChannelConfigData_SP = '1' then
+						State_DN <= stPrepareSendChannel;
+					else
+						State_DN <= stPrepareSendChip;
+					end if;
+				end if;
+
 			when stAckAndLoadChip =>
 				-- Acknowledge all chip config changes, since we're getting the up-to-date
 				-- content of all of them anyway, so we can just ACk them all.
@@ -435,11 +527,20 @@ begin
 				ChipSRInput_D(1 downto 0) <= std_logic_vector(ChipConfigReg_D.ResetCapConfigADM_D);
 				ChipSRMode_S              <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
-				State_DN <= stPrepareSendChip;
+				-- Load channel address with special chip diag register MSB.
+				-- Since MSB is zero, and the rest is don't care, all zeros is a good value.
+				ChannelAddressSRInput_D <= (others => '0');
+				ChannelAddressSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Sending diag chain data, not channel config data.
+				IsChannelConfigData_SN <= '0';
+
+				State_DN <= stPrepareSendChannelAddress;
 
 			when stPrepareSendChip =>
 				-- Set flags as needed for chip diag SR.
-				ChipBiasDiagSelectReg_S <= '1';
+				ChipBiasDiagSelectReg_S  <= '1';
+				ChipBiasAddrSelectReg_SB <= '0';
 
 				-- Wait for one bias clock cycle, to ensure the chip has had time to switch to the right SR.
 				WaitCyclesCounterEnable_S <= '1';
@@ -453,7 +554,8 @@ begin
 
 			when stSendChip =>
 				-- Set flags as needed for chip diag SR.
-				ChipBiasDiagSelectReg_S <= '1';
+				ChipBiasDiagSelectReg_S  <= '1';
+				ChipBiasAddrSelectReg_SB <= '0';
 
 				-- Shift it out, slowly, over the bias ports.
 				ChipBiasBitInReg_D <= ChipSROutput_D(CHIP_REG_LENGTH - 1);
@@ -488,7 +590,95 @@ begin
 
 			when stLatchChip =>
 				-- Set flags as needed for chip diag SR.
-				ChipBiasDiagSelectReg_S <= '1';
+				ChipBiasDiagSelectReg_S  <= '1';
+				ChipBiasAddrSelectReg_SB <= '0';
+
+				-- Latch new config.
+				ChipBiasLatchReg_SB <= '0';
+
+				-- Keep latch active for a few cycles.
+				WaitCyclesCounterEnable_S <= '1';
+
+				if WaitCyclesCounterData_D = to_unsigned(LATCH_CYCLES - 1, WAIT_CYCLES_COUNTER_SIZE) then
+					WaitCyclesCounterEnable_S <= '0';
+					WaitCyclesCounterClear_S  <= '1';
+
+					State_DN <= stIdle;
+				end if;
+
+			when stAckAndLoadChannel =>
+				-- Acknowledge current channel config changes.
+				ChannelSetAck_S <= '1';
+
+				-- Load shiftreg with current channel config content.
+				ChannelSRInput_D(tCochleaLPChannelConfig.ChannelDataWrite_D'range) <= std_logic_vector(ChannelConfigReg_D.ChannelDataWrite_D);
+				ChannelSRMode_S                                                    <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load channel address with current channel address. MSB must be 1.
+				ChannelAddressSRInput_D(CHIP_CHANADDR_REG_LENGTH - 1)             <= '1';
+				ChannelAddressSRInput_D(CHIP_CHANADDR_REG_USED_SIZE - 1 downto 0) <= std_logic_vector(ChannelConfigReg_D.ChannelAddress_D);
+				ChannelAddressSRMode_S                                            <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Sending channel config data, not chip diag data.
+				IsChannelConfigData_SN <= '1';
+
+				State_DN <= stPrepareSendChannelAddress;
+
+			when stPrepareSendChannel =>
+				-- Set flags as needed for channel SR.
+				ChipBiasDiagSelectReg_S  <= '1';
+				ChipBiasAddrSelectReg_SB <= '0';
+
+				-- Wait for one bias clock cycle, to ensure the chip has had time to switch to the right SR.
+				WaitCyclesCounterEnable_S <= '1';
+
+				if WaitCyclesCounterData_D = to_unsigned(BIAS_CLOCK_CYCLES, WAIT_CYCLES_COUNTER_SIZE) then
+					WaitCyclesCounterEnable_S <= '0';
+					WaitCyclesCounterClear_S  <= '1';
+
+					State_DN <= stSendChannel;
+				end if;
+
+			when stSendChannel =>
+				-- Set flags as needed for channel SR.
+				ChipBiasDiagSelectReg_S  <= '1';
+				ChipBiasAddrSelectReg_SB <= '0';
+
+				-- Shift it out, slowly, over the bias ports.
+				ChipBiasBitInReg_D <= ChannelSROutput_D(CHIP_REG_LENGTH - 1);
+
+				-- Wait for one full clock cycle, then switch to the next bit.
+				WaitCyclesCounterEnable_S <= '1';
+
+				if WaitCyclesCounterData_D = to_unsigned(BIAS_CLOCK_CYCLES - 1, WAIT_CYCLES_COUNTER_SIZE) then
+					WaitCyclesCounterEnable_S <= '0';
+					WaitCyclesCounterClear_S  <= '1';
+
+					-- Move to next bit.
+					ChannelSRMode_S <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+
+					-- Count up one, this bit is done!
+					SentBitsCounterEnable_S <= '1';
+
+					if SentBitsCounterData_D = to_unsigned(CHIP_REG_LENGTH - 1, SENT_BITS_COUNTER_SIZE) then
+						SentBitsCounterEnable_S <= '0';
+						SentBitsCounterClear_S  <= '1';
+
+						-- Move to next state, this SR is fully shifted out now.
+						State_DN <= stLatchChannel;
+					end if;
+				end if;
+
+				-- Clock data. Default clock is HIGH, so we pull it LOW during the middle half of its period.
+				-- This way both clock edges happen when the data is stable.
+				if WaitCyclesCounterData_D >= to_unsigned(BIAS_CLOCK_CYCLES / 4, WAIT_CYCLES_COUNTER_SIZE) and WaitCyclesCounterData_D <= to_unsigned(BIAS_CLOCK_CYCLES / 4 * 3, WAIT_CYCLES_COUNTER_SIZE) then
+					ChipBiasClockReg_CB <= '0';
+				end if;
+
+			when stLatchChannel =>
+				-- Set flags as needed for channel SR.
+				ChipBiasDiagSelectReg_S  <= '1';
+				ChipBiasAddrSelectReg_SB <= '0';
 
 				-- Latch new config.
 				ChipBiasLatchReg_SB <= '0';
@@ -512,8 +702,11 @@ begin
 		if Reset_RI = '1' then
 			State_DP <= stIdle;
 
-			BiasConfigReg_D <= tCochleaLPBiasConfigDefault;
-			ChipConfigReg_D <= tCochleaLPChipConfigDefault;
+			BiasConfigReg_D    <= tCochleaLPBiasConfigDefault;
+			ChipConfigReg_D    <= tCochleaLPChipConfigDefault;
+			ChannelConfigReg_D <= tCochleaLPChannelConfigDefault;
+
+			IsChannelConfigData_SP <= '0';
 
 			ChipBiasDiagSelect_SO  <= '0';
 			ChipBiasAddrSelect_SBO <= '1';
@@ -523,8 +716,11 @@ begin
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
-			BiasConfigReg_D <= BiasConfig_DI;
-			ChipConfigReg_D <= ChipConfig_DI;
+			BiasConfigReg_D    <= BiasConfig_DI;
+			ChipConfigReg_D    <= ChipConfig_DI;
+			ChannelConfigReg_D <= ChannelConfig_DI;
+
+			IsChannelConfigData_SP <= IsChannelConfigData_SN;
 
 			ChipBiasDiagSelect_SO  <= ChipBiasDiagSelectReg_S;
 			ChipBiasAddrSelect_SBO <= ChipBiasAddrSelectReg_SB;
@@ -614,6 +810,25 @@ begin
 			DataIn_DI        => '0',
 			ParallelWrite_DI => ChannelSRInput_D,
 			ParallelRead_DO  => ChannelSROutput_D);
+
+	detectChannelSetPulse : entity work.PulseDetector
+		generic map(
+			SIZE => 2)
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			PulsePolarity_SI => '1',
+			PulseLength_DI   => to_unsigned(2, 2),
+			InputSignal_SI   => ChannelConfigReg_D.ChannelSet_S,
+			PulseDetected_SO => ChannelSetPulse_S);
+
+	bufferChannelSet : entity work.BufferClear
+		port map(
+			Clock_CI        => Clock_CI,
+			Reset_RI        => Reset_RI,
+			Clear_SI        => ChannelSetAck_S,
+			InputSignal_SI  => ChannelSetPulse_S,
+			OutputSignal_SO => ChannelSet_S);
 
 	detectBias0Change : entity work.ChangeDetector
 		generic map(

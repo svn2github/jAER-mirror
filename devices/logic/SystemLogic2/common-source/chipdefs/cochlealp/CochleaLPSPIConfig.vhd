@@ -23,9 +23,9 @@ entity CochleaLPSPIConfig is
 end entity CochleaLPSPIConfig;
 
 architecture Behavioral of CochleaLPSPIConfig is
-	type tChanConfig is array (CHIP_CHAN_NUMBER - 1 downto 0) of unsigned(CHIP_CHAN_REG_USED_SIZE - 1 downto 0);
+	type tChanConfigStore is array (CHIP_CHAN_NUMBER - 1 downto 0) of unsigned(CHIP_CHAN_REG_USED_SIZE - 1 downto 0);
 
-	signal ChannelConfigStorage_DP, ChannelConfigStorage_DN : tChanConfig;
+	signal ChannelConfigStorage_DP, ChannelConfigStorage_DN : tChanConfigStore;
 
 	signal LatchBiasReg_S                     : std_logic;
 	signal BiasInput_DP, BiasInput_DN         : std_logic_vector(31 downto 0);
