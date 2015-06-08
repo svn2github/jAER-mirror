@@ -2,7 +2,7 @@
 #include "features/gpio_support.h"
 #include "features/spi_support.h"
 
-#if DAVISFX3R2 == 1
+#if DAVISFX3 == 1 || COCHLEAFX3 == 1
 
 spiConfig_DeviceSpecific_Type spiConfig_DeviceSpecific[] = {
 	{ 0, 3, 256, 8 * MEGABYTE, 104 * MEGAHERTZ, CyFalse }, /* Macronix MX25U6435F Flash Memory (8MB, 104Mhz, SS: default line, active-low) */
@@ -746,4 +746,4 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadConfiguration(void) {
 	return (status);
 }
 
-#endif /* DAVISFX3R2 */
+#endif /* DAVISFX3 || COCHLEAFX3 */

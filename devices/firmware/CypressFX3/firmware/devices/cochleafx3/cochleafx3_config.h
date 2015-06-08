@@ -1,15 +1,15 @@
-#ifndef _INCLUDED_DAVISFX3R2_CONFIG_H_
-#define _INCLUDED_DAVISFX3R2_CONFIG_H_ 1
+#ifndef _INCLUDED_COCHLEAFX3_CONFIG_H_
+#define _INCLUDED_COCHLEAFX3_CONFIG_H_ 1
 
 // Feature configuration
-#define PRODUCT_ID 0x1A, 0x84 // Product ID (from Thesycon reserved range)
+#define PRODUCT_ID 0x1C, 0x84 // Product ID (from Thesycon reserved range)
 #define DEVICE_ID  0x00, 0x01
 
-#define STRING_PRODUCT 'D', 0x00, 'A', 0x00, 'V', 0x00, 'i', 0x00, 'S', 0x00, ' ', 0x00, 'F', 0x00, 'X', 0x00, '3', 0x00, ' ', 0x00, 'R', 0x00, '2', 0x00
-#define STRING_PRODUCT_LEN 24
+#define STRING_PRODUCT 'C', 0x00, 'O', 0x00, 'C', 0x00, 'H', 0x00, 'L', 0x00, 'E', 0x00, 'A', 0x00, ' ', 0x00, 'F', 0x00, 'X', 0x00, '3', 0x00
+#define STRING_PRODUCT_LEN 22
 
-#define USB3_POWER_REQUIREMENT (75) // 75 x 8mA = 600mA
-#define USB2_POWER_REQUIREMENT (250) // 250 x 2mA = 500mA
+#define USB3_POWER_REQUIREMENT (80)  // 80 x 8mA = 640mA
+#define USB2_POWER_REQUIREMENT (250) // 250 x 2mA = 500mA (MAX!)
 
 #define FX3_LOG_LEVEL (LOG_DEBUG)
 
@@ -43,4 +43,4 @@
 #define FX3_SOCKET_0_WATERMARK (7)
 #define FX3_SOCKET_1_WATERMARK (7)
 
-#endif /* _INCLUDED_DAVISFX3R2_CONFIG_H_ */
+#endif /* _INCLUDED_COCHLEAFX3_CONFIG_H_ */
