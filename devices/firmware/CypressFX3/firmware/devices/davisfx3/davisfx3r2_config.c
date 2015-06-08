@@ -2,67 +2,57 @@
 #include "features/gpio_support.h"
 #include "features/spi_support.h"
 
-#if DAVISFX3 == 1
+#if DAVISFX3R2 == 1
 
 spiConfig_DeviceSpecific_Type spiConfig_DeviceSpecific[] = {
-	{ 0, 3, 256, 1 * MEGABYTE, 50 * MEGAHERTZ, CyFalse }, /* Winbond W25Q80BW Flash Memory (1MB, 50Mhz, SS: default line, active-low) */
-	{ 57, 0, 0, 0, 33 * MEGAHERTZ, CyFalse }, /* Lattice ECP3-17 FPGA (no standard read/write support, 33Mhz, SS: GPIO 57, active-low) */
+	{ 0, 3, 256, 8 * MEGABYTE, 104 * MEGAHERTZ, CyFalse }, /* Macronix MX25U6435F Flash Memory (8MB, 104Mhz, SS: default line, active-low) */
+	{ 52, 0, 0, 0, 12 * MEGAHERTZ, CyFalse }, /* FPGA configuration (no standard read/write support, 12Mhz, SS: GPIO 52, active-low) */
+	{ 57, 0, 0, 0, 33 * MEGAHERTZ, CyFalse }, /* Lattice ECP3-70EA FPGA (no standard read/write support, 33Mhz, SS: GPIO 57, active-low) */
 };
 const uint8_t spiConfig_DeviceSpecific_Length = (sizeof(spiConfig_DeviceSpecific) / sizeof(spiConfig_DeviceSpecific[0]));
 
 gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
-	// { 26, 'P' }, /* GPIO 26: Interrupt from Inertial Measurement Unit */
-	// { 27, 'O' }, /* GPIO 27: Clock for Inertial Measurement Unit */
-	{ 33, 'O' }, /* GPIO 33: FPGA_Reset */
-	{ 34, 'O' }, /* GPIO 34: FX3_LED */
-	// { 35, 'O' }, /* GPIO 35 (Px0): */
-	// { 36, 'O' }, /* GPIO 36 (Px1): */
-	// { 37, 'O' }, /* GPIO 37 (Px2): */
-	{ 38, 'O' }, /* GPIO 38 (Px3): FPGA_SPI_ALTSSN */
-	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SSN (active-low) */
-	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_SPI_Clock */
-	{ 41, 'O' }, /* GPIO 41 (Px6): FPGA_SPI_MOSI */
-	{ 42, 'I' }, /* GPIO 42 (Px7): FPGA_SPI_MISO */
-	// { 43, 'O' }, /* GPIO 43 (Px8): */
-	// { 44, 'O' }, /* GPIO 44 (Px9): */
-	// { 45, 'O' }, /* GPIO 45 (Spare1): */
-	// { 46, 'O' }, /* GPIO 46 (Spare2): */
-	// { 47, 'O' }, /* GPIO 47 (Spare3): */
-	{ 48, 'O' }, /* GPIO 48 (Spare4): Bias_Diag_Select */
-	{ 49, 'o' }, /* GPIO 49: Bias_Addr_Select (active-low) */
-	{ 50, 'o' }, /* GPIO 50: Bias_Clock (active-low) */
-	{ 51, 'o' }, /* GPIO 51: Bias_Latch (active-low) */
-	{ 52, 'O' }, /* GPIO 52: Bias_Bit */
+	// Signals 26-27, 33-49 still free in 16-bit mode.
+	{ 50, 'O' }, /* GPIO 50 (Sig29): FPGA Reset */
+	{ 51, 'O' }, /* GPIO 51 (FXLED): FX3 LED */
 };
 const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecific) / sizeof(gpioConfig_DeviceSpecific[0]));
 
 // Define GPIO to function mappings.
-#define FPGA_RESET 33
-#define FPGA_SPI_ALTSSN 38
-#define FPGA_SPI_SSN 39
-#define FPGA_SPI_CLOCK 40
-#define FPGA_SPI_MOSI 41
-#define FPGA_SPI_MISO 42
-#define BIAS_DIAG_SELECT 48
-#define BIAS_ADDR_SELECT 49
-#define BIAS_CLOCK 50
-#define BIAS_LATCH 51
-#define BIAS_BIT 52
+#define FPGA_RESET 50
 
 // Memory and device addresses.
-#define SNUM_MEMORY_ADDRESS 0x0C0000
-#define FPGA_MEMORY_ADDRESS 0x030000
+#define FPGA_MEMORY_ADDRESS 0x00030000
+#define SNUM_MEMORY_ADDRESS 0x00300000
+#define COFI_MEMORY_ADDRESS 0x00310000
+#define EADC_MEMORY_ADDRESS 0x00320000
+#define CONF_MEMORY_ADDRESS 0x00330000
+
 #define FPGA_SPI_ADDRESS 57
+#define FCONFIG_SPI_ADDRESS 52
+
+#define DATA_HEADER_LENGTH 8
+#define DATA_DEFINITION_LENGTH 4
+
+#define SERIAL_NUMBER_LENGTH 8
+#define COLORFILTER_LENGTH 1
+#define EXTADC_LENGTH 1
+#define CONFIG_PARAM_LENGTH 6
 
 void CyFxHandleCustomGPIO_DeviceSpecific(uint8_t gpioId) {
 	CyFxErrorHandler(LOG_DEBUG, "GPIO was toggled.", gpioId);
 }
 
 extern uint8_t CyFxUSBSerialNumberDscr[];
-static inline void CyFxWriteByteToShiftReg(uint8_t byte, uint8_t clockID, uint8_t bitID);
-static inline uint8_t CyFxReadByteFromShiftReg(uint8_t clockID, uint8_t bitID);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void);
+static inline CyU3PReturnStatus_t CyFxCustomInit_LoadColorFilterInfo(void);
+static inline CyU3PReturnStatus_t CyFxCustomInit_LoadExternalADCInfo(void);
+static inline CyU3PReturnStatus_t CyFxCustomInit_LoadConfiguration(void);
+static inline CyU3PReturnStatus_t spiConfigFPGASend(uint8_t moduleAddress, uint8_t parameterAddress,
+	uint8_t *valueInBuffer);
+static inline CyU3PReturnStatus_t spiConfigFPGAReceive(uint8_t moduleAddress, uint8_t parameterAddress,
+	uint8_t *valueOutBuffer);
 
 CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
@@ -83,6 +73,25 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 	CyFxGpioTurnOn(FPGA_RESET);
 	CyU3PBusyWait(2);
 	CyFxGpioTurnOff(FPGA_RESET);
+	CyU3PBusyWait(2);
+
+	// Load color filter information from Flash to FPGA.
+	status = CyFxCustomInit_LoadColorFilterInfo();
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	// Load external ADC information from Flash to FPGA.
+	status = CyFxCustomInit_LoadExternalADCInfo();
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	// Load configuration from Flash to FPGA.
+	status = CyFxCustomInit_LoadConfiguration();
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
 
 	return (status);
 }
@@ -95,10 +104,10 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 #define FPGA_CMD_WRITE_EN 0x4A
 #define FPGA_CMD_WRITE_DIS 0x4F
 
-// The Lattice ECP3-17EA FPGA has a JTAG IDCODE of 0x01010043.
-// It is returned bit-inverted, so it becomes 0xC2008080 for comparison. Further
-// the FX3 is a little-endian system, so we have to reverse the bytes: 0x808000C2.
-#define FPGA_JTAG_ID 0x808000C2
+// The Lattice ECP3-70EA FPGA has a JTAG IDCODE of 0x01014043.
+// It is returned bit-inverted, so it becomes 0xC2028080 for comparison. Further
+// the FX3 is a little-endian system, so we have to reverse the bytes: 0x808002C2.
+#define FPGA_JTAG_ID 0x808002C2
 
 // USB FPGA configuration phases
 #define FPGA_UPLOAD_PHASE_INIT 0 /* Check FPGA model, do refresh, clear memory */
@@ -109,8 +118,48 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 // Device-specific vendor requests
 #define VR_FPGA_UPLOAD 0xBE
 #define VR_FPGA_CONFIG 0xBF
-#define VR_CHIP_BIAS 0xC0
-#define VR_CHIP_DIAG 0xC1
+
+static inline CyU3PReturnStatus_t spiConfigFPGASend(uint8_t moduleAddress, uint8_t parameterAddress,
+	uint8_t *valueInBuffer) {
+	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(FCONFIG_SPI_ADDRESS);
+
+	uint8_t cmd[2] = { 0 };
+
+	// Highest bit of first byte is zero to indicate write operation.
+	cmd[0] = (moduleAddress & 0x7F);
+	cmd[1] = parameterAddress;
+
+	status = CyFxSpiCommand(FCONFIG_SPI_ADDRESS, cmd, 2, valueInBuffer, 4, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	return (status);
+}
+
+static inline CyU3PReturnStatus_t spiConfigFPGAReceive(uint8_t moduleAddress, uint8_t parameterAddress,
+	uint8_t *valueOutBuffer) {
+	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(FCONFIG_SPI_ADDRESS);
+
+	uint8_t cmd[2] = { 0 };
+
+	// Highest bit of first byte is one to indicate read operation.
+	cmd[0] = (moduleAddress | 0x80);
+	cmd[1] = parameterAddress;
+
+	status = CyFxSpiCommand(FCONFIG_SPI_ADDRESS, cmd, 2, valueOutBuffer, 4, SPI_READ, SPI_ASSERT | SPI_DEASSERT);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	return (status);
+}
 
 CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest, uint16_t wValue, uint16_t wIndex,
 	uint16_t wLength) {
@@ -130,6 +179,9 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 						break;
 					}
 
+					// Update SPI clock setting for maximum performance.
+					CyFxSpiClockUpdateForDevice(FPGA_SPI_ADDRESS);
+
 					// Clock in REFRESH command to reset FPGA and wait 50 ms as per documentation.
 					cmd[0] = FPGA_CMD_REFRESH;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
@@ -143,7 +195,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					// Clock in READ ID command
 					cmd[0] = FPGA_CMD_READ_ID;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer, 4, SPI_READ,
-						SPI_ASSERT | SPI_DEASSERT);
+					SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD INIT: failed to read FPGA ID", status);
 						break;
@@ -192,7 +244,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					// Write first bitstream chunk to FPGA and send WRITE CONFIG command
 					cmd[0] = FPGA_CMD_WRITE_INC;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer, wLength, SPI_WRITE,
-						SPI_ASSERT | SPI_NO_DEASSERT);
+					SPI_ASSERT | SPI_NO_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
 						// CyFxSpiCommand() takes care to deassert the SS line on failure.
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD FIRST: writing first data chunk failed", status);
@@ -225,7 +277,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 					// Write bitstream chunk to FPGA
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, NULL, 0, glEP0Buffer, wLength, SPI_WRITE,
-						SPI_NO_ASSERT | SPI_NO_DEASSERT);
+					SPI_NO_ASSERT | SPI_NO_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
 						// CyFxSpiCommand() takes care to deassert the SS line on failure.
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD DATA: writing data chunk failed", status);
@@ -257,7 +309,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 					// Write last bitstream chunk to FPGA and deassert SlaveSelect line
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, NULL, 0, (wLength == 0) ? (NULL) : (glEP0Buffer), wLength,
-						SPI_WRITE, SPI_NO_ASSERT | SPI_DEASSERT);
+					SPI_WRITE, SPI_NO_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
 						// CyFxSpiCommand() takes care to deassert the SS line on failure.
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD LAST: writing last data chunk failed", status);
@@ -267,7 +319,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					// Clock in READ STATUS command
 					cmd[0] = FPGA_CMD_READ_STATUS;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer, 4, SPI_READ,
-						SPI_ASSERT | SPI_DEASSERT);
+					SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD LAST: failed to read FPGA status", status);
 						break;
@@ -303,153 +355,41 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			break;
 		}
 
-		case FX3_REQ_DIR(VR_CHIP_BIAS, FX3_USB_DIRECTION_IN):
-			if (wLength != 2) {
-				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_BIAS: invalid transfer length", status);
-				break;
-			}
-
-			// Get data from USB control endpoint.
-			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_BIAS: CyU3PUsbGetEP0Data failed", status);
-				break;
-			}
-
-			// Ensure we're not accessing the chip diagnostic shift register.
-			CyFxGpioTurnOff(BIAS_DIAG_SELECT);
-
-			// Select addressed bias mode.
-			CyFxGpioTurnOn(BIAS_ADDR_SELECT);
-
-			// Write a byte, containing the bias address (from wValue).
-			CyFxWriteByteToShiftReg((uint8_t) wValue, BIAS_CLOCK, BIAS_BIT);
-
-			// Latch bias address.
-			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PBusyWait(10);
-			CyFxGpioTurnOff(BIAS_LATCH);
-
-			// Release address selection.
-			CyFxGpioTurnOff(BIAS_ADDR_SELECT);
-
-			// Reverse and flip coarse part of coarse/fine bias.
-			if (wValue < 20) {
-				glEP0Buffer[0] = glEP0Buffer[0] ^ 0x70;
-				glEP0Buffer[0] = (uint8_t) ((glEP0Buffer[0] & ~0x50) | ((glEP0Buffer[0] & 0x40) >> 2) | ((glEP0Buffer[0] & 0x10) << 2));
-			}
-
-			// Write out all the data bytes for this bias.
-			for (size_t i = 0; i < wLength; i++) {
-				CyFxWriteByteToShiftReg(glEP0Buffer[i], BIAS_CLOCK, BIAS_BIT);
-			}
-
-			// Latch bias.
-			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PBusyWait(10);
-			CyFxGpioTurnOff(BIAS_LATCH);
-
-			break;
-
-		case FX3_REQ_DIR(VR_CHIP_DIAG, FX3_USB_DIRECTION_IN):
-			if (wLength != 7) {
-				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_DIAG: invalid transfer length", status);
-				break;
-			}
-
-			// Get data from USB control endpoint.
-			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_DIAG: CyU3PUsbGetEP0Data failed", status);
-				break;
-			}
-
-			// Ensure we are accessing the chip diagnostic shift register.
-			CyFxGpioTurnOn(BIAS_DIAG_SELECT);
-
-			// Write out all configuration bytes to the shift register.
-			for (size_t i = 0; i < wLength; i++) {
-				CyFxWriteByteToShiftReg(glEP0Buffer[i], BIAS_CLOCK, BIAS_BIT);
-			}
-
-			// Latch configuration.
-			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PBusyWait(10);
-			CyFxGpioTurnOff(BIAS_LATCH);
-
-			// We're done and can deselect the chip diagnostic SR.
-			CyFxGpioTurnOff(BIAS_DIAG_SELECT);
-
-			break;
-
-		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_IN):
-			if (wLength != 4 && ((wValue & 0x0100) != 0 && wLength != 0)) {
+		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_IN): {
+			if (wLength != 4) {
 				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
 				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: only 4 byte writes are supported", status);
 				break;
 			}
 
 			// Get data from USB control endpoint.
-			if (wLength != 0) {
-				status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-				if (status != CY_U3P_SUCCESS) {
-					CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: CyU3PUsbGetEP0Data failed", status);
-					break;
-				}
-			}
-			else {
-				CyU3PUsbAckSetup();
+			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
+			if (status != CY_U3P_SUCCESS) {
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: CyU3PUsbGetEP0Data failed", status);
+				break;
 			}
 
-			if ((wValue & 0x0100) != 0) {
-				// Write out special configuration values using alternative SPI bus.
-				// NOTE: this is temporary to support specialized usage by ATC.
-				CyFxWriteByteToShiftReg((uint8_t) wValue, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg((uint8_t) wIndex, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-
-				CyFxGpioTurnOn(FPGA_SPI_ALTSSN);
-				CyFxGpioTurnOff(FPGA_SPI_ALTSSN);
-			}
-			else {
-				// Write out all configuration bytes to the FPGA, using its SPI bus.
-				// Newer boards will migrate this to the embedded SPI controller for full-duplex.
-				CyFxGpioTurnOn(FPGA_SPI_SSN);
-
-				// Highest bit of first byte is zero to indicate write operation.
-				CyFxWriteByteToShiftReg((uint8_t) (wValue & 0x7F), FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg((uint8_t) wIndex, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-
-				for (size_t i = 0; i < wLength; i++) {
-					CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				}
-
-				CyFxGpioTurnOff(FPGA_SPI_SSN);
+			status = spiConfigFPGASend((uint8_t) wValue, (uint8_t) wIndex, glEP0Buffer);
+			if (status != CY_U3P_SUCCESS) {
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: failed SPI config write", status);
+				break;
 			}
 
 			break;
+		}
 
-		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_OUT):
+		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_OUT): {
 			if (wLength != 4) {
 				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
 				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG READ: only 4 byte reads are supported", status);
 				break;
 			}
 
-			// Read configuration bits from the FPGA, using its SPI bus.
-			// Newer boards will migrate this to the embedded SPI controller for full-duplex.
-			CyFxGpioTurnOn(FPGA_SPI_SSN);
-
-			// Highest bit of first byte is one to indicate read operation.
-			CyFxWriteByteToShiftReg((uint8_t) (wValue | 0x80), FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-			CyFxWriteByteToShiftReg((uint8_t) wIndex, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-
-			for (size_t i = 0; i < wLength; i++) {
-				glEP0Buffer[i] = CyFxReadByteFromShiftReg(FPGA_SPI_CLOCK, FPGA_SPI_MISO);
+			status = spiConfigFPGAReceive((uint8_t) wValue, (uint8_t) wIndex, glEP0Buffer);
+			if (status != CY_U3P_SUCCESS) {
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG READ: failed SPI config read", status);
+				break;
 			}
-
-			CyFxGpioTurnOff(FPGA_SPI_SSN);
 
 			// Send content back to host.
 			status = CyU3PUsbSendEP0Data(4, glEP0Buffer);
@@ -459,6 +399,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			}
 
 			break;
+		}
 
 		default:
 			// Not handled in this module
@@ -477,70 +418,20 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 	return (CyTrue);
 }
 
-static inline void CyFxWriteByteToShiftReg(uint8_t byte, uint8_t clockID, uint8_t bitID) {
-	// Disable clock.
-	CyFxGpioTurnOff(clockID);
-
-	// Step through the eight bits of the given byte, starting at the highest
-	// (MSB) and going down to the lowest (LSB).
-	for (size_t i = 0; i < 8; i++) {
-		// Set the current bit value, based on the highest bit.
-		if (byte & 0x80) {
-			CyFxGpioTurnOn(bitID);
-		}
-		else {
-			CyFxGpioTurnOff(bitID);
-		}
-
-		// Pulse clock to signal value is ready to be read.
-		CyFxGpioTurnOn(clockID);
-		CyFxGpioTurnOff(clockID);
-
-		// Shift left by one, making the second highest bit the highest.
-		byte = (uint8_t) (byte << 1);
-	}
-}
-
-static inline uint8_t CyFxReadByteFromShiftReg(uint8_t clockID, uint8_t bitID) {
-	// Disable clock.
-	CyFxGpioTurnOff(clockID);
-
-	uint8_t byte = 0;
-
-	for (size_t i = 0; i < 8; i++) {
-		// Pulse clock to signal slave to output new value.
-		CyFxGpioTurnOn(clockID);
-
-		// Get the current bit value, based on the GPIO value.
-		if (CyFxGpioGet(bitID)) {
-			byte |= 1;
-		}
-		else {
-			byte |= 0;
-		}
-
-		CyFxGpioTurnOff(clockID);
-
-		// Shift left by one, progressively moving the first set bit to be the MSB.
-		if (i != 7) {
-			byte = (uint8_t) (byte << 1);
-		}
-	}
-
-	return (byte);
-}
-
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
 
 	uint32_t serialNumberHeader[2];
 
-	status = CyFxSpiTransfer(0, SNUM_MEMORY_ADDRESS, (uint8_t *) serialNumberHeader, 8, SPI_READ);
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(0);
+
+	status = CyFxSpiTransfer(0, SNUM_MEMORY_ADDRESS, (uint8_t *) serialNumberHeader, DATA_HEADER_LENGTH, SPI_READ);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
 
-	if (!memcmp(serialNumberHeader, "SNUM", 4)) {
+	if (!memcmp(serialNumberHeader, "SNUM", DATA_DEFINITION_LENGTH)) {
 		// Found valid Serial Number identifier!
 		uint32_t serialNumberLength = serialNumberHeader[1];
 
@@ -548,13 +439,14 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void) {
 			return (status);
 		}
 
-		uint8_t serialNumber[8];
+		uint8_t serialNumber[SERIAL_NUMBER_LENGTH];
 
-		if (serialNumberLength > 8) {
-			serialNumberLength = 8; // Maximum length is 8!
+		if (serialNumberLength > SERIAL_NUMBER_LENGTH) {
+			serialNumberLength = SERIAL_NUMBER_LENGTH;
 		}
 
-		status = CyFxSpiTransfer(0, (SNUM_MEMORY_ADDRESS + 8), serialNumber, (uint16_t) serialNumberLength, SPI_READ);
+		status = CyFxSpiTransfer(0, (SNUM_MEMORY_ADDRESS + DATA_HEADER_LENGTH), serialNumber,
+			(uint16_t) serialNumberLength, SPI_READ);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
 		}
@@ -588,16 +480,20 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 
 	uint32_t fpgaBitstreamHeader[2];
 
-	status = CyFxSpiTransfer(0, FPGA_MEMORY_ADDRESS, (uint8_t *) fpgaBitstreamHeader, 8, SPI_READ);
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(0);
+
+	status = CyFxSpiTransfer(0, FPGA_MEMORY_ADDRESS, (uint8_t *) fpgaBitstreamHeader, DATA_HEADER_LENGTH, SPI_READ);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
 
-	if (!memcmp(fpgaBitstreamHeader, "FPGA", 4)) {
+	if (!memcmp(fpgaBitstreamHeader, "FPGA", DATA_DEFINITION_LENGTH)) {
 		// Found valid FPGA bitstream identifier!
 		uint32_t fpgaBitstreamLength = fpgaBitstreamHeader[1];
 
 		if (fpgaBitstreamLength < FX3_MAX_TRANSFER_SIZE_CONTROL) {
+			// A too short (<4K) bitstream is obviously wrong and shall be ignored.
 			return (status);
 		}
 
@@ -632,25 +528,26 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 			return (status);
 		}
 
-		uint32_t memAddress = (FPGA_MEMORY_ADDRESS + 8);
+		uint32_t memAddress = (FPGA_MEMORY_ADDRESS + DATA_HEADER_LENGTH);
 
 		// Read first bitstream chunk from SPI Flash (first read slightly shorter to align to page size)
-		status = CyFxSpiTransfer(0, memAddress, glEP0Buffer, (FX3_MAX_TRANSFER_SIZE_CONTROL - 8), SPI_READ);
+		status = CyFxSpiTransfer(0, memAddress, glEP0Buffer, (FX3_MAX_TRANSFER_SIZE_CONTROL - DATA_HEADER_LENGTH),
+		SPI_READ);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
 		}
 
 		// Write first bitstream chunk to FPGA and send WRITE CONFIG command
 		cmd[0] = FPGA_CMD_WRITE_INC;
-		status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer, (FX3_MAX_TRANSFER_SIZE_CONTROL - 8), SPI_WRITE,
-			SPI_ASSERT | SPI_NO_DEASSERT);
+		status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer,
+			(FX3_MAX_TRANSFER_SIZE_CONTROL - DATA_HEADER_LENGTH), SPI_WRITE, SPI_ASSERT | SPI_NO_DEASSERT);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
 		}
 
 		// Update involved counters
-		memAddress += (FX3_MAX_TRANSFER_SIZE_CONTROL - 8);
-		fpgaBitstreamLength -= (FX3_MAX_TRANSFER_SIZE_CONTROL - 8);
+		memAddress += (FX3_MAX_TRANSFER_SIZE_CONTROL - DATA_HEADER_LENGTH);
+		fpgaBitstreamLength -= (FX3_MAX_TRANSFER_SIZE_CONTROL - DATA_HEADER_LENGTH);
 
 		while (fpgaBitstreamLength > FX3_MAX_TRANSFER_SIZE_CONTROL) {
 			// Read bitstream chunk from SPI Flash
@@ -661,7 +558,7 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 
 			// Write bitstream chunk to FPGA
 			status = CyFxSpiCommand(FPGA_SPI_ADDRESS, NULL, 0, glEP0Buffer, FX3_MAX_TRANSFER_SIZE_CONTROL, SPI_WRITE,
-				SPI_NO_ASSERT | SPI_NO_DEASSERT);
+			SPI_NO_ASSERT | SPI_NO_DEASSERT);
 			if (status != CY_U3P_SUCCESS) {
 				return (status);
 			}
@@ -713,4 +610,140 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 	return (status);
 }
 
-#endif /* DAVISFX3 */
+static inline CyU3PReturnStatus_t CyFxCustomInit_LoadColorFilterInfo(void) {
+	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+
+	uint32_t colorFilterHeader[2];
+
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(0);
+
+	status = CyFxSpiTransfer(0, COFI_MEMORY_ADDRESS, (uint8_t *) colorFilterHeader, DATA_HEADER_LENGTH, SPI_READ);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	if (!memcmp(colorFilterHeader, "COFI", DATA_DEFINITION_LENGTH)) {
+		// Found valid Color Filter identifier!
+		uint32_t colorFilterLength = colorFilterHeader[1];
+
+		if (colorFilterLength == 0) {
+			return (status);
+		}
+
+		uint8_t colorFilterInfo;
+
+		if (colorFilterLength > COLORFILTER_LENGTH) {
+			colorFilterLength = COLORFILTER_LENGTH;
+		}
+
+		status = CyFxSpiTransfer(0, (COFI_MEMORY_ADDRESS + DATA_HEADER_LENGTH), &colorFilterInfo,
+			(uint16_t) colorFilterLength, SPI_READ);
+		if (status != CY_U3P_SUCCESS) {
+			return (status);
+		}
+
+		// Send color filter information to FPGA via FCONFIG bus.
+		uint32_t colorFilterBuffer = (uint32_t) (colorFilterInfo << 24); // Shift to upper byte, little-endian!
+
+		status = spiConfigFPGASend(2, 3, (uint8_t *) &colorFilterBuffer);
+		if (status != CY_U3P_SUCCESS) {
+			return (status);
+		}
+	}
+
+	return (status);
+}
+
+static inline CyU3PReturnStatus_t CyFxCustomInit_LoadExternalADCInfo(void) {
+	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+
+	uint32_t externalADCHeader[2];
+
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(0);
+
+	status = CyFxSpiTransfer(0, EADC_MEMORY_ADDRESS, (uint8_t *) externalADCHeader, DATA_HEADER_LENGTH, SPI_READ);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	if (!memcmp(externalADCHeader, "EADC", DATA_DEFINITION_LENGTH)) {
+		// Found valid External ADC identifier!
+		uint32_t externalADCLength = externalADCHeader[1];
+
+		if (externalADCLength == 0) {
+			return (status);
+		}
+
+		uint8_t externalADCInfo;
+
+		if (externalADCLength > EXTADC_LENGTH) {
+			externalADCLength = EXTADC_LENGTH;
+		}
+
+		status = CyFxSpiTransfer(0, (EADC_MEMORY_ADDRESS + DATA_HEADER_LENGTH), &externalADCInfo,
+			(uint16_t) externalADCLength, SPI_READ);
+		if (status != CY_U3P_SUCCESS) {
+			return (status);
+		}
+
+		// Send external ADC presence information to FPGA via FCONFIG bus.
+		uint32_t externalADCBuffer = (uint32_t) (externalADCInfo << 24); // Shift to upper byte, little-endian!
+
+		status = spiConfigFPGASend(2, 32, (uint8_t *) &externalADCBuffer);
+		if (status != CY_U3P_SUCCESS) {
+			return (status);
+		}
+	}
+
+	return (status);
+}
+
+static inline CyU3PReturnStatus_t CyFxCustomInit_LoadConfiguration(void) {
+	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+
+	uint32_t configHeader[2];
+
+	// Update SPI clock setting for maximum performance.
+	CyFxSpiClockUpdateForDevice(0);
+
+	status = CyFxSpiTransfer(0, CONF_MEMORY_ADDRESS, (uint8_t *) configHeader, DATA_HEADER_LENGTH, SPI_READ);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	if (!memcmp(configHeader, "CONF", DATA_DEFINITION_LENGTH)) {
+		// Found valid configuration identifier!
+		uint32_t configLength = configHeader[1];
+
+		if (configLength == 0) {
+			return (status);
+		}
+
+		// Calculate number of configuration parameters to load.
+		// Each one takes up 6 bytes: 1 module addr, 1 param addr, 4 param.
+		uint32_t configNumber = configLength / CONFIG_PARAM_LENGTH;
+		uint8_t config[CONFIG_PARAM_LENGTH]; // Memory for current config parameter.
+
+		// Step through each config parameter, read it and send it to the device.
+		for (size_t i = 0; i < configNumber; i++) {
+			// Read data from Flash memory.
+			status = CyFxSpiTransfer(0, (CONF_MEMORY_ADDRESS + DATA_HEADER_LENGTH) + (i * CONFIG_PARAM_LENGTH), config,
+			CONFIG_PARAM_LENGTH, SPI_READ);
+			if (status != CY_U3P_SUCCESS) {
+				continue;
+			}
+
+			// Send configuration parameter to FPGA via FCONFIG bus.
+			status = spiConfigFPGASend(config[0], config[1], &config[2]);
+			if (status != CY_U3P_SUCCESS) {
+				continue;
+			}
+		}
+	}
+
+	return (status);
+}
+
+#endif /* DAVISFX3R2 */
