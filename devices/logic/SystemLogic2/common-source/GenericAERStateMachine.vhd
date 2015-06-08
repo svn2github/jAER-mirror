@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.EventCodes.all;
 use work.FIFORecords.all;
-use work.DVSAERConfigRecords.all;
+use work.GenericAERConfigRecords.all;
 
 entity GenericAERStateMachine is
 	generic(
@@ -23,7 +23,7 @@ entity GenericAERStateMachine is
 		AERReset_SBO      : out std_logic;
 
 		-- Configuration input
-		AERConfig_DI      : in  tDVSAERConfig);
+		AERConfig_DI      : in  tGenericAERConfig);
 end GenericAERStateMachine;
 
 architecture Behavioral of GenericAERStateMachine is
@@ -37,7 +37,7 @@ architecture Behavioral of GenericAERStateMachine is
 
 	-- Counter to influence acknowledge delays.
 	signal AckCount_S, AckDone_S : std_logic;
-	signal AckLimit_D            : unsigned(DVS_AER_ACK_COUNTER_WIDTH - 1 downto 0);
+	signal AckLimit_D            : unsigned(GENERIC_AER_ACK_COUNTER_WIDTH - 1 downto 0);
 
 	-- Data incoming from AER bus.
 	signal AEREventDataRegEnable_S : std_logic;
@@ -49,11 +49,11 @@ architecture Behavioral of GenericAERStateMachine is
 	signal AERResetReg_SB : std_logic;
 
 	-- Register configuration input.
-	signal AERConfigReg_D : tDVSAERConfig;
+	signal AERConfigReg_D : tGenericAERConfig;
 begin
 	aerAckCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => DVS_AER_ACK_COUNTER_WIDTH)
+			SIZE => GENERIC_AER_ACK_COUNTER_WIDTH)
 		port map(Clock_CI     => Clock_CI,
 			     Reset_RI     => Reset_RI,
 			     Clear_SI     => '0',
@@ -116,7 +116,7 @@ begin
 				end if;
 
 			when stAERHandle =>
-				AckLimit_D <= AERConfigReg_D.AckDelayColumn_D;
+				AckLimit_D <= AERConfigReg_D.AckDelay_D;
 
 				-- We might need to delay the ACK.
 				if AckDone_S = '1' then
@@ -134,7 +134,7 @@ begin
 				AckCount_S <= '1';
 
 			when stAERAck =>
-				AckLimit_D <= AERConfigReg_D.AckExtensionColumn_D;
+				AckLimit_D <= AERConfigReg_D.AckExtension_D;
 
 				AERAckReg_SB <= '0';
 
@@ -153,7 +153,7 @@ begin
 	end process handleAERComb;
 
 	-- Change state on clock edge (synchronous).
-	dvsHandleAERRegisterUpdate : process(Clock_CI, Reset_RI)
+	handleAERRegisterUpdate : process(Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
@@ -161,7 +161,7 @@ begin
 			AERAck_SBO   <= '1';
 			AERReset_SBO <= '0';
 
-			AERConfigReg_D <= tDVSAERConfigDefault;
+			AERConfigReg_D <= tGenericAERConfigDefault;
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
@@ -170,7 +170,7 @@ begin
 
 			AERConfigReg_D <= AERConfig_DI;
 		end if;
-	end process dvsHandleAERRegisterUpdate;
+	end process handleAERRegisterUpdate;
 
 	aerEventDataRegister : entity work.SimpleRegister
 		generic map(
