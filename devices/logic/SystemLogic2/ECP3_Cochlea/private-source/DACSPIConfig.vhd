@@ -1,6 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.ceil;
+use ieee.math_real.log2;
 use work.DACConfigRecords.all;
 
 entity DACSPIConfig is
@@ -18,9 +20,12 @@ entity DACSPIConfig is
 end entity DACSPIConfig;
 
 architecture Behavioral of DACSPIConfig is
-	type tDACConfigStore is array (DAC_CHAN_NUMBER - 1 downto 0) of unsigned(DAC_DATA_LENGTH - 1 downto 0);
+	signal DACConfigStorage_DP, DACConfigStorage_DN : std_logic_vector(DAC_DATA_LENGTH - 1 downto 0);
 
-	signal DACConfigStorage_DP, DACConfigStorage_DN : tDACConfigStore;
+	constant DAC_CHAN_SIZE : integer := integer(ceil(log2(real(DAC_CHAN_NUMBER))));
+
+	signal DACConfigStorageAddress_D     : unsigned(DAC_CHAN_SIZE - 1 downto 0);
+	signal DACConfigStorageWriteEnable_S : std_logic;
 
 	signal LatchDACReg_S                    : std_logic;
 	signal DACInput_DP, DACInput_DN         : std_logic_vector(31 downto 0);
@@ -32,13 +37,29 @@ begin
 
 	LatchDACReg_S <= '1' when ConfigModuleAddress_DI = DACCONFIG_MODULE_ADDRESS else '0';
 
+	dacConfigStorage : entity work.BlockRAM
+		generic map(
+			ADDRESS_DEPTH => DAC_CHAN_NUMBER,
+			ADDRESS_WIDTH => DAC_CHAN_SIZE,
+			DATA_WIDTH    => DAC_DATA_LENGTH)
+		port map(
+			Clock_CI       => Clock_CI,
+			Reset_RI       => Reset_RI,
+			Address_DI     => DACConfigStorageAddress_D,
+			Enable_SI      => '1',
+			WriteEnable_SI => DACConfigStorageWriteEnable_S,
+			Data_DI        => DACConfigStorage_DN,
+			Data_DO        => DACConfigStorage_DP);
+
+	DACConfigStorageAddress_D     <= DACConfigReg_DP.DAC_D & DACConfigReg_DP.Register_D & DACConfigReg_DP.Channel_D;
+	DACConfigStorageWriteEnable_S <= '1' when (LatchDACReg_S = '1' and ConfigLatchInput_SI = '1' and ConfigParamAddress_DI = DACCONFIG_PARAM_ADDRESSES.Set_S) else '0';
+	DACConfigStorage_DN           <= std_logic_vector(DACConfigReg_DP.DataWrite_D);
+
 	dacIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, DACInput_DP, DACConfigReg_DP, DACConfigStorage_DP)
 	begin
 		DACConfigReg_DN <= DACConfigReg_DP;
 		DACInput_DN     <= ConfigParamInput_DI;
 		DACOutput_DN    <= (others => '0');
-
-		DACConfigStorage_DN <= DACConfigStorage_DP;
 
 		case ConfigParamAddress_DI is
 			when DACCONFIG_PARAM_ADDRESSES.Run_S =>
@@ -58,7 +79,7 @@ begin
 				DACOutput_DN(tDACConfig.Channel_D'range) <= std_logic_vector(DACConfigReg_DP.Channel_D);
 
 			when DACCONFIG_PARAM_ADDRESSES.DataRead_D =>
-				DACOutput_DN(DAC_DATA_LENGTH - 1 downto 0) <= std_logic_vector(DACConfigStorage_DP(to_integer(DACConfigReg_DP.DAC_D & DACConfigReg_DP.Register_D & DACConfigReg_DP.Channel_D)));
+				DACOutput_DN(DAC_DATA_LENGTH - 1 downto 0) <= DACConfigStorage_DP;
 
 			when DACCONFIG_PARAM_ADDRESSES.DataWrite_D =>
 				DACConfigReg_DN.DataWrite_D                <= unsigned(DACInput_DP(tDACConfig.DataWrite_D'range));
@@ -78,22 +99,13 @@ begin
 			DACInput_DP  <= (others => '0');
 			DACOutput_DP <= (others => '0');
 
-			DACConfigStorage_DP <= (others => (others => '0'));
-
 			DACConfigReg_DP <= tDACConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
 			DACInput_DP  <= DACInput_DN;
 			DACOutput_DP <= DACOutput_DN;
 
-			DACConfigStorage_DP <= DACConfigStorage_DN;
-
 			if LatchDACReg_S = '1' and ConfigLatchInput_SI = '1' then
 				DACConfigReg_DP <= DACConfigReg_DN;
-
-				-- Also store value in internal storage, so that it can be queried later on.
-				if ConfigParamAddress_DI = DACCONFIG_PARAM_ADDRESSES.Set_S then
-					DACConfigStorage_DP(to_integer(DACConfigReg_DP.DAC_D & DACConfigReg_DP.Register_D & DACConfigReg_DP.Channel_D)) <= DACConfigReg_DP.DataWrite_D;
-				end if;
 			end if;
 		end if;
 	end process dacUpdate;

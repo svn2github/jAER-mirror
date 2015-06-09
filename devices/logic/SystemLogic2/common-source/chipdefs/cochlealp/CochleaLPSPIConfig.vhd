@@ -1,6 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.ceil;
+use ieee.math_real.log2;
 use work.ChipBiasConfigRecords.all;
 use work.CochleaLPChipBiasConfigRecords.all;
 
@@ -23,9 +25,10 @@ entity CochleaLPSPIConfig is
 end entity CochleaLPSPIConfig;
 
 architecture Behavioral of CochleaLPSPIConfig is
-	type tChanConfigStore is array (CHIP_CHAN_NUMBER - 1 downto 0) of unsigned(CHIP_CHAN_REG_USED_SIZE - 1 downto 0);
+	signal ChannelConfigStorage_DP, ChannelConfigStorage_DN : std_logic_vector(CHIP_CHAN_REG_USED_SIZE - 1 downto 0);
 
-	signal ChannelConfigStorage_DP, ChannelConfigStorage_DN : tChanConfigStore;
+	signal ChannelConfigStorageAddress_D     : unsigned(CHIP_CHANADDR_REG_USED_SIZE - 1 downto 0);
+	signal ChannelConfigStorageWriteEnable_S : std_logic;
 
 	signal LatchBiasReg_S                     : std_logic;
 	signal BiasInput_DP, BiasInput_DN         : std_logic_vector(31 downto 0);
@@ -54,6 +57,24 @@ begin
 	LatchBiasReg_S    <= '1' when (ConfigModuleAddress_DI = CHIPBIASCONFIG_MODULE_ADDRESS and ConfigParamAddress_DI(7) = '0') else '0';
 	LatchChipReg_S    <= '1' when (ConfigModuleAddress_DI = CHIPBIASCONFIG_MODULE_ADDRESS and ConfigParamAddress_DI(7 downto 5) = "100") else '0';
 	LatchChannelReg_S <= '1' when (ConfigModuleAddress_DI = CHIPBIASCONFIG_MODULE_ADDRESS and ConfigParamAddress_DI(7 downto 5) = "101") else '0';
+
+	channelConfigStorage : entity work.BlockRAM
+		generic map(
+			ADDRESS_DEPTH => CHIP_CHAN_NUMBER,
+			ADDRESS_WIDTH => CHIP_CHANADDR_REG_USED_SIZE,
+			DATA_WIDTH    => CHIP_CHAN_REG_USED_SIZE)
+		port map(
+			Clock_CI       => Clock_CI,
+			Reset_RI       => Reset_RI,
+			Address_DI     => ChannelConfigStorageAddress_D,
+			Enable_SI      => '1',
+			WriteEnable_SI => ChannelConfigStorageWriteEnable_S,
+			Data_DI        => ChannelConfigStorage_DN,
+			Data_DO        => ChannelConfigStorage_DP);
+
+	ChannelConfigStorageAddress_D     <= ChannelConfigReg_DP.ChannelAddress_D;
+	ChannelConfigStorageWriteEnable_S <= '1' when (LatchChannelReg_S = '1' and ConfigLatchInput_SI = '1' and ConfigParamAddress_DI = COCHLEALP_CHANNELCONFIG_PARAM_ADDRESSES.ChannelSet_S) else '0';
+	ChannelConfigStorage_DN           <= std_logic_vector(ChannelConfigReg_DP.ChannelDataWrite_D);
 
 	biasIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, BiasInput_DP, BiasConfigReg_DP)
 	begin
@@ -173,15 +194,13 @@ begin
 		ChannelInput_DN     <= ConfigParamInput_DI;
 		ChannelOutput_DN    <= (others => '0');
 
-		ChannelConfigStorage_DN <= ChannelConfigStorage_DP;
-
 		case ConfigParamAddress_DI is
 			when COCHLEALP_CHANNELCONFIG_PARAM_ADDRESSES.ChannelAddress_D =>
 				ChannelConfigReg_DN.ChannelAddress_D                             <= unsigned(ChannelInput_DP(tCochleaLPChannelConfig.ChannelAddress_D'range));
 				ChannelOutput_DN(tCochleaLPChannelConfig.ChannelAddress_D'range) <= std_logic_vector(ChannelConfigReg_DP.ChannelAddress_D);
 
 			when COCHLEALP_CHANNELCONFIG_PARAM_ADDRESSES.ChannelDataRead_D =>
-				ChannelOutput_DN(CHIP_CHAN_REG_USED_SIZE - 1 downto 0) <= std_logic_vector(ChannelConfigStorage_DP(to_integer(ChannelConfigReg_DP.ChannelAddress_D)));
+				ChannelOutput_DN(CHIP_CHAN_REG_USED_SIZE - 1 downto 0) <= ChannelConfigStorage_DP;
 
 			when COCHLEALP_CHANNELCONFIG_PARAM_ADDRESSES.ChannelDataWrite_D =>
 				ChannelConfigReg_DN.ChannelDataWrite_D                             <= unsigned(ChannelInput_DP(tCochleaLPChannelConfig.ChannelDataWrite_D'range));
@@ -201,22 +220,13 @@ begin
 			ChannelInput_DP  <= (others => '0');
 			ChannelOutput_DP <= (others => '0');
 
-			ChannelConfigStorage_DP <= (others => (others => '0'));
-
 			ChannelConfigReg_DP <= tCochleaLPChannelConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
 			ChannelInput_DP  <= ChannelInput_DN;
 			ChannelOutput_DP <= ChannelOutput_DN;
 
-			ChannelConfigStorage_DP <= ChannelConfigStorage_DN;
-
 			if LatchChannelReg_S = '1' and ConfigLatchInput_SI = '1' then
 				ChannelConfigReg_DP <= ChannelConfigReg_DN;
-
-				-- Also store value in internal storage, so that it can be queried later on.
-				if ConfigParamAddress_DI = COCHLEALP_CHANNELCONFIG_PARAM_ADDRESSES.ChannelSet_S then
-					ChannelConfigStorage_DP(to_integer(ChannelConfigReg_DP.ChannelAddress_D)) <= ChannelConfigReg_DP.ChannelDataWrite_D;
-				end if;
 			end if;
 		end if;
 	end process channelUpdate;
