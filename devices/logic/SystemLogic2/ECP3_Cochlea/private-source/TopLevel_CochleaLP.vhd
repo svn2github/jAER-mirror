@@ -64,6 +64,12 @@ entity TopLevel_CochleaLP is
 		DACClock_CO             : out std_logic;
 		DACDataOut_DO           : out std_logic;
 
+		ADCConvert_SO           : out std_logic;
+		ADCClock_CO             : out std_logic;
+		ADCRightDataOut_DO      : out std_logic;
+		ADCLeftDataOut_DO       : out std_logic;
+		ADCDataIn_DI            : in  std_logic;
+
 		SyncOutClock_CO         : out std_logic;
 		SyncOutSwitch_AI        : in  std_logic;
 		SyncOutSignal_SO        : out std_logic;
@@ -168,6 +174,14 @@ begin
 	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
 	SyncOutSignal_SO      <= '0';       -- External input disable for Cochleas.
+
+	-- TODO: test AER and external ADCs are unused for now.
+	AERTestAck_SBO <= '1';
+
+	ADCConvert_SO      <= '0';
+	ADCClock_CO        <= '0';
+	ADCRightDataOut_DO <= '0';
+	ADCLeftDataOut_DO  <= '0';
 
 	-- Always enable chip if it is needed (for DVS or APS or forced).
 	chipBiasEnableBuffer : entity work.SimpleRegister
