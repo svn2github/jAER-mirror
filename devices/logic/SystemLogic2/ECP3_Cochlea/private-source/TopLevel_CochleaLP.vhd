@@ -399,8 +399,6 @@ begin
 			DACConfigParamOutput_DO => DACConfigParamOutput_D);
 
 	scannerSM : entity work.ScannerStateMachine
-		generic map(
-			EAR_SIZE => 1)              -- Two ears are present in CochleaLP.
 		port map(
 			Clock_CI         => LogicClock_C,
 			Reset_RI         => LogicReset_R,

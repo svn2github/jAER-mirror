@@ -18,12 +18,12 @@ package ScannerConfigRecords is
 
 	type tScannerConfig is record
 		ScannerEnabled_S : std_logic;
-		ScannerEar_D     : unsigned(1 downto 0); -- Up to 4 ears.
+		ScannerEar_D     : std_logic;   -- Two ears.
 		ScannerChannel_D : unsigned(5 downto 0); -- Up to 64 channels per ear.
 	end record tScannerConfig;
 
 	constant tScannerConfigDefault : tScannerConfig := (
 		ScannerEnabled_S => '0',
-		ScannerEar_D     => (others => '0'),
+		ScannerEar_D     => '0',
 		ScannerChannel_D => (others => '0'));
 end package ScannerConfigRecords;

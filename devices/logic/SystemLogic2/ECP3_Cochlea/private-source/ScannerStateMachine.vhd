@@ -3,14 +3,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.ceil;
 use ieee.math_real.log2;
-use ieee.math_real."**";
 use work.ShiftRegisterModes.all;
 use work.Settings.LOGIC_CLOCK_FREQ;
 use work.ScannerConfigRecords.all;
 
 entity ScannerStateMachine is
-	generic(
-		EAR_SIZE : integer := 1);
 	port(
 		Clock_CI         : in  std_logic;
 		Reset_RI         : in  std_logic;
@@ -31,7 +28,8 @@ architecture Behavioral of ScannerStateMachine is
 
 	signal State_DP, State_DN : tState;
 
-	constant SCANNER_REG_LENGTH : integer := integer(2.0 ** real(EAR_SIZE + tScannerConfig.ScannerChannel_D'length));
+	-- All new Cochleas have a 128bit register here.
+	constant SCANNER_REG_LENGTH : integer := 128;
 
 	-- Scanner clock frequency in KHz.
 	constant SCANNER_CLOCK_FREQ : integer := 100;
@@ -109,11 +107,11 @@ begin
 
 	detectEarChange : entity work.ChangeDetector
 		generic map(
-			SIZE => tScannerConfig.ScannerEar_D'length)
+			SIZE => 1)
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_DI          => std_logic_vector(ScannerConfigReg_D.ScannerEar_D),
+			InputData_DI(0)       => ScannerConfigReg_D.ScannerEar_D,
 			ChangeDetected_SO     => EarChangeDetected_S,
 			ChangeAcknowledged_SI => EarChangeAcknowledged_S);
 
@@ -159,7 +157,7 @@ begin
 						IsClear_SN <= '0';
 
 						-- Set appropriate bit to 1 and send new SR out to chip.
-						ScannerDataOutSRWrite_D(to_integer(ScannerConfigReg_D.ScannerEar_D(EAR_SIZE - 1 downto 0) & ScannerConfigReg_D.ScannerChannel_D)) <= '1';
+						ScannerDataOutSRWrite_D(to_integer(ScannerConfigReg_D.ScannerEar_D & ScannerConfigReg_D.ScannerChannel_D)) <= '1';
 
 						ScannerDataOutSRMode_S <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
