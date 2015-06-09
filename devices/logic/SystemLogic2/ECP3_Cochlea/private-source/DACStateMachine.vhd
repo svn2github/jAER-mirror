@@ -283,7 +283,7 @@ begin
 
 			DACRunning_SP <= '0';
 
-			DACSelectReg_SN <= (others => '0');
+			DACSelectReg_SP <= (others => '0');
 
 			DACClock_CO   <= '0';
 			DACDataOut_DO <= '0';
