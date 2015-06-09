@@ -437,8 +437,8 @@ begin
 			MultiplexerConfigReg_D <= MultiplexerConfig_D;
 			AERConfigReg_D         <= AERConfig_D;
 			FX3ConfigReg_D         <= FX3Config_D;
-			DACConfigReg2_D        <= DACConfig_D;
-			ScannerConfigReg2_D    <= ScannerConfig_D;
+			DACConfigReg_D         <= DACConfig_D;
+			ScannerConfigReg_D     <= ScannerConfig_D;
 		end if;
 	end process configRegisters;
 

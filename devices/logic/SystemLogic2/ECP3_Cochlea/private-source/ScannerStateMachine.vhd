@@ -127,7 +127,7 @@ begin
 			ChangeDetected_SO     => ChannelChangeDetected_S,
 			ChangeAcknowledged_SI => ChannelChangeAcknowledged_S);
 
-	dacControl : process(State_DP, ScannerConfigReg_D, ScannerDataOutSRRead_D, SentBitsCounterData_D, WaitCyclesCounterData_D, ChannelChangeDetected_S, EarChangeDetected_S)
+	dacControl : process(State_DP, ScannerConfigReg_D, ScannerDataOutSRRead_D, SentBitsCounterData_D, WaitCyclesCounterData_D, ChannelChangeDetected_S, EarChangeDetected_S, IsClear_SP)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
