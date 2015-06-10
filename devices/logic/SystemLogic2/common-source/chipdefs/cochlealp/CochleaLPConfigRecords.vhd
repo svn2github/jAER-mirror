@@ -120,7 +120,7 @@ package CochleaLPChipBiasConfigRecords is
 
 	type tCochleaLPChannelConfig is record
 		ChannelAddress_D   : unsigned(CHIP_CHANADDR_REG_USED_SIZE - 1 downto 0);
-		ChannelDataWrite_D : unsigned(CHIP_CHAN_REG_USED_SIZE - 1 downto 0);
+		ChannelDataWrite_D : std_logic_vector(CHIP_CHAN_REG_USED_SIZE - 1 downto 0);
 		ChannelSet_S       : std_logic;
 	end record tCochleaLPChannelConfig;
 

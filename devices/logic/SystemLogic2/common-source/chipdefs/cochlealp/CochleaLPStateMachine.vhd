@@ -113,6 +113,11 @@ architecture Behavioral of CochleaLPStateMachine is
 	begin
 		return '0' & not CFBIAS(12) & not CFBIAS(13) & not CFBIAS(14) & CFBIAS(11 downto 0);
 	end function BiasGenerateCoarseFine;
+
+	function ChannelGenerateConfig(CHAN : in std_logic_vector(CHIP_CHAN_REG_USED_SIZE - 1 downto 0)) return std_logic_vector is
+	begin
+		return "0000" & CHAN(19 downto 8) & CHAN(0) & CHAN(1) & CHAN(2) & CHAN(3) & CHAN(4) & CHAN(5) & CHAN(6) & CHAN(7);
+	end function ChannelGenerateConfig;
 begin
 	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D, Bias0Changed_S, Bias11Changed_S, Bias14Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias8Changed_S, ChannelConfigReg_D, ChannelAddressSROutput_D, ChannelSROutput_D, ChannelSet_S, IsChannelConfigData_SP)
 	begin
@@ -611,8 +616,8 @@ begin
 				ChannelSetAck_S <= '1';
 
 				-- Load shiftreg with current channel config content.
-				ChannelSRInput_D(tCochleaLPChannelConfig.ChannelDataWrite_D'range) <= std_logic_vector(ChannelConfigReg_D.ChannelDataWrite_D);
-				ChannelSRMode_S                                                    <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+				ChannelSRInput_D <= ChannelGenerateConfig(ChannelConfigReg_D.ChannelDataWrite_D);
+				ChannelSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Load channel address with current channel address. MSB must be 1.
 				ChannelAddressSRInput_D(CHIP_CHANADDR_REG_LENGTH - 1)             <= '1';

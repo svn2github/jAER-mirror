@@ -74,7 +74,7 @@ begin
 
 	ChannelConfigStorageAddress_D     <= ChannelConfigReg_DP.ChannelAddress_D;
 	ChannelConfigStorageWriteEnable_S <= '1' when (LatchChannelReg_S = '1' and ConfigLatchInput_SI = '1' and ConfigParamAddress_DI = COCHLEALP_CHANNELCONFIG_PARAM_ADDRESSES.ChannelSet_S) else '0';
-	ChannelConfigStorage_DN           <= std_logic_vector(ChannelConfigReg_DP.ChannelDataWrite_D);
+	ChannelConfigStorage_DN           <= ChannelConfigReg_DP.ChannelDataWrite_D;
 
 	biasIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, BiasInput_DP, BiasConfigReg_DP)
 	begin
@@ -203,8 +203,8 @@ begin
 				ChannelOutput_DN(CHIP_CHAN_REG_USED_SIZE - 1 downto 0) <= ChannelConfigStorage_DP;
 
 			when COCHLEALP_CHANNELCONFIG_PARAM_ADDRESSES.ChannelDataWrite_D =>
-				ChannelConfigReg_DN.ChannelDataWrite_D                             <= unsigned(ChannelInput_DP(tCochleaLPChannelConfig.ChannelDataWrite_D'range));
-				ChannelOutput_DN(tCochleaLPChannelConfig.ChannelDataWrite_D'range) <= std_logic_vector(ChannelConfigReg_DP.ChannelDataWrite_D);
+				ChannelConfigReg_DN.ChannelDataWrite_D                             <= ChannelInput_DP(tCochleaLPChannelConfig.ChannelDataWrite_D'range);
+				ChannelOutput_DN(tCochleaLPChannelConfig.ChannelDataWrite_D'range) <= ChannelConfigReg_DP.ChannelDataWrite_D;
 
 			when COCHLEALP_CHANNELCONFIG_PARAM_ADDRESSES.ChannelSet_S =>
 				ChannelConfigReg_DN.ChannelSet_S <= ChannelInput_DP(0);

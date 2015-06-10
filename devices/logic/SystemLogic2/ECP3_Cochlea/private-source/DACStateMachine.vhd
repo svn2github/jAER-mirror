@@ -211,7 +211,7 @@ begin
 					-- DAC is running fine, keep watch for new transaction requests.
 					DACDataOutSRWrite_D(19 downto 16)                   <= std_logic_vector(DACConfigReg_D.Channel_D);
 					DACDataOutSRWrite_D(15 downto 14)                   <= std_logic_vector(DACConfigReg_D.Register_D);
-					DACDataOutSRWrite_D(13 downto 14 - DAC_DATA_LENGTH) <= std_logic_vector(DACConfigReg_D.DataWrite_D);
+					DACDataOutSRWrite_D(13 downto 14 - DAC_DATA_LENGTH) <= DACConfigReg_D.DataWrite_D;
 					DACDataOutSRMode_S                                  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 					if Set_S = '1' then

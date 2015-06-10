@@ -36,7 +36,7 @@ package DACConfigRecords is
 		DAC_D       : unsigned(1 downto 0); -- Address up to 4 DACs.
 		Register_D  : unsigned(DAC_REGISTER_LENGTH - 1 downto 0);
 		Channel_D   : unsigned(DAC_CHANNEL_LENGTH - 1 downto 0);
-		DataWrite_D : unsigned(DAC_DATA_LENGTH - 1 downto 0);
+		DataWrite_D : std_logic_vector(DAC_DATA_LENGTH - 1 downto 0);
 		Set_S       : std_logic;
 	end record tDACConfig;
 

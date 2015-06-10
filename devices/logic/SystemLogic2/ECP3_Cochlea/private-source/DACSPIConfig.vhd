@@ -53,7 +53,7 @@ begin
 
 	DACConfigStorageAddress_D     <= DACConfigReg_DP.DAC_D & DACConfigReg_DP.Register_D & DACConfigReg_DP.Channel_D;
 	DACConfigStorageWriteEnable_S <= '1' when (LatchDACReg_S = '1' and ConfigLatchInput_SI = '1' and ConfigParamAddress_DI = DACCONFIG_PARAM_ADDRESSES.Set_S) else '0';
-	DACConfigStorage_DN           <= std_logic_vector(DACConfigReg_DP.DataWrite_D);
+	DACConfigStorage_DN           <= DACConfigReg_DP.DataWrite_D;
 
 	dacIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, DACInput_DP, DACConfigReg_DP, DACConfigStorage_DP)
 	begin
@@ -82,8 +82,8 @@ begin
 				DACOutput_DN(DAC_DATA_LENGTH - 1 downto 0) <= DACConfigStorage_DP;
 
 			when DACCONFIG_PARAM_ADDRESSES.DataWrite_D =>
-				DACConfigReg_DN.DataWrite_D                <= unsigned(DACInput_DP(tDACConfig.DataWrite_D'range));
-				DACOutput_DN(tDACConfig.DataWrite_D'range) <= std_logic_vector(DACConfigReg_DP.DataWrite_D);
+				DACConfigReg_DN.DataWrite_D                <= DACInput_DP(tDACConfig.DataWrite_D'range);
+				DACOutput_DN(tDACConfig.DataWrite_D'range) <= DACConfigReg_DP.DataWrite_D;
 
 			when DACCONFIG_PARAM_ADDRESSES.Set_S =>
 				DACConfigReg_DN.Set_S <= DACInput_DP(0);
