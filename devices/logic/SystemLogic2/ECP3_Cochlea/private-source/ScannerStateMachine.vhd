@@ -56,7 +56,6 @@ architecture Behavioral of ScannerStateMachine is
 	signal WaitCyclesCounterData_D                             : unsigned(WAIT_CYCLES_COUNTER_SIZE - 1 downto 0);
 
 	-- Detect changes in scanner configuration.
-	signal EarChangeDetected_S, EarChangeAcknowledged_S         : std_logic;
 	signal ChannelChangeDetected_S, ChannelChangeAcknowledged_S : std_logic;
 
 	-- Keep track if the scanner register has been fully cleared or not.
@@ -105,16 +104,6 @@ begin
 			Overflow_SO  => open,
 			Data_DO      => SentBitsCounterData_D);
 
-	detectEarChange : entity work.ChangeDetector
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_DI(0)       => ScannerConfigReg_D.ScannerEar_D,
-			ChangeDetected_SO     => EarChangeDetected_S,
-			ChangeAcknowledged_SI => EarChangeAcknowledged_S);
-
 	detectChannelChange : entity work.ChangeDetector
 		generic map(
 			SIZE => tScannerConfig.ScannerChannel_D'length)
@@ -125,7 +114,7 @@ begin
 			ChangeDetected_SO     => ChannelChangeDetected_S,
 			ChangeAcknowledged_SI => ChannelChangeAcknowledged_S);
 
-	dacControl : process(State_DP, ScannerConfigReg_D, ScannerDataOutSRRead_D, SentBitsCounterData_D, WaitCyclesCounterData_D, ChannelChangeDetected_S, EarChangeDetected_S, IsClear_SP)
+	dacControl : process(State_DP, ScannerConfigReg_D, ScannerDataOutSRRead_D, SentBitsCounterData_D, WaitCyclesCounterData_D, ChannelChangeDetected_S, IsClear_SP)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -142,7 +131,6 @@ begin
 		ScannerDataOutSRMode_S  <= SHIFTREGISTER_MODE_DO_NOTHING;
 		ScannerDataOutSRWrite_D <= (others => '0');
 
-		EarChangeAcknowledged_S     <= '0';
 		ChannelChangeAcknowledged_S <= '0';
 
 		IsClear_SN <= IsClear_SP;
@@ -150,14 +138,13 @@ begin
 		case State_DP is
 			when stIdle =>
 				if ScannerConfigReg_D.ScannerEnabled_S = '1' then
-					if EarChangeDetected_S = '1' or ChannelChangeDetected_S = '1' then
-						EarChangeAcknowledged_S     <= '1';
+					if ChannelChangeDetected_S = '1' then
 						ChannelChangeAcknowledged_S <= '1';
 
 						IsClear_SN <= '0';
 
 						-- Set appropriate bit to 1 and send new SR out to chip.
-						ScannerDataOutSRWrite_D(to_integer(ScannerConfigReg_D.ScannerEar_D & ScannerConfigReg_D.ScannerChannel_D)) <= '1';
+						ScannerDataOutSRWrite_D(to_integer(ScannerConfigReg_D.ScannerChannel_D)) <= '1';
 
 						ScannerDataOutSRMode_S <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 

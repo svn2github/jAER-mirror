@@ -39,10 +39,6 @@ begin
 				ScannerConfigReg_DN.ScannerEnabled_S <= ScannerInput_DP(0);
 				ScannerOutput_DN(0)                  <= ScannerConfigReg_DP.ScannerEnabled_S;
 
-			when SCANNERCONFIG_PARAM_ADDRESSES.ScannerEar_D =>
-				ScannerConfigReg_DN.ScannerEar_D <= ScannerInput_DP(0);
-				ScannerOutput_DN(0)              <= ScannerConfigReg_DP.ScannerEar_D;
-
 			when SCANNERCONFIG_PARAM_ADDRESSES.ScannerChannel_D =>
 				ScannerConfigReg_DN.ScannerChannel_D                    <= unsigned(ScannerInput_DP(tScannerConfig.ScannerChannel_D'range));
 				ScannerOutput_DN(tScannerConfig.ScannerChannel_D'range) <= std_logic_vector(ScannerConfigReg_DP.ScannerChannel_D);

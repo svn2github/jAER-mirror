@@ -7,23 +7,19 @@ package ScannerConfigRecords is
 
 	type tScannerConfigParamAddresses is record
 		ScannerEnabled_S : unsigned(7 downto 0);
-		ScannerEar_D     : unsigned(7 downto 0);
 		ScannerChannel_D : unsigned(7 downto 0);
 	end record tScannerConfigParamAddresses;
 
 	constant SCANNERCONFIG_PARAM_ADDRESSES : tScannerConfigParamAddresses := (
 		ScannerEnabled_S => to_unsigned(0, 8),
-		ScannerEar_D     => to_unsigned(1, 8),
-		ScannerChannel_D => to_unsigned(2, 8));
+		ScannerChannel_D => to_unsigned(1, 8));
 
 	type tScannerConfig is record
 		ScannerEnabled_S : std_logic;
-		ScannerEar_D     : std_logic;   -- Two ears.
-		ScannerChannel_D : unsigned(5 downto 0); -- Up to 64 channels per ear.
+		ScannerChannel_D : unsigned(6 downto 0); -- Up to 128 distinct channels.
 	end record tScannerConfig;
 
 	constant tScannerConfigDefault : tScannerConfig := (
 		ScannerEnabled_S => '0',
-		ScannerEar_D     => '0',
 		ScannerChannel_D => (others => '0'));
 end package ScannerConfigRecords;
