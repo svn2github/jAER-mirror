@@ -155,10 +155,10 @@ begin
 				-- for proper operation.
 				-- The register is 24 bits long:
 				-- 0W00 AAAA RRDD DDDD DDDD DDxx
-				-- 0000 1100 0011 0101 0000 0000
-				--    0    C    3    5    0    0
+				-- 0000 1100 0010 0001 0000 0000
+				--    0    C    2    1    0    0
 				-- See Table 27 of AD5391 doc for explanation.
-				DACDataOutSRWrite_D <= "000011000011010100000000";
+				DACDataOutSRWrite_D <= "000011000010000100000000";
 				DACDataOutSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				-- Bypass the StartTransaction state and select all DACs,
