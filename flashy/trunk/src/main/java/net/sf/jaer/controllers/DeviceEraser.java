@@ -74,7 +74,7 @@ public class DeviceEraser extends Controller {
 
 			done();
 
-			GUISupport.showDialogInformation("Operation completed successfully!");
+			GUISupport.runOnJavaFXThread(() -> GUISupport.showDialogInformation("Operation completed successfully!"));
 
 			return null;
 		}

@@ -405,7 +405,7 @@ public class DAViS_FX2_SBL extends Controller {
 
 			done();
 
-			GUISupport.showDialogInformation("Operation completed successfully!");
+			GUISupport.runOnJavaFXThread(() -> GUISupport.showDialogInformation("Operation completed successfully!"));
 
 			return null;
 		}
@@ -443,7 +443,7 @@ public class DAViS_FX2_SBL extends Controller {
 
 			done();
 
-			GUISupport.showDialogInformation("Operation completed successfully!");
+			GUISupport.runOnJavaFXThread(() -> GUISupport.showDialogInformation("Operation completed successfully!"));
 
 			return null;
 		}
@@ -639,7 +639,7 @@ public class DAViS_FX2_SBL extends Controller {
 
 			done();
 
-			GUISupport.showDialogInformation("Operation completed successfully!");
+			GUISupport.runOnJavaFXThread(() -> GUISupport.showDialogInformation("Operation completed successfully!"));
 
 			return null;
 		}

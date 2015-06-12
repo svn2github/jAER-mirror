@@ -51,15 +51,13 @@ public final class Flashy extends Application {
 		// Add our own VID/PID combination (jAER Project/INI).
 		final Map<Short, Class<? extends Controller>> iniPids = new HashMap<>();
 
-		iniPids.put((short) 0x841A, DAViS_FX3_SBL.class);
-		iniPids.put((short) 0x841B, DAViS_FX2_SBL.class);
-		// Currently, the DVS128 supports the same capabilities regarding CPLD
-		// and firmware control than the DAViS, so we use the same code.
-		iniPids.put((short) 0x841C, DAViS_FX2_SBL.class);
+		iniPids.put((short) 0x841A, DAViS_FX3_SBL.class); // DAVIS FX3
+		iniPids.put((short) 0x841B, DAViS_FX2_SBL.class); // DAVIS FX2
+		iniPids.put((short) 0x841C, DAViS_FX3_SBL.class); // Cochlea FX3
 
 		// Support erasing of old devices.
-		iniPids.put((short) 0x8400, DeviceEraser.class);
-		iniPids.put((short) 0x840D, DeviceEraser.class);
+		iniPids.put((short) 0x8400, DeviceEraser.class); // Old DVS128
+		iniPids.put((short) 0x840D, DeviceEraser.class); // Old DAVIS FX2
 
 		Flashy.supportedVidPids.put((short) 0x152A, iniPids);
 
