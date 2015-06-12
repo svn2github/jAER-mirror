@@ -93,6 +93,7 @@ architecture Structural of TopLevel_CochleaLP is
 
 	signal AERData_A          : std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
 	signal AERReq_AB          : std_logic;
+	signal AERAckSM_SB        : std_logic;
 	signal AERAck_SB          : std_logic;
 	signal AERAckReg_SB       : std_logic;
 	signal AERTestAckReg_SB   : std_logic;
@@ -221,6 +222,17 @@ begin
 			Enable_SI    => '1',
 			Input_SI(0)  => AERAck_SB,
 			Output_SO(0) => AERTestAckReg_SB);
+
+	-- Due to special AER circuit design, the AERAck_SB from FPGA must also go _LOW_
+	-- when AERReset_SB goes low to reset the array. Else AERReq_SB is incorrect.
+	-- AER Ack should also be asserted one cycle before reset goes low, but this is
+	-- already the case with the following code. AERAck is set to low right away when
+	-- the right parameters are present in AERConfigReg2_D, and then there is one more
+	-- delay cycle due to above timing registers. BUT the AER state machine itself will
+	-- take at least two cycles to react to this change, because AERConfigReg2_D is
+	-- registered once inside the SM, and then the AER Reset output is also registered.
+	-- This way, we're sure ACK goes low at least one cycle before always.
+	AERAck_SB <= '0' when (AERConfigReg2_D.Run_S = '0' and AERConfigReg2_D.ExternalAERControl_S = '0') else AERAckSM_SB;
 
 	-- TODO: external ADCs are unused for now.
 	ADCConvert_SO      <= '0';
@@ -405,7 +417,7 @@ begin
 			OutFifoData_DO    => AERFifoDataIn_D,
 			AERData_DI        => AERData_A,
 			AERReq_SBI        => AERReqSync_SB,
-			AERAck_SBO        => AERAck_SB,
+			AERAck_SBO        => AERAckSM_SB,
 			AERReset_SBO      => AERReset_SBO,
 			AERConfig_DI      => AERConfigReg2_D);
 
