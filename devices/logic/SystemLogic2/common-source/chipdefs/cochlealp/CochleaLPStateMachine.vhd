@@ -650,7 +650,7 @@ begin
 				ChipBiasAddrSelectReg_SB <= '0';
 
 				-- Shift it out, slowly, over the bias ports.
-				ChipBiasBitInReg_D <= ChannelSROutput_D(CHIP_REG_LENGTH - 1);
+				ChipBiasBitInReg_D <= ChannelSROutput_D(0);
 
 				-- Wait for one full clock cycle, then switch to the next bit.
 				WaitCyclesCounterEnable_S <= '1';
@@ -660,7 +660,7 @@ begin
 					WaitCyclesCounterClear_S  <= '1';
 
 					-- Move to next bit.
-					ChannelSRMode_S <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+					ChannelSRMode_S <= SHIFTREGISTER_MODE_SHIFT_RIGHT;
 
 					-- Count up one, this bit is done!
 					SentBitsCounterEnable_S <= '1';
