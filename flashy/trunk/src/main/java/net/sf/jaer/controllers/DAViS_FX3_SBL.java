@@ -579,6 +579,8 @@ public class DAViS_FX3_SBL extends Controller {
 
 			done();
 
+			GUISupport.showDialogInformation("Operation completed successfully!");
+
 			return null;
 		}
 	}
@@ -608,6 +610,8 @@ public class DAViS_FX3_SBL extends Controller {
 			updateProgress(100, 100);
 
 			done();
+
+			GUISupport.showDialogInformation("Operation completed successfully!");
 
 			return null;
 		}
@@ -676,6 +680,8 @@ public class DAViS_FX3_SBL extends Controller {
 			updateProgress(100, 100);
 
 			done();
+
+			GUISupport.showDialogInformation("Operation completed successfully!");
 
 			return null;
 		}

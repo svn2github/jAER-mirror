@@ -74,6 +74,8 @@ public class DeviceEraser extends Controller {
 
 			done();
 
+			GUISupport.showDialogInformation("Operation completed successfully!");
+
 			return null;
 		}
 	};
