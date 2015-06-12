@@ -91,9 +91,12 @@ architecture Structural of TopLevel_CochleaLP is
 
 	signal DACSelect_SB : std_logic_vector(3 downto 0);
 
-	signal AERData_A : std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
-	signal AERReq_AB : std_logic;
-	signal AERAck_SB : std_logic;
+	signal AERData_A          : std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
+	signal AERReq_AB          : std_logic;
+	signal AERAck_SB          : std_logic;
+	signal AERAckReg_SB       : std_logic;
+	signal AERTestAckReg_SB   : std_logic;
+	signal TestAEREnableReg_S : std_logic;
 
 	signal In1Timestamp_S : std_logic;
 
@@ -180,10 +183,44 @@ begin
 	SyncOutSignal_SO      <= '0';       -- External input disable for Cochleas.
 
 	-- Test AER bus support.
-	AERData_A      <= AERData_AI when ScannerConfigReg_D.TestAEREnable_S = '0' else "0000000" & AERTestData_AI;
-	AERReq_AB      <= AERReq_ABI when ScannerConfigReg_D.TestAEREnable_S = '0' else AERTestReq_ABI;
-	AERAck_SBO     <= AERAck_SB when ScannerConfigReg_D.TestAEREnable_S = '0' else '1';
-	AERTestAck_SBO <= '1' when ScannerConfigReg_D.TestAEREnable_S = '0' else AERAck_SB;
+	AERData_A      <= AERData_AI when TestAEREnableReg_S = '0' else "0000000" & AERTestData_AI;
+	AERReq_AB      <= AERReq_ABI when TestAEREnableReg_S = '0' else AERTestReq_ABI;
+	AERAck_SBO     <= AERAckReg_SB when TestAEREnableReg_S = '0' else '1';
+	AERTestAck_SBO <= '1' when TestAEREnableReg_S = '0' else AERTestAckReg_SB;
+
+	-- DFFSynchronizer provides two register in series that work well as buffers too.
+	testAEREnableReg : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => ScannerConfig_D.TestAEREnable_S,
+			Output_SO(0) => TestAEREnableReg_S);
+
+	-- Timing for AERAck is too tight when sent to both normal AER bus and test
+	-- AER bus, so we add a register on each branch to improve the situation.
+	-- Adding a 1-cycle delay to AER has no negative effects.
+	aerACKReg : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => AERAck_SB,
+			Output_SO(0) => AERAckReg_SB);
+
+	aerTestACKReg : entity work.SimpleRegister
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => AERAck_SB,
+			Output_SO(0) => AERTestAckReg_SB);
 
 	-- TODO: external ADCs are unused for now.
 	ADCConvert_SO      <= '0';
