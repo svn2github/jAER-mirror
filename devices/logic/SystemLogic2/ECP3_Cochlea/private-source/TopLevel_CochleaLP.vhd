@@ -91,6 +91,10 @@ architecture Structural of TopLevel_CochleaLP is
 
 	signal DACSelect_SB : std_logic_vector(3 downto 0);
 
+	signal AERData_A : std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
+	signal AERReq_AB : std_logic;
+	signal AERAck_SB : std_logic;
+
 	signal In1Timestamp_S : std_logic;
 
 	signal LogicUSBFifoControlIn_S  : tToFifo;
@@ -156,7 +160,7 @@ begin
 			SPIClockSync_CO        => SPIClockSync_C,
 			SPIMOSI_DI             => SPIMOSI_AI,
 			SPIMOSISync_DO         => SPIMOSISync_D,
-			DVSAERReq_SBI          => AERReq_ABI,
+			DVSAERReq_SBI          => AERReq_AB,
 			DVSAERReqSync_SBO      => AERReqSync_SB,
 			IMUInterrupt_SI        => '0',
 			IMUInterruptSync_SO    => open,
@@ -175,9 +179,13 @@ begin
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
 	SyncOutSignal_SO      <= '0';       -- External input disable for Cochleas.
 
-	-- TODO: test AER and external ADCs are unused for now.
-	AERTestAck_SBO <= '1';
+	-- Test AER bus support.
+	AERData_A      <= AERData_AI when ScannerConfigReg_D.TestAEREnable_S = '0' else "0000000" & AERTestData_AI;
+	AERReq_AB      <= AERReq_ABI when ScannerConfigReg_D.TestAEREnable_S = '0' else AERTestReq_ABI;
+	AERAck_SBO     <= AERAck_SB when ScannerConfigReg_D.TestAEREnable_S = '0' else '1';
+	AERTestAck_SBO <= '1' when ScannerConfigReg_D.TestAEREnable_S = '0' else AERAck_SB;
 
+	-- TODO: external ADCs are unused for now.
 	ADCConvert_SO      <= '0';
 	ADCClock_CO        <= '0';
 	ADCRightDataOut_DO <= '0';
@@ -358,9 +366,9 @@ begin
 			OutFifoControl_SI => AERFifoControlOut_S.WriteSide,
 			OutFifoControl_SO => AERFifoControlIn_S.WriteSide,
 			OutFifoData_DO    => AERFifoDataIn_D,
-			AERData_DI        => AERData_AI,
+			AERData_DI        => AERData_A,
 			AERReq_SBI        => AERReqSync_SB,
-			AERAck_SBO        => AERAck_SBO,
+			AERAck_SBO        => AERAck_SB,
 			AERReset_SBO      => AERReset_SBO,
 			AERConfig_DI      => AERConfigReg2_D);
 
