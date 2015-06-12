@@ -1,0 +1,8 @@
+Release 0.8.4 - 12.06.2015
+- Added info pop-up on successful completion of operation.
+- Added support for new Cochlea FX3 boards.
+- Updated ControlsFX library to 8.40.9.
+- Added GPLv2 license file.
+
+Release 0.8.3 - 22.05.2015
+- Initial release.
