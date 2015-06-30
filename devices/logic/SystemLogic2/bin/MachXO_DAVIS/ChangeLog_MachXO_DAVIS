@@ -1,3 +1,11 @@
+Revision 6906 - 29.06.2015
+- Use VHDL range attribute in all files.
+- ExtInput: specify length values in cycles directly
+  instead of 100ns slices. This is more precise and
+  avoids costly multipliers.
+- APSADC: use ADC clock frequency value to derive
+  configuration parameter widths and values.
+
 Revision 6791 - 29.05.2015
 - DVSAER: rewrote RowOnly filter and moved it to be
   executed as last stage after the main state machine.
