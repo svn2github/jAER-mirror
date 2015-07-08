@@ -2,6 +2,9 @@
 #include <pthread.h>
 #include <unistd.h>
 
+static libusb_device_handle *deviceOpen(libusb_context *devContext, uint16_t devVID, uint16_t devPID, uint8_t devType,
+	uint8_t busNumber, uint8_t devAddress);
+
 static inline void checkMonotonicTimestamp(davisHandle handle) {
 	if (handle->state.currentTimestamp <= handle->state.lastTimestamp) {
 		caerLog(LOG_ALERT, handle->info.deviceString,
@@ -28,7 +31,7 @@ static inline void initFrame(davisHandle handle, caerFrameEvent currentFrameEven
 	}
 }
 
-static inline bool isDavisPixel(uint16_t xPos, uint16_t yPos) {
+static inline bool RGBisDavisPixel(uint16_t xPos, uint16_t yPos) {
 	if (((xPos & 0x01) == 1) && ((yPos & 0x01) == 0)) {
 		return (true);
 	}
@@ -84,11 +87,6 @@ static void freeAllMemory(davisHandle handle) {
 		handle->state.apsCurrentResetFrame = NULL;
 	}
 
-	if (handle->state.apsCurrentSignalFrame != NULL) {
-		free(handle->state.apsCurrentSignalFrame);
-		handle->state.apsCurrentSignalFrame = NULL;
-	}
-
 	if (handle->state.dataExchangeBuffer != NULL) {
 		ringBufferFree(handle->state.dataExchangeBuffer);
 		handle->state.dataExchangeBuffer = NULL;
@@ -134,6 +132,7 @@ bool davisOpen(davisHandle handle, uint16_t VID, uint16_t PID, uint8_t DID_TYPE,
 	if ((errno = libusb_init(&handle->state.deviceContext)) != LIBUSB_SUCCESS) {
 		caerLog(LOG_CRITICAL, "DAVIS", "Failed to initialize libusb context. Error: %s (%d).", libusb_strerror(errno),
 			errno);
+
 		return (false);
 	}
 
@@ -144,6 +143,7 @@ bool davisOpen(davisHandle handle, uint16_t VID, uint16_t PID, uint8_t DID_TYPE,
 		libusb_exit(handle->state.deviceContext);
 
 		caerLog(LOG_CRITICAL, "DAVIS", "Failed to open device.");
+
 		return (false);
 	}
 
@@ -161,7 +161,12 @@ bool davisOpen(davisHandle handle, uint16_t VID, uint16_t PID, uint8_t DID_TYPE,
 
 	char *fullLogString = malloc(fullLogStringLength + 1);
 	if (fullLogString == NULL) {
-		caerLog(LOG_CRITICAL, "DAVIS", "Unable to allocate memory for device log string.");
+		libusb_close(handle->state.deviceHandle);
+		libusb_exit(handle->state.deviceContext);
+
+		caerLog(LOG_CRITICAL, "DAVIS", "Unable to allocate memory for device info string.");
+
+		return (false);
 	}
 
 	snprintf(fullLogString, fullLogStringLength + 1, "%s SN-%s [%" PRIu8 ":%" PRIu8 "]", "DAVIS", serialNumber,
@@ -176,6 +181,7 @@ bool davisOpen(davisHandle handle, uint16_t VID, uint16_t PID, uint8_t DID_TYPE,
 		libusb_exit(handle->state.deviceContext);
 
 		caerLog(LOG_CRITICAL, handle->info.deviceString, "Device Serial Number doesn't match.");
+
 		return (false);
 	}
 
