@@ -42,7 +42,7 @@ end DVSAERStateMachine;
 architecture Behavioral of DVSAERStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stIdle, stDifferentiateRowCol, stAERHandleRow, stAERAckRow, stAERHandleCol, stAERAckCol, stFIFOFull, stTestGenerateAddressRow, stTestGenerateAddressCol);
+	type tState is (stIdle, stDifferentiateRowCol, stAERHandleRow, stAERAckRow, stAERHandleCol, stAERAckCol, stFIFOFull, stTestGenerateAddressRow, stTestGenerateAddressColOn, stTestGenerateAddressColOff);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
@@ -286,14 +286,14 @@ begin
 							DVSEventValidReg_S <= '0';
 						else
 							-- Go to send all columns for this row.
-							State_DN <= stTestGenerateAddressCol;
+							State_DN <= stTestGenerateAddressColOn;
 						end if;
 					end if;
 
 					AckCount_S <= '1';
 				end if;
 
-			when stTestGenerateAddressCol =>
+			when stTestGenerateAddressColOn =>
 				-- Keep the DVS in reset during testing phase.
 				DVSAERResetReg_SB <= '0';
 
@@ -303,7 +303,7 @@ begin
 
 					if AckDone_S = '1' then
 						-- Send out fake column address (X).
-						DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR & '0';
+						DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_ON;
 						DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
 						DVSEventValidReg_S                                        <= '1';
 						DVSEventDataRegEnable_S                                   <= '1';
@@ -311,11 +311,40 @@ begin
 						-- Increase column count for next pass.
 						TestGeneratorColumnCount_S <= '1';
 
-						-- Send next column value, or when maximu reached, go to next row.
+						-- Send next column ON value, or when maximu reached, go and send OFF events for all columns.
+						if TestGeneratorColumnDone_S = '1' then
+							State_DN <= stTestGenerateAddressColOff;
+						else
+							State_DN <= stTestGenerateAddressColOn;
+						end if;
+					end if;
+
+					AckCount_S <= '1';
+				end if;
+
+			when stTestGenerateAddressColOff =>
+				-- Keep the DVS in reset during testing phase.
+				DVSAERResetReg_SB <= '0';
+
+				if OutFifoControl_SI.AlmostFull_S = '0' then
+					-- Support delaying of events.
+					AckLimit_D <= DVSAERConfigReg_D.AckDelayColumn_D;
+
+					if AckDone_S = '1' then
+						-- Send out fake column address (X).
+						DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_OFF;
+						DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
+						DVSEventValidReg_S                                        <= '1';
+						DVSEventDataRegEnable_S                                   <= '1';
+
+						-- Increase column count for next pass.
+						TestGeneratorColumnCount_S <= '1';
+
+						-- Send next column OFF value, or when maximu reached, go to next row.
 						if TestGeneratorColumnDone_S = '1' then
 							State_DN <= stTestGenerateAddressRow;
 						else
-							State_DN <= stTestGenerateAddressCol;
+							State_DN <= stTestGenerateAddressColOff;
 						end if;
 					end if;
 
