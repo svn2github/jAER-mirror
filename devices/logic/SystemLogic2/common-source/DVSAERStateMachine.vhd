@@ -265,32 +265,25 @@ begin
 				DVSAERResetReg_SB <= '0';
 
 				if OutFifoControl_SI.AlmostFull_S = '0' then
-					-- Support delaying of events.
-					AckLimit_D <= DVSAERConfigReg_D.AckDelayRow_D;
+					-- Send out fake row address (Y).
+					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_Y_ADDR;
+					DVSEventDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0)     <= std_logic_vector(TestGeneratorRow_D);
+					DVSEventValidReg_S                                        <= '1';
+					DVSEventDataRegEnable_S                                   <= '1';
 
-					if AckDone_S = '1' then
-						-- Send out fake row address (Y).
-						DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_Y_ADDR;
-						DVSEventDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0)     <= std_logic_vector(TestGeneratorRow_D);
-						DVSEventValidReg_S                                        <= '1';
-						DVSEventDataRegEnable_S                                   <= '1';
+					-- Increase row count for next pass.
+					TestGeneratorRowCount_S <= '1';
 
-						-- Increase row count for next pass.
-						TestGeneratorRowCount_S <= '1';
+					if TestGeneratorRowDone_S = '1' then
+						-- Once done, go back to Idle state.
+						State_DN <= stIdle;
 
-						if TestGeneratorRowDone_S = '1' then
-							-- Once done, go back to Idle state.
-							State_DN <= stIdle;
-
-							-- Don't forward at this point due to maximum address reached.
-							DVSEventValidReg_S <= '0';
-						else
-							-- Go to send all columns for this row.
-							State_DN <= stTestGenerateAddressColOn;
-						end if;
+						-- Don't forward at this point due to maximum address reached.
+						DVSEventValidReg_S <= '0';
+					else
+						-- Go to send all columns for this row.
+						State_DN <= stTestGenerateAddressColOn;
 					end if;
-
-					AckCount_S <= '1';
 				end if;
 
 			when stTestGenerateAddressColOn =>
@@ -298,28 +291,21 @@ begin
 				DVSAERResetReg_SB <= '0';
 
 				if OutFifoControl_SI.AlmostFull_S = '0' then
-					-- Support delaying of events.
-					AckLimit_D <= DVSAERConfigReg_D.AckDelayColumn_D;
+					-- Send out fake column address (X).
+					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_ON;
+					DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
+					DVSEventValidReg_S                                        <= '1';
+					DVSEventDataRegEnable_S                                   <= '1';
 
-					if AckDone_S = '1' then
-						-- Send out fake column address (X).
-						DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_ON;
-						DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
-						DVSEventValidReg_S                                        <= '1';
-						DVSEventDataRegEnable_S                                   <= '1';
+					-- Increase column count for next pass.
+					TestGeneratorColumnCount_S <= '1';
 
-						-- Increase column count for next pass.
-						TestGeneratorColumnCount_S <= '1';
-
-						-- Send next column ON value, or when maximu reached, go and send OFF events for all columns.
-						if TestGeneratorColumnDone_S = '1' then
-							State_DN <= stTestGenerateAddressColOff;
-						else
-							State_DN <= stTestGenerateAddressColOn;
-						end if;
+					-- Send next column ON value, or when maximu reached, go and send OFF events for all columns.
+					if TestGeneratorColumnDone_S = '1' then
+						State_DN <= stTestGenerateAddressColOff;
+					else
+						State_DN <= stTestGenerateAddressColOn;
 					end if;
-
-					AckCount_S <= '1';
 				end if;
 
 			when stTestGenerateAddressColOff =>
@@ -327,28 +313,21 @@ begin
 				DVSAERResetReg_SB <= '0';
 
 				if OutFifoControl_SI.AlmostFull_S = '0' then
-					-- Support delaying of events.
-					AckLimit_D <= DVSAERConfigReg_D.AckDelayColumn_D;
+					-- Send out fake column address (X).
+					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_OFF;
+					DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
+					DVSEventValidReg_S                                        <= '1';
+					DVSEventDataRegEnable_S                                   <= '1';
 
-					if AckDone_S = '1' then
-						-- Send out fake column address (X).
-						DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_OFF;
-						DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
-						DVSEventValidReg_S                                        <= '1';
-						DVSEventDataRegEnable_S                                   <= '1';
+					-- Increase column count for next pass.
+					TestGeneratorColumnCount_S <= '1';
 
-						-- Increase column count for next pass.
-						TestGeneratorColumnCount_S <= '1';
-
-						-- Send next column OFF value, or when maximu reached, go to next row.
-						if TestGeneratorColumnDone_S = '1' then
-							State_DN <= stTestGenerateAddressRow;
-						else
-							State_DN <= stTestGenerateAddressColOff;
-						end if;
+					-- Send next column OFF value, or when maximu reached, go to next row.
+					if TestGeneratorColumnDone_S = '1' then
+						State_DN <= stTestGenerateAddressRow;
+					else
+						State_DN <= stTestGenerateAddressColOff;
 					end if;
-
-					AckCount_S <= '1';
 				end if;
 
 			when others => null;
