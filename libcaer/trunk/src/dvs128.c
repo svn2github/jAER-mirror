@@ -22,6 +22,8 @@
 #define VENDOR_REQUEST_START_TRANSFER 0xB3
 #define VENDOR_REQUEST_STOP_TRANSFER 0xB4
 #define VENDOR_REQUEST_SEND_BIASES 0xB8
+#define VENDOR_REQUEST_RESET_TS 0xBB
+#define VENDOR_REQUEST_RESET_ARRAY 0xBD
 
 struct dvs128_state {
 	// Data Acquisition Thread -> Mainloop Exchange
