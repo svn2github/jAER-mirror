@@ -41,6 +41,8 @@ package DVSAERConfigRecords is
 		HasBackgroundActivityFilter_S       : unsigned(7 downto 0);
 		FilterBackgroundActivity_S          : unsigned(7 downto 0);
 		FilterBackgroundActivityDeltaTime_D : unsigned(7 downto 0);
+		HasTestEventGenerator_S             : unsigned(7 downto 0);
+		TestEventGeneratorEnable_S          : unsigned(7 downto 0);
 	end record tDVSAERConfigParamAddresses;
 
 	constant DVSAERCONFIG_PARAM_ADDRESSES : tDVSAERConfigParamAddresses := (
@@ -74,7 +76,9 @@ package DVSAERConfigRecords is
 		FilterPixel7Column_D                => to_unsigned(27, 8),
 		HasBackgroundActivityFilter_S       => to_unsigned(28, 8),
 		FilterBackgroundActivity_S          => to_unsigned(29, 8),
-		FilterBackgroundActivityDeltaTime_D => to_unsigned(30, 8));
+		FilterBackgroundActivityDeltaTime_D => to_unsigned(30, 8),
+		HasTestEventGenerator_S             => to_unsigned(31, 8),
+		TestEventGeneratorEnable_S          => to_unsigned(32, 8));
 
 	constant DVS_AER_ACK_COUNTER_WIDTH  : integer := 5;
 	constant DVS_FILTER_BA_DELTAT_WIDTH : integer := 16;
@@ -111,6 +115,8 @@ package DVSAERConfigRecords is
 		HasBackgroundActivityFilter_S       : std_logic;
 		FilterBackgroundActivity_S          : std_logic;
 		FilterBackgroundActivityDeltaTime_D : unsigned(DVS_FILTER_BA_DELTAT_WIDTH - 1 downto 0);
+		HasTestEventGenerator_S             : std_logic;
+		TestEventGeneratorEnable_S          : std_logic;
 	end record tDVSAERConfig;
 
 	constant tDVSAERConfigDefault : tDVSAERConfig := (
@@ -144,5 +150,7 @@ package DVSAERConfigRecords is
 		FilterPixel7Column_D                => CHIP_DVS_SIZE_COLUMNS,
 		HasBackgroundActivityFilter_S       => '0',
 		FilterBackgroundActivity_S          => '0',
-		FilterBackgroundActivityDeltaTime_D => to_unsigned(30000, tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'length));
+		FilterBackgroundActivityDeltaTime_D => to_unsigned(30000, tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'length),
+		HasTestEventGenerator_S             => '0',
+		TestEventGeneratorEnable_S          => '0');
 end package DVSAERConfigRecords;

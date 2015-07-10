@@ -10,7 +10,8 @@ use work.Settings.CHIP_DVS_AXES_INVERT;
 entity DVSAERSPIConfig is
 	generic(
 		ENABLE_PIXEL_FILTERING : boolean := false;
-		ENABLE_BA_FILTERING    : boolean := false);
+		ENABLE_BA_FILTERING    : boolean := false;
+		ENABLE_TEST_GENERATOR  : boolean := false);
 	port(
 		Clock_CI                   : in  std_logic;
 		Reset_RI                   : in  std_logic;
@@ -204,6 +205,18 @@ begin
 				if ENABLE_BA_FILTERING = true then
 					DVSAERConfigReg_DN.FilterBackgroundActivityDeltaTime_D                   <= unsigned(DVSAERInput_DP(tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'range));
 					DVSAEROutput_DN(tDVSAERConfig.FilterBackgroundActivityDeltaTime_D'range) <= std_logic_vector(DVSAERConfigReg_DP.FilterBackgroundActivityDeltaTime_D);
+				end if;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.HasTestEventGenerator_S =>
+				if ENABLE_TEST_GENERATOR = true then
+					DVSAERConfigReg_DN.HasTestEventGenerator_S <= '1';
+					DVSAEROutput_DN(0)                         <= '1';
+				end if;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.TestEventGeneratorEnable_S =>
+				if ENABLE_TEST_GENERATOR = true then
+					DVSAERConfigReg_DN.TestEventGeneratorEnable_S <= DVSAERInput_DP(0);
+					DVSAEROutput_DN(0)                            <= DVSAERConfigReg_DP.TestEventGeneratorEnable_S;
 				end if;
 
 			when others => null;

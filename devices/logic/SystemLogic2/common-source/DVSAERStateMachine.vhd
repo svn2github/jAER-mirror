@@ -19,7 +19,8 @@ entity DVSAERStateMachine is
 		ENABLE_PIXEL_FILTERING     : boolean := false;
 		ENABLE_BA_FILTERING        : boolean := false;
 		BA_FILTER_SUBSAMPLE_COLUMN : integer := 2;
-		BA_FILTER_SUBSAMPLE_ROW    : integer := 2);
+		BA_FILTER_SUBSAMPLE_ROW    : integer := 2;
+		ENABLE_TEST_GENERATOR      : boolean := false);
 	port(
 		Clock_CI          : in  std_logic;
 		Reset_RI          : in  std_logic;
@@ -41,7 +42,7 @@ end DVSAERStateMachine;
 architecture Behavioral of DVSAERStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stIdle, stDifferentiateRowCol, stAERHandleRow, stAERAckRow, stAERHandleCol, stAERAckCol, stFIFOFull);
+	type tState is (stIdle, stDifferentiateRowCol, stAERHandleRow, stAERAckRow, stAERHandleCol, stAERAckCol, stFIFOFull, stTestGenerateAddressRow, stTestGenerateAddressCol);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
@@ -68,6 +69,14 @@ architecture Behavioral of DVSAERStateMachine is
 
 	-- Register configuration input.
 	signal DVSAERConfigReg_D : tDVSAERConfig;
+
+	-- Test Event Generator support (generates fake sequential addresses).
+	signal TestGeneratorRowCount_S    : std_logic;
+	signal TestGeneratorRowDone_S     : std_logic;
+	signal TestGeneratorRow_D         : unsigned(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
+	signal TestGeneratorColumnCount_S : std_logic;
+	signal TestGeneratorColumnDone_S  : std_logic;
+	signal TestGeneratorColumn_D      : unsigned(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
 
 	-- Pixel filtering support.
 	signal PixelFilterInDataReg_D   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
@@ -101,7 +110,7 @@ begin
 			     Overflow_SO  => AckDone_S,
 			     Data_DO      => open);
 
-	dvsHandleAERComb : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, DVSAERConfigReg_D, AckDone_S)
+	dvsHandleAERComb : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, DVSAERConfigReg_D, AckDone_S, TestGeneratorColumnDone_S, TestGeneratorColumn_D, TestGeneratorRowDone_S, TestGeneratorRow_D)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
@@ -114,6 +123,10 @@ begin
 
 		AckCount_S <= '0';
 		AckLimit_D <= (others => '1');
+
+		-- Test Event Generator always disabled in normal operation.
+		TestGeneratorRowCount_S    <= '0';
+		TestGeneratorColumnCount_S <= '0';
 
 		case State_DP is
 			when stIdle =>
@@ -139,6 +152,12 @@ begin
 					else
 						-- Keep the DVS in reset if data producer turned off.
 						DVSAERResetReg_SB <= '0';
+
+						-- If requested, produce fake events that sequentially span the whole array size.
+						if ENABLE_TEST_GENERATOR = true and DVSAERConfigReg_D.TestEventGeneratorEnable_S = '1' then
+							-- Inject fake address.
+							State_DN <= stTestGenerateAddressRow;
+						end if;
 					end if;
 				end if;
 
@@ -241,6 +260,68 @@ begin
 					AckCount_S <= '1';
 				end if;
 
+			when stTestGenerateAddressRow =>
+				-- Keep the DVS in reset during testing phase.
+				DVSAERResetReg_SB <= '0';
+
+				if OutFifoControl_SI.AlmostFull_S = '0' then
+					-- Support delaying of events.
+					AckLimit_D <= DVSAERConfigReg_D.AckDelayRow_D;
+
+					if AckDone_S = '1' then
+						-- Send out fake row address (Y).
+						DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_Y_ADDR;
+						DVSEventDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0)     <= std_logic_vector(TestGeneratorRow_D);
+						DVSEventValidReg_S                                        <= '1';
+						DVSEventDataRegEnable_S                                   <= '1';
+
+						-- Increase row count for next pass.
+						TestGeneratorRowCount_S <= '1';
+
+						if TestGeneratorRowDone_S = '1' then
+							-- Once done, go back to Idle state.
+							State_DN <= stIdle;
+
+							-- Don't forward at this point due to maximum address reached.
+							DVSEventValidReg_S <= '0';
+						else
+							-- Go to send all columns for this row.
+							State_DN <= stTestGenerateAddressCol;
+						end if;
+					end if;
+
+					AckCount_S <= '1';
+				end if;
+
+			when stTestGenerateAddressCol =>
+				-- Keep the DVS in reset during testing phase.
+				DVSAERResetReg_SB <= '0';
+
+				if OutFifoControl_SI.AlmostFull_S = '0' then
+					-- Support delaying of events.
+					AckLimit_D <= DVSAERConfigReg_D.AckDelayColumn_D;
+
+					if AckDone_S = '1' then
+						-- Send out fake column address (X).
+						DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR & '0';
+						DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
+						DVSEventValidReg_S                                        <= '1';
+						DVSEventDataRegEnable_S                                   <= '1';
+
+						-- Increase column count for next pass.
+						TestGeneratorColumnCount_S <= '1';
+
+						-- Send next column value, or when maximu reached, go to next row.
+						if TestGeneratorColumnDone_S = '1' then
+							State_DN <= stTestGenerateAddressRow;
+						else
+							State_DN <= stTestGenerateAddressCol;
+						end if;
+					end if;
+
+					AckCount_S <= '1';
+				end if;
+
 			when others => null;
 		end case;
 	end process dvsHandleAERComb;
@@ -284,6 +365,34 @@ begin
 			Enable_SI    => '1',
 			Input_SI(0)  => DVSEventValidReg_S,
 			Output_SO(0) => DVSEventOutValidReg_S);
+
+	testGeneratorRowCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE              => integer(ceil(log2(real(to_integer(CHIP_DVS_SIZE_ROWS + 1))))),
+			RESET_ON_OVERFLOW => true,
+			GENERATE_OVERFLOW => true)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => TestGeneratorRowCount_S,
+			DataLimit_DI => CHIP_DVS_SIZE_ROWS,
+			Overflow_SO  => TestGeneratorRowDone_S,
+			Data_DO      => TestGeneratorRow_D);
+
+	testGeneratorColumnCounter : entity work.ContinuousCounter
+		generic map(
+			SIZE              => DVS_COLUMN_ADDRESS_WIDTH,
+			RESET_ON_OVERFLOW => true,
+			GENERATE_OVERFLOW => true)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => TestGeneratorColumnCount_S,
+			DataLimit_DI => CHIP_DVS_SIZE_COLUMNS - 1,
+			Overflow_SO  => TestGeneratorColumnDone_S,
+			Data_DO      => TestGeneratorColumn_D);
 
 	rowOnlyFilter : process(RowOnlyFilterInDataReg_D, RowOnlyFilterInValidReg_S, DVSAERConfigReg_D)
 	begin
