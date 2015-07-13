@@ -785,7 +785,8 @@ static void CyFxUSBEventsCB(CyU3PUsbEventType_t evtype, uint16_t evdata) {
 static CyBool_t CyFxLPMRequestsCB(CyU3PUsbLinkPowerMode link_mode) {
 	(void) link_mode; // UNUSED
 
-	return (CyTrue);
+	// Disable power management fully due to issues on Windows 8.
+	return (CyFalse);
 }
 
 /**
