@@ -306,7 +306,7 @@ begin
 		signal TestGeneratorRow_D         : unsigned(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
 		signal TestGeneratorColumnCount_S : std_logic;
 		signal TestGeneratorColumnDone_S  : std_logic;
-		signal TestGeneratorColumn_D      : unsigned(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
+		signal TestGeneratorColumn_D      : unsigned(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0);
 	begin
 		dvsTestGeneratorComb : process(TestState_DP, OutFifoControl_SI, DVSAERConfigReg_D, TestGeneratorColumnDone_S, TestGeneratorColumn_D, TestGeneratorRowDone_S, TestGeneratorRow_D)
 		begin
@@ -353,7 +353,7 @@ begin
 
 				when stTestGenerateAddressColOn =>
 					if OutFifoControl_SI.AlmostFull_S = '0' then
-						-- Send out fake column address (X).
+						-- Send out fake column address (X) with ON polarity.
 						TestDVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_ON;
 						TestDVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
 						TestDVSEventValidReg_S                                        <= '1';
@@ -362,7 +362,7 @@ begin
 						-- Increase column count for next pass.
 						TestGeneratorColumnCount_S <= '1';
 
-						-- Send next column ON value, or when maximu reached, go and send OFF events for all columns.
+						-- Send next column ON value, or when maximum reached, go and send OFF events for all columns.
 						if TestGeneratorColumnDone_S = '1' then
 							TestState_DN <= stTestGenerateAddressColOff;
 						else
@@ -372,7 +372,7 @@ begin
 
 				when stTestGenerateAddressColOff =>
 					if OutFifoControl_SI.AlmostFull_S = '0' then
-						-- Send out fake column address (X).
+						-- Send out fake column address (X) with OFF polarity.
 						TestDVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_OFF;
 						TestDVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
 						TestDVSEventValidReg_S                                        <= '1';
@@ -381,7 +381,7 @@ begin
 						-- Increase column count for next pass.
 						TestGeneratorColumnCount_S <= '1';
 
-						-- Send next column OFF value, or when maximu reached, go to next row.
+						-- Send next column OFF value, or when maximum reached, go to next row.
 						if TestGeneratorColumnDone_S = '1' then
 							TestState_DN <= stTestGenerateAddressRow;
 						else
