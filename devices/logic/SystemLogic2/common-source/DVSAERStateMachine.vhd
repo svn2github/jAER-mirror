@@ -42,7 +42,7 @@ end DVSAERStateMachine;
 architecture Behavioral of DVSAERStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stIdle, stDifferentiateRowCol, stAERHandleRow, stAERAckRow, stAERHandleCol, stAERAckCol, stFIFOFull, stTestGenerateAddressRow, stTestGenerateAddressColOn, stTestGenerateAddressColOff);
+	type tState is (stIdle, stDifferentiateRowCol, stAERHandleRow, stAERAckRow, stAERHandleCol, stAERAckCol, stFIFOFull);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
@@ -70,14 +70,6 @@ architecture Behavioral of DVSAERStateMachine is
 	-- Register configuration input.
 	signal DVSAERConfigReg_D : tDVSAERConfig;
 
-	-- Test Event Generator support (generates fake sequential addresses).
-	signal TestGeneratorRowCount_S    : std_logic;
-	signal TestGeneratorRowDone_S     : std_logic;
-	signal TestGeneratorRow_D         : unsigned(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
-	signal TestGeneratorColumnCount_S : std_logic;
-	signal TestGeneratorColumnDone_S  : std_logic;
-	signal TestGeneratorColumn_D      : unsigned(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
-
 	-- Pixel filtering support.
 	signal PixelFilterInDataReg_D   : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 	signal PixelFilterInValidReg_S  : std_logic;
@@ -98,6 +90,11 @@ architecture Behavioral of DVSAERStateMachine is
 	signal RowOnlyFilterOutValidReg_S : std_logic;
 	signal RowOnlyFilterFIFOWrite_S   : std_logic;
 	signal RowOnlyFilterFIFOPassRow_S : std_logic;
+
+	-- Test Event Generator support (generates fake sequential addresses).
+	signal TestDVSEventDataRegEnable_S : std_logic;
+	signal TestDVSEventDataReg_D       : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal TestDVSEventValidReg_S      : std_logic;
 begin
 	aerAckCounter : entity work.ContinuousCounter
 		generic map(
@@ -110,7 +107,7 @@ begin
 			     Overflow_SO  => AckDone_S,
 			     Data_DO      => open);
 
-	dvsHandleAERComb : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, DVSAERConfigReg_D, AckDone_S, TestGeneratorColumnDone_S, TestGeneratorColumn_D, TestGeneratorRowDone_S, TestGeneratorRow_D)
+	dvsHandleAERComb : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, DVSAERConfigReg_D, AckDone_S)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
@@ -123,10 +120,6 @@ begin
 
 		AckCount_S <= '0';
 		AckLimit_D <= (others => '1');
-
-		-- Test Event Generator always disabled in normal operation.
-		TestGeneratorRowCount_S    <= '0';
-		TestGeneratorColumnCount_S <= '0';
 
 		case State_DP is
 			when stIdle =>
@@ -152,12 +145,6 @@ begin
 					else
 						-- Keep the DVS in reset if data producer turned off.
 						DVSAERResetReg_SB <= '0';
-
-						-- If requested, produce fake events that sequentially span the whole array size.
-						if ENABLE_TEST_GENERATOR = true and DVSAERConfigReg_D.TestEventGeneratorEnable_S = '1' then
-							-- Inject fake address.
-							State_DN <= stTestGenerateAddressRow;
-						end if;
 					end if;
 				end if;
 
@@ -260,76 +247,6 @@ begin
 					AckCount_S <= '1';
 				end if;
 
-			when stTestGenerateAddressRow =>
-				-- Keep the DVS in reset during testing phase.
-				DVSAERResetReg_SB <= '0';
-
-				if OutFifoControl_SI.AlmostFull_S = '0' then
-					-- Send out fake row address (Y).
-					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_Y_ADDR;
-					DVSEventDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0)     <= std_logic_vector(TestGeneratorRow_D);
-					DVSEventValidReg_S                                        <= '1';
-					DVSEventDataRegEnable_S                                   <= '1';
-
-					-- Increase row count for next pass.
-					TestGeneratorRowCount_S <= '1';
-
-					if TestGeneratorRowDone_S = '1' then
-						-- Once done, go back to Idle state.
-						State_DN <= stIdle;
-
-						-- Don't forward at this point due to maximum address reached.
-						DVSEventValidReg_S <= '0';
-					else
-						-- Go to send all columns for this row.
-						State_DN <= stTestGenerateAddressColOn;
-					end if;
-				end if;
-
-			when stTestGenerateAddressColOn =>
-				-- Keep the DVS in reset during testing phase.
-				DVSAERResetReg_SB <= '0';
-
-				if OutFifoControl_SI.AlmostFull_S = '0' then
-					-- Send out fake column address (X).
-					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_ON;
-					DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
-					DVSEventValidReg_S                                        <= '1';
-					DVSEventDataRegEnable_S                                   <= '1';
-
-					-- Increase column count for next pass.
-					TestGeneratorColumnCount_S <= '1';
-
-					-- Send next column ON value, or when maximu reached, go and send OFF events for all columns.
-					if TestGeneratorColumnDone_S = '1' then
-						State_DN <= stTestGenerateAddressColOff;
-					else
-						State_DN <= stTestGenerateAddressColOn;
-					end if;
-				end if;
-
-			when stTestGenerateAddressColOff =>
-				-- Keep the DVS in reset during testing phase.
-				DVSAERResetReg_SB <= '0';
-
-				if OutFifoControl_SI.AlmostFull_S = '0' then
-					-- Send out fake column address (X).
-					DVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_OFF;
-					DVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
-					DVSEventValidReg_S                                        <= '1';
-					DVSEventDataRegEnable_S                                   <= '1';
-
-					-- Increase column count for next pass.
-					TestGeneratorColumnCount_S <= '1';
-
-					-- Send next column OFF value, or when maximu reached, go to next row.
-					if TestGeneratorColumnDone_S = '1' then
-						State_DN <= stTestGenerateAddressRow;
-					else
-						State_DN <= stTestGenerateAddressColOff;
-					end if;
-				end if;
-
 			when others => null;
 		end case;
 	end process dvsHandleAERComb;
@@ -358,11 +275,11 @@ begin
 		generic map(
 			SIZE => EVENT_WIDTH)
 		port map(
-			Clock_CI  => Clock_CI,
-			Reset_RI  => Reset_RI,
-			Enable_SI => DVSEventDataRegEnable_S,
-			Input_SI  => DVSEventDataReg_D,
-			Output_SO => DVSEventOutDataReg_D);
+			Clock_CI                            => Clock_CI,
+			Reset_RI                            => Reset_RI,
+			Enable_SI                           => DVSEventDataRegEnable_S or TestDVSEventDataRegEnable_S,
+			Input_SI(EVENT_WIDTH - 1 downto 0)  => DVSEventDataReg_D or TestDVSEventDataReg_D,
+			Output_SO(EVENT_WIDTH - 1 downto 0) => DVSEventOutDataReg_D);
 
 	dvsEventValidRegister : entity work.SimpleRegister
 		generic map(
@@ -371,36 +288,156 @@ begin
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Enable_SI    => '1',
-			Input_SI(0)  => DVSEventValidReg_S,
+			Input_SI(0)  => DVSEventValidReg_S or TestDVSEventValidReg_S,
 			Output_SO(0) => DVSEventOutValidReg_S);
 
-	testGeneratorRowCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE              => integer(ceil(log2(real(to_integer(CHIP_DVS_SIZE_ROWS + 1))))),
-			RESET_ON_OVERFLOW => true,
-			GENERATE_OVERFLOW => true)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => TestGeneratorRowCount_S,
-			DataLimit_DI => CHIP_DVS_SIZE_ROWS,
-			Overflow_SO  => TestGeneratorRowDone_S,
-			Data_DO      => TestGeneratorRow_D);
+	testGeneratorProcesses : if ENABLE_TEST_GENERATOR = true generate
+		attribute syn_enum_encoding : string;
 
-	testGeneratorColumnCounter : entity work.ContinuousCounter
-		generic map(
-			SIZE              => DVS_COLUMN_ADDRESS_WIDTH,
-			RESET_ON_OVERFLOW => true,
-			GENERATE_OVERFLOW => true)
-		port map(
-			Clock_CI     => Clock_CI,
-			Reset_RI     => Reset_RI,
-			Clear_SI     => '0',
-			Enable_SI    => TestGeneratorColumnCount_S,
-			DataLimit_DI => CHIP_DVS_SIZE_COLUMNS - 1,
-			Overflow_SO  => TestGeneratorColumnDone_S,
-			Data_DO      => TestGeneratorColumn_D);
+		type tTestState is (stIdle, stTestGenerateAddressRow, stTestGenerateAddressColOn, stTestGenerateAddressColOff);
+		attribute syn_enum_encoding of tTestState : type is "onehot";
+
+		-- present and next state
+		signal TestState_DP, TestState_DN : tTestState;
+
+		-- Test Event Generator support (generates fake sequential addresses).
+		signal TestGeneratorRowCount_S    : std_logic;
+		signal TestGeneratorRowDone_S     : std_logic;
+		signal TestGeneratorRow_D         : unsigned(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
+		signal TestGeneratorColumnCount_S : std_logic;
+		signal TestGeneratorColumnDone_S  : std_logic;
+		signal TestGeneratorColumn_D      : unsigned(DVS_ROW_ADDRESS_WIDTH - 1 downto 0);
+	begin
+		dvsTestGeneratorComb : process(TestState_DP, OutFifoControl_SI, DVSAERConfigReg_D, TestGeneratorColumnDone_S, TestGeneratorColumn_D, TestGeneratorRowDone_S, TestGeneratorRow_D)
+		begin
+			TestState_DN <= TestState_DP; -- Keep current state by default.
+
+			-- Test Event Generator always disabled in normal operation.
+			TestGeneratorRowCount_S    <= '0';
+			TestGeneratorColumnCount_S <= '0';
+
+			TestDVSEventValidReg_S      <= '0';
+			TestDVSEventDataRegEnable_S <= '0';
+			TestDVSEventDataReg_D       <= (others => '0');
+
+			case TestState_DP is
+				when stIdle =>
+					-- If requested, produce fake events that sequentially span the whole array size.
+					if DVSAERConfigReg_D.TestEventGeneratorEnable_S = '1' and DVSAERConfigReg_D.Run_S = '0' and DVSAERConfigReg_D.ExternalAERControl_S = '0' then
+						-- Inject fake address.
+						TestState_DN <= stTestGenerateAddressRow;
+					end if;
+
+				when stTestGenerateAddressRow =>
+					if OutFifoControl_SI.AlmostFull_S = '0' then
+						-- Send out fake row address (Y).
+						TestDVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_Y_ADDR;
+						TestDVSEventDataReg_D(DVS_ROW_ADDRESS_WIDTH - 1 downto 0)     <= std_logic_vector(TestGeneratorRow_D);
+						TestDVSEventValidReg_S                                        <= '1';
+						TestDVSEventDataRegEnable_S                                   <= '1';
+
+						-- Increase row count for next pass.
+						TestGeneratorRowCount_S <= '1';
+
+						if TestGeneratorRowDone_S = '1' then
+							-- Once done, go back to Idle state.
+							TestState_DN <= stIdle;
+
+							-- Don't forward at this point due to maximum address reached.
+							TestDVSEventValidReg_S <= '0';
+						else
+							-- Go to send all columns for this row.
+							TestState_DN <= stTestGenerateAddressColOn;
+						end if;
+					end if;
+
+				when stTestGenerateAddressColOn =>
+					if OutFifoControl_SI.AlmostFull_S = '0' then
+						-- Send out fake column address (X).
+						TestDVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_ON;
+						TestDVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
+						TestDVSEventValidReg_S                                        <= '1';
+						TestDVSEventDataRegEnable_S                                   <= '1';
+
+						-- Increase column count for next pass.
+						TestGeneratorColumnCount_S <= '1';
+
+						-- Send next column ON value, or when maximu reached, go and send OFF events for all columns.
+						if TestGeneratorColumnDone_S = '1' then
+							TestState_DN <= stTestGenerateAddressColOff;
+						else
+							TestState_DN <= stTestGenerateAddressColOn;
+						end if;
+					end if;
+
+				when stTestGenerateAddressColOff =>
+					if OutFifoControl_SI.AlmostFull_S = '0' then
+						-- Send out fake column address (X).
+						TestDVSEventDataReg_D(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) <= EVENT_CODE_X_ADDR_POL_OFF;
+						TestDVSEventDataReg_D(DVS_COLUMN_ADDRESS_WIDTH - 1 downto 0)  <= std_logic_vector(TestGeneratorColumn_D);
+						TestDVSEventValidReg_S                                        <= '1';
+						TestDVSEventDataRegEnable_S                                   <= '1';
+
+						-- Increase column count for next pass.
+						TestGeneratorColumnCount_S <= '1';
+
+						-- Send next column OFF value, or when maximu reached, go to next row.
+						if TestGeneratorColumnDone_S = '1' then
+							TestState_DN <= stTestGenerateAddressRow;
+						else
+							TestState_DN <= stTestGenerateAddressColOff;
+						end if;
+					end if;
+
+				when others => null;
+			end case;
+		end process dvsTestGeneratorComb;
+
+		-- Change state on clock edge (synchronous).
+		dvsTestGeneratorRegisterUpdate : process(Clock_CI, Reset_RI)
+		begin
+			if Reset_RI = '1' then      -- asynchronous reset (active-high for FPGAs)
+				TestState_DP <= stIdle;
+			elsif rising_edge(Clock_CI) then
+				TestState_DP <= TestState_DN;
+			end if;
+		end process dvsTestGeneratorRegisterUpdate;
+
+		testGeneratorRowCounter : entity work.ContinuousCounter
+			generic map(
+				SIZE              => integer(ceil(log2(real(to_integer(CHIP_DVS_SIZE_ROWS + 1))))),
+				RESET_ON_OVERFLOW => true,
+				GENERATE_OVERFLOW => true)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Clear_SI     => '0',
+				Enable_SI    => TestGeneratorRowCount_S,
+				DataLimit_DI => CHIP_DVS_SIZE_ROWS,
+				Overflow_SO  => TestGeneratorRowDone_S,
+				Data_DO      => TestGeneratorRow_D);
+
+		testGeneratorColumnCounter : entity work.ContinuousCounter
+			generic map(
+				SIZE              => DVS_COLUMN_ADDRESS_WIDTH,
+				RESET_ON_OVERFLOW => true,
+				GENERATE_OVERFLOW => true)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Clear_SI     => '0',
+				Enable_SI    => TestGeneratorColumnCount_S,
+				DataLimit_DI => CHIP_DVS_SIZE_COLUMNS - 1,
+				Overflow_SO  => TestGeneratorColumnDone_S,
+				Data_DO      => TestGeneratorColumn_D);
+	end generate testGeneratorProcesses;
+
+	testGeneratorDisabled : if ENABLE_TEST_GENERATOR = false generate
+	begin
+		TestDVSEventValidReg_S      <= '0';
+		TestDVSEventDataRegEnable_S <= '0';
+		TestDVSEventDataReg_D       <= (others => '0');
+	end generate testGeneratorDisabled;
 
 	rowOnlyFilter : process(RowOnlyFilterInDataReg_D, RowOnlyFilterInValidReg_S, DVSAERConfigReg_D)
 	begin
