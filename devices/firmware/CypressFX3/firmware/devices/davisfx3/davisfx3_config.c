@@ -6,7 +6,7 @@
 
 spiConfig_DeviceSpecific_Type spiConfig_DeviceSpecific[] = {
 	{ 0, 3, 256, 8 * MEGABYTE, 104 * MEGAHERTZ, CyFalse }, /* Macronix MX25U6435F Flash Memory (8MB, 104Mhz, SS: default line, active-low) */
-	{ 52, 0, 0, 0, 12 * MEGAHERTZ, CyFalse }, /* FPGA configuration (no standard read/write support, 12Mhz, SS: GPIO 52, active-low) */
+	{ 52, 0, 0, 0, 10 * MEGAHERTZ, CyFalse }, /* FPGA configuration (no standard read/write support, 10Mhz, SS: GPIO 52, active-low) */
 	{ 57, 0, 0, 0, 33 * MEGAHERTZ, CyFalse }, /* Lattice ECP3-70EA FPGA (no standard read/write support, 33Mhz, SS: GPIO 57, active-low) */
 };
 const uint8_t spiConfig_DeviceSpecific_Length = (sizeof(spiConfig_DeviceSpecific) / sizeof(spiConfig_DeviceSpecific[0]));
