@@ -47,6 +47,7 @@ public class DvsSliceAviWriter extends AbstractAviWriter implements FrameAnnotat
     public ImageDisplay display;
     private boolean showOutput;
     private volatile boolean newFrameAvailable = false;
+    private int lastFrameTimestamp=0, lastTimestamp=0;
     protected boolean writeDvsSliceImageOnApsFrame = getBoolean("writeDvsSliceImageOnApsFrame", false);
     private boolean rendererPropertyChangeListenerAdded=false;
     private AEFrameChipRenderer renderer=null;
@@ -84,6 +85,7 @@ public class DvsSliceAviWriter extends AbstractAviWriter implements FrameAnnotat
                 continue;
             }
             PolarityEvent p = (PolarityEvent) e;
+            lastTimestamp=e.timestamp;
             dvsSubsampler.addEvent(p, sizeX, sizeY);
             if ((writeDvsSliceImageOnApsFrame && newFrameAvailable)
                     || (!writeDvsSliceImageOnApsFrame && dvsSubsampler.getAccumulatedEventCount() > dvsMinEvents)) {
@@ -103,6 +105,9 @@ public class DvsSliceAviWriter extends AbstractAviWriter implements FrameAnnotat
                 }
                 dvsSubsampler.clear();
             }
+        }
+        if(writeDvsSliceImageOnApsFrame && lastTimestamp-lastFrameTimestamp>1000000){
+            log.warning("last frame event was received more than 1s ago; maybe you need to enable Display Frames in the User Control Panel?");
         }
         return in;
     }
@@ -282,7 +287,7 @@ public class DvsSliceAviWriter extends AbstractAviWriter implements FrameAnnotat
     public void propertyChange(PropertyChangeEvent evt) {
         if ((evt.getPropertyName() == AEFrameChipRenderer.EVENT_NEW_FRAME_AVAILBLE)) {
             newFrameAvailable = true;
-
+            lastFrameTimestamp=lastTimestamp;
         } else if (isCloseOnRewind() && evt.getPropertyName() == AEInputStream.EVENT_REWIND) {
             doCloseFile();
         }
