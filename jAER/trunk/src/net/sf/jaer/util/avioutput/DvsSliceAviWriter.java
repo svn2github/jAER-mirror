@@ -280,7 +280,7 @@ public class DvsSliceAviWriter extends AbstractAviWriter implements FrameAnnotat
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ((aviOutputStream != null) && (evt.getPropertyName() == AEFrameChipRenderer.EVENT_NEW_FRAME_AVAILBLE)) {
+        if ((evt.getPropertyName() == AEFrameChipRenderer.EVENT_NEW_FRAME_AVAILBLE)) {
             newFrameAvailable = true;
 
         } else if (isCloseOnRewind() && evt.getPropertyName() == AEInputStream.EVENT_REWIND) {
