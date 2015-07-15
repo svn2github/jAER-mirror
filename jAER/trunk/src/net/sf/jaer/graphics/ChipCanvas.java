@@ -843,7 +843,7 @@ public class ChipCanvas implements GLEventListener, Observer {
     public void paintFrame() {
         synchronized (drawable) {
             try {
-                drawable.getContext().makeCurrent();
+//                drawable.getContext().makeCurrent();
                 drawable.display(); // we call the drawable's display method that ends up calling us back via our local
                 // display(GLAutoDrawable)!! very important to get this right
             } catch (final GLException e) {
@@ -855,7 +855,7 @@ public class ChipCanvas implements GLEventListener, Observer {
                     log.warning(ie.toString());
                 }
             } finally {
-                drawable.getContext().release();
+//                drawable.getContext().release();
             }
         }
     }
