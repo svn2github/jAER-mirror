@@ -301,6 +301,7 @@ public class DvsSliceAviWriter extends AbstractAviWriter implements FrameAnnotat
      */
     public void setWriteDvsSliceImageOnApsFrame(boolean writeDvsSliceImageOnApsFrame) {
         this.writeDvsSliceImageOnApsFrame = writeDvsSliceImageOnApsFrame;
+        putBoolean("writeDvsSliceImageOnApsFrame", writeDvsSliceImageOnApsFrame);
     }
 
 }
