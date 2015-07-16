@@ -64,7 +64,7 @@ public class DvsSliceAviWriter extends AbstractAviWriter implements FrameAnnotat
         setPropertyTooltip("dimy", "height of AVI frame");
         setPropertyTooltip("showOutput", "shows output in JFrame/ImageDisplay");
         setPropertyTooltip("dvsMinEvents", "minimum number of events to run net on DVS timeslice (only if writeDvsSliceImageOnApsFrame is false)");
-        setPropertyTooltip("writeDvsSliceImageOnApsFrame", "write DVS slice image for each APS frame (dvsMinEvents ignored)");
+        setPropertyTooltip("writeDvsSliceImageOnApsFrame", "<html>write DVS slice image for each APS frame (dvsMinEvents ignored)<br><b>Warning: to capture all frames, ensure that playback time slices are slow enough that all frames are rendered</b>");
     }
 
     @Override
